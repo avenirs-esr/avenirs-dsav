@@ -1,91 +1,89 @@
-import process from 'node:process'
-import { URL, fileURLToPath } from 'node:url'
-
-import { defineConfig } from 'vite'
+// https://vitejs.dev/config/
+// import path from 'node:path'
+/// <reference types="vitest/config" />
+import { fileURLToPath, URL } from 'node:url'
+import { vueDsfrAutoimportPreset, vueDsfrComponentResolver } from '@gouvminint/vue-dsfr/meta'
+// import { storybookTest } from '@storybook/addon-vitest/vitest-plugin'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
-import VueDevTools from 'vite-plugin-vue-devtools'
-import { VitePWA } from 'vite-plugin-pwa'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
-import {
-  vueDsfrAutoimportPreset,
-  vueDsfrComponentResolver,
-} from '@gouvminint/vue-dsfr'
+import { defineConfig } from 'vite'
+import svgLoader from 'vite-svg-loader'
+import autoImportConfig from './auto-import-config.json' with { type: 'json' }
 
-// https://vitejs.dev/config/
+// const dirname = typeof __dirname !== 'undefined' ? __dirname : path.dirname(fileURLToPath(import.meta.url))
+
+// More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
+
 export default defineConfig({
   plugins: [
     vue(),
     vueJsx(),
-    VueDevTools(),
-    VitePWA({
-      registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'safari-pinned-tab.svg'],
-      workbox: {
-        maximumFileSizeToCacheInBytes: 3000000 // Pour le CSS du DSFR :-/
-      },
-      manifest: {
-        name: 'Dummy app',
-        short_name: 'Dummy',
-        theme_color: '#ffffff',
-        background_color: '#ffffff',
-        icons: [
-          {
-            src: '/android-chrome-192x192.png',
-            sizes: '192x192',
-            type: 'image/png',
-          },
-          {
-            src: '/android-chrome-512x512.png',
-            sizes: '512x512',
-            type: 'image/png',
-          },
-        ],
-        display: 'standalone',
-      },
-    }),
+    svgLoader(),
     AutoImport({
-      include: [
-        /\.[tj]sx?$/,
-        /\.vue$/,
-        /\.vue\?vue/,
-      ],
-      imports: [
-        // @ts-expect-error TS2322
-        'vue',
-        // @ts-expect-error TS2322
-        'vue-router',
-        // @ts-expect-error TS2322
-        'pinia',
-        // @ts-expect-error TS2322
-        'vitest',
-        // @ts-expect-error TS2322
-        vueDsfrAutoimportPreset,
-      ],
+      include: [/\.[tj]sx?$/, /\.vue$/, /\.vue\?vue/],
+      imports: [{
+      // @ts-expect-error TS2322
+        vue: autoImportConfig.vue
+      },
+      // @ts-expect-error TS2322
+      'vue-router',
+      // @ts-expect-error TS2322
+      'vitest',
+      // @ts-expect-error TS2322
+      vueDsfrAutoimportPreset],
       vueTemplate: true,
       dts: './src/auto-imports.d.ts',
       eslintrc: {
         enabled: true,
         filepath: './.eslintrc-auto-import.json',
-        globalsPropValue: true,
-      },
+        globalsPropValue: true
+      }
     }),
     Components({
       extensions: ['vue'],
-      dirs: ['src/components'], // Autoimport de vos composants qui sont dans le dossier `src/components`
+      dirs: ['src/components'],
       include: [/\.vue$/, /\.vue\?vue/],
       dts: './src/components.d.ts',
-      resolvers: [
-        vueDsfrComponentResolver, // Autoimport des composants de VueDsfr dans les templates
-      ],
-    }),
+      resolvers: [vueDsfrComponentResolver]
+    })
   ],
-  base: process.env.BASE_URL || '/',
+  build: {
+    lib: {
+      entry: 'src/index.ts',
+      name: 'DSAV',
+      fileName: format => `avenirs-dsav.${format}.js`
+    }
+  },
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      '@': fileURLToPath(new URL('./src', import.meta.url))
     },
-    dedupe: ['vue'],
+    dedupe: ['vue']
   },
+  // test: {
+  //   projects: [{
+  //     extends: true,
+  //     plugins: [
+  //     // The plugin will run tests for the stories defined in your Storybook config
+  //     // See options at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon#storybooktest
+  //       storybookTest({
+  //         configDir: path.join(dirname, '.storybook')
+  //       })
+  //     ],
+  //     test: {
+  //       name: 'storybook',
+  //       browser: {
+  //         enabled: true,
+  //         headless: true,
+  //         provider: 'playwright',
+  //         instances: [{
+  //           browser: 'chromium'
+  //         }]
+  //       },
+  //       setupFiles: ['.storybook/vitest.setup.ts']
+  //     }
+  //   }]
+  // }
 })

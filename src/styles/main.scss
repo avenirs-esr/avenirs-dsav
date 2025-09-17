@@ -1,0 +1,32 @@
+@use './palette.scss' as *;
+@use './typography.scss' as *;
+@use './buttons.scss' as *;
+@use './links.scss' as *;
+@use './texts.scss' as *;
+@use './spacing.scss' as *;
+@use './radius.scss' as *;
+@use './dimensions.scss' as *;
+
+html,
+body,
+#app {
+  height: 100%;
+  background-color: var(--other-background-base);
+}
+
+.fr-container {
+  max-width: 90rem !important;
+}
+
+:root[demo-mode="true"] .demo-display-none {
+  display: none !important;
+}
+
+.h-full {
+  height: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-bottom: 0;
+  margin-top: 0;
+}

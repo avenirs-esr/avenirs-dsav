@@ -1,10 +1,18 @@
 import antfu from '@antfu/eslint-config'
+import autoImportConfig from "./auto-import-config.json" with { type: 'json' };
 
 export default antfu({
   vue: true,
+  typescript: true,
+  ignores: [
+    '**/README.md',
+    '.vscode/',
+    'eslint.config.js',
+    'public/**/*'
+  ],
 }, {
   rules: {
-    // 'style/comma-dangle': ['error', 'always-multiline'],
+    'no-duplicate-imports': 'error',
     'no-irregular-whitespace': 'warn',
     'vue/no-irregular-whitespace': 'warn',
     'style/space-before-function-paren': ['error', 'always'],
@@ -33,5 +41,21 @@ export default antfu({
       },
     ],
     'style/comma-dangle': 'off',
+    'no-restricted-imports': ['error', {
+      paths: [],
+      patterns: [{
+        group: ['vue'],
+        importNames: autoImportConfig.vue,
+        message: 'This Vue API is auto-imported by unplugin-auto-import. Remove the explicit import.'
+      }]
+    }],
+    'padding-line-between-statements': [
+      'error',
+      { blankLine: 'always', prev: 'function', next: 'function' },
+      { blankLine: 'always', prev: 'class', next: 'class' },
+      { blankLine: 'always', prev: 'return', next: 'return' },
+    ],
+    'no-multiple-empty-lines': ['error', { max: 1, maxEOF: 1 }],
+
   },
 })

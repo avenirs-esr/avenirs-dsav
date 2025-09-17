@@ -28,7 +28,7 @@
 .idea/**/dbnavigator.xml
 
 # Gradle
-.idea/**/gradle.xml
+.idea
 .idea/**/libraries
 
 # Gradle and Maven with auto-import
@@ -114,6 +114,7 @@ fabric.properties
 # https://plugins.jetbrains.com/plugin/8053-azure-toolkit-for-intellij
 .idea/**/azureSettings.xml
 
+.run
 ### Linux ###
 *~
 
@@ -350,3 +351,10 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,node,windows,macos,linux,intellij
 .eslintrc-auto-import.json
 auto-imports.d.ts
+
+a11y/reports
+src/api/**/generated/
+!src/api/fetch-instance/
+!src/api/index.ts
+
+storybook-static/
