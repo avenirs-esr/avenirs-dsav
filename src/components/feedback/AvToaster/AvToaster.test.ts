@@ -5,7 +5,8 @@ import { BddTest } from '@/tests/utils'
 
 BddTest().given('an AvToaster', () => {
   let wrapper: VueWrapper
-  const basePath = import.meta.env.BASE_URL
+  const basePath = 'basePath'
+
   const stubs = {
     TransitionGroup: {
       template: '<div><slot /></div>',
@@ -27,6 +28,7 @@ BddTest().given('an AvToaster', () => {
     beforeEach(() => {
       wrapper = mount(AvToaster, {
         props: {
+          basePath,
           messages: [],
           onRemoveMessage: vi.fn(),
         },
@@ -43,6 +45,7 @@ BddTest().given('an AvToaster', () => {
     beforeEach(() => {
       wrapper = mount(AvToaster, {
         props: {
+          basePath,
           messages: [{ ...baseMessage, type: 'success' }],
           onRemoveMessage: vi.fn(),
         },
@@ -64,6 +67,7 @@ BddTest().given('an AvToaster', () => {
     beforeEach(() => {
       wrapper = mount(AvToaster, {
         props: {
+          basePath,
           messages: [{ ...baseMessage, type: 'info' }],
           onRemoveMessage: vi.fn(),
         },
@@ -85,6 +89,7 @@ BddTest().given('an AvToaster', () => {
     beforeEach(() => {
       wrapper = mount(AvToaster, {
         props: {
+          basePath,
           messages: [{ ...baseMessage, type: 'warning' }],
           onRemoveMessage: vi.fn(),
         },
@@ -106,6 +111,7 @@ BddTest().given('an AvToaster', () => {
     beforeEach(() => {
       wrapper = mount(AvToaster, {
         props: {
+          basePath,
           messages: [{ ...baseMessage, type: 'error' }],
           onRemoveMessage: vi.fn(),
         },
@@ -129,6 +135,7 @@ BddTest().given('an AvToaster', () => {
     beforeEach(() => {
       wrapper = mount(AvToaster, {
         props: {
+          basePath,
           messages: [{
             id: 'message2',
             title: 'Closable',
