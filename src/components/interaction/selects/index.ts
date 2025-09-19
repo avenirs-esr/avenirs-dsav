@@ -1,3 +1,5 @@
+export { AvAutocompleteStub } from './AvAutocomplete/AvAutocomplete.stub'
 export * from './AvAutocomplete/AvAutocomplete.types'
 export { default as AvAutocomplete } from './AvAutocomplete/AvAutocomplete.vue'
+export { AvSelectStub } from './AvSelect/AvSelect.stub'
 export { default as AvSelect } from './AvSelect/AvSelect.vue'
