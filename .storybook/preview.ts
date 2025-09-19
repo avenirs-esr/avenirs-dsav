@@ -62,7 +62,7 @@ const preview: Preview = {
   tags: ['autodocs'],
 }
 
-const RouterLink = defineComponent({
+const RouterLink = {
   name: 'RouterLink',
   props: {
     to: String,
@@ -70,7 +70,7 @@ const RouterLink = defineComponent({
   template: `
     <a :href="to" v-bind="$attrs"><slot /></a>
   `,
-})
+}
 
 setup((app) => {
   app.component('RouterLink', RouterLink)
