@@ -23,7 +23,7 @@ The component integrates:
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
-| `items` | `AvSideNavigationItem[]` | | ✓ | Array of navigation items, each containing id, label, and icon |
+| `items` | `AvSideNavigationItem[]` | | ✅ | Array of navigation items, each containing id, label, and icon |
 | `collapsedWidth` | `string` | `'3.5rem'` | | Width of the side menu when collapsed |
 
 ### AvSideNavigationItem Interface

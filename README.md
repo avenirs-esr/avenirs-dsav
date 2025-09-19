@@ -23,6 +23,11 @@ In order to make the style from `DSAV` work in your project, make sure to import
 
 ## Contributing
 
+### Deploying a new npm version
+
+In order to deploy a new npm version, you just need to update the version (`npm version patch|minor|major`). It will update the version on `package.json` and `package-lock.json`, and add a new tag for the new version.
+This will trigger the `publish-to-npm` job on the CI.
+
 ### Commit conventions
 
 This repository uses [Commitlint](https://commitlint.js.org/) to enforce consistent and conventional commit messages.
