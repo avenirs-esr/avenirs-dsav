@@ -54,7 +54,17 @@ export default defineConfig({
       entry: 'src/index.ts',
       name: 'DSAV',
       fileName: format => `avenirs-dsav.${format}.js`
-    }
+    },
+    rollupOptions: {
+      external: ['vue', 'vue-router'],
+      output: {
+        exports: 'named',
+        dir: 'dist',
+        globals: {
+          vue: 'Vue',
+        },
+      },
+    },
   },
   resolve: {
     alias: {

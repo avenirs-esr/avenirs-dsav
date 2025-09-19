@@ -22,7 +22,7 @@ This component displays links for the first, previous, middle, next and last pag
 | `lastPageLabel` | `string` | | ✅ | Tooltip text for link to last page. |
 | `nextPageLabel` | `string` | | ✅ | Tooltip text for page link. |
 | `prevPageLabel` | `string` | | ✅ | Tooltip text for previous page link. |
-| `compactCurrentPageLabel` | `string` | | ✅ | Text for compact current page. |
+| `compactCurrentPageLabel` | `string` | `undefined` | | Text for compact current page. |
 
 ## 📡 Events
 

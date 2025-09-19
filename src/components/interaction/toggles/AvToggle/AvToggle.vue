@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import toggleActiveSvg from '@/components/interaction/toggles/AvToggle/assets/toggle-active.svg?url'
-import toggleInactiveSvg from '@/components/interaction/toggles/AvToggle/assets/toggle-inactive.svg?url'
+import toggleActiveSvg from './assets/toggle-active.svg?url'
+import toggleInactiveSvg from './assets/toggle-inactive.svg?url'
 
 /**
  * AvToggle component props.
