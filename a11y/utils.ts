@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url'
 import { AxeBuilder } from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 import { createHtmlReport } from 'axe-html-reporter'
+import { nextTick } from 'vue'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -15,6 +16,9 @@ export function testStories (component: string, title: string, stories: string[]
       const path = `${component}--${toKebabCase(story)}`
       const storyId = `${title.replace(/^\/|\/$/g, '').replace(/\//g, '-')}--${toKebabCase(story)}`.toLowerCase()
       await page.goto(`http://localhost:6006/iframe.html?id=${storyId}&viewMode=story`)
+      await nextTick()
+      await page.waitForTimeout(20)
+      await page.waitForLoadState('domcontentloaded')
 
       // some rules are disabled because we only test components and not their integration in pages
       const rawAxeResults = await new AxeBuilder({ page })
