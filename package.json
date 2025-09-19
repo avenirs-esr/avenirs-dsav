@@ -1,7 +1,7 @@
 {
   "name": "@avenirs-esr/avenirs-dsav",
   "type": "module",
-  "version": "0.1.6",
+  "version": "0.1.13",
   "main": "dist/avenirs-dsav.umd.js",
   "module": "dist/avenirs-dsav.es.js",
   "types": "dist/index.d.ts",
@@ -35,15 +35,17 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
+  "peerDependencies": {
+    "vue": "^3.5.13",
+    "vue-router": "^4.4.3"
+  },
   "dependencies": {
     "@gouvfr/dsfr": "^1.14.0",
     "@gouvminint/vue-dsfr": "^8.4.0",
     "@vueuse/core": "^13.9.0",
     "focus-trap": "^7.5.4",
     "focus-trap-vue": "^4.0.3",
-    "lodash-es": "^4.17.21",
-    "vue": "^3.5.13",
-    "vue-router": "^4.4.3"
+    "lodash-es": "^4.17.21"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^3.0.0",

@@ -1,4 +1,4 @@
-export const AvSelectStub = defineComponent({
+export const AvSelectStub = {
   name: 'AvSelect',
   props: {
     modelValue: [String, Number],
@@ -22,4 +22,4 @@ export const AvSelectStub = defineComponent({
       </option>
     </select>
   `
-})
+}
