@@ -1,4 +1,4 @@
-export const AvAutocompleteStub = defineComponent({
+export const AvAutocompleteStub = {
   name: 'AvAutocomplete',
   props: [
     'modelValue',
@@ -14,4 +14,4 @@ export const AvAutocompleteStub = defineComponent({
   ],
   emits: ['update:modelValue', 'search', 'clear', 'loadMore'],
   template: '<div class="av-autocomplete-stub"><slot name="item" v-for="option in options" :key="option.id" :option="option" :is-selected="false" :toggle="() => {}" /></div>'
-})
+}

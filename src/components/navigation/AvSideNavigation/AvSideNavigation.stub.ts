@@ -1,4 +1,4 @@
-export const AvSideNavigationStub = defineComponent({
+export const AvSideNavigationStub = {
   name: 'AvSideNavigation',
   props: {
     items: Array,
@@ -8,4 +8,4 @@ export const AvSideNavigationStub = defineComponent({
   },
   emits: ['update:selectedItem', 'update:isSideMenuCollapsed'],
   template: '<div class="av-side-navigation-stub" @click="$emit(\'update:isSideMenuCollapsed\', !isSideMenuCollapsed)" />'
-})
+}
