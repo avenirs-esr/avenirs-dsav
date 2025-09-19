@@ -15,6 +15,12 @@ Vue 3. VueDSFR offers a component library based on
 
 The AVENIR(s) program needs its own identity, hence this adaptation of VueDSFR.
 
+## Installation
+
+In your project, run `npm install @ævenirs-esr/avenirs-dsav`.
+
+In order to make the style from `DSAV` work in your project, make sure to import the main `DSAV` style in your `main.ts` with the following : `import '@avenirs-esr/avenirs-dsav/dist/avenirs-dsav.css'`.
+
 ## Contributing
 
 ### Commit conventions
@@ -51,3 +57,7 @@ feat: add user login functionality
 fix: handle null pointer in dashboard
 docs: update installation guide
 ```
+
+## Projects using DSAV
+
+- [AVENIR(s) Cofolio](https://github.com/avenirs-esr/avenirs-cofolio-client) : An ePortfolio for Higher Education and Research

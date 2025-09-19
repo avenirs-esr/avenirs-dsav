@@ -3,7 +3,8 @@ import { beforeEach, expect } from 'vitest'
 import { nextTick } from 'vue'
 import { AvButtonStub } from '@/components/interaction/buttons/AvButton/AvButton.stub'
 import AvModal, { type AvModalProps } from '@/components/overlay/modals/AvModal/AvModal.vue'
-import { BddTest, DsfrModalStub } from '@/tests'
+import { DsfrModalStub } from '@/tests'
+import { BddTest } from '@/tests/utils'
 
 BddTest().given('an AvModal', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvModal>>
