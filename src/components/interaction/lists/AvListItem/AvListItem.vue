@@ -136,7 +136,7 @@ const {
   href,
   target,
   rel,
-  role
+  role = 'listitem'
 } = defineProps<AvListItemProps>()
 
 /**
@@ -193,7 +193,7 @@ const selectedClass = computed(() => selected ? 'av-list-item--selected' : '')
 </script>
 
 <template>
-  <div role="listitem">
+  <div :role="role">
     <component
       :is="componentTag"
       class="av-list-item"
@@ -206,7 +206,6 @@ const selectedClass = computed(() => selected ? 'av-list-item--selected' : '')
       :href="componentTag === 'a' ? href : undefined"
       :target="componentTag === 'a' ? target : undefined"
       :rel="componentTag === 'a' ? rel : undefined"
-      :role="role"
       @click="handleClick"
       @keydown="handleKeyDown"
     >

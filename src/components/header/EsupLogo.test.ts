@@ -1,7 +1,7 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import EsupLogo from '@/components/header/EsupLogo.vue'
-import { BddTest } from '@/tests'
+import { BddTest } from '@/tests/utils'
 
 vi.mock('@/assets/icons/esup-logo.svg', () => ({
   default: {

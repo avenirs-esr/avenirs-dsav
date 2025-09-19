@@ -17,8 +17,9 @@ export function testStories (component: string, title: string, stories: string[]
       const storyId = `${title.replace(/^\/|\/$/g, '').replace(/\//g, '-')}--${toKebabCase(story)}`.toLowerCase()
       await page.goto(`http://localhost:6006/iframe.html?id=${storyId}&viewMode=story`)
       await nextTick()
-      await page.waitForTimeout(20)
       await page.waitForLoadState('domcontentloaded')
+      await nextTick()
+      await page.waitForTimeout(50)
 
       // some rules are disabled because we only test components and not their integration in pages
       const rawAxeResults = await new AxeBuilder({ page })
