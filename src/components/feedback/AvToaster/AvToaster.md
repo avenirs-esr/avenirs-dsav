@@ -15,6 +15,7 @@ The toaster is composed of a set of `AvAlert` (1 per message).
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
 | `messages` | `Message[]` | | ✅ | List of messages to display in the toaster. Each message must follow the structure defined by the Message interface. :<br>• `id?: string`: Unique identifier for the message<br>• `title?: string`: Message title<br>• `description: string`: Detailed description of the message<br>• `type?: 'info' \| 'success' \| 'warning' \| 'error'`: Type of message to display (default: `'info'`)<br>• `closeable?: boolean`: Indicates whether the message can be manually closed by the user<br>• `titleTag?: 'h1' \| 'h2' \| 'h3' \| 'h4' \| 'h5' \| 'h6'`: HTML tag used for the message title<br>• `timeout?: number`: Time to display the message in milliseconds before automatically closing (if not set, the message will remain displayed until manually closed or another action) |
+| `basePath` | `string` | | ✅ | Base path to get access to public icons. |
 | `onRemoveMessage` | `(id: string) => void` | | ✅ | Function called to remove a message from the toaster. |
 
 ## 📡 Events

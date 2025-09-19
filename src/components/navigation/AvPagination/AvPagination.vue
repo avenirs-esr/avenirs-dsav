@@ -52,7 +52,7 @@ export interface AvPaginationProps {
   /**
    * Text for compact current page.
    */
-  compactCurrentPageLabel: string
+  compactCurrentPageLabel?: string
 
   /**
    * Maximum number of pages displayed in pagination.
@@ -113,7 +113,7 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
     :aria-label="ariaLabel"
   >
     <ul class="fr-pagination__list">
-      <li v-if="compact">
+      <li v-if="compact && !!compactCurrentPageLabel">
         <span class="b2-regular">
           {{ compactCurrentPageLabel }}
         </span>

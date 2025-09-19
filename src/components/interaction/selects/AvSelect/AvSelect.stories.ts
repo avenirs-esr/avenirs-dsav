@@ -84,7 +84,9 @@ const Template: StoryFn<AvSelectProps> = args => ({
 })
 
 export const Default = Template.bind({})
-Default.args = {}
+Default.args = {
+  label: 'Select'
+}
 
 export const Dense = Template.bind({})
 Dense.args = {
