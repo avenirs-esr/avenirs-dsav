@@ -5,7 +5,7 @@
 DSAV is the deisgn system for AVENIR(s) projects and consists of an **adaptation** of [**VueDSFR**](https://vue-ds.fr/)
 into a [**Vue 3**](https://v3.vuejs.org/) project in the form of a **component library**.
 
-The code is [open and available on GitHub](https://github.com/avenirs-esr/avenirs-cofolio-client)
+The code is [open and available on GitHub](https://github.com/avenirs-esr/avenirs-dsav/)
 
 ## Why DSAV?
 

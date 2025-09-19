@@ -76,14 +76,19 @@ interface AvToasterProps {
   messages: Message[]
 
   /**
+   * Base path to get access to public icons.
+   * @example import.meta.env.BASE_URL
+   */
+  basePath: string
+
+  /**
    * Function called to remove a message from the toaster.
    * @param id The ID of the message to remove.
    */
   onRemoveMessage: (id: string) => void
 }
 
-const { messages, onRemoveMessage } = defineProps<AvToasterProps>()
-const basePath = import.meta.env.BASE_URL
+const { messages, basePath, onRemoveMessage } = defineProps<AvToasterProps>()
 
 function getToasterClass (type: Message['type']) {
   const finalType = type ?? 'info'
