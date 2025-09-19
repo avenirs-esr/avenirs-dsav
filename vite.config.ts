@@ -52,8 +52,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: 'src/index.ts',
-      name: 'DSAV',
-      fileName: format => `avenirs-dsav.${format}.js`
+      name: 'avenirs-dsav',
+      formats: ['es']
     },
     rollupOptions: {
       external: ['vue', 'vue-router'],
@@ -68,9 +68,9 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      'vue': 'vue/dist/vue.esm-bundler.js',
     },
-    dedupe: ['vue']
   },
   // test: {
   //   projects: [{

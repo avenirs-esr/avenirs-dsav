@@ -1,4 +1,4 @@
-export const AvTagPickerStub = defineComponent({
+export const AvTagPickerStub = {
   name: 'AvTagPicker',
   props: [
     'label',
@@ -18,4 +18,4 @@ export const AvTagPickerStub = defineComponent({
           </button>
         </div>
       `
-})
+}

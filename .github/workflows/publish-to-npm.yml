@@ -7,8 +7,6 @@ on:
 
 jobs:
   publish-to-npm:
-    if: github.ref_name == 'main' || github.ref_name == 'develop'
-
     runs-on: ubuntu-latest
 
     steps:
