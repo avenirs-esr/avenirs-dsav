@@ -1,0 +1,45 @@
+name: Create Release PR via Current User (copy)
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: 🖊️ Configure Git user
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+
+      - name: 🌿 Create release branch
+        run: git checkout -b release/patch
+
+      - name: 🔼 Bump version
+        run: npm version patch --no-git-tag-version
+
+      - name: 🚀 Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: release/patch
+          base: develop
+          title: 'Release patch'
+          body: 'Automatic release PR created by ${{ github.actor }}'
+          commit-message: auto-update
