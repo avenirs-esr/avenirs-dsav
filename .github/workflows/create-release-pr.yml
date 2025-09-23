@@ -1,0 +1,54 @@
+name: Create Release PR via Current User
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: Type of version bump
+        required: true
+        default: patch
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: 🖊️ Configure Git user
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+
+      - name: 🔼 Bump version
+        run: npm run release:${{ github.event.inputs.bump }}"
+
+      - name: 🌿 Create release branch
+        run: |
+          git checkout -b release/${{ github.event.inputs.bump }}
+          git push origin HEAD:release/${{ github.event.inputs.bump }}
+
+      - name: 🚀 Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: release/${{ github.event.inputs.bump }}
+          base: develop
+          title: 'Release ${{ github.event.inputs.bump }}'
+          body: 'Automatic release PR created by ${{ github.actor }}'
