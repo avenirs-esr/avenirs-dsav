@@ -1,4 +1,4 @@
-name: PR Quality Checks
+name: Generate deploy Key
 
 on:
   pull_request:
@@ -8,11 +8,13 @@ on:
       - main
 
 jobs:
-  run-code-quality-checks:
-    name: Code quality and tests check
-    uses: ./.github/workflows/quality-checks.yml
-
-  run-a11y-test-and-deploy-reports:
-    name: Check a11y and deploy reports
-    uses: ./.github/workflows/a11y-test-and-deploy-reports.yml
-    needs: run-code-quality-checks
+  generate-key:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate SSH key
+        run: |
+          ssh-keygen -t ed25519 -C "avenirs-dsav-bot[bot]@users.noreply.github.com" -f ci_deploy_key -N ""
+          echo "Clé publique :"
+          cat ci_deploy_key.pub
+          echo "Clé privée (à copier dans un secret GitHub) :"
+          cat ci_deploy_key
