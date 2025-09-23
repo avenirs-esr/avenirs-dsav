@@ -1,4 +1,4 @@
-name: Release on npm
+name: Release new version to npm
 
 on:
   workflow_dispatch:
@@ -24,17 +24,22 @@ jobs:
       - name: ✅ Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: ⚙️ Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      - name: Install deps
+      - name: 📦 Install deps
         run: npm ci
 
-      - name: Run release
+      - name: 🖊️ Configure Git user
+        run: |
+          git config --global user.name  "avenirs-dsav-bot[bot]"
+          git config --global user.email "avenirs-dsav-bot[bot]@users.noreply.github.com"
+
+      - name: 🚀 Run release
         run: npm run release:${{ github.event.inputs.bump }}
 
-      - name: Push tags and commits
+      - name: ⬆️ Push tags and commits
         run: |
           git push origin HEAD --follow-tags
