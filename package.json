@@ -34,9 +34,9 @@
     "lint-staged": "lint-staged",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "release:patch": "npm version patch -m \"chore(release): update version to %s\"",
-    "release:minor": "npm version minor -m \"chore(release): update version to %s\"",
-    "release:major": "npm version major -m \"chore(release): update version to %s\""
+    "release:patch": "npm version patch --git-tag-version -m \"chore(release): update version to %s\" --tag-version-prefix v",
+    "release:minor": "npm version minor --git-tag-version -m \"chore(release): update version to %s\" --tag-version-prefix v",
+    "release:major": "npm version major --git-tag-version -m \"chore(release): update version to %s\" --tag-version-prefix v"
   },
   "peerDependencies": {
     "vue": "^3.5.13",
