@@ -7,15 +7,29 @@ on:
 
 jobs:
   publish-to-npm:
-    if: github.ref_name == 'main' || github.ref_name == 'develop'
-
     runs-on: ubuntu-latest
 
     steps:
       - name: ✅ Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Setup Node.js
+      - name: 🔍 Verify tag is on develop
+        run: |
+          TAG_REF=${GITHUB_REF#refs/tags/}
+          COMMIT=$(git rev-list -n 1 $TAG_REF)
+          echo "Tag $TAG_REF points to commit $COMMIT"
+
+          BRANCHES=$(git branch -r --contains $COMMIT | grep 'origin/develop' || true)
+          if [ -z "$BRANCHES" ]; then
+            echo "❌ Tag $TAG_REF is not on develop, skipping publish."
+            exit 1
+          fi
+
+          echo "✅ Tag $TAG_REF is on develop"
+
+      - name: ⚙️ Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
