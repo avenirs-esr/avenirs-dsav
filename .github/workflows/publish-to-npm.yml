@@ -7,13 +7,28 @@ on:
 
 jobs:
   publish-to-npm:
-    if: github.ref_name == 'main' || github.ref_name == 'develop'
-
     runs-on: ubuntu-latest
 
     steps:
       - name: ✅ Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🔎 Verify tag is from a release branch
+        id: check_release
+        run: |
+          # Get current tag
+          TAG_REF=${GITHUB_REF#refs/tags/}
+          echo "Tag detected: $TAG_REF"
+
+          # Check distant branches with the tag commit
+          BRANCHES=$(git branch -r --contains $TAG_REF | grep 'origin/release/' || echo "")
+          if [ -z "$BRANCHES" ]; then
+            echo "Tag $TAG_REF is not on a release/* branch, skipping publish."
+            exit 1
+          fi
+          echo "Tag $TAG_REF is on branch(es): $BRANCHES"
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
