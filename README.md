@@ -15,6 +15,10 @@ Vue 3. VueDSFR offers a component library based on
 
 The AVENIR(s) program needs its own identity, hence this adaptation of VueDSFR.
 
+## Complete documentation
+
+You can find the complete documentation on our [github page](https://avenirs-esr.github.io/avenirs-dsav/).
+
 ## Installation
 
 In your project, run `npm install @ævenirs-esr/avenirs-dsav`.
