@@ -1,1 +1,0 @@
-import{_ as t,c as o,o as a,ae as n}from"./chunks/framework.D5LTYjOy.js";const m=JSON.parse('{"title":"Avenir(s) DSAV","description":"","frontmatter":{},"headers":[],"relativePath":"index.md","filePath":"index.md"}'),i={name:"index.md"};function r(s,e,d,l,c,p){return a(),o("div",null,[...e[0]||(e[0]=[n("",27)])])}const u=t(i,[["render",r]]);export{m as __pageData,u as default};
