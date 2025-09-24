@@ -19,6 +19,7 @@ export default () => {
     'public/mockServiceWorker.js',
     'src/__mocks__/*',
     'storybook-static/*',
+    'generate-docs.js',
   ]
 
   const COVERAGE_THRESHOLD = 85
