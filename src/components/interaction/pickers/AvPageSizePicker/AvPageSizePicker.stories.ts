@@ -5,7 +5,7 @@ import { PageSizes } from '@/config'
 /**
  * <h1 class="n1">Picker for number of results per page - <code>AvPageSizePicker</code></h1>
  *
- * <h2 class="n2">🌟 Introduction</h2>
+ * <h2 class="n2">✨ Introduction</h2>
  *
  * <p>
  *   <span class="b2-regular">
@@ -13,7 +13,7 @@ import { PageSizes } from '@/config'
  *   </span>
  * </p>
  *
- * <h2 class="n2">📐 Structure</h2>
+ * <h2 class="n2">🏗️ Structure</h2>
  *
  * <p>
  *   <span class="b2-regular">

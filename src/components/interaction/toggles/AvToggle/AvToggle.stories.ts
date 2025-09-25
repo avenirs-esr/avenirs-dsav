@@ -2,7 +2,7 @@ import type { Meta, StoryFn } from '@storybook/vue3'
 import AvToggle, { type AvToggleProps } from '@/components/interaction/toggles/AvToggle/AvToggle.vue'
 
 /**
- * <h2 class="n2">🌟 Introduction</h2>
+ * <h2 class="n2">✨ Introduction</h2>
  *
  * <p>
  *   <span class="b2-regular">
@@ -11,7 +11,7 @@ import AvToggle, { type AvToggleProps } from '@/components/interaction/toggles/A
  *   </span>
  * </p>
  *
- * <h2 class="n2">📐 Structure</h2>
+ * <h2 class="n2">🏗️ Structure</h2>
  *
  * <p><span class="b2-regular">None.</span></p>
  */

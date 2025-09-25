@@ -4,11 +4,11 @@ import AvSelect, { type AvSelectProps } from '@/components/interaction/selects/A
 /**
  * <h1 class="n1">Drop-down list - <code>AvSelect</code></h1>
  *
- * <h2 class="n2">🌟 Introduction</h2>
+ * <h2 class="n2">✨ Introduction</h2>
  *
  * <p>
  *   <span class="b2-regular">
- *     The <code>AvSelect</code> is a component implementing the VueDSFR <code>DsfrSelect</code>. It is a Vue component enabling a user to select an item from a given list.
+ *     The <code>AvSelect</code> is a Vue component enabling a user to select an item from a given list.
  *   </span>
  * </p>
  *
@@ -19,14 +19,7 @@ import AvSelect, { type AvSelectProps } from '@/components/interaction/selects/A
  *   </span>
  * </p>
  *
- * <p>
- *   <span class="b2-regular">
- *     🏅 Documentation on the <code>DsfrSelect</code> can be found at
- *     <a href="https://vue-ds.fr/composants/DsfrSelect" target="_blank" rel="noopener noreferrer">VueDSFR</a>
- *   </span>
- * </p>
- *
- * <h2 class="n2">📐 Structure</h2>
+ * <h2 class="n2">🏗️ Structure</h2>
  *
  * <p><span class="b2-regular"><code>AvSelect</code> consists of a set of <code>&lt;option&gt;</code> within a <code>&lt;select&gt;</code>.</span></p>
  */

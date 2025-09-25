@@ -18,7 +18,7 @@ export interface AvIconTextProps {
   iconColor?: string
 
   /**
-   * The icon name according to the naming convention defined for `VIcon` on VueDSFR.
+   * The icon name according to the naming convention of Iconify-vue.
    */
   icon: string
 

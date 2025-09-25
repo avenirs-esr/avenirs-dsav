@@ -1,14 +1,12 @@
 # Important information banner - `AvNotice`
 
-## 🌟 Introduction
+## ✨ Introduction
 
-The `AvNotice` is a component implementing the VueDSFR `DsfrNotice`. The important information banner allows users to view or access important and temporary information.
+The `AvNotice` is an important information banner that allow users to view or access important and temporary information.
 
 It is displayed on all pages on desktop and mobile devices. It displays important and urgent information (overuse may cause this banner to "disappear").
 
-🏅 The documentation on the `DsfrNotice` can be found at [VueDSFR](https://vue-ds.fr/composants/DsfrNotice)
-
-## 📐 Structure
+## 🏗️ Structure
 
 The notice consists of the following elements:
 
@@ -22,7 +20,7 @@ The notice consists of the following elements:
   - `'alert'`
 - An information icon
 
-## 🛠️ Props
+## 🏷️ Props
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
@@ -30,15 +28,15 @@ The notice consists of the following elements:
 | `text` | `string` | `''` | | The banner text. Any text surrounded by ** will be underlined. |
 | `type` | `'info' \| 'warning' \| 'alert'` | | ✅ | The banner type. |
 
-## 📡 Events
+## 🔊 Events
 
 None.
 
-## 🧩 Slots
+## 🎨 Slots
 
 None.
 
-## 📝 Examples of use
+## 💡 Examples of use
 
 ```vue
 <template>

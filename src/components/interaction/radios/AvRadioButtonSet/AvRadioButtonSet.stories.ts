@@ -5,12 +5,12 @@ import AvRadioButtonSet, { type AvRadioButtonSetProps } from '@/components/inter
 /**
  * <h1 class="n1">Radio button set - <code>AvRadioButtonSet</code></h1>
  *
- * <h2 class="n2">🌟 Introduction</h2>
+ * <h2 class="n2">✨ Introduction</h2>
  *
  * <p>
  *   <span class="b2-regular">
- *     The <code>AvRadioButtonSet</code> component implements VueDSFR <code>DsfrRadioButtonSet</code> while automatically managing the addition of
- *     <code>DsfrRadioButton</code> according to the <code>AvRadioButton</code> present in the <code>default</code> slot.
+ *     The <code>AvRadioButtonSet</code> automatically manages the addition of <code>AvRadioButton</code>
+ *     in a group according to the <code>AvRadioButton</code> present in the <code>default</code> slot.
  *   </span>
  * </p>
  *
@@ -27,14 +27,7 @@ import AvRadioButtonSet, { type AvRadioButtonSetProps } from '@/components/inter
  *   </span>
  * </p>
  *
- * <p>
- *   <span class="b2-regular">
- *     🏅 Documentation on <code>DsfrRadioButtonSet</code> can be found at
- *     <a href="https://vue-ds.fr/composants/DsfrRadioButtonSet" target="_blank" rel="noopener noreferrer">VueDSFR</a>
- *   </span>
- * </p>
- *
- * <h2 class="n2">📐 Structure</h2>
+ * <h2 class="n2">🏗️ Structure</h2>
  *
  * <p><span class="b2-regular">The <code>AvRadioButtonSet</code> component consists of the following elements:</span></p>
  *
@@ -43,7 +36,7 @@ import AvRadioButtonSet, { type AvRadioButtonSetProps } from '@/components/inter
  *   <li><span class="b2-regular">A <code>&lt;fieldset&gt;</code> element containing the radio buttons and associated messages.</span></li>
  *   <li><span class="b2-regular">A legend (<code>legend</code>) defined by the <code>legend</code> prop and customizable with the <code>legend</code> slot.</span></li>
  *   <li><span class="b2-regular">A hint (<code>hint</code>) defined by the <code>hint</code> prop and customizable with the <code>hint</code> slot.</span></li>
- *   <li><span class="b2-regular">A group of individual radio buttons rendered by the <code>AvRadioButton</code>/<code>DsfrRadioButton</code> component.</span></li>
+ *   <li><span class="b2-regular">A group of individual radio buttons rendered by the <code>AvRadioButton</code> component.</span></li>
  *   <li><span class="b2-regular">An information, error or validation message, displayed below the group of radio buttons (optional).</span></li>
  * </ul>
  */

@@ -1,14 +1,14 @@
 # Cards - `AvCard`
 
-## 🌟 Introduction
+## ✨ Introduction
 
 The `AvCard` card is a component for creating customizable styled containers.
 
-## 📐 Structure
+## 🏗️ Structure
 
 The card is composed of a main `div` containing a div for the title (slot `title`), a generic slot by default, a div for the body (slot `body`) as well as a div for the footer (slot `footer`).
 
-## 🛠️ Props
+## 🏷️ Props
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
@@ -17,11 +17,11 @@ The card is composed of a main `div` containing a div for the title (slot `title
 | `titleBackground` | `string` | `'var(--surface-background)'` | | The background color of the card title. |
 | `titleHeight` | `string` | `undefined` | | The height of the card title. |
 
-## 📡 Events
+## 🔊 Events
 
 None.
 
-## 🧩 Slots
+## 🎨 Slots
 
 | Name | Description |
 | --- | --- |
@@ -30,7 +30,7 @@ None.
 | `footer` | Slot to add a footer to the card. |
 | `default` | Default slot for additional card content. |
 
-## 📝 Examples of use
+## 💡 Examples of use
 
 ```vue
 <template>

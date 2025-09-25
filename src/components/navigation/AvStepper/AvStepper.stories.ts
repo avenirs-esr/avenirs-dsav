@@ -2,7 +2,7 @@ import type { Meta, StoryFn } from '@storybook/vue3'
 import AvStepper, { type AvStepperProps } from './AvStepper.vue'
 
 /**
- * <h2 class="n2">🌟 Introduction</h2>
+ * <h2 class="n2">✨ Introduction</h2>
  *
  * <p>
  *   <span class="b2-regular">
@@ -10,7 +10,7 @@ import AvStepper, { type AvStepperProps } from './AvStepper.vue'
  *   </span>
  * </p>
  *
- * <h2 class="n2">📐 Structure</h2>
+ * <h2 class="n2">🏗️ Structure</h2>
  *
  * <p><span class="b2-regular">The stepper displays:</span></p>
  * <ul>

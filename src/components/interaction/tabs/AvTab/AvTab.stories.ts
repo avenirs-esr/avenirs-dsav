@@ -4,7 +4,7 @@ import AvTab, { type AvTabProps } from '@/components/interaction/tabs/AvTab/AvTa
 /**
  * <h1 class="n1">Tabs - <code>AvTab</code></h1>
  *
- * <h2 class="n2">🌟 Introduction</h2>
+ * <h2 class="n2">✨ Introduction</h2>
  *
  * <p>
  *   <span class="b2-regular">
@@ -26,7 +26,7 @@ import AvTab, { type AvTabProps } from '@/components/interaction/tabs/AvTab/AvTa
  *   </span>
  * </p>
  *
- * <h2 class="n2">📐 Structure</h2>
+ * <h2 class="n2">🏗️ Structure</h2>
  *
  * <p><span class="b2-regular">None.</span></p>
  */

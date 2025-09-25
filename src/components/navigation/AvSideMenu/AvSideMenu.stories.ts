@@ -5,7 +5,7 @@ import { MDI_ICONS } from '@/tokens'
 /**
  * <h1 class="n1">Navigation - <code>AvSideMenu</code></h1>
  *
- * <h2 class="n2">🌟 Introduction</h2>
+ * <h2 class="n2">✨ Introduction</h2>
  *
  * <p>
  *   <span class="b2-regular">
@@ -29,7 +29,7 @@ import { MDI_ICONS } from '@/tokens'
  *   </span>
  * </p>
  *
- * <h2 class="n2">📐 Structure</h2>
+ * <h2 class="n2">🏗️ Structure</h2>
  *
  * <p><span class="b2-regular">The side-menu component consists of the following elements:</span></p>
  *

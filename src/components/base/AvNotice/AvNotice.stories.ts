@@ -5,12 +5,12 @@ import AvNotice, { type AvNoticeProps } from '@/components/base/AvNotice/AvNotic
 /**
  * <h1 class="n1">Important information banner - <code>AvNotice</code></h1>
  *
- * <h2 class="n2">🌟 Introduction</h2>
+ * <h2 class="n2">✨ Introduction</h2>
  *
  * <p>
  *   <span class="b2-regular">
- *     The <code>AvNotice</code> is a component implementing the VueDSFR <code>DsfrNotice</code>.
- *     The important information banner allows users to view or access important and temporary information.
+ *     The <code>AvNotice</code> is an important information banner that allow
+ *     users to view or access important and temporary information.
  *   </span>
  * </p>
  *
@@ -21,14 +21,7 @@ import AvNotice, { type AvNoticeProps } from '@/components/base/AvNotice/AvNotic
  *   </span>
  * </p>
  *
- * <p>
- *   <span class="b2-regular">
- *     🏅 The documentation on the <code>DsfrNotice</code> can be found at
- *     <a href="https://vue-ds.fr/composants/DsfrNotice" target="_blank" rel="noopener noreferrer">VueDSFR</a>
- *   </span>
- * </p>
- *
- * <h2 class="n2">📐 Structure</h2>
+ * <h2 class="n2">🏗️ Structure</h2>
  *
  * <p><span class="b2-regular">The notice consists of the following elements:</span></p>
  *

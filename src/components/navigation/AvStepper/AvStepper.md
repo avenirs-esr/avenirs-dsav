@@ -1,32 +1,32 @@
 # Navigation - `AvStepper`
 
-## 🌟 Introduction
+## ✨ Introduction
 
 The `AvStepper` component is a visual guide to show the user their progress through a series of steps
 
-## 📐 Structure
+## 🏗️ Structure
 
 The stepper displays:
 - all steps titles
 - a progress status showing the current step and the total number of steps
 - a stylized progress bar
 
-## 🛠️ Props
+## 🏷️ Props
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
 | `steps` | `string[]` | | ✅ | List of steps to display in the stepper |
 | `currentStep` | `number` | | ✅ | Index of the current step (starts at 0) |
 
-## 📡 Events
+## 🔊 Events
 
 None.
 
-## 🧩 Slots
+## 🎨 Slots
 
 None.
 
-## 📝 Examples of use
+## 💡 Examples of use
 
 ```vue
 <script language="ts">

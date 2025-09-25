@@ -4,7 +4,7 @@ import AvCard, { type AvCardProps } from '@/components/cards/AvCard/AvCard.vue'
 /**
  * <h1 class="n1">Cards - <code>AvCard</code></h1>
  *
- * <h2 class="n2">🌟 Introduction</h2>
+ * <h2 class="n2">✨ Introduction</h2>
  *
  * <p>
  *   <span class="b2-regular">
@@ -12,7 +12,7 @@ import AvCard, { type AvCardProps } from '@/components/cards/AvCard/AvCard.vue'
  *   </span>
  * </p>
  *
- * <h2 class="n2">📐 Structure</h2>
+ * <h2 class="n2">🏗️ Structure</h2>
  *
  * <p>
  *   <span class="b2-regular">

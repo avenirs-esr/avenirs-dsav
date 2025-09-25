@@ -1,18 +1,16 @@
 # Drop-down list - `AvSelect`
 
-## 🌟 Introduction
+## ✨ Introduction
 
-The `AvSelect` is a component implementing the VueDSFR `DsfrSelect`. It is a Vue component enabling a user to select an item from a given list.
+The `AvSelect` is a Vue component enabling a user to select an item from a given list.
 
 The drop-down list provides a list of options from which the user can choose. Only the visible part of the component is stylized: the drop-down list of options retains the browser style.
 
-🏅 Documentation on the `DsfrSelect` can be found at [VueDSFR](https://vue-ds.fr/composants/DsfrSelect)
-
-## 📐 Structure
+## 🏗️ Structure
 
 `AvSelect` consists of a set of `<option>` within a `<select>`.
 
-## 🛠️ Props
+## 🏷️ Props
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
@@ -29,17 +27,17 @@ The drop-down list provides a list of options from which the user can choose. On
 | `selectId` | `string` | `useRandomId('select')` | | Unique id for the select. Used for the accessibility. |
 | `dense` | `boolean` | | | Dense mode for reduced padding.|
 
-## 📡 Events
+## 🔊 Events
 
 | Name | Data (*payload*) | Description |
 | --- | --- | --- |
 | `'update:modelValue'` | `string \| number` | Emitted when an option is selected. |
 
-## 🧩 Slots
+## 🎨 Slots
 
 None.
 
-## 📝 Examples of use
+## 💡 Examples of use
 
 ```vue
 <template>

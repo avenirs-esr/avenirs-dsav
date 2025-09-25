@@ -4,22 +4,22 @@ import AvTagPicker, { type AvTagPickerProps } from '@/components/interaction/pic
 /**
  * <h1 class="n1">Tag picker - <code>AvTagPicker</code></h1>
  *
- * <h2 class="n2">🌟 Introduction</h2>
+ * <h2 class="n2">✨ Introduction</h2>
  *
  * <p>
  *   <span class="b2-regular">
  *     The <code>AvTagPicker</code> is a Vue component enabling a user to select an element from a given set.
- *     Selectable elements consist of <code>DsfrTag</code>.
+ *     Selectable elements consist of tag components.
  *   </span>
  * </p>
  *
  * <p>
  *   <span class="b2-regular">
- *     The <code>DsfrTag</code> list provides a list of options from which the user can choose.
+ *     The tag list provides a list of options from which the user can choose.
  *   </span>
  * </p>
  *
- * <h2 class="n2">📐 Structure</h2>
+ * <h2 class="n2">🏗️ Structure</h2>
  *
  * <p><span class="b2-regular">Buttons consist of :</span></p>
  *

@@ -1,26 +1,24 @@
 # Radio button set - `AvRadioButtonSet`
 
-## 🌟 Introduction
+## ✨ Introduction
 
-The `AvRadioButtonSet` component implements VueDSFR `DsfrRadioButtonSet` while automatically managing the addition of `DsfrRadioButton` according to the `AvRadioButton` present in the `default` slot.
+The `AvRadioButtonSet` automatically manages the addition of `AvRadioButton` in a group according to the `AvRadioButton` present in the `default` slot.
 
 Radio buttons allow the user to select a single option from a list.
 
 The radio button cannot be used on its own: a minimum of 2 options is required. It is preferable not to select a default option, so that the user choice is conscious (especially if the choice is mandatory).
 
-🏅 Documentation on `DsfrRadioButtonSet` can be found at [VueDSFR](https://vue-ds.fr/composants/DsfrRadioButtonSet)
-
-## 📐 Structure
+## 🏗️ Structure
 
 The `AvRadioButtonSet` component consists of the following elements:
 - A `<div>` element encompassing the entire radio group.
 - A `<fieldset>` element containing the radio buttons and associated messages.
 - A legend (`legend`) defined by the legend prop and customizable with the legend slot.
 - A hint (`hint`) defined by the hint prop and customizable with the hint slot.
-- A group of individual radio buttons rendered by the `AvRadioButton`/`DsfrRadioButton` component.
+- A group of individual radio buttons rendered by the `AvRadioButton` component.
 - An information, error or validation message, displayed below the group of radio buttons (optional).
 
-## 🛠️ Props
+## 🏷️ Props
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
@@ -35,19 +33,19 @@ The `AvRadioButtonSet` component consists of the following elements:
 | `validMessage` | `string` | `undefined` | | Optional global valid message displayed below the group. If set, confirms successful validation. |
 | `hint` | `string` | `undefined` | | Optional hint text displayed below the legend. Provides guidance or extra information. |
 
-## 📡 Events
+## 🔊 Events
 
 | Name | Data (*payload*) | Description |
 | --- | --- | --- |
 | `'update:modelValue'` | Value (`string \| number \| boolean`) of the selected radio button | Emitted when a radio button is selected. |
 
-## 🧩 Slots
+## 🎨 Slots
 
 | Name | Description |
 | --- | --- |
 | `default` | Default slot for adding radio button (each radio button must be in an `AvRadioButton`). |
 
-## 📝 Examples of use
+## 💡 Examples of use
 
 ```vue
 <template>

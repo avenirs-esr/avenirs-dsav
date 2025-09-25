@@ -4,23 +4,16 @@ import AvNavigation, { type AvNavigationProps } from '@/components/navigation/Av
 /**
  * <h1 class="n1">Navigation - <code>AvNavigation</code></h1>
  *
- * <h2 class="n2">🌟 Introduction</h2>
+ * <h2 class="n2">✨ Introduction</h2>
  *
  * <p>
  *   <span class="b2-regular">
- *     The <code>AvNavigation</code> is a component implementing the VueDSFR <code>DsfrNavigation</code>.
- *     The main navigation is the central navigation system within a site. It guides the user through the site main and secondary sections.
+ *     The <code>AvNavigation</code> is the main navigation therefore the central navigation system within a site.
+ *     It guides the user through the site main and secondary sections.
  *   </span>
  * </p>
  *
- * <p>
- *   <span class="b2-regular">
- *     🏅 Documentation on main navigation can be found on
- *     <a href="https://www.systeme-de-design.gouv.fr/version-courante/fr/composants/navigation-principale" target="_blank" rel="noopener noreferrer">DSFR</a>
- *   </span>
- * </p>
- *
- * <h2 class="n2">📐 Structure</h2>
+ * <h2 class="n2">🏗️ Structure</h2>
  *
  * <p><span class="b2-regular">The navigation component can be used to create a navigation bar with different types of navigation items:</span></p>
  *

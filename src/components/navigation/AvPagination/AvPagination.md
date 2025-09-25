@@ -1,16 +1,14 @@
 # Pagination - `AvPagination`
 
-## 🌟 Introduction
+## ✨ Introduction
 
-The `AvPagination` component is an adaptation of the `DsfrPagination` code. It is a pagination system compliant with good ergonomic and accessibility practices (ARIA). It allows easy navigation through multiple pages, with advanced features such as page display limitation and event management.
+The `AvPagination` is a pagination system compliant with good ergonomic and accessibility practices (ARIA). It allows easy navigation through multiple pages, with advanced features such as page display limitation and event management.
 
-🏅 Documentation on `DsfrPagination` can be found at [VueDSFR](https://vue-ds.fr/composants/DsfrPagination)
-
-## 📐 Structure
+## 🏗️ Structure
 
 This component displays links for the first, previous, middle, next and last pages, with adaptive controls according to pagination status.
 
-## 🛠️ Props
+## 🏷️ Props
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
@@ -24,17 +22,17 @@ This component displays links for the first, previous, middle, next and last pag
 | `prevPageLabel` | `string` | | ✅ | Tooltip text for previous page link. |
 | `compactCurrentPageLabel` | `string` | `undefined` | | Text for compact current page. |
 
-## 📡 Events
+## 🔊 Events
 
 | Name | Data (*payload*) | Description |
 | --- | --- | --- |
 | `'update:current-page'` | `number` | Sent when user changes page. |
 
-## 🧩 Slots
+## 🎨 Slots
 
 None.
 
-## 📝 Examples of use
+## 💡 Examples of use
 
 ```vue
 <template>

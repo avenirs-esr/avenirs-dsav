@@ -1,14 +1,10 @@
 # Header - `AvHeader`
 
-## 🌟 Introduction
+## ✨ Introduction
 
-The `AvHeader` component is an adaptation of the `DsfrHeader` code.
+The `AvHeader` component is an ultra-flexible header component. It integrates a search bar and quick links. It also allows the addition of a main navigation in the `mainnav` slot and a language selector via the `language-selector` prop.
 
-It is an ultra-flexible header component. It integrates a search bar and quick links. It also allows the addition of a main navigation in the `mainnav` slot and a language selector via the `language-selector` prop.
-
-🏅 The documentation for the `DsfrHeader` can be found at [VueDSFR](https://vue-ds.fr/composants/DsfrHeader)
-
-## 📐 Structure
+## 🏗️ Structure
 
 The header consists of:
 
@@ -17,7 +13,7 @@ The header consists of:
 - a baseline (description) below the site name.
 - an optional functional section - offering quick access and/or a search bar and/or a language selector - adapted to the specific needs of each site.
 
-## 🛠️ Props
+## 🏷️ Props
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
@@ -37,7 +33,7 @@ The header consists of:
 | `closeMenuModalLabel` | `string` | `'Fermer'` | | Menu close button label in modal mode. |
 | `homeLabel` | `string` | `'Accueil'` | | Home label comprising the title of the link presenting the service. |
 
-## 📡 Events
+## 🔊 Events
 
 | Name | Data (*payload*) | Description |
 | --- | --- | --- |
@@ -45,7 +41,7 @@ The header consists of:
 | `'search'` | Content (`string`) of the search input field | Emitted when a search is performed. |
 | `'languageSelect'` | Content (`DsfrLanguageSelectorElement`) of the selected language | Emitted when the user changes the site language. |
 
-## 🧩 Slots
+## 🎨 Slots
 
 | Name | Description |
 | `before-quick-links` | Slot to add content before quick links. |
@@ -54,7 +50,7 @@ The header consists of:
 | `serviceDescription` | Slot for the description of the service. |
 | `default` | Default slot for additional content in the header. |
 
-## 📝 Examples of use
+## 💡 Examples of use
 
 ```vue
 <script setup lang="ts">

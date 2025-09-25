@@ -6,7 +6,7 @@ import AvListItem, { type AvListItemProps } from './AvListItem.vue'
 /**
  * <h1 class="n1">Lists - <code>AvListItem</code></h1>
  *
- * <h2 class="n2">🌟 Introduction</h2>
+ * <h2 class="n2">✨ Introduction</h2>
  *
  * <p>
  *   <span class="b2-regular">
@@ -26,7 +26,7 @@ import AvListItem, { type AvListItemProps } from './AvListItem.vue'
  *   </span>
  * </p>
  *
- * <h2 class="n2">📐 Structure</h2>
+ * <h2 class="n2">🏗️ Structure</h2>
  *
  * <p><span class="b2-regular">The list item consists of the following elements:</span></p>
  *
