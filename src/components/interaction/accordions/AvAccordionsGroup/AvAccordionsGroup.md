@@ -1,16 +1,14 @@
 # Accordions group - `AvAccordionsGroup`
 
-## 🌟 Introduction
+## ✨ Introduction
 
-The `AvAccordionsGroup` component implements VueDSFR `DsfrAccordionsGroup` while automatically managing the addition of `DsfrAccordion` according to the `AvAccordion` present in the `default` slot.
+The `AvAccordionsGroup` component automatically manages the addition of `AvAccordion` in a group according to the `AvAccordion` present in the `default` slot.
 
 Accordions allow users to show and hide sections of content presented on a page.
 
 The accordions group lets you group several accordions into a single coherent unit. It manages active selection logic between child accordions, allowing you to open one accordion while closing the others. This component is essential for organizing interactively linked accordion sets.
 
-🏅 Documentation on `DsfrAccordionsGroup` can be found at [VueDSFR](https://vue-ds.fr/composants/DsfrAccordionsGroup)
-
-## 📐 Structure
+## 🏗️ Structure
 
 An accordion consists of the following elements:
 
@@ -20,25 +18,25 @@ An accordion consists of the following elements:
 - a separator
 - a content zone, hidden by default, which can contain any type of element. The default `slot` is designed for this purpose.
 
-## 🛠️ Props
+## 🏷️ Props
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
 | `activeAccordion` | `number` | `undefined` | | Index of the currently active accordion. Used with `v-model:activeAccordion` for two-way data binding. |
 
-## 📡 Events
+## 🔊 Events
 
 | Name | Description |
 | --- | --- |
 | `update:activeAccordion` | Emitted when the active accordion changes. Receives the index of the newly active accordion. |
 
-## 🧩 Slots
+## 🎨 Slots
 
 | Name | Description |
 | --- | --- |
 | `default` | Default slot for adding accordions (each accordion must be in an `AvAccordion`). |
 
-## 📝 Examples of use
+## 💡 Examples of use
 
 ### Basic usage
 

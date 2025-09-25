@@ -29,7 +29,7 @@ const typographyClasses = [
 /**
  * <h1 class="n1">Texts with icon - <code>AvIconText</code></h1>
  *
- * <h2 class="n2">🌟 Introduction</h2>
+ * <h2 class="n2">✨ Introduction</h2>
  *
  * <p>
  *   <span class="b2-regular">
@@ -41,7 +41,7 @@ const typographyClasses = [
  *   </span>
  * </p>
  *
- * <h2 class="n2">📐 Structure</h2>
+ * <h2 class="n2">🏗️ Structure</h2>
  *
  * <ul>
  *   <li>

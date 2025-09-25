@@ -1,6 +1,6 @@
 # Icons - `AvVIcon`
 
-## 🌟 Introduction
+## ✨ Introduction
 
 The `AvVIcon` component places a `VIcon` in a square `div` of configurable size. It's a Vue.js component for displaying icons with a wide range of customization options, including animations, colors, and sizes. It's designed to be flexible and performant, with support for various display options, flip options, and accessible titles.
 
@@ -10,13 +10,11 @@ It has exactly the same API as OhVueIcon, and uses `@iconify/vue` under the hood
 Icon names must be those from [Iconify-vue](https://icon-sets.iconify.design/).
 :::
 
-🏅 The documentation for the `VIcon` can be found at [VueDSFR](https://vue-ds.fr/composants/VIcon)
-
-## 📐 Structure
+## 🏗️ Structure
 
 The icon is composed of a square `div` of configurable size containing the `VIcon` component.
 
-## 🛠️ Props
+## 🏷️ Props
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
@@ -32,15 +30,15 @@ The icon is composed of a square `div` of configurable size containing the `VIco
 | `inverse` | `boolean` | `false` | | Reverses the icon color. |
 | `ssr` | `boolean` | `1` | | Enables server-side rendering. |
 
-## 📡 Events
+## 🔊 Events
 
 None.
 
-## 🧩 Slots
+## 🎨 Slots
 
 None.
 
-## 📝 Examples of use
+## 💡 Examples of use
 
 ```vue
 <template>

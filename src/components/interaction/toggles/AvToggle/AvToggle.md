@@ -1,14 +1,14 @@
 # Toggles - `AvToggle`
 
-## 🌟 Introduction
+## ✨ Introduction
 
 The `AvToggle` is a versatile Vue component, designed to allow the user to choose between two opposite states (active/inactive).
 
-## 📐 Structure
+## 🏗️ Structure
 
 None.
 
-## 🛠️ Props
+## 🏷️ Props
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
@@ -20,15 +20,15 @@ None.
 | `inactiveText` | `string` | `'Off'` | | Text to display next to the toggle (right) when it is inactive. |
 | `name` | `string` | `undefined` | | `name` attribute of the input. |
 
-## 📡 Events
+## 🔊 Events
 
 None.
 
-## 🧩 Slots
+## 🎨 Slots
 
 None.
 
-## 📝 Examples of use
+## 💡 Examples of use
 
 ```vue
 <script>

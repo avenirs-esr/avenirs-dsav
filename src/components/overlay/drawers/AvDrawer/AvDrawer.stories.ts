@@ -5,7 +5,7 @@ import AvDrawer, { type AvDrawerProps } from '@/components/overlay/drawers/AvDra
 /**
  * <h1 class="n1">Drawers - <code>AvDrawer</code></h1>
  *
- * <h2 class="n2">🌟 Introduction</h2>
+ * <h2 class="n2">✨ Introduction</h2>
  *
  * <p>
  *   <span class="b2-regular">
@@ -27,7 +27,7 @@ import AvDrawer, { type AvDrawerProps } from '@/components/overlay/drawers/AvDra
  *   </span>
  * </p>
  *
- * <h2 class="n2">📐 Structure</h2>
+ * <h2 class="n2">🏗️ Structure</h2>
  *
  * <p><span class="b2-regular">The drawer consists of the following elements:</span></p>
  *

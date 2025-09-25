@@ -1,16 +1,16 @@
 # Toasters - `AvToaster`
 
-## 🌟 Introduction
+## ✨ Introduction
 
 The `AvToaster` component allows you to display alerts as notifications at the bottom of the page.
 
 This standalone component must be placed at the top level of the application (e.g., in `App.vue`) and works independently of the messages given in props. Those messages should be passed thanks to a Pinia `toaster` store.
 
-## 📐 Structure
+## 🏗️ Structure
 
 The toaster is composed of a set of `AvAlert` (1 per message).
 
-## 🛠️ Props
+## 🏷️ Props
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
@@ -18,15 +18,15 @@ The toaster is composed of a set of `AvAlert` (1 per message).
 | `basePath` | `string` | | ✅ | Base path to get access to public icons. |
 | `onRemoveMessage` | `(id: string) => void` | | ✅ | Function called to remove a message from the toaster. |
 
-## 📡 Events
+## 🔊 Events
 
 None.
 
-## 🧩 Slots
+## 🎨 Slots
 
 None.
 
-## 📝 Examples of use
+## 💡 Examples of use
 
 ```vue
 <template>

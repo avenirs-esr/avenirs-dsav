@@ -3,12 +3,12 @@ import AvAccordion from '@/components/interaction/accordions/AvAccordion/AvAccor
 import AvAccordionsGroup, { type AvAccordionsGroupProps } from '@/components/interaction/accordions/AvAccordionsGroup/AvAccordionsGroup.vue'
 
 /**
- * <h2 class="n2">🌟 Introduction</h2>
+ * <h2 class="n2">✨ Introduction</h2>
  *
  * <p>
  *   <span class="b2-regular">
- *     The <code>AvAccordionsGroup</code> component implements VueDSFR <code>DsfrAccordionsGroup</code> while automatically managing
- *     the addition of <code>DsfrAccordion</code> according to the <code>AvAccordion</code> present in the <code>default</code> slot.
+ *     The <code>AvAccordionsGroup</code> component automatically manages the addition of <code>AvAccordion</code>
+ *     in a group according to the <code>AvAccordion</code> present in the <code>default</code> slot.
  *   </span>
  * </p>
  *
@@ -26,14 +26,7 @@ import AvAccordionsGroup, { type AvAccordionsGroupProps } from '@/components/int
  *   </span>
  * </p>
  *
- * <p>
- *   <span class="b2-regular">
- *     🏅 Documentation on <code>DsfrAccordionsGroup</code> can be found at
- *     <a href="https://vue-ds.fr/composants/DsfrAccordionsGroup" target="_blank">VueDSFR</a>
- *   </span>
- * </p>
- *
- * <h2 class="n2">📐 Structure</h2>
+ * <h2 class="n2">🏗️ Structure</h2>
  *
  * <ul class="b2-regular">
  *   <li>A header (<code>title</code> prop, type <code>string</code>) — mandatory, represents the section title.</li>

@@ -1,12 +1,12 @@
 # Navigation - `AvSideMenu`
 
-## 🌟 Introduction
+## ✨ Introduction
 
 The `AvSideMenu` component is a flexible and accessible navigation side-menu that provides a collapsible sidebar container for navigation purposes. It focuses on layout and collapse functionality, allowing you to insert any content via slots while maintaining full accessibility and keyboard navigation support.
 
 Built with Vue 3 and TypeScript, this component offers smooth transitions, responsive design, and optional collapse functionality that can be enabled or disabled as needed. The component uses **defineModel** for automatic internal state management, working seamlessly both with and without v-model.
 
-## 📐 Structure
+## 🏗️ Structure
 
 The side-menu component consists of the following elements:
 - **Header** (optional): Contains the collapse/expand toggle button when `collapsible=true`
@@ -15,7 +15,7 @@ The side-menu component consists of the following elements:
 
 The component integrates focus management, proper ARIA attributes, and responsive design patterns for optimal accessibility.
 
-## 🛠️ Props
+## 🏷️ Props
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
@@ -30,19 +30,19 @@ The component integrates focus management, proper ARIA attributes, and responsiv
 | --- | --- | --- | --- |
 | `collapsed` | `boolean` | `false` | Whether the side-menu is collapsed (supports v-model with defineModel) |
 
-## 📡 Events
+## 🔊 Events
 
 | Name | Data (*payload*) | Description |
 | --- | --- | --- |
 | `update:collapsed` | `boolean` | Emitted when the collapse state changes (defineModel automatic event) |
 
-## 🧩 Slots
+## 🎨 Slots
 
 | Name | Description |
 | --- | --- |
 | `default` | Default slot for custom content (navigation items, menus, etc.) |
 
-## 📝 Examples of use
+## 💡 Examples of use
 
 ### With v-model (Controlled)
 

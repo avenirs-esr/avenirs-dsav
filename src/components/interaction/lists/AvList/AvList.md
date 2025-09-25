@@ -1,12 +1,12 @@
 # Lists - `AvList`
 
-## 🌟 Introduction
+## ✨ Introduction
 
 The AvList component is a flexible and accessible container for displaying collections of items. It provides a structured way to present data in a vertical list format with extensive customization options for styling, sizing, and accessibility.
 
 The `AvList` component is designed to work seamlessly with `AvListItem` components, offering consistent spacing, styling, and interaction patterns. It supports various visual configurations including borders, dividers, different sizes, and full accessibility compliance.
 
-## 📐 Structure
+## 🏗️ Structure
 
 The list consists of the following elements:
 - The container (div with role), mandatory: Main wrapper that contains all list items with proper semantic structure
@@ -18,7 +18,7 @@ The list integrates:
 - Full accessibility support with ARIA attributes
 - Customizable styling through CSS custom properties
 
-## 🛠️ Props
+## 🏷️ Props
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
@@ -34,17 +34,17 @@ The list integrates:
 | `ariaDescribedby` | `string` | | | ID of an element that describes the list. |
 | `role` | `'list' \| 'menu' \| 'listbox' \| 'group'` | `'list'` | | Semantic role of the list for accessibility. |
 
-## 📡 Events
+## 🔊 Events
 
 None.
 
-## 🧩 Slots
+## 🎨 Slots
 
 | Name | Description |
 | --- | --- |
 | `default` | Default slot for AvListItem components or other content. |
 
-## 📝 Examples of use
+## 💡 Examples of use
 
 ### Basic List
 

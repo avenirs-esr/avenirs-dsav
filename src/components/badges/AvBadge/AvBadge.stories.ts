@@ -18,23 +18,15 @@ const iconOptions = [
 /**
  * <h1 class="n1">Badges - <code>AvBadge</code></h1>
  *
- * <h2 class="n2">🌟 Introduction</h2>
+ * <h2 class="n2">✨ Introduction</h2>
  *
  * <p>
  *   <span class="b2-regular">
- *     The <code>AvBadge</code> is a component that implements the VueDSFR <code>DsfrBadge</code>.
- *     This Vue component is ideal for displaying short, important information, such as categories, labels, or statuses.
+ *     The <code>AvBadge</code> is ideal for displaying short, important information, such as categories, labels, or statuses.
  *   </span>
  * </p>
  *
- * <p>
- *   <span class="b2-regular">
- *     🏅 The documentation for the <code>DsfrBadge</code> can be found at
- *     <a href="https://vue-ds.fr/composants/DsfrBadge" target="_blank" rel="noopener noreferrer">VueDSFR</a>
- *   </span>
- * </p>
- *
- * <h2 class="n2">📐 Structure</h2>
+ * <h2 class="n2">🏗️ Structure</h2>
  *
  * <ul>
  *   <li>

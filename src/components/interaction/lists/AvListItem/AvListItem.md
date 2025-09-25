@@ -1,6 +1,6 @@
 # Lists - `AvListItem`
 
-## 🌟 Introduction
+## ✨ Introduction
 
 The AvListItem component represents an individual item within a list container. It provides a flexible and accessible way to display content with optional icons, titles, descriptions, and interactive capabilities while maintaining consistent styling and behavior patterns.
 
@@ -8,7 +8,7 @@ The `AvListItem` component is designed to work seamlessly within `AvList` contai
 
 It features comprehensive interaction states (hover, focus, active, disabled, selected), flexible content structure with slots, and dynamic tag rendering for different semantic contexts while maintaining visual consistency with the design system.
 
-## 📐 Structure
+## 🏗️ Structure
 
 The list item consists of the following elements:
 - The container (component with dynamic tag), mandatory: Root wrapper element that can be div, button, or anchor based on usage
@@ -22,7 +22,7 @@ The list item integrates:
 - Comprehensive interaction states and visual feedback
 - Flexible content structure with icon, title, description, and slot support
 
-## 🛠️ Props
+## 🏷️ Props
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
@@ -47,19 +47,19 @@ The list item integrates:
 | `rel` | `string` | | | Rel attribute when tag is 'a'. |
 | `role` | `string` | | | ARIA role for the list item. If not provided, defaults based on context. |
 
-## 📡 Events
+## 🔊 Events
 
 | Name | Description |
 | --- | --- |
 | `click` | Emitted when the list item is clicked (only when clickable and not disabled). |
 
-## 🧩 Slots
+## 🎨 Slots
 
 | Name | Description |
 | --- | --- |
 | `default` | Default slot for custom content within the list item. |
 
-## 📝 Examples of use
+## 💡 Examples of use
 
 ### Basic List Item
 

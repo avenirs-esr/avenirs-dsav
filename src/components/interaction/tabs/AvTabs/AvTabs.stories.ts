@@ -5,11 +5,11 @@ import AvTabs, { type AvTabsProps } from '@/components/interaction/tabs/AvTabs/A
 /**
  * <h1 class="n1">Tabs - <code>AvTabs</code></h1>
  *
- * <h2 class="n2">🌟 Introduction</h2>
+ * <h2 class="n2">✨ Introduction</h2>
  *
  * <p>
  *   <span class="b2-regular">
- *     The <code>AvTabs</code> component implements VueDSFR <code>DsfrTabs</code> while automatically managing the addition of <code>DsfrTabItem</code>
+ *     The <code>AvTabs</code> automatically manages the addition of <code>AvTab</code>
  *     according to the <code>AvTab</code> present in the <code>default</code> slot.
  *   </span>
  * </p>
@@ -26,14 +26,7 @@ import AvTabs, { type AvTabsProps } from '@/components/interaction/tabs/AvTabs/A
  *   </span>
  * </p>
  *
- * <p>
- *   <span class="b2-regular">
- *     🏅 Documentation on <code>DsfrTabs</code> can be found at
- *     <a href="https://vue-ds.fr/composants/DsfrTabs" target="_blank" rel="noopener noreferrer">VueDSFR</a>
- *   </span>
- * </p>
- *
- * <h2 class="n2">📐 Structure</h2>
+ * <h2 class="n2">🏗️ Structure</h2>
  *
  * <p><span class="b2-regular">Each tab consists of the following elements:</span></p>
  *

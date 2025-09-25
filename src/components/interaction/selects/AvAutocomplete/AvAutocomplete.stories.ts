@@ -12,7 +12,7 @@ interface ExtendedOption extends AvAutocompleteOption {
 /**
  * <h1 class="n1">Selects - <code>AvAutocomplete</code></h1>
  *
- * <h2 class="n2">🌟 Introduction</h2>
+ * <h2 class="n2">✨ Introduction</h2>
  *
  * <p>
  *   <span class="b2-regular">
@@ -32,7 +32,7 @@ interface ExtendedOption extends AvAutocompleteOption {
  *   </span>
  * </p>
  *
- * <h2 class="n2">📐 Structure</h2>
+ * <h2 class="n2">🏗️ Structure</h2>
  *
  * <p><span class="b2-regular">The autocomplete consists of an input field, dropdown with filterable options, and optional selected items section for multi-select mode.</span></p>
  */

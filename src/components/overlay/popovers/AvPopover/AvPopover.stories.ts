@@ -5,7 +5,7 @@ import AvPopover, { type AvPopoverProps } from '@/components/overlay/popovers/Av
 /**
  * <h1 class="n1">Popovers - <code>AvPopover</code></h1>
  *
- * <h2 class="n2">🌟 Introduction</h2>
+ * <h2 class="n2">✨ Introduction</h2>
  *
  * <p>
  *   <span class="b2-regular">
@@ -30,7 +30,7 @@ import AvPopover, { type AvPopoverProps } from '@/components/overlay/popovers/Av
  *   </span>
  * </p>
  *
- * <h2 class="n2">📐 Structure</h2>
+ * <h2 class="n2">🏗️ Structure</h2>
  *
  * <p><span class="b2-regular">The popover consists of the following elements:</span></p>
  *

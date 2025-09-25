@@ -6,20 +6,12 @@ import AvFileUpload, { type AvFileUploadProps } from '@/components/interaction/f
 /**
  * <h1 class="n1">File uploader - <code>AvFileUpload</code></h1>
  *
- * <h2 class="n2">🌟 Introduction</h2>
+ * <h2 class="n2">✨ Introduction</h2>
  *
  * <p>
  *   <span class="b2-regular">
- *     The <code>AvFileUpload</code> component is an adaptation of the <code>DsfrFileUpload</code> code.
- *     This component allows you to upload files by clicking on the file upload area
+ *     The <code>AvFileUpload</code> component allows you to upload files by clicking on the file upload area
  *     or by dragging and dropping a file in the area.
- *   </span>
- * </p>
- *
- * <p>
- *   <span class="b2-regular">
- *     🏅 Documentation on <code>DsfrFileUpload</code> can be found at
- *     <a href="https://vue-ds.fr/composants/DsfrFileUpload" target="_blank" rel="noopener noreferrer">VueDSFR</a>
  *   </span>
  * </p>
  */

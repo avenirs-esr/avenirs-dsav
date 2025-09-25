@@ -1,14 +1,14 @@
 # Picker for number of results per page - `AvPageSizePicker`
 
-## 🌟 Introduction
+## ✨ Introduction
 
 The `AvPageSizePicker` is a component implementing the `AvTagPicker` and dedicated to selecting the number of results per page.
 
-## 📐 Structure
+## 🏗️ Structure
 
 The pickers for number of results per page consist of an `AvTagPicker` to which options specific to the number of results per page are assigned.
 
-## 🛠️ Props
+## 🏷️ Props
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
@@ -16,15 +16,15 @@ The pickers for number of results per page consist of an `AvTagPicker` to which 
 | `pageSizeSelected` | `PageSizes` | | ✅ | Indicates the number of results per page selected. |
 | `handleSelectChange` | `(val: AvTagPickerOption) => void` | | ✅ | Method executed when selection is updated. |
 
-## 📡 Events
+## 🔊 Events
 
 None.
 
-## 🧩 Slots
+## 🎨 Slots
 
 None.
 
-## 📝 Examples of use
+## 💡 Examples of use
 
 ```vue
 <script setup lang="ts">

@@ -4,7 +4,7 @@ import AvVIcon, { type AvVIconProps } from '@/components/base/AvVIcon/AvVIcon.vu
 /**
  * <h1 class="n1">Icons - <code>AvVIcon</code></h1>
  *
- * <h2 class="n2">🌟 Introduction</h2>
+ * <h2 class="n2">✨ Introduction</h2>
  *
  * <p>
  *   <span class="b2-regular">
@@ -27,14 +27,7 @@ import AvVIcon, { type AvVIconProps } from '@/components/base/AvVIcon/AvVIcon.vu
  *   </span>
  * </p>
  *
- * <p>
- *   <span class="b2-regular">
- *     🏅 The documentation for the <code>VIcon</code> can be found at
- *     <a href="https://vue-ds.fr/composants/VIcon" target="_blank" rel="noopener noreferrer">VueDSFR</a>
- *   </span>
- * </p>
- *
- * <h2 class="n2">📐 Structure</h2>
+ * <h2 class="n2">🏗️ Structure</h2>
  *
  * <p>
  *   <span class="b2-regular">

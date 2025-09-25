@@ -1,6 +1,6 @@
 # Rich buttons - `AvRichButton`
 
-## 🌟 Introduction
+## ✨ Introduction
 
 The rich button is an interaction element with an interface enabling the user to perform an action.
 
@@ -8,14 +8,14 @@ The `AvRichButton` is an elegant, reusable Vue component designed to simplify th
 
 With a default slot, button content is highly customizable. The `label` property lets you assign the button `title` and `aria-label`.
 
-## 📐 Structure
+## 🏗️ Structure
 
 Rich buttons consist of a button composed of :
 - an optional left icon
 - a default slot for button content
 - an optional right icon
 
-## 🛠️ Props
+## 🏷️ Props
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
@@ -25,17 +25,17 @@ Rich buttons consist of a button composed of :
 | `customPadding` | `string` | `'1rem'` | | Allows you to modify button padding. |
 | `onClick` | `($event: MouseEvent) => void` | `undefined` | | Function called when button is clicked. |
 
-## 📡 Events
+## 🔊 Events
 
 None.
 
-## 🧩 Slots
+## 🎨 Slots
 
 | Name | Description |
 | --- | --- |
 | `default` | Default slot for the global content of the rich button. |
 
-## 📝 Examples of use
+## 💡 Examples of use
 
 ```vue
 <template>

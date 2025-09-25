@@ -1,18 +1,18 @@
 # Tag picker - `AvTagPicker`
 
-## 🌟 Introduction
+## ✨ Introduction
 
-The `AvTagPicker` is a Vue component enabling a user to select an element from a given set. Selectable elements consist of `DsfrTag`.
+The `AvTagPicker` is a Vue component enabling a user to select an element from a given set. Selectable elements consist of tag components.
 
-The `DsfrTag` list provides a list of options from which the user can choose.
+The tag list provides a list of options from which the user can choose.
 
-## 📐 Structure
+## 🏗️ Structure
 
 Buttons consist of :
 - A label - mandatory, using the `label` prop, enables label display when `iconOnly` is `false`, also enables connection to `title` and `aria-label` ;
 - An icon, which can be modified (see available icons) - optional.
 
-## 🛠️ Props
+## 🏷️ Props
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
@@ -26,15 +26,15 @@ Buttons consist of :
 | `handleSelectChange` (single) | `(selected: AvTagPickerOption) => void` | | ✅ | Method called when selecting in single mode. |
 | `handleSelectChange` (multiple) | `(selected: AvTagPickerOption[]) => void` | | ✅ | Method called when selecting in multiple mode. |
 
-## 📡 Events
+## 🔊 Events
 
 None.
 
-## 🧩 Slots
+## 🎨 Slots
 
 None.
 
-## 📝 Examples of use
+## 💡 Examples of use
 
 ```vue
 <template>

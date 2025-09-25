@@ -1,18 +1,16 @@
 # Badges - `AvBadge`
 
-## 🌟 Introduction
+## ✨ Introduction
 
-The `AvBadge` is a component that implements the VueDSFR `DsfrBadge`. This Vue component is ideal for displaying short, important information, such as categories, labels, or statuses.
+The `AvBadge` is ideal for displaying short, important information, such as categories, labels, or statuses.
 
-🏅 The documentation for the `DsfrBadge` can be found at [VueDSFR](https://vue-ds.fr/composants/DsfrBadge)
-
-## 📐 Structure
+## 🏗️ Structure
 
 - The component is a `p` element with the `fr-badge` class.
 - Props allow you to modify the badge appearance according to the props: color, icon presence, size, and handling of overly long text.
 - The `label` is displayed inside a `span`, potentially with the `ellipsis` prop and a defined or maximum size to handle truncated text.
 
-## 🛠️ Props
+## 🏷️ Props
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
@@ -26,15 +24,15 @@ The `AvBadge` is a component that implements the VueDSFR `DsfrBadge`. This Vue c
 | `small` | `boolean` | `false` | | If `true`, displays a reduced-size badge. |
 | `ellipsis` | `boolean` | `false` | | If `true`, the text is truncated with an ellipsis if it is too long. |
 
-## 📡 Events
+## 🔊 Events
 
 None.
 
-## 🧩 Slots
+## 🎨 Slots
 
 None.
 
-## 📝 Examples of use
+## 💡 Examples of use
 
 ```vue
 <template>

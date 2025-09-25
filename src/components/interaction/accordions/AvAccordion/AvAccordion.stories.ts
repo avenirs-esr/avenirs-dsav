@@ -4,7 +4,7 @@ import AvAccordion from '@/components/interaction/accordions/AvAccordion/AvAccor
 /**
  * <h1 class="n1">Accordions - <code>AvAccordions</code></h1>
  *
- * <h2 class="n2">🌟 Introduction</h2>
+ * <h2 class="n2">✨ Introduction</h2>
  *
  * <p>
  *   <span class="b2-regular">

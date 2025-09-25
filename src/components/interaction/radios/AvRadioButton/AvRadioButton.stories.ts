@@ -4,7 +4,7 @@ import AvRadioButton, { type AvRadioButtonProps } from '@/components/interaction
 /**
  * <h1 class="n1">Radio buttons - <code>AvRadioButton</code></h1>
  *
- * <h2 class="n2">🌟 Introduction</h2>
+ * <h2 class="n2">✨ Introduction</h2>
  *
  * <p>
  *   <span class="b2-regular">
@@ -26,7 +26,7 @@ import AvRadioButton, { type AvRadioButtonProps } from '@/components/interaction
  *   </span>
  * </p>
  *
- * <h2 class="n2">📐 Structure</h2>
+ * <h2 class="n2">🏗️ Structure</h2>
  *
  * <p><span class="b2-regular">None.</span></p>
  */

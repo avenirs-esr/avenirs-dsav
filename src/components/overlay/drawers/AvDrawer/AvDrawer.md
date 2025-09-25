@@ -1,6 +1,6 @@
 # Drawers - `AvDrawer`
 
-## 🌟 Introduction
+## ✨ Introduction
 
 The drawer is a panel that slides in from the edge of the screen, providing additional content or navigation options without leaving the current page. This component is designed to display contextual information, actions, or secondary navigation in a non-intrusive way.
 
@@ -8,7 +8,7 @@ The `AvDrawer` component offers flexible positioning (left or right), customizab
 
 It features smooth animations, proper z-index management, and integrates seamlessly with the design system's styling tokens.
 
-## 📐 Structure
+## 🏗️ Structure
 
 The drawer consists of the following elements:
 - **Container**: The main drawer panel that slides in from the specified edge
@@ -21,7 +21,7 @@ The drawer integrates:
 - Position-specific styling (left/right rounded corners and shadows)
 - Responsive width and padding customization
 
-## 🛠️ Props
+## 🏷️ Props
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
@@ -32,20 +32,20 @@ The drawer integrates:
 | `padding` | `string` | `'var(--spacing-md)'` | | Internal padding of drawer content area. |
 | `ariaLabel` | `string` | `'Menu latéral'` | | ARIA label for accessibility. |
 
-## 📡 Events
+## 🔊 Events
 
 | Name | Data (*payload*) | Description |
 | --- | --- | --- |
 | `'escapePressed'` | | Event triggered when escape is pressed. |
 
-## 🧩 Slots
+## 🎨 Slots
 
 | Name | Description |
 | --- | --- |
 | `default` | Slot for drawer content. Can contain any HTML or Vue components. |
 | `footer` | Footer slot for content under the main scrollable content. Can contain any HTML or Vue components. |
 
-## 📝 Examples of use
+## 💡 Examples of use
 
 ### Basic Usage
 

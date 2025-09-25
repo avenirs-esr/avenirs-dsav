@@ -4,39 +4,30 @@ import AvButton, { type AvButtonProps } from '@/components/interaction/buttons/A
 /**
  * <h1 class="n1">Buttons - <code>AvButton</code></h1>
  *
- * <h2 class="n2">🌟 Introduction</h2>
+ * <h2 class="n2">✨ Introduction</h2>
  *
  * <p>
  *   <span class="b2-regular">
- *     The <code>AvButton</code> is a component implementing the VueDSFR <code>DsfrButton</code>.
- *     The button is an interaction element with an interface enabling the user to perform an action.
+ *     The <code>AvButton</code> is an interaction element with an interface enabling the user to perform an action.
  *   </span>
  * </p>
  *
  * <p>
  *   <span class="b2-regular">
  *     The <code>AvButton</code> is an elegant, reusable Vue component designed to simplify the creation of custom buttons.
- *     It features adjustable sizes, an optional icon and a click manager, all in keeping with the <code>DSFR</code> style.
+ *     It features adjustable sizes, an optional icon and a click manager.
  *     It's easy to use, with the flexibility to adapt to different contexts.
  *   </span>
  * </p>
  *
  * <p>
  *   <span class="b2-regular">
- *     For <code>AVENIR(s) ESR</code>, the button has been simplified to allow only two variants
- *     (<code>DEFAULT</code> without border and <code>OUTLINED</code> with border)
+ *     The button only allow two variants (<code>DEFAULT</code> without border and <code>OUTLINED</code> with border)
  *     and two themes (<code>PRIMARY</code> blue and <code>SECONDARY</code> grey).
  *   </span>
  * </p>
  *
- * <p>
- *   <span class="b2-regular">
- *     🏅 Documentation on the <code>DsfrButton</code> can be found at
- *     <a href="https://vue-ds.fr/composants/DsfrButton" target="_blank" rel="noopener noreferrer">VueDSFR</a>
- *   </span>
- * </p>
- *
- * <h2 class="n2">📐 Structure</h2>
+ * <h2 class="n2">🏗️ Structure</h2>
  *
  * <p><span class="b2-regular">Buttons consist of :</span></p>
  *

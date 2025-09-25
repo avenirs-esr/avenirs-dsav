@@ -1,6 +1,6 @@
 # Tabs - `AvTab`
 
-## 🌟 Introduction
+## ✨ Introduction
 
 The `AvTab` is a declarative component used exclusively in the `default` slot of `AvTabs`.
 `AvTab` allows you to configure a tab by passing its props (such as `title` and `icon`) to the `AvTabs` component without rendering.
@@ -9,28 +9,28 @@ It acts as a proxy component: it exposes information (props) used by `AvTabs` to
 
 🚫 This component does not display anything by itself and should not be used outside `AvTabs`.
 
-## 📐 Structure
+## 🏗️ Structure
 
 None.
 
-## 🛠️ Props
+## 🏷️ Props
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
 | `title` | `string` | | ✅ | Title of tab displayed in tab bar. |
 | `icon` | `string` | `undefined` | | Tab icon. |
 
-## 📡 Events
+## 🔊 Events
 
 None.
 
-## 🧩 Slots
+## 🎨 Slots
 
 | Name | Description |
 | --- | --- |
 | `default` | Default slot for tab contents. |
 
-## 📝 Examples of use
+## 💡 Examples of use
 
 ```vue
 <template>

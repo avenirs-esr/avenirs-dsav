@@ -1,12 +1,12 @@
 # Inputs - `AvInput`
 
-## 🌟 Introduction
+## ✨ Introduction
 
-The `AvInput` component is a flexible and accessible input component that provides a standardized way to collect user input in forms and interfaces. It extends the Vue DSFR foundation with additional functionality, supporting various input types, validation states, and accessibility features to ensure a consistent user experience.
+The `AvInput` component is a flexible and accessible input component that provides a standardized way to collect user input in forms and interfaces. It supports various input types, validation states, and accessibility features to ensure a consistent user experience.
 
-Built on top of the `DsfrInput` component, it adds prefix icon support, enhanced validation messaging, and custom styling while maintaining full compatibility with the French government's design system standards.
+It adds prefix icon support, enhanced validation messaging, and custom styling while maintaining full compatibility with the French government's design system standards.
 
-## 📐 Structure
+## 🏗️ Structure
 
 The input component consists of the following elements:
 - **Wrapper**: Container that manages the overall layout and positioning
@@ -19,7 +19,7 @@ The input component consists of the following elements:
 
 The component integrates focus management, proper ARIA attributes, and responsive design patterns.
 
-## 🛠️ Props
+## 🏷️ Props
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
@@ -42,20 +42,20 @@ The component integrates focus management, proper ARIA attributes, and responsiv
 | `validMessage` | `string \| string[]` | `undefined` |  | Valid message(s) to display |
 | `prefixIcon` | `string` | `undefined` |  | Prefix icon name (optional) |
 
-## 📡 Events
+## 🔊 Events
 
 | Name | Data (*payload*) | Description |
 | --- | --- | --- |
 | `update:modelValue` | `string \| number \| null` | Emitted when the input value changes |
 
-## 🧩 Slots
+## 🎨 Slots
 
 | Name | Description | Slot Props |
 | --- | --- | --- |
 | `requiredTip` | Slot for custom required field indicator | None |
 | `customCaptions` | Slot for custom captions, such as character count or additional info | `currentValue: string \| number \| null`, `maxlength: number \| undefined` |
 
-## 📝 Examples of use
+## 💡 Examples of use
 
 ### Basic Input
 

@@ -1,12 +1,12 @@
 # Navigation - `AvSideNavigation`
 
-## 🌟 Introduction
+## ✨ Introduction
 
 The `AvSideNavigation` component is a comprehensive side navigation solution that combines the functionality of `AvSideMenu`, `AvList`, and `AvListItem` components. It provides an accessible and user-friendly way to display navigational options in a collapsible side menu format.
 
 This component is designed to offer a clean and consistent navigation experience, with support for collapsed states, custom icons, and keyboard navigation. It automatically handles the display of labels when expanded and shows only icons when collapsed.
 
-## 📐 Structure
+## 🏗️ Structure
 
 The side navigation consists of the following elements:
 - **Container**: The main `AvSideMenu` wrapper that handles the collapsible behavior
@@ -19,7 +19,7 @@ The component integrates:
 - Selection state management
 - Keyboard navigation support
 
-## 🛠️ Props
+## 🏷️ Props
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
@@ -36,7 +36,7 @@ interface AvSideNavigationItem {
 }
 ```
 
-## 📡 Events
+## 🔊 Events
 
 The component uses `defineModel` for two-way binding:
 
@@ -45,11 +45,11 @@ The component uses `defineModel` for two-way binding:
 | `selectedItem` | `string` | Currently selected navigation item ID |
 | `isSideMenuCollapsed` | `boolean` | Whether the side menu is in collapsed state |
 
-## 🧩 Slots
+## 🎨 Slots
 
 None.
 
-## 📝 Examples of use
+## 💡 Examples of use
 
 ### Basic Usage
 

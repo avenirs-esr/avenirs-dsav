@@ -1,23 +1,21 @@
 # Buttons - `AvButton`
 
-## 🌟 Introduction
+## ✨ Introduction
 
-The `AvButton` is a component implementing the VueDSFR `DsfrButton`. The button is an interaction element with an interface enabling the user to perform an action.
+The `AvButton` is an interaction element with an interface enabling the user to perform an action.
 
-The `AvButton` is an elegant, reusable Vue component designed to simplify the creation of custom buttons. It features adjustable sizes, an optional icon and a click manager, all in keeping with the `DSFR` style. It's easy to use, with the flexibility to adapt to different contexts.
+The `AvButton` is an elegant, reusable Vue component designed to simplify the creation of custom buttons. It features adjustable sizes, an optional icon and a click manager. It's easy to use, with the flexibility to adapt to different contexts.
 
-For `AVENIR(s) ESR`, the button has been simplified to allow only three variants (`DEFAULT` without border, `OUTLINED` with border and `FLAT` with filled background and border) and two themes (`PRIMARY` blue and `SECONDARY` grey).
+The button only allow three variants (`DEFAULT` without border, `OUTLINED` with border and `FLAT` with filled background and border) and two themes (`PRIMARY` blue and `SECONDARY` grey).
 
-🏅 Documentation on the `DsfrButton` can be found at [VueDSFR](https://vue-ds.fr/composants/DsfrButton)
-
-## 📐 Structure
+## 🏗️ Structure
 
 Buttons consist of :
 
 - A label - mandatory, using the `label` prop, enables label display when `iconOnly` is `false`, also enables connection to `title` and `aria-label` ;
 - An icon, which can be modified (see available icons) - optional.
 
-## 🛠️ Props
+## 🏷️ Props
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
@@ -34,15 +32,15 @@ Buttons consist of :
 | `icon` | `string \| InstanceType<typeof VIcon>['$props']` | `undefined` | | Icon to be displayed in button. Can be a name or icon configuration. |
 | `onClick` | `($event: MouseEvent) => void` | `undefined` | | Function called when button is clicked.
 
-## 📡 Events
+## 🔊 Events
 
 None.
 
-## 🧩 Slots
+## 🎨 Slots
 
 None.
 
-## 📝 Examples of use
+## 💡 Examples of use
 
 ```vue
 <template>

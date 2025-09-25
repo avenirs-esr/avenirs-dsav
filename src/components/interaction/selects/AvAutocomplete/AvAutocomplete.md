@@ -1,6 +1,6 @@
 # Selects - `AvAutocomplete`
 
-## 🌟 Introduction
+## ✨ Introduction
 
 The `AvAutocomplete` component is a comprehensive autocomplete/select component that provides search-as-you-type functionality with support for both single and multi-selection modes. It combines an input field with a dropdown containing filterable options, offering a seamless user experience for selecting from large datasets.
 
@@ -8,7 +8,7 @@ This component is designed with accessibility in mind, featuring keyboard naviga
 
 The component follows a modular architecture with separate input, dropdown, and selected items sections, allowing for extensive customization through slots and props.
 
-## 📐 Structure
+## 🏗️ Structure
 
 The autocomplete consists of the following elements:
 - **Input field**: Text input with search functionality and customizable options
@@ -23,7 +23,7 @@ The component integrates:
 - Infinite scroll for large datasets
 - Loading states and empty state handling
 
-## 🛠️ Props
+## 🏷️ Props
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
@@ -48,7 +48,7 @@ The component integrates:
 | `loadMoreThrottleDelay` | `number` | `200` | | Throttle delay for scroll-to-bottom load more (in milliseconds). |
 | `serverSideFiltering` | `boolean` | `false` | | Whether filtering is handled server-side. When true, client-side filtering is bypassed. |
 
-## 📡 Events
+## 🔊 Events
 
 | Event | Parameters | Description |
 | --- | --- | --- |
@@ -56,7 +56,7 @@ The component integrates:
 | `loadMore` | | Emitted when more options should be loaded (infinite scroll). |
 | `clear` | | Emitted when the selection is cleared. |
 
-## 🧩 Slots
+## 🎨 Slots
 
 | Name           | Description                                                                                                                                                         |
 |----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -65,7 +65,7 @@ The component integrates:
 | `selectedItem` | Slot for customizing how selected items are displayed as tags. Provides `option` (T) and `remove` (function) props.                                                 |
 | `empty`        | Slot for customizing the empty state when no options match the search.                                                                                              |
 
-## 📝 Examples of use
+## 💡 Examples of use
 
 ### Basic Usage
 ```vue

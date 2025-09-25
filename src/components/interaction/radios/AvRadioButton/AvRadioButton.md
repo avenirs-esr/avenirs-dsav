@@ -1,6 +1,6 @@
 # Radio buttons - `AvRadioButton`
 
-## 🌟 Introduction
+## ✨ Introduction
 
 The `AvRadioButton` is a declarative component used exclusively in the `default` slot of `AvRadioButtonSet`.
 `AvRadioButton` allows you to configure a radio button by passing its props (such as `value`, `label`, `description` and `disabled`) to the `AvRadioButtonSet` component without rendering.
@@ -9,11 +9,11 @@ It acts as a proxy component: it exposes information (props) used by `AvRadioBut
 
 🚫 This component does not display anything by itself and should not be used outside `AvRadioButtonSet`.
 
-## 📐 Structure
+## 🏗️ Structure
 
 None.
 
-## 🛠️ Props
+## 🏷️ Props
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
@@ -22,17 +22,17 @@ None.
 | `description` | `string` | `''` | | Optional description shown under the radio label, providing more context. |
 | `disabled` | `boolean` | `false` | | If true, disables this radio button. |
 
-## 📡 Events
+## 🔊 Events
 
 None.
 
-## 🧩 Slots
+## 🎨 Slots
 
 | Name | Description |
 | --- | --- |
 | `default` | Default slot for radio content. |
 
-## 📝 Examples of use
+## 💡 Examples of use
 
 ```vue
 <template>

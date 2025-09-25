@@ -1,6 +1,6 @@
 # Popovers - `AvPopover`
 
-## 🌟 Introduction
+## ✨ Introduction
 
 The popover is a contextual container that is displayed as an overlay near its trigger element. This component can be used to display additional content or interactions, without leaving the current page or completely obscuring its context.
 
@@ -8,7 +8,7 @@ The `AvPopover` component is designed to offer accessible, ergonomic content, by
 
 It uses a dynamic positioning system to display itself in the right place in relation to its trigger, while guaranteeing good keyboard control and a good user experience.
 
-## 📐 Structure
+## 🏗️ Structure
 
 The popover consists of the following elements:
 - The trigger (slot `trigger`), mandatory: Interactive element (for example, a button) that opens or closes the popover.
@@ -18,25 +18,25 @@ The popover integrates :
 - Focus trap for keyboard accessibility.
 - Close by pressing the Escape key or clicking outside the popover.
 
-## 🛠️ Props
+## 🏷️ Props
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
 | `width` | `string` | `'12.5rem'` | | Width of popover. |
 | `padding` | `string` | `'var(--spacing-md)'` | | Internal padding of popover. |
 
-## 📡 Events
+## 🔊 Events
 
 None.
 
-## 🧩 Slots
+## 🎨 Slots
 
 | Name | Description |
 | --- | --- |
 | `trigger` | Slot for popover trigger. Provides `toggle` prop (function to open/close popover). |
 | `popover` | Slot for popover content. Provides `close` prop (function to close popover). |
 
-## 📝 Examples of use
+## 💡 Examples of use
 
 ```vue
 <template>

@@ -1,8 +1,8 @@
 # Alerts - `AvAlert`
 
-## 🌟 Introduction
+## ✨ Introduction
 
-The `AvAlert` component is an adaptation of the `DsfrAlert` code. It is intended for use in the `AvToaster` component.
+The `AvAlert` component is intended for use in the `AvToaster` component.
 
 Alerts draw the user attention to information without interrupting their current task.
 
@@ -11,9 +11,7 @@ The alert is available in two sizes:
 - medium size (MD, by default, if the `small` prop is absent or set to `false`) and
 - small size (SM) if the `small` prop is set to `true`.
 
-🏅 The documentation for `DsfrAlert` can be found at [VueDSFR](https://vue-ds.fr/composants/DsfrAlert)
-
-## 📐 Structure
+## 🏗️ Structure
 
 The alert consists of the following elements:
 - a title (prop `title`, of type `string`):
@@ -35,7 +33,7 @@ Other props:
 - `titleTag` specifies the tag to use for the `title`: this is `h3` by default, however, to pass RGAA tests, the heading levels must be consecutive and consistent (for example, if there is no `<h2>` on the page, you must pass `'h2'` as the value to the `titleTag` prop so that the modal title is `<h2>`).
 - `closeButtonLabel` specifies the label and aria-label of the alert close button. By default, the value is `Close`.
 
-## 🛠️ Props
+## 🏷️ Props
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
@@ -50,13 +48,13 @@ Other props:
 | `closeButtonLabel` | `string` | `'Close'` | | The label and aria-label of the alert close button. |
 | `alert` | `boolean` | `false` | | Indicates whether the alert should have the `alert` role (`true`) or not (`false`). |
 
-## 📡 Events
+## 🔊 Events
 
 | Name | Data (*payload*) | Description |
 | --- | --- | --- |
 | `'close'` | | Event triggered when the alert is closed. |
 
-## 🧩 Slots
+## 🎨 Slots
 
 | Name | Description |
 | --- | --- |
