@@ -25,6 +25,10 @@ export interface AvSideNavigationProps {
    * Width of the side menu when collapsed.
    */
   collapsedWidth?: string
+  /**
+   * Color of selected item background and icon.
+   */
+  selectedItemColor?: string
 }
 
 withDefaults(defineProps<AvSideNavigationProps>(), {
@@ -64,6 +68,7 @@ function handleSelectItem (itemId: string) {
   <AvSideMenu
     v-model:collapsed="isSideMenuCollapsed"
     :collapsed-width="collapsedWidth"
+    :color="selectedItemColor"
   >
     <AvList
       size="small"
@@ -76,6 +81,8 @@ function handleSelectItem (itemId: string) {
         :icon="item.icon"
         :icon-size="1.8"
         :selected="selectedItem === item.id"
+        :hover-background-color="selectedItemColor"
+        :color-on-hover="selectedItemColor"
         tag="button"
         role="menuitem"
         class="av-side-navigation__menu-item"
