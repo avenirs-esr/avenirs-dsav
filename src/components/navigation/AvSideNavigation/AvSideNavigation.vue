@@ -82,7 +82,6 @@ function handleSelectItem (itemId: string) {
         :icon-size="1.8"
         :selected="selectedItem === item.id"
         :hover-background-color="selectedItemColor"
-        :color-on-hover="selectedItemColor"
         tag="button"
         role="menuitem"
         class="av-side-navigation__menu-item"

@@ -183,3 +183,31 @@ export const CustomWidth: Story = {
     collapsedWidth: '5rem'
   }
 }
+
+export const CustomColor: Story = {
+  render: args => ({
+    components: { AvSideNavigation },
+    setup () {
+      const selectedItem = ref('activities')
+      const isSideMenuCollapsed = ref(false)
+      return { args, selectedItem, isSideMenuCollapsed }
+    },
+    template: `
+      <div style="height: 400px; display: flex;">
+        <AvSideNavigation 
+          v-bind="args"
+          v-model:selected-item="selectedItem"
+          v-model:is-side-menu-collapsed="isSideMenuCollapsed"
+        />
+        <div style="flex: 1; padding: 1rem; background: #f5f5f5;">
+          <p><strong>Selected item:</strong> {{ selectedItem }}</p>
+          <p><strong>Menu collapsed:</strong> {{ isSideMenuCollapsed }}</p>
+          <p>This story demonstrates custom colors using CSS variables.</p>
+        </div>
+      </div>
+    `
+  }),
+  args: {
+    selectedItemColor: '#4caf50'
+  }
+}
