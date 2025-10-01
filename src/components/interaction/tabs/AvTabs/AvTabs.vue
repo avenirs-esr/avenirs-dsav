@@ -126,6 +126,10 @@ defineExpose({ activeTab })
   box-shadow: none !important;
 }
 
+:deep(.fr-tabs__panel) {
+  padding: var(--spacing-sm) var(--spacing-none) !important;
+}
+
 :deep(.fr-tabs__list) {
   display: flex !important;
   width: 100% !important;
