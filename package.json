@@ -1,7 +1,7 @@
 {
   "name": "@avenirs-esr/avenirs-dsav",
   "type": "module",
-  "version": "0.1.25",
+  "version": "0.1.26",
   "main": "dist/avenirs-dsav.umd.js",
   "module": "dist/avenirs-dsav.es.js",
   "types": "dist/index.d.ts",
