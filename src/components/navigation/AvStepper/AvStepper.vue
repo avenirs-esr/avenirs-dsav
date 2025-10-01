@@ -18,51 +18,58 @@ const { steps, currentStep } = defineProps<AvStepperProps>()
 </script>
 
 <template>
-  <div class="main-container">
-    <div
-      class="step step--active"
-      :aria-current="currentStep === 0 ? 'step' : undefined"
-    >
-      <span class="b1-regular">1</span>
-    </div>
-    <div
-      v-for="(_step, index) in steps.slice(1, steps.length)"
-      :key="index"
-      class="steps-container"
-    >
+  <div class="block-container">
+    <div class="main-container">
       <div
-        class="separator"
-        :class="{ 'separator--active': index + 1 <= currentStep }"
-      />
-      <div
-        class="step"
-        :class="{ 'step--active': index + 1 <= currentStep }"
-        :aria-current="index + 1 === currentStep ? 'step' : undefined"
+        class="step step--active"
+        :aria-current="currentStep === 0 ? 'step' : undefined"
       >
-        <span class="b1-regular">{{ index + 2 }}</span>
+        <span class="b1-regular">1</span>
+      </div>
+      <div
+        v-for="(_step, index) in steps.slice(1, steps.length)"
+        :key="index"
+        class="steps-container"
+      >
+        <div
+          class="separator"
+          :class="{ 'separator--active': index + 1 <= currentStep }"
+        />
+        <div
+          class="step"
+          :class="{ 'step--active': index + 1 <= currentStep }"
+          :aria-current="index + 1 === currentStep ? 'step' : undefined"
+        >
+          <span class="b1-regular">{{ index + 2 }}</span>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="main-labels-container">
-    <div
-      v-for="(step, index) in steps"
-      :key="index"
-      class="label-container"
-    >
-      <span
-        class="label"
-        :class="{ 'b1-bold': index <= currentStep,
-                  'b1-light': index > currentStep,
-        }"
+    <div class="main-labels-container">
+      <div
+        v-for="(step, index) in steps"
+        :key="index"
+        class="label-container"
       >
-        {{ step }}
-      </span>
+        <span
+          class="label"
+          :class="{ 'b1-bold': index <= currentStep,
+                    'b1-light': index > currentStep,
+          }"
+        >
+          {{ step }}
+        </span>
+      </div>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
+.block-container {
+  display: block;
+  width: 100%;
+}
+
 .main-container, .steps-container {
   display: flex;
   flex-direction: row;
