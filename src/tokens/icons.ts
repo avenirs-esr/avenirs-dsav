@@ -48,6 +48,7 @@ export const MDI_ICONS = {
   PAGE_FIRST: 'mdi:page-first',
   PAGE_LAST: 'mdi:page-last',
   PENCIL_OUTLINE: 'mdi:pencil-outline',
+  PEOPLE_GROUP_OUTLINE: 'mdi:people-group-outline',
   PLUS_CIRCLE_OUTLINE: 'mdi:plus-circle-outline',
   POST_IT_NOTES_OUTLINE: 'mdi:post-it-notes-outline',
   SCHOOL_OUTLINE: 'mdi:school-outline',
