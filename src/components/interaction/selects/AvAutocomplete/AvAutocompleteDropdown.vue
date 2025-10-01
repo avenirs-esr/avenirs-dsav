@@ -27,8 +27,8 @@ const {
   getDisplayLabel
 } = useAutocompleteContext<T>()
 
-const dropdownRef = useTemplateRef<HTMLElement>('dropdownRef')
-const listRef = useTemplateRef<HTMLElement>('listRef')
+const dropdownRef = ref<HTMLElement>()
+const listRef = ref<HTMLElement>()
 const filteredOptions = computed(() => {
   if (!props.options) {
     return []

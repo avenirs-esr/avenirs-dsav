@@ -71,9 +71,9 @@ const selectedItems = defineModel<T[]>({ default: () => [] })
 
 const isOpen = ref(false)
 const searchQuery = ref('')
-const wrapperRef = useTemplateRef<HTMLElement>('wrapperRef')
-const inputRef = useTemplateRef<{ inputRef?: HTMLElement, dropdownRef?: HTMLElement }>('inputRef')
-const dropdownRef = useTemplateRef<{ dropdownRef?: HTMLElement }>('dropdownRef')
+const wrapperRef = ref<HTMLElement>()
+const inputRef = ref<{ inputRef?: HTMLElement, dropdownRef?: HTMLElement }>()
+const dropdownRef = ref<{ dropdownRef?: HTMLElement }>()
 
 const inputId = computed(() => props.id || `av-autocomplete-${crypto.randomUUID()}`)
 function handleSearch (query: string) {
