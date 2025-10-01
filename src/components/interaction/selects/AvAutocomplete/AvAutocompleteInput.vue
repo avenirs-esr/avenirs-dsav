@@ -26,7 +26,7 @@ const {
   getDisplayLabel
 } = useAutocompleteContext<T>()
 
-const inputRef = useTemplateRef<InstanceType<typeof AvInput>>('inputRef')
+const inputRef = ref<InstanceType<typeof AvInput>>()
 
 const displayValue = computed(() => {
   if (!props.multiSelect && selectedItems.value.length > 0) {
