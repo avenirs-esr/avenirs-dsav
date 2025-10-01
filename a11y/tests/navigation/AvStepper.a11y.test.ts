@@ -4,6 +4,7 @@ const component = 'AvStepper'
 const title = 'Components/Navigation/AvStepper'
 const stories = [
   'Default',
+  'CustomWidth',
   'WithAllStepsActive',
   'WithStepTwoActive',
   'WithTwoSteps',
