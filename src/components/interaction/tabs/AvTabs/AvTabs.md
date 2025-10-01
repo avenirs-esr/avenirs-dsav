@@ -22,6 +22,7 @@ If the number of tabs exceeds the width of the container, a horizontal scroll al
 | --- | --- | --- | --- | --- |
 | `ariaLabel` | `string` | `undefined` | | Aria label of tab list. |
 | `modelValue` | `number` | | ✅ | Index of selected tab at loading (starts at 0). |
+| `compact` | `string` | `undefined` | | Allows compact display: underline without central pipe. |
 
 ## 🔊 Events
 

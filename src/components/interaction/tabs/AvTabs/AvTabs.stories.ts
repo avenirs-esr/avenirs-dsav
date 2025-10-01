@@ -51,9 +51,11 @@ const meta: Meta<AvTabsProps> = {
       type: { name: 'number', required: true },
       control: 'number',
     },
+    compact: { control: 'boolean' },
   },
   args: {
     ariaLabel: 'Tabs switcher',
+    compact: false,
   },
 }
 
@@ -65,7 +67,7 @@ const Template: StoryFn<AvTabsProps> = args => ({
     return { args }
   },
   template: `
-    <AvTabs v-model="activeTab">
+    <AvTabs v-bind="args" v-model="activeTab">
       <AvTab
         title="Tab 1"
         icon="mdi:format-list-bulleted"
@@ -89,6 +91,33 @@ Default.parameters = {
     source: {
       code: `
         <AvTabs v-model="activeTab">
+          <AvTab
+            title="Tab 1"
+            icon="mdi:format-list-bulleted"
+          >
+            <span>First tab content</span>
+          </AvTab>
+          <AvTab
+            title="Tab 2"
+            icon="mdi:calendar-month-outline"
+          >
+            <span>Second tab content</span>
+          </AvTab>
+        </AvTabs>
+      `
+    }
+  }
+}
+
+export const Compact = Template.bind({})
+Compact.args = {
+  compact: true,
+}
+Compact.parameters = {
+  docs: {
+    source: {
+      code: `
+        <AvTabs compact v-model="activeTab">
           <AvTab
             title="Tab 1"
             icon="mdi:format-list-bulleted"

@@ -31,6 +31,26 @@ BddTest().given('a tab switcher ', () => {
         const tabs = wrapper.findAll('.fr-tabs__tab')
         expect(tabs.length).toBe(3)
       })
+
+      BddTest().then('it should not render compact elements', () => {
+        const compacts = wrapper.findAll('.compact')
+        expect(compacts.length).toBe(0)
+      })
+
+      BddTest().and('the compact prop is passed', () => {
+        beforeEach(() => {
+          wrapper = mount(AvTabs, {
+            props: { ...props, compact: true },
+            slots,
+            global: { stubs }
+          })
+        })
+
+        BddTest().then('it should render compact elements', () => {
+          const compacts = wrapper.findAll('.compact')
+          expect(compacts.length).toBeGreaterThan(0)
+        })
+      })
     })
 
     BddTest().when('selecting the next tab', () => {
