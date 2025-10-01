@@ -1,1 +1,1 @@
-export { default as AvFileUpload } from './AvFileUpload/AvFileUpload.vue'
+export { default as AvFileUpload, type AvFileUploadProps } from './AvFileUpload/AvFileUpload.vue'
