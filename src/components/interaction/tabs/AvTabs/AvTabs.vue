@@ -17,9 +17,16 @@ export interface AvTabsProps {
    * Index starts at 0.
    */
   modelValue: number
+
+  /**
+   * Allows compact display:
+   * Underline without central pipe.
+   * @default 'false'
+   */
+  compact?: boolean
 }
 
-const { ariaLabel, modelValue } = defineProps<AvTabsProps>()
+const { ariaLabel, modelValue, compact = false } = defineProps<AvTabsProps>()
 
 /**
  * Events emitted by the component.
@@ -85,6 +92,7 @@ defineExpose({ activeTab })
 <template>
   <DsfrTabs
     v-model="activeTab"
+    :class="{ compact }"
     :tab-list-name="ariaLabel ?? 'Liste d’onglets'"
     :tab-titles="[]"
   >
@@ -92,6 +100,7 @@ defineExpose({ activeTab })
       <DsfrTabItem
         v-for="(tab, index) in tabItems"
         :key="index"
+        :class="{ compact }"
         :tab-id="`tab-${index}`"
         :panel-id="`panel-${index}`"
         :icon="tab.props?.icon"
@@ -180,5 +189,26 @@ defineExpose({ activeTab })
   bottom: var(--spacing-xs);
   width: 0.0625rem;
   background-color: var(--text1);
+}
+
+.compact {
+  :deep(.fr-tabs__list) {
+    width: fit-content !important;
+    background: none !important;
+  }
+
+  :deep(.fr-tabs__tab) {
+    border-radius: var(--radius-none) !important;
+    margin: var(--spacing-none) !important;
+    padding: var(--spacing-xs) var(--spacing-2xl) !important;
+  }
+
+  :deep(.fr-tabs__tab[aria-selected=true]:not(:disabled)) {
+    border-bottom: 3px solid var(--dark-background-primary1) !important;
+  }
+
+  :deep(.fr-tabs__list > li:not(:first-child))::before {
+    display: none !important;
+  }
 }
 </style>
