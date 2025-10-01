@@ -108,7 +108,7 @@ export default defineConfig({
               text: 'Tabs',
               items: [
                 { text: 'AvTab', link: '/components/interaction/tabs/AvTab/AvTab.md' },
-                { text: 'Avtabs', link: '/components/interaction/tabs/Avtabs/Avtabs.md' },
+                { text: 'AvTabs', link: '/components/interaction/tabs/AvTabs/AvTabs.md' },
               ]
             },
             {
