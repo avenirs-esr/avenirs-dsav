@@ -1,4 +1,4 @@
-name: Publish to npm
+name: Autodeploy to npm (no need to run it)
 
 on:
   push:
