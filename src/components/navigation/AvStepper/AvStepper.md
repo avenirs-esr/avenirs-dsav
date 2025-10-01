@@ -17,6 +17,7 @@ The stepper displays:
 | --- | --- | --- | --- | --- |
 | `steps` | `string[]` | | ✅ | List of steps to display in the stepper |
 | `currentStep` | `number` | | ✅ | Index of the current step (starts at 0) |
+| `width` | `string` | `'100%'` | | Width of the stepper |
 
 ## 🔊 Events
 

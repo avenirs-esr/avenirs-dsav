@@ -31,6 +31,7 @@ const meta: Meta<typeof AvStepper> = {
     currentStep: {
       control: { type: 'number', required: true }
     },
+    width: { control: 'text' }
   },
   args: {
     steps: ['Step 1: Init', 'Step 2: Develop a feature', 'Step 3: Deploy'],
@@ -50,6 +51,11 @@ const Template: StoryFn<AvStepperProps> = args => ({
 
 export const Default = Template.bind({})
 Default.args = {}
+
+export const CustomWidth = Template.bind({})
+CustomWidth.args = {
+  width: '40rem'
+}
 
 export const WithStepTwoActive = Template.bind({})
 WithStepTwoActive.args = {
