@@ -250,7 +250,7 @@ const selectedClass = computed(() => selected ? 'av-list-item--selected' : '')
   .av-list-item__description,
 
   .av-list-item__icon :deep(svg) {
-    color: v-bind('colorOnHover');
+    color: v-bind('colorOnHover') !important;
   }
 }
 
