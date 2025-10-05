@@ -16,9 +16,10 @@ The `AvFileUpload` allows you to upload files by clicking on the file upload are
 | `modelValue` | `File \| null` | `''` | | Value linked to file upload input template. |
 | `maxWidth` | `string` | `'none'` | | Max width of the component. |
 | `fileName` | `string` | `'none'` | | Name of actual file. |
-| `title` | `string` | `''` | | Title of the file upload section. |
-| `description` | `string` | `''` | | Description of the file upload section. |
-| `deleteButtonLabel` | `string` | `''` | | delete button label. |
+| `title` | `string` | | ✅ | Title of the file upload section. |
+| `description` | `string` | | ✅ | Description of the file upload section. |
+| `deleteButtonLabel` | `string` | `Remove` | | Delete button label. Hidden when component is disabled. |
+| `disabled` | `boolean` | `false` | | Whether the file upload input is disabled. |
 | `onDeleteFile` | `Function` | `'none'` | | Method executed on delete file button click.|
 | `enableMultiple` | `boolean` | `'none'` | | Whether the file upload input enable multiple file selection or not. |
 

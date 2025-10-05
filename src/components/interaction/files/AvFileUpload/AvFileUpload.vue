@@ -83,7 +83,7 @@ export interface AvFileUploadProps {
    * delete button label
    *
    */
-  deleteButtonLabel: string
+  deleteButtonLabel?: string
 
   /**
    * Name of actual file.
@@ -111,17 +111,22 @@ defineOptions({
   inheritAttrs: false,
 })
 
-const props = withDefaults(defineProps<AvFileUploadProps>(), {
-  id: () => useRandomId('file-upload'),
-  ariaLabel: '',
-  accept: undefined,
-  validMessage: '',
-  error: '',
-  modelValue: null,
-  maxWidth: 'none',
-  disabled: false,
-  enableMultiple: false,
-})
+const {
+  id = useRandomId('file-upload'),
+  ariaLabel = '',
+  accept = undefined,
+  validMessage = '',
+  error = '',
+  modelValue = null,
+  maxWidth = 'none',
+  disabled = false,
+  enableMultiple = false,
+  deleteButtonLabel = 'Remove',
+  title,
+  description,
+  fileName,
+  onDeleteFile,
+} = defineProps<AvFileUploadProps>()
 
 const emit = defineEmits<{
   /**
@@ -172,21 +177,21 @@ defineSlots<{
 }>()
 
 const acceptTypes = computed(() => {
-  if (Array.isArray(props.accept)) {
-    return props.accept.join(',')
+  if (Array.isArray(accept)) {
+    return accept.join(',')
   }
-  return props.accept
+  return accept
 })
 
 const isDragging = ref(false)
 
 function isFileAccepted (file: File): boolean {
-  const accept = acceptTypes.value
-  if (!accept) {
+  const acceptValue = acceptTypes.value
+  if (!acceptValue) {
     return true
   }
 
-  const acceptedTypes = accept.split(',').map(type => type.trim().toLowerCase())
+  const acceptedTypes = acceptValue.split(',').map(type => type.trim().toLowerCase())
 
   return acceptedTypes.some((type) => {
     if (type.startsWith('.')) {
@@ -203,7 +208,7 @@ async function onDrop (event: DragEvent) {
   event.preventDefault()
   isDragging.value = false
 
-  if (props.disabled || !event.dataTransfer?.files?.length) {
+  if (disabled || !event.dataTransfer?.files?.length) {
     return
   }
 
@@ -221,7 +226,7 @@ async function onDrop (event: DragEvent) {
 
 function onDragOver (event: DragEvent) {
   event.preventDefault()
-  if (!props.disabled) {
+  if (!disabled) {
     isDragging.value = true
   }
 }
@@ -236,24 +241,24 @@ function onChange ($event: InputEvent) {
   emit('update:modelValue', files?.[0] ?? null)
 }
 
-const isPreview = computed(() => props.fileName || (props.modelValue && !props.enableMultiple))
+const isPreview = computed(() => fileName || (modelValue && !enableMultiple))
 
 const uploadLabelAttrs = computed(() => {
   return {
     'for':
-    props.id,
+    id,
     'class':
     [
       'fr-upload-group',
       {
-        'fr-upload-group--error': props.error,
-        'fr-upload-group--valid': props.validMessage,
-        'fr-upload-group--disabled': props.disabled,
+        'fr-upload-group--error': error,
+        'fr-upload-group--valid': validMessage,
+        'fr-upload-group--disabled': disabled,
         'drag-over': isDragging.value,
       },
     ],
     'aria-label':
-    props.ariaLabel,
+    ariaLabel,
     'onDragover':
     onDragOver,
     'onDragleave':
@@ -263,15 +268,15 @@ const uploadLabelAttrs = computed(() => {
   }
 })
 
-function onClear (modelValue: File | null) {
-  if (modelValue) {
+function onClear (value: File | null) {
+  if (value) {
     emit('update:modelValue', null)
     emit('update:validMessage', null)
     emit('update:error', null)
     emit('change', [] as unknown as FileList)
   }
   else {
-    props.onDeleteFile?.()
+    onDeleteFile?.()
   }
 }
 </script>
@@ -311,7 +316,10 @@ function onClear (modelValue: File | null) {
           />
         </div>
 
-        <div class="right-icon-container">
+        <div
+          v-if="!disabled"
+          class="right-icon-container"
+        >
           <AvButton
             v-if="isPreview"
             :label="deleteButtonLabel"
