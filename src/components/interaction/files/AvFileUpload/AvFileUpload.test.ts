@@ -363,6 +363,24 @@ BddTest().given('a file uploader', () => {
         })
       })
 
+      BddTest().and('modelValue is set and component is disabled', () => {
+        let file: File
+
+        beforeEach(() => {
+          file = new File(['content'], 'file.txt')
+          wrapper = mountComponent({ modelValue: file, enableMultiple: false, disabled: true })
+        })
+
+        BddTest().then('it should render file info template', () => {
+          expect(wrapper.html()).toContain('file.txt')
+        })
+
+        BddTest().then('it should not render the delete button', () => {
+          const deleteBtn = wrapper.find('.av-button')
+          expect(deleteBtn.exists()).toBe(false)
+        })
+      })
+
       BddTest().and('neither fileName nor modelValue is set', () => {
         beforeEach(() => {
           wrapper = mountComponent({ modelValue: null, fileName: undefined, enableMultiple: false })

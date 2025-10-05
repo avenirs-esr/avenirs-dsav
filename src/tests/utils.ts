@@ -1,4 +1,4 @@
-import { type ComponentMountingOptions, mount, RouterLinkStub } from '@vue/test-utils'
+import { type ComponentMountingOptions, mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { describe, it } from 'vitest'
 import { type Component, createApp } from 'vue'
 
@@ -53,9 +53,9 @@ function mountComposable<T> (fn: () => T): { result: T, unmount: () => void } {
  * @template T
  * @param {Component} component - Vue component to mount.
  * @param {ComponentMountingOptions<T>} [options] - Additional options for mounting the component.
- * @returns {Promise<ReturnType<typeof mount>>} The mounted component wrapper, after the next tick.
+ * @returns {Promise<VueWrapper<InstanceType<any>>>} the function  return any as type because ts type is too complicated.
  */
-async function mountWithRouter<T> (component: Component, options?: ComponentMountingOptions<T>) {
+async function mountWithRouter<T> (component: Component, options?: ComponentMountingOptions<T>): Promise<VueWrapper<InstanceType<any>>> {
   const wrapper = mount(component, {
     ...options,
     global: {
