@@ -102,6 +102,7 @@ export default defineConfig({
               text: 'Selects',
               items: [
                 { text: 'AvAutocomplete', link: '/components/interaction/selects/AvAutocomplete/AvAutocomplete.md' },
+                { text: 'AvMultiselect', link: '/components/interaction/selects/AvMultiselect/AvMultiselect.md' },
                 { text: 'AvSelect', link: '/components/interaction/selects/AvSelect/AvSelect.md' },
               ]
             },
