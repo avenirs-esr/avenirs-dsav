@@ -102,6 +102,8 @@ const title = computed(() => {
 </template>
 
 <style lang="scss" scoped>
+@use "@/styles/typography.scss" as typography;
+
 :deep(.fr-select) {
   background-color: var(--other-background-base);
   border: 1px solid var(--stroke);
@@ -128,5 +130,9 @@ const title = computed(() => {
 :deep(.fr-select:hover) option {
   color: var(--text1);
   background-color: var(--other-background-base);
+}
+
+:deep(.fr-label) {
+  @extend .b2-light;
 }
 </style>

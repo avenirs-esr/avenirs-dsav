@@ -9,7 +9,8 @@ export default defineConfig({
     logo: '/avenirs-esr-logo.png',
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Components', link: '/components/' }
+      { text: 'Components', link: '/components/' },
+      { text: 'Tokens', link: '/tokens/' }
     ],
     sidebar: {
       '/components/': [
@@ -155,7 +156,8 @@ export default defineConfig({
       ],
       '/': [
         { text: 'Home', link: '/' },
-        { text: 'Components', link: '/components/' }
+        { text: 'Components', link: '/components/' },
+        { text: 'Tokens', link: '/tokens/' }
       ]
     }
   },
