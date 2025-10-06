@@ -1,0 +1,70 @@
+# Enhanced drop-down list - `AvMultiselect`
+
+## ✨ Introduction
+
+The `AvMultiselect` is a Vue component enabling a user to select one or many items from a given list.
+
+The drop-down list provides a list of options for the user to choose from. The user can filter this list and use a button to select/deselect all visible items.
+
+## 🏗️ Structure
+
+The `AvMultiselect` consists of:
+- a label - Mandatory (prop `label`)
+- a description - Optional (prop `hint` or slot `hint`)
+- a list, composed of a set of selectable options - Mandatory (prop `options`)
+
+Inside the list:
+- a "select all" or "deselect all" button - Optional (props `selectAll` and `selectAllLabel`)
+- an input field - Optional
+- a form section (fieldset) containing:
+  - a legend - Optional (which can be hidden from the screen - prop `legend` or slot `legend`)
+  - a description of the group - Optional (which can be hidden from the screen)
+  - a list of options - Mandatory (prop `options`)
+
+## 🏷️ Props
+
+| Name | Type | Default | Mandatory | Description |
+| --- | --- | --- | --- | --- |
+| `modelValue` | `(string \| number)[]` | | ✅ | Selected option(s) value(s). |
+| `disabled` | `boolean` | `false` | | Indicated if the select is disabled.|
+| `options` | `{ value: string \| undefined, text: string})[]` | `[]` | | Selectable options. |
+| `label` | `string` | | ✅ | Select text label.|
+| `name` | `string` | | | Field name.|
+| `hint` | `string` | | | Hint for guidance.|
+| `successMessage` | `string` | `''` | | If set, display a success message. |
+| `errorMessage` | `string` | `''` | | If set, display an error message.|
+| `defaultUnselectedText` | `string` | | ✅ | Placeholder text.|
+| `selectId` | `string` | `useRandomId('select')` | | Unique id for the select. Used for the accessibility. |
+| `dense` | `boolean` | | | Dense mode for reduced padding.|
+| `selectedText` | `string` | `'x option(s) sélectionné(s)'` | | Displayed text when options are selected.|
+| `selectAll` | `boolean` | `false` | | Displays the select all items button.|
+| `selectAllLabel` | `[string, string]` | `["Tout sélectionner", "Tout désélectionner"]` | | Update the select all items button label.|
+| `search` | `boolean` | `false` | | Displays the search bar.|
+
+## 🔊 Events
+
+| Name | Data (*payload*) | Description |
+| --- | --- | --- |
+| `'update:modelValue'` | `(string \| number)[]` | Emitted when an option is selected or unselected. |
+
+## 🎨 Slots
+
+None.
+
+## 💡 Examples of use
+
+```vue
+<template>
+  <AvMultiselect
+    v-model="select"
+    :options="[
+      { value: 1, text: 'Choice number 1' },
+      { value: 2, text: '2' },
+      { value: 3, text: '3' },
+      { value: 4, text: '4' },
+    ]"
+    default-unselected-text="Placeholder"
+    label="Select"
+  />
+</template>
+```

@@ -34,13 +34,13 @@ import AvButton, { type AvButtonProps } from '@/components/interaction/buttons/A
  * <ul>
  *   <li>
  *     <span class="b2-regular">
- *       A label – mandatory, using the <code>label</code> prop, enables label display when <code>iconOnly</code> is <code>false</code>,
+ *       A label - mandatory, using the <code>label</code> prop, enables label display when <code>iconOnly</code> is <code>false</code>,
  *       also enables connection to <code>title</code> and <code>aria-label</code>;
  *     </span>
  *   </li>
  *   <li>
  *     <span class="b2-regular">
- *       An icon, which can be modified (see available icons) – optional.
+ *       An icon, which can be modified (see available icons) - optional.
  *     </span>
  *   </li>
  * </ul>

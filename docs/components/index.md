@@ -47,6 +47,7 @@
 
 ### Selects
 - [AvAutocomplete](interaction/selects/AvAutocomplete/AvAutocomplete.md)
+- [AvSelect](interaction/selects/AvMultiselect/AvMultiselect.md)
 - [AvSelect](interaction/selects/AvSelect/AvSelect.md)
 
 ### Tabs
