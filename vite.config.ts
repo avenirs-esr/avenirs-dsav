@@ -56,12 +56,20 @@ export default defineConfig({
       fileName: format => `avenirs-dsav.${format}.js`
     },
     rollupOptions: {
-      external: ['vue', 'vue-router'],
+      external: [
+        'vue',
+        'vue-router',
+        '@gouvfr/dsfr',
+        '@gouvminint/vue-dsfr'
+      ],
       output: {
         exports: 'named',
         dir: 'dist',
         globals: {
-          vue: 'Vue',
+          'vue': 'Vue',
+          'vue-router': 'VueRouter',
+          '@gouvfr/dsfr': 'Dsfr',
+          '@gouvminint/vue-dsfr': 'VueDsfr',
         },
       },
     },

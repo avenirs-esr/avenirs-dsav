@@ -58,10 +58,10 @@ None.
   <AvMultiselect
     v-model="select"
     :options="[
-      { value: 1, text: 'Choice number 1' },
-      { value: 2, text: '2' },
-      { value: 3, text: '3' },
-      { value: 4, text: '4' },
+      { value: 1, label: 'Choice number 1' },
+      { value: 2, label: '2' },
+      { value: 3, label: '3' },
+      { value: 4, label: '4' },
     ]"
     default-unselected-text="Placeholder"
     label="Select"

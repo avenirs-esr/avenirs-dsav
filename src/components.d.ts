@@ -51,7 +51,6 @@ declare module 'vue' {
     DsfrButton: typeof import('@gouvminint/vue-dsfr')['DsfrButton']
     DsfrLanguageSelector: typeof import('@gouvminint/vue-dsfr')['DsfrLanguageSelector']
     DsfrModal: typeof import('@gouvminint/vue-dsfr')['DsfrModal']
-    DsfrMultiselect: typeof import('@gouvminint/vue-dsfr')['DsfrMultiselect']
     DsfrNavigation: typeof import('@gouvminint/vue-dsfr')['DsfrNavigation']
     DsfrSearchBar: typeof import('@gouvminint/vue-dsfr')['DsfrSearchBar']
     DsfrTabContent: typeof import('@gouvminint/vue-dsfr')['DsfrTabContent']
