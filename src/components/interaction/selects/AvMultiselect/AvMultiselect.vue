@@ -12,6 +12,11 @@ export interface AvMultiselectOption {
   label: string
 
   /**
+   * Name of the icon option
+   */
+  icon?: string
+
+  /**
    * Value of the option
    */
   value: string | number
@@ -173,7 +178,15 @@ function onUpdateModelValue (values: (string | number)[]) {
       <template #checkbox-label="{ option }">
         <div class="item-container">
           <AvVIcon
+            class="option-checkbox"
             :name="getIconName(option)"
+            :color="getIconColor(option)"
+            :size="1.5"
+          />
+          <AvVIcon
+            v-if="option.icon"
+            class="option-icon"
+            :name="option.icon"
             :color="getIconColor(option)"
             :size="1.5"
           />
