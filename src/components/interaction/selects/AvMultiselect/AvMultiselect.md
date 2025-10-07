@@ -11,7 +11,7 @@ The drop-down list provides a list of options for the user to choose from. The u
 The `AvMultiselect` consists of:
 - a label - Mandatory (prop `label`)
 - a description - Optional (prop `hint` or slot `hint`)
-- a list, composed of a set of selectable options - Mandatory (prop `options`)
+- a list, composed of a set of selectable options - Mandatory (prop `options` with a label, a value and an optional icon)
 
 Inside the list:
 - a "select all" or "deselect all" button - Optional (props `selectAll` and `selectAllLabel`)
@@ -19,7 +19,7 @@ Inside the list:
 - a form section (fieldset) containing:
   - a legend - Optional (which can be hidden from the screen - prop `legend` or slot `legend`)
   - a description of the group - Optional (which can be hidden from the screen)
-  - a list of options - Mandatory (prop `options`)
+  - a list of options - Mandatory (prop `options` with a label, a value and an optional icon)
 
 ## 🏷️ Props
 
@@ -27,7 +27,7 @@ Inside the list:
 | --- | --- | --- | --- | --- |
 | `modelValue` | `(string \| number)[]` | | ✅ | Selected option(s) value(s). |
 | `disabled` | `boolean` | `false` | | Indicated if the select is disabled.|
-| `options` | `{ value: string \| undefined, text: string})[]` | `[]` | | Selectable options. |
+| `options` | `{ value: string \| number, label: string, icon?: string})[]` | `[]` | | Selectable options. |
 | `label` | `string` | | ✅ | Select text label.|
 | `name` | `string` | | | Field name.|
 | `hint` | `string` | | | Hint for guidance.|

@@ -90,6 +90,18 @@ BddTest().given('a multiselect component', () => {
         expect(wrapper.text()).toContain('Option 2')
         expect(wrapper.text()).toContain('Option 3')
       })
+
+      BddTest().then('it should render options checkboxes', () => {
+        const avvicons = wrapper.findAllComponents({ name: 'AvVIcon' })
+        const checkboxes = avvicons.filter(icon => icon.classes().includes('option-checkbox'))
+        expect(checkboxes).toHaveLength(3)
+      })
+
+      BddTest().then('it should not render options with icon', () => {
+        const avvicons = wrapper.findAllComponents({ name: 'AvVIcon' })
+        const optionicons = avvicons.filter(icon => icon.classes().includes('option-icon'))
+        expect(optionicons).toHaveLength(0)
+      })
     })
 
     BddTest().when('the user selects multiple values', () => {
@@ -172,7 +184,9 @@ BddTest().given('a multiselect component', () => {
       })
 
       BddTest().then('it should render option 1 as a selected option', () => {
-        const firstOptionIcon = wrapper.findAllComponents({ name: 'AvVIcon' })[0]
+        const avvicons = wrapper.findAllComponents({ name: 'AvVIcon' })
+        const checkboxes = avvicons.filter(icon => icon.classes().includes('option-checkbox'))
+        const firstOptionIcon = checkboxes[0]
         expect(firstOptionIcon.exists()).toBe(true)
         expect(firstOptionIcon.props('name')).toBe(MDI_ICONS.CHECKBOX_MARKED)
         expect(firstOptionIcon.props('color')).toBe('var(--dark-background-primary1)')
@@ -183,7 +197,9 @@ BddTest().given('a multiselect component', () => {
       })
 
       BddTest().then('it should render option 2 as a unselected option', () => {
-        const secondOptionIcon = wrapper.findAllComponents({ name: 'AvVIcon' })[1]
+        const avvicons = wrapper.findAllComponents({ name: 'AvVIcon' })
+        const checkboxes = avvicons.filter(icon => icon.classes().includes('option-checkbox'))
+        const secondOptionIcon = checkboxes[1]
         expect(secondOptionIcon.props('name')).toBe(MDI_ICONS.CHECKBOX_BLANK_OUTLINE)
         expect(secondOptionIcon.props('color')).toBe('var(--icon)')
 
@@ -191,6 +207,30 @@ BddTest().given('a multiselect component', () => {
         expect(secondOptionLabel.classes()).toContain('b2-regular')
         expect(secondOptionLabel.classes()).not.toContain('b2-bold')
       })
+    })
+  })
+
+  BddTest().and('with icon options', () => {
+    const iconOptions = [
+      { value: '1', label: 'Option 1', icon: 'mdi:home-variant' },
+      { value: '2', label: 'Option 2', icon: 'mdi:home-variant' },
+      { value: '3', label: 'Option 3', icon: 'mdi:home-variant' }
+    ]
+
+    beforeEach(() => {
+      wrapper = mountWithProps({ options: iconOptions })
+    })
+
+    BddTest().then('it should render options checkboxes', () => {
+      const avvicons = wrapper.findAllComponents({ name: 'AvVIcon' })
+      const checkboxes = avvicons.filter(icon => icon.classes().includes('option-checkbox'))
+      expect(checkboxes).toHaveLength(3)
+    })
+
+    BddTest().then('it should not render options with icon', () => {
+      const avvicons = wrapper.findAllComponents({ name: 'AvVIcon' })
+      const optionicons = avvicons.filter(icon => icon.classes().includes('option-icon'))
+      expect(optionicons).toHaveLength(3)
     })
   })
 })

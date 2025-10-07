@@ -1,5 +1,6 @@
 import type { StoryFn } from '@storybook/vue3'
 import AvMultiselect, { type AvMultiselectProps } from '@/components/interaction/selects/AvMultiselect/AvMultiselect.vue'
+import { MDI_ICONS } from '@/tokens'
 
 /**
  * <h2 class="n2">✨ Introduction</h2>
@@ -23,7 +24,7 @@ import AvMultiselect, { type AvMultiselectProps } from '@/components/interaction
  * <ul>
  *   <li><span class="b2-regular">a <strong>label</strong> - Mandatory (<code>label</code> prop)</span></li>
  *   <li><span class="b2-regular">a <strong>description</strong> - Optional (<code>hint</code> prop or <code>hint</code> slot)</span></li>
- *   <li><span class="b2-regular">a <strong>list</strong> - Composed of a set of selectable options (mandatory, <code>options</code> prop)</span></li>
+ *   <li><span class="b2-regular">a <strong>list</strong> - Composed of a set of selectable options (mandatory, <code>options</code> prop with a label, a value and an optional icon)</span></li>
  * </ul>
  *
  * <p><span class="b2-regular">Inside the list:</span></p>
@@ -34,7 +35,7 @@ import AvMultiselect, { type AvMultiselectProps } from '@/components/interaction
  *     <ul>
  *       <li><span class="b2-regular">a <strong>legend</strong> - Optional, can be hidden (<code>legend</code> prop or <code>legend</code> slot)</span></li>
  *       <li><span class="b2-regular">a <strong>description of the group</strong> - Optional, can be hidden</span></li>
- *       <li><span class="b2-regular">a <strong>list of options</strong> - Mandatory (<code>options</code> prop)</span></li>
+ *       <li><span class="b2-regular">a <strong>list of options</strong> - Mandatory (<code>options</code> prop with a label, a value and an optional icon)</span></li>
  *     </ul>
  *   </li>
  * </ul>
@@ -78,7 +79,7 @@ const meta = {
     selectId: 'selectId',
     name: 'select',
     hint: '',
-    modelValue: [''],
+    modelValue: [],
     label: '',
     successMessage: '',
     errorMessage: '',
@@ -114,4 +115,16 @@ export const Dense = Template.bind({})
 Dense.args = {
   dense: true,
   label: 'Dense Select',
+}
+
+export const OptionsWithIcon = Template.bind({})
+OptionsWithIcon.args = {
+  options: [
+    { value: '1', label: 'Choice 1', icon: MDI_ICONS.ATTACH_FILE },
+    { value: '2', label: 'Choice 2', icon: MDI_ICONS.CHAT_ALERT },
+    { value: '3', label: 'Choice 3', icon: MDI_ICONS.CONTENT_SAVE_OUTLINE },
+    { value: '4', label: 'Choice 4', icon: MDI_ICONS.ELECTRON_FRAMEWORK },
+    { value: '5', label: 'Choice 5', icon: MDI_ICONS.IMAGE_OUTLINE },
+  ],
+  label: 'Options with icon',
 }
