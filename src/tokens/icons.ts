@@ -56,6 +56,7 @@ export const MDI_ICONS = {
   PEOPLE_GROUP_OUTLINE: 'mdi:people-group-outline',
   PLUS_CIRCLE_OUTLINE: 'mdi:plus-circle-outline',
   POST_IT_NOTES_OUTLINE: 'mdi:post-it-notes-outline',
+  RECORD_CIRCLE_OUTLINE: 'mdi:record-circle-outline',
   SCHOOL_OUTLINE: 'mdi:school-outline',
   SHARE_VARIANT_OUTLINE: 'mdi:share-variant-outline',
   STAR_CHECK_OUTLINE: 'mdi:star-check-outline',
