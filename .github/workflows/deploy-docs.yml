@@ -1,4 +1,4 @@
-name: Deploy Docs + Storybook (on npm version tag)
+name: Auto-deploy Docs + Storybook (no need to run it)
 
 on:
   push:
