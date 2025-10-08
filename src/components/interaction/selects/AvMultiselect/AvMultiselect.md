@@ -40,6 +40,7 @@ Inside the list:
 | `selectAll` | `boolean` | `false` | | Displays the select all items button.|
 | `selectAllLabel` | `[string, string]` | `["Tout sélectionner", "Tout désélectionner"]` | | Update the select all items button label.|
 | `search` | `boolean` | `false` | | Displays the search bar.|
+| `width` | `string` | `undefined` | | Fixes the width of the multiselect.|
 
 ## 🔊 Events
 

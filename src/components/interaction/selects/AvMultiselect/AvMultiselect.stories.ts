@@ -63,7 +63,8 @@ const meta = {
     errorMessage: { control: 'text' },
     defaultUnselectedText: { control: 'text', required: true },
     selectAll: { control: 'boolean' },
-    search: { control: 'boolean' }
+    search: { control: 'boolean' },
+    width: { control: 'text' }
   },
   args: {
     options: [
@@ -85,7 +86,7 @@ const meta = {
     errorMessage: '',
     dense: false,
     selectAll: false,
-    search: false
+    search: false,
   },
   parameters: {
     docs: {

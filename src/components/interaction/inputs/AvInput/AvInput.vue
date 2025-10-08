@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
 import { DsfrInput } from '@gouvminint/vue-dsfr'
+import { format, isValid as isValidDate } from 'date-fns'
 import AvVIcon from '@/components/base/AvVIcon/AvVIcon.vue'
 
 export interface AvInputProps {
@@ -8,70 +9,97 @@ export interface AvInputProps {
    * ID of the input element
    */
   id?: string
+
   /**
    * ID of the description element
    */
   descriptionId?: string
+
   /**
    * Hint text displayed below the label
    */
   hint?: string
+
   /**
    * Validation state - valid
    */
   isValid?: boolean
+
   /**
    * Render as textarea instead of input
    */
   isTextarea?: boolean
+
   /**
    * Whether the label is visible
    */
   labelVisible?: boolean
+
   /**
    * Label text
    */
   label?: string
+
   /**
    * CSS class for the label
    */
   labelClass?: string
+
   /**
    * Model value for v-model
    */
   modelValue?: string | number | null
+
   /**
    * Placeholder text
    */
   placeholder?: string
+
   /**
    * Input type (text, email, password, etc.)
    */
-  type?: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search'
+  type?: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search' | 'date' | 'datetime-local' | 'month' | 'time' | 'week' | 'color' | 'file' | 'hidden' | 'range'
+
+  /**
+   * Minimum date for date inputs
+   */
+  minDate?: Date
+
+  /**
+   * Max date for date inputs
+   */
+  maxDate?: Date
+
   /**
    * Whether the input is disabled
    */
   disabled?: boolean
+
   /**
    * Whether the input is required
    */
   required?: boolean
+
   /**
    * Maximum length of input
    */
   maxlength?: number
+
   /**
    * Minimum length of input
    */
   minlength?: number
+
   /**
    * Error message to display
    */
   errorMessage?: string | string[]
+
   /**
    * Valid message to display
    */
   validMessage?: string | string[]
+
   /**
    * Prefix icon name (optional)
    */
@@ -134,10 +162,23 @@ const inputId = computed(() => props.id || `av-input-${crypto.randomUUID()}`)
 const isInvalid = computed(() => {
   return !!props.errorMessage
 })
+
+const min = computed(() => formatDateYyyyMMdd(props.minDate))
+const max = computed(() => formatDateYyyyMMdd(props.maxDate))
+
+function formatDateYyyyMMdd (date: Date | undefined) {
+  if ((props.type !== 'date' && props.type !== 'datetime-local') || (date === undefined || !isValidDate(date))) {
+    return undefined
+  }
+  return format(date, 'yyyy-MM-dd')
+}
 </script>
 
 <template>
-  <div class="av-input">
+  <div
+    class="av-input"
+    :class="{ 'av-input--date': type === 'date' }"
+  >
     <div class="av-input__wrapper">
       <div
         v-if="prefixIcon"
@@ -167,6 +208,8 @@ const isInvalid = computed(() => {
         :maxlength="maxlength"
         :minlength="minlength"
         v-bind="$attrs"
+        :max="max"
+        :min="min"
         @update:model-value="emit('update:modelValue', $event)"
       >
         <template
@@ -233,6 +276,16 @@ const isInvalid = computed(() => {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xxs);
+}
+
+.av-input--date {
+  width: fit-content;
+  max-width: 9rem;
+}
+
+:deep(input[type="date"]::-webkit-calendar-picker-indicator) {
+  opacity: 0;
+  cursor: pointer;
 }
 
 .av-input__prefix {
@@ -313,6 +366,7 @@ const isInvalid = computed(() => {
 
 .av-input :deep(label) {
   @extend .caption-regular;
+  padding-bottom: var(--spacing-xxs);
 }
 
 .av-input :deep(textarea) {

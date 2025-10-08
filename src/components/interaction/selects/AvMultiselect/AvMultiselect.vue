@@ -102,6 +102,11 @@ export interface AvMultiselectProps {
    * Displays the search bar
    */
   search?: boolean
+
+  /**
+   * Fixes the width of the multiselect
+   */
+  width?: string
 }
 
 const props = defineProps<AvMultiselectProps>()
@@ -209,6 +214,8 @@ function onUpdateModelValue (values: (string | number)[]) {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-top: var(--spacing-none);
+  width: v-bind('width');
 }
 
 .fr-multiselect--dense :deep(.fr-select) {
@@ -235,12 +242,17 @@ function onUpdateModelValue (values: (string | number)[]) {
 }
 
 :deep(.fr-label) {
-  @extend .b2-light;
+  @extend .caption-regular;
   color: var(--text1);
+  padding-bottom: var(--spacing-xxs);
 
   &::before {
     display: none !important;
   }
+}
+
+:deep(.fr-multiselect__collapse) {
+  width: auto !important;
 }
 
 .b2-bold {
