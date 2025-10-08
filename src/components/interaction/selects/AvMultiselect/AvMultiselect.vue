@@ -242,7 +242,7 @@ function onUpdateModelValue (values: (string | number)[]) {
 }
 
 :deep(.fr-label) {
-  @extend .caption-regular;
+  @extend .b2-light;
   color: var(--text1);
   padding-bottom: var(--spacing-xxs);
 
