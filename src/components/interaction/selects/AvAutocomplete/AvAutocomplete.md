@@ -58,12 +58,16 @@ The component integrates:
 
 ## 🎨 Slots
 
-| Name           | Description                                                                                                                                                         |
-|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `requiredTip`  | Slot for displaying a required field tip in the input.                                                                                                              |
-| `item`         | Slot of type AvListItem for customizing how each option is displayed in the dropdown. Provides `option` (T), `isSelected` (boolean), and `toggle` (function) props. |
-| `selectedItem` | Slot for customizing how selected items are displayed as tags. Provides `option` (T) and `remove` (function) props.                                                 |
-| `empty`        | Slot for customizing the empty state when no options match the search.                                                                                              |
+| Name | Description |
+| --- | --- |
+| `requiredTip` | Slot for displaying a required field tip in the input. |
+| `item` | Slot of type AvListItem for customizing how each option is displayed in the dropdown. Provides `option` (T), `isSelected` (boolean), and `toggle` (function) props. |
+| `selectedItem` | Slot for customizing how selected items are displayed as tags. Provides `option` (T) and `remove` (function) props. |
+| `empty`| Slot for customizing the empty state when no options match the search. |
+
+## 🚀 Storybook demos
+
+You can find examples of use and demo of the component on its dedicated [Storybook page](https://avenirs-esr.github.io/avenirs-dsav/storybook/?path=/docs/components-interaction-selects-avautocomplete--docs).
 
 ## 💡 Examples of use
 

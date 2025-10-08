@@ -11,7 +11,8 @@ export default defineConfig({
       { text: 'Home', link: '/' },
       { text: 'Components', link: '/components/' },
       { text: 'Tokens', link: '/tokens/' },
-      { text: 'Icons', link: '/icons/' }
+      { text: 'Icons', link: '/icons/' },
+      { text: 'Storybook', link: '/storybook/' }
     ],
     sidebar: {
       '/components/': [
@@ -160,7 +161,8 @@ export default defineConfig({
         { text: 'Home', link: '/' },
         { text: 'Components', link: '/components/' },
         { text: 'Tokens', link: '/tokens/' },
-        { text: 'Icons', link: '/icons/' }
+        { text: 'Icons', link: '/icons/' },
+        { text: 'Storybook', link: '/storybook/' }
       ]
     }
   },

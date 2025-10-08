@@ -40,6 +40,10 @@ None.
 
 None.
 
+## 🚀 Storybook demos
+
+You can find examples of use and demo of the component on its dedicated [Storybook page](https://avenirs-esr.github.io/avenirs-dsav/storybook/?path=/docs/components-interaction-buttons-avbutton--docs).
+
 ## 💡 Examples of use
 
 ```vue

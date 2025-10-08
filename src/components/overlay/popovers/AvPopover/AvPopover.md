@@ -36,6 +36,10 @@ None.
 | `trigger` | Slot for popover trigger. Provides `toggle` prop (function to open/close popover). |
 | `popover` | Slot for popover content. Provides `close` prop (function to close popover). |
 
+## 🚀 Storybook demos
+
+You can find examples of use and demo of the component on its dedicated [Storybook page](https://avenirs-esr.github.io/avenirs-dsav/storybook/?path=/docs/components-overlay-popovers-avpopover--docs).
+
 ## 💡 Examples of use
 
 ```vue

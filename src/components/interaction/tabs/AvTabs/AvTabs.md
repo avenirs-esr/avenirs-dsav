@@ -36,6 +36,10 @@ If the number of tabs exceeds the width of the container, a horizontal scroll al
 | --- | --- |
 | `default` | Default slot for adding tabs (each tab must be in an `AvTab`). |
 
+## 🚀 Storybook demos
+
+You can find examples of use and demo of the component on its dedicated [Storybook page](https://avenirs-esr.github.io/avenirs-dsav/storybook/?path=/docs/components-interaction-tabs-avtabs--docs).
+
 ## 💡 Examples of use
 
 ```vue

@@ -57,6 +57,10 @@ The component integrates focus management, proper ARIA attributes, and responsiv
 | `requiredTip` | Slot for custom required field indicator | None |
 | `customCaptions` | Slot for custom captions, such as character count or additional info | `currentValue: string \| number \| null`, `maxlength: number \| undefined` |
 
+## 🚀 Storybook demos
+
+You can find examples of use and demo of the component on its dedicated [Storybook page](https://avenirs-esr.github.io/avenirs-dsav/storybook/?path=/docs/components-interaction-inputs-avinput--docs).
+
 ## 💡 Examples of use
 
 ### Basic Input

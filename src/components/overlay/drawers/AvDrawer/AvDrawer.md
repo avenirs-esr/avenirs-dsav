@@ -45,6 +45,10 @@ The drawer integrates:
 | `default` | Slot for drawer content. Can contain any HTML or Vue components. |
 | `footer` | Footer slot for content under the main scrollable content. Can contain any HTML or Vue components. |
 
+## 🚀 Storybook demos
+
+You can find examples of use and demo of the component on its dedicated [Storybook page](https://avenirs-esr.github.io/avenirs-dsav/storybook/?path=/docs/components-overlay-drawers-avdrawer--docs).
+
 ## 💡 Examples of use
 
 ### Basic Usage

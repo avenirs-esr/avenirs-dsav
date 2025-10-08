@@ -30,6 +30,10 @@ None.
 | --- | --- |
 | `default` | Default slot for accordion content. |
 
+## 🚀 Storybook demos
+
+You can find examples of use and demo of the component on its dedicated [Storybook page](https://avenirs-esr.github.io/avenirs-dsav/storybook/?path=/docs/components-interaction-accordions-avaccordion--docs).
+
 ## 💡 Examples of use
 
 ```vue

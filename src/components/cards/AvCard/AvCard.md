@@ -30,6 +30,10 @@ None.
 | `footer` | Slot to add a footer to the card. |
 | `default` | Default slot for additional card content. |
 
+## 🚀 Storybook demos
+
+You can find examples of use and demo of the component on its dedicated [Storybook page](https://avenirs-esr.github.io/avenirs-dsav/storybook/?path=/docs/components-cards-avcard--docs).
+
 ## 💡 Examples of use
 
 ```vue

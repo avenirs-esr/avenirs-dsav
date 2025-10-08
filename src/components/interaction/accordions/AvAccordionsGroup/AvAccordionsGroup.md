@@ -36,6 +36,10 @@ An accordion consists of the following elements:
 | --- | --- |
 | `default` | Default slot for adding accordions (each accordion must be in an `AvAccordion`). |
 
+## 🚀 Storybook demos
+
+You can find examples of use and demo of the component on its dedicated [Storybook page](https://avenirs-esr.github.io/avenirs-dsav/storybook/?path=/docs/components-interaction-accordions-avaccordionsgroup--docs).
+
 ## 💡 Examples of use
 
 ### Basic usage
