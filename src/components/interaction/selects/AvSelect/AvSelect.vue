@@ -114,6 +114,7 @@ const title = computed(() => {
   overflow: hidden;
   text-overflow: ellipsis;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%232929A2' d='M7.41 8.58L12 13.17l4.59-4.59L18 10l-6 6l-6-6z'/%3E%3C/svg%3E");
+  margin-top: var(--spacing-none);
 }
 
 .fr-select--dense :deep(.fr-select) {
@@ -133,6 +134,7 @@ const title = computed(() => {
 }
 
 :deep(.fr-label) {
-  @extend .b2-light;
+  @extend .caption-regular;
+  padding-bottom: var(--spacing-xxs);
 }
 </style>

@@ -10,6 +10,7 @@ const stories = [
   'Disabled',
   'Email',
   'Password',
+  'DateInput',
   'Textarea',
   'WithoutLabel',
   'WithMaxLength',

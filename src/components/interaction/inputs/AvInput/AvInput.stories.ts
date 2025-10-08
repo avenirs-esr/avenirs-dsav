@@ -55,6 +55,8 @@ const meta: Meta<AvInputProps> = {
       control: 'select',
       options: ['text', 'email', 'password', 'number', 'tel', 'url', 'search', 'date', 'datetime-local', 'month', 'time', 'week', 'color', 'file', 'hidden', 'range']
     },
+    minDate: { control: 'date' },
+    maxDate: { control: 'date' },
     disabled: { control: 'boolean' },
     required: { control: 'boolean' },
     maxlength: { control: 'number' },
@@ -94,9 +96,14 @@ const Template: StoryFn<AvInputProps> = args => ({
   components: { AvInput },
   setup () {
     const inputValue = ref(args.modelValue || '')
+    const safeArgs = computed(() => ({
+      ...args,
+      minDate: args.minDate ? new Date(args.minDate) : undefined,
+      maxDate: args.maxDate ? new Date(args.maxDate) : undefined,
+    }))
 
     return {
-      args,
+      args: safeArgs,
       inputValue
     }
   },
@@ -149,6 +156,13 @@ Password.args = {
   type: 'password',
   label: 'Password',
   placeholder: 'Enter your password'
+}
+
+export const DateInput = Template.bind({})
+DateInput.args = {
+  type: 'date',
+  label: 'Date',
+  placeholder: 'Enter your birthdate'
 }
 
 export const Textarea = Template.bind({})

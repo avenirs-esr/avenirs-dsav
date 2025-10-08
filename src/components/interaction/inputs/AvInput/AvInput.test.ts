@@ -468,6 +468,26 @@ BddTest().given('an AvInput', () => {
       })
     })
   })
+
+  BddTest().and('with a date type, a defined minDate and an undefined maxDate', () => {
+    beforeEach(() => {
+      wrapper = mount(AvInput, { props: {
+        type: 'date',
+        minDate: new Date(),
+        maxDate: undefined
+      } })
+    })
+
+    BddTest().then('it should pass min to input', () => {
+      const input = wrapper.find('input')
+      expect(input.attributes('min')).toBeDefined()
+    })
+
+    BddTest().then('it should not pass max to input', () => {
+      const input = wrapper.find('input')
+      expect(input.attributes('max')).toBeUndefined()
+    })
+  })
 })
 
 BddTest().given('multiple AvInput components', () => {

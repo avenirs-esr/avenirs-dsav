@@ -52,6 +52,7 @@
     "@gouvfr/dsfr": "^1.14.0",
     "@gouvminint/vue-dsfr": "^8.4.0",
     "@vueuse/core": "^13.9.0",
+    "date-fns": "^4.1.0",
     "focus-trap": "^7.5.4",
     "focus-trap-vue": "^4.0.3",
     "lodash-es": "^4.17.21"

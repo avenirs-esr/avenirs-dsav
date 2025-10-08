@@ -34,6 +34,8 @@ The component integrates focus management, proper ARIA attributes, and responsiv
 | `modelValue` | `string \| number \| null` | `undefined` |  | Model value for v-model |
 | `placeholder` | `string` | `undefined` |  | Placeholder text |
 | `type` | `'text' \| 'email' \| 'password' \| 'number' \| 'tel' \| 'url' \| 'search'` | `'text'` |  | Input type |
+| `minDate` | `Date` | `undefined` | | Minimum date for date inputs |
+| `maxDate` | `Date` | `undefined` | | Maximum date for date inputs |
 | `disabled` | `boolean` | `false` |  | Whether the input is disabled |
 | `required` | `boolean` | `false` |  | Whether the input is required |
 | `maxlength` | `number` | `undefined` |  | Maximum length of input |
