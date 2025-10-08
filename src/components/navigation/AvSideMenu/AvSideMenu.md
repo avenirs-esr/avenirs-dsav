@@ -42,6 +42,10 @@ The component integrates focus management, proper ARIA attributes, and responsiv
 | --- | --- |
 | `default` | Default slot for custom content (navigation items, menus, etc.) |
 
+## 🚀 Storybook demos
+
+You can find examples of use and demo of the component on its dedicated [Storybook page](https://avenirs-esr.github.io/avenirs-dsav/storybook/?path=/docs/components-navigation-avsidemenu--docs).
+
 ## 💡 Examples of use
 
 ### With v-model (Controlled)

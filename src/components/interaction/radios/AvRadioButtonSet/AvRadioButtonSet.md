@@ -45,6 +45,10 @@ The `AvRadioButtonSet` component consists of the following elements:
 | --- | --- |
 | `default` | Default slot for adding radio button (each radio button must be in an `AvRadioButton`). |
 
+## 🚀 Storybook demos
+
+You can find examples of use and demo of the component on its dedicated [Storybook page](https://avenirs-esr.github.io/avenirs-dsav/storybook/?path=/docs/components-interaction-radios-avradiobuttonset--docs).
+
 ## 💡 Examples of use
 
 ```vue
