@@ -1,27 +1,39 @@
-name: Deploy Docs
+name: Deploy Docs + Storybook (on npm version tag)
 
 on:
   push:
-    branches:
-      - develop
+    tags:
+      - 'v*'
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: ✅ Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: ⚙️ Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: 22
 
       - name: 📦 Install dependencies
         run: npm ci
 
-      - name: 🏗️ Generate docs and build VitePress site
+      - name: 🏗️ Build VitePress docs
         run: npm run docs:build
+
+      - name: 🏗️ Build Storybook
+        run: npm run storybook:build
+
+      - name: 📂 Copy Storybook into docs output
+        run: |
+          rm -rf docs/.vitepress/dist/storybook
+          mkdir -p docs/.vitepress/dist/storybook
+          cp -r storybook-static/* docs/.vitepress/dist/storybook/
 
       - name: 🚀 Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4

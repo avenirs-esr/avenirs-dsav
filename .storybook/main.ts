@@ -1,4 +1,5 @@
 import type { StorybookConfig } from '@storybook/vue3-vite'
+import { defineConfig } from 'vite'
 
 const config: StorybookConfig = {
   stories: [
@@ -14,6 +15,12 @@ const config: StorybookConfig = {
   framework: {
     name: '@storybook/vue3-vite',
     options: {}
-  }
+  },
+  viteFinal: async (config) => {
+    return defineConfig({
+      ...config,
+      base: '/avenirs-dsav/storybook/',
+    })
+  },
 }
 export default config
