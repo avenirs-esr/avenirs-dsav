@@ -1,6 +1,6 @@
 import { expect } from 'vitest'
 import { BddTest } from '@/tests/utils'
-import { formatTextToHtml } from '@/utils'
+import { formatTextToHtml, toSentenceCase } from '@/utils'
 
 BddTest().given('a text with specific characteristics', () => {
   BddTest().when('the input contains __...__', () => {
@@ -85,6 +85,30 @@ BddTest().given('a text with specific characteristics', () => {
     BddTest().then('it should return the input unchanged', () => {
       const input = 'Plain text without formatting'
       expect(formatTextToHtml(input)).toBe(input)
+    })
+  })
+})
+
+BddTest().given('a sentence case formatter', () => {
+  BddTest().when('a non sentence case formatted text is passed', () => {
+    BddTest().then('it should return a sentence case formatted text', () => {
+      const input = 'THIS IS a non sentence case formatted text'
+      const expectedOutput = 'This is a non sentence case formatted text'
+      expect(toSentenceCase(input)).toBe(expectedOutput)
+    })
+  })
+
+  BddTest().when('a sentence case formatted text is passed', () => {
+    BddTest().then('it should return the same text', () => {
+      const input = 'This is a sentence case formatted text'
+      expect(toSentenceCase(input)).toBe(input)
+    })
+  })
+
+  BddTest().when('an empty text is passed', () => {
+    BddTest().then('it should return an exmpty text', () => {
+      const input = ''
+      expect(toSentenceCase(input)).toBe(input)
     })
   })
 })

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { VIcon } from '@gouvminint/vue-dsfr'
 import { MDI_ICONS } from '@/tokens'
+import { toSentenceCase } from '@/utils'
 
 /**
  * AvButton component props.
@@ -126,8 +127,9 @@ defineExpose({ computedSvgScale })
     :icon="iconToRender"
     :no-outline="props.variant === 'DEFAULT'"
     :tertiary="true"
-    :aria-label="props.label"
-    :title="props.label"
+    :aria-label="toSentenceCase(props.label)"
+    :title="toSentenceCase(props.label)"
+    :label="toSentenceCase(props.label)"
   />
 </template>
 

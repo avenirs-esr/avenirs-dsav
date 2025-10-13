@@ -34,3 +34,15 @@ export function formatTextToHtml (text: string, color: string = 'var(--dark-back
     // Strong colorized with **
     .replace(/\*\*(.+?)\*\*/g, `<strong style="color: ${color}">$1</strong>`)
 }
+
+/**
+ *
+ * @param text the text to format to sentence case
+ * @returns the text formatted to sentence case
+ */
+export function toSentenceCase (text: string) {
+  if (!text) {
+    return ''
+  }
+  return text[0].toUpperCase() + text.slice(1).toLowerCase()
+}
