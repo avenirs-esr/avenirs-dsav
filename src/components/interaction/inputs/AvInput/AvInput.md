@@ -43,6 +43,7 @@ The component integrates focus management, proper ARIA attributes, and responsiv
 | `errorMessage` | `string \| string[]` | `undefined` |  | Error message(s) to display |
 | `validMessage` | `string \| string[]` | `undefined` |  | Valid message(s) to display |
 | `prefixIcon` | `string` | `undefined` |  | Prefix icon name (optional) |
+| `width` | `string` | `undefined` |  | Width of the input |
 
 ## 🔊 Events
 
