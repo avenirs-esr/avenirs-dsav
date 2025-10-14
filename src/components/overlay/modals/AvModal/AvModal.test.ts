@@ -20,6 +20,36 @@ BddTest().given('an AvModal', () => {
     closeButtonLabel: 'Close'
   }
 
+  const propsWithConfirm: AvModalProps = {
+    opened: true,
+    closeButtonLabel: 'Close',
+    confirmButtonLabel: 'Confirm'
+  }
+
+  BddTest().and('a confirm label is passed', () => {
+    BddTest().when('the modal is mounted', () => {
+      beforeEach(() => {
+        wrapper = mount(AvModal, {
+          props: propsWithConfirm,
+          slots: {
+            default: '<div class="content">Hello</div>',
+            header: '<div class="header-slot">Header</div>',
+            footer: '<div class="footer-slot">Footer</div>'
+          },
+          global: { stubs }
+        })
+      })
+
+      BddTest().then('it should render the confirm button', () => {
+        const buttons = wrapper.findAllComponents({ name: 'AvButton' })
+        expect(buttons).toHaveLength(2)
+
+        expect(buttons[1].props('label')).toBe(props.confirmButtonLabel)
+        expect(buttons[1].props('variant')).toBe('FLAT')
+      })
+    })
+  })
+
   BddTest().when('the modal is mounted', () => {
     beforeEach(() => {
       wrapper = mount(AvModal, {
@@ -40,10 +70,15 @@ BddTest().given('an AvModal', () => {
     })
 
     BddTest().then('it should render the close button with correct props', () => {
-      const btn = wrapper.findComponent({ name: 'AvButton' })
+      const btn = wrapper.findAllComponents({ name: 'AvButton' })[0]
       expect(btn.exists()).toBe(true)
       expect(btn.props('label')).toBe(props.closeButtonLabel)
-      expect(btn.props('variant')).toBe('DEFAULT')
+      expect(btn.props('variant')).toBe('OUTLINED')
+    })
+
+    BddTest().then('it should not render the confirm button', () => {
+      const buttons = wrapper.findAllComponents({ name: 'AvButton' })
+      expect(buttons).toHaveLength(1)
     })
 
     BddTest().then('it should emit "close" when the button is clicked', async () => {

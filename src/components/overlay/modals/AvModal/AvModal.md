@@ -26,13 +26,15 @@ It consists of the following elements:
 | `icon` | `string` | `undefined` | | Name of icon to be displayed in modal title. |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `md` | | Size of modal. |
 | `closeButtonLabel` | `string` | | ✅ | Label and title (for accessibility) of close button. |
-| `closeButtonVariant` | `'DEFAULT' \| 'OUTLINED' \| undefined` | `'DEFAULT'` | | Variant of close button: without border (`DEFAULT`) or with border (`OUTLINED`). |
+| `confirmButtonLabel` | `string` | `undefined` | | Label and title (for accessibility) of confirm button. |
+| `confirmButtonIcon` | `string` | `mdi:check-circle-outline` | | Icon name of confirm button. |
 
 ## 🔊 Events
 
 | Name | Data (*payload*) | Description |
 | --- | --- | --- |
-| `‘close’` | `number` | Event emitted when modal is closed. |
+| `‘close’` | | Event emitted when modal is closed. |
+| `‘close’` | | Event emitted when confirm button is clicked. |
 
 ## 🎨 Slots
 

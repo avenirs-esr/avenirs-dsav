@@ -1,18 +1,12 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
-import { AvButton, type AvButtonProps } from '@/components/interaction'
+import { AvButton } from '@/components/interaction'
 import { MDI_ICONS } from '@/tokens'
 
 /**
  * AvModal component props.
  */
 export interface AvModalProps {
-  /**
-   * Variant of the close button: without border (`DEFAULT`) or with border (`OUTLINED`).
-   * @default 'DEFAULT'
-   */
-  closeButtonVariant?: AvButtonProps['variant']
-
   /**
    * Unique identifier for the modal.
    * @default useRandomId('modal', 'dialog')
@@ -56,6 +50,17 @@ export interface AvModalProps {
   closeButtonLabel: string
 
   /**
+   * Label and title (for accessibility) of the confirm button.
+   */
+  confirmButtonLabel?: string
+
+  /**
+   * Icon name of the confirm button.
+   * @default 'mdi:check-circle-outline'
+   */
+  confirmButtonIcon?: string
+
+  /**
    * Adds a loading state on the close button.
    */
   isLoading?: boolean
@@ -67,9 +72,11 @@ const { isLoading, ...props } = defineProps<AvModalProps>()
  * Events emitted by the component.
  *
  * @event close - Event emitted when the modal is closed.
+ * @event close - Event emitted when the confirm button is clicked.
  */
 const emit = defineEmits<{
   (e: 'close'): void
+  (e: 'confirm'): void
 }>()
 
 /**
@@ -85,7 +92,7 @@ const slots = defineSlots<{
   footer?: Slot
 }>()
 
-const closeButtonVariant = computed(() => props.closeButtonVariant ?? 'DEFAULT')
+const confirmButtonIcon = computed(() => props.confirmButtonIcon ?? MDI_ICONS.CHECK_CIRCLE_OUTLINE)
 </script>
 
 <template>
@@ -110,10 +117,20 @@ const closeButtonVariant = computed(() => props.closeButtonVariant ?? 'DEFAULT')
             :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
             :label="props.closeButtonLabel"
             :title="props.closeButtonLabel"
-            :variant="closeButtonVariant"
+            variant="OUTLINED"
             :is-loading="isLoading"
             size="sm"
             @click="() => emit('close')"
+          />
+          <AvButton
+            v-if="!!props.confirmButtonLabel"
+            :icon="confirmButtonIcon"
+            :label="props.confirmButtonLabel"
+            :title="props.confirmButtonLabel"
+            variant="FLAT"
+            :is-loading="isLoading"
+            size="sm"
+            @click="() => emit('confirm')"
           />
           <slot name="footer" />
         </div>
