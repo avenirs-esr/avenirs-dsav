@@ -6,6 +6,12 @@ const stories = [
   'Default',
   'CancelOnly',
   'ConfirmOnly',
+  'CancelDisabled',
+  'ConfirmDisabled',
+  'BothDisabled',
+  'CancelLoading',
+  'ConfirmLoading',
+  'BothLoading',
 ]
 
 testStories(component, title, stories)

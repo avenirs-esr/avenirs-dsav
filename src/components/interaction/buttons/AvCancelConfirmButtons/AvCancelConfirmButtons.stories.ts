@@ -38,8 +38,12 @@ const meta: Meta<AvCancelConfirmButtonsProps> = {
   argTypes: {
     cancelLabel: { control: 'text' },
     cancelIcon: { control: 'text' },
+    cancelDisabled: { control: 'boolean' },
+    cancelIsLoading: { control: 'boolean' },
     confirmLabel: { control: 'text' },
     confirmIcon: { control: 'text' },
+    confirmDisabled: { control: 'boolean' },
+    confirmIsLoading: { control: 'boolean' },
   },
   args: {
     cancelLabel: 'Cancel',
@@ -72,4 +76,36 @@ export const ConfirmOnly = Template.bind({})
 ConfirmOnly.args = {
   confirmLabel: 'Confirm',
   cancelLabel: undefined
+}
+
+export const CancelDisabled = Template.bind({})
+CancelDisabled.args = {
+  cancelDisabled: true,
+}
+
+export const ConfirmDisabled = Template.bind({})
+ConfirmDisabled.args = {
+  confirmDisabled: true,
+}
+
+export const BothDisabled = Template.bind({})
+BothDisabled.args = {
+  cancelDisabled: true,
+  confirmDisabled: true,
+}
+
+export const CancelLoading = Template.bind({})
+CancelLoading.args = {
+  cancelIsLoading: true,
+}
+
+export const ConfirmLoading = Template.bind({})
+ConfirmLoading.args = {
+  confirmIsLoading: true,
+}
+
+export const BothLoading = Template.bind({})
+BothLoading.args = {
+  cancelIsLoading: true,
+  confirmIsLoading: true,
 }

@@ -104,4 +104,54 @@ BddTest().given('an AvCancelConfirmButtons component', () => {
       })
     })
   })
+
+  BddTest().and('cancel and confirm labels are passed with both disabled props', () => {
+    beforeEach(() => {
+      wrapper = mount(AvCancelConfirmButtons, {
+        props: {
+          cancelLabel: 'Cancel',
+          confirmLabel: 'Confirm',
+          cancelDisabled: true,
+          confirmDisabled: true
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should render the cancel and the confirm buttons in disabled state', () => {
+        const buttons = wrapper.findAllComponents({ name: 'AvButton' })
+        expect(buttons).toHaveLength(2)
+        expect(buttons[0].text()).toContain('Cancel')
+        expect(buttons[1].text()).toContain('Confirm')
+        expect(buttons[0].props('disabled')).toBe(true)
+        expect(buttons[1].props('disabled')).toBe(true)
+      })
+    })
+  })
+
+  BddTest().and('cancel and confirm labels are passed with both loading props', () => {
+    beforeEach(() => {
+      wrapper = mount(AvCancelConfirmButtons, {
+        props: {
+          cancelLabel: 'Cancel',
+          confirmLabel: 'Confirm',
+          cancelIsLoading: true,
+          confirmIsLoading: true
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should render the cancel and the confirm buttons in disabled state', () => {
+        const buttons = wrapper.findAllComponents({ name: 'AvButton' })
+        expect(buttons).toHaveLength(2)
+        expect(buttons[0].text()).toContain('Cancel')
+        expect(buttons[1].text()).toContain('Confirm')
+        expect(buttons[0].props('isLoading')).toBe(true)
+        expect(buttons[1].props('isLoading')).toBe(true)
+      })
+    })
+  })
 })
