@@ -17,8 +17,12 @@ This component consist of two optional buttons :
 | --- | --- | --- | --- | --- |
 | `cancelLabel` | `string` | `undefined` | | Label and title (for accessibility) of the cancel button. |
 | `cancelIcon` | `string` | `'mdi:close-circle-outline'` | | Icon name of the cancel button. |
+| `cancelDisabled` | `boolean` | `undefined` | | Adds a disabled state on the cancel button. |
+| `cancelIsLoading` | `boolean` | `undefined` | | Adds a loading state on the cancel button. |
 | `confiirmLabel` | `string` | `undefined` | | Label and title (for accessibility) of the confirm button. |
 | `confirmIcon` | `string` | `'mdi:check-circle-outline'` | | Icon name of the confirm button. |
+| `confirmDisabled` | `boolean` | `undefined` | | Adds a disabled state on the cancel button. |
+| `confirmIsLoading` | `boolean` | `undefined` | | Adds a loading state on the cancel button. |
 | `isLoading` | `boolean` | `false` | | Indicates a loading status for the buttons. |
 
 ## 🔊 Events

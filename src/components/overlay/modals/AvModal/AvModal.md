@@ -26,8 +26,11 @@ It consists of the following elements:
 | `icon` | `string` | `undefined` | | Name of icon to be displayed in modal title. |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `md` | | Size of modal. |
 | `closeButtonLabel` | `string` | | ✅ | Label and title (for accessibility) of close button. |
+| `closeButtonIcon` | `string` | `mdi:close-circle-outline` | | Icon name of the close button. |
+| `closeButtonDisabled` | `boolean` | `undefined` | | Add a disabled state on the close button. |
 | `confirmButtonLabel` | `string` | `undefined` | | Label and title (for accessibility) of confirm button. |
-| `confirmButtonIcon` | `string` | `mdi:check-circle-outline` | | Icon name of confirm button. |
+| `confirmButtonIcon` | `string` | `mdi:check-circle-outline` | | Icon name of the confirm button. |
+| `confirmButtonDisabled` | `boolean` | `undefined` | | Add a disabled state on the confirm button. |
 
 ## 🔊 Events
 

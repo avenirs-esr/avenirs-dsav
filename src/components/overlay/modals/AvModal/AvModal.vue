@@ -49,6 +49,17 @@ export interface AvModalProps {
   closeButtonLabel: string
 
   /**
+   * Icon name of the confirm button.
+   * @default 'mdi:close-circle-outline'
+   */
+  closeButtonIcon?: string
+
+  /**
+   * Adds a disabled state on the close button.
+   */
+  closeButtonDisabled?: boolean
+
+  /**
    * Label and title (for accessibility) of the confirm button.
    */
   confirmButtonLabel?: string
@@ -58,6 +69,11 @@ export interface AvModalProps {
    * @default 'mdi:check-circle-outline'
    */
   confirmButtonIcon?: string
+
+  /**
+   * Adds a disabled state on the confirm button.
+   */
+  confirmButtonDisabled?: boolean
 
   /**
    * Adds a loading state on the close button.
@@ -91,6 +107,7 @@ const slots = defineSlots<{
   footer?: Slot
 }>()
 
+const closeButtonIcon = computed(() => props.closeButtonIcon ?? MDI_ICONS.CLOSE_CIRCLE_OUTLINE)
 const confirmButtonIcon = computed(() => props.confirmButtonIcon ?? MDI_ICONS.CHECK_CIRCLE_OUTLINE)
 </script>
 
@@ -114,10 +131,13 @@ const confirmButtonIcon = computed(() => props.confirmButtonIcon ?? MDI_ICONS.CH
         <div class="footer">
           <AvCancelConfirmButtons
             :cancel-label="props.closeButtonLabel"
-            :cancel-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
+            :cancel-icon="closeButtonIcon"
+            :cancel-disabled="props.closeButtonDisabled"
+            :cancel-is-loading="isLoading"
             :confirm-label="props.confirmButtonLabel"
             :confirm-icon="confirmButtonIcon"
-            :is-loading="isLoading"
+            :confirm-disabled="props.confirmButtonDisabled"
+            :confirm-is-loading="isLoading"
             @cancel="() => emit('close')"
             @confirm="() => emit('confirm')"
           />

@@ -18,6 +18,16 @@ export interface AvCancelConfirmButtonsProps {
   cancelIcon?: string
 
   /**
+   * Adds a disabled state on the cancel button.
+   */
+  cancelDisabled?: boolean
+
+  /**
+   * Adds a loading state on the cancel button.
+   */
+  cancelIsLoading?: boolean
+
+  /**
    * Label and title (for accessibility) of the confirm button.
    */
   confirmLabel?: string
@@ -29,17 +39,25 @@ export interface AvCancelConfirmButtonsProps {
   confirmIcon?: string
 
   /**
-   * Adds a loading state on the buttons.
+   * Adds a disabled state on the confirm button.
    */
-  isLoading?: boolean
+  confirmDisabled?: boolean
+
+  /**
+   * Adds a loading state on the confirm button.
+   */
+  confirmIsLoading?: boolean
 }
 
 const {
   cancelLabel,
   cancelIcon = MDI_ICONS.CLOSE_CIRCLE_OUTLINE,
+  cancelDisabled,
+  cancelIsLoading,
   confirmLabel,
   confirmIcon = MDI_ICONS.CLOSE_CIRCLE_OUTLINE,
-  isLoading
+  confirmDisabled,
+  confirmIsLoading
 } = defineProps<AvCancelConfirmButtonsProps>()
 
 /**
@@ -62,7 +80,8 @@ const emit = defineEmits<{
       :label="cancelLabel"
       :title="cancelLabel"
       variant="OUTLINED"
-      :is-loading="isLoading"
+      :is-loading="cancelIsLoading"
+      :disabled="cancelDisabled"
       size="sm"
       @click="() => emit('cancel')"
     />
@@ -72,7 +91,8 @@ const emit = defineEmits<{
       :label="confirmLabel"
       :title="confirmLabel"
       variant="FLAT"
-      :is-loading="isLoading"
+      :is-loading="confirmIsLoading"
+      :disabled="confirmDisabled"
       size="sm"
       @click="() => emit('confirm')"
     />
