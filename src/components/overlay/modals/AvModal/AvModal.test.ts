@@ -1,7 +1,7 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 import { nextTick } from 'vue'
-import { AvButtonStub } from '@/components/interaction/buttons/AvButton/AvButton.stub'
+import { AvCancelConfirmButtonsStub } from '@/components/interaction/buttons/AvCancelConfirmButtons/AvCancelConfirmButtons.stub'
 import AvModal, { type AvModalProps } from '@/components/overlay/modals/AvModal/AvModal.vue'
 import { DsfrModalStub } from '@/tests'
 import { BddTest } from '@/tests/utils'
@@ -10,7 +10,7 @@ BddTest().given('an AvModal', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvModal>>
 
   const stubs = {
-    AvButton: AvButtonStub,
+    AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
     DsfrModal: DsfrModalStub,
     Teleport: true
   }
@@ -41,11 +41,9 @@ BddTest().given('an AvModal', () => {
       })
 
       BddTest().then('it should render the confirm button', () => {
-        const buttons = wrapper.findAllComponents({ name: 'AvButton' })
-        expect(buttons).toHaveLength(2)
-
-        expect(buttons[1].props('label')).toBe(props.confirmButtonLabel)
-        expect(buttons[1].props('variant')).toBe('FLAT')
+        const buttons = wrapper.findComponent({ name: 'AvCancelConfirmButtons' })
+        expect(buttons.exists()).toBe(true)
+        expect(buttons.text()).toContain(propsWithConfirm.confirmButtonLabel)
       })
     })
   })
@@ -70,21 +68,15 @@ BddTest().given('an AvModal', () => {
     })
 
     BddTest().then('it should render the close button with correct props', () => {
-      const btn = wrapper.findAllComponents({ name: 'AvButton' })[0]
-      expect(btn.exists()).toBe(true)
-      expect(btn.props('label')).toBe(props.closeButtonLabel)
-      expect(btn.props('variant')).toBe('OUTLINED')
+      const buttons = wrapper.findComponent({ name: 'AvCancelConfirmButtons' })
+      expect(buttons.exists()).toBe(true)
+      expect(buttons.text()).toBe(props.closeButtonLabel)
     })
 
-    BddTest().then('it should not render the confirm button', () => {
-      const buttons = wrapper.findAllComponents({ name: 'AvButton' })
-      expect(buttons).toHaveLength(1)
-    })
-
-    BddTest().then('it should emit "close" when the button is clicked', async () => {
-      const btn = wrapper.findComponent({ name: 'AvButton' })
-      expect(btn.exists()).toBe(true)
-      await btn.trigger('click')
+    BddTest().then('it should emit "close" when the close button is clicked', async () => {
+      const buttons = wrapper.findComponent({ name: 'AvCancelConfirmButtons' })
+      expect(buttons.exists()).toBe(true)
+      await buttons.find('.cancel').trigger('click')
       expect(wrapper.emitted('close')).toHaveLength(1)
     })
 
@@ -97,7 +89,7 @@ BddTest().given('an AvModal', () => {
     BddTest().then('it should pass isLoading to the button', async () => {
       wrapper.setProps({ isLoading: true })
       await nextTick()
-      const btn = wrapper.findComponent({ name: 'AvButton' })
+      const btn = wrapper.findComponent({ name: 'AvCancelConfirmButtons' })
       expect(btn.props('isLoading')).toBe(true)
     })
   })

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
-import { AvButton } from '@/components/interaction'
 import { MDI_ICONS } from '@/tokens'
 
 /**
@@ -72,7 +71,7 @@ const { isLoading, ...props } = defineProps<AvModalProps>()
  * Events emitted by the component.
  *
  * @event close - Event emitted when the modal is closed.
- * @event close - Event emitted when the confirm button is clicked.
+ * @event confirm - Event emitted when the confirm button is clicked.
  */
 const emit = defineEmits<{
   (e: 'close'): void
@@ -113,24 +112,14 @@ const confirmButtonIcon = computed(() => props.confirmButtonIcon ?? MDI_ICONS.CH
       </template>
       <template #footer>
         <div class="footer">
-          <AvButton
-            :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
-            :label="props.closeButtonLabel"
-            :title="props.closeButtonLabel"
-            variant="OUTLINED"
+          <AvCancelConfirmButtons
+            :cancel-label="props.closeButtonLabel"
+            :cancel-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
+            :confirm-label="props.confirmButtonLabel"
+            :confirm-icon="confirmButtonIcon"
             :is-loading="isLoading"
-            size="sm"
-            @click="() => emit('close')"
-          />
-          <AvButton
-            v-if="!!props.confirmButtonLabel"
-            :icon="confirmButtonIcon"
-            :label="props.confirmButtonLabel"
-            :title="props.confirmButtonLabel"
-            variant="FLAT"
-            :is-loading="isLoading"
-            size="sm"
-            @click="() => emit('confirm')"
+            @cancel="() => emit('close')"
+            @confirm="() => emit('confirm')"
           />
           <slot name="footer" />
         </div>
