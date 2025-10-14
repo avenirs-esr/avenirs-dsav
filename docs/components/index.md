@@ -25,6 +25,7 @@
 
 ### Buttons
 - [AvButton](interaction/buttons/AvButton/AvButton.md)
+- [AvCancelConfirmButtons](interaction/buttons/AvCancelConfirmButtons/AvCancelConfirmButtons.md)
 - [AvRichButton](interaction/buttons/AvRichButton/AvRichButton.md)
 
 ### Files

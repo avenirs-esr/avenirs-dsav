@@ -16,6 +16,7 @@ declare module 'vue' {
     AvAutocompleteSelectedTags: typeof import('./components/interaction/selects/AvAutocomplete/AvAutocompleteSelectedTags.vue')['default']
     AvBadge: typeof import('./components/badges/AvBadge/AvBadge.vue')['default']
     AvButton: typeof import('./components/interaction/buttons/AvButton/AvButton.vue')['default']
+    AvCancelConfirmButtons: typeof import('./components/interaction/buttons/AvCancelConfirmButtons/AvCancelConfirmButtons.vue')['default']
     AvCard: typeof import('./components/cards/AvCard/AvCard.vue')['default']
     AvDrawer: typeof import('./components/overlay/drawers/AvDrawer/AvDrawer.vue')['default']
     AvFileUpload: typeof import('./components/interaction/files/AvFileUpload/AvFileUpload.vue')['default']

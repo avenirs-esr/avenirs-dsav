@@ -64,6 +64,7 @@ export default defineConfig({
               text: 'Buttons',
               items: [
                 { text: 'AvButton', link: '/components/interaction/buttons/AvButton/AvButton.md' },
+                { text: 'AvCancelConfirmButtons', link: '/components/interaction/buttons/AvCancelConfirmButtons/AvCancelConfirmButtons.md' },
                 { text: 'AvRichButton', link: '/components/interaction/buttons/AvRichButton/AvRichButton.md' },
               ]
             },
