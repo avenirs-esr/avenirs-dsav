@@ -170,7 +170,13 @@ function onUpdateModelValue (values: (string | number)[]) {
 </script>
 
 <template>
-  <div :class="{ 'fr-multiselect--dense': props.dense }">
+  <div
+    :class="{
+      'fr-multiselect--dense': props.dense,
+      'fr-multiselect--unselected': props.modelValue.length === 0,
+      'fr-multiselect--selected': props.modelValue.length > 0,
+    }"
+  >
     <DsfrMultiselect
       v-bind="props"
       :model-value="modelValue"
@@ -253,6 +259,12 @@ function onUpdateModelValue (values: (string | number)[]) {
 
 :deep(.fr-multiselect__collapse) {
   width: auto !important;
+}
+
+.fr-multiselect--unselected :deep(button span) {
+  @extend .caption-regular;
+  font-style: italic;
+  color: inherit;
 }
 
 .b2-bold {

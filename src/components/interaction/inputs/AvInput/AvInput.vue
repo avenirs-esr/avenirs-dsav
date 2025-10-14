@@ -104,6 +104,11 @@ export interface AvInputProps {
    * Prefix icon name (optional)
    */
   prefixIcon?: string
+
+  /**
+   * Width of the input
+   */
+  width?: string
 }
 
 const props = withDefaults(defineProps<AvInputProps>(), {
@@ -276,16 +281,16 @@ function formatDateYyyyMMdd (date: Date | undefined) {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xxs);
-}
-
-.av-input--date {
-  width: fit-content;
-  max-width: 9rem;
+  width: v-bind('width');
 }
 
 :deep(input[type="date"]::-webkit-calendar-picker-indicator) {
   opacity: 0;
   cursor: pointer;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  margin-left: -2rem;
 }
 
 .av-input__prefix {

@@ -75,7 +75,8 @@ const meta: Meta<AvInputProps> = {
         'mdi:calendar-outline',
         'mdi:map-marker-outline'
       ]
-    }
+    },
+    width: { control: 'text' }
   },
   args: {
     label: 'Input Label',
