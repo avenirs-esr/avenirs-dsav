@@ -11,51 +11,5 @@ permissions:
 
 jobs:
   publish-to-npm:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: ✅ Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: 🔍 Verify tag is on develop
-        run: |
-          TAG_REF=${GITHUB_REF#refs/tags/}
-          COMMIT=$(git rev-list -n 1 $TAG_REF)
-          echo "Tag $TAG_REF points to commit $COMMIT"
-
-          BRANCHES=$(git branch -r --contains $COMMIT | grep 'origin/develop' || true)
-          if [ -z "$BRANCHES" ]; then
-            echo "❌ Tag $TAG_REF is not on develop, skipping publish."
-            exit 1
-          fi
-
-          echo "✅ Tag $TAG_REF is on develop"
-
-      - name: ⚙️ Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          registry-url: 'https://registry.npmjs.org'
-
-      - name: 📦 Update npm
-        run: npm install -g npm@latest
-
-      - name: 📦 Install dependencies
-        run: npm ci
-
-      - name: 🏗️ Generate auto-imports
-        run: npm run build-only
-
-      - name: 🧠 TypeScript type checking
-        run: npm run type-check
-
-      - name: 🧹 Run ESLint
-        run: npm run lint
-
-      - name: 🏗️ Build package
-        run: npm run build
-
-      - name: 🚀 Publish to npm
-        run: npm publish
+    uses: avenirs-esr/avenirs-workflows/.github/workflows/auto-deploy-to-npm-workflow.yaml@feat/539-frontend-workflows
+    secrets: inherit
