@@ -2,6 +2,10 @@
   "name": "@avenirs-esr/avenirs-dsav",
   "type": "module",
   "version": "0.1.48",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/avenirs-esr/avenirs-dsav"
+  },
   "main": "dist/avenirs-dsav.umd.js",
   "module": "dist/avenirs-dsav.es.js",
   "types": "dist/index.d.ts",
