@@ -1,6 +1,6 @@
 import '@/styles/main.scss'
 
-export * from './components'
+export * from './components/index'
 export * from './composables'
 export * from './config'
 export * from './tests'
