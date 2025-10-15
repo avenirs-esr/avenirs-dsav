@@ -27,6 +27,7 @@ export default () => {
     viteConfig,
     defineConfig({
       test: {
+        globals: true,
         environment: 'jsdom',
         exclude: [...configDefaults.exclude, ...sharedExclusions],
         root: fileURLToPath(new URL('./', import.meta.url)),
