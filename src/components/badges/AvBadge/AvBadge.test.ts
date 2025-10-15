@@ -1,5 +1,4 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach } from 'vitest'
 import AvBadge from '@/components/badges/AvBadge/AvBadge.vue'
 import { DsfrBadgeStub } from '@/tests/stubs'
 import { BddTest } from '@/tests/utils'

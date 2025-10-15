@@ -57,7 +57,7 @@ const props = withDefaults(defineProps<AvToggleProps>(), {
 defineEmits<{
   /**
    * Emitted when the toggle is clicked.
-   * @param value New state (`boolean`) of the toggle.
+   * @param payload New state (`boolean`) of the toggle.
    */
   (e: 'update:modelValue', payload: boolean): void
 }>()
@@ -110,7 +110,7 @@ const labelId = computed(() => {
   </label>
   <input
     :id="inputId"
-    :style="{ visibility: 'hidden' }"
+    :style="{ display: 'none' }"
     :disabled="disabled"
     :aria-disabled="disabled"
     type="checkbox"
