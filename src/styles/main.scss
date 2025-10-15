@@ -8,11 +8,16 @@
 @use './dimensions.scss' as *;
 @use './breakpoints.scss' as *;
 
+:root {
+  --default-global-background-color: var(--other-background-base)
+  --global-background-color: var(--default-global-background-color);
+}
+
 html,
 body,
 #app {
   height: 100%;
-  background-color: var(--surface-background);
+  background-color: var(--global-background-color);
 }
 
 .fr-container {
