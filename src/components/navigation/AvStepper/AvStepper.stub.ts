@@ -1,4 +1,4 @@
-export const AvStepperStub = {
+export const AvStepperStub = defineComponent({
   name: 'AvStepper',
   props: {
     steps: {
@@ -22,4 +22,4 @@ export const AvStepperStub = {
       </div>
     </div>
   `,
-}
+})
