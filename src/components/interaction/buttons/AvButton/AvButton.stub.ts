@@ -1,6 +1,14 @@
-export const AvButtonStub = {
+export const AvButtonStub = defineComponent({
   name: 'AvButton',
   props: ['label', 'variant', 'type', 'disabled', 'isLoading'],
   emits: ['click'],
-  template: '<button :disabled="disabled" @click="$emit(\'click\')">{{ label }}</button>'
-}
+  template: `
+    <button
+      class="av-button-stub"
+      :disabled="disabled"
+      @click="$emit(\'click\')"
+    >
+      {{ label }}
+    </button>
+  `
+})

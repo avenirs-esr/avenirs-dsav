@@ -1,6 +1,6 @@
-export const AvBadgeStub = {
+export const AvBadgeStub = defineComponent({
   name: 'AvBadge',
-  template: `<div class="av-badge"/>`,
+  template: `<div class="av-badge-stub" />`,
   props: {
     label: String,
     small: {
@@ -15,4 +15,4 @@ export const AvBadgeStub = {
     backgroundColor: String,
     iconPath: String
   }
-}
+})

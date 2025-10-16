@@ -1,4 +1,4 @@
-export const AvCancelConfirmButtonsStub = {
+export const AvCancelConfirmButtonsStub = defineComponent({
   name: 'AvCancelConfirmButtons',
   props: [
     'cancelLabel',
@@ -12,7 +12,19 @@ export const AvCancelConfirmButtonsStub = {
   ],
   emits: ['cancel', 'confirm'],
   template: `
-    <button class="cancel" @click="$emit(\'cancel\')">{{ cancelLabel }}</button>
-    <button class="confirm" @click="$emit(\'confirm\')">{{ confirmLabel }}</button>
+    <div class="av-cancel-confirmation-buttons-stub" >
+      <button
+        class="cancel"
+        @click="$emit(\'cancel\')"
+      >
+        {{ cancelLabel }}
+      </button>
+      <button
+        class="confirm"
+        @click="$emit(\'confirm\')"
+      >
+        {{ confirmLabel }}
+      </button>
+    </div>
   `
-}
+})

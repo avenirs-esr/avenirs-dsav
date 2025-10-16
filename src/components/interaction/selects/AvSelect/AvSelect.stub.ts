@@ -1,4 +1,4 @@
-export const AvSelectStub = {
+export const AvSelectStub = defineComponent({
   name: 'AvSelect',
   props: {
     modelValue: [String, Number],
@@ -9,10 +9,16 @@ export const AvSelectStub = {
   emits: ['update:modelValue'],
   template: `
     <select 
+      class="av-select-stub"
       :value="modelValue"
       @change="$emit('update:modelValue', $event.target.value)"
     >
-      <option v-if="defaultUnselectedText !== undefined" value="">{{ defaultUnselectedText }}</option>
+      <option
+        v-if="defaultUnselectedText !== undefined"
+        value=""
+      >
+        {{ defaultUnselectedText }}
+      </option>
       <option 
         v-for="option in options" 
         :key="option.value" 
@@ -22,4 +28,4 @@ export const AvSelectStub = {
       </option>
     </select>
   `
-}
+})
