@@ -6,6 +6,16 @@
     "type": "git",
     "url": "https://github.com/avenirs-esr/avenirs-dsav"
   },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./test-utils": {
+      "types": "./dist/test-utils.d.ts",
+      "import": "./dist/test-utils.js"
+    }
+  },
   "main": "dist/avenirs-dsav.umd.js",
   "module": "dist/avenirs-dsav.es.js",
   "types": "dist/index.d.ts",

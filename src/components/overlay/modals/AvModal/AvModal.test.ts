@@ -3,7 +3,7 @@ import { beforeEach, expect } from 'vitest'
 import { nextTick } from 'vue'
 import { AvCancelConfirmButtonsStub } from '@/components/interaction/buttons/AvCancelConfirmButtons/AvCancelConfirmButtons.stub'
 import AvModal, { type AvModalProps } from '@/components/overlay/modals/AvModal/AvModal.vue'
-import { DsfrModalStub } from '@/tests'
+import { DsfrModalStub } from '@/tests/stubs'
 import { BddTest } from '@/tests/utils'
 
 BddTest().given('an AvModal', () => {

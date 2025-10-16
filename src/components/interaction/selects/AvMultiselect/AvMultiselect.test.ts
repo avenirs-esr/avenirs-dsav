@@ -1,6 +1,6 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-import { AvVIconStub } from '@/components/base'
+import { AvVIconStub } from '@/components/base/AvVIcon/AvVIcon.stub'
 import AvMultiselect, { type AvMultiselectProps } from '@/components/interaction/selects/AvMultiselect/AvMultiselect.vue'
 import { BddTest } from '@/tests/utils'
 import { MDI_ICONS } from '@/tokens/icons'
