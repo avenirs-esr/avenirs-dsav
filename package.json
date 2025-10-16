@@ -6,15 +6,25 @@
     "type": "git",
     "url": "https://github.com/avenirs-esr/avenirs-dsav"
   },
+  "sideEffects": [
+    "*.css",
+    "*.scss",
+    "*.vue",
+    "dist/*.css"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs.js"
     },
     "./test-utils": {
       "types": "./dist/test-utils.d.ts",
-      "import": "./dist/test-utils.js"
-    }
+      "import": "./dist/test-utils.es.js",
+      "require": "./dist/test-utils.cjs.js"
+    },
+    "./style.css": "./dist/avenirs-dsav.css",
+    "./src/styles/*": "./src/styles/*"
   },
   "main": "dist/avenirs-dsav.umd.js",
   "module": "dist/avenirs-dsav.es.js",
@@ -30,7 +40,7 @@
     "build-only:development": "vite build -m development",
     "dev": "vite",
     "build": "run-p type-check type-gen \"build-only {@}\" --",
-    "build:watch": "run-p type-check:watch \"build-only:watch {@}\" --",
+    "build:watch": "npm run build && run-p type-check:watch \"build-only:watch {@}\" --",
     "build:development": "run-p type-check type-gen \"build-only:development {@}\" --",
     "format": "eslint . --fix",
     "lint": "eslint .",
@@ -60,8 +70,18 @@
     "docs:build": "npm run docs:generate && vitepress build docs"
   },
   "peerDependencies": {
+    "@vue/test-utils": "^2.0.0",
+    "vitest": "^3.0.0",
     "vue": "^3.5.13",
     "vue-router": "^4.4.3"
+  },
+  "peerDependenciesMeta": {
+    "@vue/test-utils": {
+      "optional": true
+    },
+    "vitest": {
+      "optional": true
+    }
   },
   "dependencies": {
     "@gouvfr/dsfr": "^1.14.0",

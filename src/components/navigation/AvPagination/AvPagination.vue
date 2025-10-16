@@ -200,7 +200,7 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
         <a
           v-if="!compact"
           class="fr-pagination__link"
-          :href="pages.at(-1)?.href"
+          :href="pages[pages.length - 1]?.href"
           :title="lastPageLabel"
           :disabled="currentPage === pages.length - 1 ? true : undefined"
           :aria-disabled="currentPage === pages.length - 1 ? true : undefined"

@@ -11,6 +11,7 @@ import { AvToggleStub } from '@/components/interaction/toggles/AvToggle/AvToggle
 import { AvSideNavigationStub } from '@/components/navigation/AvSideNavigation/AvSideNavigation.stub'
 import { AvStepperStub } from '@/components/navigation/AvStepper/AvStepper.stub'
 import { AvDrawerStub } from '@/components/overlay/drawers/AvDrawer/AvDrawer.stub'
+import { DsfrBadgeStub, DsfrModalStub, DsfrNavigationStub, VIconStub } from '@/tests/stubs'
 import { BddTest } from '@/tests/utils'
 
 export {
@@ -27,5 +28,9 @@ export {
   AvTagPickerStub,
   AvToggleStub,
   AvVIconStub,
-  BddTest
+  BddTest,
+  DsfrBadgeStub,
+  DsfrModalStub,
+  DsfrNavigationStub,
+  VIconStub
 }

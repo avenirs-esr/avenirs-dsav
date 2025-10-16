@@ -30,8 +30,6 @@ export default defineConfig({
       // @ts-expect-error TS2322
       'vue-router',
       // @ts-expect-error TS2322
-      'vitest',
-      // @ts-expect-error TS2322
       vueDsfrAutoimportPreset],
       vueTemplate: true,
       dts: './src/auto-imports.d.ts',
@@ -62,17 +60,15 @@ export default defineConfig({
       external: [
         'vue',
         'vue-router',
-        '@gouvfr/dsfr',
-        '@gouvminint/vue-dsfr'
+        'vitest',
+        '@vue/test-utils'
       ],
       output: {
         exports: 'named',
         dir: 'dist',
         globals: {
           'vue': 'Vue',
-          'vue-router': 'VueRouter',
-          '@gouvfr/dsfr': 'Dsfr',
-          '@gouvminint/vue-dsfr': 'VueDsfr',
+          'vue-router': 'VueRouter'
         },
         manualChunks: undefined,
         entryFileNames: `[name].[format].js`,
