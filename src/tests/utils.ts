@@ -27,7 +27,7 @@ export function BddTest () {
   }
 }
 
-function mountComposable<T> (fn: () => T): { result: T, unmount: () => void } {
+export function mountComposable<T> (fn: () => T): { result: T, unmount: () => void } {
   let composableResult: T | undefined
   const app = createApp({
     setup () {
@@ -55,7 +55,7 @@ function mountComposable<T> (fn: () => T): { result: T, unmount: () => void } {
  * @param {ComponentMountingOptions<T>} [options] - Additional options for mounting the component.
  * @returns {Promise<VueWrapper<InstanceType<any>>>} the function  return any as type because ts type is too complicated.
  */
-async function mountWithRouter<T> (component: Component, options?: ComponentMountingOptions<T>): Promise<VueWrapper<InstanceType<any>>> {
+export async function mountWithRouter<T> (component: Component, options?: ComponentMountingOptions<T>): Promise<VueWrapper<InstanceType<any>>> {
   const wrapper = mount(component, {
     ...options,
     global: {
@@ -73,9 +73,4 @@ async function mountWithRouter<T> (component: Component, options?: ComponentMoun
 
   await wrapper.vm.$nextTick()
   return wrapper
-}
-
-export {
-  mountComposable,
-  mountWithRouter,
 }
