@@ -1,5 +1,5 @@
+/// <reference types="vitest/globals" />
 import { type ComponentMountingOptions, mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
-import { describe, it } from 'vitest'
 import { type Component, createApp } from 'vue'
 
 /**
