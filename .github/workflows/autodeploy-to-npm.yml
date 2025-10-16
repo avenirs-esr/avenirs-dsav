@@ -11,5 +11,5 @@ permissions:
 
 jobs:
   publish-to-npm:
-    uses: avenirs-esr/avenirs-workflows/.github/workflows/auto-deploy-to-npm-workflow.yaml@feat/539-frontend-workflows
+    uses: avenirs-esr/avenirs-workflows/.github/workflows/auto-deploy-to-npm-workflow.yaml@main
     secrets: inherit

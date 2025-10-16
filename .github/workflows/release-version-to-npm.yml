@@ -18,5 +18,5 @@ permissions:
 
 jobs:
   release:
-    uses: avenirs-esr/avenirs-workflows/.github/workflows/release-version-to-npm-workflow.yaml@feat/539-frontend-workflows
+    uses: avenirs-esr/avenirs-workflows/.github/workflows/release-version-to-npm-workflow.yaml@main
     secrets: inherit
