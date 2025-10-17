@@ -20,6 +20,7 @@ export default defineConfig({
           text: 'Badges',
           items: [
             { text: 'AvBadge', link: '/components/badges/AvBadge/AvBadge.md' },
+            { text: 'AvTag', link: '/components/badges/AvTag/AvTag.md' },
           ]
         },
         {
@@ -127,6 +128,7 @@ export default defineConfig({
         {
           text: 'Navigation',
           items: [
+            { text: 'AvBreadcrumb', link: '/components/navigation/AvBreadcrumb/AvBreadcrumb.md' },
             { text: 'AvNavigation', link: '/components/navigation/AvNavigation/AvNavigation.md' },
             { text: 'AvPagination', link: '/components/navigation/AvPagination/AvPagination.md' },
             { text: 'AvSideMenu', link: '/components/navigation/AvSideMenu/AvSideMenu.md' },

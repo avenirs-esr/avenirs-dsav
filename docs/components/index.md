@@ -1,5 +1,6 @@
 ## Badges
 - [AvBadge](badges/AvBadge/AvBadge.md)
+- [AvTag](badges/AvTag/AvTag.md)
 
 ## Base
 - [AvIconText](base/AvIconText/AvIconText.md)
@@ -59,6 +60,7 @@
 - [AvToggle](interaction/toggles/AvToggle/AvToggle.md)
 
 ## Navigation
+- [AvBreadcrumb](navigation/AvBreadcrumb/AvBreadcrumb.md)
 - [AvNavigation](navigation/AvNavigation/AvNavigation.md)
 - [AvPagination](navigation/AvPagination/AvPagination.md)
 - [AvSideMenu](navigation/AvSideMenu/AvSideMenu.md)
