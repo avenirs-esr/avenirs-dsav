@@ -124,7 +124,7 @@ defineExpose({
 .av-autocomplete-input__suffix {
   position: absolute;
   right: var(--spacing-xxs);
-  top: 2.2rem;
+  top: 2.7rem;
   z-index: 2;
   display: flex;
   align-items: center;
