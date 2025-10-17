@@ -25,7 +25,7 @@ You can find examples of use and demo of the design system components on our [gi
 
 In your project, run `npm install @ævenirs-esr/avenirs-dsav`.
 
-In order to make the style from `DSAV` work in your project, make sure to import the main `DSAV` style in your `main.ts` with the following : `import '@avenirs-esr/avenirs-dsav/dist/avenirs-dsav.css'`.
+In order to make the style from `DSAV` work in your project, make sure to import the main `DSAV` style in your `main.ts` with the following : `import '@avenirs-esr/avenirs-dsav/style.css'`.
 
 ## Contributing
 
