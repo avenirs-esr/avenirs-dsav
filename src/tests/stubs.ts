@@ -1,12 +1,18 @@
 import type { DsfrNavigationProps } from '@gouvminint/vue-dsfr'
 
-export const DsfrBadgeStub = {
+export const DsfrBadgeStub = defineComponent({
   name: 'DsfrBadge',
   template: `<div class="dsfr-badge" />`,
   props: ['label', 'type', 'small', 'ellipsis']
-}
+})
 
-export const DsfrModalStub = {
+export const DsfrBreadcrumbStub = defineComponent({
+  name: 'DsfrBreadcrumb',
+  template: `<div class="dsfr-breadcrumb" />`,
+  props: ['links', 'navigationLabel', 'showBreadcrumbLabel']
+})
+
+export const DsfrModalStub = defineComponent({
   name: 'DsfrModal',
   props: ['opened', 'title'],
   template: `<div class="dsfr-modal"><slot /><slot name="footer" /></div>`,
@@ -16,18 +22,35 @@ export const DsfrModalStub = {
       this.$emit('keydown', { key: 'Escape' })
     }
   }
-}
+})
 
-export const DsfrNavigationStub = {
+export const DsfrNavigationStub = defineComponent({
   name: 'DsfrNavigation',
   props: {
     navItems: Array<DsfrNavigationProps['navItems']>,
   },
   template: '<nav class="dsfr-navigation-mock"><slot /></nav>',
-}
+})
 
-export const VIconStub = {
+export const DsfrTagStub = defineComponent({
+  name: 'DsfrTag',
+  template: `<div class="dsfr-tag" />`,
+  props: [
+    'label',
+    'link',
+    'tagName',
+    'icon',
+    'disabled',
+    'small',
+    'iconOnly',
+    'selectable',
+    'selected',
+    'value'
+  ]
+})
+
+export const VIconStub = defineComponent({
   name: 'VIcon',
   props: ['name', 'size', 'color'],
   template: '<div class="v-icon-stub"></div>'
-}
+})
