@@ -6,6 +6,7 @@
     "watch",
     "onMounted",
     "onUnmounted",
+    "onBeforeUnmount",
     "defineComponent",
     "defineProps",
     "defineEmits",

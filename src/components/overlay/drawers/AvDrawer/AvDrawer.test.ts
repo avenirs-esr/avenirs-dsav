@@ -195,4 +195,52 @@ BddTest().given('a drawer component', () => {
       expect(wrapper.vm.backdrop).toBe(false)
     })
   })
+
+  BddTest().when('the drawer is visible', () => {
+    beforeEach(() => {
+      wrapper = mount(AvDrawer, {
+        props: {
+          show: true,
+        },
+      })
+    })
+
+    BddTest().then('it should emit escapePressed event on escape key press', async () => {
+      const event = new KeyboardEvent('keydown', { key: 'Escape' })
+      window.dispatchEvent(event)
+      await wrapper.vm.$nextTick()
+      expect(wrapper.emitted('escapePressed')).toBeTruthy()
+      expect(wrapper.emitted('escapePressed')?.length).toBe(1)
+    })
+  })
+
+  BddTest().when('a custom ariaLabel is provided', () => {
+    const ariaLabel = 'Custom Aria Label'
+    beforeEach(() => {
+      wrapper = mount(AvDrawer, {
+        props: {
+          show: true,
+          ariaLabel,
+        },
+      })
+    })
+
+    BddTest().then('it should set the aria-label attribute correctly', () => {
+      expect(wrapper.find('.av-drawer').attributes('aria-label')).toBe(ariaLabel)
+    })
+  })
+
+  BddTest().when('no ariaLabel is provided', () => {
+    beforeEach(() => {
+      wrapper = mount(AvDrawer, {
+        props: {
+          show: true,
+        },
+      })
+    })
+
+    BddTest().then('it should have a default aria-label', () => {
+      expect(wrapper.find('.av-drawer').attributes('aria-label')).toBe('Menu latéral')
+    })
+  })
 })
