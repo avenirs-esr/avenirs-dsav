@@ -65,7 +65,30 @@ const slots = defineSlots<{
   footer?: Slot
 }>()
 
-const { position, width, padding } = toRefs(props)
+const { position, width, padding, show } = toRefs(props)
+
+function handleEscape (event: KeyboardEvent) {
+  if (event.key === 'Escape') {
+    emit('escapePressed')
+  }
+}
+
+watch(
+  show,
+  (visible) => {
+    if (visible) {
+      window.addEventListener('keydown', handleEscape)
+    }
+    else {
+      window.removeEventListener('keydown', handleEscape)
+    }
+  },
+  { immediate: true }
+)
+
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', handleEscape)
+})
 </script>
 
 <template>
@@ -80,7 +103,6 @@ const { position, width, padding } = toRefs(props)
       role="dialog"
       aria-modal="true"
       :aria-label="ariaLabel"
-      @keydown.esc="emit('escapePressed')"
     >
       <div class="av-drawer__content-wrapper">
         <div class="av-drawer__content">
