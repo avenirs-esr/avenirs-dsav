@@ -1,6 +1,3 @@
-<!-- This code is an adaptation of the source code of DsfrHeaderMenuLinks available at:
- https://vue-ds.fr/composants/DsfrHeaderMenuLinks -->
-
 <script lang="ts" setup>
 import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
 

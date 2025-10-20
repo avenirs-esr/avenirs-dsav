@@ -44,6 +44,7 @@ The component integrates focus management, proper ARIA attributes, and responsiv
 | `validMessage` | `string \| string[]` | `undefined` |  | Valid message(s) to display |
 | `prefixIcon` | `string` | `undefined` |  | Prefix icon name (optional) |
 | `width` | `string` | `undefined` |  | Width of the input |
+| `noRadius` | `boolean` | `false` |  | Removes the radii from the input border |
 
 ## 🔊 Events
 
