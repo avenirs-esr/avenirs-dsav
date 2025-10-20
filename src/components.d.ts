@@ -50,7 +50,6 @@ declare module 'vue' {
     AvToaster: typeof import('./components/feedback/AvToaster/AvToaster.vue')['default']
     AvToggle: typeof import('./components/interaction/toggles/AvToggle/AvToggle.vue')['default']
     AvVIcon: typeof import('./components/base/AvVIcon/AvVIcon.vue')['default']
-    DsfrBadge: typeof import('@gouvminint/vue-dsfr')['DsfrBadge']
     DsfrButton: typeof import('@gouvminint/vue-dsfr')['DsfrButton']
     DsfrLanguageSelector: typeof import('@gouvminint/vue-dsfr')['DsfrLanguageSelector']
     DsfrModal: typeof import('@gouvminint/vue-dsfr')['DsfrModal']

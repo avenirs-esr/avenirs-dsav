@@ -53,21 +53,39 @@ export interface AvBadgeProps {
   ellipsis?: boolean | undefined
 }
 
-const props = defineProps<AvBadgeProps>()
+const {
+  color,
+  backgroundColor,
+  borderColor,
+  iconPath,
+  label,
+  type = 'info',
+  noIcon = false,
+  small = false,
+  ellipsis = false
+} = defineProps<AvBadgeProps>()
 
-const customIconClass = computed(() => props.iconPath && !props.noIcon ? 'av-badge--customIcon' : undefined)
 const styleVars = computed(() => ({
-  '--icon-path': `url(${props.iconPath})`,
+  '--icon-path': `url(${iconPath})`,
 }))
 </script>
 
 <template>
-  <DsfrBadge
-    v-bind="props"
-    class="av-badge"
-    :class="[customIconClass]"
+  <p
+    class="av-badge fr-badge"
+    :class="{
+      [`fr-badge--${type}`]: type,
+      'fr-badge--no-icon': noIcon,
+      'fr-badge--sm': small,
+      'av-badge--custom-icon': iconPath && !noIcon,
+    }"
+    :title="ellipsis ? label : undefined"
     :style="styleVars"
-  />
+  >
+    <span :class="ellipsis ? 'fr-ellipsis' : ''">
+      {{ label }}
+    </span>
+  </p>
 </template>
 
 <style lang="scss" scoped>
@@ -77,7 +95,7 @@ const styleVars = computed(() => ({
   border: 1px solid v-bind('borderColor');
 }
 
-.av-badge--customIcon::before {
+.av-badge--custom-icon::before {
   content: '';
   margin-right: var(--spacing-xs);
   height: var(--dimension-sm);
