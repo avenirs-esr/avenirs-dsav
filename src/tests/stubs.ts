@@ -1,11 +1,5 @@
 import type { DsfrNavigationProps } from '@gouvminint/vue-dsfr'
 
-export const DsfrBadgeStub = defineComponent({
-  name: 'DsfrBadge',
-  template: `<div class="dsfr-badge" />`,
-  props: ['label', 'type', 'small', 'ellipsis']
-})
-
 export const DsfrBreadcrumbStub = defineComponent({
   name: 'DsfrBreadcrumb',
   template: `<div class="dsfr-breadcrumb" />`,

@@ -1,52 +1,92 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
-import AvBadge from '@/components/badges/AvBadge/AvBadge.vue'
-import { DsfrBadgeStub } from '@/tests/stubs'
+import AvBadge, { type AvBadgeProps } from '@/components/badges/AvBadge/AvBadge.vue'
 import { BddTest } from '@/tests/utils'
 
 BddTest().given('an AvBadge', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvBadge>>
 
-  const stubs = { DsfrBadge: DsfrBadgeStub }
-
-  const defaultProps = {
+  const props: AvBadgeProps = {
     color: 'var(--color)',
     backgroundColor: 'var(--background-color)',
     label: 'MyBadge'
   }
-  const propsWithIconPath = { ...defaultProps, iconPath: '/assets/icons/icon.svg' }
 
   BddTest().when('the component is mounted', () => {
     beforeEach(() => {
-      wrapper = mount(AvBadge, { props: defaultProps, global: { stubs } })
+      wrapper = mount(AvBadge, { props })
     })
 
     BddTest().then('it should render with given properties', () => {
-      const dsfrBadge = wrapper.findComponent({ name: 'DsfrBadge' })
-
-      expect(dsfrBadge.exists()).toBe(true)
-      expect(dsfrBadge.props()).toMatchObject({
-        label: defaultProps.label,
-        type: undefined,
-      })
-
-      expect(dsfrBadge.classes()).not.toContain('av-badge--customIcon')
+      const badge = wrapper.find('.av-badge')
+      expect(badge.classes()).toContain('fr-badge--info')
+      expect(badge.text()).toBe(props.label)
+      expect(badge.classes()).not.toContain('av-badge--customIcon')
+      expect(badge.classes()).not.toContain('fr-badge--no-icon')
+      expect(badge.classes()).not.toContain('fr-badge--sm')
     })
 
-    BddTest().and('given iconPath', () => {
+    BddTest().and('given iconPath prop', () => {
+      const newProps: AvBadgeProps = { ...props, iconPath: 'test/icon/path' }
+
       beforeEach(() => {
-        wrapper = mount(AvBadge, { props: propsWithIconPath, global: { stubs } })
+        wrapper = mount(AvBadge, { props: newProps })
       })
 
-      BddTest().then('it should add specific class', () => {
-        const dsfrBadge = wrapper.findComponent({ name: 'DsfrBadge' })
+      BddTest().then('it should add custom icon class', () => {
+        const badge = wrapper.find('.av-badge')
+        expect(badge.classes()).toContain('av-badge--custom-icon')
+      })
+    })
 
-        expect(dsfrBadge.exists()).toBe(true)
-        expect(dsfrBadge.props()).toMatchObject({
-          label: defaultProps.label,
-          type: undefined,
-        })
+    BddTest().and('given another type', () => {
+      const newProps: AvBadgeProps = { ...props, type: 'error' }
 
-        expect(dsfrBadge.classes()).toContain('av-badge--customIcon')
+      beforeEach(() => {
+        wrapper = mount(AvBadge, { props: newProps })
+      })
+
+      BddTest().then('it should update type class', () => {
+        const badge = wrapper.find('.av-badge')
+        expect(badge.classes()).toContain('fr-badge--error')
+      })
+    })
+
+    BddTest().and('given small prop', () => {
+      const newProps: AvBadgeProps = { ...props, small: true }
+
+      beforeEach(() => {
+        wrapper = mount(AvBadge, { props: newProps })
+      })
+
+      BddTest().then('it should add small class', () => {
+        const badge = wrapper.find('.av-badge')
+        expect(badge.classes()).toContain('fr-badge--sm')
+      })
+    })
+
+    BddTest().and('given no icon prop', () => {
+      const newProps: AvBadgeProps = { ...props, noIcon: true }
+
+      beforeEach(() => {
+        wrapper = mount(AvBadge, { props: newProps })
+      })
+
+      BddTest().then('it should add no icon class', () => {
+        const badge = wrapper.find('.av-badge')
+        expect(badge.classes()).toContain('fr-badge--no-icon')
+      })
+    })
+
+    BddTest().and('given ellipsis prop', () => {
+      const newProps: AvBadgeProps = { ...props, ellipsis: true }
+
+      beforeEach(() => {
+        wrapper = mount(AvBadge, { props: newProps })
+      })
+
+      BddTest().then('it should add an ellipsis class', () => {
+        const badge = wrapper.find('.av-badge')
+        expect(badge.find('.fr-ellipsis').exists()).toBe(true)
       })
     })
   })
