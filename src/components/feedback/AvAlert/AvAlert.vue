@@ -1,6 +1,3 @@
-<!-- This code is an adaptation of the source code of DsfrAlert available at:
- https://vue-ds.fr/composants/DsfrAlert -->
-
 <script setup lang="ts">
 import type { Slot } from 'vue'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
@@ -10,7 +7,7 @@ import { MDI_ICONS } from '@/tokens'
 /**
  * AvAlert component props.
  */
-interface AvAlertProps {
+export interface AvAlertProps {
   /**
    * If true, the alert is displayed with the `alert` role.
    * @default false
