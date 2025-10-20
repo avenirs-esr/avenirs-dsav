@@ -14,8 +14,8 @@ BddTest().given('an AvAlert', () => {
       template: '<button class="av-button" @click="onClick"><slot /></button>',
       props: ['onClick']
     },
-    AvVICon: {
-      name: 'AvVIcon',
+    AvICon: {
+      name: 'AvIcon',
       template: '<div class="av-vicon" />',
       props: ['name', 'color', 'size']
     }
@@ -116,7 +116,7 @@ BddTest().given('an AvAlert', () => {
       })
 
       BddTest().then('it should render info icon', async () => {
-        const icon = wrapper.findComponent({ name: 'AvVIcon' })
+        const icon = wrapper.findComponent({ name: 'AvIcon' })
         expect(icon.exists()).toBe(true)
         expect(icon.props()).toMatchObject({
           name: MDI_ICONS.INFORMATION_OUTLINE,
@@ -132,7 +132,7 @@ BddTest().given('an AvAlert', () => {
       })
 
       BddTest().then('it should render success', async () => {
-        const icon = wrapper.findComponent({ name: 'AvVIcon' })
+        const icon = wrapper.findComponent({ name: 'AvIcon' })
         expect(icon.exists()).toBe(true)
         expect(icon.props()).toMatchObject({
           name: MDI_ICONS.CHECK_CIRCLE,
@@ -148,7 +148,7 @@ BddTest().given('an AvAlert', () => {
       })
 
       BddTest().then('it should render error icon', async () => {
-        const icon = wrapper.findComponent({ name: 'AvVIcon' })
+        const icon = wrapper.findComponent({ name: 'AvIcon' })
         expect(icon.exists()).toBe(true)
         expect(icon.props()).toMatchObject({
           name: MDI_ICONS.ALERT_CIRCLE_OUTLINE,
@@ -164,7 +164,7 @@ BddTest().given('an AvAlert', () => {
       })
 
       BddTest().then('it should render warning icon', async () => {
-        const icon = wrapper.findComponent({ name: 'AvVIcon' })
+        const icon = wrapper.findComponent({ name: 'AvIcon' })
         expect(icon.exists()).toBe(true)
         expect(icon.props()).toMatchObject({
           name: MDI_ICONS.WARNING_OUTLINE,

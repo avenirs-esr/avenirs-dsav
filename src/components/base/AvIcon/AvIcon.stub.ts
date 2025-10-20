@@ -1,5 +1,5 @@
-export const AvVIconStub = defineComponent({
-  name: 'AvVIcon',
+export const AvIconStub = defineComponent({
+  name: 'AvIcon',
   props: ['name', 'color', 'size'],
   template: `<div class="av-vicon-stub" />`,
 })

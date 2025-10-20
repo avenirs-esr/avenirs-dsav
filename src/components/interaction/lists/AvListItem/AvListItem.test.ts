@@ -8,8 +8,8 @@ BddTest().given('an AvListItem component', () => {
   let avListItem: DOMWrapper<Element>
 
   const stubs = {
-    AvVIcon: {
-      name: 'AvVIcon',
+    AvIcon: {
+      name: 'AvIcon',
       props: ['name', 'color', 'size'],
       template: '<div class="av-vicon-stub" />'
     }
@@ -76,7 +76,7 @@ BddTest().given('an AvListItem component', () => {
 
     BddTest().then('it should render the icon', () => {
       const iconContainer = avListItem.find('.av-list-item__icon')
-      const iconComponent = avListItem.findComponent({ name: 'AvVIcon' })
+      const iconComponent = avListItem.findComponent({ name: 'AvIcon' })
 
       expect(iconContainer.exists()).toBe(true)
       expect(iconComponent.exists()).toBe(true)
@@ -84,7 +84,7 @@ BddTest().given('an AvListItem component', () => {
     })
 
     BddTest().then('it should pass correct props to icon', () => {
-      const iconComponent = avListItem.findComponent({ name: 'AvVIcon' })
+      const iconComponent = avListItem.findComponent({ name: 'AvIcon' })
       expect(iconComponent.props('color')).toBe('var(--text1)')
       expect(iconComponent.props('size')).toBe(1.3125)
     })
@@ -347,7 +347,7 @@ BddTest().given('an AvListItem component', () => {
     })
 
     BddTest().then('it should pass custom size to icon', () => {
-      const iconComponent = avListItem.findComponent({ name: 'AvVIcon' })
+      const iconComponent = avListItem.findComponent({ name: 'AvIcon' })
       expect(iconComponent.props('size')).toBe(2.5)
     })
   })

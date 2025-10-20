@@ -1,22 +1,29 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
-import AvVIcon, { type AvVIconProps } from '@/components/base/AvVIcon/AvVIcon.vue'
+import AvIcon, { type AvIconProps } from '@/components/base/AvIcon/AvIcon.vue'
 
 /**
- * <h1 class="n1">Icons - <code>AvVIcon</code></h1>
- *
  * <h2 class="n2">✨ Introduction</h2>
  *
  * <p>
  *   <span class="b2-regular">
- *     The <code>AvVIcon</code> component places a <code>VIcon</code> in a square <code>div</code> of configurable size.
- *     It's a Vue.js component for displaying icons with a wide range of customization options, including animations, colors, and sizes.
- *     It's designed to be flexible and performant, with support for various display options, flip options, and accessible titles.
+ *     The <code>AvIcon</code> component places an <code>Icon</code>
+ *     (see <a href="https://iconify.design/docs/icon-components/vue/" target="_blank">Icon component from Iconify</a>)
+ *     in a square <code>div</code> of configurable size.
+ *     It is a Vue.js component for displaying icons with a wide range of customization options,
+ *     including animations, colors, and sizes.
  *   </span>
  * </p>
  *
  * <p>
  *   <span class="b2-regular">
- *     It has exactly the same API as OhVueIcon, and uses <code>@iconify/vue</code> under the hood.
+ *     It's designed to be flexible and performant, with support for various display options,
+ *     flip options, and accessible titles.
+ *   </span>
+ * </p>
+ *
+ * <p>
+ *   <span class="b2-regular">
+ *     It has exactly the same API as <code>OhVueIcon</code>, and uses <code>@iconify/vue</code> under the hood.
  *   </span>
  * </p>
  *
@@ -31,28 +38,27 @@ import AvVIcon, { type AvVIconProps } from '@/components/base/AvVIcon/AvVIcon.vu
  *
  * <p>
  *   <span class="b2-regular">
- *     The icon is composed of a square <code>div</code> of configurable size containing the <code>VIcon</code> component.
+ *     The icon is composed of a square <code>div</code> of configurable size containing the <code>Icon</code> component.
  *   </span>
  * </p>
  */
-const meta: Meta<AvVIconProps> = {
-  title: 'Components/Base/AvVIcon',
-  component: AvVIcon,
+const meta: Meta<AvIconProps> = {
+  title: 'Components/Base/AvIcon',
+  component: AvIcon,
   tags: ['autodocs'],
   argTypes: {
     name: {
       control: 'text',
-      description: 'Name of the icon (from VIcon naming convention)',
+      description: 'Name of the icon (from Iconify naming convention)',
       type: { name: 'string', required: true },
     },
     size: {
       control: { type: 'range', min: 0.5, max: 5, step: 0.25 },
       description: 'Size in rem of the container and icon scale',
     },
-    verticalAlign: { control: 'text' },
     animation: {
       control: 'select',
-      options: ['spin', 'wrench', 'pulse', 'spin-pulse', 'flash', 'float', undefined],
+      options: ['spin', 'wrench', 'pulse', 'spin-pulse', 'flash', 'float', 'ring', undefined],
     },
     speed: {
       control: 'radio',
@@ -63,7 +69,6 @@ const meta: Meta<AvVIconProps> = {
       options: ['horizontal', 'vertical', 'both', undefined],
     },
     color: { control: 'color' },
-    inverse: { control: 'boolean' },
     label: { control: 'text' },
     title: { control: 'text' },
     ssr: { control: 'boolean' },
@@ -71,12 +76,10 @@ const meta: Meta<AvVIconProps> = {
   args: {
     name: 'mdi:check',
     size: 2,
-    verticalAlign: '-0.2em',
     animation: undefined,
     speed: undefined,
     flip: undefined,
-    color: '#000000',
-    inverse: false,
+    color: 'var(--text1)',
     label: 'Check icon',
     title: 'Check',
     ssr: true,
@@ -85,12 +88,12 @@ const meta: Meta<AvVIconProps> = {
 
 export default meta
 
-const Template: StoryFn<AvVIconProps> = args => ({
-  components: { AvVIcon },
+const Template: StoryFn<AvIconProps> = args => ({
+  components: { AvIcon },
   setup () {
     return { args }
   },
-  template: `<AvVIcon v-bind="args" />`,
+  template: `<AvIcon v-bind="args" />`,
 })
 
 export const Default = Template.bind({})

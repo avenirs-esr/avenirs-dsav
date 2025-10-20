@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
-import AvVIcon from '@/components/base/AvVIcon/AvVIcon.vue'
+import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 
 /**
  * AvListItem component props.
@@ -213,7 +213,7 @@ const selectedClass = computed(() => selected ? 'av-list-item--selected' : '')
         v-if="icon"
         class="av-list-item__icon"
       >
-        <AvVIcon
+        <AvIcon
           :name="icon"
           :color="iconColor ?? color"
           :size="iconSize"

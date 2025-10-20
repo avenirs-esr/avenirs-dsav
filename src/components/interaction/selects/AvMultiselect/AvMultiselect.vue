@@ -188,13 +188,13 @@ function onUpdateModelValue (values: (string | number)[]) {
     >
       <template #checkbox-label="{ option }">
         <div class="item-container">
-          <AvVIcon
+          <AvIcon
             class="option-checkbox"
             :name="getIconName(option)"
             :color="getIconColor(option)"
             :size="1.5"
           />
-          <AvVIcon
+          <AvIcon
             v-if="option.icon"
             class="option-icon"
             :name="option.icon"

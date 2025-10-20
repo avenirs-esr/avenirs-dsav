@@ -24,6 +24,7 @@ declare module 'vue' {
     AvFileUploadAlert: typeof import('./components/interaction/files/AvFileUpload/AvFileUploadAlert.vue')['default']
     AvHeader: typeof import('./components/header/AvHeader/AvHeader.vue')['default']
     AvHeaderMenuLinks: typeof import('./components/header/AvHeaderMenuLinks/AvHeaderMenuLinks.vue')['default']
+    AvIcon: typeof import('./components/base/AvIcon/AvIcon.vue')['default']
     AvIconText: typeof import('./components/base/AvIconText/AvIconText.vue')['default']
     AvInput: typeof import('./components/interaction/inputs/AvInput/AvInput.vue')['default']
     AvList: typeof import('./components/interaction/lists/AvList/AvList.vue')['default']
@@ -49,7 +50,6 @@ declare module 'vue' {
     AvTagPicker: typeof import('./components/interaction/pickers/AvTagPicker/AvTagPicker.vue')['default']
     AvToaster: typeof import('./components/feedback/AvToaster/AvToaster.vue')['default']
     AvToggle: typeof import('./components/interaction/toggles/AvToggle/AvToggle.vue')['default']
-    AvVIcon: typeof import('./components/base/AvVIcon/AvVIcon.vue')['default']
     DsfrButton: typeof import('@gouvminint/vue-dsfr')['DsfrButton']
     DsfrLanguageSelector: typeof import('@gouvminint/vue-dsfr')['DsfrLanguageSelector']
     DsfrModal: typeof import('@gouvminint/vue-dsfr')['DsfrModal']
@@ -61,6 +61,5 @@ declare module 'vue' {
     EsupLogo: typeof import('./components/header/EsupLogo.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    VIcon: typeof import('@gouvminint/vue-dsfr')['VIcon']
   }
 }

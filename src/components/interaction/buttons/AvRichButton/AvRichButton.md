@@ -60,7 +60,7 @@ You can find examples of use and demo of the component on its dedicated [Storybo
     custom-padding="var(--spacing-xs)"
   >
     <div class="body">
-      <AvVIcon
+      <AvIcon
         :name="MDI_ICONS.FILE_ACCOUNT_OUTLINE"
         color="var(--other-background-base)"
         :size="1.5"

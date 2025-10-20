@@ -36,7 +36,7 @@ BddTest().given('multiple accordions inside the group', () => {
     })
 
     BddTest().then('it should render icons and titles for each accordion', () => {
-      const icons = wrapper.findAllComponents({ name: 'AvVIcon' })
+      const icons = wrapper.findAllComponents({ name: 'AvIcon' })
       const titles = wrapper.findAll('h6')
 
       expect(icons.length).toBe(3)
@@ -46,7 +46,7 @@ BddTest().given('multiple accordions inside the group', () => {
     })
 
     BddTest().then('it should render the icon if the prop is provided', () => {
-      const firstIcon = wrapper.findAllComponents({ name: 'AvVIcon' })[0]
+      const firstIcon = wrapper.findAllComponents({ name: 'AvIcon' })[0]
       expect(firstIcon.exists()).toBe(true)
       expect(firstIcon.props('name')).toBe('icon-1')
     })
@@ -72,7 +72,7 @@ BddTest().given('multiple accordions inside the group', () => {
         }
       })
 
-      const icons = wrapperWithoutIcon.findAllComponents({ name: 'AvVIcon' })
+      const icons = wrapperWithoutIcon.findAllComponents({ name: 'AvIcon' })
       expect(icons.length).toBe(1)
       expect(icons[0].props('name')).toBe('icon-2')
     })

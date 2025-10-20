@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { VIcon } from '@gouvminint/vue-dsfr'
+import type AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import { MDI_ICONS } from '@/tokens'
 import { toSentenceCase } from '@/utils'
 
@@ -70,7 +70,7 @@ export interface AvButtonProps {
   /**
    * Icon to be displayed in the button. Can be a name or an icon configuration (eg: `{"name": "mdi:stars"}`).
    */
-  icon?: string | InstanceType<typeof VIcon>['$props']
+  icon?: string | InstanceType<typeof AvIcon>['$props']
 
   /**
    * Function called when button is clicked.
@@ -90,7 +90,7 @@ const props = withDefaults(defineProps<AvButtonProps>(), {
   noRadius: false
 })
 
-const loadingIcon: InstanceType<typeof VIcon>['$props'] = { name: MDI_ICONS.LOADING_OUTLINE, animation: 'spin' }
+const loadingIcon: InstanceType<typeof AvIcon>['$props'] = { name: MDI_ICONS.LOADING_OUTLINE, animation: 'spin' }
 const iconToRender = computed(() => props.isLoading ? loadingIcon : props.icon)
 const variantClass = computed(() => `av-button--variant-${props.variant.toLowerCase()}`)
 const themeClass = computed(() => `av-button--theme-${props.theme.toLowerCase()}`)

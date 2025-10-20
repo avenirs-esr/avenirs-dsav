@@ -1,6 +1,6 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { AvVIconStub } from '@/components/base/AvVIcon/AvVIcon.stub'
+import { AvIconStub } from '@/components/base/AvIcon/AvIcon.stub'
 import AvRichButton from '@/components/interaction/buttons/AvRichButton/AvRichButton.vue'
 import { BddTest } from '@/tests/utils'
 
@@ -9,7 +9,7 @@ BddTest().given('an AvRichButton', () => {
 
   const props = { label: 'test' }
 
-  const stubs = { AvVIcon: AvVIconStub }
+  const stubs = { AvIcon: AvIconStub }
 
   BddTest().when('mounted with default props', () => {
     beforeEach(() => {
@@ -17,7 +17,7 @@ BddTest().given('an AvRichButton', () => {
     })
 
     BddTest().then('it should render an empty button', () => {
-      expect(wrapper.findAllComponents({ name: 'AvVICon' })).toHaveLength(0)
+      expect(wrapper.findAllComponents({ name: 'AvIcon' })).toHaveLength(0)
     })
   })
 
@@ -47,7 +47,7 @@ BddTest().given('an AvRichButton', () => {
 
     BddTest().then('it should render the left icon', () => {
       const leftContainer = wrapper.find('.av-rich-button__left')
-      const leftIcon = leftContainer.findComponent({ name: 'AvVIcon' })
+      const leftIcon = leftContainer.findComponent({ name: 'AvIcon' })
       expect(leftIcon.exists()).toBe(true)
       expect(leftIcon.props('name')).toBe(customProps.iconLeft)
     })
@@ -65,9 +65,9 @@ BddTest().given('an AvRichButton', () => {
 
     BddTest().then('it should render the left icon', () => {
       const leftContainer = wrapper.find('.av-rich-button__left')
-      const leftIcon = leftContainer.findComponent({ name: 'AvVIcon' })
+      const leftIcon = leftContainer.findComponent({ name: 'AvIcon' })
       expect(leftIcon.exists()).toBe(false)
-      const rightIcon = wrapper.findComponent({ name: 'AvVIcon' })
+      const rightIcon = wrapper.findComponent({ name: 'AvIcon' })
       expect(rightIcon.props('name')).toBe(customProps.iconRight)
     })
   })

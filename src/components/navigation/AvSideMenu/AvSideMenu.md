@@ -155,11 +155,11 @@ const sidebarCollapsed = ref(true)
   >
     <nav class="nav-menu">
       <div class="nav-item">
-        <AvVIcon :name="MDI_ICONS.HOME_VARIANT_OUTLINE" />
+        <AvIcon :name="MDI_ICONS.HOME_VARIANT_OUTLINE" />
         <span v-if="!sidebarCollapsed">Home</span>
       </div>
       <div class="nav-item">
-        <AvVIcon :name="MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE" />
+        <AvIcon :name="MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE" />
         <span v-if="!sidebarCollapsed">Profile</span>
       </div>
     </nav>
@@ -250,7 +250,7 @@ function onSidebarToggle (collapsed: boolean) {
             class="nav-item"
             :class="{ 'nav-item--active': $route.path === item.path }"
           >
-            <AvVIcon :name="item.icon" />
+            <AvIcon :name="item.icon" />
             <span v-if="!sidebarCollapsed">{{ item.label }}</span>
           </router-link>
         </nav>

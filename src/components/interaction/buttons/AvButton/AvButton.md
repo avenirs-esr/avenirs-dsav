@@ -29,7 +29,7 @@ Buttons consist of :
 | `iconRight` | `boolean` | `false` | | Indicates the position of the icon in relation to the button text: left (`false`) or right (`true`). |
 | `iconOnly` | `boolean` | `false` | | Hide label text (`true`) or show it (`false`). |
 | `size` | `'sm' \| 'small' \| 'lg' \| 'large' \| 'md' \| 'medium' \| '' \| undefined` | `'md'` | | Button size. |
-| `icon` | `string \| InstanceType<typeof VIcon>['$props']` | `undefined` | | Icon to be displayed in button. Can be a name or icon configuration. |
+| `icon` | `string \| InstanceType<typeof AvIcon>['$props']` | `undefined` | | Icon to be displayed in button. Can be a name or icon configuration. |
 | `onClick` | `($event: MouseEvent) => void` | `undefined` | | Function called when button is clicked.
 
 ## 🔊 Events

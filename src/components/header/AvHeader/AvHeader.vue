@@ -6,12 +6,11 @@ import type { Slot } from 'vue'
 
 import type { RouteLocationRaw } from 'vue-router'
 import {
-  type DsfrHeaderMenuLinkProps,
   type DsfrLanguageSelectorElement,
   type DsfrLanguageSelectorProps,
   registerNavigationLinkKey
 } from '@gouvminint/vue-dsfr'
-import AvHeaderMenuLinks from '@/components/header/AvHeaderMenuLinks/AvHeaderMenuLinks.vue'
+import AvHeaderMenuLinks, { type AvHeaderMenuLinksProps } from '@/components/header/AvHeaderMenuLinks/AvHeaderMenuLinks.vue'
 import AvLogo from '@/components/header/AvLogo.vue'
 
 /**
@@ -51,7 +50,7 @@ export interface AvHeaderProps {
    * Quick links to display in the header.
    * @default () => []
    */
-  quickLinks?: DsfrHeaderMenuLinkProps[]
+  quickLinks?: AvHeaderMenuLinksProps['links']
 
   /**
    * Language selector properties.
