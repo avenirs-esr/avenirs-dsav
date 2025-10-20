@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { DsfrNotice } from '@gouvminint/vue-dsfr'
 import { formatTextToHtml } from '@/utils/string/string'
 
 /**
@@ -27,20 +26,27 @@ export interface AvNoticeProps {
 
 const { title = '', text = '', type } = defineProps<AvNoticeProps>()
 
-const formattedDesc = computed(() => {
-  return formatTextToHtml(text)
-})
+const formattedDesc = computed(() => formatTextToHtml(text))
 </script>
 
 <template>
-  <DsfrNotice
-    :title="title"
-    :type="type"
+  <div
+    class="fr-notice"
+    :class="`fr-notice--${type}`"
   >
-    <template #desc>
-      <span v-html="formattedDesc" />
-    </template>
-  </DsfrNotice>
+    <div class="fr-container">
+      <div class="fr-notice__body">
+        <p>
+          <span class="fr-notice__title">
+            {{ title }}
+          </span>
+          <span class="fr-notice__desc">
+            <span v-html="formattedDesc" />
+          </span>
+        </p>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style lang="scss">
