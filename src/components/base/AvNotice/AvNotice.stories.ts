@@ -1,5 +1,4 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
-import { DsfrNotice } from '@gouvminint/vue-dsfr'
 import AvNotice, { type AvNoticeProps } from '@/components/base/AvNotice/AvNotice.vue'
 
 /**
@@ -74,7 +73,7 @@ const meta: Meta<AvNoticeProps> = {
 export default meta
 
 const Template: StoryFn<AvNoticeProps> = args => ({
-  components: { AvNotice, DsfrNotice },
+  components: { AvNotice },
   setup () {
     return { args }
   },
