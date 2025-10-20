@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AvVIcon from '@/components/base/AvVIcon/AvVIcon.vue'
+import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 
 /**
  * AvTag component props.
@@ -104,7 +104,7 @@ const iconSize = computed(() => small ? 0.65 : 0.9)
     v-bind="{ ...linkProps, ...$attrs }"
     @click="!disabled && rest.selectable && $emit('select', [rest.value, rest.selected ?? false])"
   >
-    <AvVIcon
+    <AvIcon
       v-if="icon"
       :label="iconOnly ? label : undefined"
       :size="iconSize"

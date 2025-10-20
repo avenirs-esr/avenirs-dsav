@@ -26,9 +26,9 @@ export default defineConfig({
         {
           text: 'Base',
           items: [
+            { text: 'AvIcon', link: '/components/base/AvIcon/AvIcon.md' },
             { text: 'AvIconText', link: '/components/base/AvIconText/AvIconText.md' },
             { text: 'AvNotice', link: '/components/base/AvNotice/AvNotice.md' },
-            { text: 'AvVIcon', link: '/components/base/AvVIcon/AvVIcon.md' },
           ]
         },
         {

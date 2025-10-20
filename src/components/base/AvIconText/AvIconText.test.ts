@@ -1,13 +1,13 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 import AvIconText from '@/components/base/AvIconText/AvIconText.vue'
-import { VIconStub } from '@/tests/stubs'
+import { AvIconStub } from '@/tests'
 import { BddTest } from '@/tests/utils'
 import { MDI_ICONS } from '@/tokens'
 
 BddTest().given('an AvIconText', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvIconText>>
-  const stubs = { VIcon: VIconStub }
+  const stubs = { AvIcon: AvIconStub }
 
   const baseProps = {
     icon: MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE,
@@ -27,10 +27,10 @@ BddTest().given('an AvIconText', () => {
     })
 
     BddTest().then('it should render properly', async () => {
-      const vicon = wrapper.findComponent({ name: 'VIcon' })
-      expect(vicon.exists()).toBe(true)
-      expect(vicon.props('name')).toBe(baseProps.icon)
-      expect(vicon.props('color')).toBe('var(--text1)')
+      const icon = wrapper.findComponent({ name: 'AvIcon' })
+      expect(icon.exists()).toBe(true)
+      expect(icon.props('name')).toBe(baseProps.icon)
+      expect(icon.props('color')).toBe('var(--text1)')
 
       const text = wrapper.find('.icon-text--text')
       expect(text.exists()).toBe(true)
@@ -44,10 +44,10 @@ BddTest().given('an AvIconText', () => {
       })
 
       BddTest().then('it should render properly', async () => {
-        const vicon = wrapper.findComponent({ name: 'VIcon' })
-        expect(vicon.exists()).toBe(true)
-        expect(vicon.props('name')).toBe(allProps.icon)
-        expect(vicon.props('color')).toBe(allProps.iconColor)
+        const icon = wrapper.findComponent({ name: 'AvIcon' })
+        expect(icon.exists()).toBe(true)
+        expect(icon.props('name')).toBe(allProps.icon)
+        expect(icon.props('color')).toBe(allProps.iconColor)
 
         const text = wrapper.find('.icon-text--text')
         expect(text.exists()).toBe(true)

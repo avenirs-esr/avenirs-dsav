@@ -1,12 +1,12 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-import { AvVIconStub } from '@/components/base/AvVIcon/AvVIcon.stub'
+import { AvIconStub } from '@/components/base/AvIcon/AvIcon.stub'
 import AvMultiselect, { type AvMultiselectProps } from '@/components/interaction/selects/AvMultiselect/AvMultiselect.vue'
 import { BddTest } from '@/tests/utils'
 import { MDI_ICONS } from '@/tokens/icons'
 
 const stubs = {
-  AvVIcon: AvVIconStub,
+  AvIcon: AvIconStub,
   DsfrMultiselect: {
     name: 'DsfrMultiselect',
     props: [
@@ -92,14 +92,14 @@ BddTest().given('a multiselect component', () => {
       })
 
       BddTest().then('it should render options checkboxes', () => {
-        const avvicons = wrapper.findAllComponents({ name: 'AvVIcon' })
-        const checkboxes = avvicons.filter(icon => icon.classes().includes('option-checkbox'))
+        const avicons = wrapper.findAllComponents({ name: 'AvIcon' })
+        const checkboxes = avicons.filter(icon => icon.classes().includes('option-checkbox'))
         expect(checkboxes).toHaveLength(3)
       })
 
       BddTest().then('it should not render options with icon', () => {
-        const avvicons = wrapper.findAllComponents({ name: 'AvVIcon' })
-        const optionicons = avvicons.filter(icon => icon.classes().includes('option-icon'))
+        const avicons = wrapper.findAllComponents({ name: 'AvIcon' })
+        const optionicons = avicons.filter(icon => icon.classes().includes('option-icon'))
         expect(optionicons).toHaveLength(0)
       })
     })
@@ -184,8 +184,8 @@ BddTest().given('a multiselect component', () => {
       })
 
       BddTest().then('it should render option 1 as a selected option', () => {
-        const avvicons = wrapper.findAllComponents({ name: 'AvVIcon' })
-        const checkboxes = avvicons.filter(icon => icon.classes().includes('option-checkbox'))
+        const avicons = wrapper.findAllComponents({ name: 'AvIcon' })
+        const checkboxes = avicons.filter(icon => icon.classes().includes('option-checkbox'))
         const firstOptionIcon = checkboxes[0]
         expect(firstOptionIcon.exists()).toBe(true)
         expect(firstOptionIcon.props('name')).toBe(MDI_ICONS.CHECKBOX_MARKED)
@@ -197,8 +197,8 @@ BddTest().given('a multiselect component', () => {
       })
 
       BddTest().then('it should render option 2 as a unselected option', () => {
-        const avvicons = wrapper.findAllComponents({ name: 'AvVIcon' })
-        const checkboxes = avvicons.filter(icon => icon.classes().includes('option-checkbox'))
+        const avicons = wrapper.findAllComponents({ name: 'AvIcon' })
+        const checkboxes = avicons.filter(icon => icon.classes().includes('option-checkbox'))
         const secondOptionIcon = checkboxes[1]
         expect(secondOptionIcon.props('name')).toBe(MDI_ICONS.CHECKBOX_BLANK_OUTLINE)
         expect(secondOptionIcon.props('color')).toBe('var(--icon)')
@@ -222,14 +222,14 @@ BddTest().given('a multiselect component', () => {
     })
 
     BddTest().then('it should render options checkboxes', () => {
-      const avvicons = wrapper.findAllComponents({ name: 'AvVIcon' })
-      const checkboxes = avvicons.filter(icon => icon.classes().includes('option-checkbox'))
+      const avicons = wrapper.findAllComponents({ name: 'AvIcon' })
+      const checkboxes = avicons.filter(icon => icon.classes().includes('option-checkbox'))
       expect(checkboxes).toHaveLength(3)
     })
 
     BddTest().then('it should not render options with icon', () => {
-      const avvicons = wrapper.findAllComponents({ name: 'AvVIcon' })
-      const optionicons = avvicons.filter(icon => icon.classes().includes('option-icon'))
+      const avicons = wrapper.findAllComponents({ name: 'AvIcon' })
+      const optionicons = avicons.filter(icon => icon.classes().includes('option-icon'))
       expect(optionicons).toHaveLength(3)
     })
   })

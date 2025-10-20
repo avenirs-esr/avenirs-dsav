@@ -1,7 +1,7 @@
 import { testStories } from '../../utils'
 
-const component = 'AvVIcon'
-const title = 'Components/Base/AvVIcon'
+const component = 'AvIcon'
+const title = 'Components/Base/AvIcon'
 const stories = [
   'Default',
   'Animated',

@@ -1,5 +1,5 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
-import { AvVIcon } from '@/components/base'
+import { AvIcon } from '@/components/base'
 import { MDI_ICONS, RI_ICONS } from '@/tokens'
 
 const meta: Meta = {
@@ -9,7 +9,7 @@ const meta: Meta = {
 export default meta
 
 export const AllIcons: StoryFn = () => ({
-  components: { AvVIcon },
+  components: { AvIcon },
   setup () {
     const mdiIcons = Object.entries(MDI_ICONS).map(([key, icon]) => [`MDI_ICONS.${key}`, icon])
     const riIcons = Object.entries(RI_ICONS).map(([key, icon]) => [`RI_ICONS.${key}`, icon])
@@ -23,7 +23,7 @@ export const AllIcons: StoryFn = () => ({
         :key="key" 
         style="display: flex; flex-direction: column; align-items: center; width: 10rem; word-break: break-word; text-align: center;"
       >
-        <AvVIcon :name="icon" size="2" color="var(--icon)" />
+        <AvIcon :name="icon" size="2" color="var(--icon)" />
         <span style="font-size: 0.75rem; text-align: center;">{{ key }}</span>
       </div>
     </div>
@@ -31,7 +31,7 @@ export const AllIcons: StoryFn = () => ({
 })
 
 export const MdiIcons: StoryFn = () => ({
-  components: { AvVIcon },
+  components: { AvIcon },
   setup () {
     return { icons: Object.entries(MDI_ICONS).map(([key, icon]) => [`MDI_ICONS.${key}`, icon]) }
   },
@@ -42,7 +42,7 @@ export const MdiIcons: StoryFn = () => ({
         :key="key" 
         style="display: flex; flex-direction: column; align-items: center; width: 10rem; word-break: break-word; text-align: center;"
       >
-        <AvVIcon :name="icon" size="2" color="var(--icon)" />
+        <AvIcon :name="icon" size="2" color="var(--icon)" />
         <span style="font-size: 0.75rem; text-align: center;">{{ key }}</span>
       </div>
     </div>
@@ -50,7 +50,7 @@ export const MdiIcons: StoryFn = () => ({
 })
 
 export const RiIcons: StoryFn = () => ({
-  components: { AvVIcon },
+  components: { AvIcon },
   setup () {
     return { icons: Object.entries(RI_ICONS).map(([key, icon]) => [`RI_ICONS.${key}`, icon]) }
   },
@@ -61,7 +61,7 @@ export const RiIcons: StoryFn = () => ({
         :key="key" 
         style="display: flex; flex-direction: column; align-items: center; width: 10rem; word-break: break-word; text-align: center;"
       >
-        <AvVIcon :name="icon" size="2" color="var(--icon)" />
+        <AvIcon :name="icon" size="2" color="var(--icon)" />
         <span style="font-size: 0.75rem; text-align: center;">{{ key }}</span>
       </div>
     </div>

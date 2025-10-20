@@ -25,9 +25,3 @@ export const DsfrNavigationStub = defineComponent({
   },
   template: '<nav class="dsfr-navigation-mock"><slot /></nav>',
 })
-
-export const VIconStub = defineComponent({
-  name: 'VIcon',
-  props: ['name', 'size', 'color'],
-  template: '<div class="v-icon-stub"></div>'
-})

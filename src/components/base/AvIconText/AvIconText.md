@@ -6,7 +6,7 @@ The `AvIconText` is a component that allows you to display text with an icon on 
 
 ## 🏗️ Structure
 
-- The component is a `div` element composed of an `AvVIcon` component and a `span`.
+- The component is a `div` element composed of an `AvIcon` component and a `span`.
 - Props allow you to modify the appearance of the icon and text according to the props: color, icon, size, and handling of overly long text.
 - The `label` is displayed inside a `span`, potentially with the `ellipsis` prop to handle truncated text.
 

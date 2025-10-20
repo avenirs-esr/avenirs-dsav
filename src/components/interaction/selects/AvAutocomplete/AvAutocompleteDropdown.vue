@@ -2,7 +2,7 @@
 import type { Slot } from 'vue'
 import { useScroll } from '@vueuse/core'
 import { debounce } from 'lodash-es'
-import AvVIcon from '@/components/base/AvVIcon/AvVIcon.vue'
+import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import AvList from '@/components/interaction/lists/AvList/AvList.vue'
 import AvListItem from '@/components/interaction/lists/AvListItem/AvListItem.vue'
 import { type AvAutocompleteOption, DropdownState } from '@/components/interaction/selects/AvAutocomplete/AvAutocomplete.types'
@@ -137,7 +137,7 @@ defineExpose({
       v-if="dropdownState === DropdownState.LOADING"
       class="av-autocomplete-dropdown__loading"
     >
-      <AvVIcon
+      <AvIcon
         :name="MDI_ICONS.LOADING_OUTLINE"
         :size="1.5"
         class="av-autocomplete-dropdown__spinner"

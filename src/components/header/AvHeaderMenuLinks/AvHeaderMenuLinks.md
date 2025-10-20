@@ -16,7 +16,7 @@ It provides a list-based navigation structure using the `AvButton` component.
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
-| `links` | `{ icon?: string \| InstanceType<typeof VIcon>['$props'], label?: string, onClick?: ($event: MouseEvent) => void }[]` | `undefined` | | An array of prop objects for each `AvButton`. |
+| `links` | `{ icon?: string \| InstanceType<typeof AvIcon>['$props'], label?: string, onClick?: ($event: MouseEvent) => void }[]` | `undefined` | | An array of prop objects for each `AvButton`. |
 | `navAriaLabel` | `string` | `'Menu secondaire'` | | ARIA label for navigation, useful for accessibility. |
 
 ## 🔊 Events

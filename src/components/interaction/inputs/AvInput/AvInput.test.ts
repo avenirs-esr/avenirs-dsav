@@ -333,8 +333,8 @@ BddTest().given('an AvInput', () => {
         expect(prefixIcon.exists()).toBe(true)
       })
 
-      BddTest().then('it should render the AvVIcon component with correct props', () => {
-        const iconComponent = wrapper.findComponent({ name: 'AvVIcon' })
+      BddTest().then('it should render the AvIcon component with correct props', () => {
+        const iconComponent = wrapper.findComponent({ name: 'AvIcon' })
         expect(iconComponent.exists()).toBe(true)
         expect(iconComponent.props('name')).toBe('mdi:magnify')
         expect(iconComponent.props('size')).toBe(1.2)

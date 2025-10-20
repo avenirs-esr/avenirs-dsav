@@ -1,5 +1,5 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
-import AvVIcon from '@/components/base/AvVIcon/AvVIcon.vue'
+import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import AvRichButton, { type AvRichButtonProps } from '@/components/interaction/buttons/AvRichButton/AvRichButton.vue'
 
 /**
@@ -65,7 +65,7 @@ const meta: Meta<AvRichButtonProps> = {
 export default meta
 
 const Template: StoryFn<AvRichButtonProps> = args => ({
-  components: { AvRichButton, AvVIcon },
+  components: { AvRichButton, AvIcon },
   setup () {
     return { args }
   },

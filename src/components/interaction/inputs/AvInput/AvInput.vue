@@ -2,7 +2,7 @@
 import type { Slot } from 'vue'
 import { DsfrInput } from '@gouvminint/vue-dsfr'
 import { format, isValid as isValidDate } from 'date-fns'
-import AvVIcon from '@/components/base/AvVIcon/AvVIcon.vue'
+import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 
 export interface AvInputProps {
   /**
@@ -189,7 +189,7 @@ function formatDateYyyyMMdd (date: Date | undefined) {
         v-if="prefixIcon"
         class="av-input__prefix"
       >
-        <AvVIcon
+        <AvIcon
           :name="prefixIcon"
           :size="1.2"
         />

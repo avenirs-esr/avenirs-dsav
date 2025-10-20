@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AvVIcon from '@/components/base/AvVIcon/AvVIcon.vue'
+import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 
 /**
  * AvIconText component props.
@@ -75,7 +75,7 @@ const ellipsisClass = computed(() => !inline ? 'ellipsis' : undefined)
     class="icon-text--container"
     :class="[ellipsisContainerClass]"
   >
-    <AvVIcon
+    <AvIcon
       class="icon-text--icon"
       :name="icon"
       :color="iconColor"

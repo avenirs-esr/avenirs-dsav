@@ -1,6 +1,6 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
 import AvTag, { type AvTagProps } from '@/components/badges/AvTag/AvTag.vue'
-import { AvVIconStub, BddTest } from '@/tests'
+import { AvIconStub, BddTest } from '@/tests'
 
 BddTest().given('an AvTag component', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvTag>>
@@ -9,7 +9,7 @@ BddTest().given('an AvTag component', () => {
     label: 'A super tag'
   }
 
-  const stubs = { AvVIcon: AvVIconStub }
+  const stubs = { AvIcon: AvIconStub }
 
   BddTest().when('the component is mounted with default props', () => {
     BddTest().and('given default props', () => {
@@ -51,7 +51,7 @@ BddTest().given('an AvTag component', () => {
       })
 
       BddTest().then('it should render the icon', () => {
-        const icon = wrapper.find('.av-tag').findComponent({ name: 'AvVIcon' })
+        const icon = wrapper.find('.av-tag').findComponent({ name: 'AvIcon' })
         expect(icon.exists()).toBe(true)
         expect(icon.props('name')).toBe(newProps.icon)
         expect(icon.props('size')).toBe(0.9)
@@ -69,7 +69,7 @@ BddTest().given('an AvTag component', () => {
         const tag = wrapper.find('.av-tag')
         expect(tag.classes()).toContain('fr-tag--sm')
 
-        const icon = tag.findComponent({ name: 'AvVIcon' })
+        const icon = tag.findComponent({ name: 'AvIcon' })
         expect(icon.exists()).toBe(true)
         expect(icon.props('name')).toBe(newProps.icon)
         expect(icon.props('size')).toBe(0.65)
@@ -139,7 +139,7 @@ BddTest().given('an AvTag component', () => {
       BddTest().then('it should render the tag without its label in text', () => {
         const tag = wrapper.find('p')
         expect(tag.text()).not.toContain(newProps.label)
-        const icon = wrapper.findComponent({ name: 'AvVIcon' })
+        const icon = wrapper.findComponent({ name: 'AvIcon' })
         expect(icon.attributes('label')).toBe(newProps.label)
       })
     })

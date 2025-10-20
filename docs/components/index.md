@@ -3,9 +3,9 @@
 - [AvTag](badges/AvTag/AvTag.md)
 
 ## Base
+- [AvIcon](base/AvIcon/AvIcon.md)
 - [AvIconText](base/AvIconText/AvIconText.md)
 - [AvNotice](base/AvNotice/AvNotice.md)
-- [AvVIcon](base/AvVIcon/AvVIcon.md)
 
 ## Cards
 - [AvCard](cards/AvCard/AvCard.md)

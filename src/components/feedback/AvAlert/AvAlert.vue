@@ -3,7 +3,7 @@
 
 <script setup lang="ts">
 import type { Slot } from 'vue'
-import AvVIcon from '@/components/base/AvVIcon/AvVIcon.vue'
+import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
 import { MDI_ICONS } from '@/tokens'
 
@@ -140,7 +140,7 @@ const icon = computed(() => {
   >
     <div class="av-alert--container">
       <div class="av-alert--content">
-        <AvVIcon
+        <AvIcon
           v-bind="icon"
           :size="3"
         />

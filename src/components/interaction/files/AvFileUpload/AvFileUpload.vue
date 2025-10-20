@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRandomId } from '@gouvminint/vue-dsfr'
 import { nextTick, type Slot } from 'vue'
-import AvVIcon from '@/components/base/AvVIcon/AvVIcon.vue'
+import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
 import AvFileUploadAlert from '@/components/interaction/files/AvFileUpload/AvFileUploadAlert.vue'
 import { MDI_ICONS } from '@/tokens'
@@ -291,7 +291,7 @@ function onClear (value: File | null) {
       <div class="file-upload-content">
         <div class="left-content-container">
           <slot name="left">
-            <AvVIcon
+            <AvIcon
               :size="2.5"
               :name="MDI_ICONS.ATTACHMENT_PLUS"
               color="var(--icon)"
@@ -326,7 +326,7 @@ function onClear (value: File | null) {
             theme="SECONDARY"
             @click="() => onClear(modelValue)"
           />
-          <AvVIcon
+          <AvIcon
             v-else
             :size="1.5"
             :name="MDI_ICONS.TRAY_UPLOAD"

@@ -3,7 +3,7 @@
 
 <script lang="ts" setup>
 import type { Page } from '@gouvminint/vue-dsfr'
-import AvVIcon from '@/components/base/AvVIcon/AvVIcon.vue'
+import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import { MDI_ICONS } from '@/tokens'
 
 /**
@@ -127,7 +127,7 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
           :aria-disabled="currentPage === 0 ? true : undefined"
           @click.prevent="tofirstPage()"
         >
-          <AvVIcon
+          <AvIcon
             :name="MDI_ICONS.PAGE_FIRST"
             :size="1.5"
             :color="currentPage === 0 ? 'var(--dark-background-neutral)' : 'var(--dark-background-primary1)'"
@@ -143,7 +143,7 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
           :aria-disabled="currentPage === 0 ? true : undefined"
           @click.prevent="toPreviousPage()"
         >
-          <AvVIcon
+          <AvIcon
             :name="MDI_ICONS.NAVIGATE_BEFORE"
             :size="1.5"
             :color="currentPage === 0 ? 'var(--dark-background-neutral)' : 'var(--dark-background-primary1)'"
@@ -189,7 +189,7 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
           >
             {{ nextPageLabel }}
           </span>
-          <AvVIcon
+          <AvIcon
             :name="MDI_ICONS.NAVIGATE_NEXT"
             :size="1.5"
             :color="currentPage === pages.length - 1 ? 'var(--dark-background-neutral)' : 'var(--dark-background-primary1)'"
@@ -207,7 +207,7 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
           @click.prevent="toLastPage()"
         >
           <span class="fr-sr-only">{{ lastPageLabel }}</span>
-          <AvVIcon
+          <AvIcon
             :name="MDI_ICONS.PAGE_LAST"
             :size="1.5"
             :color="currentPage === pages.length - 1 ? 'var(--dark-background-neutral)' : 'var(--dark-background-primary1)'"

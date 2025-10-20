@@ -2,22 +2,21 @@
  https://vue-ds.fr/composants/DsfrHeaderMenuLinks -->
 
 <script lang="ts" setup>
-import type { VIcon } from '@gouvminint/vue-dsfr'
 import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
 
 /**
  * AvHeaderMenuLinks component props.
  */
-interface AvHeaderMenuLinksProps {
+export interface AvHeaderMenuLinksProps {
   /**
    * An array of objects representing quick links.
    * Each link can have an icon, a label, and an onClick function.
    */
   links?: {
     /**
-     * Icon name (string) or props object for a VIcon component.
+     * Icon name as defined in Iconify.
      */
-    icon?: string | InstanceType<typeof VIcon>['$props']
+    icon?: string
 
     /**
      * Link label.

@@ -2,7 +2,7 @@
 import type AvAccordion from '@/components/interaction/accordions/AvAccordion/AvAccordion.vue'
 import { DsfrAccordion, DsfrAccordionsGroup } from '@gouvminint/vue-dsfr'
 import { useSlots, type VNode } from 'vue'
-import AvVIcon from '@/components/base/AvVIcon/AvVIcon.vue'
+import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 
 /**
  * AvAccordionsGroup component props.
@@ -58,7 +58,7 @@ const id = `accordion-group-${crypto.randomUUID()}`
     >
       <template #title>
         <div class="title-container">
-          <AvVIcon
+          <AvIcon
             v-if="accordion.props?.icon"
             :size="2"
             :name="accordion.props?.icon"

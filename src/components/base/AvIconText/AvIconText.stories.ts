@@ -1,5 +1,5 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
-import AvVIcon from '@/components/base/AvVIcon/AvVIcon.vue'
+import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import AvIconText, { type AvIconTextProps } from './AvIconText.vue'
 
 const typographyClasses = [
@@ -45,7 +45,7 @@ const typographyClasses = [
  *
  * <ul>
  *   <li>
- *     <span class="b2-regular">The component is a <code>div</code> element composed of an <code>AvVIcon</code> component and a <code>span</code>.</span>
+ *     <span class="b2-regular">The component is a <code>div</code> element composed of an <code>AvIcon</code> component and a <code>span</code>.</span>
  *   </li>
  *   <li>
  *     <span class="b2-regular">Props allow you to modify the appearance of the icon and text according to the props: color, icon, size, and handling of overly long text.</span>
@@ -91,7 +91,7 @@ const meta: Meta<AvIconTextProps> = {
 export default meta
 
 const Template: StoryFn<AvIconTextProps> = args => ({
-  components: { AvIconText, AvVIcon },
+  components: { AvIconText, AvIcon },
   setup () {
     return { args }
   },

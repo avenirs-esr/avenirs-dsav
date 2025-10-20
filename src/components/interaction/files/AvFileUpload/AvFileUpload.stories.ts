@@ -1,6 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
-import AvVIcon from '@/components/base/AvVIcon/AvVIcon.vue'
+import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import AvFileUpload, { type AvFileUploadProps } from '@/components/interaction/files/AvFileUpload/AvFileUpload.vue'
 
 /**
@@ -56,7 +56,7 @@ const meta: Meta<AvFileUploadProps> = {
 export default meta
 
 const Template: StoryFn<AvFileUploadProps> = args => ({
-  components: { AvFileUpload, AvVIcon },
+  components: { AvFileUpload, AvIcon },
   setup () {
     return { args }
   },
@@ -91,7 +91,7 @@ Success.args = {
 }
 
 const LeftSlotTemplate: StoryFn<AvFileUploadProps & { leftImageSrc: string }> = args => ({
-  components: { AvFileUpload, AvVIcon },
+  components: { AvFileUpload, AvIcon },
   setup () {
     return { args }
   },
