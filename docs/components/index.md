@@ -27,6 +27,7 @@
 ### Buttons
 - [AvButton](interaction/buttons/AvButton/AvButton.md)
 - [AvCancelConfirmButtons](interaction/buttons/AvCancelConfirmButtons/AvCancelConfirmButtons.md)
+- [AvLanguageSelector](interaction/buttons/AvLanguageSelector/AvLanguageSelector.md)
 - [AvRichButton](interaction/buttons/AvRichButton/AvRichButton.md)
 
 ### Files
@@ -34,6 +35,7 @@
 
 ### Inputs
 - [AvInput](interaction/inputs/AvInput/AvInput.md)
+- [AvSearchBar](interaction/inputs/AvSearchBar/AvSearchBar.md)
 
 ### Lists
 - [AvList](interaction/lists/AvList/AvList.md)

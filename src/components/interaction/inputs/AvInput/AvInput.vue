@@ -109,6 +109,12 @@ export interface AvInputProps {
    * Width of the input
    */
   width?: string
+
+  /**
+   * Removes radii from the input border.
+   * @default false
+   */
+  noRadius?: boolean
 }
 
 const props = withDefaults(defineProps<AvInputProps>(), {
@@ -117,7 +123,8 @@ const props = withDefaults(defineProps<AvInputProps>(), {
   labelVisible: true,
   type: 'text',
   disabled: false,
-  required: false
+  required: false,
+  noRadius: false,
 })
 
 /**
@@ -182,7 +189,10 @@ function formatDateYyyyMMdd (date: Date | undefined) {
 <template>
   <div
     class="av-input"
-    :class="{ 'av-input--date': type === 'date' }"
+    :class="{
+      'av-input--date': type === 'date',
+      'av-input--no-radius': noRadius,
+    }"
   >
     <div class="av-input__wrapper">
       <div
@@ -322,6 +332,11 @@ function formatDateYyyyMMdd (date: Date | undefined) {
   border: 1px solid var(--divider);
   background-color: var(--other-background-base);
   box-shadow: none;
+}
+
+.av-input--no-radius :deep(input),
+.av-input--no-radius :deep(textarea) {
+  border-radius: var(--radius-none);
 }
 
 .av-input :deep(.fr-input--error) {

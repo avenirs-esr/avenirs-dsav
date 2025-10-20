@@ -1,17 +1,11 @@
-<!-- This code is an adaptation of the source code of DsfrHeader available at:
- https://vue-ds.fr/composants/DsfrHeader -->
-
 <script lang="ts" setup>
 import type { Slot } from 'vue'
-
 import type { RouteLocationRaw } from 'vue-router'
-import {
-  type DsfrLanguageSelectorElement,
-  type DsfrLanguageSelectorProps,
-  registerNavigationLinkKey
-} from '@gouvminint/vue-dsfr'
+import { registerNavigationLinkKey } from '@/components/header/AvHeader/injection-key'
 import AvHeaderMenuLinks, { type AvHeaderMenuLinksProps } from '@/components/header/AvHeaderMenuLinks/AvHeaderMenuLinks.vue'
 import AvLogo from '@/components/header/AvLogo.vue'
+import AvLanguageSelector, { type AvLanguageSelectorElement, type AvLanguageSelectorProps } from '@/components/interaction/buttons/AvLanguageSelector/AvLanguageSelector.vue'
+import AvSearchBar from '@/components/interaction/inputs/AvSearchBar/AvSearchBar.vue'
 
 /**
  * AvHeader component props.
@@ -55,7 +49,7 @@ export interface AvHeaderProps {
   /**
    * Language selector properties.
    */
-  languageSelector?: DsfrLanguageSelectorProps
+  languageSelector?: AvLanguageSelectorProps
 
   /**
    * Label for the search bar.
@@ -105,77 +99,78 @@ export interface AvHeaderProps {
   homeLabel?: string
 }
 
-const props = withDefaults(defineProps<AvHeaderProps>(), {
-  searchbarId: 'searchbar-header',
-  languageSelector: undefined,
-  serviceTitle: undefined,
-  homeTo: '/',
-  modelValue: '',
-  placeholder: 'Rechercher...',
-  quickLinks: () => [],
-  searchLabel: 'Recherche',
-  quickLinksAriaLabel: 'Menu secondaire',
-  showSearchLabel: 'Recherche',
-  menuLabel: 'Menu',
-  menuModalLabel: 'Menu',
-  closeMenuModalLabel: 'Fermer',
-  homeLabel: 'Accueil',
-})
+const {
+  searchbarId = 'searchbar-header',
+  languageSelector = undefined,
+  serviceTitle = undefined,
+  homeTo = '/',
+  modelValue = '',
+  placeholder = 'Rechercher...',
+  quickLinks = [],
+  searchLabel = 'Recherche',
+  quickLinksAriaLabel = 'Menu secondaire',
+  showSearchLabel = 'Recherche',
+  menuLabel = 'Menu',
+  menuModalLabel = 'Menu',
+  closeMenuModalLabel = 'Fermer',
+  homeLabel = 'Accueil',
+  showSearch
+} = defineProps<AvHeaderProps>()
 
 /**
- * Événements émis par le composant AvHeader.
+ * Events emitted by AvHeader.
  */
 const emit = defineEmits<{
   /**
-   * Événement émis lors de la mise à jour de la barre de recherche.
+   * Event emitted when updating the searchbar value.
    * @event update:modelValue
-   * @param payload Contenu du champ de saisie pour la recherche.
+   * @param payload Content of the searchbar.
    */
   (e: 'update:modelValue', payload: string): void
 
   /**
-   * Événement émis lorsqu'une recherche est effectuée.
+   * Event emitted when a search is executed.
    * @event search
-   * @param payload Contenu du champ de saisie pour la recherche.
+   * @param payload Content of the searchbar.
    */
   (e: 'search', payload: string): void
 
   /**
-   * Événement émis lorsque l'utilisateur change la langue du site.
+   * Event emitted when the user change the language.
    * @event languageSelect
-   * @param payload Langue sélectionnée.
+   * @param payload Selected language.
    */
-  (e: 'languageSelect', payload: DsfrLanguageSelectorElement): void
+  (e: 'languageSelect', payload: AvLanguageSelectorElement): void
 }>()
 
 const slots = defineSlots<{
   /**
-   * Slot pour ajouter du contenu avant les liens rapides.
+   * Slot for adding content before quicklinks.
    */
   'before-quick-links'?: Slot
 
   /**
-   * Slot pour ajouter du contenu après les liens rapides.
+   * Slot for adding content after quicklinks.
    */
   'after-quick-links'?: Slot
 
   /**
-   * Slot affiché à côté / en dessous du serviceTitle.
+   * Slot for displaying content next to or under the service title.
    */
   'serviceDescription'?: Slot
 
   /**
-   * Slot pour le menu de navigation principal.
+   * Slot for the main navigation.
    */
   'mainnav'?: Slot
 
   /**
-   * Slot par défaut pour le contenu supplémentaire dans l'en-tête.
+   * Slot by default for the header additional content.
    */
   'default'?: Slot
 }>()
 
-const languageSelector = toRef(props, 'languageSelector')
+const languageSelectorRef = toRef(() => languageSelector)
 
 const menuOpened = ref(false)
 const searchModalOpened = ref(false)
@@ -205,7 +200,7 @@ function showMenu () {
   modalOpened.value = true
   menuOpened.value = true
   searchModalOpened.value = false
-  // Sans le setTimeout, le focus n'est pas fait
+  // Without the setTimeout, the focus is not done
   setTimeout(() => {
     document.getElementById('close-button')?.focus()
   })
@@ -218,7 +213,7 @@ function showSearchModal () {
 }
 const onQuickLinkClick = hideModal
 
-const title = computed(() => [props.homeLabel, props.serviceTitle].filter(x => x).join(' - '))
+const title = computed(() => [homeLabel, serviceTitle].filter(x => x).join(' - '))
 
 const isWithSlotNav = computed(() => Boolean(slots.mainnav))
 provide(registerNavigationLinkKey, () => hideModal)
@@ -290,9 +285,9 @@ provide(registerNavigationLinkKey, () => hideModal)
                 :nav-aria-label="quickLinksAriaLabel"
               />
               <slot name="after-quick-links" />
-              <template v-if="languageSelector">
-                <DsfrLanguageSelector
-                  v-bind="languageSelector"
+              <template v-if="languageSelectorRef">
+                <AvLanguageSelector
+                  v-bind="languageSelectorRef"
                   @select="emit('languageSelect', $event)"
                 />
               </template>
@@ -301,7 +296,7 @@ provide(registerNavigationLinkKey, () => hideModal)
               v-if="showSearch"
               class="fr-header__search  fr-modal demo-display-none"
             >
-              <DsfrSearchBar
+              <AvSearchBar
                 :id="searchbarId"
                 :label="searchLabel"
                 :model-value="modelValue"
@@ -314,7 +309,7 @@ provide(registerNavigationLinkKey, () => hideModal)
           </div>
         </div>
         <div
-          v-if="showSearch || isWithSlotNav || (quickLinks && quickLinks.length) || languageSelector"
+          v-if="showSearch || isWithSlotNav || (quickLinks && quickLinks.length) || languageSelectorRef"
           id="header-navigation"
           class="fr-header__menu  fr-modal"
           :class="{ 'fr-modal--opened': modalOpened }"
@@ -333,10 +328,10 @@ provide(registerNavigationLinkKey, () => hideModal)
               {{ closeMenuModalLabel }}
             </button>
             <div class="fr-header__menu-links">
-              <template v-if="languageSelector">
-                <DsfrLanguageSelector
-                  v-bind="languageSelector"
-                  @select="languageSelector.currentLanguage = $event.codeIso"
+              <template v-if="languageSelectorRef">
+                <AvLanguageSelector
+                  v-bind="languageSelectorRef"
+                  @select="languageSelectorRef.currentLanguage = $event.codeIso"
                 />
               </template>
               <slot name="before-quick-links" />
@@ -360,7 +355,7 @@ provide(registerNavigationLinkKey, () => hideModal)
               v-if="searchModalOpened"
               class="flex justify-center items-center demo-display-none"
             >
-              <DsfrSearchBar
+              <AvSearchBar
                 :searchbar-id="searchbarId"
                 :model-value="modelValue"
                 :placeholder="placeholder"

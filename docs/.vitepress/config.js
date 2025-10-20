@@ -66,6 +66,7 @@ export default defineConfig({
               items: [
                 { text: 'AvButton', link: '/components/interaction/buttons/AvButton/AvButton.md' },
                 { text: 'AvCancelConfirmButtons', link: '/components/interaction/buttons/AvCancelConfirmButtons/AvCancelConfirmButtons.md' },
+                { text: 'AvLanguageSelector', link: '/components/interaction/buttons/AvLanguageSelector/AvLanguageSelector.md' },
                 { text: 'AvRichButton', link: '/components/interaction/buttons/AvRichButton/AvRichButton.md' },
               ]
             },
@@ -79,6 +80,7 @@ export default defineConfig({
               text: 'Inputs',
               items: [
                 { text: 'AvInput', link: '/components/interaction/inputs/AvInput/AvInput.md' },
+                { text: 'AvSearchBar', link: '/components/interaction/inputs/AvSearchBar/AvSearchBar.md' },
               ]
             },
             {

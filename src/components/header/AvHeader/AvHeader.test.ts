@@ -197,7 +197,7 @@ BddTest().given('an AvHeader', () => {
     })
   })
 
-  BddTest().when('DsfrLanguageSelector emits "select"', () => {
+  BddTest().when('AvLanguageSelector emits "select"', () => {
     beforeEach(async () => {
       wrapper = await mountWithRouter(AvHeader, {
         props: {
@@ -210,7 +210,7 @@ BddTest().given('an AvHeader', () => {
     })
 
     BddTest().then('it should emit "languageSelect" event', async () => {
-      const languageSelector = wrapper.findComponent({ name: 'DsfrLanguageSelector' })
+      const languageSelector = wrapper.findComponent({ name: 'AvLanguageSelector' })
 
       const payload = { codeIso: 'en', label: 'English' }
       await languageSelector.vm.$emit('select', payload)
