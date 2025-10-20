@@ -58,7 +58,6 @@ declare module 'vue' {
     DsfrTabContent: typeof import('@gouvminint/vue-dsfr')['DsfrTabContent']
     DsfrTabItem: typeof import('@gouvminint/vue-dsfr')['DsfrTabItem']
     DsfrTabs: typeof import('@gouvminint/vue-dsfr')['DsfrTabs']
-    DsfrTag: typeof import('@gouvminint/vue-dsfr')['DsfrTag']
     EsupLogo: typeof import('./components/header/EsupLogo.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

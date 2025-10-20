@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { ComputedRef } from 'vue'
+import AvTag from '@/components/badges/AvTag/AvTag.vue'
 import { MDI_ICONS } from '@/tokens'
 import { removeDuplicates } from '@/utils'
 
@@ -172,7 +173,7 @@ watch(() => props.selected, (newSelected) => {
       :key="option.value"
       class="tag-wrapper"
     >
-      <DsfrTag
+      <AvTag
         :class="{
           'fr-tag--selected': isOptionSelected(option),
           'fr-tag--disabled': getDisabled(option),
