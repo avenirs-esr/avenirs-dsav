@@ -20,7 +20,7 @@ It consists of the following elements:
 | --- | --- | --- | --- | --- |
 | `label` | `string` | | ✅ | Displayed tag label.|
 | `link` | `string` | | | URL for external link. Also determines the tag type (`a` or `RouterLink`).|
-| `tagName` | `'p' \| 'button'` | `'p'` | | Tag name used for the tag (should be `'p'` or `'button'`). *(DSFR default)* |
+| `tagName` | `'p' \| 'button'` | `'p'` | | Tag name used for the tag (should be `'p'` or `'button'`). |
 | `icon` | `string` | | | Icon to display in the tag. Can be a name or an icon configuration. |
 | `disabled` | `boolean` | `false` | | Disables the tag if it is a button. |
 | `small` | `boolean` | `false` | | Displays the tag in a small version.|
@@ -31,7 +31,9 @@ It consists of the following elements:
 
 ## 🔊 Events
 
-None.
+| Name | Data (*payload*) | Description |
+| --- | --- | --- |
+| `'select'` | `T[]` | Event emitted when a selectable tag is (un)selected. This updates the selected values list. |
 
 ## 🎨 Slots
 

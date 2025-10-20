@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { DsfrTag } from '@gouvminint/vue-dsfr'
+import AvVIcon from '@/components/base/AvVIcon/AvVIcon.vue'
 
 /**
  * AvTag component props.
@@ -17,7 +17,7 @@ export type AvTagProps<T = string> = {
 
   /**
    * Tag name used for the tag (should be 'p' ou 'button').
-   * @default 'p' (DSFR default)
+   * @default 'p'
    */
   tagName?: 'p' | 'button'
 
@@ -64,13 +64,90 @@ export type AvTagProps<T = string> = {
   selectable?: false
 })
 
-const props = defineProps<AvTagProps>()
+const {
+  label,
+  link,
+  tagName = 'p',
+  icon,
+  disabled,
+  small,
+  iconOnly,
+  ...rest
+} = defineProps<AvTagProps>()
+
+defineEmits<{
+  select: [[unknown, boolean]]
+}>()
+
+const isExternalLink = computed(() => typeof link === 'string' && link.startsWith('http'))
+const is = computed(() => {
+  return link
+    ? (isExternalLink.value ? 'a' : 'RouterLink')
+    : (((disabled && tagName === 'p') || rest.selectable) ? 'button' : tagName)
+})
+const linkProps = computed(() => {
+  return { [isExternalLink.value ? 'href' : 'to']: link }
+})
+
+const iconSize = computed(() => small ? 0.65 : 0.9)
 </script>
 
 <template>
-  <DsfrTag
-    v-bind="props"
-  />
+  <component
+    :is="is"
+    class="av-tag fr-tag"
+    :disabled="disabled"
+    :class="{
+      'fr-tag--sm': small,
+    }"
+    :aria-pressed="rest.selectable ? rest.selected : undefined"
+    v-bind="{ ...linkProps, ...$attrs }"
+    @click="!disabled && rest.selectable && $emit('select', [rest.value, rest.selected ?? false])"
+  >
+    <AvVIcon
+      v-if="icon"
+      :label="iconOnly ? label : undefined"
+      :size="iconSize"
+      :name="icon"
+    />
+    <template v-if="!iconOnly">
+      {{ label }}
+    </template>
+  </component>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.av-tag {
+  display: flex;
+  flex-direction: row;
+  gap: var(--spacing-xxs);
+}
+
+.ov-icon {
+  margin-top: 0.1rem;
+}
+
+.fr-tag {
+  align-items: center;
+}
+
+.success {
+  color: var(--light-foreground-success);
+  background-color: var(--light-background-success);
+}
+
+.error {
+  color: var(--light-foreground-error);
+  background-color: var(--light-background-error);
+}
+
+.warning {
+  color: var(--light-foreground-warn);
+  background-color: var(--light-background-warn);
+}
+
+.info {
+  color: var(--light-foreground-info);
+  background-color: var(--light-background-info);
+}
+</style>
