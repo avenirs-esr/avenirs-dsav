@@ -1,7 +1,6 @@
-import type { DsfrAlertProps } from '@gouvminint/vue-dsfr'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-import AvAlert from '@/components/feedback/AvAlert/AvAlert.vue'
+import AvAlert, { type AvAlertProps } from '@/components/feedback/AvAlert/AvAlert.vue'
 import { BddTest } from '@/tests/utils'
 import { MDI_ICONS } from '@/tokens'
 
@@ -21,21 +20,21 @@ BddTest().given('an AvAlert', () => {
     }
   }
 
-  const baseProps: DsfrAlertProps = {
+  const baseProps: AvAlertProps = {
     title: 'Title',
     description: 'Description',
     type: 'info',
     closeable: true
   }
-  const successProps: DsfrAlertProps = {
+  const successProps: AvAlertProps = {
     ...baseProps,
     type: 'success'
   }
-  const errorProps: DsfrAlertProps = {
+  const errorProps: AvAlertProps = {
     ...baseProps,
     type: 'error'
   }
-  const warningProps: DsfrAlertProps = {
+  const warningProps: AvAlertProps = {
     ...baseProps,
     type: 'warning'
   }
