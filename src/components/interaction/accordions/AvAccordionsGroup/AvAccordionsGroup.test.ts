@@ -1,94 +1,56 @@
+import type { Ref } from 'vue'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
+import { AvAccordionStub } from '@/components/interaction/accordions/AvAccordion/AvAccordion.stub'
 import AvAccordionsGroup from '@/components/interaction/accordions/AvAccordionsGroup/AvAccordionsGroup.vue'
 import { BddTest } from '@/tests/utils'
 
 BddTest().given('multiple accordions inside the group', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvAccordionsGroup>>
 
-  const accordionSlots = [
-    '<AvAccordion title="Accordion 1" icon="icon-1">Content 1</AvAccordion>',
-    '<AvAccordion title="Accordion 2" icon="icon-2">Content 2</AvAccordion>',
-    '<AvAccordion title="Accordion 3" icon="icon-3">Content 3</AvAccordion>',
-  ]
-
-  const slots = { default: accordionSlots.join('') }
-
-  const stubs = {
-    AvAccordion: {
-      name: 'AvAccordion',
-      props: ['title', 'icon'],
-      template: '<div><slot /></div>',
-    },
+  const slots = {
+    default: `
+      <AvAccordion title="Accordion 1" icon="icon-1">Content 1</AvAccordion>
+      <AvAccordion title="Accordion 2" icon="icon-2">Content 2</AvAccordion>
+      <AvAccordion title="Accordion 3" icon="icon-3">Content 3</AvAccordion>
+    `,
   }
+
+  const stubs = { AvAccordion: AvAccordionStub }
 
   beforeEach(() => {
     wrapper = mount(AvAccordionsGroup, {
       slots,
-      global: { stubs },
+      props: { activeAccordion: 1 },
+      global: { stubs }
     })
   })
 
   BddTest().when('the accordions group is mounted', () => {
+    BddTest().then('it should initialize the activeAccordion computed correctly', () => {
+      const vm = wrapper.vm as unknown as { activeAccordion: Ref<boolean>, localActive: Ref<boolean> }
+      const localActive = vm.activeAccordion
+      expect(localActive).toBeDefined()
+      expect(vm.localActive).toBe(1)
+    })
+
     BddTest().then('it should render all accordions', () => {
-      const accordions = wrapper.findAll('.fr-accordion')
+      const accordions = wrapper.findAllComponents({ name: 'AvAccordion' })
       expect(accordions.length).toBe(3)
-    })
-
-    BddTest().then('it should render icons and titles for each accordion', () => {
-      const icons = wrapper.findAllComponents({ name: 'AvIcon' })
-      const titles = wrapper.findAll('h6')
-
-      expect(icons.length).toBe(3)
-      expect(titles[0].text()).toBe('Accordion 1')
-      expect(titles[1].text()).toBe('Accordion 2')
-      expect(titles[2].text()).toBe('Accordion 3')
-    })
-
-    BddTest().then('it should render the icon if the prop is provided', () => {
-      const firstIcon = wrapper.findAllComponents({ name: 'AvIcon' })[0]
-      expect(firstIcon.exists()).toBe(true)
-      expect(firstIcon.props('name')).toBe('icon-1')
-    })
-
-    BddTest().then('it should not render the icon if the prop is missing', async () => {
-      const customSlots = {
-        default: [
-          '<AvAccordion title="Accordion without icon">No icon</AvAccordion>',
-          '<AvAccordion title="Accordion with icon" icon="icon-2">With icon</AvAccordion>'
-        ].join('')
-      }
-
-      const wrapperWithoutIcon = mount(AvAccordionsGroup, {
-        slots: customSlots,
-        global: {
-          stubs: {
-            AvAccordion: {
-              name: 'AvAccordion',
-              props: ['title', 'icon'],
-              template: '<div />'
-            }
-          }
-        }
-      })
-
-      const icons = wrapperWithoutIcon.findAllComponents({ name: 'AvIcon' })
-      expect(icons.length).toBe(1)
-      expect(icons[0].props('name')).toBe('icon-2')
+      expect(accordions[0].props('title')).toBe('Accordion 1')
+      expect(accordions[1].props('title')).toBe('Accordion 2')
+      expect(accordions[2].props('title')).toBe('Accordion 3')
     })
   })
 
   BddTest().when('clicking on an accordion', () => {
-    BddTest().then('it should update the active accordion', async () => {
+    BddTest().then('it should emit the update event for v-model', async () => {
       const buttons = wrapper.findAll('.fr-accordion__btn')
-      expect(buttons.length).toBeGreaterThan(0)
-    })
+      await buttons[2].trigger('click')
 
-    BddTest().then('it should update the v-model value', async () => {
-      const accordions = wrapper.findAll('.fr-accordion__btn')
-      await accordions[1].trigger('click')
-      const secondAccordionButton = accordions[1]
-      expect(secondAccordionButton.attributes('aria-expanded')).toBe('true')
+      const emitted = wrapper.emitted('update:activeAccordion')
+      expect(emitted).toBeTruthy()
+      expect(emitted![0][0]).toEqual(2)
     })
   })
 })

@@ -7,8 +7,7 @@ import AvAccordionsGroup, { type AvAccordionsGroupProps } from '@/components/int
  *
  * <p>
  *   <span class="b2-regular">
- *     The <code>AvAccordionsGroup</code> component automatically manages the addition of <code>AvAccordion</code>
- *     in a group according to the <code>AvAccordion</code> present in the <code>default</code> slot.
+ *     The <code>AvAccordionsGroup</code> component automatically manages the addition of <code>AvAccordion</code> in a group according to the <code>AvAccordion</code> present in the <code>default</code> slot.
  *   </span>
  * </p>
  *
@@ -20,21 +19,15 @@ import AvAccordionsGroup, { type AvAccordionsGroupProps } from '@/components/int
  *
  * <p>
  *   <span class="b2-regular">
- *     The accordions group lets you group several accordions into a single coherent unit. It manages active selection logic between
- *     child accordions, allowing you to open one accordion while closing the others. This component is essential for organizing
- *     interactively linked accordion sets.
+ *     The accordions group lets you group several accordions into a single coherent unit. It manages active selection logic between child accordions, allowing you to open one accordion while closing the others. This component is essential for organizing interactively linked accordion sets.
  *   </span>
  * </p>
  *
  * <h2 class="n2">🏗️ Structure</h2>
  *
- * <ul class="b2-regular">
- *   <li>A header (<code>title</code> prop, type <code>string</code>) — mandatory, represents the section title.</li>
- *   <li>A left icon (<code>icon</code> prop, type <code>string</code>) — optional, must follow VICon naming convention.</li>
- *   <li>A right icon — <code>v</code> when the panel is closed, <code>^</code> when open.</li>
- *   <li>A separator.</li>
- *   <li>A content zone — hidden by default and shown when expanded, accepting any content via the default <code>slot</code>.</li>
- * </ul>
+ * <p>
+ *   <span class="b2-regular">None.</span>
+ * </p>
  */
 const meta: Meta<AvAccordionsGroupProps> = {
   title: 'Components/Interaction/Accordions/AvAccordionsGroup',
@@ -59,7 +52,7 @@ const Template: StoryFn<AvAccordionsGroupProps> = args => ({
     return { args }
   },
   template: `
-    <AvAccordionsGroup v-bind="args">
+    <AvAccordionsGroup v-bind="args" v-model="args.activeAccordion">
       <AvAccordion
         title="Accordion 1"
         icon="mdi:file-document-multiple-outline"
