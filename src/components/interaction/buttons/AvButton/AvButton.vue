@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import type { ComputedRef } from 'vue'
 import type AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import { MDI_ICONS } from '@/tokens'
 import { toSentenceCase } from '@/utils'
 
 /**
- * AvButton component props.
+ * AvButton component
  */
 export interface AvButtonProps {
   /**
@@ -79,123 +80,155 @@ export interface AvButtonProps {
   onClick?: ($event: MouseEvent) => void
 }
 
-const props = withDefaults(defineProps<AvButtonProps>(), {
-  variant: 'DEFAULT',
-  theme: 'PRIMARY',
-  size: 'md',
-  iconOnly: false,
-  iconRight: false,
-  disabled: false,
-  isLoading: false,
-  noRadius: false
-})
+const {
+  variant = 'DEFAULT',
+  theme = 'PRIMARY',
+  size = 'md',
+  iconOnly = false,
+  iconRight = false,
+  disabled = false,
+  isLoading = false,
+  noRadius = false,
+  icon,
+  iconScale,
+  label,
+  onClick
+} = defineProps<AvButtonProps>()
+
+const btn = ref<{ focus: () => void } | null>(null)
+function focus () {
+  btn.value?.focus()
+}
+defineExpose({ focus })
 
 const loadingIcon: InstanceType<typeof AvIcon>['$props'] = { name: MDI_ICONS.LOADING_OUTLINE, animation: 'spin' }
-const iconToRender = computed(() => props.isLoading ? loadingIcon : props.icon)
-const variantClass = computed(() => `av-button--variant-${props.variant.toLowerCase()}`)
-const themeClass = computed(() => `av-button--theme-${props.theme.toLowerCase()}`)
-const radiusClass = computed(() => props.noRadius ? 'av-button--no-radius' : '')
-
-const computedSvgScale = computed(() => {
-  if (props.iconScale && !Number.isNaN(props.iconScale)) {
-    return props.iconScale
+const sm = computed(() => ['sm', 'small'].includes(size))
+const md = computed(() => ['md', 'medium'].includes(size))
+const lg = computed(() => ['lg', 'large'].includes(size))
+const iconSize = computed(() => {
+  if (iconScale && !Number.isNaN(iconScale)) {
+    return iconScale
   }
-  switch (props.size) {
-    case 'small':
-    case 'sm':
-      return 1
-    case 'medium':
-    case 'md':
-      return 1.5
-    case 'large':
-    case 'lg':
-      return 2
-    default:
-      return 1.5
+  if (sm.value) {
+    return 1
   }
+  if (lg.value) {
+    return 2
+  }
+  return 1.5 // md
 })
-
-defineExpose({ computedSvgScale })
+const iconToRender: ComputedRef<InstanceType<typeof AvIcon>['$props'] | undefined> = computed(() => {
+  if (isLoading) {
+    return { ...loadingIcon, size: iconSize.value }
+  }
+  if (typeof icon === 'string' && !!icon.trim()) {
+    return { name: icon, size: iconSize.value }
+  }
+  if (icon && typeof icon !== 'string') {
+    return { ...icon, size: iconSize.value }
+  }
+  return undefined
+})
+const labelToRender = computed(() => toSentenceCase(label))
+const buttonDisabled = computed(() => disabled || isLoading)
+const variantClass = computed(() => `av-button--variant-${variant.toLowerCase()}`)
+const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
 </script>
 
 <template>
-  <DsfrButton
-    v-bind="props"
-    class="av-button"
-    :class="[variantClass, themeClass, radiusClass]"
-    :disabled="props.disabled || isLoading"
-    :icon="iconToRender"
-    :no-outline="props.variant === 'DEFAULT'"
-    :tertiary="true"
-    :aria-label="toSentenceCase(props.label)"
-    :title="toSentenceCase(props.label)"
-    :label="toSentenceCase(props.label)"
-  />
+  <button
+    ref="btn"
+    class="av-button fr-btn inline-flex"
+    :class="[
+      {
+        'fr-btn--tertiary': variant !== 'DEFAULT',
+        'fr-btn--tertiary-no-outline': variant === 'DEFAULT',
+        'fr-btn--sm': sm,
+        'fr-btn--md': md,
+        'fr-btn--lg': lg,
+        'reverse': iconRight,
+        'justify-center': iconOnly,
+        'av-button--no-radius': noRadius,
+      },
+      variantClass,
+      themeClass,
+    ]"
+    :title="iconOnly ? labelToRender : undefined"
+    :disabled="buttonDisabled"
+    :aria-disabled="buttonDisabled"
+    :aria-label="labelToRender"
+    :style="iconOnly ? { 'padding-inline': '0.5rem' } : {}"
+    @click="onClick ? onClick($event) : () => {}"
+  >
+    <AvIcon
+      v-if="iconToRender"
+      v-bind="iconToRender"
+    />
+    <span v-if="!iconOnly">
+      {{ labelToRender }}
+    </span>
+  </button>
 </template>
 
 <style lang="scss" scoped>
-:deep(svg) {
-  scale: v-bind('computedSvgScale');
-}
-
 .fr-btn {
-  box-shadow: none !important;
+  box-shadow: none;
 }
 
 .av-button--variant-default.av-button--theme-primary {
   background-color: var(--other-background-base);
-  color: var(--dark-background-primary1) !important;
-  border: 1px solid transparent !important;
+  color: var(--dark-background-primary1);
+  border: 1px solid transparent;
 }
 
 .av-button--variant-outlined.av-button--theme-primary {
   background-color: var(--other-background-base);
-  color: var(--dark-background-primary1) !important;
-  border: 1px solid var(--dark-background-primary1) !important;
+  color: var(--dark-background-primary1);
+  border: 1px solid var(--dark-background-primary1);
 }
 
 .av-button--variant-flat.av-button--theme-primary {
   background-color: var(--dark-background-primary1);
-  color: var(--other-background-base) !important;
-  border: 1px solid var(--dark-background-primary1) !important;
+  color: var(--other-background-base);
+  border: 1px solid var(--dark-background-primary1);
 }
 
 .av-button--variant-default.av-button--theme-secondary {
   background-color: var(--other-background-base);
-  color: var(--text1) !important;
-  border: 1px solid transparent !important;
+  color: var(--text1);
+  border: 1px solid transparent;
 }
 
 .av-button--variant-outlined.av-button--theme-secondary {
   background-color: var(--other-background-base);
-  color: var(--text1) !important;
-  border: 1px solid var(--text1) !important;
+  color: var(--text1);
+  border: 1px solid var(--text1);
 }
 
 .av-button--variant-flat.av-button--theme-secondary {
   background-color: var(--light-background-neutral);
-  color: var(--text1) !important;
-  border: 1px solid var(--light-background-neutral) !important;
+  color: var(--text1);
+  border: 1px solid var(--light-background-neutral);
 }
 
 .av-button--theme-primary:hover {
-  background-color: var(--dark-background-primary1) !important;
-  color: var(--other-background-base) !important;
+  background-color: var(--dark-background-primary1);
+  color: var(--other-background-base);
 }
 
 .av-button--theme-secondary:hover {
-  background-color: var(--light-background-neutral) !important;
+  background-color: var(--light-background-neutral);
 }
 
 .av-button--variant-flat.av-button--theme-primary:hover {
-  background-color: var(--other-background-base) !important;
-  color: var(--dark-background-primary1) !important;
+  background-color: var(--other-background-base);
+  color: var(--dark-background-primary1);
 }
 
 .av-button--variant-flat.av-button--theme-secondary:hover {
-  background-color: var(--other-background-base) !important;
-  color: var(--text1) !important;
-  border-color: var(--text1) !important;
+  background-color: var(--other-background-base);
+  color: var(--text1);
+  border-color: var(--text1);
 }
 
 .fr-btn.av-button--no-radius {
@@ -203,9 +236,19 @@ defineExpose({ computedSvgScale })
 }
 
 .fr-btn[disabled], .fr-btn[disabled]:hover {
-  background-color: transparent !important;
-  color: var(--divider) !important;
-  border-color: var(--divider) !important;
-  cursor: default !important;
+  background-color: transparent;
+  color: var(--divider);
+  border-color: var(--divider);
+  cursor: default;
+}
+
+.inline-flex {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.reverse {
+  flex-direction: row-reverse;
 }
 </style>
