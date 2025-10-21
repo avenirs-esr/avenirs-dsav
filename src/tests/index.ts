@@ -1,6 +1,7 @@
 import { AvBadgeStub } from '@/components/badges/AvBadge/AvBadge.stub'
 import { AvTagStub } from '@/components/badges/AvTag/AvTag.stub'
 import { AvIconStub } from '@/components/base/AvIcon/AvIcon.stub'
+import { AvAccordionStub } from '@/components/interaction/accordions/AvAccordion/AvAccordion.stub'
 import { AvButtonStub } from '@/components/interaction/buttons/AvButton/AvButton.stub'
 import { AvCancelConfirmButtonsStub } from '@/components/interaction/buttons/AvCancelConfirmButtons/AvCancelConfirmButtons.stub'
 import { AvListStub } from '@/components/interaction/lists/AvList/AvList.stub'
@@ -16,6 +17,7 @@ import { AvDrawerStub } from '@/components/overlay/drawers/AvDrawer/AvDrawer.stu
 import { BddTest } from '@/tests/utils'
 
 export {
+  AvAccordionStub,
   AvAutocompleteStub,
   AvBadgeStub,
   AvBreadcrumbStub,

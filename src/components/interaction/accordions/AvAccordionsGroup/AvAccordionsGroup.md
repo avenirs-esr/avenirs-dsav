@@ -10,13 +10,7 @@ The accordions group lets you group several accordions into a single coherent un
 
 ## 🏗️ Structure
 
-An accordion consists of the following elements:
-
-- a header (prop `title`, type `string`), corresponding to the section title - mandatory.
-- a left icon (prop `icon`, type `string`), adding information to the section title - optionnal, must respect VICon name format
-- a right icon, `v` indicates when the panel is closed, `^` when the panel is open.
-- a separator
-- a content zone, hidden by default, which can contain any type of element. The default `slot` is designed for this purpose.
+None.
 
 ## 🏷️ Props
 

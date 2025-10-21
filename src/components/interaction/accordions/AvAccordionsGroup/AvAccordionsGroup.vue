@@ -1,8 +1,7 @@
 <script lang="ts" setup>
+import type { Ref, VNode } from 'vue'
 import type AvAccordion from '@/components/interaction/accordions/AvAccordion/AvAccordion.vue'
-import { DsfrAccordion, DsfrAccordionsGroup } from '@gouvminint/vue-dsfr'
-import { useSlots, type VNode } from 'vue'
-import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
+import { registerAccordionKey } from '@/components/interaction/accordions/injection-key'
 
 /**
  * AvAccordionsGroup component props.
@@ -14,9 +13,9 @@ export interface AvAccordionsGroupProps {
   activeAccordion?: number
 }
 
-defineProps<AvAccordionsGroupProps>()
+const props = defineProps<AvAccordionsGroupProps>()
 
-defineEmits<{
+const emit = defineEmits<{
   /**
    * Emitted when the active accordion changes.
    */
@@ -34,65 +33,50 @@ defineSlots<{
   default?: () => VNode<typeof AvAccordion>[]
 }>()
 
-const slots = useSlots()
+const localActive = ref(props.activeAccordion ?? -1)
 
-const accordionsItem = computed(() => slots.default?.() || [])
+const activeAccordion = computed({
+  get: () => localActive.value,
+  set (accordionId: number) {
+    localActive.value = accordionId
+    emit('update:activeAccordion', accordionId)
+  },
+})
+const accordions = ref(new Map<number, string>())
+const currentId = ref(0)
 
-const activeAccordion = defineModel<number>('activeAccordion')
+provide(registerAccordionKey, (title: Ref<string>) => {
+  const myIndex = currentId.value++
+  accordions.value.set(myIndex, title.value)
 
-const id = `accordion-group-${crypto.randomUUID()}`
+  const isActive = computed(() => myIndex === activeAccordion.value)
+
+  watch(title, () => {
+    accordions.value.set(myIndex, title.value)
+  })
+
+  function expand (): void {
+    if (activeAccordion.value === myIndex) {
+      activeAccordion.value = -1
+      return
+    }
+    activeAccordion.value = myIndex
+  }
+
+  onUnmounted(() => {
+    accordions.value.delete(myIndex)
+  })
+
+  return { isActive, expand }
+})
 </script>
 
 <template>
-  <DsfrAccordionsGroup
-    v-model="activeAccordion"
+  <div
+    class="fr-accordions-group"
     role="group"
     aria-label="Accordion group"
   >
-    <DsfrAccordion
-      v-for="(accordion, index) in accordionsItem"
-      :id="`${id}-accordion-${index}`"
-      :key="index"
-      :aria-labelledby="`accordion-title-${index}`"
-      :aria-describedby="`accordion-content-${index}`"
-    >
-      <template #title>
-        <div class="title-container">
-          <AvIcon
-            v-if="accordion.props?.icon"
-            :size="2"
-            :name="accordion.props?.icon"
-            color="var(--icon)"
-          />
-          <h6 class="n6">
-            {{ accordion.props?.title }}
-          </h6>
-        </div>
-      </template>
-      <div class="accordion-content-container">
-        <component :is="(accordion.children as Record<string, unknown>).default" />
-      </div>
-    </DsfrAccordion>
-  </DsfrAccordionsGroup>
+    <slot />
+  </div>
 </template>
-
-<style lang="scss" scoped>
-.title-container {
-  display: flex;
-  flex-direction: row;
-  gap: 0.75rem;
-}
-
-:deep(.fr-accordion::before) {
-  box-shadow: none !important;
-}
-
-:deep(.fr-accordion__btn) {
-  padding: var(--spacing-sm) !important;
-}
-
-.accordion-content-container {
-  border-top: 1px solid var(--stroke);
-  padding-top: var(--spacing-sm);
-}
-</style>

@@ -2,21 +2,21 @@
 
 ## ✨ Introduction
 
-The `AvAccordion` is a declarative component used exclusively in the `default` slot of `AvAccordionsGroup`.
-`AvAccordion` allows you to configure an accordion by passing its props (such as `title` and `icon`) to the `AvAccordionsGroup` component without rendering.
-
-It acts as a proxy component: it exposes information (props) used by `AvAccordionsGroup` to generate the interface.
-
-🚫 This component does not display anything by itself and should not be used outside `AvAccordion`.
+The `AvAccordion` allows users to show and hide sections of content presented on a page.
 
 ## 🏗️ Structure
 
-None.
+An accordion consists of the following elements:
+- a header (prop title, of type string), corresponding to the section title - mandatory.
+- an icon, indicating when the panel is closed and when it is open.
+- a separator
+- a content area, hidden by default, that can contain any type of element; the default slot is designed for this.
 
 ## 🏷️ Props
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
+| `id` | `string` | `crypto.randomUUID()` | | Unique id of the accordion. |
 | `title` | `string` | | ✅ | Title of accordion displayed. |
 | `icon` | `string` | `undefined` | | Accordion icon. |
 
