@@ -3,6 +3,8 @@ import AvMultiselect, { type AvMultiselectProps } from '@/components/interaction
 import { MDI_ICONS } from '@/tokens'
 
 /**
+ * <h1 class="n1">Enhanced drop-down list - <code>AvMultiselect</code></h1>
+ *
  * <h2 class="n2">✨ Introduction</h2>
  *
  * <p>
@@ -47,7 +49,7 @@ const meta = {
   argTypes: {
     disabled: { control: 'boolean' },
     dense: { control: 'boolean' },
-    selectId: { control: 'text' },
+    id: { control: 'text' },
     name: { control: 'text' },
     hint: { control: 'text' },
     modelValue: {
@@ -69,7 +71,7 @@ const meta = {
   args: {
     options: [
       { value: '1', label: 'Choice 1' },
-      { value: '2', label: 'Choice 2' },
+      { value: '2', label: 'Choice 2 with a long text' },
       { value: '3', label: 'Choice 3' },
       { value: '4', label: 'Choice 4' },
       { value: '5', label: 'Choice 5' },
@@ -77,7 +79,7 @@ const meta = {
     defaultUnselectedText: 'Placeholder',
     required: false,
     disabled: false,
-    selectId: 'selectId',
+    id: 'selectId',
     name: 'select',
     hint: '',
     modelValue: [],
@@ -109,13 +111,15 @@ const Template: StoryFn<AvMultiselectProps> = args => ({
 
 export const Default = Template.bind({})
 Default.args = {
-  label: 'Select'
+  label: 'Select',
+  id: 'default-multiselect'
 }
 
 export const Dense = Template.bind({})
 Dense.args = {
   dense: true,
   label: 'Dense Select',
+  id: 'dense-multiselect'
 }
 
 export const OptionsWithIcon = Template.bind({})
@@ -128,4 +132,5 @@ OptionsWithIcon.args = {
     { value: '5', label: 'Choice 5', icon: MDI_ICONS.IMAGE_OUTLINE },
   ],
   label: 'Options with icon',
+  id: 'icons-multiselect'
 }
