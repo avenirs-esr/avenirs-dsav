@@ -488,6 +488,19 @@ BddTest().given('an AvInput', () => {
       expect(input.attributes('max')).toBeUndefined()
     })
   })
+
+  BddTest().when('exposed focus is called', () => {
+    beforeEach(() => {
+      wrapper = mount(AvInput)
+    })
+
+    BddTest().then('it should call focus on input', () => {
+      const inputEl = wrapper.find('input').element
+      const focusSpy = vi.spyOn(inputEl, 'focus')
+      wrapper.vm.focus()
+      expect(focusSpy).toHaveBeenCalledTimes(1)
+    })
+  })
 })
 
 BddTest().given('multiple AvInput components', () => {
