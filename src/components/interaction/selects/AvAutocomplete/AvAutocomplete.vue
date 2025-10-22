@@ -1,10 +1,10 @@
 <script setup lang="ts" generic="T extends AvAutocompleteOption = AvAutocompleteOption">
 import type { Slot } from 'vue'
-import type { AvAutocompleteOption, AvAutocompleteProps } from './AvAutocomplete.types'
-import { type AvAutocompleteContext, AvAutocompleteContextKey } from './AvAutocompleteContext'
-import AvAutocompleteDropdown from './AvAutocompleteDropdown.vue'
-import AvAutocompleteInput from './AvAutocompleteInput.vue'
-import AvAutocompleteSelectedTags from './AvAutocompleteSelectedTags.vue'
+import type { AvAutocompleteOption, AvAutocompleteProps } from '@/components/interaction/selects/AvAutocomplete/AvAutocomplete.types'
+import { type AvAutocompleteContext, AvAutocompleteContextKey } from '@/components/interaction/selects/AvAutocomplete/AvAutocompleteContext'
+import AvAutocompleteDropdown from '@/components/interaction/selects/AvAutocomplete/AvAutocompleteDropdown.vue'
+import AvAutocompleteInput from '@/components/interaction/selects/AvAutocomplete/AvAutocompleteInput.vue'
+import AvAutocompleteSelectedTags from '@/components/interaction/selects/AvAutocomplete/AvAutocompleteSelectedTags.vue'
 
 const props = withDefaults(defineProps<AvAutocompleteProps<T>>(), {
   inputOptions: () => ({}),
