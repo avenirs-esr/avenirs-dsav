@@ -21,13 +21,13 @@ import AvInput, { type AvInputProps } from '@/components/interaction/inputs/AvIn
  *
  * <p><span class="b2-regular">The input component consists of the following elements:</span></p>
  * <ul>
- *   <li><span class="b2-regular"><strong>Wrapper</strong>: Container that manages the overall layout and positioning</span></li>
- *   <li><span class="b2-regular"><strong>Prefix Icon</strong> (optional): Visual icon positioned at the beginning of the input field</span></li>
- *   <li><span class="b2-regular"><strong>Input Field</strong>: The main input element (can be rendered as input or textarea)</span></li>
- *   <li><span class="b2-regular"><strong>Label</strong>: Descriptive text for the input field</span></li>
- *   <li><span class="b2-regular"><strong>Hint</strong>: Optional helper text displayed below the label</span></li>
- *   <li><span class="b2-regular"><strong>Error Messages</strong>: Validation error messages displayed when validation fails</span></li>
- *   <li><span class="b2-regular"><strong>Success Messages</strong>: Validation success messages displayed when validation passes</span></li>
+ *   <li><span class="b2-regular">a <strong>Wrapper</strong>: Container that manages the overall layout and positioning</span></li>
+ *   <li><span class="b2-regular">a <strong>Prefix Icon</strong> (optional): Visual icon positioned at the beginning of the input field</span></li>
+ *   <li><span class="b2-regular">a <strong>Input Field</strong>: The main input element (can be rendered as input or textarea)</span></li>
+ *   <li><span class="b2-regular">a <strong>Label</strong>: Descriptive text for the input field</span></li>
+ *   <li><span class="b2-regular">a <strong>Hint</strong>: Optional helper text displayed below the label</span></li>
+ *   <li><span class="b2-regular">optional <strong>Error Messages</strong>: Validation error messages displayed when validation fails</span></li>
+ *   <li><span class="b2-regular">optional <strong>Success Messages</strong>: Validation success messages displayed when validation passes</span></li>
  * </ul>
  *
  * <p>

@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { Slot } from 'vue'
-import { DsfrInput } from '@gouvminint/vue-dsfr'
+import type { Ref, Slot } from 'vue'
 import { format, isValid as isValidDate } from 'date-fns'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 
 export interface AvInputProps {
   /**
    * ID of the input element
+   * @default `av-input-${crypto.randomUUID()}`
    */
   id?: string
 
@@ -22,11 +22,13 @@ export interface AvInputProps {
 
   /**
    * Validation state - valid
+   * @default false
    */
   isValid?: boolean
 
   /**
    * Render as textarea instead of input
+   * @default false
    */
   isTextarea?: boolean
 
@@ -37,16 +39,19 @@ export interface AvInputProps {
 
   /**
    * Label text
+   * @default ''
    */
   label?: string
 
   /**
    * CSS class for the label
+   * @default ''
    */
   labelClass?: string
 
   /**
    * Model value for v-model
+   * @default ''
    */
   modelValue?: string | number | null
 
@@ -57,6 +62,7 @@ export interface AvInputProps {
 
   /**
    * Input type (text, email, password, etc.)
+   * @default 'text'
    */
   type?: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search' | 'date' | 'datetime-local' | 'month' | 'time' | 'week' | 'color' | 'file' | 'hidden' | 'range'
 
@@ -72,11 +78,13 @@ export interface AvInputProps {
 
   /**
    * Whether the input is disabled
+   * @default false
    */
   disabled?: boolean
 
   /**
    * Whether the input is required
+   * @default false
    */
   required?: boolean
 
@@ -117,15 +125,34 @@ export interface AvInputProps {
   noRadius?: boolean
 }
 
-const props = withDefaults(defineProps<AvInputProps>(), {
-  isValid: false,
-  isTextarea: false,
-  labelVisible: true,
-  type: 'text',
-  disabled: false,
-  required: false,
-  noRadius: false,
+defineOptions({
+  inheritAttrs: false,
 })
+
+const {
+  id = crypto.randomUUID(),
+  descriptionId,
+  hint = '',
+  isValid = false,
+  isTextarea = false,
+  labelVisible,
+  label = '',
+  labelClass = '',
+  modelValue = '',
+  placeholder,
+  type = 'text',
+  minDate,
+  maxDate,
+  disabled = false,
+  required = false,
+  maxlength,
+  minlength,
+  errorMessage,
+  validMessage,
+  prefixIcon,
+  width,
+  noRadius = false,
+} = defineProps<AvInputProps>()
 
 /**
  * Events emitted by the component.
@@ -143,7 +170,7 @@ const emit = defineEmits<{
  *
  * @slot requiredTip - Slot for custom required tip content.
  */
-const slots = defineSlots<{
+defineSlots<{
   /**
    * Slot for custom required tip content
    */
@@ -156,34 +183,46 @@ const slots = defineSlots<{
 }>()
 
 const errorMessages = computed(() => {
-  if (!props.errorMessage) {
+  if (!errorMessage) {
     return []
   }
-  return Array.isArray(props.errorMessage) ? props.errorMessage : [props.errorMessage]
+  return Array.isArray(errorMessage) ? errorMessage : [errorMessage]
 })
 
 const validMessages = computed(() => {
-  if (!props.validMessage) {
+  if (!validMessage) {
     return []
   }
-  return Array.isArray(props.validMessage) ? props.validMessage : [props.validMessage]
+  return Array.isArray(validMessage) ? validMessage : [validMessage]
 })
-
-const inputId = computed(() => props.id || `av-input-${crypto.randomUUID()}`)
 
 const isInvalid = computed(() => {
-  return !!props.errorMessage
+  return !!errorMessage
 })
 
-const min = computed(() => formatDateYyyyMMdd(props.minDate))
-const max = computed(() => formatDateYyyyMMdd(props.maxDate))
+const min = computed(() => formatDateYyyyMMdd(minDate))
+const max = computed(() => formatDateYyyyMMdd(maxDate))
 
 function formatDateYyyyMMdd (date: Date | undefined) {
-  if ((props.type !== 'date' && props.type !== 'datetime-local') || (date === undefined || !isValidDate(date))) {
+  if ((type !== 'date' && type !== 'datetime-local') || (date === undefined || !isValidDate(date))) {
     return undefined
   }
   return format(date, 'yyyy-MM-dd')
 }
+
+const __input: Ref<HTMLElement | null> = ref(null)
+const focus = () => __input.value?.focus()
+
+const isComponent = computed(() => isTextarea ? 'textarea' : 'input')
+const finalLabelClass = computed(() => [
+  'fr-label',
+  { invisible: !labelVisible },
+  labelClass,
+])
+
+defineExpose({
+  focus,
+})
 </script>
 
 <template>
@@ -204,36 +243,58 @@ function formatDateYyyyMMdd (date: Date | undefined) {
           :size="1.2"
         />
       </div>
-      <DsfrInput
-        :id="inputId"
-        :model-value="modelValue"
-        :label="label"
-        :label-visible="labelVisible"
-        :label-class="labelClass"
-        :hint="hint"
-        :description-id="props.descriptionId"
-        :is-invalid="isInvalid"
-        :is-valid="isValid"
-        :is-textarea="isTextarea"
-        wrapper-class="av-input__wrapper"
-        :placeholder="placeholder"
-        :type="type"
-        :disabled="disabled"
-        :required="required"
-        :maxlength="maxlength"
-        :minlength="minlength"
-        v-bind="$attrs"
-        :max="max"
-        :min="min"
-        @update:model-value="emit('update:modelValue', $event)"
+      <label
+        :class="finalLabelClass"
+        :for="id"
       >
-        <template
-          v-if="slots.requiredTip"
-          #required-tip
-        >
-          <component :is="slots.requiredTip" />
-        </template>
-      </DsfrInput>
+        <span class="b2-light">
+          {{ label }}
+          <slot name="requiredTip">
+            <span
+              v-if="required === true"
+              class="required"
+            >
+              *
+            </span>
+          </slot>
+          <span
+            v-if="hint"
+            class="fr-hint-text"
+          >
+            {{ hint }}
+          </span>
+        </span>
+      </label>
+
+      <div
+        class="av-input__wrapper"
+        :class="[
+          { 'fr-input-wrap': type === 'date' },
+        ]"
+      >
+        <component
+          :is="isComponent"
+          :id="id"
+          ref="__input"
+          :placeholder="placeholder"
+          :type="type"
+          :disabled="disabled"
+          :maxlength="maxlength"
+          :minlength="minlength"
+          :required="required"
+          v-bind="$attrs"
+          :max="max"
+          :min="min"
+          class="fr-input"
+          :class="{
+            'fr-input--error': isInvalid,
+            'fr-input--valid': isValid,
+          }"
+          :value="modelValue"
+          :aria-describedby="descriptionId || undefined"
+          @input="emit('update:modelValue', $event.target.value)"
+        />
+      </div>
       <slot
         name="customCaptions"
         :current-value="modelValue"
@@ -277,15 +338,25 @@ function formatDateYyyyMMdd (date: Date | undefined) {
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
+@use "@/styles/typography.scss" as typography;
+
 .av-input__wrapper{
   margin-top: 0 !important;
   position: relative;
 }
-</style>
 
-<style lang="scss" scoped>
-@use "@/styles/typography.scss" as typography;
+.invisible {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 
 .av-input {
   display: flex;
@@ -294,7 +365,7 @@ function formatDateYyyyMMdd (date: Date | undefined) {
   width: v-bind('width');
 }
 
-:deep(input[type="date"]::-webkit-calendar-picker-indicator) {
+input[type="date"]::-webkit-calendar-picker-indicator {
   opacity: 0;
   cursor: pointer;
   position: absolute;
@@ -306,7 +377,7 @@ function formatDateYyyyMMdd (date: Date | undefined) {
 .av-input__prefix {
   position: absolute;
   left: var(--spacing-xs);
-  top: 50%;
+  top: 55%;
   z-index: 1;
   display: flex;
   align-items: center;
@@ -319,12 +390,12 @@ function formatDateYyyyMMdd (date: Date | undefined) {
   color: var(--dark-background-primary1);
 }
 
-.av-input__prefix :deep(svg) {
+.av-input__prefix svg {
   color: inherit;
 }
 
-.av-input :deep(input),
-.av-input :deep(textarea) {
+.av-input input,
+.av-input textarea {
   display: flex;
   align-items: center;
   align-self: stretch;
@@ -334,63 +405,62 @@ function formatDateYyyyMMdd (date: Date | undefined) {
   box-shadow: none;
 }
 
-.av-input--no-radius :deep(input),
-.av-input--no-radius :deep(textarea) {
+.av-input--no-radius input,
+.av-input--no-radius textarea {
   border-radius: var(--radius-none);
 }
 
-.av-input :deep(.fr-input--error) {
+.av-input .fr-input--error {
   border-color: var(--dark-background-error);
 }
 
-.av-input :deep(.fr-input--error):hover {
+.av-input .fr-input--error:hover {
   border-color: var(--light-foreground-error) !important;
 }
 
-.av-input:has(.av-input__prefix) :deep(input),
-.av-input:has(.av-input__prefix) :deep(textarea) {
+.av-input:has(.av-input__prefix) input,
+.av-input:has(.av-input__prefix) textarea {
   padding-left: calc(var(--spacing-xs) * 3 + 1rem);
 }
 
-.av-input :deep(input:focus),
-.av-input :deep(textarea:focus) {
+.av-input input:focus,
+.av-input textarea:focus {
   outline: none;
   border-color: var(--dark-background-primary1);
 }
 
-.av-input :deep(input:hover:not(:disabled)),
-.av-input :deep(textarea:hover:not(:disabled)) {
+.av-input input:hover:not(:disabled),
+.av-input textarea:hover:not(:disabled) {
   border-color: var(--dark-background-primary1);
 }
 
-.av-input :deep(input) {
+.av-input input {
   @extend .caption-regular;
 }
 
-.av-input :deep(textarea) {
+.av-input textarea {
   @extend .b2-light;
 }
 
-.av-input :deep(input:disabled),
-.av-input :deep(textarea:disabled) {
+.av-input input:disabled,
+.av-input textarea:disabled {
   background-color: var(--surface-background);
   color: var(--text2);
   cursor: not-allowed;
   opacity: 0.7;
 }
 
-.av-input :deep(input::placeholder),
-.av-input :deep(textarea::placeholder) {
+.av-input input::placeholder,
+.av-input textarea::placeholder {
   color: var(--text2);
 }
 
-.av-input :deep(label) {
-  @extend .b2-light;
+.av-input label {
   color: var(--text1);
   padding-bottom: var(--spacing-xxs);
 }
 
-.av-input :deep(textarea) {
+.av-input textarea {
   min-height: 6rem;
   resize: vertical;
   align-items: flex-start;
