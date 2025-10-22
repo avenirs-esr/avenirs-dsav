@@ -1,5 +1,5 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, describe, expect, vi } from 'vitest'
+import { beforeEach, describe, expect, type MockInstance, vi } from 'vitest'
 import AvButton, { type AvButtonProps } from '@/components/interaction/buttons/AvButton/AvButton.vue'
 import { AvIconStub } from '@/tests'
 import { BddTest } from '@/tests/utils'
@@ -231,6 +231,31 @@ BddTest().given('an AvButton', () => {
 
       BddTest().then('the icon size falls back to size based value', () => {
         expect(wrapper.findComponent({ name: 'AvIcon' }).props('size')).toBe(1.5)
+      })
+    })
+  })
+
+  BddTest().and('focus method', () => {
+    let wrapper: VueWrapper<InstanceType<typeof AvButton>>
+    let focusSpy: MockInstance
+
+    beforeEach(() => {
+      wrapper = mount(AvButton, {
+        props: { label: 'test' },
+        global: { stubs }
+      })
+
+      const btnEl = wrapper.find('button').element as HTMLButtonElement
+      focusSpy = vi.spyOn(btnEl, 'focus')
+    })
+
+    BddTest().when('calling the exposed focus method', () => {
+      beforeEach(() => {
+        wrapper.vm.focus()
+      })
+
+      BddTest().then('it should call focus on the button element', () => {
+        expect(focusSpy).toHaveBeenCalled()
       })
     })
   })
