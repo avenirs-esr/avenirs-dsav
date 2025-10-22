@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="T extends AvAutocompleteOption = AvAutocompleteOption">
 import type { Slot } from 'vue'
-import type { AvAutocompleteOption } from './AvAutocomplete.types'
+import type { AvAutocompleteOption } from '@/components/interaction/selects/AvAutocomplete/AvAutocomplete.types'
 import { debounce } from 'lodash-es'
 import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
 import AvInput from '@/components/interaction/inputs/AvInput/AvInput.vue'

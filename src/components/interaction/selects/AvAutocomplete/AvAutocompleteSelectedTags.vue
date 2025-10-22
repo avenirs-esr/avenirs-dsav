@@ -1,9 +1,9 @@
 <script setup lang="ts" generic="T extends AvAutocompleteOption = AvAutocompleteOption">
 import type { Slot } from 'vue'
-import type { AvAutocompleteOption } from './AvAutocomplete.types'
+import type { AvAutocompleteOption } from '@/components/interaction/selects/AvAutocomplete/AvAutocomplete.types'
 import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
+import { useAutocompleteContext } from '@/components/interaction/selects/AvAutocomplete/AvAutocompleteContext'
 import { MDI_ICONS } from '@/tokens'
-import { useAutocompleteContext } from './AvAutocompleteContext'
 
 const slots = defineSlots<{
   selectedItem?: Slot<{ option: T, remove: () => void }>

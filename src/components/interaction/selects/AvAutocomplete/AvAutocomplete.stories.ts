@@ -1,8 +1,8 @@
 import type { StoryFn } from '@storybook/vue3'
-import type { AvAutocompleteOption } from './AvAutocomplete.types'
+import type { AvAutocompleteOption } from '@/components/interaction/selects/AvAutocomplete/AvAutocomplete.types'
 import AvListItem from '@/components/interaction/lists/AvListItem/AvListItem.vue'
+import AvAutocomplete from '@/components/interaction/selects/AvAutocomplete/AvAutocomplete.vue'
 import { MDI_ICONS } from '@/tokens'
-import AvAutocomplete from './AvAutocomplete.vue'
 
 interface ExtendedOption extends AvAutocompleteOption {
   role?: string

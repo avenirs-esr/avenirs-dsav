@@ -1,5 +1,5 @@
 import type { ComputedRef, InjectionKey, Ref } from 'vue'
-import type { AvAutocompleteOption, AvAutocompleteProps } from './AvAutocomplete.types'
+import type { AvAutocompleteOption, AvAutocompleteProps } from '@/components/interaction/selects/AvAutocomplete/AvAutocomplete.types'
 
 export interface AvAutocompleteContext<T extends AvAutocompleteOption = AvAutocompleteOption> {
   selectedItems: Ref<T[]>
