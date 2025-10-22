@@ -8,7 +8,7 @@ The `AvFileUpload` allows you to upload files by clicking on the file upload are
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
-| `id` | `Function` | `() => useRandomId(...)` | | Unique identifier for the file download component. If not specified, a random ID is generated. |
+| `id` | `Function` | `crypto.randomUUID()` | | Unique identifier for the file download component. If not specified, a random ID is generated. |
 | `ariaLabel` | `string` | `''` | | ARIA label for file download button. |
 | `accept` | `string \| string[]` | `undefined` | | Accepted file types, specified as a string (like HTML `accept` attribute) or an array of strings (which will be transformed into a string). |
 | `validMessage` | `string` | `''` | | Message indicating that the downloaded file is valid. |

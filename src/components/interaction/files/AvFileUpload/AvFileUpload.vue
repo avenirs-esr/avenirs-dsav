@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useRandomId } from '@gouvminint/vue-dsfr'
 import { nextTick, type Slot } from 'vue'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
@@ -14,7 +13,7 @@ export interface AvFileUploadProps {
    * Unique identifier for the file download component.
    * If not specified, a random ID is generated.
    *
-   * @default () => useRandomId(...)
+   * @default crypto.randomUUID()
    */
   id?: string
 
@@ -112,7 +111,7 @@ defineOptions({
 })
 
 const {
-  id = useRandomId('file-upload'),
+  id = crypto.randomUUID(),
   ariaLabel = '',
   accept = undefined,
   validMessage = '',
