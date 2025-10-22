@@ -189,5 +189,16 @@ BddTest().given('a MultiselectCollapse component', () => {
         expect(wrapper.emitted('close')).toBeTruthy()
       })
     })
+
+    BddTest().when('all options are selected', () => {
+      beforeEach(() => {
+        wrapper.setProps({ selected: defaultOptions })
+      })
+
+      BddTest().then('isAllSelected should be true', () => {
+        const vm = wrapper.vm as unknown as { isAllSelected: boolean }
+        expect(vm.isAllSelected).toBe(true)
+      })
+    })
   })
 })

@@ -18,6 +18,7 @@ export default () => {
     'src/App.vue',
     'public/mockServiceWorker.js',
     'src/__mocks__/*',
+    'src/test-utils.ts',
     'storybook-static/*',
     'generate-docs.js',
   ]
