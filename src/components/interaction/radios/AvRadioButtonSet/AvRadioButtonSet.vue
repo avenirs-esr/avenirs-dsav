@@ -1,12 +1,18 @@
 <script lang="ts" setup>
-import { DsfrRadioButton, DsfrRadioButtonSet } from '@gouvminint/vue-dsfr'
 import { Fragment, type Slot, useSlots, type VNode, type VNodeArrayChildren } from 'vue'
-import AvRadioButton from '@/components/interaction/radios/AvRadioButton/AvRadioButton.vue'
+import { AvRadioButton } from '@/components/interaction/radios'
+import RadioButton from '@/components/interaction/radios/AvRadioButtonSet/components/RadioButton.vue'
 
 /**
  * AvRadioButtonSet component props.
  */
 export interface AvRadioButtonSetProps {
+  /**
+   * ID of the legend element
+   * @default `av-radio-button-set-${crypto.randomUUID()}`
+   */
+  id?: string
+
   /**
    * Name of the radio group, applied to each radio `<input name>`.
    * Used for form submission and accessibility.
@@ -16,6 +22,7 @@ export interface AvRadioButtonSetProps {
   /**
    * Label (legend) for the radio group, rendered visually as a title.
    * Helps screen readers understand the group context.
+   * @default ''
    */
   legend?: string
 
@@ -27,21 +34,25 @@ export interface AvRadioButtonSetProps {
 
   /**
    * If true, disables all radio buttons in the group.
+   * @default false
    */
   disabled?: boolean
 
   /**
    * If true, marks the group as required and shows a required indicator.
+   * @default false
    */
   required?: boolean
 
   /**
    * If true, displays the radio buttons in compact (small) mode.
+   * @default false
    */
   small?: boolean
 
   /**
    * If true, displays the radio buttons inline (horizontally).
+   * @default false
    */
   inline?: boolean
 
@@ -64,7 +75,19 @@ export interface AvRadioButtonSetProps {
   hint?: string
 }
 
-const props = defineProps<AvRadioButtonSetProps>()
+const {
+  id = `av-radio-button-set-${crypto.randomUUID()}`,
+  name,
+  legend = '',
+  modelValue,
+  disabled = false,
+  required = false,
+  small = false,
+  inline = false,
+  errorMessage,
+  validMessage,
+  hint = '',
+} = defineProps<AvRadioButtonSetProps>()
 
 const emit = defineEmits<{
   /**
@@ -88,6 +111,18 @@ defineSlots<{
    */
   default?: Slot
 }>()
+
+const message = computed(() => errorMessage || validMessage)
+const additionalMessageClass = computed(() => errorMessage ? 'fr-error-text' : 'fr-valid-text')
+
+function onChange ($event: string) {
+  if ($event === modelValue) {
+    return
+  }
+  emit('update:modelValue', $event)
+}
+
+const describedByElement = computed(() => message.value ? `messages-${id}` : undefined)
 
 type AvRadioButtonNode = VNode & { type: typeof AvRadioButton }
 
@@ -127,9 +162,9 @@ const radios = computed((): AvRadioButtonNode[] => {
   return flattenRadioButtonNodes(slots.default?.())
 })
 
-const selected = ref(props.modelValue)
+const selected = ref(modelValue)
 
-watch(() => props.modelValue, (val) => {
+watch(() => modelValue, (val) => {
   selected.value = val
 })
 
@@ -143,23 +178,63 @@ defineExpose({ selected })
 </script>
 
 <template>
-  <DsfrRadioButtonSet
-    v-bind="props"
-    :model-value="selected"
-  >
-    <DsfrRadioButton
-      v-for="(radio, index) in radios"
-      :key="index"
-      v-model="selected"
-      :value="radio.props?.value"
-      :disabled="radio.props?.disabled ?? props.disabled"
-      :small="props.small"
-      :inline="props.inline"
-      :name="props.name"
+  <div class="fr-form-group">
+    <fieldset
+      class="fr-fieldset"
+      :class="{
+        'fr-fieldset--error': errorMessage,
+        'fr-fieldset--valid': validMessage,
+      }"
+      :disabled="disabled"
+      :aria-labelledby="id"
+      :aria-describedby="describedByElement"
+      :role="(errorMessage || validMessage) ? 'group' : undefined"
     >
-      <template #label>
+      <legend
+        v-if="legend || hint"
+        :id="id"
+        class="fr-fieldset__legend fr-fieldset__legend--regular"
+      >
+        <span class="caption-regular">{{ legend }}</span>
+        <span
+          v-if="hint"
+          class="caption-regular fr-hint-text"
+        >
+          {{ hint }}
+        </span>
+        <span
+          v-if="required"
+          class="caption-regular required"
+        >&nbsp;*</span>
+      </legend>
+      <RadioButton
+        v-for="(radio, index) in radios"
+        :key="index"
+        v-model="selected"
+        :value="radio.props?.value"
+        :disabled="radio.props?.disabled ?? disabled"
+        :small="small"
+        :inline="inline"
+        :name="name"
+        @update:model-value="onChange($event as string)"
+      >
         <component :is="(radio.children as Record<string, unknown>)?.default" />
-      </template>
-    </DsfrRadioButton>
-  </DsfrRadioButtonSet>
+      </RadioButton>
+
+      <div
+        v-if="message"
+        :id="`messages-${id}`"
+        class="fr-messages-group"
+        aria-live="assertive"
+        role="alert"
+      >
+        <p
+          class="fr-message  fr-message--info  flex  items-center"
+          :class="additionalMessageClass"
+        >
+          {{ message }}
+        </p>
+      </div>
+    </fieldset>
+  </div>
 </template>

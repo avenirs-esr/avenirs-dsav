@@ -1,6 +1,7 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
 import AvRadioButton from '@/components/interaction/radios/AvRadioButton/AvRadioButton.vue'
 import AvRadioButtonSet, { type AvRadioButtonSetProps } from '@/components/interaction/radios/AvRadioButtonSet/AvRadioButtonSet.vue'
+import RadioButton from '@/components/interaction/radios/AvRadioButtonSet/components/RadioButton.vue'
 
 /**
  * <h1 class="n1">Radio button set - <code>AvRadioButtonSet</code></h1>
@@ -73,7 +74,7 @@ const meta: Meta<AvRadioButtonSetProps> = {
 export default meta
 
 const Template: StoryFn<AvRadioButtonSetProps> = args => ({
-  components: { AvRadioButtonSet, AvRadioButton },
+  components: { AvRadioButtonSet, AvRadioButton, RadioButton },
   setup () {
     return { args }
   },

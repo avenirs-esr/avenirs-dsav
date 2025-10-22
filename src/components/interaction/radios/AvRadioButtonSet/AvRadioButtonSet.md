@@ -31,7 +31,7 @@ The `AvRadioButtonSet` component consists of the following elements:
 | `inline` | `boolean` | `false` | | If true, displays the radio buttons inline (horizontally). |
 | `errorMessage` | `string` | `undefined` | | Optional global error message displayed below the group. If set, indicates a validation error. |
 | `validMessage` | `string` | `undefined` | | Optional global valid message displayed below the group. If set, confirms successful validation. |
-| `hint` | `string` | `undefined` | | Optional hint text displayed below the legend. Provides guidance or extra information. |
+| `hint` | `string` | `''` | | Optional hint text displayed below the legend. Provides guidance or extra information. |
 
 ## 🔊 Events
 
