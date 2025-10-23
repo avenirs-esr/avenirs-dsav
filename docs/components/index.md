@@ -3,6 +3,7 @@
 - [AvTag](badges/AvTag/AvTag.md)
 
 ## Base
+- [AvFieldset](base/AvFieldset/AvFieldset.md)
 - [AvIcon](base/AvIcon/AvIcon.md)
 - [AvIconText](base/AvIconText/AvIconText.md)
 - [AvNotice](base/AvNotice/AvNotice.md)
@@ -29,6 +30,9 @@
 - [AvCancelConfirmButtons](interaction/buttons/AvCancelConfirmButtons/AvCancelConfirmButtons.md)
 - [AvLanguageSelector](interaction/buttons/AvLanguageSelector/AvLanguageSelector.md)
 - [AvRichButton](interaction/buttons/AvRichButton/AvRichButton.md)
+
+### Checkboxes
+- [AvCheckbox](interaction/checkboxes/AvCheckbox/AvCheckbox.md)
 
 ### Files
 - [AvFileUpload](interaction/files/AvFileUpload/AvFileUpload.md)

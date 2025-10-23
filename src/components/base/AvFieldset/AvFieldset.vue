@@ -5,10 +5,34 @@ import type { Slot } from 'vue'
  * AvFieldset component props.
  */
 export interface AvFieldsetProps {
+  /**
+   * Fieldset caption
+   * @default ''
+   */
   legend?: string
+
+  /**
+   * `<legend>` tag class
+   * @default ''
+   */
   legendClass?: string
+
+  /**
+   * `<legend>` tag id
+   * @default ''
+   */
   legendId?: string
+
+  /**
+   * Hint placed above the fieldset
+   * @default ''
+   */
   hint?: string
+
+  /**
+   * Class for the hint
+   * @default ''
+   */
   hintClass?: string
 }
 
