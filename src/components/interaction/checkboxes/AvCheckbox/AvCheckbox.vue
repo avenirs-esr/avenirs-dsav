@@ -1,20 +1,76 @@
 <script lang="ts" setup>
 import { MDI_ICONS } from '@/tokens/icons'
 
+/**
+ * AvCheckbox component props
+ */
 export interface AvCheckboxProps {
+  /**
+   * Unique ID of the component
+   * @default `checkbox-${crypto.randomUUID()}`
+   */
   id?: string
+
+  /**
+   * Custom icon to add between the checkbox and the label (Iconify naming convention)
+   */
   icon?: string
+
+  /**
+   * Name of the field `<input>`
+   */
   name: string
+
+  /**
+   * Indicates if the checkbox is mandatory
+   * @default false
+   */
   required?: boolean
+
+  /**
+   * Value associated to the checkbox
+   */
   value: string | number | boolean
-  checked?: boolean
+
+  /**
+   * Displays the checkbox in its small version
+   * @default false
+   */
   small?: boolean
+
+  /**
+   * Displays the chekbox in its inline version
+   * @default false
+   */
   inline?: boolean
-  readonly?: boolean
-  readonlyOpacity?: number
-  label?: string
+
+  /**
+   * Simulates a disabled state to make the checkbox as disabled
+   * @default false
+   */
+  disabled?: boolean
+
+  /**
+   * Label to be displayed next to the checkbox
+   */
+  label: string
+
+  /**
+   * Error message to be displayed under the checkbox
+   * @default ''
+   */
   errorMessage?: string
+
+  /**
+   * Valid message to be displayed under the checkbox
+   * @default ''
+   */
   validMessage?: string
+
+  /**
+   * Hint to be displayed under the checkbox
+   * @default ''
+   */
   hint?: string
 }
 
@@ -26,12 +82,11 @@ const {
   id = `checkbox-${crypto.randomUUID()}`,
   icon,
   name,
-  required,
+  required = false,
   value,
-  small,
-  inline,
-  readonly,
-  readonlyOpacity,
+  small = false,
+  inline = false,
+  disabled = false,
   label,
   errorMessage,
   validMessage,
@@ -54,7 +109,12 @@ const iconColor = computed(() => {
   return isChecked.value ? 'var(--dark-background-primary1)' : 'var(--icon)'
 })
 
+const iconSize = computed(() => small ? 1 : 1.5)
+
 const labelClass = computed(() => {
+  if (small) {
+    return isChecked.value ? 'caption-bold' : 'caption-regular'
+  }
   return isChecked.value ? 'b2-bold' : 'b2-regular'
 })
 </script>
@@ -62,7 +122,10 @@ const labelClass = computed(() => {
 <template>
   <div
     class="fr-fieldset__element"
-    :class="{ 'fr-fieldset__element--inline': inline, readonly }"
+    :class="{
+      'fr-fieldset__element--inline': inline,
+      'fr-fieldset__element--disabled': disabled,
+    }"
   >
     <div
       class="fr-checkbox-group"
@@ -83,7 +146,7 @@ const labelClass = computed(() => {
         v-bind="$attrs"
         :data-testid="`input-checkbox-${id}`"
         :data-test="`input-checkbox-${id}`"
-        :tabindex="readonly ? -1 : undefined"
+        :tabindex="disabled ? -1 : undefined"
         :aria-describedby="messageId"
       >
       <label
@@ -95,22 +158,26 @@ const labelClass = computed(() => {
             class="option-checkbox"
             :name="checkboxIconName"
             :color="iconColor"
-            :size="1.5"
+            :size="iconSize"
           />
           <AvIcon
             v-if="icon"
             class="option-icon"
             :name="icon"
             :color="iconColor"
-            :size="1.5"
+            :size="iconSize"
           />
-          <span :class="labelClass">{{ label }}</span>
-          <slot name="required-tip">
-            <span
-              v-if="required"
-              class="required"
-            >&nbsp;*</span>
-          </slot>
+          <span
+            class="label"
+            :class="labelClass"
+          >
+            {{ label }}
+          </span>
+          <span
+            v-if="required"
+            class="required"
+            :class="labelClass"
+          >&nbsp;*</span>
         </div>
         <span
           v-if="hint"
@@ -143,12 +210,23 @@ const labelClass = computed(() => {
   flex-direction: row;
   gap: var(--spacing-xs);
   align-items: center;
-  margin-left: -1.5rem;
 }
 
-.fr-fieldset__element.readonly {
+.fr-label {
+  margin-left: var(--spacing-none) !important;
+}
+
+.fr-label::before {
+  display: none !important;
+}
+
+.fr-fieldset__element--disabled {
   pointer-events: none;
   cursor: not-allowed;
-  opacity: v-bind('readonlyOpacity');
+  opacity: 0.95;
+}
+
+.label {
+  color: var(--text2);
 }
 </style>

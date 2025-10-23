@@ -1,5 +1,6 @@
 export * from './accordions'
 export * from './buttons'
+export * from './checkboxes'
 export * from './files'
 export * from './inputs'
 export * from './lists'

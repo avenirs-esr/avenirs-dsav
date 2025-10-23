@@ -320,12 +320,7 @@ onUnmounted(() => {
 }
 
 :deep(.fr-label) {
-  @extend .b2-light;
   color: var(--text1);
   padding-bottom: var(--spacing-xxs);
-
-  &::before {
-    display: none !important;
-  }
 }
 </style>

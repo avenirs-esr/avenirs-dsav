@@ -2,6 +2,8 @@ import type { Meta, StoryFn } from '@storybook/vue3'
 import AvToggle, { type AvToggleProps } from '@/components/interaction/toggles/AvToggle/AvToggle.vue'
 
 /**
+ * <h1 class="n1">Toggles - <code>AvToggle</code></h1>
+ *
  * <h2 class="n2">✨ Introduction</h2>
  *
  * <p>

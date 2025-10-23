@@ -26,6 +26,7 @@ export default defineConfig({
         {
           text: 'Base',
           items: [
+            { text: 'AvFieldset', link: '/components/base/AvFieldset/AvFieldset.md' },
             { text: 'AvIcon', link: '/components/base/AvIcon/AvIcon.md' },
             { text: 'AvIconText', link: '/components/base/AvIconText/AvIconText.md' },
             { text: 'AvNotice', link: '/components/base/AvNotice/AvNotice.md' },
@@ -68,6 +69,12 @@ export default defineConfig({
                 { text: 'AvCancelConfirmButtons', link: '/components/interaction/buttons/AvCancelConfirmButtons/AvCancelConfirmButtons.md' },
                 { text: 'AvLanguageSelector', link: '/components/interaction/buttons/AvLanguageSelector/AvLanguageSelector.md' },
                 { text: 'AvRichButton', link: '/components/interaction/buttons/AvRichButton/AvRichButton.md' },
+              ]
+            },
+            {
+              text: 'Checkboxes',
+              items: [
+                { text: 'AvCheckbox', link: '/components/interaction/checkboxes/AvCheckbox/AvCheckbox.md' },
               ]
             },
             {
