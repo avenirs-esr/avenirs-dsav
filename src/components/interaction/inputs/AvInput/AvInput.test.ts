@@ -396,7 +396,7 @@ BddTest().given('an AvInput', () => {
     BddTest().when('the component is mounted', () => {
       BddTest().then('it should apply the custom label class', () => {
         const label = wrapper.find('label')
-        expect(label.classes()).toContain('custom-label')
+        expect(label.find('span').classes()).toContain('custom-label')
       })
     })
   })

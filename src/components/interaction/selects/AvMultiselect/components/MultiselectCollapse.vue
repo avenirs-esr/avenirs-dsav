@@ -273,7 +273,6 @@ onUnmounted(() => {
             :label="option.label"
             :icon="option.icon"
             :name="`${generateId(option, id)}-checkbox`"
-            small
             @keydown.down="handleFocusNextCheckbox"
             @keydown.right="handleFocusNextCheckbox"
             @keydown.up="handleFocusPreviousCheckbox"

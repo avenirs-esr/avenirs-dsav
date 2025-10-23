@@ -45,7 +45,7 @@ export interface AvInputProps {
 
   /**
    * CSS class for the label
-   * @default ''
+   * @default 'b2-light'
    */
   labelClass?: string
 
@@ -137,7 +137,7 @@ const {
   isTextarea = false,
   labelVisible,
   label = '',
-  labelClass = '',
+  labelClass = 'b2-light',
   modelValue = '',
   placeholder,
   type = 'text',
@@ -217,7 +217,6 @@ const isComponent = computed(() => isTextarea ? 'textarea' : 'input')
 const finalLabelClass = computed(() => [
   'fr-label',
   { invisible: !labelVisible },
-  labelClass,
 ])
 
 defineExpose({
@@ -247,7 +246,7 @@ defineExpose({
         :class="finalLabelClass"
         :for="id"
       >
-        <span class="b2-light">
+        <span :class="labelClass">
           {{ label }}
           <slot name="requiredTip">
             <span

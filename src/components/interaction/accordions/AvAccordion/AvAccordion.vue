@@ -62,9 +62,6 @@ onMounted(() => {
 })
 
 watch(isActive, (newValue, oldValue) => {
-  /*
-  * @see https://github.com/GouvernementFR/dsfr/blob/main/src/dsfr/core/script/collapse/collapse.js
-  */
   if (newValue !== oldValue) {
     doExpand(newValue)
   }
@@ -79,7 +76,7 @@ watch(isActive, (newValue, oldValue) => {
         :aria-expanded="isActive"
         :aria-controls="id"
         type="button"
-        @click="expand()"
+        @click="expand"
       >
         <div class="title-container">
           <AvIcon
