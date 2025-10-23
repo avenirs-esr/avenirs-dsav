@@ -34,6 +34,7 @@ export interface AvInputProps {
 
   /**
    * Whether the label is visible
+   * @default true
    */
   labelVisible?: boolean
 
@@ -135,7 +136,7 @@ const {
   hint = '',
   isValid = false,
   isTextarea = false,
-  labelVisible,
+  labelVisible = true,
   label = '',
   labelClass = 'b2-light',
   modelValue = '',
