@@ -30,7 +30,7 @@ The component integrates focus management, proper ARIA attributes, and responsiv
 | `isTextarea` | `boolean` | `false` |  | Render as textarea instead of input |
 | `labelVisible` | `boolean` | `true` |  | Whether the label is visible |
 | `label` | `string` | `undefined` |  | Label text |
-| `labelClass` | `string` | `undefined` |  | CSS class for the label |
+| `labelClass` | `string` | `'b2-light'` |  | CSS class for the label |
 | `modelValue` | `string \| number \| null` | `undefined` |  | Model value for v-model |
 | `placeholder` | `string` | `undefined` |  | Placeholder text |
 | `type` | `'text' \| 'email' \| 'password' \| 'number' \| 'tel' \| 'url' \| 'search'` | `'text'` |  | Input type |

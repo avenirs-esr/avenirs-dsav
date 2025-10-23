@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { ComputedRef } from 'vue'
 import type AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import { MDI_ICONS } from '@/tokens'
 import { toSentenceCase } from '@/utils'
@@ -117,7 +116,7 @@ const iconSize = computed(() => {
   }
   return 1.5 // md
 })
-const iconToRender: ComputedRef<InstanceType<typeof AvIcon>['$props'] | undefined> = computed(() => {
+const iconToRender = computed(() => {
   if (isLoading) {
     return { ...loadingIcon, size: iconSize.value }
   }

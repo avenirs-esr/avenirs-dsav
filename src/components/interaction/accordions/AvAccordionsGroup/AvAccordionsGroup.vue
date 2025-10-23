@@ -13,7 +13,7 @@ export interface AvAccordionsGroupProps {
   activeAccordion?: number
 }
 
-const props = defineProps<AvAccordionsGroupProps>()
+const { activeAccordion } = defineProps<AvAccordionsGroupProps>()
 
 const emit = defineEmits<{
   /**
@@ -33,9 +33,9 @@ defineSlots<{
   default?: () => VNode<typeof AvAccordion>[]
 }>()
 
-const localActive = ref(props.activeAccordion ?? -1)
+const localActive = ref(activeAccordion ?? -1)
 
-const activeAccordion = computed({
+const computedActiveAccordion = computed({
   get: () => localActive.value,
   set (accordionId: number) {
     localActive.value = accordionId
@@ -49,18 +49,18 @@ provide(registerAccordionKey, (title: Ref<string>) => {
   const myIndex = currentId.value++
   accordions.value.set(myIndex, title.value)
 
-  const isActive = computed(() => myIndex === activeAccordion.value)
+  const isActive = computed(() => myIndex === computedActiveAccordion.value)
 
   watch(title, () => {
     accordions.value.set(myIndex, title.value)
   })
 
   function expand (): void {
-    if (activeAccordion.value === myIndex) {
-      activeAccordion.value = -1
+    if (computedActiveAccordion.value === myIndex) {
+      computedActiveAccordion.value = -1
       return
     }
-    activeAccordion.value = myIndex
+    computedActiveAccordion.value = myIndex
   }
 
   onUnmounted(() => {

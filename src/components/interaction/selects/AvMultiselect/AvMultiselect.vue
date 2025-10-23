@@ -415,6 +415,16 @@ const finalLabelClass = computed(() => [
   font-style: italic;
 }
 
+:deep(.av-button span) {
+  color: var(--text2) !important;
+}
+
+:deep(.av-button):hover {
+  span {
+    color: unset !important;
+  }
+}
+
 .b2-bold {
   color: var(--dark-background-primary1);
 }

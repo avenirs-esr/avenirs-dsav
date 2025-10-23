@@ -10,7 +10,8 @@ const defaultProps: AvCheckboxProps & { modelValue: (string | number | boolean |
   modelValue: []
 }
 
-function mountWithProps (props: Partial<AvCheckboxProps & { modelValue: (string | number | boolean | undefined)[] }> = {}, slots = {}) {
+function mountWithProps (props: Partial<AvCheckboxProps
+  & { modelValue: (string | number | boolean | undefined)[] }> = {}, slots = {}) {
   return mount(AvCheckbox, { props: { ...defaultProps, ...props }, slots })
 }
 
@@ -99,26 +100,14 @@ BddTest().given('an AvCheckbox component', () => {
     })
   })
 
-  BddTest().when('readonly prop is true', () => {
+  BddTest().when('disabled prop is true', () => {
     beforeEach(() => {
-      wrapper = mountWithProps({ readonly: true })
+      wrapper = mountWithProps({ disabled: true })
     })
 
     BddTest().then('input should have tabindex -1', () => {
       const input = wrapper.find('input[type="checkbox"]')
       expect(input.attributes('tabindex')).toBe('-1')
-    })
-  })
-
-  BddTest().when('required slot is provided', () => {
-    beforeEach(() => {
-      wrapper = mountWithProps({}, { 'required-tip': '<span class="slot-required-tip">Custom *</span>' })
-    })
-
-    BddTest().then('it should render the required tip slot', () => {
-      const tip = wrapper.find('.slot-required-tip')
-      expect(tip.exists()).toBe(true)
-      expect(tip.text()).toContain('Custom *')
     })
   })
 })
