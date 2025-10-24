@@ -151,19 +151,25 @@ export default defineConfig({
             {
               text: 'Drawers',
               items: [
-                { text: 'AvDrawer', link: '/components/interaction/drawers/AvDrawer/AvDrawer.md' },
+                { text: 'AvDrawer', link: '/components/overlay/drawers/AvDrawer/AvDrawer.md' },
+              ]
+            },
+            {
+              text: 'Dropdowns',
+              items: [
+                { text: 'AvDropdown', link: '/components/overlay/dropdowns/AvDropdown/AvDropdown.md' },
               ]
             },
             {
               text: 'Modals',
               items: [
-                { text: 'AvModal', link: '/components/interaction/modals/AvModal/AvModal.md' },
+                { text: 'AvModal', link: '/components/overlay/modals/AvModal/AvModal.md' },
               ]
             },
             {
               text: 'Popovers',
               items: [
-                { text: 'AvPopover', link: '/components/interaction/popovers/AvPopover/AvPopover.md' },
+                { text: 'AvPopover', link: '/components/overlay/popovers/AvPopover/AvPopover.md' },
               ]
             },
           ]
