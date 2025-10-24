@@ -6,6 +6,7 @@ export const MDI_ICONS = {
   ARROW_DECISION: 'mdi:arrow-decision',
   ARROW_LEFT_THIN: 'mdi:arrow-left-thin',
   ARROW_RIGHT: 'mdi:arrow-right',
+  ARROW_RIGHT_BOTTOM: 'mdi:arrow-right-bottom',
   ARROW_RIGHT_THIN: 'mdi:arrow-right-thin',
   ARROW_TOP_RIGHT_THICK: 'mdi:arrow-top-right-thick',
   ATTACH_FILE: 'mdi:attach-file',
@@ -24,6 +25,7 @@ export const MDI_ICONS = {
   CHECKBOX_MARKED: 'mdi:checkbox-marked',
   CHEVRON_DOUBLE_LEFT: 'mdi:chevron-double-left',
   CHEVRON_DOUBLE_RIGHT: 'mdi:chevron-double-right',
+  CIRCLE: 'mdi:circle',
   CLOSE_CIRCLE_OUTLINE: 'mdi:close-circle-outline',
   CONTENT_SAVE_OUTLINE: 'mdi:content-save-outline',
   DOTS_VERTICAL: 'mdi:dots-vertical',
@@ -75,6 +77,7 @@ export const MDI_ICONS = {
 export const RI_ICONS = {
   DICE_1_LINE: 'ri:dice-1-line',
   DICE_4_LINE: 'ri:dice-4-line',
+  LOADER_LINE: 'ri:loader-line',
 }
 
 /**
