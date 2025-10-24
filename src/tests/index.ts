@@ -16,6 +16,7 @@ import { AvBreadcrumbStub } from '@/components/navigation/AvBreadcrumb/AvBreadcr
 import { AvSideNavigationStub } from '@/components/navigation/AvSideNavigation/AvSideNavigation.stub'
 import { AvStepperStub } from '@/components/navigation/AvStepper/AvStepper.stub'
 import { AvDrawerStub } from '@/components/overlay/drawers/AvDrawer/AvDrawer.stub'
+import { AvDropdownStub } from '@/components/overlay/dropdowns/AvDropdown/AvDropdown.stub'
 import { BddTest } from '@/tests/utils'
 
 export {
@@ -27,6 +28,7 @@ export {
   AvCancelConfirmButtonsStub,
   AvCheckboxStub,
   AvDrawerStub,
+  AvDropdownStub,
   AvFieldsetStub,
   AvIconStub,
   AvListItemStub,

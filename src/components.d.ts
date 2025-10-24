@@ -21,6 +21,7 @@ declare module 'vue' {
     AvCard: typeof import('./components/cards/AvCard/AvCard.vue')['default']
     AvCheckbox: typeof import('./components/interaction/checkboxes/AvCheckbox/AvCheckbox.vue')['default']
     AvDrawer: typeof import('./components/overlay/drawers/AvDrawer/AvDrawer.vue')['default']
+    AvDropdown: typeof import('./components/overlay/dropdowns/AvDropdown/AvDropdown.vue')['default']
     AvFieldset: typeof import('./components/base/AvFieldset/AvFieldset.vue')['default']
     AvFileUpload: typeof import('./components/interaction/files/AvFileUpload/AvFileUpload.vue')['default']
     AvFileUploadAlert: typeof import('./components/interaction/files/AvFileUpload/AvFileUploadAlert.vue')['default']
