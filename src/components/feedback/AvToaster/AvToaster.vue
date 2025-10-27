@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AvAlert from '@/components/feedback/AvAlert/AvAlert.vue'
+import { ICONS_DATA_URL } from '@/tokens'
 
 /**
  * Represents a message displayed in the notification system (toaster).
@@ -76,19 +77,13 @@ interface AvToasterProps {
   messages: Message[]
 
   /**
-   * Base path to get access to public icons.
-   * @example import.meta.env.BASE_URL
-   */
-  basePath: string
-
-  /**
    * Function called to remove a message from the toaster.
    * @param id The ID of the message to remove.
    */
   onRemoveMessage: (id: string) => void
 }
 
-const { messages, basePath, onRemoveMessage } = defineProps<AvToasterProps>()
+const { messages, onRemoveMessage } = defineProps<AvToasterProps>()
 
 function getToasterClass (type: Message['type']) {
   const finalType = type ?? 'info'
@@ -98,14 +93,14 @@ function getToasterClass (type: Message['type']) {
 function getToasterStyleVars (type: Message['type']) {
   switch (type) {
     case 'error':
-      return { '--icon-path': `url(${basePath}assets/icons/alert-circle-outline.svg)` }
+      return { '--icon-path': `url(${ICONS_DATA_URL.MDI_ALERT_CIRCLE_OUTLINE})` }
     case 'success':
-      return { '--icon-path': `url(${basePath}assets/icons/check-cricle.svg)` }
+      return { '--icon-path': `url(${ICONS_DATA_URL.MDI_CHECK_CIRCLE})` }
     case 'warning':
-      return { '--icon-path': `url(${basePath}assets/icons/warning-outline.svg)` }
+      return { '--icon-path': `url(${ICONS_DATA_URL.MDI_WARNING_OUTLINE})` }
     case 'info':
     default:
-      return { '--icon-path': `url(${basePath}assets/icons/message-badge.svg)` }
+      return { '--icon-path': `url(${ICONS_DATA_URL.MDI_MESSAGE_BADGE})` }
   }
 }
 </script>

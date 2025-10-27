@@ -19,9 +19,10 @@ export interface AvBadgeProps {
   borderColor?: string
 
   /**
-   * The link to the public icon in the project (e.g., `/assets/icons/calendar-clock-outline.svg`).
+   * The base64 icon to be displayed.
+   * You can use the `ICONS_DATA_URL` constant from DSAV.
    */
-  iconPath?: string
+  iconDataUrl?: string
 
   /**
    * The text to display in the badge.
@@ -57,7 +58,7 @@ const {
   color,
   backgroundColor,
   borderColor,
-  iconPath,
+  iconDataUrl,
   label,
   type = 'info',
   noIcon = false,
@@ -66,7 +67,7 @@ const {
 } = defineProps<AvBadgeProps>()
 
 const styleVars = computed(() => ({
-  '--icon-path': `url(${iconPath})`,
+  '--icon-path': `url(${iconDataUrl})`,
 }))
 </script>
 
@@ -77,7 +78,7 @@ const styleVars = computed(() => ({
       [`fr-badge--${type}`]: type,
       'fr-badge--no-icon': noIcon,
       'fr-badge--sm': small,
-      'av-badge--custom-icon': iconPath && !noIcon,
+      'av-badge--custom-icon': iconDataUrl && !noIcon,
     }"
     :title="ellipsis ? label : undefined"
     :style="styleVars"

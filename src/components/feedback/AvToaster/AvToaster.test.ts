@@ -2,6 +2,7 @@ import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import AvToaster from '@/components/feedback/AvToaster/AvToaster.vue'
 import { BddTest } from '@/tests/utils'
+import { ICONS_DATA_URL } from '@/tokens'
 
 BddTest().given('an AvToaster', () => {
   let wrapper: VueWrapper
@@ -57,7 +58,7 @@ BddTest().given('an AvToaster', () => {
       const alert = wrapper.find('.av-alert')
       expect(alert.exists()).toBe(true)
       expect(alert.classes()).toContain('av-toaster--success')
-      expect(alert.attributes('style')).toContain(`--icon-path: url(${basePath}assets/icons/check-cricle.svg)`)
+      expect(alert.attributes('style')).toContain(`--icon-path: url(${ICONS_DATA_URL.MDI_CHECK_CIRCLE})`)
       expect(wrapper.html()).toContain(baseMessage.title)
       expect(wrapper.html()).toContain(baseMessage.description)
     })
@@ -79,7 +80,7 @@ BddTest().given('an AvToaster', () => {
       const alert = wrapper.find('.av-alert')
       expect(alert.exists()).toBe(true)
       expect(alert.classes()).toContain('av-toaster--info')
-      expect(alert.attributes('style')).toContain(`--icon-path: url(${basePath}assets/icons/message-badge.svg)`)
+      expect(alert.attributes('style')).toContain(`--icon-path: url(${ICONS_DATA_URL.MDI_MESSAGE_BADGE})`)
       expect(wrapper.html()).toContain(baseMessage.title)
       expect(wrapper.html()).toContain(baseMessage.description)
     })
@@ -101,7 +102,7 @@ BddTest().given('an AvToaster', () => {
       const alert = wrapper.find('.av-alert')
       expect(alert.exists()).toBe(true)
       expect(alert.classes()).toContain('av-toaster--warning')
-      expect(alert.attributes('style')).toContain(`--icon-path: url(${basePath}assets/icons/warning-outline.svg)`)
+      expect(alert.attributes('style')).toContain(`--icon-path: url(${ICONS_DATA_URL.MDI_WARNING_OUTLINE})`)
       expect(wrapper.html()).toContain(baseMessage.title)
       expect(wrapper.html()).toContain(baseMessage.description)
     })
@@ -123,7 +124,7 @@ BddTest().given('an AvToaster', () => {
       const alert = wrapper.find('.av-alert')
       expect(alert.exists()).toBe(true)
       expect(alert.classes()).toContain('av-toaster--error')
-      expect(alert.attributes('style')).toContain(`--icon-path: url(${basePath}assets/icons/alert-circle-outline.svg)`)
+      expect(alert.attributes('style')).toContain(`--icon-path: url(${ICONS_DATA_URL.MDI_ALERT_CIRCLE_OUTLINE})`)
       expect(wrapper.html()).toContain(baseMessage.title)
       expect(wrapper.html()).toContain(baseMessage.description)
     })

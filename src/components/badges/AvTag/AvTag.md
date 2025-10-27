@@ -47,12 +47,9 @@ You can find examples of use and demo of the component on its dedicated [Storybo
 
 ```vue
 <template>
-  <AvBadge
-    label="In progress"
-    color="var(--dark-background-primary1)"
-    background-color="var(--light-background-primary2)"
-    icon-path="/assets/icons/calendar-range-outline.svg"
-    small
+  <AvTag
+    label="Some tag"
+    :icon="MDI_ICON.PENCIL_OUTLINE"
   />
 </template>
 ```
