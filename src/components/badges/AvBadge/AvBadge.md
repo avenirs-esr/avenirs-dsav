@@ -17,7 +17,7 @@ The `AvBadge` is ideal for displaying short, important information, such as cate
 | `color` | `string` | | ✅ | The color of the text to display in the badge. |
 | `backgroundColor` | `string` | | ✅ | The background color of the badge. |
 | `borderColor` | `string` | | | The color of the badge border. |
-| `iconPath` | `string` | | | The link to the public icon in the project (e.g., `/assets/icons/calendar-clock-outline.svg`). |
+| `iconDataUrl` | `string` | | | The base64 icon to be displayed. You can use the ICONS_DATA_URL constant from DSAV. |
 | `type` | `'success' \| 'warning' \| 'error' \| 'info'` | 'info' | | Sets the badge type. |
 | `label` | `string` | | ✅ | The text to display in the badge. |
 | `noIcon` | `boolean` | `false` | | If `true`, the badge is displayed without an icon. |
@@ -44,7 +44,7 @@ You can find examples of use and demo of the component on its dedicated [Storybo
     label="In progress"
     color="var(--dark-background-primary1)"
     background-color="var(--light-background-primary2)"
-    icon-path="/assets/icons/calendar-range-outline.svg"
+    :icon-data-url="ICON_DATA_URL.MDI_CALENDAR_CHECK_OUTLINE"
     small
   />
 </template>

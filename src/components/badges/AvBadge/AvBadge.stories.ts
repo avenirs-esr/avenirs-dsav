@@ -1,19 +1,9 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
 import AvBadge, { type AvBadgeProps } from '@/components/badges/AvBadge/AvBadge.vue'
+import { ICONS_DATA_URL } from '@/tokens'
 
-const iconBasePath = '/assets/icons/'
-const iconOptions = [
-  `${iconBasePath}calendar-check-outline.svg`,
-  `${iconBasePath}calendar-clock-outline.svg`,
-  `${iconBasePath}calendar-range-outline.svg`,
-  `${iconBasePath}check-circle.svg`,
-  `${iconBasePath}close-circle-outline.svg`,
-  `${iconBasePath}dots-horizontal-circle-outline.svg`,
-  `${iconBasePath}hourglass.svg`,
-  `${iconBasePath}message-badge.svg`,
-  `${iconBasePath}text-box-check-outline.svg`,
-  `${iconBasePath}warning-outline.svg`,
-]
+const iconOptions = Object.keys(ICONS_DATA_URL)
+const iconMapping = ICONS_DATA_URL
 
 /**
  * <h1 class="n1">Badges - <code>AvBadge</code></h1>
@@ -52,9 +42,13 @@ const meta: Meta<AvBadgeProps> = {
     color: { control: 'color' },
     backgroundColor: { control: 'color' },
     borderColor: { control: 'color' },
-    iconPath: {
+    iconDataUrl: {
       control: 'select',
       options: ['', ...iconOptions],
+      mapping: {
+        '': '',
+        ...iconMapping,
+      },
     },
     type: {
       control: 'select',
@@ -69,7 +63,7 @@ const meta: Meta<AvBadgeProps> = {
     color: 'var(--dark-background-primary1)',
     backgroundColor: 'var(--light-background-primary2)',
     borderColor: '',
-    iconPath: '/assets/icons/calendar-clock-outline.svg',
+    iconDataUrl: iconOptions[0],
     type: 'info',
     noIcon: false,
     small: false,
@@ -114,7 +108,6 @@ SmallEllipsis.args = {
   label: 'This is a very long badge label that will be truncated',
   ellipsis: true,
   small: true,
-  iconPath: '/assets/icons/calendar-clock-outline.svg',
 }
 
 export const StatusNotStarted = Template.bind({})
@@ -123,7 +116,7 @@ StatusNotStarted.args = {
   color: 'var(--text2)',
   backgroundColor: 'var(--other-background-base)',
   borderColor: 'var(--other-border-skill-card)',
-  iconPath: '/assets/icons/calendar-clock-outline.svg'
+  iconDataUrl: ICONS_DATA_URL.MDI_CALENDAR_CLOCK_OUTLINE
 }
 
 export const StatusInProgress = Template.bind({})
@@ -131,7 +124,7 @@ StatusInProgress.args = {
   label: 'In progress',
   color: 'var(--dark-background-primary1)',
   backgroundColor: 'var(--light-background-primary2)',
-  iconPath: '/assets/icons/calendar-range-outline.svg'
+  iconDataUrl: ICONS_DATA_URL.MDI_CALENDAR_RANGE_OUTLINE
 }
 
 export const StatusSubmitted = Template.bind({})
@@ -139,7 +132,7 @@ StatusSubmitted.args = {
   label: 'Submitted for evaluation',
   color: 'var(--light-foreground-primary1)',
   backgroundColor: 'var(--light-background-critical)',
-  iconPath: '/assets/icons/dots-horizontal-circle-outline.svg'
+  iconDataUrl: ICONS_DATA_URL.MDI_DOTS_HORIZONTAL_CIRCLE_OUTLINE
 }
 
 export const StatusCompleted = Template.bind({})
@@ -147,5 +140,5 @@ StatusCompleted.args = {
   label: 'Completed',
   color: 'var(--light-foreground-neutral)',
   backgroundColor: 'var(--light-background-neutral)',
-  iconPath: '/assets/icons/calendar-check-outline.svg'
+  iconDataUrl: ICONS_DATA_URL.MDI_CALENDAR_CHECK_OUTLINE
 }
