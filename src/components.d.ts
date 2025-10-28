@@ -57,13 +57,12 @@ declare module 'vue' {
     AvToggle: typeof import('./components/interaction/toggles/AvToggle/AvToggle.vue')['default']
     DsfrModal: typeof import('@gouvminint/vue-dsfr')['DsfrModal']
     DsfrNavigation: typeof import('@gouvminint/vue-dsfr')['DsfrNavigation']
-    DsfrTabContent: typeof import('@gouvminint/vue-dsfr')['DsfrTabContent']
-    DsfrTabItem: typeof import('@gouvminint/vue-dsfr')['DsfrTabItem']
-    DsfrTabs: typeof import('@gouvminint/vue-dsfr')['DsfrTabs']
     EsupLogo: typeof import('./components/header/EsupLogo.vue')['default']
     MultiselectCollapse: typeof import('./components/interaction/selects/AvMultiselect/components/MultiselectCollapse.vue')['default']
     RadioButton: typeof import('./components/interaction/radios/AvRadioButtonSet/components/RadioButton.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TabContent: typeof import('./components/interaction/tabs/AvTabs/components/TabContent.vue')['default']
+    TabItem: typeof import('./components/interaction/tabs/AvTabs/components/TabItem.vue')['default']
   }
 }

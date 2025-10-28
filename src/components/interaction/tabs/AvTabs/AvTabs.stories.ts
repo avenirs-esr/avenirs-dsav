@@ -1,6 +1,8 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
 import AvTab from '@/components/interaction/tabs/AvTab/AvTab.vue'
 import AvTabs, { type AvTabsProps } from '@/components/interaction/tabs/AvTabs/AvTabs.vue'
+import TabContent from '@/components/interaction/tabs/AvTabs/components/TabContent.vue'
+import TabItem from '@/components/interaction/tabs/AvTabs/components/TabItem.vue'
 
 /**
  * <h1 class="n1">Tabs - <code>AvTabs</code></h1>
@@ -62,9 +64,10 @@ const meta: Meta<AvTabsProps> = {
 export default meta
 
 const Template: StoryFn<AvTabsProps> = args => ({
-  components: { AvTabs, AvTab },
+  components: { AvTabs, AvTab, TabContent, TabItem },
   setup () {
-    return { args }
+    const activeTab = ref(0)
+    return { args, activeTab }
   },
   template: `
     <AvTabs v-bind="args" v-model="activeTab">

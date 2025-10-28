@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import type AvTab from '@/components/interaction/tabs/AvTab/AvTab.vue'
 import { useSlots, type VNode } from 'vue'
+import TabContent from '@/components/interaction/tabs/AvTabs/components/TabContent.vue'
+import TabItem from '@/components/interaction/tabs/AvTabs/components/TabItem.vue'
+import { useTabsStyle } from '@/components/interaction/tabs/AvTabs/composables/use-tabs-style'
 
 /**
  * AvTabs component Props.
@@ -51,9 +54,31 @@ defineSlots<{
 }>()
 
 const slots = useSlots()
-const activeTab = ref(modelValue)
 
 const tabItems = computed(() => slots.default?.() || [])
+
+const activeTab = ref(modelValue)
+const asc = ref(false)
+
+const $el = ref<HTMLElement | null>(null)
+const tablist = ref<HTMLUListElement | null>(null)
+
+const generatedIds: Record<string, string> = reactive({})
+
+const { tabsStyle, updateTabsStyle } = useTabsStyle(
+  tablist,
+  computed(() => Array.from($el.value?.querySelectorAll<HTMLElement>('.av-tab-content') || [])),
+  activeTab,
+)
+
+function getIdFromIndex (index: number) {
+  if (generatedIds[index]) {
+    return generatedIds[index]
+  }
+  const id = `tab-${crypto.randomUUID()}`
+  generatedIds[index] = id
+  return id
+}
 
 function selectTab (offset: number) {
   const totalTabs = tabItems.value.length
@@ -61,10 +86,12 @@ function selectTab (offset: number) {
 }
 
 function selectPrevious () {
+  asc.value = false
   selectTab(-1)
 }
 
 function selectNext () {
+  asc.value = true
   selectTab(1)
 }
 
@@ -76,139 +103,116 @@ function selectLast () {
   activeTab.value = tabItems.value.length - 1
 }
 
+const resizeObserver = ref<ResizeObserver | null>(null)
+
+onMounted(() => {
+  /*
+  * Need to use a resize-observer as tab-content height can
+    * change according to its inner components.
+    */
+  if (window.ResizeObserver) {
+    resizeObserver.value = new window.ResizeObserver(() => {
+      updateTabsStyle()
+    })
+  }
+
+  $el.value?.querySelectorAll('.av-tab-content').forEach((element) => {
+    if (element) {
+      resizeObserver.value?.observe(element)
+    }
+  })
+})
+
+onUnmounted(() => {
+  $el.value?.querySelectorAll('.av-tab-content').forEach((element) => {
+    if (element) {
+      resizeObserver.value?.unobserve(element)
+    }
+  })
+  resizeObserver.value?.disconnect()
+})
+
 watch(() => modelValue, (val) => {
   if (val !== undefined) {
     activeTab.value = val
   }
 })
 
-watch(activeTab, (val) => {
-  emit('update:modelValue', val)
+watch(activeTab, (newIndex, lastIndex) => {
+  asc.value = newIndex > lastIndex
+  emit('update:modelValue', newIndex)
 })
-
-defineExpose({ activeTab })
 </script>
 
 <template>
-  <DsfrTabs
-    v-model="activeTab"
-    :class="{ compact }"
-    :tab-list-name="ariaLabel ?? 'Liste d’onglets'"
-    :tab-titles="[]"
+  <div
+    ref="$el"
+    class="av-tabs fr-tabs"
+    :class="{
+      'av-tabs--compact': compact,
+    }"
+    :style="tabsStyle"
   >
-    <template #tab-items>
-      <DsfrTabItem
+    <ul
+      ref="tablist"
+      class="av-tabs__list fr-tabs__list"
+      :class="{
+        'av-tabs__list--compact': compact,
+      }"
+      role="tablist"
+      :aria-label="ariaLabel ?? 'Liste d’onglets'"
+    >
+      <TabItem
         v-for="(tab, index) in tabItems"
         :key="index"
-        :class="{ compact }"
-        :tab-id="`tab-${index}`"
-        :panel-id="`panel-${index}`"
+        :tab-id="getIdFromIndex(index)"
+        :panel-id="`${getIdFromIndex(index)}-panel`"
+        :title="tab.props?.title"
         :icon="tab.props?.icon"
+        :compact="compact"
+        :is-selected="activeTab === index"
         @click="activeTab = index"
         @next="selectNext"
         @previous="selectPrevious"
         @first="selectFirst"
         @last="selectLast"
-      >
-        {{ tab.props?.title }}
-      </DsfrTabItem>
-    </template>
-    <DsfrTabContent
+      />
+    </ul>
+
+    <TabContent
       v-for="(tab, index) in tabItems"
       :key="index"
-      :panel-id="`panel-${index}`"
-      :tab-id="`tab-${index}`"
+      :panel-id="`${getIdFromIndex(index)}-panel`"
+      :tab-id="getIdFromIndex(index)"
+      :is-visible="activeTab === index"
+      :asc="asc"
     >
       <component :is="(tab.children as Record<string, unknown>).default" />
-    </DsfrTabContent>
-  </DsfrTabs>
+    </TabContent>
+  </div>
 </template>
 
 <style lang="scss" scoped>
 @use "@/styles/typography.scss" as typography;
 
-.fr-tabs {
+.av-tabs {
   box-shadow: none !important;
-}
 
-.fr-tabs::before {
-  box-shadow: none !important;
-}
-
-:deep(.fr-tabs__panel) {
-  padding: var(--spacing-sm) var(--spacing-none) !important;
-}
-
-:deep(.fr-tabs__list) {
-  display: flex !important;
-  width: 100% !important;
-  background: var(--surface-background) !important;
-  gap: 0.75rem !important;
-  align-items: center !important;
-}
-
-:deep(.fr-tabs__list > li) {
-  width: 100% !important;
-  flex: 1 1 0% !important;
-  padding: var(--spacing-xs) var(--spacing-none) !important;
-}
-
-:deep(.fr-tabs__tab) {
-  @extend .s2-regular;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  border-radius: var(--radius-lg) !important;
-  width: 100% !important;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  color: var(--text2);
-}
-
-:deep(.fr-tabs__tab[aria-selected=true]:not(:disabled)) {
-  @extend .s2-bold;
-  color: var(--dark-background-primary1) !important;
-  background: var(--other-background-base) !important;
-}
-
-:deep(.fr-tabs__tab:not([aria-selected=true]:not(:disabled)):hover  ) {
-  color: var(--dark-background-primary1);
-}
-
-:deep(.fr-tabs__list > li:not(:first-child)) {
-  position: relative;
-}
-
-:deep(.fr-tabs__list > li:not(:first-child))::before {
-  content: "";
-  position: absolute;
-  left: var(--spacing-none);
-  top: var(--spacing-xs);
-  bottom: var(--spacing-xs);
-  width: 0.0625rem;
-  background-color: var(--text1);
-}
-
-.compact {
-  :deep(.fr-tabs__list) {
-    width: fit-content !important;
-    background: none !important;
+  &::before {
+    box-shadow: none !important;
   }
 
-  :deep(.fr-tabs__tab) {
-    border-radius: var(--radius-none) !important;
-    margin: var(--spacing-none) !important;
-    padding: var(--spacing-xs) var(--spacing-2xl) !important;
-  }
+  &__list {
+    display: flex !important;
+    width: 100% !important;
+    background: var(--surface-background) !important;
+    gap: 0.75rem !important;
+    align-items: center !important;
 
-  :deep(.fr-tabs__tab[aria-selected=true]:not(:disabled)) {
-    border-bottom: 3px solid var(--dark-background-primary1) !important;
-  }
-
-  :deep(.fr-tabs__list > li:not(:first-child))::before {
-    display: none !important;
+    &--compact {
+      width: fit-content !important;
+      background: none !important;
+    }
   }
 }
 </style>
