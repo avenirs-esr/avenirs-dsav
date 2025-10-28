@@ -1,7 +1,32 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect } from 'vitest'
+import { beforeEach, expect, vi } from 'vitest'
 import AvTabs from '@/components/interaction/tabs/AvTabs/AvTabs.vue'
+import { AvIconStub } from '@/tests'
 import { BddTest } from '@/tests/utils'
+
+const observeMock = vi.fn()
+const unobserveMock = vi.fn()
+const disconnectMock = vi.fn()
+
+vi.stubGlobal('ResizeObserver', class {
+  constructor (cb: ResizeObserverCallback) {
+    this.cb = cb
+  }
+
+  observe (el?: Element) {
+    observeMock(el)
+  }
+
+  unobserve (el?: Element) {
+    unobserveMock(el)
+  }
+
+  disconnect () {
+    disconnectMock()
+  }
+
+  cb: ResizeObserverCallback
+})
 
 BddTest().given('a tab switcher ', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvTabs>>
@@ -9,12 +34,13 @@ BddTest().given('a tab switcher ', () => {
   const tabSlots = [
     '<AvTab title="Tab 1" icon="icon-1">Content 1</AvTab>',
     '<AvTab title="Tab 2" icon="icon-2">Content 2</AvTab>',
-    '<AvTab title="Tab 3" icon="icon-3">Content 3</AvTab>',
+    '<AvTab title="Tab 3">Content 3</AvTab>',
   ]
 
   const props = { modelValue: 0 }
   const slots = { default: tabSlots.join('') }
   const stubs = {
+    AvIcon: AvIconStub,
     AvTab: {
       name: 'AvTab',
       template: '<div />'
@@ -28,13 +54,30 @@ BddTest().given('a tab switcher ', () => {
 
     BddTest().when('the tab switcher is mounted', () => {
       BddTest().then('it should render all tabs', () => {
-        const tabs = wrapper.findAll('.fr-tabs__tab')
-        expect(tabs.length).toBe(3)
+        expect(wrapper.findAll('.av-tab-item')).toHaveLength(3)
+        expect(wrapper.findAll('.av-tab-item__tab')).toHaveLength(3)
       })
 
-      BddTest().then('it should not render compact elements', () => {
-        const compacts = wrapper.findAll('.compact')
-        expect(compacts.length).toBe(0)
+      BddTest().then('it should render icons for tabs with icons', () => {
+        const tabItems = wrapper.findAll('.av-tab-item')
+        expect(tabItems[0].findComponent({ name: 'AvIcon' }).exists()).toBe(true)
+        expect(tabItems[1].findComponent({ name: 'AvIcon' }).exists()).toBe(true)
+        expect(tabItems[2].findComponent({ name: 'AvIcon' }).exists()).toBe(false)
+      })
+
+      BddTest().then('it should render all tab contents', () => {
+        expect(wrapper.findAll('.av-tab-content')).toHaveLength(3)
+      })
+
+      BddTest().then('it should not render compact classes', () => {
+        expect(wrapper.find('.av-tabs--compact').exists()).toBe(false)
+        expect(wrapper.find('.av-tabs__list--compact').exists()).toBe(false)
+        expect(wrapper.find('.av-tab-item--compact').exists()).toBe(false)
+        expect(wrapper.find('.av-tab-item--compact__tab').exists()).toBe(false)
+      })
+
+      BddTest().then('it should instantiate the ResizeObserver', () => {
+        expect(observeMock).toHaveBeenCalled()
       })
 
       BddTest().and('the compact prop is passed', () => {
@@ -47,70 +90,191 @@ BddTest().given('a tab switcher ', () => {
         })
 
         BddTest().then('it should render compact elements', () => {
-          const compacts = wrapper.findAll('.compact')
-          expect(compacts.length).toBeGreaterThan(0)
+          expect(wrapper.find('.av-tabs--compact').exists()).toBe(true)
+          expect(wrapper.find('.av-tabs__list--compact').exists()).toBe(true)
+          expect(wrapper.find('.av-tab-item--compact').exists()).toBe(true)
+          expect(wrapper.find('.av-tab-item--compact__tab').exists()).toBe(true)
+        })
+      })
+
+      BddTest().and('the ResizeObserver callback is triggered', () => {
+        beforeEach(() => {
+          const resizeObserverInstance = (wrapper.vm as any).resizeObserver
+          resizeObserverInstance.cb()
+        })
+
+        BddTest().then('it should update the tabs style', () => {
+          const tabsStyle = (wrapper.vm as any).tabsStyle
+          expect(tabsStyle).toHaveProperty('--tabs-height')
         })
       })
     })
 
-    BddTest().when('selecting the next tab', () => {
-      BddTest().then('it should update the active tab', async () => {
-        await wrapper.findAllComponents({ name: 'DsfrTabItem' })[0].vm.$emit('next')
-        expect(wrapper.emitted('update:modelValue')?.at(-1)?.[0]).toBe(1)
+    BddTest().when('the tab switcher is unmounted', () => {
+      beforeEach(() => {
+        wrapper.unmount()
+      })
+
+      BddTest().then('it should disconnect the ResizeObserver', () => {
+        expect(disconnectMock).toHaveBeenCalled()
       })
     })
 
-    BddTest().when('selecting the next tab on the last tab', async () => {
+    BddTest().when('the first tab is active', () => {
+      beforeEach(() => {
+        wrapper = mount(AvTabs, { props: { modelValue: 0 }, slots, global: { stubs } })
+      })
+
+      BddTest().and('the modelValue prop is updated to the second tab', () => {
+        beforeEach(() => {
+          wrapper.setProps({ modelValue: 1 })
+        })
+
+        BddTest().then('it should update the active tab', () => {
+          expect(wrapper.findAll('.av-tab-item__tab')[1].attributes('aria-selected')).toBe('true')
+        })
+      })
+
+      BddTest().and('the second tab is clicked', () => {
+        beforeEach(async () => {
+          await wrapper.findAll('.av-tab-item__tab')[1].trigger('click')
+        })
+
+        BddTest().then('it should emit an update to the second tab', async () => {
+          expect(wrapper.emitted('update:modelValue')?.at(-1)?.[0]).toBe(1)
+        })
+      })
+
+      BddTest().and('the right arrow key is pressed', () => {
+        beforeEach(async () => {
+          await wrapper.findAll('.av-tab-item__tab')[0].trigger('keydown', { key: 'ArrowRight' })
+        })
+
+        BddTest().then('it should emit an update to the second tab', async () => {
+          expect(wrapper.emitted('update:modelValue')?.at(-1)?.[0]).toBe(1)
+        })
+      })
+
+      BddTest().and('the left arrow key is pressed', () => {
+        beforeEach(async () => {
+          await wrapper.findAll('.av-tab-item__tab')[0].trigger('keydown', { key: 'ArrowLeft' })
+        })
+
+        BddTest().then('it should emit an update to the last tab', async () => {
+          expect(wrapper.emitted('update:modelValue')?.at(-1)?.[0]).toBe(2)
+        })
+      })
+
+      BddTest().and('the home key is pressed', () => {
+        beforeEach(async () => {
+          await wrapper.findAll('.av-tab-item__tab')[0].trigger('keydown', { key: 'Home' })
+        })
+
+        BddTest().then('it should not emit an update', async () => {
+          expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+        })
+      })
+
+      BddTest().and('the end key is pressed', () => {
+        beforeEach(async () => {
+          await wrapper.findAll('.av-tab-item__tab')[0].trigger('keydown', { key: 'End' })
+        })
+
+        BddTest().then('it should emit an update to the last tab', async () => {
+          expect(wrapper.emitted('update:modelValue')?.at(-1)?.[0]).toBe(2)
+        })
+      })
+    })
+
+    BddTest().when('the second tab is active', () => {
+      beforeEach(() => {
+        wrapper = mount(AvTabs, { props: { modelValue: 1 }, slots, global: { stubs } })
+      })
+
+      BddTest().and('the right arrow key is pressed', () => {
+        beforeEach(async () => {
+          await wrapper.findAll('.av-tab-item__tab')[1].trigger('keydown', { key: 'ArrowRight' })
+        })
+
+        BddTest().then('it should emit an update to the third tab', async () => {
+          expect(wrapper.emitted('update:modelValue')?.at(-1)?.[0]).toBe(2)
+        })
+      })
+
+      BddTest().and('the left arrow key is pressed', () => {
+        beforeEach(async () => {
+          await wrapper.findAll('.av-tab-item__tab')[1].trigger('keydown', { key: 'ArrowLeft' })
+        })
+
+        BddTest().then('it should emit an update to the first tab', async () => {
+          expect(wrapper.emitted('update:modelValue')?.at(-1)?.[0]).toBe(0)
+        })
+      })
+
+      BddTest().and('the home key is pressed', () => {
+        beforeEach(async () => {
+          await wrapper.findAll('.av-tab-item__tab')[1].trigger('keydown', { key: 'Home' })
+        })
+
+        BddTest().then('it should emit an update to the first tab', async () => {
+          expect(wrapper.emitted('update:modelValue')?.at(-1)?.[0]).toBe(0)
+        })
+      })
+
+      BddTest().and('the end key is pressed', () => {
+        beforeEach(async () => {
+          await wrapper.findAll('.av-tab-item__tab')[1].trigger('keydown', { key: 'End' })
+        })
+
+        BddTest().then('it should emit an update to the last tab', async () => {
+          expect(wrapper.emitted('update:modelValue')?.at(-1)?.[0]).toBe(2)
+        })
+      })
+    })
+
+    BddTest().when('the last tab is active', () => {
       beforeEach(() => {
         wrapper = mount(AvTabs, { props: { modelValue: 2 }, slots, global: { stubs } })
       })
 
-      BddTest().then('it should update the active tab to the first tab', async () => {
-        await wrapper.findAllComponents({ name: 'DsfrTabItem' })[2].vm.$emit('next')
-        expect(wrapper.emitted('update:modelValue')?.at(-1)?.[0]).toBe(0)
-      })
-    })
+      BddTest().and('the right arrow key is pressed', () => {
+        beforeEach(async () => {
+          await wrapper.findAll('.av-tab-item__tab')[2].trigger('keydown', { key: 'ArrowRight' })
+        })
 
-    BddTest().when('selecting the previous tab', () => {
-      beforeEach(() => {
-        wrapper = mount(AvTabs, { props: { modelValue: 1 }, slots, global: { stubs } })
-      })
-
-      BddTest().then('it should update the active tab', async () => {
-        await wrapper.findAllComponents({ name: 'DsfrTabItem' })[1].vm.$emit('previous')
-        expect(wrapper.emitted('update:modelValue')?.at(-1)?.[0]).toBe(0)
-      })
-    })
-
-    BddTest().when('selecting the previous tab on the first tab', () => {
-      BddTest().then('it should update the active tab to the last tab', async () => {
-        await wrapper.findAllComponents({ name: 'DsfrTabItem' })[0].vm.$emit('previous')
-        expect(wrapper.emitted('update:modelValue')?.at(-1)?.[0]).toBe(2)
-      })
-    })
-
-    BddTest().when('selecting the first tab', () => {
-      beforeEach(() => {
-        wrapper = mount(AvTabs, { props: { modelValue: 1 }, slots, global: { stubs } })
+        BddTest().then('it should emit an update to the first tab', async () => {
+          expect(wrapper.emitted('update:modelValue')?.at(-1)?.[0]).toBe(0)
+        })
       })
 
-      BddTest().then('it should set the active tab to index 0', async () => {
-        await wrapper.findAllComponents({ name: 'DsfrTabItem' })[1].vm.$emit('first')
-        expect(wrapper.emitted('update:modelValue')?.at(-1)?.[0]).toBe(0)
-      })
-    })
+      BddTest().and('the left arrow key is pressed', () => {
+        beforeEach(async () => {
+          await wrapper.findAll('.av-tab-item__tab')[2].trigger('keydown', { key: 'ArrowLeft' })
+        })
 
-    BddTest().when('selecting the last tab', () => {
-      BddTest().then('it should set the active tab to the last index', async () => {
-        await wrapper.findAllComponents({ name: 'DsfrTabItem' })[0].vm.$emit('last')
-        expect(wrapper.emitted('update:modelValue')?.at(-1)?.[0]).toBe(2)
+        BddTest().then('it should emit an update to the second tab', async () => {
+          expect(wrapper.emitted('update:modelValue')?.at(-1)?.[0]).toBe(1)
+        })
       })
-    })
 
-    BddTest().when('clicking on a specific tab', () => {
-      BddTest().then('it should set the active tab to the clicked tab', async () => {
-        await wrapper.findAllComponents({ name: 'DsfrTabItem' })[2].vm.$emit('click')
-        expect(wrapper.emitted('update:modelValue')?.at(-1)?.[0]).toBe(2)
+      BddTest().and('the home key is pressed', () => {
+        beforeEach(async () => {
+          await wrapper.findAll('.av-tab-item__tab')[2].trigger('keydown', { key: 'Home' })
+        })
+
+        BddTest().then('it should emit an update to the first tab', async () => {
+          expect(wrapper.emitted('update:modelValue')?.at(-1)?.[0]).toBe(0)
+        })
+      })
+
+      BddTest().and('the end key is pressed', () => {
+        beforeEach(async () => {
+          await wrapper.findAll('.av-tab-item__tab')[2].trigger('keydown', { key: 'End' })
+        })
+
+        BddTest().then('it should not emit an update', async () => {
+          expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+        })
       })
     })
   })
@@ -124,19 +288,6 @@ BddTest().given('a tab switcher ', () => {
       BddTest().then('it should not render any tab', () => {
         const tabs = wrapper.findAll('.fr-tabs__tab')
         expect(tabs.length).toBe(0)
-      })
-    })
-  })
-
-  BddTest().and('with a modelValue change from the parent', () => {
-    beforeEach(() => {
-      wrapper = mount(AvTabs, { props, slots, global: { stubs } })
-    })
-
-    BddTest().when('the parent updates modelValue', () => {
-      BddTest().then('it should update the activeTab accordingly', async () => {
-        await wrapper.setProps({ modelValue: 1 })
-        expect(wrapper.vm.activeTab).toBe(1)
       })
     })
   })
