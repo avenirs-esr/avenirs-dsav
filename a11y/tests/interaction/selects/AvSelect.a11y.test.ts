@@ -5,6 +5,12 @@ const title = 'Components/Interaction/Selects/AvSelect'
 const stories = [
   'Default',
   'Dense',
+  'Disabled',
+  'Required',
+  'Hint',
+  'CustomPlaceholder',
+  'WithError',
+  'WithSuccess',
 ]
 
 testStories(component, title, stories)

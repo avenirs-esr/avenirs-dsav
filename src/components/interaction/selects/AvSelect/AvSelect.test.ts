@@ -3,40 +3,6 @@ import { beforeEach, expect } from 'vitest'
 import AvSelect from '@/components/interaction/selects/AvSelect/AvSelect.vue'
 import { BddTest } from '@/tests/utils'
 
-const stubs = {
-  DsfrSelect: {
-    name: 'DsfrSelect',
-    props: [
-      'title',
-      'modelValue',
-      'options',
-      'label',
-      'required',
-      'disabled',
-      'hint',
-      'name',
-      'selectId',
-      'errorMessage',
-      'successMessage'
-    ],
-    emits: ['update:model-value'],
-    template: `
-      <div class="dsfr-select">
-        <select @change="$emit('update:model-value', $event.target.value)">
-          <option
-            v-for="option in options"
-            :key="option.value"
-            :value="option.value"
-            :disabled="option.disabled"
-          >
-            {{ option.text }}
-          </option>
-        </select>
-      </div>
-    `
-  }
-}
-
 const options = [
   { value: '1', text: 'Option 1' },
   { value: '2', text: 'Option 2' },
@@ -45,14 +11,13 @@ const options = [
 
 const defaultProps = {
   modelValue: undefined,
-  defaultUnselectedText: 'Select an option',
+  placeholder: 'Select an option',
   options
 }
 
 function mountWithProps (props = {}) {
   return mount(AvSelect, {
     props: { ...defaultProps, ...props },
-    global: { stubs }
   })
 }
 
@@ -66,7 +31,7 @@ BddTest().given('a select component', () => {
 
     BddTest().when('the component is mounted', () => {
       BddTest().then('it should render the default title', () => {
-        expect(wrapper.findComponent({ name: 'DsfrSelect' }).props('title')).toBe('Select an option')
+        expect(wrapper.find('select').attributes('title')).toBe('Select an option')
       })
 
       BddTest().then('it should display all available options', () => {
@@ -92,7 +57,7 @@ BddTest().given('a select component', () => {
 
     BddTest().when('the component is mounted', () => {
       BddTest().then('it should use the matching option as title', () => {
-        expect(wrapper.findComponent({ name: 'DsfrSelect' }).props('title')).toBe('Option 2')
+        expect(wrapper.find('select').attributes('title')).toBe('Option 2')
       })
     })
   })
@@ -103,35 +68,243 @@ BddTest().given('a select component', () => {
     })
 
     BddTest().when('the component is mounted', () => {
-      BddTest().then('it should fallback to defaultUnselectedText', () => {
-        expect(wrapper.findComponent({ name: 'DsfrSelect' }).props('title')).toBe('Select an option')
+      BddTest().then('it should fallback to placeholder', () => {
+        expect(wrapper.find('select').attributes('title')).toBe('Select an option')
       })
     })
   })
 
-  BddTest().and('with additional props', () => {
-    const customProps = {
-      modelValue: '1',
-      label: 'Mon label',
-      selectId: 'mon-id',
-      required: true,
-      disabled: true,
-      hint: 'Indice',
-      name: 'monNom',
-      successMessage: 'Bravo',
-      errorMessage: 'Erreur'
-    }
-
+  BddTest().and('with a disabled option selected', () => {
     beforeEach(() => {
-      wrapper = mountWithProps(customProps)
+      wrapper = mountWithProps({ modelValue: '3' })
     })
 
     BddTest().when('the component is mounted', () => {
-      BddTest().then('it should forward those props to DsfrSelect', () => {
-        const dsfr = wrapper.findComponent({ name: 'DsfrSelect' })
-        for (const key of Object.keys(customProps)) {
-          expect(dsfr.props(key)).toEqual(customProps[key as keyof typeof customProps])
-        }
+      BddTest().then('it should use the matching option as title', () => {
+        expect(wrapper.find('select').attributes('title')).toBe('Option 3')
+      })
+    })
+  })
+
+  BddTest().and('with dense prop set to true', () => {
+    beforeEach(() => {
+      wrapper = mountWithProps({ dense: true })
+    })
+
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should have the dense class', () => {
+        expect(wrapper.find('.fr-select--dense').exists()).toBe(true)
+      })
+    })
+  })
+
+  BddTest().and('with dense prop set to false', () => {
+    beforeEach(() => {
+      wrapper = mountWithProps({ dense: false })
+    })
+
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should not have the dense class', () => {
+        expect(wrapper.find('.fr-select--dense').exists()).toBe(false)
+      })
+    })
+  })
+
+  BddTest().and('with a custom placeholder', () => {
+    const customText = 'Please choose'
+    beforeEach(() => {
+      wrapper = mountWithProps({ placeholder: customText })
+    })
+
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should use the custom text in title', () => {
+        expect(wrapper.find('select').attributes('title')).toBe(customText)
+      })
+    })
+  })
+
+  BddTest().and('with required prop set to true', () => {
+    beforeEach(() => {
+      wrapper = mountWithProps({ required: true })
+    })
+
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should have the required attribute', () => {
+        expect(wrapper.find('select').attributes('required')).toBeDefined()
+      })
+
+      BddTest().then('it should have the aria-required attribute', () => {
+        expect(wrapper.find('select').attributes('aria-required')).toBe('true')
+      })
+
+      BddTest().then('it should display the asterisk in the label', () => {
+        expect(wrapper.find('label').text()).toContain('*')
+        expect(wrapper.find('label').find('.required').exists()).toBe(true)
+      })
+    })
+  })
+
+  BddTest().and('with required prop set to false', () => {
+    beforeEach(() => {
+      wrapper = mountWithProps({ required: false })
+    })
+
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should not have the required attribute', () => {
+        expect(wrapper.find('select').attributes('required')).toBeUndefined()
+      })
+
+      BddTest().then('it should not have the aria-required attribute', () => {
+        expect(wrapper.find('select').attributes('aria-required')).toBe(false.toString())
+      })
+
+      BddTest().then('it should not display the asterisk in the label', () => {
+        expect(wrapper.find('label').text()).not.toContain('*')
+        expect(wrapper.find('label').find('.required').exists()).toBe(false)
+      })
+    })
+  })
+
+  BddTest().and('with disabled prop set to true', () => {
+    beforeEach(() => {
+      wrapper = mountWithProps({ disabled: true })
+    })
+
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should have the disabled attribute', () => {
+        expect(wrapper.find('select').attributes('disabled')).toBeDefined()
+      })
+
+      BddTest().then('it should have the aria-disabled attribute', () => {
+        expect(wrapper.find('select').attributes('aria-disabled')).toBe('true')
+      })
+    })
+  })
+
+  BddTest().and('with disabled prop set to false', () => {
+    beforeEach(() => {
+      wrapper = mountWithProps({ disabled: false })
+    })
+
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should not have the disabled attribute', () => {
+        expect(wrapper.find('select').attributes('disabled')).toBeUndefined()
+      })
+
+      BddTest().then('it should not have the aria-disabled attribute', () => {
+        expect(wrapper.find('select').attributes('aria-disabled')).toBe(false.toString())
+      })
+    })
+  })
+
+  BddTest().and('with a numeric modelValue', () => {
+    beforeEach(() => {
+      wrapper = mountWithProps({ modelValue: 2 })
+    })
+
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should use the matching option as title', () => {
+        expect(wrapper.find('select').attributes('title')).toBe('Option 2')
+      })
+    })
+  })
+
+  BddTest().and('with a hint prop', () => {
+    const hintText = 'This is a hint'
+    beforeEach(() => {
+      wrapper = mountWithProps({ hint: hintText })
+    })
+
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should display the hint text', () => {
+        expect(wrapper.find('.fr-hint-text').exists()).toBe(true)
+        expect(wrapper.find('.fr-hint-text').text()).toBe(hintText)
+      })
+    })
+  })
+
+  BddTest().and('with only successMessage prop', () => {
+    const successMessage = 'This is a success'
+    beforeEach(() => {
+      wrapper = mountWithProps({ successMessage })
+    })
+
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should display the success message', () => {
+        expect(wrapper.find('.fr-valid-text').exists()).toBe(true)
+        expect(wrapper.find('.fr-valid-text').text()).toBe(successMessage)
+      })
+    })
+  })
+
+  BddTest().and('with only errorMessage prop', () => {
+    const errorMessage = 'This is an error'
+    beforeEach(() => {
+      wrapper = mountWithProps({ errorMessage })
+    })
+
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should display the error message', () => {
+        expect(wrapper.find('.fr-error-text').exists()).toBe(true)
+        expect(wrapper.find('.fr-error-text').text()).toBe(errorMessage)
+      })
+    })
+  })
+
+  BddTest().and('with errorMessage and successMessage props', () => {
+    const errorMessage = 'This is an error'
+    const successMessage = 'This is a success'
+    beforeEach(() => {
+      wrapper = mountWithProps({ errorMessage, successMessage })
+    })
+
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should display the error message', () => {
+        expect(wrapper.find('.fr-error-text').exists()).toBe(true)
+        expect(wrapper.find('.fr-error-text').text()).toBe(errorMessage)
+      })
+
+      BddTest().then('it not should display the success message', () => {
+        expect(wrapper.find('.fr-valid-text').exists()).toBe(false)
+      })
+    })
+  })
+
+  BddTest().and('with empty options array', () => {
+    beforeEach(() => {
+      wrapper = mountWithProps({ options: [] })
+    })
+
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should only render the placeholder option', () => {
+        expect(wrapper.findAll('option').length).toBe(1)
+        expect(wrapper.find('option').text()).toBe('Select an option')
+      })
+    })
+  })
+
+  BddTest().and('with options set to undefined', () => {
+    beforeEach(() => {
+      wrapper = mountWithProps({ options: undefined })
+    })
+
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should only render the placeholder option', () => {
+        expect(wrapper.findAll('option').length).toBe(1)
+        expect(wrapper.find('option').text()).toBe('Select an option')
+      })
+    })
+  })
+
+  BddTest().and('with a name prop', () => {
+    const name = 'my-select'
+    beforeEach(() => {
+      wrapper = mountWithProps({ name })
+    })
+
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should set the name attribute on the select element', () => {
+        expect(wrapper.find('select').attributes('name')).toBe(name)
       })
     })
   })

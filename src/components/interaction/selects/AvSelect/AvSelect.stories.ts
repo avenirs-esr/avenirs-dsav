@@ -42,7 +42,7 @@ const meta = {
     },
     successMessage: { control: 'text' },
     errorMessage: { control: 'text' },
-    defaultUnselectedText: { control: 'text', required: true },
+    placeholder: { control: 'text', required: true },
   },
   args: {
     options: [
@@ -52,7 +52,7 @@ const meta = {
       { value: '4', text: 'Choice 4' },
       { value: '5', text: 'Choice 5' },
     ],
-    defaultUnselectedText: 'Placeholder',
+    placeholder: 'Placeholder',
     required: false,
     disabled: false,
     selectId: 'selectId',
@@ -78,11 +78,63 @@ const Template: StoryFn<AvSelectProps> = args => ({
 
 export const Default = Template.bind({})
 Default.args = {
+  selectId: 'default-select',
+  name: 'default-select',
   label: 'Select'
 }
 
 export const Dense = Template.bind({})
 Dense.args = {
+  selectId: 'dense-select',
+  name: 'dense-select',
   dense: true,
   label: 'Dense Select',
+}
+
+export const Disabled = Template.bind({})
+Disabled.args = {
+  selectId: 'disabled-select',
+  name: 'disabled-select',
+  disabled: true,
+  label: 'Disabled Select',
+}
+
+export const Required = Template.bind({})
+Required.args = {
+  selectId: 'required-select',
+  name: 'required-select',
+  required: true,
+  label: 'Required Select',
+}
+
+export const Hint = Template.bind({})
+Hint.args = {
+  selectId: 'hint-select',
+  name: 'hint-select',
+  hint: 'This is a hint message.',
+  label: 'Hint Select',
+}
+
+export const CustomPlaceholder = Template.bind({})
+CustomPlaceholder.args = {
+  selectId: 'custom-placeholder-select',
+  name: 'custom-placeholder-select',
+  placeholder: 'Please select an option',
+  label: 'Custom placeholder Select',
+}
+
+export const WithError = Template.bind({})
+WithError.args = {
+  selectId: 'with-error-select',
+  name: 'with-error-select',
+  errorMessage: 'This field is required.',
+  label: 'With error Select',
+}
+
+export const WithSuccess = Template.bind({})
+WithSuccess.args = {
+  selectId: 'with-success-select',
+  name: 'with-success-select',
+  successMessage: 'Selection successful!',
+  label: 'With success Select',
 }
