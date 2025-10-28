@@ -1,32 +1,35 @@
 <script lang="ts" setup>
-import { DsfrSelect } from '@gouvminint/vue-dsfr'
-
 /**
  * AvSelect component props.
  */
 export interface AvSelectProps {
   /**
    * Indicates if the select is required.
+   * @default false
    */
   required?: boolean
 
   /**
    * Indicated if the select is disabled.
+   * @default false
    */
   disabled?: boolean
 
   /**
    * Unique id for the select. Used for the accessibility.
+   * @default `select-${crypto.randomUUID()}`
    */
   selectId?: string
 
   /**
    * Field name.
+   * @default ''
    */
   name?: string
 
   /**
    * Hint for guidance.
+   * @default ''
    */
   hint?: string
 
@@ -37,11 +40,13 @@ export interface AvSelectProps {
 
   /**
    * Select text label.
+   * @default ''
    */
   label?: string
 
   /**
    * Selectable options.
+   * @default []
    */
   options?: {
     value: string | number | undefined
@@ -51,25 +56,42 @@ export interface AvSelectProps {
 
   /**
    * If set, display a success message.
+   * @default ''
    */
   successMessage?: string
 
   /**
    * If set, display an error message.
+   * @default ''
    */
   errorMessage?: string
 
   /**
    * Placeholder text.
    */
-  defaultUnselectedText: string
+  placeholder: string
+
   /**
    * dense mode
+   * @default false
    */
   dense?: boolean
 }
 
-const props = defineProps<AvSelectProps>()
+const {
+  required = false,
+  disabled = false,
+  selectId = `select-${crypto.randomUUID()}`,
+  name = '',
+  hint = '',
+  modelValue,
+  label = '',
+  options = [],
+  successMessage = '',
+  errorMessage = '',
+  placeholder,
+  dense = false,
+} = defineProps<AvSelectProps>()
 
 /**
  * Events emitted by the component.
@@ -83,28 +105,92 @@ const emit = defineEmits<{
 }>()
 
 const title = computed(() => {
-  if (!props.modelValue) {
-    return props.defaultUnselectedText
+  if (!modelValue) {
+    return placeholder
   }
-  const selected = props.options?.find(opt => String(opt.value) === String(props.modelValue))
-  return selected ? selected.text : props.defaultUnselectedText
+  const selected = options?.find(option => String(option.value) === String(modelValue))
+  return selected ? selected.text : placeholder
+})
+
+const message = computed(() => {
+  return errorMessage || successMessage
+})
+const messageType = computed(() => {
+  return errorMessage ? 'error' : 'valid'
 })
 </script>
 
 <template>
-  <div :class="{ 'fr-select--dense': props.dense }">
-    <DsfrSelect
-      v-bind="props"
-      :title="title"
-      @update:model-value="emit('update:modelValue', $event)"
-    />
+  <div :class="{ 'fr-select--dense': dense }">
+    <div
+      class="fr-select-group"
+      :class="{ [`fr-select-group--${messageType}`]: message }"
+    >
+      <label
+        class="fr-label b2-light"
+        :for="selectId"
+      >
+        <span>{{ label }}</span>
+        <span
+          v-if="required"
+          class="required"
+        >&nbsp;*</span>
+
+        <span
+          v-if="hint"
+          class="fr-hint-text"
+        >{{ hint }}</span>
+      </label>
+
+      <select
+        :id="selectId"
+        :class="{ [`fr-select--${messageType}`]: message }"
+        class="fr-select"
+        :name="name || selectId"
+        :disabled="disabled"
+        :aria-disabled="disabled"
+        :required="required"
+        :aria-required="required"
+        :title="title"
+        v-bind="$attrs"
+        @change="emit('update:modelValue', ($event.target as HTMLInputElement)?.value)"
+      >
+        <option
+          :selected="!options.some(option => option.value === modelValue)"
+          disabled
+          value=""
+          hidden=""
+        >
+          {{ placeholder }}
+        </option>
+
+        <option
+          v-for="(option, index) in options"
+          :key="index"
+          :selected="modelValue === option.value"
+          :value="option.value"
+          :disabled="option.disabled"
+          :aria-disabled="option.disabled"
+        >
+          {{ option.text }}
+        </option>
+      </select>
+
+      <p
+        v-if="message"
+        :id="`select-${messageType}-desc-${messageType}`"
+        :class="`fr-${messageType}-text`"
+      >
+        {{ message }}
+      </p>
+    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 @use "@/styles/typography.scss" as typography;
 
-:deep(.fr-select) {
+.fr-select {
   background-color: var(--other-background-base);
   border: 1px solid var(--stroke);
   color: var(--text1);
@@ -115,27 +201,27 @@ const title = computed(() => {
   text-overflow: ellipsis;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%232929A2' d='M7.41 8.58L12 13.17l4.59-4.59L18 10l-6 6l-6-6z'/%3E%3C/svg%3E");
   margin-top: var(--spacing-none);
+  padding-bottom: var(--spacing-xxs);
 }
 
-.fr-select--dense :deep(.fr-select) {
+.fr-select--dense .fr-select {
   padding-top: .1rem !important;
   padding-bottom: .1rem !important;
 }
 
-:deep(.fr-select:hover) {
+.fr-select[aria-disabled=true] {
+  background-color: var(--light-background-neutral);
+  color: var(--text1);
+}
+
+.fr-select:not([aria-disabled=true]):hover {
   background-color: var(--dark-background-primary1);
   color: var(--other-background-base);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23FFFFFF' d='M7.41 8.58L12 13.17l4.59-4.59L18 10l-6 6l-6-6z'/%3E%3C/svg%3E");
 }
 
-:deep(.fr-select:hover) option {
+.fr-select:hover option {
   color: var(--text1);
   background-color: var(--other-background-base);
-}
-
-:deep(.fr-label) {
-  @extend .b2-light;
-  color: var(--text1);
-  padding-bottom: var(--spacing-xxs);
 }
 </style>

@@ -15,17 +15,17 @@ The drop-down list provides a list of options from which the user can choose. On
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
 | `modelValue` | `string \| number` | | | Selected option value. |
-| `required` | `boolean` | | | Indicates if the select is required.|
-| `disabled` | `boolean` | | | Indicated if the select is disabled.|
+| `required` | `boolean` | `false` | | Indicates if the select is required.|
+| `disabled` | `boolean` | `false` | | Indicated if the select is disabled.|
 | `options` | `(string \| undefined \| { value: string \| undefined, text: string disabled?: boolean})[]` | `[]` | | Selectable options. |
 | `label` | `string` | `''` | | Select text label.|
-| `name` | `string` | | | Field name.|
-| `hint` | `string` | | | Texte d'indice pour guider.|
+| `name` | `string` | `''` | | Field name.|
+| `hint` | `string` | | `''` | Texte d'indice pour guider.|
 | `successMessage` | `string` | `''` | | If set, display a success message. |
 | `errorMessage` | `string` | `''` | | If set, display an error message.|
-| `defaultUnselectedText` | `string` | | ✅ | Placeholder text.|
-| `selectId` | `string` | `useRandomId('select')` | | Unique id for the select. Used for the accessibility. |
-| `dense` | `boolean` | | | Dense mode for reduced padding.|
+| `placeholder` | `string` | | ✅ | Placeholder text.|
+| `selectId` | `string` | `select-${crypto.randomUUID()}` | | Unique id for the select. Used for the accessibility. |
+| `dense` | `boolean` | `true` | | Dense mode for reduced padding.|
 
 ## 🔊 Events
 

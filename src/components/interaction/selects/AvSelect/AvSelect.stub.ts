@@ -3,21 +3,28 @@ export const AvSelectStub = defineComponent({
   props: {
     modelValue: [String, Number],
     options: Array,
-    defaultUnselectedText: String,
-    dense: Boolean
+    placeholder: String,
+    dense: Boolean,
+    required: Boolean,
+    disabled: Boolean,
+    hint: String,
+    errorMessage: String,
+    successMessage: String,
   },
   emits: ['update:modelValue'],
   template: `
     <select 
       class="av-select-stub"
       :value="modelValue"
+      :disabled="disabled"
+      :required="required"
       @change="$emit('update:modelValue', $event.target.value)"
     >
       <option
-        v-if="defaultUnselectedText !== undefined"
+        v-if="placeholder !== undefined"
         value=""
       >
-        {{ defaultUnselectedText }}
+        {{ placeholder }}
       </option>
       <option 
         v-for="option in options" 
@@ -26,6 +33,9 @@ export const AvSelectStub = defineComponent({
       >
         {{ option.text }}
       </option>
+      <span v-if="hint">{{ hint }}</span>
+      <span v-if="errorMessage">{{ errorMessage }}</span>
+      <span v-if="!errorMessage && successMessage">{{ successMessage }}</span>
     </select>
   `
 })
