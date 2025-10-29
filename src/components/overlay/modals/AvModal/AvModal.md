@@ -22,8 +22,6 @@ It consists of the following elements:
 | `modalId` | `string` | `av-modal-${crypto.randomUUID()}` | | Unique identifier for the modal. |
 | `opened` | `boolean` | `false` | | Indicates whether the modal is open. |
 | `isAlert` | `boolean` | `false` | | Specifies whether the modal is an alert (role `"alertdialog"` if `true`) or not (role will then be `"dialog"`). |
-| `origin` | `{ focus: () => void }` | `{ focus() {} }` | | Reference to the origin element to restore focus after closure. |
-| `icon` | `string` | `undefined` | | Name of icon to be displayed in modal title. |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `md` | | Size of modal. |
 | `closeButtonLabel` | `string` | | ✅ | Label and title (for accessibility) of close button. |
 | `closeButtonIcon` | `string` | `mdi:close-circle-outline` | | Icon name of the close button. |

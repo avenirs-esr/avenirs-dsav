@@ -92,7 +92,7 @@ watch(expanded, (newValue, oldValue) => {
         >
           <RouterLink
             v-if="link.to"
-            class="fr-breadcrumb__link"
+            class="b2-regular fr-breadcrumb__link"
             :to="link.to"
             :aria-current="index === links.length - 1 ? 'page' : undefined"
           >
@@ -100,7 +100,7 @@ watch(expanded, (newValue, oldValue) => {
           </RouterLink>
           <a
             v-if="!link.to"
-            class="fr-breadcrumb__link"
+            class="b2-regular fr-breadcrumb__link"
             :aria-current="index === links.length - 1 ? 'page' : undefined"
           >{{ link.text }}</a>
         </li>
@@ -109,4 +109,18 @@ watch(expanded, (newValue, oldValue) => {
   </nav>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.fr-breadcrumb__link {
+  color: var(--text2);
+}
+
+li:not(:last-child) .fr-breadcrumb__link {
+  color: var(--dark-background-primary1);
+}
+
+.fr-breadcrumb__link:not([href]) {
+  color: var(--text2) !important;
+  background-image: none !important;
+  cursor: default;
+}
+</style>
