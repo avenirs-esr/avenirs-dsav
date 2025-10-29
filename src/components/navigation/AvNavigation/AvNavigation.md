@@ -9,13 +9,14 @@ The `AvNavigation` is the main navigation therefore the central navigation syste
 The navigation component can be used to create a navigation bar with different types of navigation items:
 - direct link
 - submenu
-- mega-menu
 
 ## 🏷️ Props
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
-| `navItems` | `(DsfrNavigationMenuLinkProps \| DsfrNavigationMenuProps \| DsfrNavigationMegaMenuProps)[]` | | ✅ | List of navigation items. Each item can be:<br>• A direct navigation link (`DsfrNavigationMenuLinkProps`) with the `to` and `text` props.<br>• A navigation submenu (`DsfrNavigationMenuProps`) with the `title`, `links` and `active` props.<br>• A navigation mega-menu (`DsfrNavigationMegaMenuProps`) with the `title`, `link`, `active` and `menus` props. |
+| `id` | `string` | `nav-${crypto.randomUUID}` | | The unique identifier for the navigation element. |
+| `label` | `string` | `'Menu principal'` | | The aria-label for the navigation element. |
+| `navItems` | `(NavigationMenuLinkProps \| NavigationMenuProps)[]` | | ✅ | List of navigation items. Each item can be:<br>• A direct navigation link (`NavigationMenuLinkProps`) with the `to` and `text` props.<br>• A navigation submenu (`NavigationMenuProps`) with the `title`, `links` and `active` props. |
 
 ## 🔊 Events
 
