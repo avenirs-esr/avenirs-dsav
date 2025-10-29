@@ -2,7 +2,6 @@
 // import path from 'node:path'
 /// <reference types="vitest/config" />
 import { fileURLToPath, URL } from 'node:url'
-import { vueDsfrAutoimportPreset, vueDsfrComponentResolver } from '@gouvminint/vue-dsfr/meta'
 // import { storybookTest } from '@storybook/addon-vitest/vitest-plugin'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
@@ -24,13 +23,10 @@ export default defineConfig({
     AutoImport({
       include: [/\.[tj]sx?$/, /\.vue$/, /\.vue\?vue/],
       imports: [{
-      // @ts-expect-error TS2322
         vue: autoImportConfig.vue
       },
-      // @ts-expect-error TS2322
-      'vue-router',
-      // @ts-expect-error TS2322
-      vueDsfrAutoimportPreset],
+      'vue-router'
+    ],
       vueTemplate: true,
       dts: './src/auto-imports.d.ts',
       eslintrc: {
@@ -44,7 +40,6 @@ export default defineConfig({
       dirs: ['src/components'],
       include: [/\.vue$/, /\.vue\?vue/],
       dts: './src/components.d.ts',
-      resolvers: [vueDsfrComponentResolver]
     })
   ],
   build: {

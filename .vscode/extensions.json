@@ -13,9 +13,6 @@
     // Vue.js
     "Vue.volar",
     "Vue.vscode-typescript-vue-plugin",
-    
-    // VueDsfr
-    "stormier.vue-dsfr-snippets",
 
     // CSS
     "csstools.postcss",
