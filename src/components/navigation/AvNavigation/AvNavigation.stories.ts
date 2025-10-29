@@ -20,7 +20,6 @@ import AvNavigation, { type AvNavigationProps } from '@/components/navigation/Av
  * <ul>
  *   <li><span class="b2-regular">direct link</span></li>
  *   <li><span class="b2-regular">submenu</span></li>
- *   <li><span class="b2-regular">mega-menu</span></li>
  * </ul>
  */
 const meta: Meta<AvNavigationProps> = {
@@ -32,10 +31,12 @@ const meta: Meta<AvNavigationProps> = {
       {
         text: 'Direct link',
         to: '#home',
-        active: true,
+        icon: 'mdi:home',
       },
       {
-        title: 'Menu',
+        title: 'Menu 1',
+        id: 'menu-1',
+        active: true,
         links: [
           { text: 'Link 1', to: '#menu-link1' },
           { text: 'Link 2', to: '#menu-link2' },
@@ -45,43 +46,15 @@ const meta: Meta<AvNavigationProps> = {
         ]
       },
       {
-        title: 'Mega menu',
-        link: {
-          to: '#',
-          text: 'See all'
-        },
-        menus: [
-          {
-            title: 'Category 1',
-            links: [
-              { text: 'Link 1', to: '#cat1-link1' },
-              { text: 'Link 2', to: '#cat1-link2' },
-              { text: 'Link 3', to: '#cat1-link3' },
-              { text: 'Link 4', to: '#cat1-link4' },
-              { text: 'Link 5', to: '#cat1-link5' },
-            ],
-          },
-          {
-            title: 'Category 2',
-            links: [
-              { text: 'Link 1', to: '#cat2-link1' },
-              { text: 'Link 2', to: '#cat2-link2' },
-              { text: 'Link 3', to: '#cat2-link3' },
-              { text: 'Link 4', to: '#cat2-link4' },
-              { text: 'Link 5', to: '#cat2-link5' },
-            ],
-          },
-          {
-            title: 'Category 3',
-            links: [
-              { text: 'Link 1', to: '#cat3-link1' },
-              { text: 'Link 2', to: '#cat3-link2' },
-              { text: 'Link 3', to: '#cat3-link3' },
-              { text: 'Link 4', to: '#cat3-link4' },
-              { text: 'Link 5', to: '#cat3-link5' },
-            ],
-          },
-        ],
+        title: 'Menu 2',
+        id: 'menu-2',
+        links: [
+          { text: 'Link 1', to: '#menu-link1' },
+          { text: 'Link 2', to: '#menu-link2' },
+          { text: 'Link 3', to: '#menu-link3' },
+          { text: 'Link 4', to: '#menu-link4' },
+          { text: 'Link 5', to: '#menu-link5' },
+        ]
       },
     ],
   },
