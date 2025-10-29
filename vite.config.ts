@@ -22,11 +22,7 @@ export default defineConfig({
     svgLoader(),
     AutoImport({
       include: [/\.[tj]sx?$/, /\.vue$/, /\.vue\?vue/],
-      imports: [{
-        vue: autoImportConfig.vue
-      },
-      'vue-router'
-    ],
+      imports: [{ vue: autoImportConfig.vue }, 'vue-router'],
       vueTemplate: true,
       dts: './src/auto-imports.d.ts',
       eslintrc: {

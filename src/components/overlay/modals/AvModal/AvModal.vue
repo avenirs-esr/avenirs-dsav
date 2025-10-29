@@ -26,19 +26,6 @@ export interface AvModalProps {
   isAlert?: boolean
 
   /**
-   * Reference to original element to restore focus after closing.
-   * @default { focus() {} }
-   */
-  origin?: {
-    focus: () => void
-  }
-
-  /**
-   * Name of icon to be displayed in modal title.
-   */
-  icon?: string
-
-  /**
    * Modal size.
    * @default 'md'
    */
@@ -84,12 +71,10 @@ export interface AvModalProps {
   isLoading?: boolean
 }
 
-const { 
+const {
   modalId = `av-modal-${crypto.randomUUID()}`,
   opened = false,
   isAlert = false,
-  origin = { focus() {} },
-  icon,
   size = 'md',
   closeButtonLabel,
   closeButtonIcon = MDI_ICONS.CLOSE_CIRCLE_OUTLINE,
@@ -98,7 +83,7 @@ const {
   confirmButtonIcon = MDI_ICONS.CHECK_CIRCLE_OUTLINE,
   confirmButtonDisabled = false,
   isLoading,
- } = defineProps<AvModalProps>()
+} = defineProps<AvModalProps>()
 
 /**
  * Events emitted by the component.
