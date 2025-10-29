@@ -85,7 +85,6 @@
   },
   "dependencies": {
     "@gouvfr/dsfr": "^1.14.0",
-    "@gouvminint/vue-dsfr": "^8.4.0",
     "@iconify/vue": "^4.3.0",
     "@vueuse/core": "^13.9.0",
     "date-fns": "^4.1.0",
