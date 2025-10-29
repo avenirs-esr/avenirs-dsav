@@ -1,8 +1,5 @@
-<!-- This code is an adaptation of the source code of DsfrPagination available at:
- https://vue-ds.fr/composants/DsfrPagination -->
-
 <script lang="ts" setup>
-import type { Page } from '@gouvminint/vue-dsfr'
+import type { Page } from '@/components/navigation/AvPagination/AvPagination.types'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import { MDI_ICONS } from '@/tokens'
 
