@@ -55,7 +55,6 @@ declare module 'vue' {
     AvTagPicker: typeof import('./components/interaction/pickers/AvTagPicker/AvTagPicker.vue')['default']
     AvToaster: typeof import('./components/feedback/AvToaster/AvToaster.vue')['default']
     AvToggle: typeof import('./components/interaction/toggles/AvToggle/AvToggle.vue')['default']
-    DsfrModal: typeof import('@gouvminint/vue-dsfr')['DsfrModal']
     EsupLogo: typeof import('./components/header/EsupLogo.vue')['default']
     MultiselectCollapse: typeof import('./components/interaction/selects/AvMultiselect/components/MultiselectCollapse.vue')['default']
     NavigationItem: typeof import('./components/navigation/AvNavigation/components/NavigationItem/NavigationItem.vue')['default']

@@ -19,7 +19,7 @@ It consists of the following elements:
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
-| `modalId` | `string` | `useRandomId('modal', 'dialog')` | `useRandomId('modal', 'dialog')` | Unique identifier for the modal. |
+| `modalId` | `string` | `av-modal-${crypto.randomUUID()}` | | Unique identifier for the modal. |
 | `opened` | `boolean` | `false` | | Indicates whether the modal is open. |
 | `isAlert` | `boolean` | `false` | | Specifies whether the modal is an alert (role `"alertdialog"` if `true`) or not (role will then be `"dialog"`). |
 | `origin` | `{ focus: () => void }` | `{ focus() {} }` | | Reference to the origin element to restore focus after closure. |
@@ -27,10 +27,11 @@ It consists of the following elements:
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `md` | | Size of modal. |
 | `closeButtonLabel` | `string` | | ✅ | Label and title (for accessibility) of close button. |
 | `closeButtonIcon` | `string` | `mdi:close-circle-outline` | | Icon name of the close button. |
-| `closeButtonDisabled` | `boolean` | `undefined` | | Add a disabled state on the close button. |
+| `closeButtonDisabled` | `boolean` | `false` | | Add a disabled state on the close button. |
 | `confirmButtonLabel` | `string` | `undefined` | | Label and title (for accessibility) of confirm button. |
 | `confirmButtonIcon` | `string` | `mdi:check-circle-outline` | | Icon name of the confirm button. |
-| `confirmButtonDisabled` | `boolean` | `undefined` | | Add a disabled state on the confirm button. |
+| `confirmButtonDisabled` | `boolean` | `false` | | Add a disabled state on the confirm button. |
+| `isLoading` | `boolean` | `false` | | Add a loading state to the close button. |
 
 ## 🔊 Events
 

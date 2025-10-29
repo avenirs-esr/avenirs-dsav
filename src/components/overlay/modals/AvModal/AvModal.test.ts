@@ -3,7 +3,6 @@ import { beforeEach, expect } from 'vitest'
 import { nextTick } from 'vue'
 import { AvCancelConfirmButtonsStub } from '@/components/interaction/buttons/AvCancelConfirmButtons/AvCancelConfirmButtons.stub'
 import AvModal, { type AvModalProps } from '@/components/overlay/modals/AvModal/AvModal.vue'
-import { DsfrModalStub } from '@/tests/stubs'
 import { BddTest } from '@/tests/utils'
 
 BddTest().given('an AvModal', () => {
@@ -11,8 +10,11 @@ BddTest().given('an AvModal', () => {
 
   const stubs = {
     AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
-    DsfrModal: DsfrModalStub,
-    Teleport: true
+    Teleport: true,
+    FocusTrap: {
+      name: 'FocusTrap',
+      template: '<div><slot /></div>',
+    },
   }
 
   const props: AvModalProps = {
@@ -81,8 +83,8 @@ BddTest().given('an AvModal', () => {
     })
 
     BddTest().then('it should emit "close" when Escape is pressed', async () => {
-      const modal = wrapper.findComponent({ name: 'DsfrModal' })
-      modal.vm.triggerEscape()
+      const modal = wrapper.find('dialog')
+      await modal.trigger('keydown.esc')
       expect(wrapper.emitted('close')).toHaveLength(1)
     })
 
@@ -92,6 +94,102 @@ BddTest().given('an AvModal', () => {
       const btn = wrapper.findComponent({ name: 'AvCancelConfirmButtons' })
       expect(btn.props('cancelIsLoading')).toBe(true)
       expect(btn.props('confirmIsLoading')).toBe(true)
+    })
+  })
+
+  BddTest().and('the prop isAlert is true', () => {
+    BddTest().when('the modal is mounted', () => {
+      beforeEach(() => {
+        wrapper = mount(AvModal, {
+          props: { ...props, isAlert: true },
+          global: { stubs }
+        })
+      })
+
+      BddTest().then('it should have role alertdialog', () => {
+        const modal = wrapper.find('dialog')
+        expect(modal.attributes('role')).toBe('alertdialog')
+      })
+    })
+  })
+
+  BddTest().and('the prop isAlert is false', () => {
+    BddTest().when('the modal is mounted', () => {
+      beforeEach(() => {
+        wrapper = mount(AvModal, {
+          props: { ...props, isAlert: false },
+          global: { stubs }
+        })
+      })
+
+      BddTest().then('it should have role dialog', () => {
+        const modal = wrapper.find('dialog')
+        expect(modal.attributes('role')).toBe('dialog')
+      })
+    })
+  })
+
+  BddTest().and('the modal is opened', () => {
+    BddTest().when('the component is mounted', () => {
+      beforeEach(() => {
+        wrapper = mount(AvModal, {
+          props,
+          global: { stubs }
+        })
+      })
+
+      BddTest().then('the modal should be visible', () => {
+        expect(wrapper.find('dialog').exists()).toBe(true)
+      })
+
+      BddTest().then('it should have the body class', () => {
+        expect(document.body.classList.contains('modal-open')).toBe(true)
+      })
+
+      BddTest().and('the component is unmounted', () => {
+        BddTest().when('the component is unmounted', () => {
+          beforeEach(() => {
+            wrapper.unmount()
+          })
+
+          BddTest().then('it should remove the body class', () => {
+            expect(document.body.classList.contains('modal-open')).toBe(false)
+          })
+        })
+      })
+    })
+  })
+
+  BddTest().and('the modal is closed', () => {
+    BddTest().when('the component is mounted', () => {
+      beforeEach(() => {
+        wrapper = mount(AvModal, {
+          props: { ...props, opened: false },
+          global: { stubs }
+        })
+      })
+
+      BddTest().then('the modal should not be visible', () => {
+        expect(wrapper.find('dialog').exists()).toBe(false)
+      })
+
+      BddTest().then('it should not have the body class', () => {
+        expect(document.body.classList.contains('modal-open')).toBe(false)
+      })
+
+      BddTest().and('the modal is opened by prop change', () => {
+        beforeEach(async () => {
+          await wrapper.setProps({ opened: true })
+        })
+
+        BddTest().then('the modal should be visible', () => {
+          expect(wrapper.find('dialog').exists()).toBe(true)
+        })
+
+        BddTest().then('it should have the body class', () => {
+          expect(document.body.classList.contains('modal-open')).toBe(true)
+        })
+      })
     })
   })
 })

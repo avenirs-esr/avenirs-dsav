@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
+import { FocusTrap } from 'focus-trap-vue'
 import { MDI_ICONS } from '@/tokens'
 
 /**
@@ -8,7 +9,7 @@ import { MDI_ICONS } from '@/tokens'
 export interface AvModalProps {
   /**
    * Unique identifier for the modal.
-   * @default useRandomId('modal', 'dialog')
+   * @default `av-modal-${crypto.randomUUID()}`
    */
   modalId?: string
 
@@ -56,6 +57,7 @@ export interface AvModalProps {
 
   /**
    * Adds a disabled state on the close button.
+   * @default false
    */
   closeButtonDisabled?: boolean
 
@@ -72,6 +74,7 @@ export interface AvModalProps {
 
   /**
    * Adds a disabled state on the confirm button.
+   * @default false
    */
   confirmButtonDisabled?: boolean
 
@@ -81,7 +84,21 @@ export interface AvModalProps {
   isLoading?: boolean
 }
 
-const { isLoading, ...props } = defineProps<AvModalProps>()
+const { 
+  modalId = `av-modal-${crypto.randomUUID()}`,
+  opened = false,
+  isAlert = false,
+  origin = { focus() {} },
+  icon,
+  size = 'md',
+  closeButtonLabel,
+  closeButtonIcon = MDI_ICONS.CLOSE_CIRCLE_OUTLINE,
+  closeButtonDisabled = false,
+  confirmButtonLabel,
+  confirmButtonIcon = MDI_ICONS.CHECK_CIRCLE_OUTLINE,
+  confirmButtonDisabled = false,
+  isLoading,
+ } = defineProps<AvModalProps>()
 
 /**
  * Events emitted by the component.
@@ -107,60 +124,111 @@ const slots = defineSlots<{
   footer?: Slot
 }>()
 
-const closeButtonIcon = computed(() => props.closeButtonIcon ?? MDI_ICONS.CLOSE_CIRCLE_OUTLINE)
-const confirmButtonIcon = computed(() => props.confirmButtonIcon ?? MDI_ICONS.CHECK_CIRCLE_OUTLINE)
+const role = computed(() => {
+  return isAlert ? 'alertdialog' : 'dialog'
+})
+
+const closeBtn = ref<HTMLButtonElement | null>(null)
+const modal = ref()
+watch(() => opened, (newValue) => {
+  if (newValue) {
+    modal.value?.showModal()
+    closeBtn.value?.focus()
+  }
+  else {
+    modal.value?.close()
+  }
+  setAppropriateClassOnBody(newValue)
+})
+
+function setAppropriateClassOnBody (on: boolean) {
+  if (typeof window !== 'undefined') {
+    document.body.classList.toggle('modal-open', on)
+  }
+}
+
+onMounted(() => {
+  setAppropriateClassOnBody(opened)
+})
+
+onBeforeUnmount(() => {
+  setAppropriateClassOnBody(false)
+})
 </script>
 
 <template>
   <Teleport to="body">
-    <DsfrModal
-      v-bind="props"
-      title=""
-      @keydown.esc="emit('close')"
+    <FocusTrap
+      v-if="opened"
     >
-      <template #default>
-        <div
-          v-if="slots.header"
-          class="header"
-        >
-          <slot name="header" />
+      <dialog
+        id="fr-modal-1"
+        ref="modal"
+        aria-modal="true"
+        :aria-labelledby="modalId"
+        :role="role"
+        class="fr-modal"
+        :class="{ 'fr-modal--opened': opened }"
+        :open="opened"
+        @keydown.esc="emit('close')"
+      >
+        <div class="fr-container fr-container--fluid fr-container-md">
+          <div class="fr-grid-row fr-grid-row--center">
+            <div
+              class="fr-col-12"
+              :class="{
+                'fr-col-md-8': size === 'lg',
+                'fr-col-md-6': size === 'md',
+                'fr-col-md-4': size === 'sm',
+              }"
+            >
+              <div class="fr-modal__body">
+                <div class="fr-modal__content">
+                  <div
+                    v-if="slots.header"
+                    class="header"
+                  >
+                    <slot name="header" />
+                  </div>
+                  <slot />
+                </div>
+                <div
+                  class="fr-modal__footer"
+                >
+                  <AvCancelConfirmButtons
+                    ref="closeBtn"
+                    :cancel-label="closeButtonLabel"
+                    :cancel-icon="closeButtonIcon"
+                    :cancel-disabled="closeButtonDisabled"
+                    :cancel-is-loading="isLoading"
+                    :confirm-label="confirmButtonLabel"
+                    :confirm-icon="confirmButtonIcon"
+                    :confirm-disabled="confirmButtonDisabled"
+                    :confirm-is-loading="isLoading"
+                    @cancel="() => emit('close')"
+                    @confirm="() => emit('confirm')"
+                  />
+                  <slot name="footer" />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <slot />
-      </template>
-      <template #footer>
-        <div class="footer">
-          <AvCancelConfirmButtons
-            :cancel-label="props.closeButtonLabel"
-            :cancel-icon="closeButtonIcon"
-            :cancel-disabled="props.closeButtonDisabled"
-            :cancel-is-loading="isLoading"
-            :confirm-label="props.confirmButtonLabel"
-            :confirm-icon="confirmButtonIcon"
-            :confirm-disabled="props.confirmButtonDisabled"
-            :confirm-is-loading="isLoading"
-            @cancel="() => emit('close')"
-            @confirm="() => emit('confirm')"
-          />
-          <slot name="footer" />
-        </div>
-      </template>
-    </DsfrModal>
+      </dialog>
+    </FocusTrap>
   </Teleport>
 </template>
 
 <style lang="scss" scoped>
-:deep(.fr-modal__header),
-:deep(.fr-modal__body),
-:deep(.fr-modal__footer) {
-  background: var(--dialog) !important;
+.fr-modal {
+  color: var(--dialog);
+}
+:global(body.modal-open) {
+  overflow: hidden;
 }
 
-:deep(.fr-modal__body) {
+.fr-modal__body {
   border-radius: var(--radius-lg) !important;
-}
-
-:deep(.fr-btn--close) {
-  display: none !important;
 }
 
 .header {
