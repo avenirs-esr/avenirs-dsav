@@ -1,5 +1,5 @@
-import type { Page } from '@gouvminint/vue-dsfr'
 import type { Ref } from 'vue'
+import type { Page } from '@/components/navigation/AvPagination/AvPagination.types'
 
 /**
  * Generates an array of pages for pagination based on the total number of pages.
