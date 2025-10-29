@@ -4,7 +4,7 @@ import type { Ref } from 'vue'
  * Return type of the {@link useCollapsable} composable.
  *
  * This composable provides a reactive API to manage a collapsible section
- * (expand/collapse behavior) in sync with DSFR's CSS-based collapse system.
+ * (expand/collapse behavior) in sync with ref CSS-based collapse system.
  *
  * It exposes the current state (`collapsing`, `cssExpanded`),
  * DOM reference (`collapse`), and imperative methods to adjust or toggle
@@ -49,9 +49,6 @@ export interface UseCollapsableReturn {
    * the related CSS custom properties.
    *
    * Should be called before starting an animation or when content changes dynamically.
-   *
-   * Mirrors DSFR’s internal behavior:
-   * {@link https://github.com/GouvernementFR/dsfr/blob/main/src/core/script/collapse/collapse.js#L61 collapse.js#L61}
    */
   adjust: () => void
 
@@ -73,15 +70,13 @@ export interface UseCollapsableReturn {
    * const { onTransitionEnd } = useCollapsable()
    * collapse.value?.addEventListener('transitionend', () => onTransitionEnd(cssExpanded.value))
    * ```
-   *
-   * @see {@link https://github.com/GouvernementFR/dsfr/blob/main/src/core/script/collapse/collapse.js#L25 collapse.js#L25}
    */
   onTransitionEnd: (expanded: boolean, autoFocus?: boolean) => void
 }
 
 /**
  * Vue composable providing a reactive API for collapsible sections,
- * consistent with DSFR’s collapse mechanism.
+ * consistent with ref collapse mechanism.
  *
  * It manages internal CSS variables (`--collapse`, `--collapse-max-height`) and
  * state flags (`collapsing`, `cssExpanded`) to synchronize DOM transitions.
@@ -111,7 +106,7 @@ export function useCollapsable (): UseCollapsableReturn {
   const cssExpanded = ref(false)
 
   /**
-   * @see https://github.com/GouvernementFR/dsfr/blob/main/src/core/script/collapse/collapse.js#L61
+   * Recalculates and updates the CSS variables
    * @return void
    */
   const adjust = (): void => {
@@ -134,11 +129,9 @@ export function useCollapsable (): UseCollapsableReturn {
     }
     if (newValue === true) {
       // unbound
-      // @see https://github.com/GouvernementFR/dsfr/blob/main/src/dsfr/core/script/collapse/collapse.js
       collapse.value.style.setProperty('--collapse-max-height', 'none')
     }
     // We need to wait for the next RAF to be sure the CSS variable will be set
-    // DSFR use RAF too https://github.com/GouvernementFR/dsfr/blob/main/src/dsfr/core/script/api/modules/render/renderer.js#L22
     window.requestAnimationFrame(() => {
       collapsing.value = true
       adjust()
@@ -150,7 +143,7 @@ export function useCollapsable (): UseCollapsableReturn {
   }
 
   /**
-   * @see https://github.com/GouvernementFR/dsfr/blob/main/src/dsfr/core/script/collapse/collapse.js#L25
+   * Callback to handle the end of a CSS transition.
    * @param {boolean} expanded
    * @param {boolean} autoFocus
    * @return void

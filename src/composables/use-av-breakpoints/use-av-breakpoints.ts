@@ -3,7 +3,7 @@ import { useBreakpoints } from '@vueuse/core'
 
 /**
  * Named viewport breakpoints for responsive behavior.
- * These values are aligned with the DSFR / Avenirs design system.
+ * These values are aligned with the AVENIR(s) design system.
  */
 export const AV_BREAKPOINTS = {
   sm: 576, /* 36rem */

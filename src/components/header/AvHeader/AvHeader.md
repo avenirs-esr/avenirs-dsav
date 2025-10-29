@@ -22,8 +22,8 @@ The header consists of:
 | `homeTo` | `string \| RouteLocationRaw` | `'/'` | | Homepage link. |
 | `modelValue` | `string` | `''` | | Value for the search bar. |
 | `placeholder` | `string` | `'Rechercher...'` | | Placeholder for the search bar. |
-| `quickLinks` | `DsfrHeaderMenuLinkProps[]` | `() => []` | | Quick links to display in the header. |
-| `languageSelector` | `DsfrLanguageSelectorProps` | `undefined` | | Quick links to display in the header. |
+| `quickLinks` | `AvHeaderMenuLinksProps['links']` | `[]` | | Quick links to display in the header. |
+| `languageSelector` | `AvLanguageSelectorProps` | `undefined` | | Quick links to display in the header. |
 | `searchLabel` | `string` | `'Recherche'` | | Label for the search bar. |
 | `quickLinksAriaLabel` | `string` | `'Menu secondaire'` | | ARIA label for quick links. |
 | `showSearch` | `boolean` | `false` | | Shows or hides the search bar. |
@@ -39,7 +39,7 @@ The header consists of:
 | --- | --- | --- |
 | `'update:modelValue'` | Content (`string`) of the search input field | Emitted when the search bar is updated. |
 | `'search'` | Content (`string`) of the search input field | Emitted when a search is performed. |
-| `'languageSelect'` | Content (`DsfrLanguageSelectorElement`) of the selected language | Emitted when the user changes the site language. |
+| `'languageSelect'` | Content (`AvLanguageSelectorElement`) of the selected language | Emitted when the user changes the site language. |
 
 ## 🎨 Slots
 

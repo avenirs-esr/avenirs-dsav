@@ -105,7 +105,7 @@ defineSlots<{
    * Default slot to pass in one or more `AvRadioButton` components.
    *
    * Each `AvRadioButton` defines the props and content for a single radio option.
-   * The content of each button will be injected into the `label` slot of `DsfrRadioButton`.
+   * The content of each button will be injected into the `label` slot of `AvRadioButton`.
    *
    * @slot default
    */

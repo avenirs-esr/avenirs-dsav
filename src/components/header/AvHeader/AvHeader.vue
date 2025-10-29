@@ -365,7 +365,6 @@ provide(registerNavigationLinkKey, () => hideModal)
             </div>
           </div>
         </div>
-        <!-- @slot Slot par défaut pour le contenu du fieldset (sera dans `<div class="fr-header__body-row">`) -->
         <slot />
       </div>
     </div>
@@ -374,7 +373,6 @@ provide(registerNavigationLinkKey, () => hideModal)
         v-if="isWithSlotNav && !modalOpened"
         class="fr-container"
       >
-        <!-- @slot Slot nommé mainnav pour le menu de navigation principal -->
         <slot
           name="mainnav"
           :hidemodal="hideModal"
