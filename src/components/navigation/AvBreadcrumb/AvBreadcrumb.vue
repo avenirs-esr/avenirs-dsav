@@ -8,7 +8,7 @@ import { useCollapsable } from '@/composables/use-collapsable/use-collapsable'
 export interface AvBreadcrumbProps {
   /**
    * The unique identifier for the breadcrumb element.
-   * @default `breadcrumb-${crypto.randomUUID}`
+   * @default `breadcrumb-${crypto.randomUUID()}`
    */
   breadcrumbId?: string
 
@@ -35,7 +35,7 @@ export interface AvBreadcrumbProps {
 }
 
 const {
-  breadcrumbId = `breadcrumb-${crypto.randomUUID}`,
+  breadcrumbId = `breadcrumb-${crypto.randomUUID()}`,
   links,
   navigationLabel = 'Vous êtes ici :',
   showBreadcrumbLabel = 'Voir le fil d’Ariane',

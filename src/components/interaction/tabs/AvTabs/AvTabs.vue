@@ -16,12 +16,6 @@ export interface AvTabsProps {
   ariaLabel?: string
 
   /**
-   * Index of selected tab on loading.
-   * Index starts at 0.
-   */
-  modelValue: number
-
-  /**
    * Allows compact display:
    * Underline without central pipe.
    * @default 'false'
@@ -29,18 +23,7 @@ export interface AvTabsProps {
   compact?: boolean
 }
 
-const { ariaLabel, modelValue, compact = false } = defineProps<AvTabsProps>()
-
-/**
- * Events emitted by the component.
- */
-const emit = defineEmits<{
-  /**
-   * Emitted when a tab is selected.
-   * @param value Index (`number`) of the selected tab.
-   */
-  (e: 'update:modelValue', value: number): void
-}>()
+const { ariaLabel, compact = false } = defineProps<AvTabsProps>()
 
 /**
  * Slots available in AvTabs component.
@@ -57,7 +40,7 @@ const slots = useSlots()
 
 const tabItems = computed(() => slots.default?.() || [])
 
-const activeTab = ref(modelValue)
+const activeTab = defineModel<number>('modelValue', { default: 0 })
 const asc = ref(false)
 
 const $el = ref<HTMLElement | null>(null)
@@ -132,15 +115,8 @@ onUnmounted(() => {
   resizeObserver.value?.disconnect()
 })
 
-watch(() => modelValue, (val) => {
-  if (val !== undefined) {
-    activeTab.value = val
-  }
-})
-
 watch(activeTab, (newIndex, lastIndex) => {
   asc.value = newIndex > lastIndex
-  emit('update:modelValue', newIndex)
 })
 </script>
 

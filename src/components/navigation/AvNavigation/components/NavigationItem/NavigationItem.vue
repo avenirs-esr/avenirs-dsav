@@ -7,7 +7,7 @@ import type { Slot } from 'vue'
 export interface NavigationItemProps {
   /**
    * The unique identifier for the navigation item.
-   * @default `nav-item-${crypto.randomUUID}`
+   * @default `nav-item-${crypto.randomUUID()}`
    */
   id?: string
 

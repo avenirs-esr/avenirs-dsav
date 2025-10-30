@@ -54,7 +54,6 @@ BddTest().given('a tabs style composable', () => {
 
       BddTest().when('updateTabsStyle is called with valid activeTab and elements', () => {
         beforeEach(() => {
-          // Simulate elements with offsetHeight
           tablist.value = { offsetHeight: 50 } as unknown as HTMLElement
           tabs.value = [
             { offsetHeight: 100 } as unknown as HTMLElement,
@@ -65,7 +64,7 @@ BddTest().given('a tabs style composable', () => {
         })
 
         BddTest().then('it should update tabsStyle according to tablist and selected tab height', () => {
-          expect(result.tabsStyle.value['--tabs-height']).toBe('200px') // 50 + 150
+          expect(result.tabsStyle.value['--tabs-height']).toBe('200px')
         })
 
         BddTest().when('activeTab changes and updateTabsStyle is called again', () => {
@@ -75,7 +74,7 @@ BddTest().given('a tabs style composable', () => {
           })
 
           BddTest().then('it should reflect new active tab height', () => {
-            expect(result.tabsStyle.value['--tabs-height']).toBe('150px') // 50 + 100
+            expect(result.tabsStyle.value['--tabs-height']).toBe('150px')
           })
         })
       })
