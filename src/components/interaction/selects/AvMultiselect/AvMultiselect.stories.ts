@@ -63,7 +63,7 @@ const meta = {
     },
     successMessage: { control: 'text' },
     errorMessage: { control: 'text' },
-    defaultUnselectedText: { control: 'text', required: true },
+    placeholder: { control: 'text', required: true },
     selectAll: { control: 'boolean' },
     search: { control: 'boolean' },
     width: { control: 'text' }
@@ -76,7 +76,7 @@ const meta = {
       { value: '4', label: 'Choice 4' },
       { value: '5', label: 'Choice 5' },
     ],
-    defaultUnselectedText: 'Placeholder',
+    placeholder: 'Placeholder',
     required: false,
     disabled: false,
     id: 'selectId',

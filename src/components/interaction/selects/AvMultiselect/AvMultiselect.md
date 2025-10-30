@@ -33,7 +33,7 @@ Inside the list:
 | `hint` | `string` | | | Hint for guidance.|
 | `successMessage` | `string` | `''` | | If set, display a success message. |
 | `errorMessage` | `string` | `''` | | If set, display an error message.|
-| `defaultUnselectedText` | `string` | | ✅ | Placeholder text.|
+| `placeholder` | `string` | | ✅ | Placeholder text.|
 | `selectId` | `string` | `useRandomId('select')` | | Unique id for the select. Used for the accessibility. |
 | `dense` | `boolean` | | | Dense mode for reduced padding.|
 | `selectedText` | `string` | `'x option(s) sélectionné(s)'` | | Displayed text when options are selected.|
@@ -68,7 +68,7 @@ You can find examples of use and demo of the component on its dedicated [Storybo
       { value: 3, label: '3' },
       { value: 4, label: '4' },
     ]"
-    default-unselected-text="Placeholder"
+    placeholder="Placeholder"
     label="Select"
   />
 </template>

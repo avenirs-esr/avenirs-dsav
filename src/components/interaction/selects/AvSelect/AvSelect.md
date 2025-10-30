@@ -53,7 +53,7 @@ You can find examples of use and demo of the component on its dedicated [Storybo
       { value: 3, text: '3' },
       { value: 4, text: '4' },
     ]"
-    default-unselected-text="Placeholder"
+    placeholder="Placeholder"
   />
 </template>
 ```
