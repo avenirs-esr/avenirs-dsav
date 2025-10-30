@@ -10,7 +10,7 @@ import { useCollapsable } from '@/composables/use-collapsable/use-collapsable'
 export interface NavigationMenuProps {
   /**
    * The unique identifier for the navigation menu.
-   * @default `menu-${crypto.randomUUID}`
+   * @default `menu-${crypto.randomUUID()}`
    */
   id?: string
 
@@ -26,7 +26,7 @@ export interface NavigationMenuProps {
 
   /**
    * The identifier of the currently expanded navigation menu.
-   * @default `expanded-${crypto.randomUUID}`
+   * @default `expanded-${crypto.randomUUID()}`
    */
   expandedId?: string
 

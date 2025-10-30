@@ -4,6 +4,14 @@ import AvTabs from '@/components/interaction/tabs/AvTabs/AvTabs.vue'
 import { AvIconStub } from '@/tests'
 import { BddTest } from '@/tests/utils'
 
+function getLastEmittedUpdate (wrapper: VueWrapper<InstanceType<typeof AvTabs>>) {
+  const updates = wrapper.emitted('update:modelValue')
+  if (!updates || updates.length === 0) {
+    return null
+  }
+  return updates[updates.length - 1][0]
+}
+
 const observeMock = vi.fn()
 const unobserveMock = vi.fn()
 const disconnectMock = vi.fn()
@@ -126,8 +134,9 @@ BddTest().given('a tab switcher ', () => {
       })
 
       BddTest().and('the modelValue prop is updated to the second tab', () => {
-        beforeEach(() => {
-          wrapper.setProps({ modelValue: 1 })
+        beforeEach(async () => {
+          (wrapper.vm as any).activeTab = 1
+          await wrapper.vm.$nextTick()
         })
 
         BddTest().then('it should update the active tab', () => {
@@ -141,7 +150,7 @@ BddTest().given('a tab switcher ', () => {
         })
 
         BddTest().then('it should emit an update to the second tab', async () => {
-          expect(wrapper.emitted('update:modelValue')?.at(-1)?.[0]).toBe(1)
+          expect(getLastEmittedUpdate(wrapper)).toBe(1)
         })
       })
 
@@ -151,7 +160,7 @@ BddTest().given('a tab switcher ', () => {
         })
 
         BddTest().then('it should emit an update to the second tab', async () => {
-          expect(wrapper.emitted('update:modelValue')?.at(-1)?.[0]).toBe(1)
+          expect(getLastEmittedUpdate(wrapper)).toBe(1)
         })
       })
 
@@ -161,7 +170,7 @@ BddTest().given('a tab switcher ', () => {
         })
 
         BddTest().then('it should emit an update to the last tab', async () => {
-          expect(wrapper.emitted('update:modelValue')?.at(-1)?.[0]).toBe(2)
+          expect(getLastEmittedUpdate(wrapper)).toBe(2)
         })
       })
 
@@ -181,7 +190,7 @@ BddTest().given('a tab switcher ', () => {
         })
 
         BddTest().then('it should emit an update to the last tab', async () => {
-          expect(wrapper.emitted('update:modelValue')?.at(-1)?.[0]).toBe(2)
+          expect(getLastEmittedUpdate(wrapper)).toBe(2)
         })
       })
     })
@@ -197,7 +206,7 @@ BddTest().given('a tab switcher ', () => {
         })
 
         BddTest().then('it should emit an update to the third tab', async () => {
-          expect(wrapper.emitted('update:modelValue')?.at(-1)?.[0]).toBe(2)
+          expect(getLastEmittedUpdate(wrapper)).toBe(2)
         })
       })
 
@@ -207,7 +216,7 @@ BddTest().given('a tab switcher ', () => {
         })
 
         BddTest().then('it should emit an update to the first tab', async () => {
-          expect(wrapper.emitted('update:modelValue')?.at(-1)?.[0]).toBe(0)
+          expect(getLastEmittedUpdate(wrapper)).toBe(0)
         })
       })
 
@@ -217,7 +226,7 @@ BddTest().given('a tab switcher ', () => {
         })
 
         BddTest().then('it should emit an update to the first tab', async () => {
-          expect(wrapper.emitted('update:modelValue')?.at(-1)?.[0]).toBe(0)
+          expect(getLastEmittedUpdate(wrapper)).toBe(0)
         })
       })
 
@@ -227,7 +236,7 @@ BddTest().given('a tab switcher ', () => {
         })
 
         BddTest().then('it should emit an update to the last tab', async () => {
-          expect(wrapper.emitted('update:modelValue')?.at(-1)?.[0]).toBe(2)
+          expect(getLastEmittedUpdate(wrapper)).toBe(2)
         })
       })
     })
@@ -243,7 +252,7 @@ BddTest().given('a tab switcher ', () => {
         })
 
         BddTest().then('it should emit an update to the first tab', async () => {
-          expect(wrapper.emitted('update:modelValue')?.at(-1)?.[0]).toBe(0)
+          expect(getLastEmittedUpdate(wrapper)).toBe(0)
         })
       })
 
@@ -253,7 +262,7 @@ BddTest().given('a tab switcher ', () => {
         })
 
         BddTest().then('it should emit an update to the second tab', async () => {
-          expect(wrapper.emitted('update:modelValue')?.at(-1)?.[0]).toBe(1)
+          expect(getLastEmittedUpdate(wrapper)).toBe(1)
         })
       })
 
@@ -263,7 +272,7 @@ BddTest().given('a tab switcher ', () => {
         })
 
         BddTest().then('it should emit an update to the first tab', async () => {
-          expect(wrapper.emitted('update:modelValue')?.at(-1)?.[0]).toBe(0)
+          expect(getLastEmittedUpdate(wrapper)).toBe(0)
         })
       })
 

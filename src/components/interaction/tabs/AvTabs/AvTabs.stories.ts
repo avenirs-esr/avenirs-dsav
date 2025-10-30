@@ -49,10 +49,6 @@ const meta: Meta<AvTabsProps> = {
   tags: ['autodocs'],
   argTypes: {
     ariaLabel: { control: 'text' },
-    modelValue: {
-      type: { name: 'number', required: true },
-      control: 'number',
-    },
     compact: { control: 'boolean' },
   },
   args: {

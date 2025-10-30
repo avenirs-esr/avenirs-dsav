@@ -10,7 +10,7 @@ import { useAvBreakpoints } from '@/composables'
 export interface NavigationMenuLinkProps {
   /**
    * The unique identifier for the navigation menu link.
-   * @default `menu-link-${crypto.randomUUID}`
+   * @default `menu-link-${crypto.randomUUID()}`
    */
   id?: string
 

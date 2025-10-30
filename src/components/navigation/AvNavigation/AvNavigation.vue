@@ -9,7 +9,7 @@ import NavigationMenuLink, { type NavigationMenuLinkProps } from '@/components/n
 export interface AvNavigationProps {
   /**
    * The unique identifier for the navigation element.
-   * @default `nav-${crypto.randomUUID}`
+   * @default `nav-${crypto.randomUUID()}`
    */
   id?: string
 
