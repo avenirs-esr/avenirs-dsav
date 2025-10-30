@@ -354,7 +354,7 @@ const finalLabelClass = computed(() => [
 </template>
 
 <style lang="scss" scoped>
-@use "@/styles/typography.scss" as typography;
+@use '@/styles/core/_typography.scss';
 
 .fr-multiselect {
   text-align: left;

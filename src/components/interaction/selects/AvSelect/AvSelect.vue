@@ -190,7 +190,7 @@ const messageType = computed(() => {
 </template>
 
 <style lang="scss" scoped>
-@use "@/styles/typography.scss" as typography;
+@use '@/styles/core/_typography.scss';
 
 .fr-select {
   background-color: var(--other-background-base);
