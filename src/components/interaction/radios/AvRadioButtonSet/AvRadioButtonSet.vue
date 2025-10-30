@@ -9,7 +9,7 @@ import RadioButton from '@/components/interaction/radios/AvRadioButtonSet/compon
 export interface AvRadioButtonSetProps {
   /**
    * ID of the legend element
-   * @default `av-radio-button-set-${crypto.randomUUID()}`
+   * @default `radio-button-set-${crypto.randomUUID()}`
    */
   id?: string
 
@@ -76,7 +76,7 @@ export interface AvRadioButtonSetProps {
 }
 
 const {
-  id = `av-radio-button-set-${crypto.randomUUID()}`,
+  id,
   name,
   legend = '',
   modelValue,
@@ -112,6 +112,8 @@ defineSlots<{
   default?: Slot
 }>()
 
+const realId = computed(() => id ?? `radio-button-set-${crypto.randomUUID()}`)
+
 const message = computed(() => errorMessage || validMessage)
 const additionalMessageClass = computed(() => errorMessage ? 'fr-error-text' : 'fr-valid-text')
 
@@ -122,7 +124,7 @@ function onChange ($event: string) {
   emit('update:modelValue', $event)
 }
 
-const describedByElement = computed(() => message.value ? `messages-${id}` : undefined)
+const describedByElement = computed(() => message.value ? `messages-${realId.value}` : undefined)
 
 type AvRadioButtonNode = VNode & { type: typeof AvRadioButton }
 
@@ -186,13 +188,13 @@ defineExpose({ selected })
         'fr-fieldset--valid': validMessage,
       }"
       :disabled="disabled"
-      :aria-labelledby="id"
+      :aria-labelledby="realId"
       :aria-describedby="describedByElement"
       :role="(errorMessage || validMessage) ? 'group' : undefined"
     >
       <legend
         v-if="legend || hint"
-        :id="id"
+        :id="realId"
         class="fr-fieldset__legend fr-fieldset__legend--regular"
       >
         <span class="caption-regular">{{ legend }}</span>
@@ -223,7 +225,7 @@ defineExpose({ selected })
 
       <div
         v-if="message"
-        :id="`messages-${id}`"
+        :id="`messages-${realId}`"
         class="fr-messages-group"
         aria-live="assertive"
         role="alert"

@@ -24,7 +24,6 @@ const meta: Meta<AvToggleProps> = {
   argTypes: {
     modelValue: { control: 'boolean' },
     description: { control: 'text', type: { name: 'string', required: true } },
-    id: { control: 'text' },
     disabled: { control: 'boolean' },
     activeText: { control: 'text' },
     inactiveText: { control: 'text' },
@@ -33,7 +32,6 @@ const meta: Meta<AvToggleProps> = {
   args: {
     modelValue: false,
     description: 'Some description',
-    id: undefined,
     disabled: false,
     activeText: 'On',
     inactiveText: 'Off',

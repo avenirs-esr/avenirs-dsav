@@ -6,7 +6,7 @@ import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 export interface AvInputProps {
   /**
    * ID of the input element
-   * @default `av-input-${crypto.randomUUID()}`
+   * @default `input-${crypto.randomUUID()}`
    */
   id?: string
 
@@ -131,7 +131,7 @@ defineOptions({
 })
 
 const {
-  id = crypto.randomUUID(),
+  id,
   descriptionId,
   hint = '',
   isValid = false,
@@ -182,6 +182,8 @@ defineSlots<{
    */
   customCaptions?: Slot<{ currentValue?: string | number | null, maxlength?: number }>
 }>()
+
+const realId = computed(() => id ?? `input-${crypto.randomUUID()}`)
 
 const errorMessages = computed(() => {
   if (!errorMessage) {
@@ -245,7 +247,7 @@ defineExpose({
       </div>
       <label
         :class="finalLabelClass"
-        :for="id"
+        :for="realId"
       >
         <span :class="labelClass">
           {{ label }}
@@ -274,7 +276,7 @@ defineExpose({
       >
         <component
           :is="isComponent"
-          :id="id"
+          :id="realId"
           ref="__input"
           :placeholder="placeholder"
           :type="type"

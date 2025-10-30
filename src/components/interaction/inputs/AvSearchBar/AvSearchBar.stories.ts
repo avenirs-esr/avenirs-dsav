@@ -27,14 +27,12 @@ const meta: Meta<AvSearchBarProps> = {
   component: AvSearchBar,
   tags: ['autodocs'],
   argTypes: {
-    id: { control: 'text' },
     label: { conrtol: 'text' },
     modelValue: { control: 'text' },
     placeholder: { control: 'text' },
     disabled: { control: 'boolean' }
   },
   args: {
-    id: crypto.randomUUID(),
     label: 'Search',
     modelValue: '',
     placeholder: 'Search...',

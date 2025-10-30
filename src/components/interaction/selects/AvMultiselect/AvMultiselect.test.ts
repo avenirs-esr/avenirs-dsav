@@ -17,7 +17,6 @@ const defaultOptions = [
 ]
 
 const defaultProps = {
-  id: 'test-multiselect',
   modelValue: [],
   label: 'Choisissez des options',
   placeholder: 'Sélectionnez une option',

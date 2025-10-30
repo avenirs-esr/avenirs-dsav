@@ -53,13 +53,11 @@ const meta: Meta<AvSideMenuProps> = {
   component: AvSideMenu,
   tags: ['autodocs'],
   argTypes: {
-    id: { control: 'text' },
     collapsible: { control: 'boolean' },
     width: { control: 'text' },
     collapsedWidth: { control: 'text' }
   },
   args: {
-    id: 'storybook-side-menu',
     collapsible: true,
     width: '16rem',
     collapsedWidth: '5rem'
@@ -228,9 +226,7 @@ const StudentNavigationTemplate: StoryFn<AvSideMenuProps> = args => ({
 })
 
 export const StudentNavigation = StudentNavigationTemplate.bind({})
-StudentNavigation.args = {
-  id: 'student-nav'
-}
+StudentNavigation.args = { }
 
 const MinimalTemplate: StoryFn<AvSideMenuProps> = args => ({
   components: { AvSideMenu },
@@ -263,6 +259,4 @@ const MinimalTemplate: StoryFn<AvSideMenuProps> = args => ({
 })
 
 export const Minimal = MinimalTemplate.bind({})
-Minimal.args = {
-  id: 'minimal-nav'
-}
+Minimal.args = { }

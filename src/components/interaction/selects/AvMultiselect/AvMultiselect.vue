@@ -12,6 +12,7 @@ export interface AvMultiselectProps {
 
   /**
    * Unique id for the select. Used for the accessibility.
+   * @default `multi-select-${crypto.randomUUID()}`
    */
   id?: string
 
@@ -120,7 +121,7 @@ export interface AvMultiselectProps {
 
 const {
   disabled,
-  id = `multiselect-${crypto.randomUUID()}`,
+  id,
   hint = '',
   collapseHint = 'Utilisez la tabulation (ou les touches flèches) pour naviguer dans la liste des suggestions',
   modelValue,
@@ -151,6 +152,8 @@ const emit = defineEmits<{
    */
   (e: 'update:modelValue', value: AvMultiselectOption[]): void
 }>()
+
+const realId = computed(() => id ?? `multi-select-${crypto.randomUUID()}`)
 
 const host = ref<InstanceType<typeof AvButton> | null>(null)
 const expanded = ref(false)
@@ -282,7 +285,7 @@ const finalLabelClass = computed(() => [
     >
       <label
         :class="finalLabelClass"
-        :for="id"
+        :for="realId"
       >
         <span class="b2-light">{{ label }}</span>
         <span
@@ -299,7 +302,7 @@ const finalLabelClass = computed(() => [
       </label>
 
       <AvButton
-        :id="id"
+        :id="realId"
         ref="host"
         type="button"
         variant="OUTLINED"
@@ -308,7 +311,7 @@ const finalLabelClass = computed(() => [
         class="fr-select fr-multiselect"
         :disabled="disabled"
         :aria-expanded="expanded"
-        :aria-controls="`${id}-collapse`"
+        :aria-controls="`${realId}-collapse`"
         :class="{
           'fr-multiselect--is-open': expanded,
           [`fr-select--${messageType}`]: message,
@@ -318,7 +321,7 @@ const finalLabelClass = computed(() => [
         @keydown.shift.tab="handleFocusPreviousElement"
       />
       <MultiselectCollapse
-        :id="id"
+        :id="realId"
         :legend="legend"
         :hint="collapseHint"
         :model-value="computedModelValue"

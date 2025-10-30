@@ -19,7 +19,7 @@ export interface AvSelectProps {
    * Unique id for the select. Used for the accessibility.
    * @default `select-${crypto.randomUUID()}`
    */
-  selectId?: string
+  id?: string
 
   /**
    * Field name.
@@ -81,7 +81,7 @@ export interface AvSelectProps {
 const {
   required = false,
   disabled = false,
-  selectId = `select-${crypto.randomUUID()}`,
+  id,
   name = '',
   hint = '',
   modelValue,
@@ -103,6 +103,8 @@ const emit = defineEmits<{
    */
   (e: 'update:modelValue', value: string | number): void
 }>()
+
+const realId = computed(() => id ?? `select-${crypto.randomUUID()}`)
 
 const title = computed(() => {
   if (!modelValue) {
@@ -128,7 +130,7 @@ const messageType = computed(() => {
     >
       <label
         class="fr-label b2-light"
-        :for="selectId"
+        :for="realId"
       >
         <span>{{ label }}</span>
         <span
@@ -143,10 +145,10 @@ const messageType = computed(() => {
       </label>
 
       <select
-        :id="selectId"
+        :id="realId"
         :class="{ [`fr-select--${messageType}`]: message }"
         class="fr-select"
-        :name="name || selectId"
+        :name="name || realId"
         :disabled="disabled"
         :aria-disabled="disabled"
         :required="required"

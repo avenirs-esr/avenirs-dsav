@@ -15,7 +15,7 @@ The language selector is composed by:
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
-| `id` | `string` | `crypto.randomUUID()` | | Unique id for accessibility. |
+| `id` | `string` | `language-selector-${crypto.randomUUID()}` | | Unique id for accessibility. |
 | `languages` | `AvLanguageSelectorElement[]` | | ✅ | Available languages list. Each language is represented by an object containing a `codeIso` and a `label`. |
 | `currentLanguage` | `string` | `'fr'` | | ISO code of the current selected language. |
 | `title` | `string` | `'Sélectionner une langue'` | | Title attribute for accessibility. |

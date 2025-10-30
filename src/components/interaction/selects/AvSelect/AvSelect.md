@@ -24,7 +24,7 @@ The drop-down list provides a list of options from which the user can choose. On
 | `successMessage` | `string` | `''` | | If set, display a success message. |
 | `errorMessage` | `string` | `''` | | If set, display an error message.|
 | `placeholder` | `string` | | ✅ | Placeholder text.|
-| `selectId` | `string` | `select-${crypto.randomUUID()}` | | Unique id for the select. Used for the accessibility. |
+| `id` | `string` | `select-${crypto.randomUUID()}` | | Unique id for the select. Used for the accessibility. |
 | `dense` | `boolean` | `true` | | Dense mode for reduced padding.|
 
 ## 🔊 Events

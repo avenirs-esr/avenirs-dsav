@@ -16,7 +16,7 @@ An accordion consists of the following elements:
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
-| `id` | `string` | `crypto.randomUUID()` | | Unique id of the accordion. |
+| `id` | `string` | `accordion-${crypto.randomUUID()}` | | Unique id of the accordion. |
 | `title` | `string` | | ✅ | Title of accordion displayed. |
 | `icon` | `string` | `undefined` | | Accordion icon. |
 

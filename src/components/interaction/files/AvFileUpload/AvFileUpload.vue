@@ -13,7 +13,7 @@ export interface AvFileUploadProps {
    * Unique identifier for the file download component.
    * If not specified, a random ID is generated.
    *
-   * @default crypto.randomUUID()
+   * @default `file-upload-${crypto.randomUUID()}`
    */
   id?: string
 
@@ -111,7 +111,7 @@ defineOptions({
 })
 
 const {
-  id = crypto.randomUUID(),
+  id,
   ariaLabel = '',
   accept = undefined,
   validMessage = '',
@@ -174,6 +174,8 @@ defineSlots<{
    */
   default?: Slot
 }>()
+
+const realId = computed(() => id ?? `file-upload-${crypto.randomUUID()}`)
 
 const acceptTypes = computed(() => {
   if (Array.isArray(accept)) {
@@ -245,7 +247,7 @@ const isPreview = computed(() => fileName || (modelValue && !enableMultiple))
 const uploadLabelAttrs = computed(() => {
   return {
     'for':
-    id,
+    realId.value,
     'class':
     [
       'fr-upload-group',
@@ -334,10 +336,10 @@ function onClear (value: File | null) {
         </div>
         <input
           v-if="!isPreview"
-          :id="id"
+          :id="realId"
           class="fr-upload"
           type="file"
-          :aria-describedby="error || validMessage ? `${id}-desc` : undefined"
+          :aria-describedby="error || validMessage ? `${realId}-desc` : undefined"
           v-bind="$attrs"
           :disabled="disabled"
           :aria-disabled="disabled"

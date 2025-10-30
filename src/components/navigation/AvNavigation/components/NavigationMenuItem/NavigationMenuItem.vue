@@ -17,7 +17,7 @@ export interface NavigationMenuItemProps {
   active?: boolean
 }
 
-const { id = `nav-menu-item-${crypto.randomUUID()}`, active } = defineProps<NavigationMenuItemProps>()
+const { id, active } = defineProps<NavigationMenuItemProps>()
 
 /**
  * Slots for NavigationMenuItem component.
@@ -28,11 +28,13 @@ defineSlots<{
    */
   default?: Slot
 }>()
+
+const realId = computed(() => id ?? `nav-menu-item-${crypto.randomUUID()}`)
 </script>
 
 <template>
   <li
-    :id="id"
+    :id="realId"
     class="fr-menu__item"
     :aria-current="active ? 'page' : undefined"
   >

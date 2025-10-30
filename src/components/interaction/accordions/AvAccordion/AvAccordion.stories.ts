@@ -28,12 +28,10 @@ const meta: Meta<AvAccordionProps> = {
   component: AvAccordion,
   tags: ['autodocs'],
   argTypes: {
-    id: { control: 'text' },
     title: { control: 'text', required: true },
     icon: { control: 'text' },
   },
   args: {
-    id: crypto.randomUUID(),
     title: 'Accordion 1',
     icon: 'mdi:home',
   },

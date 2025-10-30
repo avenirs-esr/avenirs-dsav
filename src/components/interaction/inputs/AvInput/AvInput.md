@@ -23,7 +23,7 @@ The component integrates focus management, proper ARIA attributes, and responsiv
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
-| `id` | `string` | `av-input-${crypto.randomUUID()}` |  | ID of the input element |
+| `id` | `string` | `input-${crypto.randomUUID()}` |  | ID of the input element |
 | `descriptionId` | `string` | `undefined` |  | ID of the description element |
 | `hint` | `string` | `undefined` |  | Hint text displayed below the label |
 | `isValid` | `boolean` | `false` |  | Validation state - valid |

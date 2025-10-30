@@ -49,7 +49,6 @@ const meta = {
   argTypes: {
     disabled: { control: 'boolean' },
     dense: { control: 'boolean' },
-    id: { control: 'text' },
     name: { control: 'text' },
     hint: { control: 'text' },
     modelValue: {
@@ -79,7 +78,6 @@ const meta = {
     placeholder: 'Placeholder',
     required: false,
     disabled: false,
-    id: 'selectId',
     name: 'select',
     hint: '',
     modelValue: [],
@@ -112,14 +110,12 @@ const Template: StoryFn<AvMultiselectProps> = args => ({
 export const Default = Template.bind({})
 Default.args = {
   label: 'Select',
-  id: 'default-multiselect'
 }
 
 export const Dense = Template.bind({})
 Dense.args = {
   dense: true,
   label: 'Dense Select',
-  id: 'dense-multiselect'
 }
 
 export const OptionsWithIcon = Template.bind({})
@@ -132,5 +128,4 @@ OptionsWithIcon.args = {
     { value: '5', label: 'Choice 5', icon: MDI_ICONS.IMAGE_OUTLINE },
   ],
   label: 'Options with icon',
-  id: 'icons-multiselect'
 }

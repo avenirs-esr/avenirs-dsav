@@ -79,7 +79,7 @@ defineOptions({
 })
 
 const {
-  id = `checkbox-${crypto.randomUUID()}`,
+  id,
   icon,
   name,
   required = false,
@@ -93,8 +93,10 @@ const {
   hint
 } = defineProps<AvCheckboxProps>()
 
+const realId = computed(() => id ?? `checkbox-${crypto.randomUUID()}`)
+
 const message = computed(() => errorMessage || validMessage)
-const messageId = computed(() => message.value ? `message-${id}` : undefined)
+const messageId = computed(() => message.value ? `message-${realId.value}` : undefined)
 
 const additionalMessageClass = computed(() => errorMessage ? 'fr-error-text' : 'fr-valid-text')
 const modelValue = defineModel<(string | number | boolean | undefined)[]>({ required: true })
@@ -136,7 +138,7 @@ const labelClass = computed(() => {
       }"
     >
       <input
-        :id="id"
+        :id="realId"
         v-model="modelValue"
         :name="name"
         type="checkbox"
@@ -144,13 +146,13 @@ const labelClass = computed(() => {
         :checked="isChecked"
         :required
         v-bind="$attrs"
-        :data-testid="`input-checkbox-${id}`"
-        :data-test="`input-checkbox-${id}`"
+        :data-testid="`input-checkbox-${realId}`"
+        :data-test="`input-checkbox-${realId}`"
         :tabindex="disabled ? -1 : undefined"
         :aria-describedby="messageId"
       >
       <label
-        :for="id"
+        :for="realId"
         class="fr-label"
       >
         <div class="label-container">

@@ -43,7 +43,7 @@ export interface NavigationMenuLinkProps {
 }
 
 const {
-  id = `menu-link-${crypto.randomUUID()}`,
+  id,
   to = '#',
   text = '',
   icon,
@@ -63,6 +63,8 @@ defineEmits<{
 
 const { isBelowLg } = useAvBreakpoints()
 
+const realId = computed(() => id ?? `menu-link-${crypto.randomUUID()}`)
+
 const isExternal = computed(() => typeof to === 'string' && to.startsWith('http'))
 
 const useHeader = hasInjectionContext() ? inject(registerNavigationLinkKey)! : undefined
@@ -74,12 +76,12 @@ const closeModal = useHeader?.() ?? (() => {})
     v-if="isExternal"
     class="fr-nav__link"
     :class="{
-      'av-nav__link--active': activeId === id,
+      'av-nav__link--active': activeId === realId,
       'av-nav__link--compact': isBelowLg,
     }"
     data-testid="nav-external-link"
     :href="(to as string)"
-    @click="$emit('toggleId', id); onClick($event)"
+    @click="$emit('toggleId', realId); onClick($event)"
   >
     {{ text }}
   </a>
@@ -88,7 +90,7 @@ const closeModal = useHeader?.() ?? (() => {})
     class="fr-nav__link"
     data-testid="nav-router-link"
     :to="to"
-    @click="closeModal(); $emit('toggleId', id); onClick?.($event)"
+    @click="closeModal(); $emit('toggleId', realId); onClick?.($event)"
   >
     <AvIcon
       v-if="icon"

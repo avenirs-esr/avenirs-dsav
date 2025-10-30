@@ -5,7 +5,7 @@
 export interface AvSearchBarProps {
   /**
    * Unique id for the search bar
-   * @default crypto.randomUUID()
+   * @default `search-bar-${crypto.randomUUID()}`
    */
   id?: string
 
@@ -35,7 +35,7 @@ export interface AvSearchBarProps {
 }
 
 const {
-  id = crypto.randomUUID(),
+  id,
   label = 'Recherche',
   modelValue = '',
   placeholder = 'Rechercher...',
@@ -60,6 +60,8 @@ const emit = defineEmits<{
    */
   (e: 'search', payload: string): void
 }>()
+
+const realId = computed(() => id ?? `search-bar-${crypto.randomUUID()}`)
 </script>
 
 <template>
@@ -68,7 +70,7 @@ const emit = defineEmits<{
     role="search"
   >
     <AvInput
-      :id="id"
+      :id="realId"
       type="search"
       no-radius
       :placeholder="placeholder"

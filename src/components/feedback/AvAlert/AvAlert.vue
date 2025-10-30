@@ -28,7 +28,7 @@ export interface AvAlertProps {
 
   /**
    * The alert unique identifier.
-   * @default crypto.randomUUID()
+   * @default `alert-${crypto.randomUUID()}`
    */
   id?: string
 
@@ -70,7 +70,7 @@ export interface AvAlertProps {
 
 const {
   alert = false,
-  id = crypto.randomUUID(),
+  id,
   title = '',
   titleTag = 'h3',
   description,
@@ -102,6 +102,7 @@ defineSlots<{
   default?: Slot
 }>()
 
+const realId = computed(() => id ?? `alert-${crypto.randomUUID()}`)
 const onClick = () => emit('close')
 
 const classes = computed(() => ([
@@ -130,7 +131,7 @@ const icon = computed(() => {
 <template>
   <div
     v-if="!closed"
-    :id="id"
+    :id="realId"
     class="fr-alert"
     :class="classes"
     :role="alert ? 'alert' : undefined"
