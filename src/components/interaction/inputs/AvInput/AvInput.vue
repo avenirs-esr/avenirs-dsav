@@ -341,7 +341,7 @@ defineExpose({
 </template>
 
 <style lang="scss" scoped>
-@use "@/styles/typography.scss" as typography;
+@use '@/styles/core/_typography.scss';
 
 .av-input__wrapper{
   margin-top: 0 !important;

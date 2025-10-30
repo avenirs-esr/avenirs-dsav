@@ -291,7 +291,7 @@ onUnmounted(() => {
 </template>
 
 <style lang="scss" scoped>
-@use "@/styles/typography.scss" as typography;
+@use '@/styles/core/_typography.scss';
 
 .fr-multiselect__search__icon {
   margin-right: 1rem;

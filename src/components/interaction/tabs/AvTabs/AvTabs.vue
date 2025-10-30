@@ -169,7 +169,7 @@ watch(activeTab, (newIndex, lastIndex) => {
 </template>
 
 <style lang="scss" scoped>
-@use "@/styles/typography.scss" as typography;
+@use '@/styles/core/_typography.scss';
 
 .av-tabs {
   box-shadow: none !important;
