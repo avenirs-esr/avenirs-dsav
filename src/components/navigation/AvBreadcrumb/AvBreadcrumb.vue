@@ -79,9 +79,9 @@ watch(expanded, (newValue, oldValue) => {
     <div
       :id="realId"
       ref="collapse"
-      class="fr-collapse"
+      class="av-collapse"
       :class="{
-        'fr-collapse--expanded': cssExpanded,
+        'av-collapse--expanded': cssExpanded,
         'fr-collapsing': collapsing,
       }"
       @transitionend="onTransitionEnd(expanded)"

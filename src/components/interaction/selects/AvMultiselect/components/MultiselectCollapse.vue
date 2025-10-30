@@ -203,13 +203,13 @@ onUnmounted(() => {
     :style="{
       '--width-host': `${hostWidth}px`,
     }"
-    class="fr-multiselect__collapse fr-collapse"
-    :class="{ 'fr-collapse--expanded': cssExpanded, 'fr-collapsing': collapsing }"
+    class="fr-multiselect__collapse av-collapse"
+    :class="{ 'av-collapse--expanded': cssExpanded, 'fr-collapsing': collapsing }"
     @transitionend="onTransitionEnd(expanded)"
   >
     <p
       :id="`${id}-text-hint`"
-      class="fr-sr-only"
+      class="av-sr-only"
     >
       {{ hint }}
     </p>

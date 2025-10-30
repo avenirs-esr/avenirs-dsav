@@ -1,0 +1,26 @@
+// === Form elements reset ===
+input,
+select,
+textarea {
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  -webkit-text-size-adjust:100%;
+  border:0;
+  border-radius:0;
+  font-family:Marianne, arial, sans-serif;
+  text-rendering:optimizeLegibility;
+}
+
+input[type=search]{
+  -webkit-appearance:none;
+  -moz-appearance:none;
+  appearance:none;
+}
+
+input[type=checkbox],
+input[type=radio],
+input[type=range] {
+  -webkit-appearance:auto;
+  -moz-appearance:auto;
+  appearance:auto;
+}

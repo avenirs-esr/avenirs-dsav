@@ -91,7 +91,7 @@ BddTest().given('an AvMultiselect component', () => {
       })
 
       BddTest().then('the collapse should be visible', () => {
-        const collapse = wrapper.find('.fr-collapse')
+        const collapse = wrapper.find('.av-collapse')
         expect(collapse.exists()).toBe(true)
         expect(collapse.isVisible()).toBe(true)
       })

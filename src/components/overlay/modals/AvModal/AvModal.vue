@@ -159,14 +159,14 @@ onBeforeUnmount(() => {
         :open="opened"
         @keydown.esc="emit('close')"
       >
-        <div class="fr-container fr-container--fluid fr-container-md">
-          <div class="fr-grid-row fr-grid-row--center">
+        <div class="av-container av-container--fluid av-container-md">
+          <div class="av-row-md av-row-md--center">
             <div
-              class="fr-col-12"
+              class="av-col-12"
               :class="{
-                'fr-col-md-8': size === 'lg',
-                'fr-col-md-6': size === 'md',
-                'fr-col-md-4': size === 'sm',
+                'av-col-md-8': size === 'lg',
+                'av-col-md-6': size === 'md',
+                'av-col-md-4': size === 'sm',
               }"
             >
               <div class="fr-modal__body">

@@ -1,0 +1,163 @@
+@use '../core/namespace' as *;
+@use '../settings/breakpoints' as bp;
+@use '../core/spacing' as sp;
+
+$columns: 12;
+
+// === Containers ===
+// Default container
+// Ex: .av-container
+@include ns("container") {
+  width: 100%;
+  max-width: 90rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: sp.get(sm);
+  padding-right: sp.get(sm);
+}
+
+// Breakpoint-specific containers
+// Ex: .av-container-md / .av-container-lg--fluid
+@each $bp-name, $bp-value in bp.$breakpoints {
+  @media (min-width: #{$bp-value}) {
+    @include ns("container-#{$bp-name}") {
+      width: 100%;
+      max-width: #{$bp-value};
+      margin-left: auto;
+      margin-right: auto;
+      @if $bp-name == lg or $bp-name == xl {
+        padding-left: sp.get(md);
+        padding-right: sp.get(md);
+      } @else {
+        padding-left: sp.get(sm);
+        padding-right: sp.get(sm);
+      }
+    }
+
+    @include ns("container-#{$bp-name}--fluid") {
+      width: 100%;
+      max-width: none;
+      padding-left: 0;
+      padding-right: 0;
+      overflow: hidden;
+    }
+  }
+}
+
+// === Rows ===
+$row-justifications: (
+  left: flex-start,
+  right: flex-end,
+  center: center,
+  between: space-between
+);
+
+$row-alignments: (
+  top: flex-start,
+  middle: center,
+  bottom: flex-end
+);
+
+@each $bp-name, $bp-value in bp.$breakpoints {
+  @media (min-width: #{$bp-value}) {
+    // Base row
+    // Ex: .av-row-md
+    @include ns("row-#{$bp-name}") {
+      display: flex;
+      flex-wrap: wrap;
+      margin-left: -#{sp.get(sm)};
+      margin-right: -#{sp.get(sm)};
+
+      > * {
+        padding-left: sp.get(sm);
+        padding-right: sp.get(sm);
+      }
+
+      &.av-no-gutters {
+        margin-left: 0;
+        margin-right: 0;
+
+        > * {
+          padding-left: 0;
+          padding-right: 0;
+        }
+      }
+
+      // Horizontal alignments
+      // Ex: .av-row-md--left / .av-row-lg--center
+      @each $mod-name, $justify in $row-justifications {
+        &--#{$mod-name} {
+          justify-content: $justify;
+        }
+      }
+
+      // Vertical alignments
+      // Ex: .av-row-md--top / .av-row-lg--bottom
+      @each $mod-name, $align in $row-alignments {
+        &--#{$mod-name} {
+          align-items: $align;
+        }
+      }
+    }
+  }
+}
+
+// === Columns ===
+$col-alignments: (
+  top: flex-start,
+  middle: center,
+  bottom: flex-end
+);
+
+@each $bp-name, $bp-value in bp.$breakpoints {
+  @media (min-width: #{$bp-value}) {
+    // Base column
+    // Ex: .av-col-md
+    @include ns("col-#{$bp-name}") {
+      flex: 1;
+    }
+
+    // Align-self modifiers
+    // Ex: .av-col-md--top / .av-col-lg--bottom
+    @each $mod-name, $align in $col-alignments {
+      @include ns("col-#{$bp-name}--#{$mod-name}") {
+        align-self: $align;
+      }
+    }
+
+    // Width and offsets
+    // Ex: .av-col-md-4 / .av-col-offset-md-2 / .av-col-offset-md-2--right
+    @for $i from 1 through $columns {
+      @include ns("col-#{$bp-name}-#{$i}") {
+        flex: 0 0 calc(100% * #{$i} / #{$columns});
+        max-width: calc(100% * #{$i} / #{$columns});
+      }
+
+      @include ns("col-offset-#{$bp-name}-#{$i}") {
+        margin-left: calc(100% * #{$i} / #{$columns});
+      }
+
+      @include ns("col-offset-#{$bp-name}-#{$i}--right") {
+        margin-left: 0;
+        margin-right: calc(100% * #{$i} / #{$columns});
+      }
+    }
+  }
+}
+
+// === Gapped flex directions ===
+// Ex: .av-flex-row-md / .av-flex-col-sm
+$flex-directions: (
+  row: row,
+  col: column,
+);
+
+@each $dir-name, $dir-value in $flex-directions {
+  @each $size, $value in sp.$spacing {
+    @include ns("flex-#{$dir-name}-#{$size}") {
+      display: flex;
+      flex-direction: $dir-value;
+      gap: var(--spacing-#{$size});
+    }
+  }
+}
