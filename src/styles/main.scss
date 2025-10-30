@@ -1,25 +1,31 @@
 // === Core ===
 @use './core/palette' as *;
 @use './core/typography' as *;
+@use './core/focus' as *;
+@use './core/hover' as *;
+@use './core/cursors' as *;
 @use './core/spacing' as *;
 @use './core/radius' as *;
 @use './core/dimensions' as *;
+@use './core/accessibility' as *;
 
 // === Settings ===
 @use './settings/breakpoints' as *;
 
 // === Components ===
+@use './components/grid' as *;
 @use './components/buttons' as *;
+@use './components/collapse' as *;
+@use './components/form' as *;
+@use './components/links' as *;
 @use './components/texts' as *;
 
 // === Utilities ===
 @use './utilities/helpers' as *;
+@use './utilities/spacing' as *;
 
 // === Vendor ===
 @use './vendor/dsfr' as *;
-
-// === Overrides ===
-@use './overrides/dsfr' as *;
 
 // === Global ===
 :root {
@@ -39,4 +45,11 @@ body,
 h1, h2, h3, h4, h5, h6 {
   margin-bottom: 0;
   margin-top: 0;
+}
+
+// === Box sizing ===
+*,
+:after,
+:before {
+  box-sizing:inherit
 }

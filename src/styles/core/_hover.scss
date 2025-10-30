@@ -1,0 +1,22 @@
+@use "sass:string";
+
+// === Hover styles ===
+// Generated global hover rules for interactive elements (no mixin)
+$hover-media: string.unquote("(hover: hover) and (pointer: fine)");
+
+$hoverable-selectors: (
+    'button:not(:disabled)',
+    'input[type=button]:not(:disabled)',
+    'input[type=image]:not(:disabled)',
+    'input[type=reset]:not(:disabled)',
+    'input[type=submit]:not(:disabled)'
+);
+
+// Apply hover background within the hover-capable media query
+@media #{$hover-media} {
+  @each $sel in $hoverable-selectors {
+    #{string.unquote($sel)}:hover {
+      background-color: var(--light-background-neutral);
+    }
+  }
+}

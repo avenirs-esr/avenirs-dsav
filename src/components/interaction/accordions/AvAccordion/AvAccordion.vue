@@ -96,9 +96,9 @@ watch(isActive, (newValue, oldValue) => {
     <div
       :id="realId"
       ref="collapse"
-      class="fr-collapse"
+      class="av-collapse"
       :class="{
-        'fr-collapse--expanded': cssExpanded, // Need to use a separate data to add/remove the class after a RAF
+        'av-collapse--expanded': cssExpanded, // Need to use a separate data to add/remove the class after a RAF
         'fr-collapsing': collapsing,
       }"
       @transitionend="onTransitionEnd(isActive, false)"

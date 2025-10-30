@@ -225,11 +225,11 @@ provide(registerNavigationLinkKey, () => hideModal)
     class="fr-header"
   >
     <div class="fr-header__body">
-      <div class="fr-container  width-inherit">
+      <div class="av-container  width-inherit">
         <div class="fr-header__body-row">
           <div class="fr-header__brand">
             <div class="fr-header__brand-top">
-              <div class="fr-header__logo fr-enlarge-link">
+              <div class="fr-header__logo av-enlarge-link">
                 <RouterLink
                   :to="homeTo"
                   :title
@@ -317,7 +317,7 @@ provide(registerNavigationLinkKey, () => hideModal)
           role="dialog"
           aria-modal="true"
         >
-          <div class="fr-container">
+          <div class="av-container">
             <button
               id="close-button"
               class="fr-btn fr-btn--close"
@@ -371,7 +371,7 @@ provide(registerNavigationLinkKey, () => hideModal)
     <div class="fr-header__menu fr-modal">
       <div
         v-if="isWithSlotNav && !modalOpened"
-        class="fr-container"
+        class="av-container"
       >
         <slot
           name="mainnav"

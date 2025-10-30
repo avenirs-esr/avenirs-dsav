@@ -84,7 +84,7 @@ export interface UseCollapsableReturn {
  * @example
  * ```vue
  * <template>
- *   <div ref="collapse" class="fr-collapse" @transitionend="onTransitionEnd(cssExpanded)">
+ *   <div ref="collapse" class="av-collapse" @transitionend="onTransitionEnd(cssExpanded)">
  *     <slot />
  *   </div>
  *   <button @click="doExpand(!cssExpanded)">Toggle</button>

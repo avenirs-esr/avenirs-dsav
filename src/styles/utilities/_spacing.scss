@@ -1,0 +1,48 @@
+@use '../core/spacing' as sp;
+@use '../core/namespace' as *;
+@use "sass:meta";
+
+// === Properties and directions ===
+$properties: (
+  m: margin,
+  p: padding,
+);
+
+$directions: (
+  t: top,
+  r: right,
+  b: bottom,
+  l: left,
+  x: (left, right),
+  y: (top, bottom),
+);
+
+// === Directional classes ===
+// Ex : .av-mt-sm / .av-px-md
+@each $type, $property-value in $properties {
+  @each $direction-key, $direction-value in $directions {
+    @each $size, $value in sp.$spacing {
+      @if meta.type-of($direction-value) == 'list' {
+        @include ns("#{$type}#{$direction-key}-#{$size}") {
+          @each $d in $direction-value {
+            #{$property-value}-#{$d}: var(--spacing-#{$size}) !important;
+          }
+        }
+      } @else {
+        @include ns("#{$type}#{$direction-key}-#{$size}") {
+          #{$property-value}-#{$direction-value}: var(--spacing-#{$size}) !important;
+        }
+      }
+    }
+  }
+}
+
+// === Global classes ===
+// Ex : .av-m-sm / .av-p-md
+@each $type, $property-value in $properties {
+  @each $size, $value in sp.$spacing {
+    @include ns("#{$type}-#{$size}") {
+      #{$property-value}: var(--spacing-#{$size}) !important;
+    }
+  }
+}

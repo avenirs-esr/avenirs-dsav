@@ -1,3 +1,11 @@
+// === Ellipsis ===
+.av-ellipsis{
+  display:inline!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important
+}
+
 .ellipsis {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -16,6 +24,7 @@
   }
 }
 
+// === Text decoration ===
 .text-underline {
   text-decoration: underline;
 }

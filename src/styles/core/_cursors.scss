@@ -1,0 +1,47 @@
+// === Global cursor management ===
+$interactive: (
+  a,
+  'audio[controls]',
+  button,
+  details,
+  'details>summary:first-of-type',
+  'input[type=button]',
+  'input[type=checkbox]',
+  'input[type=checkbox]+label',
+  'input[type=file]',
+  'input[type=image]',
+  'input[type=radio]',
+  'input[type=radio]+label',
+  'input[type=range]',
+  'input[type=reset]',
+  'input[type=submit]',
+  select,
+  textarea,
+  'video[controls]'
+);
+
+#{$interactive} {
+  cursor: pointer;
+}
+
+#{$interactive}:disabled,
+a:not([href]),
+audio:not([href])[controls],
+input[type=range]:disabled,
+input[type=range]:disabled::-webkit-slider-thumb,
+input[type=range]:disabled::-moz-range-thumb,
+input[type=range]:disabled::-ms-thumb,
+button:disabled,
+input:disabled,
+input[type=button]:disabled,
+input[type=checkbox]:disabled+label,
+input[type=file]:disabled,
+input[type=image]:disabled,
+input[type=radio]:disabled+label,
+input[type=reset]:disabled,
+input[type=submit]:disabled,
+select:disabled,
+textarea:disabled,
+video:not([href])[controls] {
+  cursor: not-allowed;
+}

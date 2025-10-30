@@ -166,7 +166,7 @@ BddTest().given('an AvAccordion', () => {
     })
 
     BddTest().then('it should call onTransitionEnd with current isActive and false', async () => {
-      await wrapper.find('.fr-collapse').trigger('transitionend')
+      await wrapper.find('.av-collapse').trigger('transitionend')
       expect(onTransitionEndSpy).toHaveBeenCalledWith(expect.anything(), false)
     })
   })

@@ -19,6 +19,7 @@ export const AV_BREAKPOINTS = {
  * when the viewport width changes. It provides both **granular breakpoint flags**
  * (`isBelowSm`, `isAboveLg`, etc.) and **semantic viewport categories**
  * (`isMobile`, `isTablet`, `isDesktop`).
+ * The current active breakpoint key is also provided via `currentBreakpoint`.
  */
 export interface UseAvBreakpointsReturn {
   /**
@@ -56,6 +57,9 @@ export interface UseAvBreakpointsReturn {
 
   /** True if viewport width is above or equal to 1024px (64rem). */
   isAboveLg: Ref<boolean>
+
+  /** Current active breakpoint key ('sm' | 'md' | 'lg' | 'xl'). */
+  currentBreakpoint?: Ref<keyof typeof AV_BREAKPOINTS>
 }
 
 /**
@@ -95,6 +99,8 @@ export function useAvBreakpoints (): UseAvBreakpointsReturn {
   const isTablet = computed(() => isAboveMd.value && isBelowLg.value)
   const isDesktop = isAboveLg
 
+  const currentBreakpoint = breakpoints.active() as Ref<keyof typeof AV_BREAKPOINTS>
+
   return {
     isMobile,
     isTablet,
@@ -105,5 +111,6 @@ export function useAvBreakpoints (): UseAvBreakpointsReturn {
     isBelowXl,
     isAboveMd,
     isAboveLg,
+    currentBreakpoint
   }
 }

@@ -1,0 +1,37 @@
+@use '../core/namespace' as *;
+
+@include ns("collapse") {
+  --collapse: -99999px;
+  --collapser: "";
+  --collapse-max-height: none;
+
+  max-height: var(--collapse-max-height);
+  overflow: hidden;
+  transition: visibility 0.3s;
+
+  &--expanded {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  &:before {
+    content: "";
+    content: var(--collapser);
+    display: block;
+    margin-top: 0;
+    transition: margin-top 0.3s;
+  }
+
+  &:not(.#{$prefix}collapse--expanded):not(.#{$prefix}collapsing) {
+    --collapse-max-height: 0;
+  }
+
+  &:not(.#{$prefix}collapse--expanded) {
+    visibility: hidden;
+  }
+
+  &:not(.#{$prefix}collapse--expanded):before {
+    margin-top: -99999px;
+    margin-top: var(--collapse);
+  }
+}

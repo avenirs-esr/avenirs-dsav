@@ -129,7 +129,7 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
             :size="1.5"
             :color="currentPage === 0 ? 'var(--dark-background-neutral)' : 'var(--dark-background-primary1)'"
           />
-          <span class="fr-sr-only">{{ firstPageLabel }}</span>
+          <span class="av-sr-only">{{ firstPageLabel }}</span>
         </a>
       </li>
       <li>
@@ -203,7 +203,7 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
           :aria-disabled="currentPage === pages.length - 1 ? true : undefined"
           @click.prevent="toLastPage()"
         >
-          <span class="fr-sr-only">{{ lastPageLabel }}</span>
+          <span class="av-sr-only">{{ lastPageLabel }}</span>
           <AvIcon
             :name="MDI_ICONS.PAGE_LAST"
             :size="1.5"

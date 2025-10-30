@@ -34,7 +34,7 @@ const formattedDesc = computed(() => formatTextToHtml(text))
     class="fr-notice"
     :class="`fr-notice--${type}`"
   >
-    <div class="fr-container">
+    <div class="av-container">
       <div class="fr-notice__body">
         <p>
           <span class="fr-notice__title">

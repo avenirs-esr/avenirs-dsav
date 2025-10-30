@@ -1,0 +1,9 @@
+// Global prefix for all DSAV classes
+$prefix: "av-";
+
+// Mixin to create namespaced classes
+@mixin ns($name) {
+  .#{$prefix}#{$name} {
+    @content;
+  }
+}

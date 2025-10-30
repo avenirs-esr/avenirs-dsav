@@ -1,0 +1,55 @@
+// === Focus styles ===
+@mixin focus-style {
+  outline-color: #0a76f6;
+  outline-offset: 2px;
+  outline-style: solid;
+  outline-width: 2px;
+}
+
+// === Focusable elements ===
+$focus-elements: (
+  '[contenteditable]:not([contenteditable=false])',
+  '[tabindex]',
+  'a',
+  'audio[controls]',
+  'button',
+  'details',
+  'details>summary:first-of-type',
+  'input',
+  'input[type=button]',
+  'input[type=checkbox]+label:before',
+  'input[type=image]',
+  'input[type=radio]+label:before',
+  'input[type=reset]',
+  'input[type=submit]',
+  'select',
+  'textarea',
+  'video[controls]'
+);
+
+// === Apply focus styles ===
+@each $el in $focus-elements {
+  #{$el}:focus {
+    @include focus-style;
+  }
+  #{$el}:focus-visible {
+    @include focus-style;
+  }
+  #{$el}:focus:not(:focus-visible) {
+    outline-style: none;
+  }
+}
+
+// === Apply focus styles to range input sliders ===
+$sliders: ('-webkit-slider-thumb', '-moz-range-thumb', '-ms-thumb');
+@each $slider in $sliders {
+  input[type=range]:focus::#{$slider} {
+    @include focus-style;
+  }
+  input[type=range]:focus-visible::#{$slider} {
+    outline-style: solid;
+  }
+  input[type=range]:focus:not(:focus-visible)::#{$slider} {
+    outline-style: none;
+  }
+}

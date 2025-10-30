@@ -103,8 +103,11 @@ watch(expanded, (newValue, oldValue) => {
       <div
         :id="realId"
         ref="collapse"
-        class="fr-collapse fr-translate__menu fr-menu"
-        :class="{ 'fr-collapse--expanded': cssExpanded, 'fr-collapsing': collapsing }"
+        class="av-collapse fr-translate__menu fr-menu"
+        :class="{
+          'av-collapse--expanded': cssExpanded,
+          'fr-collapsing': collapsing,
+        }"
         @transitionend="onTransitionEnd(expanded)"
       >
         <ul class="fr-menu__list">
