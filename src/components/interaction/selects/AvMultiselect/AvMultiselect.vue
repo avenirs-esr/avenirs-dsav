@@ -70,7 +70,7 @@ export interface AvMultiselectProps {
   /**
    * Placeholder text.
    */
-  defaultUnselectedText: string
+  placeholder: string
 
   /**
    * dense mode
@@ -130,7 +130,7 @@ const {
   options = [],
   successMessage = '',
   errorMessage = '',
-  defaultUnselectedText,
+  placeholder,
   dense,
   selectedText,
   selectAll = false,
@@ -182,7 +182,7 @@ const computedModelValue = computed(() => modelValue.map(selected => selected.va
 
 const title = computed(() => {
   if (!modelValue || modelValue.length === 0) {
-    return defaultUnselectedText
+    return placeholder
   }
 
   if (selectedText) {
