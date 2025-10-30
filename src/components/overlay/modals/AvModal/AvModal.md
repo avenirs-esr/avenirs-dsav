@@ -19,7 +19,7 @@ It consists of the following elements:
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
-| `modalId` | `string` | `av-modal-${crypto.randomUUID()}` | | Unique identifier for the modal. |
+| `id` | `string` | `modal-${crypto.randomUUID()}` | | Unique identifier for the modal. |
 | `opened` | `boolean` | `false` | | Indicates whether the modal is open. |
 | `isAlert` | `boolean` | `false` | | Specifies whether the modal is an alert (role `"alertdialog"` if `true`) or not (role will then be `"dialog"`). |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `md` | | Size of modal. |

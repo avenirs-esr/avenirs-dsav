@@ -39,7 +39,7 @@ export interface AvLanguageSelectorProps {
 }
 
 const {
-  id = crypto.randomUUID(),
+  id,
   languages,
   currentLanguage = 'fr',
   title = 'Sélectionner une langue'
@@ -63,6 +63,8 @@ const {
   doExpand,
   onTransitionEnd,
 } = useCollapsable()
+
+const realId = computed(() => id ?? `language-selector-${crypto.randomUUID()}`)
 
 const expanded = ref(false)
 
@@ -90,7 +92,7 @@ watch(expanded, (newValue, oldValue) => {
     <div class="fr-nav__item">
       <button
         class="fr-translate__btn fr-btn fr-btn--tertiary"
-        :aria-controls="id"
+        :aria-controls="realId"
         :aria-expanded="expanded"
         :title
         type="button"
@@ -99,7 +101,7 @@ watch(expanded, (newValue, oldValue) => {
         {{ currentLanguageObject?.codeIso.toUpperCase() }}<span class="fr-hidden-lg">&nbsp;- {{ currentLanguageObject?.label }}</span>
       </button>
       <div
-        :id="id"
+        :id="realId"
         ref="collapse"
         class="fr-collapse fr-translate__menu fr-menu"
         :class="{ 'fr-collapse--expanded': cssExpanded, 'fr-collapsing': collapsing }"

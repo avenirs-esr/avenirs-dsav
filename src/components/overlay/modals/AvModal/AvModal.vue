@@ -9,9 +9,9 @@ import { MDI_ICONS } from '@/tokens'
 export interface AvModalProps {
   /**
    * Unique identifier for the modal.
-   * @default `av-modal-${crypto.randomUUID()}`
+   * @default `modal-${crypto.randomUUID()}`
    */
-  modalId?: string
+  id?: string
 
   /**
    * Indicates whether the modal is open.
@@ -72,7 +72,7 @@ export interface AvModalProps {
 }
 
 const {
-  modalId = `av-modal-${crypto.randomUUID()}`,
+  id,
   opened = false,
   isAlert = false,
   size = 'md',
@@ -108,6 +108,8 @@ const slots = defineSlots<{
   header?: Slot
   footer?: Slot
 }>()
+
+const realId = computed(() => id ?? `modal-${crypto.randomUUID()}`)
 
 const role = computed(() => {
   return isAlert ? 'alertdialog' : 'dialog'
@@ -147,10 +149,10 @@ onBeforeUnmount(() => {
       v-if="opened"
     >
       <dialog
-        id="fr-modal-1"
+        :id="realId"
         ref="modal"
         aria-modal="true"
-        :aria-labelledby="modalId"
+        :aria-labelledby="realId"
         :role="role"
         class="fr-modal"
         :class="{ 'fr-modal--opened': opened }"

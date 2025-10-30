@@ -28,7 +28,6 @@ const meta: Meta<AvCheckboxProps> = {
   component: AvCheckbox,
   tags: ['autodocs'],
   argTypes: {
-    id: { control: 'text' },
     icon: { control: 'text' },
     name: { control: 'text', required: true },
     required: { control: 'boolean' },
@@ -42,7 +41,6 @@ const meta: Meta<AvCheckboxProps> = {
     hint: { control: 'text' },
   },
   args: {
-    id: `checkbox-${crypto.randomUUID()}`,
     icon: undefined,
     name: 'default-checkbox',
     required: false,
@@ -73,7 +71,6 @@ Default.args = {}
 
 export const WithIcon = Template.bind({})
 WithIcon.args = {
-  id: 'with-icon-checkbox',
   name: 'with-icon-checkbox',
   label: 'A checkbox with icon',
   icon: 'mdi:home'
@@ -81,7 +78,6 @@ WithIcon.args = {
 
 export const Required = Template.bind({})
 Required.args = {
-  id: 'required-checkbox',
   name: 'required-checkbox',
   label: 'A required checkbox',
   required: true
@@ -89,7 +85,6 @@ Required.args = {
 
 export const Disabled = Template.bind({})
 Disabled.args = {
-  id: 'disabled-checkbox',
   name: 'disabled-checkbox',
   label: 'A disabled checkbox',
   disabled: true
@@ -97,7 +92,6 @@ Disabled.args = {
 
 export const Error = Template.bind({})
 Error.args = {
-  id: 'error-checkbox',
   name: 'error-checkbox',
   label: 'A checkbox with error',
   errorMessage: 'An error has occured'
@@ -105,7 +99,6 @@ Error.args = {
 
 export const Valid = Template.bind({})
 Valid.args = {
-  id: 'valid-checkbox',
   name: 'valid-checkbox',
   label: 'A valid checkbox',
   validMessage: 'Congratulations!'
@@ -113,7 +106,6 @@ Valid.args = {
 
 export const Hint = Template.bind({})
 Hint.args = {
-  id: 'hint-checkbox',
   name: 'hint-checkbox',
   label: 'A checkbox with a hint',
   hint: 'You should click this'
@@ -121,7 +113,6 @@ Hint.args = {
 
 export const Small = Template.bind({})
 Small.args = {
-  id: 'small-checkbox',
   name: 'small-checkbox',
   label: 'A small checkbox',
   small: true
@@ -129,7 +120,6 @@ Small.args = {
 
 export const SmallWithIcon = Template.bind({})
 SmallWithIcon.args = {
-  id: 'small-with-icon-checkbox',
   name: 'small-with-icon-checkbox',
   label: 'A disabled checkbox with icon',
   small: true,
@@ -138,7 +128,6 @@ SmallWithIcon.args = {
 
 export const SmallRequired = Template.bind({})
 SmallRequired.args = {
-  id: 'small-required-checkbox',
   name: 'small-required-checkbox',
   label: 'A small required checkbox',
   small: true,

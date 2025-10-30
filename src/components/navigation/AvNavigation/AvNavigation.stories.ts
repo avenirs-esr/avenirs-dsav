@@ -35,7 +35,6 @@ const meta: Meta<AvNavigationProps> = {
       },
       {
         title: 'Menu 1',
-        id: 'menu-1',
         active: true,
         links: [
           { text: 'Link 1', to: '#menu-link1' },
@@ -47,7 +46,6 @@ const meta: Meta<AvNavigationProps> = {
       },
       {
         title: 'Menu 2',
-        id: 'menu-2',
         links: [
           { text: 'Link 1', to: '#menu-link1' },
           { text: 'Link 2', to: '#menu-link2' },

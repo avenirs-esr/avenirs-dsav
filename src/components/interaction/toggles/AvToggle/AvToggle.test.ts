@@ -9,7 +9,6 @@ BddTest().given('an AvToggle', () => {
   const defaultProps = {
     modelValue: false,
     description: 'test description',
-    id: 'my-toggle',
     activeText: 'Yes',
     inactiveText: 'No',
     name: 'status-toggle',

@@ -10,7 +10,7 @@ export interface AvBreadcrumbProps {
    * The unique identifier for the breadcrumb element.
    * @default `breadcrumb-${crypto.randomUUID()}`
    */
-  breadcrumbId?: string
+  id?: string
 
   /**
    * A table of objects representing the links in the breadcrumb. Each object can
@@ -35,7 +35,7 @@ export interface AvBreadcrumbProps {
 }
 
 const {
-  breadcrumbId = `breadcrumb-${crypto.randomUUID()}`,
+  id,
   links,
   navigationLabel = 'Vous êtes ici :',
   showBreadcrumbLabel = 'Voir le fil d’Ariane',
@@ -48,6 +48,8 @@ const {
   doExpand,
   onTransitionEnd,
 } = useCollapsable()
+
+const realId = computed(() => id ?? `breadcrumb-${crypto.randomUUID()}`)
 
 const expanded = ref(false)
 
@@ -69,13 +71,13 @@ watch(expanded, (newValue, oldValue) => {
       v-if="!expanded"
       class="fr-breadcrumb__button"
       :aria-expanded="expanded"
-      :aria-controls="breadcrumbId"
+      :aria-controls="realId"
       @click="expanded = !expanded"
     >
       {{ showBreadcrumbLabel }}
     </button>
     <div
-      :id="breadcrumbId"
+      :id="realId"
       ref="collapse"
       class="fr-collapse"
       :class="{

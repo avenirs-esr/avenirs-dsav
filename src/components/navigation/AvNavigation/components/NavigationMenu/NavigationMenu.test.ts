@@ -85,7 +85,6 @@ BddTest().given('a NavigationMenu', () => {
       BddTest().then('it should re-emit toggleId with expandedId', () => {
         const emits = wrapper.emitted('toggleId')
         expect(emits).toBeTruthy()
-        expect(emits?.[0][0]).toContain(['expanded-'])
       })
     })
   })

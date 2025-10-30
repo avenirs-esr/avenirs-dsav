@@ -29,23 +29,24 @@ export interface AvNavigationProps {
 }
 
 const {
-  id = `nav-${crypto.randomUUID()}`,
+  id,
   label = 'Menu principal',
   navItems,
 } = defineProps<AvNavigationProps>()
 
+const realId = computed(() => id ?? `nav-${crypto.randomUUID()}`)
 const expandedMenuId = ref<string | undefined>(undefined)
 
-function toggle (id: string | undefined) {
-  if (id === expandedMenuId.value) {
+function toggle (newId: string | undefined) {
+  if (newId === expandedMenuId.value) {
     expandedMenuId.value = undefined
     return
   }
-  expandedMenuId.value = id
+  expandedMenuId.value = newId
 }
 
 function handleElementClick (el: HTMLElement) {
-  if (el === document.getElementById(id)) {
+  if (el === document.getElementById(realId.value)) {
     return
   }
 
@@ -83,7 +84,7 @@ onUnmounted(() => {
     class="my-nav-wrapper"
   >
     <nav
-      :id="id"
+      :id="realId"
       class="fr-nav"
       role="navigation"
       :aria-label="label"
@@ -91,7 +92,6 @@ onUnmounted(() => {
       <ul class="fr-nav__list">
         <NavigationItem
           v-for="(navItem, index) of navItems"
-          :id="navItem.id"
           :key="index"
         >
           <NavigationMenuLink

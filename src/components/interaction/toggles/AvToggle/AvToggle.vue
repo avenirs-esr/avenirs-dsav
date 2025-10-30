@@ -18,6 +18,7 @@ export interface AvToggleProps {
 
   /**
    * Unique id for the toggle. Used for accessibility.
+   * @default `toggle-${crypto.randomUUID()}`
    */
   id?: string
 
@@ -45,11 +46,12 @@ export interface AvToggleProps {
   name?: string
 }
 
-const props = withDefaults(defineProps<AvToggleProps>(), {
-  activeText: 'On',
-  inactiveText: 'Off',
-  name: undefined,
-})
+const {
+  id,
+  activeText = 'On',
+  inactiveText = 'Off',
+  name
+} = defineProps<AvToggleProps>()
 
 /**
  * Events emitted by the component.
@@ -62,7 +64,7 @@ defineEmits<{
   (e: 'update:modelValue', payload: boolean): void
 }>()
 
-const inputId = computed(() => props.id ?? crypto.randomUUID())
+const inputId = computed(() => id ?? `toggle-${crypto.randomUUID()}`)
 const labelId = computed(() => {
   return `${inputId.value}-label`
 })

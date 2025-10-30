@@ -26,7 +26,6 @@ export interface NavigationMenuProps {
 
   /**
    * The identifier of the currently expanded navigation menu.
-   * @default `expanded-${crypto.randomUUID()}`
    */
   expandedId?: string
 
@@ -37,10 +36,10 @@ export interface NavigationMenuProps {
 }
 
 const {
-  id = `menu-${crypto.randomUUID()}`,
+  id,
   title,
   links,
-  expandedId = `expanded-${crypto.randomUUID()}`,
+  expandedId,
   active,
 } = defineProps<NavigationMenuProps>()
 
@@ -52,7 +51,7 @@ defineEmits<{
    * Emitted when the navigation menu button is clicked to toggle its expanded state.
    * @param id - The unique identifier of the navigation menu.
    */
-  (event: 'toggleId', id: string): void
+  (event: 'toggleId', id: string | undefined): void
 }>()
 
 const {
@@ -63,7 +62,8 @@ const {
   onTransitionEnd,
 } = useCollapsable()
 
-const expanded = computed(() => id === expandedId)
+const realId = computed(() => id ?? `menu-${crypto.randomUUID()}`)
+const expanded = computed(() => realId.value === expandedId)
 
 const { isBelowLg } = useAvBreakpoints()
 
@@ -88,13 +88,13 @@ onMounted(() => {
     }"
     :aria-expanded="expanded"
     :aria-current="active || undefined"
-    :aria-controls="id"
-    @click="$emit('toggleId', id)"
+    :aria-controls="realId"
+    @click="$emit('toggleId', realId)"
   >
     <span>{{ title }}</span>
   </button>
   <div
-    :id="id"
+    :id="realId"
     ref="collapse"
     class="fr-collapse fr-menu"
     data-testid="navigation-menu"

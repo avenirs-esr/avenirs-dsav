@@ -41,8 +41,6 @@ const meta: Meta<AvInputProps> = {
   component: AvInput,
   tags: ['autodocs'],
   argTypes: {
-    id: { control: 'text' },
-    descriptionId: { control: 'text' },
     hint: { control: 'text' },
     isValid: { control: 'boolean' },
     isTextarea: { control: 'boolean' },

@@ -37,7 +37,7 @@ Other props:
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
-| `id` | `string` | `crypto.randomUUID()` | | The alert ID. |
+| `id` | `string` | `alert-${crypto.randomUUID()}` | | The alert ID. |
 | `type` | `'info' \| 'success' \| 'warning' \| 'error'` | `'info'` | | The alert type influences its color and associated icon. |
 | `title` | `string` | `''` | | The alert title. |
 | `description` | `string` | `undefined` | | The alert description text. |

@@ -27,13 +27,11 @@ const meta: Meta<AvLanguageSelectorProps> = {
   component: AvLanguageSelector,
   tags: ['autodocs'],
   argTypes: {
-    id: { control: 'text' },
     languages: { control: false },
     currentLanguage: { control: 'select', options: ['fr', 'en'] },
     title: { control: 'text' }
   },
   args: {
-    id: crypto.randomUUID(),
     languages: [{ codeIso: 'fr', label: 'Français' }, { codeIso: 'en', label: 'English' }],
     currentLanguage: 'fr',
     title: 'Select a language'

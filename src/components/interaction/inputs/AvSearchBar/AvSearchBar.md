@@ -14,7 +14,7 @@ The search bar is composed by:
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
-| `id` | `string`| `crypto.randomUUID()`| | Unique id for the search bar. |
+| `id` | `string`| `search-bar-${crypto.randomUUID()}`| | Unique id for the search bar. |
 | `label` | `string` | `'Recherche'` | | Label of the search bar. |
 | `modelValue`| `string` | `''` | | Current value linked to the search bar. |
 | `placeholder`| `string`| `'Rechercher...'` | | Placeholder for the search bar. |

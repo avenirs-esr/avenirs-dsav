@@ -9,7 +9,7 @@ import { useCollapsable } from '@/composables/use-collapsable/use-collapsable'
 export interface AvAccordionProps {
   /**
    * Accordion id
-   * @default crypto.randomUUID()
+   * @default `accordion-${crypto.randomUUID()}`
    */
   id?: string
 
@@ -24,7 +24,7 @@ export interface AvAccordionProps {
   icon?: string
 }
 
-const { id = crypto.randomUUID(), title, icon } = defineProps<AvAccordionProps>()
+const { id, title, icon } = defineProps<AvAccordionProps>()
 
 /**
  * Slots available in the AvAccordion component.
@@ -44,6 +44,8 @@ const {
   doExpand,
   onTransitionEnd,
 } = useCollapsable()
+
+const realId = computed(() => id ?? `accordion-${crypto.randomUUID()}`)
 
 const isStandaloneActive = ref()
 
@@ -74,7 +76,7 @@ watch(isActive, (newValue, oldValue) => {
       <button
         class="fr-accordion__btn"
         :aria-expanded="isActive"
-        :aria-controls="id"
+        :aria-controls="realId"
         type="button"
         @click="expand"
       >
@@ -92,7 +94,7 @@ watch(isActive, (newValue, oldValue) => {
       </button>
     </h3>
     <div
-      :id="id"
+      :id="realId"
       ref="collapse"
       class="fr-collapse"
       :class="{

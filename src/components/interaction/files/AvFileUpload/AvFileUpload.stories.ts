@@ -20,7 +20,6 @@ const meta: Meta<AvFileUploadProps> = {
   component: AvFileUpload,
   tags: ['autodocs'],
   argTypes: {
-    id: { control: 'text' },
     ariaLabel: { control: 'text' },
     accept: { control: 'text' },
     error: { control: 'text' },
@@ -36,7 +35,6 @@ const meta: Meta<AvFileUploadProps> = {
     enableMultiple: { control: 'boolean' },
   },
   args: {
-    id: 'test',
     ariaLabel: '',
     accept: '',
     error: '',

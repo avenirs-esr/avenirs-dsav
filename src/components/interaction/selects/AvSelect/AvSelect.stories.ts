@@ -31,7 +31,6 @@ const meta = {
     required: { control: 'boolean' },
     disabled: { control: 'boolean' },
     dense: { control: 'boolean' },
-    selectId: { control: 'text' },
     name: { control: 'text' },
     hint: { control: 'text' },
     modelValue: { control: 'text' },
@@ -55,7 +54,6 @@ const meta = {
     placeholder: 'Placeholder',
     required: false,
     disabled: false,
-    selectId: 'selectId',
     name: 'select',
     hint: '',
     modelValue: '',
@@ -78,14 +76,12 @@ const Template: StoryFn<AvSelectProps> = args => ({
 
 export const Default = Template.bind({})
 Default.args = {
-  selectId: 'default-select',
   name: 'default-select',
   label: 'Select'
 }
 
 export const Dense = Template.bind({})
 Dense.args = {
-  selectId: 'dense-select',
   name: 'dense-select',
   dense: true,
   label: 'Dense Select',
@@ -93,7 +89,6 @@ Dense.args = {
 
 export const Disabled = Template.bind({})
 Disabled.args = {
-  selectId: 'disabled-select',
   name: 'disabled-select',
   disabled: true,
   label: 'Disabled Select',
@@ -101,7 +96,6 @@ Disabled.args = {
 
 export const Required = Template.bind({})
 Required.args = {
-  selectId: 'required-select',
   name: 'required-select',
   required: true,
   label: 'Required Select',
@@ -109,7 +103,6 @@ Required.args = {
 
 export const Hint = Template.bind({})
 Hint.args = {
-  selectId: 'hint-select',
   name: 'hint-select',
   hint: 'This is a hint message.',
   label: 'Hint Select',
@@ -117,7 +110,6 @@ Hint.args = {
 
 export const CustomPlaceholder = Template.bind({})
 CustomPlaceholder.args = {
-  selectId: 'custom-placeholder-select',
   name: 'custom-placeholder-select',
   placeholder: 'Please select an option',
   label: 'Custom placeholder Select',
@@ -125,7 +117,6 @@ CustomPlaceholder.args = {
 
 export const WithError = Template.bind({})
 WithError.args = {
-  selectId: 'with-error-select',
   name: 'with-error-select',
   errorMessage: 'This field is required.',
   label: 'With error Select',
@@ -133,7 +124,6 @@ WithError.args = {
 
 export const WithSuccess = Template.bind({})
 WithSuccess.args = {
-  selectId: 'with-success-select',
   name: 'with-success-select',
   successMessage: 'Selection successful!',
   label: 'With success Select',
