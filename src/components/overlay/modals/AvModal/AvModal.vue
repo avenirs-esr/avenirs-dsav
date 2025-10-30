@@ -212,6 +212,10 @@ onBeforeUnmount(() => {
   overflow: hidden;
 }
 
+.fr-modal__content {
+  padding: var(--spacing-sm) var(--spacing-lg) var(--spacing-none);
+}
+
 .fr-modal__body {
   border-radius: var(--radius-lg) !important;
 }
