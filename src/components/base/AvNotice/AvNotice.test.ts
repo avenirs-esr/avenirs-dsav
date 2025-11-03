@@ -21,7 +21,7 @@ BddTest().given('an AvNotice', () => {
     BddTest().and('type is warning', () => {
       BddTest().then('it should manage the type of notice', () => {
         wrapper = mount(AvNotice, { props: { ...props, type: 'warning' } })
-        expect(wrapper.find('.fr-notice--warning').exists()).toBe(true)
+        expect(wrapper.find('.av-notice--warning').exists()).toBe(true)
       })
     })
 

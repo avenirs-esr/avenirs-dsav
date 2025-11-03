@@ -15,7 +15,7 @@ BddTest().given('a navigation menu item', () => {
 
     BddTest().then('it should render a list item element', () => {
       expect(wrapper.element.tagName).toBe('LI')
-      expect(wrapper.classes()).toContain('fr-menu__item')
+      expect(wrapper.classes()).toContain('av-menu__item')
     })
 
     BddTest().then('it should contain the default slot content', () => {

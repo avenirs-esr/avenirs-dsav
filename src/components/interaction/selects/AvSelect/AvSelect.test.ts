@@ -93,7 +93,7 @@ BddTest().given('a select component', () => {
 
     BddTest().when('the component is mounted', () => {
       BddTest().then('it should have the dense class', () => {
-        expect(wrapper.find('.fr-select--dense').exists()).toBe(true)
+        expect(wrapper.find('.av-select--dense').exists()).toBe(true)
       })
     })
   })
@@ -105,7 +105,7 @@ BddTest().given('a select component', () => {
 
     BddTest().when('the component is mounted', () => {
       BddTest().then('it should not have the dense class', () => {
-        expect(wrapper.find('.fr-select--dense').exists()).toBe(false)
+        expect(wrapper.find('.av-select--dense').exists()).toBe(false)
       })
     })
   })
@@ -217,8 +217,8 @@ BddTest().given('a select component', () => {
 
     BddTest().when('the component is mounted', () => {
       BddTest().then('it should display the hint text', () => {
-        expect(wrapper.find('.fr-hint-text').exists()).toBe(true)
-        expect(wrapper.find('.fr-hint-text').text()).toBe(hintText)
+        expect(wrapper.find('.av-hint-text').exists()).toBe(true)
+        expect(wrapper.find('.av-hint-text').text()).toBe(hintText)
       })
     })
   })
@@ -231,8 +231,8 @@ BddTest().given('a select component', () => {
 
     BddTest().when('the component is mounted', () => {
       BddTest().then('it should display the success message', () => {
-        expect(wrapper.find('.fr-valid-text').exists()).toBe(true)
-        expect(wrapper.find('.fr-valid-text').text()).toBe(successMessage)
+        expect(wrapper.find('.av-message--success').exists()).toBe(true)
+        expect(wrapper.find('.av-message--success').text()).toBe(successMessage)
       })
     })
   })
@@ -245,8 +245,8 @@ BddTest().given('a select component', () => {
 
     BddTest().when('the component is mounted', () => {
       BddTest().then('it should display the error message', () => {
-        expect(wrapper.find('.fr-error-text').exists()).toBe(true)
-        expect(wrapper.find('.fr-error-text').text()).toBe(errorMessage)
+        expect(wrapper.find('.av-message--error').exists()).toBe(true)
+        expect(wrapper.find('.av-message--error').text()).toBe(errorMessage)
       })
     })
   })
@@ -260,12 +260,12 @@ BddTest().given('a select component', () => {
 
     BddTest().when('the component is mounted', () => {
       BddTest().then('it should display the error message', () => {
-        expect(wrapper.find('.fr-error-text').exists()).toBe(true)
-        expect(wrapper.find('.fr-error-text').text()).toBe(errorMessage)
+        expect(wrapper.find('.av-message--error').exists()).toBe(true)
+        expect(wrapper.find('.av-message--error').text()).toBe(errorMessage)
       })
 
       BddTest().then('it not should display the success message', () => {
-        expect(wrapper.find('.fr-valid-text').exists()).toBe(false)
+        expect(wrapper.find('.av-message--success').exists()).toBe(false)
       })
     })
   })

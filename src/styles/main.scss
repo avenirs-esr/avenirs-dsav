@@ -19,6 +19,10 @@
 @use './components/form' as *;
 @use './components/links' as *;
 @use './components/texts' as *;
+@use './components/selects' as *;
+@use './components/navigation' as *;
+@use './components/menu' as *;
+@use './components/footer' as *;
 
 // === Utilities ===
 @use './utilities/helpers' as *;
@@ -38,7 +42,7 @@ html,
 body,
 #app {
   height: 100%;
-  background-color: var(--global-background-color);
+  background-color: red;
 }
 
 // === Reset headers ===
@@ -49,7 +53,7 @@ h1, h2, h3, h4, h5, h6 {
 
 // === Box sizing ===
 *,
-:after,
-:before {
-  box-sizing:inherit
+::before,
+::after {
+  box-sizing: inherit;
 }

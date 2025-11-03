@@ -33,6 +33,7 @@
 
 ### Checkboxes
 - [AvCheckbox](interaction/checkboxes/AvCheckbox/AvCheckbox.md)
+- [AvCheckboxesGroup](interaction/checkboxes/AvCheckboxesGroup/AvCheckboxesGroup.md)
 
 ### Files
 - [AvFileUpload](interaction/files/AvFileUpload/AvFileUpload.md)

@@ -6,6 +6,19 @@ import AvMultiselect, { type AvMultiselectProps } from '@/components/interaction
 import { AvButtonStub } from '@/tests'
 import { BddTest } from '@/tests/utils'
 
+const doExpandSpy = vi.fn()
+const onTransitionEndSpy = vi.fn()
+
+vi.mock('@/composables/use-collapsable/use-collapsable', () => ({
+  useCollapsable: () => ({
+    collapse: ref(),
+    collapsing: ref(false),
+    cssExpanded: ref(false),
+    doExpand: doExpandSpy,
+    onTransitionEnd: onTransitionEndSpy,
+  }),
+}))
+
 interface VmType {
   handleKeyDownEscape: (e: KeyboardEvent) => void
 }
@@ -50,10 +63,10 @@ BddTest().given('an AvMultiselect component', () => {
 
     BddTest().when('the component is mounted', () => {
       BddTest().then('it should display the unselected state and placeholder text', async () => {
-        const button = wrapper.find('button.fr-multiselect')
+        const button = wrapper.find('button.av-multiselect')
         expect(button.exists()).toBe(true)
         expect(button.text()).toContain('Sélectionnez une option')
-        expect(wrapper.classes()).toContain('fr-multiselect--unselected')
+        expect(button.classes()).toContain('av-multiselect--unselected')
       })
 
       BddTest().then('it should render the button in medium size', () => {
@@ -86,7 +99,7 @@ BddTest().given('an AvMultiselect component', () => {
 
     BddTest().when('the user opens the multiselect', () => {
       beforeEach(async () => {
-        await wrapper.find('button.fr-multiselect').trigger('click')
+        await wrapper.find('button.av-multiselect').trigger('click')
         await nextTick()
       })
 
@@ -121,9 +134,9 @@ BddTest().given('an AvMultiselect component', () => {
     })
 
     BddTest().then('it should render in selected state with correct text', () => {
-      const button = wrapper.find('button.fr-multiselect')
+      const button = wrapper.find('button.av-multiselect')
       expect(button.text()).toContain('1 option sélectionnée')
-      expect(wrapper.classes()).toContain('fr-multiselect--selected')
+      expect(button.classes()).toContain('av-multiselect--selected')
     })
   })
 
@@ -135,7 +148,7 @@ BddTest().given('an AvMultiselect component', () => {
     })
 
     BddTest().then('it should render in selected state with plural text', () => {
-      const button = wrapper.find('button.fr-multiselect')
+      const button = wrapper.find('button.av-multiselect')
       expect(button.text()).toContain('2 options sélectionnées')
     })
   })
@@ -149,7 +162,7 @@ BddTest().given('an AvMultiselect component', () => {
     })
 
     BddTest().then('it should render in selected state with correct text', () => {
-      const button = wrapper.find('button.fr-multiselect')
+      const button = wrapper.find('button.av-multiselect')
       expect(button.text()).toContain('Vous avez fait un choix !')
     })
   })
@@ -170,7 +183,7 @@ BddTest().given('an AvMultiselect component', () => {
     })
 
     BddTest().then('it should render the hint', () => {
-      const hint = wrapper.find('.fr-hint-text')
+      const hint = wrapper.find('.av-hint-text')
       expect(hint.exists()).toBe(true)
       expect(hint.text()).toContain('This is the hint')
     })
@@ -192,12 +205,12 @@ BddTest().given('an AvMultiselect component', () => {
     })
 
     BddTest().then('it should display the error message and error class', () => {
-      const errorText = wrapper.find('.fr-error-text')
+      const errorText = wrapper.find('.av-message--error')
       expect(errorText.exists()).toBe(true)
       expect(errorText.text()).toBe('Erreur test')
 
-      const group = wrapper.find('.fr-select-group')
-      expect(group.classes()).toContain('fr-select-group--error')
+      const group = wrapper.find('.av-select-group')
+      expect(group.classes()).toContain('av-select-group--error')
     })
   })
 
@@ -207,7 +220,7 @@ BddTest().given('an AvMultiselect component', () => {
     })
 
     BddTest().then('it should display the success message', () => {
-      const successText = wrapper.find('.fr-valid-text')
+      const successText = wrapper.find('.av-message--success')
       expect(successText.exists()).toBe(true)
       expect(successText.text()).toBe('C’est bon !')
     })

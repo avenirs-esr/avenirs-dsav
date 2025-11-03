@@ -250,11 +250,11 @@ const uploadLabelAttrs = computed(() => {
     realId.value,
     'class':
     [
-      'fr-upload-group',
+      'av-upload-group',
       {
-        'fr-upload-group--error': error,
-        'fr-upload-group--valid': validMessage,
-        'fr-upload-group--disabled': disabled,
+        'av-upload-group--error': error,
+        'av-upload-group--valid': validMessage,
+        'av-upload-group--disabled': disabled,
         'drag-over': isDragging.value,
       },
     ],
@@ -337,7 +337,7 @@ function onClear (value: File | null) {
         <input
           v-if="!isPreview"
           :id="realId"
-          class="fr-upload"
+          class="av-upload"
           type="file"
           :aria-describedby="error || validMessage ? `${realId}-desc` : undefined"
           v-bind="$attrs"
@@ -366,7 +366,7 @@ function onClear (value: File | null) {
   gap: var(--spacing-xxs);
 }
 
-.fr-upload {
+.av-upload {
   position: absolute;
   width: 0;
   height: 0;
@@ -376,16 +376,25 @@ function onClear (value: File | null) {
   white-space: nowrap;
   border: 0;
   padding: 0;
-  margin: 0 !important;
+  margin: 0;
+
+  &::-webkit-file-upload-button {
+    -webkit-appearance:button;
+    -moz-appearance:button;
+    appearance:button;
+    cursor:pointer;
+    font:inherit;
+    margin-right: var(--spacing-sm);
+  }
 }
 
-.fr-upload-group {
+.av-upload-group {
   cursor: pointer;
   max-width: v-bind('maxWidth');
-}
 
-.fr-upload-group--disabled {
-  cursor: not-allowed;
+  &--disabled {
+    cursor: not-allowed;
+  }
 }
 
 .file-preview-container {

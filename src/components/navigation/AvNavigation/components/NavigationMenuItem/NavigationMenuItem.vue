@@ -35,7 +35,7 @@ const realId = computed(() => id ?? `nav-menu-item-${crypto.randomUUID()}`)
 <template>
   <li
     :id="realId"
-    class="fr-menu__item"
+    class="av-menu__item"
     :aria-current="active ? 'page' : undefined"
   >
     <slot />
@@ -43,7 +43,7 @@ const realId = computed(() => id ?? `nav-menu-item-${crypto.randomUUID()}`)
 </template>
 
 <style lang="scss" scoped>
-:deep(.fr-nav__link) {
+:deep(.av-nav__link) {
   &:hover {
     border-radius: var(--radius-none);
   }

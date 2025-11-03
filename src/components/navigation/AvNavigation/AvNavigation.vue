@@ -85,11 +85,11 @@ onUnmounted(() => {
   >
     <nav
       :id="realId"
-      class="fr-nav"
+      class="av-nav"
       role="navigation"
       :aria-label="label"
     >
-      <ul class="fr-nav__list">
+      <ul class="av-nav__list">
         <NavigationItem
           v-for="(navItem, index) of navItems"
           :key="index"
@@ -111,9 +111,3 @@ onUnmounted(() => {
     </nav>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.fr-nav__list {
-  position: relative;
-}
-</style>

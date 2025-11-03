@@ -6,7 +6,7 @@ $columns: 12;
 
 // === Containers ===
 // Default container
-// Ex: .av-container
+// Ex: .av-container, .av-container--fluid
 @include ns("container") {
   width: 100%;
   max-width: 90rem;
@@ -14,10 +14,17 @@ $columns: 12;
   margin-right: auto;
   padding-left: sp.get(sm);
   padding-right: sp.get(sm);
+
+  &--fluid {
+    max-width: none;
+    padding-left: var(--spacing-none);
+    padding-right: var(--spacing-none);
+    overflow: hidden;
+  }
 }
 
 // Breakpoint-specific containers
-// Ex: .av-container-md / .av-container-lg--fluid
+// Ex: .av-container-md / .av-container-lg
 @each $bp-name, $bp-value in bp.$breakpoints {
   @media (min-width: #{$bp-value}) {
     @include ns("container-#{$bp-name}") {
@@ -32,14 +39,6 @@ $columns: 12;
         padding-left: sp.get(sm);
         padding-right: sp.get(sm);
       }
-    }
-
-    @include ns("container-#{$bp-name}--fluid") {
-      width: 100%;
-      max-width: none;
-      padding-left: 0;
-      padding-right: 0;
-      overflow: hidden;
     }
   }
 }

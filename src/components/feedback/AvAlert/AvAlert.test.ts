@@ -13,9 +13,9 @@ BddTest().given('an AvAlert', () => {
       template: '<button class="av-button" @click="onClick"><slot /></button>',
       props: ['onClick']
     },
-    AvICon: {
+    AvIcon: {
       name: 'AvIcon',
-      template: '<div class="av-vicon" />',
+      template: '<div class="av-icon" />',
       props: ['name', 'color', 'size']
     }
   }
@@ -91,8 +91,8 @@ BddTest().given('an AvAlert', () => {
         })
       })
 
-      BddTest().then('it should not render title component', () => {
-        expect(wrapper.find('.fr-alert__title').exists()).toBe(false)
+      BddTest().then('it should not render the title', () => {
+        expect(wrapper.find('.s2-bold').exists()).toBe(false)
       })
     })
 
@@ -182,7 +182,7 @@ BddTest().given('an AvAlert', () => {
       })
 
       BddTest().then('it should render alert role', async () => {
-        const alert = wrapper.findComponent('.fr-alert')
+        const alert = wrapper.findComponent('.av-alert')
         expect(alert.attributes('role')).toBe('alert')
       })
     })
@@ -196,7 +196,7 @@ BddTest().given('an AvAlert', () => {
       })
 
       BddTest().then('it should not render alert role', async () => {
-        const alert = wrapper.findComponent('.fr-alert')
+        const alert = wrapper.findComponent('.av-alert')
         expect(alert.attributes('role')).toBeUndefined()
       })
     })

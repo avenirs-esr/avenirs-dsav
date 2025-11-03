@@ -6,7 +6,7 @@ The `AvBadge` is ideal for displaying short, important information, such as cate
 
 ## 🏗️ Structure
 
-- The component is a `p` element with the `fr-badge` class.
+- The component is a `p` element with the `av-badge` class.
 - Props allow you to modify the badge appearance according to the props: color, icon presence, size, and handling of overly long text.
 - The `label` is displayed inside a `span`, potentially with the `ellipsis` prop and a defined or maximum size to handle truncated text.
 
@@ -18,9 +18,7 @@ The `AvBadge` is ideal for displaying short, important information, such as cate
 | `backgroundColor` | `string` | | ✅ | The background color of the badge. |
 | `borderColor` | `string` | | | The color of the badge border. |
 | `iconDataUrl` | `string` | | | The base64 icon to be displayed. You can use the ICONS_DATA_URL constant from DSAV. |
-| `type` | `'success' \| 'warning' \| 'error' \| 'info'` | 'info' | | Sets the badge type. |
 | `label` | `string` | | ✅ | The text to display in the badge. |
-| `noIcon` | `boolean` | `false` | | If `true`, the badge is displayed without an icon. |
 | `small` | `boolean` | `false` | | If `true`, displays a reduced-size badge. |
 | `ellipsis` | `boolean` | `false` | | If `true`, the text is truncated with an ellipsis if it is too long. |
 

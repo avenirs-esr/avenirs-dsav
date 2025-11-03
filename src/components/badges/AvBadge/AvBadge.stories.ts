@@ -20,7 +20,7 @@ const iconMapping = ICONS_DATA_URL
  *
  * <ul>
  *   <li>
- *     <span class="b2-regular">The component is a <code>p</code> element with the <code>fr-badge</code> class.</span>
+ *     <span class="b2-regular">The component is a <code>p</code> element with the <code>av-badge</code> class.</span>
  *   </li>
  *   <li>
  *     <span class="b2-regular">Props allow you to modify the badge appearance according to the props: color, icon presence, size, and handling of overly long text.</span>
@@ -50,11 +50,6 @@ const meta: Meta<AvBadgeProps> = {
         ...iconMapping,
       },
     },
-    type: {
-      control: 'select',
-      options: ['success', 'error', 'new', 'info', 'warning'],
-    },
-    noIcon: { control: 'boolean' },
     small: { control: 'boolean' },
     ellipsis: { control: 'boolean' },
   },
@@ -64,8 +59,6 @@ const meta: Meta<AvBadgeProps> = {
     backgroundColor: 'var(--light-background-primary2)',
     borderColor: '',
     iconDataUrl: iconOptions[0],
-    type: 'info',
-    noIcon: false,
     small: false,
     ellipsis: false,
   },
@@ -100,7 +93,7 @@ Default.args = {}
 
 export const WithoutIcon = Template.bind({})
 WithoutIcon.args = {
-  noIcon: true,
+  iconDataUrl: undefined,
 }
 
 export const SmallEllipsis = TemplateWithWidth.bind({})

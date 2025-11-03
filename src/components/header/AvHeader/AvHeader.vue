@@ -6,6 +6,7 @@ import AvHeaderMenuLinks, { type AvHeaderMenuLinksProps } from '@/components/hea
 import AvLogo from '@/components/header/AvLogo.vue'
 import AvLanguageSelector, { type AvLanguageSelectorElement, type AvLanguageSelectorProps } from '@/components/interaction/buttons/AvLanguageSelector/AvLanguageSelector.vue'
 import AvSearchBar from '@/components/interaction/inputs/AvSearchBar/AvSearchBar.vue'
+import { MDI_ICONS } from '@/tokens'
 
 /**
  * AvHeader component props.
@@ -222,14 +223,14 @@ provide(registerNavigationLinkKey, () => hideModal)
 <template>
   <header
     role="banner"
-    class="fr-header"
+    class="av-header"
   >
-    <div class="fr-header__body">
+    <div class="av-header__body">
       <div class="av-container  width-inherit">
-        <div class="fr-header__body-row">
-          <div class="fr-header__brand">
-            <div class="fr-header__brand-top">
-              <div class="fr-header__logo av-enlarge-link">
+        <div class="av-header__body-row">
+          <div class="av-header__brand">
+            <div class="av-header__brand-top">
+              <div class="av-header__logo av-enlarge-link">
                 <RouterLink
                   :to="homeTo"
                   :title
@@ -241,46 +242,52 @@ provide(registerNavigationLinkKey, () => hideModal)
               </div>
               <div
                 v-if="showSearch || isWithSlotNav || quickLinks?.length"
-                class="fr-header__navbar"
+                class="av-header__navbar"
               >
-                <button
+                <AvButton
                   v-if="showSearch"
-                  class="fr-btn  fr-btn--search"
+                  class="search-button"
+                  :label="showSearchLabel"
                   aria-controls="header-search"
                   :aria-label="showSearchLabel"
                   :title="showSearchLabel"
                   :data-fr-opened="searchModalOpened"
+                  :icon="MDI_ICONS.MAGNIFY"
+                  icon-only
                   @click.prevent.stop="showSearchModal()"
                 />
-                <button
+                <AvButton
                   v-if="isWithSlotNav || quickLinks?.length"
                   id="button-menu"
-                  class="fr-btn--menu  fr-btn"
+                  variant="OUTLINED"
                   :data-fr-opened="showMenu"
+                  :icon="MDI_ICONS.HAMBURGER_MENU"
                   aria-controls="header-navigation"
                   aria-haspopup="dialog"
+                  :label="menuLabel"
                   :aria-label="menuLabel"
                   :title="menuLabel"
                   data-testid="open-menu-btn"
+                  icon-only
                   @click.prevent.stop="showMenu()"
                 />
               </div>
             </div>
             <div
               v-if="serviceTitle"
-              class="fr-header__service"
+              class="av-header__service"
             >
-              <p class="fr-header__service-title">
+              <span class="n6">
                 {{ serviceTitle }}
-              </p>
+              </span>
               <slot name="serviceDescription" />
             </div>
           </div>
-          <div class="fr-header__tools">
-            <div class="fr-header__tools-links">
+          <div class="av-header__tools av-hidden av-unhidden-lg">
+            <div class="av-header__tools-links">
               <slot name="before-quick-links" />
               <AvHeaderMenuLinks
-                v-if="!menuOpened"
+                v-if="!menuOpened && quickLinks?.length"
                 :links="quickLinks"
                 :nav-aria-label="quickLinksAriaLabel"
               />
@@ -294,7 +301,7 @@ provide(registerNavigationLinkKey, () => hideModal)
             </div>
             <div
               v-if="showSearch"
-              class="fr-header__search  fr-modal demo-display-none"
+              class="av-header__search demo-display-none"
             >
               <AvSearchBar
                 :id="searchbarId"
@@ -308,67 +315,10 @@ provide(registerNavigationLinkKey, () => hideModal)
             </div>
           </div>
         </div>
-        <div
-          v-if="showSearch || isWithSlotNav || (quickLinks && quickLinks.length) || languageSelectorRef"
-          id="header-navigation"
-          class="fr-header__menu  fr-modal"
-          :class="{ 'fr-modal--opened': modalOpened }"
-          :aria-label="menuModalLabel"
-          role="dialog"
-          aria-modal="true"
-        >
-          <div class="av-container">
-            <button
-              id="close-button"
-              class="fr-btn fr-btn--close"
-              aria-controls="header-navigation"
-              data-testid="close-modal-btn"
-              @click.prevent.stop="hideModal()"
-            >
-              {{ closeMenuModalLabel }}
-            </button>
-            <div class="fr-header__menu-links">
-              <template v-if="languageSelectorRef">
-                <AvLanguageSelector
-                  v-bind="languageSelectorRef"
-                  @select="languageSelectorRef.currentLanguage = $event.codeIso"
-                />
-              </template>
-              <slot name="before-quick-links" />
-              <AvHeaderMenuLinks
-                v-if="menuOpened"
-                role="navigation"
-                :links="quickLinks"
-                :nav-aria-label="quickLinksAriaLabel"
-                @link-click="onQuickLinkClick"
-              />
-              <slot name="after-quick-links" />
-            </div>
-
-            <template v-if="modalOpened">
-              <slot
-                name="mainnav"
-                :hidemodal="hideModal"
-              />
-            </template>
-            <div
-              v-if="searchModalOpened"
-              class="flex justify-center items-center demo-display-none"
-            >
-              <AvSearchBar
-                :searchbar-id="searchbarId"
-                :model-value="modelValue"
-                :placeholder="placeholder"
-                @update:model-value="emit('update:modelValue', $event)"
-                @search="emit('search', $event)"
-              />
-            </div>
-          </div>
-        </div>
         <slot />
       </div>
     </div>
-    <div class="fr-header__menu fr-modal">
+    <div class="av-header__menu av-hidden av-unhidden-lg">
       <div
         v-if="isWithSlotNav && !modalOpened"
         class="av-container"
@@ -379,13 +329,217 @@ provide(registerNavigationLinkKey, () => hideModal)
         />
       </div>
     </div>
+
+    <AvModal
+      v-if="showSearch || isWithSlotNav || (quickLinks && quickLinks.length) || languageSelectorRef"
+      id="header-navigation"
+      :opened="modalOpened"
+      :close-button-label="closeMenuModalLabel"
+      :close-button-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
+      :aria-label="menuModalLabel"
+      role="dialog"
+      aria-modal="true"
+      :style="{
+        '--av-modal-bg': 'red',
+      }"
+      @close="hideModal"
+    >
+      <div class="av-header__menu-modal">
+        <div class="av-header__menu-modal-links">
+          <template v-if="languageSelectorRef">
+            <AvLanguageSelector
+              v-bind="languageSelectorRef"
+              @select="languageSelectorRef.currentLanguage = $event.codeIso"
+            />
+          </template>
+          <slot name="before-quick-links" />
+          <AvHeaderMenuLinks
+            v-if="menuOpened"
+            role="navigation"
+            :links="quickLinks"
+            :nav-aria-label="quickLinksAriaLabel"
+            @link-click="onQuickLinkClick"
+          />
+          <slot name="after-quick-links" />
+        </div>
+
+        <template v-if="modalOpened">
+          <slot
+            name="mainnav"
+            :hidemodal="hideModal"
+          />
+        </template>
+        <div
+          v-if="searchModalOpened"
+          class="flex justify-center items-center demo-display-none"
+        >
+          <AvSearchBar
+            :searchbar-id="searchbarId"
+            :model-value="modelValue"
+            :placeholder="placeholder"
+            @update:model-value="emit('update:modelValue', $event)"
+            @search="emit('search', $event)"
+          />
+        </div>
+      </div>
+    </AvModal>
   </header>
 </template>
 
 <style lang="scss" scoped>
-.fr-header__service {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xxs);
+@use '@/styles/settings/breakpoints' as *;
+
+.av-header {
+  position: relative;
+  width: 100%;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
+
+  &__brand,
+  &__body-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  &__brand {
+    background-color:var(--other-background-base);
+    flex-wrap: wrap;
+    padding-left: var(--spacing-xxs);
+    padding-right: var(--spacing-xxs);
+    width: 100%;
+    z-index: 750;
+
+    &-top {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      width: 100%;
+      overflow: hidden;
+      border-bottom: 1px solid var(--stroke);
+    }
+
+    .av-enlarge-link a[href]::before {
+      outline-offset: calc(-1 * var(--dimension-xxxs));
+    }
+  }
+
+  &__logo {
+    flex: 0 0 auto;
+    order: 1;
+    padding: calc(var(--spacing-md) / 2);
+  }
+
+  &__service {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xxs);
+
+    margin-left: calc(var(--spacing-md) / 2);
+    margin-right: calc(var(--spacing-md) / 2);
+    padding-bottom: calc(var(--spacing-md) / 2);
+    padding-top: calc(var(--spacing-md) / 2);
+  }
+
+  &__navbar {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    align-items: flex-start;
+    align-self: stretch;
+    justify-content: flex-end;
+    margin-top: var(--spacing-xxs);
+    order: 3;
+    padding: var(--spacing-xxs);
+    z-index: 1000;
+  }
+
+  &__tools {
+    &-links {
+      display: none;
+    }
+  }
+
+  &__menu {
+    margin-top: var(--spacing-sm);
+    padding-top: var(--spacing-xs);
+    box-shadow:inset 0 1px 0 0 var(--stroke);
+
+    &-links {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-md);
+    }
+  }
+
+  &__menu-modal {
+    &-links {
+      display: flex;
+      flex-direction: column;
+      border-bottom: 1px solid var(--stroke);
+      margin-bottom: var(--spacing-xs);
+    }
+  }
+
+  li::marker {
+    content: none;
+  }
+
+  @include min-width(lg) {
+    &__brand {
+      background: transparent;
+      filter: none;
+      flex-wrap: nowrap;
+      margin-bottom: -1rem;
+      margin-top: -1rem;
+      padding-left: 0;
+      padding-right: 0;
+      width: auto;
+      z-index: auto;
+
+      &-top {
+        width: auto;
+        border-bottom: none;
+      }
+    }
+
+    &__tools {
+      align-items:flex-end;
+      flex:1 0 auto;
+      flex-direction:column;
+      margin-left:auto;
+      padding-left:1rem;
+      padding-right:1rem;
+      text-align:right;
+
+      &-links {
+        display:flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        gap: var(--spacing-xs);
+      }
+    }
+
+    &__navbar {
+      display: none;
+    }
+
+    &__search {
+      margin-left: auto;
+      max-width: 24rem;
+    }
+
+    .search-button {
+      display: none;
+    }
+  }
+}
+
+:deep() {
+  li::marker {
+    content: none;
+  }
 }
 </style>

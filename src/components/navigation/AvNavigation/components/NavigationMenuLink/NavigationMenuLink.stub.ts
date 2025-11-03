@@ -9,5 +9,5 @@ export const NavigationMenuLinkStub = defineComponent({
     onClick: { type: Function, required: false },
   },
   emits: ['toggleId'],
-  template: `<a class="fr-nav__link" :href="to" @click.prevent="$emit('toggleId', id); onClick && onClick($event)"><slot /></a>`,
+  template: `<a class="av-nav__link" :href="to" @click.prevent="$emit('toggleId', id); onClick && onClick($event)"><slot /></a>`,
 })

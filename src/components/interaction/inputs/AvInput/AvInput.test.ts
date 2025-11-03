@@ -92,7 +92,7 @@ BddTest().given('an AvInput', () => {
 
     BddTest().when('the component is mounted', () => {
       BddTest().then('it should render the hint text', () => {
-        const hint = wrapper.find('.fr-hint-text')
+        const hint = wrapper.find('.av-hint-text')
         expect(hint.exists()).toBe(true)
         expect(hint.text()).toBe('Test hint')
       })
@@ -239,13 +239,13 @@ BddTest().given('an AvInput', () => {
 
     BddTest().when('the component is mounted', () => {
       BddTest().then('it should render the error message', () => {
-        const error = wrapper.find('.av-input__error')
+        const error = wrapper.find('.av-message--error')
         expect(error.exists()).toBe(true)
         expect(error.text()).toBe('Test error message')
       })
 
       BddTest().then('it should set role="alert" on error container', () => {
-        const error = wrapper.find('.av-input__error')
+        const error = wrapper.find('.av-message--error')
         expect(error.attributes('role')).toBe('alert')
       })
     })
@@ -265,7 +265,7 @@ BddTest().given('an AvInput', () => {
 
     BddTest().when('the component is mounted', () => {
       BddTest().then('it should render all error messages', () => {
-        const errorElements = wrapper.findAll('.av-input__error-message')
+        const errorElements = wrapper.findAll('.av-message--error')
         expect(errorElements).toHaveLength(3)
         expect(errorElements[0].text()).toBe('Error 1')
         expect(errorElements[1].text()).toBe('Error 2')
@@ -287,7 +287,7 @@ BddTest().given('an AvInput', () => {
 
     BddTest().when('the component is mounted', () => {
       BddTest().then('it should render the valid message', () => {
-        const valid = wrapper.find('.av-input__valid')
+        const valid = wrapper.find('.av-message--success')
         expect(valid.exists()).toBe(true)
         expect(valid.text()).toBe('Test valid message')
       })
@@ -308,7 +308,7 @@ BddTest().given('an AvInput', () => {
 
     BddTest().when('the component is mounted', () => {
       BddTest().then('it should render all valid messages', () => {
-        const validElements = wrapper.findAll('.av-input__valid-message')
+        const validElements = wrapper.findAll('.av-message--success')
         expect(validElements).toHaveLength(2)
         expect(validElements[0].text()).toBe('Valid 1')
         expect(validElements[1].text()).toBe('Valid 2')
@@ -372,7 +372,7 @@ BddTest().given('an AvInput', () => {
     BddTest().when('the component is mounted', () => {
       BddTest().then('it should render both prefix icon and error message', () => {
         const prefixIcon = wrapper.find('.av-input__prefix')
-        const errorMessage = wrapper.find('.av-input__error-message')
+        const errorMessage = wrapper.find('.av-message--error')
 
         expect(prefixIcon.exists()).toBe(true)
         expect(errorMessage.exists()).toBe(true)

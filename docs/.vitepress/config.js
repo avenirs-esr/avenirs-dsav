@@ -75,6 +75,7 @@ export default defineConfig({
               text: 'Checkboxes',
               items: [
                 { text: 'AvCheckbox', link: '/components/interaction/checkboxes/AvCheckbox/AvCheckbox.md' },
+                { text: 'AvCheckboxesGroup', link: '/components/interaction/checkboxes/AvCheckboxesGroup/AvCheckboxesGroup.md' },
               ]
             },
             {

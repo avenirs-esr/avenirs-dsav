@@ -96,3 +96,10 @@ AlertNotice.args = {
   text: '**Immediate action** is required.',
   type: 'alert',
 }
+
+export const WithoutTitle = Template.bind({})
+WithoutTitle.args = {
+  title: undefined,
+  text: 'This is an informative message **without title** and you must pay attention to it.',
+  type: 'info',
+}

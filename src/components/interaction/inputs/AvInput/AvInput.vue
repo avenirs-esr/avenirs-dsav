@@ -218,7 +218,7 @@ const focus = () => __input.value?.focus()
 
 const isComponent = computed(() => isTextarea ? 'textarea' : 'input')
 const finalLabelClass = computed(() => [
-  'fr-label',
+  'av-label',
   { invisible: !labelVisible },
 ])
 
@@ -261,42 +261,35 @@ defineExpose({
           </slot>
           <span
             v-if="hint"
-            class="fr-hint-text"
+            class="av-hint-text"
           >
             {{ hint }}
           </span>
         </span>
       </label>
 
-      <div
-        class="av-input__wrapper"
-        :class="[
-          { 'fr-input-wrap': type === 'date' },
-        ]"
-      >
-        <component
-          :is="isComponent"
-          :id="realId"
-          ref="__input"
-          :placeholder="placeholder"
-          :type="type"
-          :disabled="disabled"
-          :maxlength="maxlength"
-          :minlength="minlength"
-          :required="required"
-          v-bind="$attrs"
-          :max="max"
-          :min="min"
-          class="fr-input"
-          :class="{
-            'fr-input--error': isInvalid,
-            'fr-input--valid': isValid,
-          }"
-          :value="modelValue"
-          :aria-describedby="descriptionId || undefined"
-          @input="emit('update:modelValue', $event.target.value)"
-        />
-      </div>
+      <component
+        :is="isComponent"
+        :id="realId"
+        ref="__input"
+        :placeholder="placeholder"
+        :type="type"
+        :disabled="disabled"
+        :maxlength="maxlength"
+        :minlength="minlength"
+        :required="required"
+        v-bind="$attrs"
+        :max="max"
+        :min="min"
+        class="av-input__input"
+        :class="{
+          'av-input__input--error': isInvalid,
+          'av-input__input--valid': isValid,
+        }"
+        :value="modelValue"
+        :aria-describedby="descriptionId || undefined"
+        @input="emit('update:modelValue', $event.target.value)"
+      />
       <slot
         name="customCaptions"
         :current-value="modelValue"
@@ -313,29 +306,19 @@ defineExpose({
 
     <div
       v-if="errorMessages.length > 0"
-      class="av-input__error"
       role="alert"
     >
-      <div
-        v-for="(message, index) in errorMessages"
-        :key="index"
-        class="av-input__error-message"
-      >
-        {{ message }}
-      </div>
+      <AvMessage
+        :message="errorMessages"
+        type="error"
+      />
     </div>
 
-    <div
-      v-if="validMessages.length > 0"
-      class="av-input__valid"
-    >
-      <div
-        v-for="(message, index) in validMessages"
-        :key="index"
-        class="av-input__valid-message"
-      >
-        {{ message }}
-      </div>
+    <div v-if="validMessages.length > 0">
+      <AvMessage
+        :message="validMessages"
+        type="success"
+      />
     </div>
   </div>
 </template>
@@ -343,9 +326,113 @@ defineExpose({
 <style lang="scss" scoped>
 @use '@/styles/core/_typography.scss';
 
-.av-input__wrapper{
-  margin-top: 0 !important;
-  position: relative;
+.av-input {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xxs);
+  width: v-bind('width');
+
+  &__wrapper {
+    position: relative;
+
+    &:focus-within {
+      .av-input__prefix {
+        color: var(--dark-background-primary1);
+      }
+    }
+  }
+
+  &__prefix {
+    position: absolute;
+    left: var(--spacing-xs);
+    top: 55%;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+    color: var(--text2);
+    transition: color 0.2s ease;
+
+    svg {
+      color: inherit;
+    }
+  }
+
+  &__input {
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--divider);
+    background-color: var(--other-background-base);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    width: 100%;
+
+    &--error {
+      border-color: var(--dark-background-error);
+
+      &:hover {
+        border-color: var(--light-foreground-error) !important;
+      }
+    }
+
+    &:focus {
+      outline-offset: -1px;
+    }
+
+    &:hover {
+      &:not(:disabled) {
+        border-color: var(--dark-background-primary1);
+      }
+    }
+
+    &:disabled {
+      background-color: var(--surface-background);
+      color: var(--text2);
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    &::placeholder {
+      @extend .b2-light;
+
+      font-style: italic;
+    }
+  }
+
+  input {
+    @extend .b2-light;
+
+    &[type="date"]::-webkit-calendar-picker-indicator {
+      opacity: 0;
+      cursor: pointer;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      margin-left: -2rem;
+    }
+  }
+
+  textarea {
+    @extend .b2-light;
+
+    min-height: var(--dimension-5xl);
+    resize: vertical;
+    align-items: flex-start;
+    padding-top: var(--spacing-xs);
+    height: auto;
+    cursor: text;
+  }
+
+  &:has(.av-input__prefix) &__input {
+    padding-left: calc(var(--spacing-xs) * 3 + var(--spacing-sm));
+  }
+
+  &--no-radius {
+    .av-input__input {
+      border-radius: var(--radius-none);
+    }
+  }
 }
 
 .invisible {
@@ -358,135 +445,5 @@ defineExpose({
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
-}
-
-.av-input {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xxs);
-  width: v-bind('width');
-}
-
-input[type="date"]::-webkit-calendar-picker-indicator {
-  opacity: 0;
-  cursor: pointer;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  margin-left: -2rem;
-}
-
-.av-input__prefix {
-  position: absolute;
-  left: var(--spacing-xs);
-  top: 55%;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  pointer-events: none;
-  color: var(--text2);
-  transition: color 0.2s ease;
-}
-
-.av-input__wrapper:focus-within .av-input__prefix {
-  color: var(--dark-background-primary1);
-}
-
-.av-input__prefix svg {
-  color: inherit;
-}
-
-.av-input input,
-.av-input textarea {
-  display: flex;
-  align-items: center;
-  align-self: stretch;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--divider);
-  background-color: var(--other-background-base);
-  box-shadow: none;
-}
-
-.av-input--no-radius input,
-.av-input--no-radius textarea {
-  border-radius: var(--radius-none);
-}
-
-.av-input .fr-input--error {
-  border-color: var(--dark-background-error);
-}
-
-.av-input .fr-input--error:hover {
-  border-color: var(--light-foreground-error) !important;
-}
-
-.av-input:has(.av-input__prefix) input,
-.av-input:has(.av-input__prefix) textarea {
-  padding-left: calc(var(--spacing-xs) * 3 + 1rem);
-}
-
-.av-input input:focus,
-.av-input textarea:focus {
-  outline: none;
-  border-color: var(--dark-background-primary1);
-}
-
-.av-input input:hover:not(:disabled),
-.av-input textarea:hover:not(:disabled) {
-  border-color: var(--dark-background-primary1);
-}
-
-.av-input input {
-  @extend .caption-regular;
-}
-
-.av-input textarea {
-  @extend .b2-light;
-}
-
-.av-input input:disabled,
-.av-input textarea:disabled {
-  background-color: var(--surface-background);
-  color: var(--text2);
-  cursor: not-allowed;
-  opacity: 0.7;
-}
-
-.av-input input::placeholder,
-.av-input textarea::placeholder {
-  color: var(--text2);
-}
-
-.av-input label {
-  color: var(--text1);
-  padding-bottom: var(--spacing-xxs);
-}
-
-.av-input textarea {
-  min-height: 6rem;
-  resize: vertical;
-  align-items: flex-start;
-  padding-top: var(--spacing-xs);
-  height: auto;
-}
-
-.av-input__error-message {
-  font-size: var( --font-size-xs);
-  color: var(--dark-background-error);
-  margin-bottom: var(--spacing-xs);
-}
-
-.av-input__error-message:last-child {
-  margin-bottom: 0;
-}
-
-.av-input__valid-message {
-  font-size: var( --font-size-xs);
-  color: var(--dark-background-success);
-  margin-bottom: var(--spacing-xs);
-}
-
-.av-input__valid-message:last-child {
-  margin-bottom: 0;
 }
 </style>

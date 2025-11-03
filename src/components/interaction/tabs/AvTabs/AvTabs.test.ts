@@ -295,7 +295,7 @@ BddTest().given('a tab switcher ', () => {
 
     BddTest().when('the tab switcher is mounted', () => {
       BddTest().then('it should not render any tab', () => {
-        const tabs = wrapper.findAll('.fr-tabs__tab')
+        const tabs = wrapper.findAll('.av-tab-item')
         expect(tabs.length).toBe(0)
       })
     })

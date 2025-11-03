@@ -15,8 +15,8 @@ The alert is available in two sizes:
 
 The alert consists of the following elements:
 - a title (prop `title`, of type `string`):
-  - mandatory on the MD version (if the `small` prop is absent or set to `false`),
-  - optional on the SM version (if the `small` prop is set to `true`).
+  - optional on the MD version (if the `small` prop is absent or set to `false`),
+  - hidden on the SM version (if the `small` prop is set to `true`).
 - an icon and a color determined by the `type` prop, which can be one of the following strings:
   - `info` (default value if the `type` prop is absent)
   - `success`
@@ -30,7 +30,6 @@ The alert consists of the following elements:
 
 Other props:
 - `closed` is used to indicate whether the alert should be present (`false`) or not (`true`) in the DOM.
-- `titleTag` specifies the tag to use for the `title`: this is `h3` by default, however, to pass RGAA tests, the heading levels must be consecutive and consistent (for example, if there is no `<h2>` on the page, you must pass `'h2'` as the value to the `titleTag` prop so that the modal title is `<h2>`).
 - `closeButtonLabel` specifies the label and aria-label of the alert close button. By default, the value is `Close`.
 
 ## 🏷️ Props
@@ -41,7 +40,6 @@ Other props:
 | `type` | `'info' \| 'success' \| 'warning' \| 'error'` | `'info'` | | The alert type influences its color and associated icon. |
 | `title` | `string` | `''` | | The alert title. |
 | `description` | `string` | `undefined` | | The alert description text. |
-| `titleTag` | `'h1' \| 'h2' \| 'h3' \| 'h4' \| 'h5' \| 'h6'` | `'h3'` | | The tag to use for the alert title. |
 | `small` | `boolean` | `false` | | Indicates whether the alert should be MD (`false`) or SM (`true`) in version. |
 | `closed` | `boolean` | `false` | | Indicates whether the alert should be present (`false`) or not (`true`) in the DOM. |
 | `closeable` | `boolean` | `false` | | Indicates whether the close button should be present (`true`) or not (`false`) in the alert. |

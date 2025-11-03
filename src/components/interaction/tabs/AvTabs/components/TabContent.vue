@@ -46,9 +46,9 @@ const { translateValueFrom, translateValueTo } = useTabTransition(toRef(props, '
     <div
       v-show="isVisible"
       :id="panelId"
-      class="av-tab-content fr-tabs__panel"
+      class="av-tab-content"
       :class="{
-        'fr-tabs__panel--selected': isVisible,
+        'av-tab-content--selected': isVisible,
       }"
       role="tabpanel"
       :aria-labelledby="tabId"

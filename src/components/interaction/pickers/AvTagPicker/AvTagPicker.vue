@@ -175,8 +175,8 @@ watch(() => props.selected, (newSelected) => {
     >
       <AvTag
         :class="{
-          'fr-tag--selected': isOptionSelected(option),
-          'fr-tag--disabled': getDisabled(option),
+          'av-tag--selected': isOptionSelected(option),
+          'av-tag--disabled': getDisabled(option),
         }"
         :label="option.label"
         :icon="getIcon(option)"
@@ -209,7 +209,7 @@ watch(() => props.selected, (newSelected) => {
   display: flex;
 }
 
-.fr-tag {
+.av-tag {
   border: 1px solid var(--divider);
   border-radius: var(--radius-md);
   color: var(--text2) !important;
@@ -221,34 +221,34 @@ watch(() => props.selected, (newSelected) => {
   flex: 1 !important;
   justify-content: center !important;
   text-align: center !important;
-}
 
-.fr-tag:hover {
-  border: 1px solid var(--dark-background-primary1);
-  color: var(--other-background-base) !important;
-  background: var(--dark-background-primary1) !important;
-}
+  &:hover {
+    border: 1px solid var(--dark-background-primary1);
+    color: var(--other-background-base) !important;
+    background: var(--dark-background-primary1) !important;
+  }
 
-.fr-tag--selected {
-  border: 1px solid var(--dark-background-primary1);
-  color: var(--dark-background-primary1) !important;
-  background: var(--other-background-base) !important;
-}
+  &--selected {
+    border: 1px solid var(--dark-background-primary1);
+    color: var(--dark-background-primary1) !important;
+    background: var(--other-background-base) !important;
 
-.fr-tag--selected:hover {
-  border: 1px solid var(--dark-background-primary1);
-  color: var(--dark-background-primary1) !important;
-  background: var(--other-background-base) !important;
-}
+    &:hover {
+      border: 1px solid var(--dark-background-primary1);
+      color: var(--dark-background-primary1) !important;
+      background: var(--other-background-base) !important;
+    }
 
-.fr-tag--selected::after {
-  content: '';
-  mask: none !important;
-  background: none !important;
-}
+    &:after,
+    &:before {
+      content: '';
+      mask: none !important;
+      background: none !important;
+    }
+  }
 
-.fr-tag--disabled {
-  cursor: pointer;
-  pointer-events: none;
+  &--disabled {
+    pointer-events: none;
+  }
 }
 </style>

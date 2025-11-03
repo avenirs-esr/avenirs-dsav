@@ -26,13 +26,7 @@ BddTest().given('an AvButton', () => {
       BddTest().then('it should render the button default classes', () => {
         const button = wrapper.find('button')
         expect(button.classes()).toContain('av-button')
-        expect(button.classes()).toContain('fr-btn')
-        expect(button.classes()).toContain('inline-flex')
-        expect(button.classes()).not.toContain('fr-btn--tertiary')
-        expect(button.classes()).toContain('fr-btn--tertiary-no-outline')
-        expect(button.classes()).not.toContain('fr-btn--sm')
-        expect(button.classes()).toContain('fr-btn--md')
-        expect(button.classes()).not.toContain('fr-btn--lg')
+        expect(button.classes()).not.toContain('av-button--sm')
         expect(button.classes()).not.toContain('reverse')
         expect(button.classes()).not.toContain('justify-center')
         expect(button.classes()).not.toContain('av-button--no-radius')
@@ -58,7 +52,7 @@ BddTest().given('an AvButton', () => {
     const props: AvButtonProps = {
       label: 'Click me',
       variant: 'OUTLINED',
-      size: 'lg',
+      small: true,
       icon: { name: 'test-icon' },
       disabled: true,
     }
@@ -70,13 +64,7 @@ BddTest().given('an AvButton', () => {
     BddTest().then('it should render the button default classes', () => {
       const button = wrapper.find('button')
       expect(button.classes()).toContain('av-button')
-      expect(button.classes()).toContain('fr-btn')
-      expect(button.classes()).toContain('inline-flex')
-      expect(button.classes()).toContain('fr-btn--tertiary')
-      expect(button.classes()).not.toContain('fr-btn--tertiary-no-outline')
-      expect(button.classes()).not.toContain('fr-btn--sm')
-      expect(button.classes()).not.toContain('fr-btn--md')
-      expect(button.classes()).toContain('fr-btn--lg')
+      expect(button.classes()).toContain('av-button--sm')
       expect(button.classes()).not.toContain('reverse')
       expect(button.classes()).not.toContain('justify-center')
       expect(button.classes()).not.toContain('av-button--no-radius')
@@ -145,7 +133,7 @@ BddTest().given('an AvButton', () => {
     })
 
     BddTest().then('it should add a specific style', () => {
-      expect(wrapper.attributes('style')).toContain('padding-inline: 0.5rem;')
+      expect(wrapper.attributes('style')).toContain('padding-inline: var(--spacing-xs);')
     })
   })
 
@@ -185,19 +173,14 @@ BddTest().given('an AvButton', () => {
 
   BddTest().and('svg size calculation', () => {
     describe.each([
-      ['small', 1],
-      ['sm', 1],
-      ['medium', 1.5],
-      ['md', 1.5],
-      ['large', 2],
-      ['lg', 2],
-      ['', 1.5]
-    ] as [AvButtonProps['size'], number][])(
-      'when size is %s',
-      (size, expectedIconSize) => {
+      [true, 1],
+      [false, 1.5],
+    ] as [AvButtonProps['small'], number][])(
+      'when small is %s',
+      (small, expectedIconSize) => {
         beforeEach(() => {
           wrapper = mount(AvButton, {
-            props: { label: 'test', icon: 'mdi:home', size },
+            props: { label: 'test', icon: 'mdi:home', small },
             global: { stubs }
           })
         })
@@ -224,7 +207,7 @@ BddTest().given('an AvButton', () => {
     BddTest().when('iconScale is NaN', () => {
       beforeEach(() => {
         wrapper = mount(AvButton, {
-          props: { label: 'test', icon: 'mdi:home', iconScale: Number.NaN, size: 'md' },
+          props: { label: 'test', icon: 'mdi:home', iconScale: Number.NaN, small: false },
           global: { stubs }
         })
       })

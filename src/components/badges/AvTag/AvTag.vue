@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
+import { ICONS_DATA_URL } from '@/tokens/icons'
 
 /**
  * AvTag component props.
@@ -9,11 +10,6 @@ export type AvTagProps<T = string> = {
    * Displayed tag label.
    */
   label: string
-
-  /**
-   * URL for external link. Also determines the tag type (`a` or `RouterLink`).
-   */
-  link?: string
 
   /**
    * Tag name used for the tag (should be 'p' ou 'button').
@@ -66,7 +62,6 @@ export type AvTagProps<T = string> = {
 
 const {
   label,
-  link,
   tagName = 'p',
   icon,
   disabled,
@@ -79,39 +74,36 @@ defineEmits<{
   select: [[unknown, boolean]]
 }>()
 
-const isExternalLink = computed(() => typeof link === 'string' && link.startsWith('http'))
 const is = computed(() => {
-  return link
-    ? (isExternalLink.value ? 'a' : 'RouterLink')
-    : (((disabled && tagName === 'p') || rest.selectable) ? 'button' : tagName)
-})
-const linkProps = computed(() => {
-  return { [isExternalLink.value ? 'href' : 'to']: link }
+  return ((disabled && tagName === 'p') || rest.selectable) ? 'button' : tagName
 })
 
-const iconSize = computed(() => small ? 0.65 : 0.9)
+const styleVars = computed(() => ({
+  '--icon-path': `url(${ICONS_DATA_URL.MDI_CHECK_CIRCLE_OUTLINE})`,
+}))
 </script>
 
 <template>
   <component
     :is="is"
-    class="av-tag fr-tag"
+    class="av-tag"
     :disabled="disabled"
     :class="{
-      'fr-tag--sm': small,
+      'av-tag--sm': small,
     }"
     :aria-pressed="rest.selectable ? rest.selected : undefined"
-    v-bind="{ ...linkProps, ...$attrs }"
+    v-bind="{ ...$attrs }"
+    :style="styleVars"
     @click="!disabled && rest.selectable && $emit('select', [rest.value, rest.selected ?? false])"
   >
     <AvIcon
       v-if="icon"
       :label="iconOnly ? label : undefined"
-      :size="iconSize"
+      :size="small ? 0.875 : 1"
       :name="icon"
     />
     <template v-if="!iconOnly">
-      {{ label }}
+      <span :class="small ? 'caption-regular' : 'b2-regular'">{{ label }}</span>
     </template>
   </component>
 </template>
@@ -120,34 +112,70 @@ const iconSize = computed(() => small ? 0.65 : 0.9)
 .av-tag {
   display: flex;
   flex-direction: row;
-  gap: var(--spacing-xxs);
-}
-
-.ov-icon {
-  margin-top: 0.1rem;
-}
-
-.fr-tag {
   align-items: center;
+  gap: var(--spacing-xxs);
+  color: var(--text1);
+  background-color: var(--light-background-neutral);
+  border-radius: var(--radius-xl);
+  justify-content: center;
+  padding: var(--spacing-xxs) var(--spacing-sm);
+  width: -moz-fit-content;
+  width: fit-content;
+
+  &:after {
+    display: block;
+  }
+
+  &--sm {
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xxxs) var(--spacing-xs);
+  }
+
+  &[aria-pressed='true'] {
+    color: var(--other-background-base);
+    background-color: var(--dark-background-primary1);
+    position: relative;
+
+    &::after,
+    &::before {
+      content: "";
+      display: inline-block;
+      flex: 0 0 auto;
+      height: var(--dimension-md);
+      margin: -.5rem;
+      -webkit-mask-size: 100% 100%;
+      mask-size: 100% 100%;
+      position: absolute;
+      right: var(--spacing-none);
+      top: var(--spacing-none);
+      width: var(--dimension-md);
+    }
+
+    &::before {
+      background-color: var(--other-background-base);
+      border-radius: var(--radius-full);
+    }
+
+    &::after {
+      background-color: inherit;
+      -webkit-mask-image: var(--icon-path);
+      mask-image: var(--icon-path);
+    }
+  }
+
+  .caption-regular,
+  .b2-regular {
+    color: inherit,
+  }
 }
 
-.success {
-  color: var(--light-foreground-success);
-  background-color: var(--light-background-success);
-}
+button.av-tag {
+  background-color: var(--light-background-primary1);
+  color: var(--light-foreground-primary1);
 
-.error {
-  color: var(--light-foreground-error);
-  background-color: var(--light-background-error);
-}
-
-.warning {
-  color: var(--light-foreground-warn);
-  background-color: var(--light-background-warn);
-}
-
-.info {
-  color: var(--light-foreground-info);
-  background-color: var(--light-background-info);
+  &:hover {
+  background-color: var(--dark-background-primary1);
+  color: var(--other-background-base);
+  }
 }
 </style>

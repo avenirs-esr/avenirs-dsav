@@ -59,6 +59,9 @@ const meta: Meta<AvBreadcrumbProps> = {
         to: '#home',
       },
       {
+        text: 'No link level',
+      },
+      {
         text: 'Second level',
         to: '#second-level',
       },

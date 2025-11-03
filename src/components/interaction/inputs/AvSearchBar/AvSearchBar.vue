@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { MDI_ICONS } from '@/tokens'
+
 /**
  * AvSearchBar component props.
  */
@@ -66,27 +68,30 @@ const realId = computed(() => id ?? `search-bar-${crypto.randomUUID()}`)
 
 <template>
   <div
-    class="fr-search-bar"
+    class="av-search-bar"
     role="search"
   >
-    <AvInput
-      :id="realId"
-      type="search"
-      no-radius
-      :placeholder="placeholder"
-      :model-value="modelValue"
-      :label="label"
-      :disabled="disabled"
-      :aria-disabled="disabled"
-      @update:model-value="emit('update:modelValue', $event?.toString() ?? '')"
-      @keydown.enter="emit('search', modelValue)"
-    />
+    <div>
+      <AvInput
+        :id="realId"
+        type="search"
+        no-radius
+        :placeholder="placeholder"
+        :model-value="modelValue"
+        :label="label"
+        :disabled="disabled"
+        :aria-disabled="disabled"
+        :label-visible="false"
+        @update:model-value="emit('update:modelValue', $event?.toString() ?? '')"
+        @keydown.enter="emit('search', modelValue)"
+      />
+    </div>
     <AvButton
       variant="FLAT"
-      size="md"
       :label="label"
       no-radius
       icon-only
+      :icon="MDI_ICONS.MAGNIFY"
       :disabled="disabled"
       :aria-disabled="disabled"
       @click="emit('search', modelValue)"
@@ -94,17 +99,29 @@ const realId = computed(() => id ?? `search-bar-${crypto.randomUUID()}`)
   </div>
 </template>
 
-<style>
-.fr-search-bar > .fr-label + .fr-input {
-  margin: 0;
+<style lang="scss" scoped>
+.av-search-bar {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  box-sizing: border-box;
+
+  :deep(.av-input__input) {
+    border-radius: var(--radius-sm) var(--radius-none) var(--radius-none) var(--radius-sm);
+    height: var(--dimension-xl);
+  }
+
+  .av-button {
+    border-radius: var(--radius-none) var(--radius-sm) var(--radius-sm) var(--radius-none);
+    flex: 1 0 auto;
+    min-height: var(--dimension-xl);
+    max-height: var(--dimension-xl);
+    max-width: var(--dimension-xl);
+  }
 }
 
-.fr-search-bar .fr-input:disabled {
+.av-search-bar .av-input:disabled {
   box-shadow: inset 0 -2px 0 0 var(--border-disabled-grey);
   color: var(--text-disabled-grey);
-}
-
-input {
-  height: var(--dimension-xl) !important;
 }
 </style>

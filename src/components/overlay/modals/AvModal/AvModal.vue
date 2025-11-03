@@ -154,12 +154,12 @@ onBeforeUnmount(() => {
         aria-modal="true"
         :aria-labelledby="realId"
         :role="role"
-        class="fr-modal"
-        :class="{ 'fr-modal--opened': opened }"
+        class="av-modal"
+        :class="{ 'av-modal--opened': opened }"
         :open="opened"
         @keydown.esc="emit('close')"
       >
-        <div class="av-container av-container--fluid av-container-md">
+        <div class="av-container av-container-md av-container--fluid">
           <div class="av-row-md av-row-md--center">
             <div
               class="av-col-12"
@@ -169,8 +169,8 @@ onBeforeUnmount(() => {
                 'av-col-md-4': size === 'sm',
               }"
             >
-              <div class="fr-modal__body">
-                <div class="fr-modal__content">
+              <div class="av-modal__body">
+                <div class="av-modal__content">
                   <div
                     v-if="slots.header"
                     class="header"
@@ -179,9 +179,7 @@ onBeforeUnmount(() => {
                   </div>
                   <slot />
                 </div>
-                <div
-                  class="fr-modal__footer"
-                >
+                <div class="av-modal__footer">
                   <AvCancelConfirmButtons
                     ref="closeBtn"
                     :cancel-label="closeButtonLabel"
@@ -207,16 +205,95 @@ onBeforeUnmount(() => {
 </template>
 
 <style lang="scss" scoped>
+@use '@/styles/settings/breakpoints' as *;
+
+.av-modal {
+  --ground: 2000;
+  align-items: stretch;
+  border: none;
+  bottom: 0;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-around;
+  left: 0;
+  margin: 0;
+  opacity: 0;
+  padding: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  transition: opacity .3s, visibility .3s;
+  visibility: hidden;
+  width: 100%;
+  z-index: 1750;
+  background-color: var(--transparency);
+
+  &__header {
+    align-items: center;
+    display: flex;
+    flex: auto 0 0;
+    padding: 1rem 1rem .5rem;
+  }
+
+  &__content {
+    padding: var(--spacing-sm) var(--spacing-lg) var(--spacing-none);
+    margin-bottom: 3.5rem;
+  }
+
+  &__body {
+    border-radius: var(--radius-lg);
+    --modal-max-height: calc(100vh - 2rem);
+    flex: 1 1 auto;
+    max-height: var(--modal-max-height);
+    overflow-y: auto;
+    z-index: calc(var(--ground) + 2000);
+    background-color: var(--dialog);
+  }
+
+  &__footer {
+    bottom: 0;
+    display: flex;
+    flex: auto 0 0;
+    margin-top: -2.5rem;
+    padding: 1rem;
+    position: sticky;
+    transition: box-shadow .3s;
+    z-index: calc(var(--ground) + 1250);
+  }
+
+  &--opened {
+    height:100%;
+    opacity:1;
+    transition:opacity .3s,
+    visibility .3s;
+    visibility:inherit;
+    width:100%
+  }
+
+  @include max-width(md) {
+    justify-content: flex-end;
+
+    &__body {
+      max-height: 80vh;
+    }
+
+    &__content {
+      margin-bottom: var(--spacing-4xl);
+      padding-left: var(--spacing-lg);
+      padding-right: var(--spacing-lg);
+    }
+
+    &__footer {
+      margin-top: calc(-1 * var(--spacing-2xl));
+      padding: var(--spacing-lg);
+    }
+  }
+}
+
 :global(body.modal-open) {
   overflow: hidden;
-}
-
-.fr-modal__content {
-  padding: var(--spacing-sm) var(--spacing-lg) var(--spacing-none);
-}
-
-.fr-modal__body {
-  border-radius: var(--radius-lg) !important;
 }
 
 .header {

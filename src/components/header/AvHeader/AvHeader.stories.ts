@@ -60,8 +60,24 @@ const meta: Meta<AvHeaderProps> = {
     menuModalLabel: 'Menu',
     closeMenuModalLabel: 'Fermer',
     homeLabel: 'Accueil',
-    showSearch: true
+    showSearch: true,
+    languageSelector: {
+      id: 'language-selector',
+      languages: [
+        { label: 'Français', codeIso: 'fr' },
+        { label: 'English', codeIso: 'en' },
+        { label: 'Español', codeIso: 'es' },
+      ],
+      currentLanguage: 'en',
+    }
   },
+  parameters: {
+    docs: {
+      story: {
+        height: '30rem',
+      },
+    },
+  }
 }
 
 export default meta
@@ -74,17 +90,11 @@ const Template: StoryFn<AvHeaderProps> = args => ({
   template: `
     <AvHeader v-bind="args">
       <template #before-quick-links>
-        <ul class="fr-btns-group">
+        <ul class="av-btns-group">
           <li class="demo-display-none">
             <AvButton
               label="Mailbox"
               icon="mdi:chat-bubble-outline"
-            />
-          </li>
-          <li class="demo-display-none">
-            <AvButton
-              label="Notifications"
-              icon="mdi:bell-notification"
             />
           </li>
           <li>
@@ -99,6 +109,12 @@ const Template: StoryFn<AvHeaderProps> = args => ({
         <AvButton
           label="Switch universe"
           icon="mdi:swap-horizontal"
+        />
+      </template>
+      <template #mainnav>
+        <AvButton
+          label="Navigation link 1"
+          icon="mdi:home"
         />
       </template>
     </AvHeader>
@@ -127,7 +143,7 @@ Default.parameters = {
           showSearchLabel="Recherche"
         >
           <template #before-quick-links>
-            <ul class="fr-btns-group">
+            <ul class="av-btns-group">
               <li>
                 <AvButton
                   label="Mailbox"

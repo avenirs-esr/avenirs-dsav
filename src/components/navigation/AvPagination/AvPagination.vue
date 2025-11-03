@@ -106,10 +106,10 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
 <template>
   <nav
     role="navigation"
-    class="fr-pagination"
+    class="av-pagination av-nav"
     :aria-label="ariaLabel"
   >
-    <ul class="fr-pagination__list">
+    <ul class="av-pagination__list">
       <li v-if="compact && !!compactCurrentPageLabel">
         <span class="b2-regular">
           {{ compactCurrentPageLabel }}
@@ -119,7 +119,7 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
         <a
           v-if="!compact"
           :href="pages[0]?.href"
-          class="fr-pagination__link"
+          class="av-pagination__link"
           :title="firstPageLabel"
           :aria-disabled="currentPage === 0 ? true : undefined"
           @click.prevent="tofirstPage()"
@@ -127,7 +127,6 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
           <AvIcon
             :name="MDI_ICONS.PAGE_FIRST"
             :size="1.5"
-            :color="currentPage === 0 ? 'var(--dark-background-neutral)' : 'var(--dark-background-primary1)'"
           />
           <span class="av-sr-only">{{ firstPageLabel }}</span>
         </a>
@@ -135,7 +134,7 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
       <li>
         <a
           :href="pages[Math.max(currentPage - 1, 0)]?.href"
-          class="fr-pagination__link fr-pagination__link--lg-label"
+          class="av-pagination__link"
           :title="prevPageLabel"
           :aria-disabled="currentPage === 0 ? true : undefined"
           @click.prevent="toPreviousPage()"
@@ -143,11 +142,10 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
           <AvIcon
             :name="MDI_ICONS.NAVIGATE_BEFORE"
             :size="1.5"
-            :color="currentPage === 0 ? 'var(--dark-background-neutral)' : 'var(--dark-background-primary1)'"
           />
           <span
             v-if="!compact"
-            class="caption-regular fr-hidden fr-unhidden-md"
+            class="caption-regular av-hidden av-unhidden-md"
           >
             {{ prevPageLabel }}
           </span>
@@ -160,7 +158,7 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
         >
           <a
             :href="page?.href"
-            class="fr-pagination__link fr-unhidden-lg"
+            class="av-pagination__link"
             :title="page.title"
             :aria-current="isCurrentPage(page) ? 'page' : undefined"
             @click.prevent="toPage(pages.indexOf(page))"
@@ -174,7 +172,7 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
       <li>
         <a
           :href="pages[Math.min(currentPage + 1, pages.length - 1)]?.href"
-          class="fr-pagination__link fr-pagination__link--lg-label"
+          class="av-pagination__link"
           :title="nextPageLabel"
           :disabled="currentPage === pages.length - 1 ? true : undefined"
           :aria-disabled="currentPage === pages.length - 1 ? true : undefined"
@@ -182,21 +180,20 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
         >
           <span
             v-if="!compact"
-            class="caption-regular fr-hidden fr-unhidden-md"
+            class="caption-regular av-hidden av-unhidden-md"
           >
             {{ nextPageLabel }}
           </span>
           <AvIcon
             :name="MDI_ICONS.NAVIGATE_NEXT"
             :size="1.5"
-            :color="currentPage === pages.length - 1 ? 'var(--dark-background-neutral)' : 'var(--dark-background-primary1)'"
           />
         </a>
       </li>
       <li>
         <a
           v-if="!compact"
-          class="fr-pagination__link"
+          class="av-pagination__link"
           :href="pages[pages.length - 1]?.href"
           :title="lastPageLabel"
           :disabled="currentPage === pages.length - 1 ? true : undefined"
@@ -207,7 +204,6 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
           <AvIcon
             :name="MDI_ICONS.PAGE_LAST"
             :size="1.5"
-            :color="currentPage === pages.length - 1 ? 'var(--dark-background-neutral)' : 'var(--dark-background-primary1)'"
           />
         </a>
       </li>
@@ -215,34 +211,46 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
   </nav>
 </template>
 
-<style scoped>
-.fr-pagination__list {
-  gap: var(--spacing-sm);
-}
+<style lang="scss" scoped>
+.av-pagination {
+  &__list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
 
-.fr-pagination__link {
-  display: flex;
-  margin: 0;
-  border-radius: var(--radius-lg);
-  text-align: center !important;
-  vertical-align: middle;
-  gap: 0.75rem;
-}
+  &__link {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--dimension-lg);
+    min-width: var(--dimension-lg);
+    padding: var(--spacing-xxs) var(--spacing-xs);
+    width: -moz-fit-content;
+    width: fit-content;
+    border-radius: var(--radius-lg);
+    gap: var(--spacing-xxs);
+    color: var(--dark-background-primary1);
 
-a::before,
-a::after {
-  content: none !important;
-  display: none !important;
-}
+    & * {
+      color: inherit;
+    }
 
-.fr-pagination__link[aria-disabled="true"] {
-  pointer-events: none !important;
-  cursor: not-allowed !important;
-}
+    &[aria-disabled="true"],
+    &[aria-disabled="true"] * {
+      color: var(--dark-background-neutral);
+      pointer-events: none;
+    }
 
-.fr-pagination__link:hover,
-.fr-pagination__link:hover * {
-  background-color: var(--dark-background-primary1) !important;
-  color: var(--other-background-base) !important;
+    &[aria-current="page"],
+    &:hover,
+    &:hover * {
+      background-color: var(--dark-background-primary1) !important;
+      color: var(--other-background-base) !important;
+    }
+  }
 }
 </style>

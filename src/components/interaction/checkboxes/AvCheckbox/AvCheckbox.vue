@@ -39,7 +39,7 @@ export interface AvCheckboxProps {
   small?: boolean
 
   /**
-   * Displays the chekbox in its inline version
+   * Displays the checkbox in its inline version
    * @default false
    */
   inline?: boolean
@@ -98,7 +98,6 @@ const realId = computed(() => id ?? `checkbox-${crypto.randomUUID()}`)
 const message = computed(() => errorMessage || validMessage)
 const messageId = computed(() => message.value ? `message-${realId.value}` : undefined)
 
-const additionalMessageClass = computed(() => errorMessage ? 'fr-error-text' : 'fr-valid-text')
 const modelValue = defineModel<(string | number | boolean | undefined)[]>({ required: true })
 
 const isChecked = computed(() => modelValue.value.includes(value))
@@ -122,91 +121,75 @@ const labelClass = computed(() => {
 </script>
 
 <template>
-  <div
-    class="fr-fieldset__element"
-    :class="{
-      'fr-fieldset__element--inline': inline,
-      'fr-fieldset__element--disabled': disabled,
-    }"
+  <AvFieldsetElement
+    :inline="inline"
+    :disabled="disabled"
   >
-    <div
-      class="fr-checkbox-group"
-      :class="{
-        'fr-checkbox-group--error': errorMessage,
-        'fr-checkbox-group--valid': !errorMessage && validMessage,
-        'fr-checkbox-group--sm': small,
-      }"
+    <input
+      :id="realId"
+      v-model="modelValue"
+      :name="name"
+      class="av-sr-only"
+      type="checkbox"
+      :value="value"
+      :checked="isChecked"
+      :required
+      v-bind="$attrs"
+      :data-testid="`input-checkbox-${realId}`"
+      :data-test="`input-checkbox-${realId}`"
+      :tabindex="disabled ? -1 : undefined"
+      :aria-describedby="messageId"
     >
-      <input
-        :id="realId"
-        v-model="modelValue"
-        :name="name"
-        type="checkbox"
-        :value="value"
-        :checked="isChecked"
-        :required
-        v-bind="$attrs"
-        :data-testid="`input-checkbox-${realId}`"
-        :data-test="`input-checkbox-${realId}`"
-        :tabindex="disabled ? -1 : undefined"
-        :aria-describedby="messageId"
-      >
-      <label
-        :for="realId"
-        class="fr-label"
-      >
-        <div class="label-container">
-          <AvIcon
-            class="option-checkbox"
-            :name="checkboxIconName"
-            :color="iconColor"
-            :size="iconSize"
-          />
-          <AvIcon
-            v-if="icon"
-            class="option-icon"
-            :name="icon"
-            :color="iconColor"
-            :size="iconSize"
-          />
-          <span
-            class="label"
-            :class="labelClass"
-          >
-            {{ label }}
-          </span>
-          <span
-            v-if="required"
-            class="required"
-            :class="labelClass"
-          >&nbsp;*</span>
-        </div>
+    <label
+      :for="realId"
+      class="av-label"
+    >
+      <div class="label-container">
+        <AvIcon
+          class="option-checkbox"
+          :name="checkboxIconName"
+          :color="iconColor"
+          :size="iconSize"
+        />
+        <AvIcon
+          v-if="icon"
+          class="option-icon"
+          :name="icon"
+          :color="iconColor"
+          :size="iconSize"
+        />
         <span
-          v-if="hint"
-          class="fr-hint-text"
+          class="label"
+          :class="labelClass"
         >
-          {{ hint }}
+          {{ label }}
         </span>
-      </label>
-      <div
-        v-if="message"
-        :id="messageId"
-        class="fr-messages-group"
-        aria-live="assertive"
-        role="alert"
-      >
-        <p
-          class="fr-message--info  flex  items-center"
-          :class="additionalMessageClass"
-        >
-          {{ message }}
-        </p>
+        <span
+          v-if="required"
+          class="required"
+          :class="labelClass"
+        >&nbsp;*</span>
       </div>
-    </div>
-  </div>
+      <span
+        v-if="hint"
+        class="av-hint-text"
+      >
+        {{ hint }}
+      </span>
+    </label>
+    <AvMessage
+      :message-id="messageId"
+      :type="errorMessage ? 'error' : 'success'"
+      :message="message"
+    />
+  </AvFieldsetElement>
 </template>
 
 <style lang="scss" scoped>
+.av-label {
+  padding-bottom: var(--spacing-none);
+}
+
 .label-container {
   display: flex;
   flex-direction: row;
@@ -214,18 +197,8 @@ const labelClass = computed(() => {
   align-items: center;
 }
 
-.fr-label {
-  margin-left: var(--spacing-none) !important;
-}
-
-.fr-label::before {
-  display: none !important;
-}
-
-.fr-fieldset__element--disabled {
-  pointer-events: none;
-  cursor: not-allowed;
-  opacity: 0.95;
+.av-fieldset__element--disabled {
+  opacity: 0.95 !important;
 }
 
 .label {

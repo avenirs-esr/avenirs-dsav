@@ -49,28 +49,28 @@ export interface AvButtonProps {
   label: string
 
   /**
-   * Indicates icon position:
-   * left (`false`) or right (`true`).
-   * @default false
-   */
-  iconRight?: boolean
-
-  /**
    * Hide label text (`true`) or show it (`false`).
    * @default false
    */
   iconOnly?: boolean
 
   /**
-   * Button size: 'sm', 'small', 'md', 'medium', 'lg', 'large' or ''.
-   * @default 'md'
+   * Display the button in small size (`true`) or default size (`false`).
+   * @default false
    */
-  size?: 'sm' | 'small' | 'lg' | 'large' | 'md' | 'medium' | '' | undefined
+  small?: boolean
 
   /**
    * Icon to be displayed in the button. Can be a name or an icon configuration (eg: `{"name": "mdi:stars"}`).
    */
   icon?: string | InstanceType<typeof AvIcon>['$props']
+
+  /**
+   * Disable sentence case transformation on the label.
+   * You should only use this on very specific cases.
+   * @default false
+   */
+  noSentenceCase?: boolean
 
   /**
    * Function called when button is clicked.
@@ -82,14 +82,14 @@ export interface AvButtonProps {
 const {
   variant = 'DEFAULT',
   theme = 'PRIMARY',
-  size = 'md',
+  small = false,
   iconOnly = false,
-  iconRight = false,
   disabled = false,
   isLoading = false,
   noRadius = false,
   icon,
   iconScale,
+  noSentenceCase = false,
   label,
   onClick
 } = defineProps<AvButtonProps>()
@@ -101,20 +101,15 @@ function focus () {
 defineExpose({ focus })
 
 const loadingIcon: InstanceType<typeof AvIcon>['$props'] = { name: MDI_ICONS.LOADING_OUTLINE, animation: 'spin' }
-const sm = computed(() => ['sm', 'small'].includes(size))
-const md = computed(() => ['md', 'medium'].includes(size))
-const lg = computed(() => ['lg', 'large'].includes(size))
+
 const iconSize = computed(() => {
   if (iconScale && !Number.isNaN(iconScale)) {
     return iconScale
   }
-  if (sm.value) {
+  if (small) {
     return 1
   }
-  if (lg.value) {
-    return 2
-  }
-  return 1.5 // md
+  return 1.5
 })
 const iconToRender = computed(() => {
   if (isLoading) {
@@ -128,7 +123,7 @@ const iconToRender = computed(() => {
   }
   return undefined
 })
-const labelToRender = computed(() => toSentenceCase(label))
+const labelToRender = computed(() => noSentenceCase ? label : toSentenceCase(label))
 const buttonDisabled = computed(() => disabled || isLoading)
 const variantClass = computed(() => `av-button--variant-${variant.toLowerCase()}`)
 const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
@@ -137,16 +132,11 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
 <template>
   <button
     ref="btn"
-    class="av-button fr-btn inline-flex"
+    class="av-button"
     :class="[
       {
-        'fr-btn--tertiary': variant !== 'DEFAULT',
-        'fr-btn--tertiary-no-outline': variant === 'DEFAULT',
-        'fr-btn--sm': sm,
-        'fr-btn--md': md,
-        'fr-btn--lg': lg,
-        'reverse': iconRight,
-        'justify-center': iconOnly,
+        'av-button--disabled': buttonDisabled,
+        'av-button--sm': small,
         'av-button--no-radius': noRadius,
       },
       variantClass,
@@ -156,98 +146,121 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
     :disabled="buttonDisabled"
     :aria-disabled="buttonDisabled"
     :aria-label="labelToRender"
-    :style="iconOnly ? { 'padding-inline': '0.5rem' } : {}"
+    :style="iconOnly ? { 'padding-inline': 'var(--spacing-xs)' } : {}"
     @click="onClick ? onClick($event) : () => {}"
   >
     <AvIcon
       v-if="iconToRender"
       v-bind="iconToRender"
     />
-    <span v-if="!iconOnly">
+    <span
+      v-if="!iconOnly"
+      :class="small ? 'b2-regular' : 'b1-regular'"
+    >
       {{ labelToRender }}
     </span>
   </button>
 </template>
 
 <style lang="scss" scoped>
-.fr-btn {
-  box-shadow: none;
-}
+@use "sass:map";
 
-.av-button--variant-default.av-button--theme-primary {
-  background-color: var(--other-background-base);
-  color: var(--dark-background-primary1);
-  border: 1px solid transparent;
-}
-
-.av-button--variant-outlined.av-button--theme-primary {
-  background-color: var(--other-background-base);
-  color: var(--dark-background-primary1);
-  border: 1px solid var(--dark-background-primary1);
-}
-
-.av-button--variant-flat.av-button--theme-primary {
-  background-color: var(--dark-background-primary1);
-  color: var(--other-background-base);
-  border: 1px solid var(--dark-background-primary1);
-}
-
-.av-button--variant-default.av-button--theme-secondary {
-  background-color: var(--other-background-base);
-  color: var(--text1);
-  border: 1px solid transparent;
-}
-
-.av-button--variant-outlined.av-button--theme-secondary {
-  background-color: var(--other-background-base);
-  color: var(--text1);
-  border: 1px solid var(--text1);
-}
-
-.av-button--variant-flat.av-button--theme-secondary {
-  background-color: var(--light-background-neutral);
-  color: var(--text1);
-  border: 1px solid var(--light-background-neutral);
-}
-
-.av-button--theme-primary:hover {
-  background-color: var(--dark-background-primary1);
-  color: var(--other-background-base);
-}
-
-.av-button--theme-secondary:hover {
-  background-color: var(--light-background-neutral);
-}
-
-.av-button--variant-flat.av-button--theme-primary:hover {
-  background-color: var(--other-background-base);
-  color: var(--dark-background-primary1);
-}
-
-.av-button--variant-flat.av-button--theme-secondary:hover {
-  background-color: var(--other-background-base);
-  color: var(--text1);
-  border-color: var(--text1);
-}
-
-.fr-btn.av-button--no-radius {
-  border-radius: var(--radius-none) !important;
-}
-
-.fr-btn[disabled], .fr-btn[disabled]:hover {
-  background-color: transparent;
-  color: var(--divider);
-  border-color: var(--divider);
-  cursor: default;
-}
-
-.inline-flex {
+.av-button {
   display: inline-flex;
+  flex-direction: row;
   align-items: center;
-  gap: 0.5rem;
-}
+  padding: var(--spacing-xs) var(--spacing-sm);
+  width: fit-content;
+  gap: var(--spacing-xs);
+  border-radius: var(--radius-lg);
 
-.reverse {
-  flex-direction: row-reverse;
+  &--sm {
+    border-radius: var(--radius-md);
+    padding: var(--spacing-xxs) 0.75rem;
+  }
+
+  &--no-radius {
+    border-radius: var(--radius-none);
+  }
+
+  // === Themes ===
+  @each $theme, $colors in (
+    primary: (
+      text: var(--dark-background-primary1),
+      bg: var(--other-background-base),
+      hover-bg: var(--dark-background-primary1),
+      hover-text: var(--other-background-base)
+    ),
+    secondary: (
+      text: var(--text1),
+      bg: var(--other-background-base),
+      hover-bg: var(--light-background-neutral),
+      hover-text: var(--text1)
+    )
+  ) {
+    &--theme-#{$theme} {
+      // === Variants ===
+      @each $variant, $style in (
+        default: (
+          bg: map.get($colors, bg),
+          color: map.get($colors, text),
+          border: transparent
+        ),
+        outlined: (
+          bg: map.get($colors, bg),
+          color: map.get($colors, text),
+          border: map.get($colors, text)
+        ),
+        flat: if(
+          $theme == primary,
+          (
+            bg: map.get($colors, text),
+            color: map.get($colors, bg),
+            border: map.get($colors, text)
+          ),
+          (
+            bg: var(--light-background-neutral),
+            color: map.get($colors, text),
+            border: var(--light-background-neutral)
+          )
+        )
+      ) {
+        &.av-button--variant-#{$variant} {
+          background-color: map.get($style, bg);
+          color: map.get($style, color);
+          border: 1px solid map.get($style, border);
+
+          // === Hover ===
+          @if $variant != flat {
+            &:hover:not(.av-button--disabled) {
+              background-color: map.get($colors, hover-bg);
+              color: map.get($colors, hover-text);
+            }
+          }
+
+          @if $variant == flat {
+            &:hover:not(.av-button--disabled) {
+              background-color: map.get($colors, bg);
+              color: map.get($colors, text);
+              border-color: map.get($colors, text);
+            }
+          }
+
+          // === Disabled ===
+          &.av-button--disabled {
+            background-color: transparent;
+            color: var(--divider);
+            border-color: var(--divider);
+            cursor: default;
+          }
+        }
+      }
+    }
+  }
+
+  .b1-regular,
+  .b2-regular {
+    color: inherit;
+  }
 }
 </style>

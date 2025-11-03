@@ -21,7 +21,7 @@ import AvSelect, { type AvSelectProps } from '@/components/interaction/selects/A
  *
  * <h2 class="n2">🏗️ Structure</h2>
  *
- * <p><span class="b2-regular"><code>AvSelect</code> consists of a set of <code>&lt;option&gt;</code> within a <code>&lt;select&gt;</code>.</span></p>
+ * <p><span class="b2-regular">The <code>AvSelect</code> consists of a set of <code>&lt;option&gt;</code> within a <code>&lt;select&gt;</code>.</span></p>
  */
 const meta = {
   title: 'Components/Interaction/Selects/AvSelect',

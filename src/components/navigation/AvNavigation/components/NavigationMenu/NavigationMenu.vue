@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import NavigationMenuItem from '@/components/navigation/AvNavigation/components/NavigationMenuItem/NavigationMenuItem.vue'
 import NavigationMenuLink, { type NavigationMenuLinkProps } from '@/components/navigation/AvNavigation/components/NavigationMenuLink/NavigationMenuLink.vue'
-import { useAvBreakpoints } from '@/composables'
 import { useCollapsable } from '@/composables/use-collapsable/use-collapsable'
+import { ICONS_DATA_URL } from '@/tokens/icons'
 
 /**
  * NavigationMenu component props.
@@ -65,7 +65,9 @@ const {
 const realId = computed(() => id ?? `menu-${crypto.randomUUID()}`)
 const expanded = computed(() => realId.value === expandedId)
 
-const { isBelowLg } = useAvBreakpoints()
+const styleVars = computed(() => ({
+  '--icon-path': `url(${ICONS_DATA_URL.MDI_KEYBOARD_ARROW_DOWN})`,
+}))
 
 watch(expanded, (newValue, oldValue) => {
   if (newValue !== oldValue) {
@@ -82,13 +84,11 @@ onMounted(() => {
 
 <template>
   <button
-    class="fr-nav__btn"
-    :class="{
-      'av-nav__btn--compact': isBelowLg,
-    }"
+    class="av-nav__btn"
     :aria-expanded="expanded"
     :aria-current="active || undefined"
     :aria-controls="realId"
+    :style="styleVars"
     @click="$emit('toggleId', realId)"
   >
     <span>{{ title }}</span>
@@ -96,13 +96,13 @@ onMounted(() => {
   <div
     :id="realId"
     ref="collapse"
-    class="av-collapse fr-menu"
+    class="av-collapse av-menu"
     data-testid="navigation-menu"
     :class="{ 'av-collapse--expanded': cssExpanded, 'fr-collapsing': collapsing }"
     @transitionend="onTransitionEnd(expanded)"
   >
     <ul
-      class="fr-menu__list"
+      class="av-menu__list"
     >
       <NavigationMenuItem
         v-for="(link, index) of links"
@@ -118,11 +118,52 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
-.fr-nav__btn {
-  border-radius: 1.5rem 1.5rem var(--radius-none) var(--radius-none);
-}
+@use '@/styles/settings/breakpoints' as *;
 
-.av-nav__btn--compact {
-  border-radius: var(--radius-none);
+.av-nav__btn {
+  border-radius: 1.5rem 1.5rem var(--radius-none) var(--radius-none);
+
+  &::after {
+    background-color: currentColor;
+    content: "";
+    display: inline-block;
+    flex: 0 0 auto;
+    height: var(--dimension-sm);
+    margin-left: .5rem;
+    margin-right:0;
+    -webkit-mask-image: var(--icon-path);
+    mask-image: var(--icon-path);
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    transition: transform .3s;
+    vertical-align: calc((.75em - var(--dimension-sm))*.5);
+    width: var(--dimension-sm);
+  }
+
+  &[aria-current]:not([aria-current=false]) {
+    color: var(--dark-background-primary1);
+
+    &::before {
+      background-color: var(--dark-background-primary1);
+    }
+  }
+
+  &[aria-expanded=true] {
+    background-color: var(--light-background-primary1);
+    color: var(--dark-background-primary1);
+
+    &::after {
+      transform: rotate(180deg);
+    }
+
+    &:disabled {
+      background-color: var(--light-background-neutral);
+      color: var(--dark-background-neutral);
+    }
+  }
+
+  @include max-width(lg) {
+    border-radius: var(--radius-none);
+  }
 }
 </style>

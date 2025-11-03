@@ -65,16 +65,10 @@ const meta: Meta<AvDropdownProps> = {
       control: { type: 'radio' },
       options: ['DEFAULT', 'OUTLINED', 'FLAT'],
     },
-    triggerSize: {
-      control: { type: 'select' },
-      options: ['sm', 'small', 'md', 'medium', 'lg', 'large', '', undefined],
-    },
+    triggerSmall: { control: 'boolean' },
     width: { control: 'text' },
     padding: { control: 'text' },
-    itemSize: {
-      control: { type: 'select' },
-      options: ['sm', 'small', 'md', 'medium', 'lg', 'large', '', undefined],
-    },
+    itemSmall: { control: 'boolean' },
     itemTheme: {
       control: { type: 'radio' },
       options: ['PRIMARY', 'SECONDARY'],
@@ -91,10 +85,10 @@ const meta: Meta<AvDropdownProps> = {
     triggerIcon: MDI_ICONS.DOTS_VERTICAL,
     triggerLabel: undefined,
     triggerVariant: 'OUTLINED',
-    triggerSize: 'sm',
+    triggerSmall: true,
     width: '15rem',
     padding: 'var(--spacing-xs)',
-    itemSize: 'sm',
+    itemSmall: true,
     itemTheme: 'SECONDARY',
     itemIconScale: 1.3,
   },
@@ -130,7 +124,7 @@ DefaultTrigger.args = {
 
 export const LargeTrigger = Template.bind({})
 LargeTrigger.args = {
-  triggerSize: 'lg',
+  triggerSmall: false,
 }
 
 export const WideMenu = Template.bind({})
@@ -140,7 +134,7 @@ WideMenu.args = {
 
 export const LargeItems = Template.bind({})
 LargeItems.args = {
-  itemSize: 'md',
+  itemSmall: false,
 }
 
 export const PrimaryItems = Template.bind({})

@@ -123,6 +123,12 @@ Disabled.args = {
   disabled: true
 }
 
+export const Small = Template.bind({})
+Small.args = {
+  name: 'Small',
+  small: true
+}
+
 export const Error = Template.bind({})
 Error.args = {
   name: 'Error',

@@ -134,7 +134,7 @@ watch(() => isSelected, () => {
       :id="tabId"
       ref="button"
       :data-testid="`test-${tabId}`"
-      class="av-tab-item__tab fr-tabs__tab"
+      class="av-tab-item__tab"
       :class="{ 'av-tab-item--compact__tab': compact }"
       :tabindex="isSelected ? 0 : -1"
       role="tab"
@@ -164,6 +164,10 @@ watch(() => isSelected, () => {
   flex: 1 1 0%;
   padding: var(--spacing-xs) var(--spacing-none);
 
+  &::marker {
+    content: none;
+  }
+
   &__tab {
     display: flex;
     flex-direction: row;
@@ -173,9 +177,6 @@ watch(() => isSelected, () => {
     text-align: center;
     border-radius: var(--radius-lg);
     width: 100%;
-    background: transparent !important;
-    border: none;
-    box-shadow: none;
     color: var(--text2);
 
     &[aria-selected=true]:not(:disabled),
@@ -196,7 +197,7 @@ watch(() => isSelected, () => {
     &::before {
       content: "";
       position: absolute;
-      left: var(--spacing-none);
+      left: -.375rem;
       top: var(--spacing-xs);
       bottom: var(--spacing-xs);
       width: 0.0625rem;
@@ -205,10 +206,11 @@ watch(() => isSelected, () => {
   }
 
   &--compact {
-    &:not(:first-child) {
-      &::before {
-        display: none;
-      }
+    width: unset;
+    flex: unset;
+
+    &::before {
+      display: none;
     }
 
     &__tab {

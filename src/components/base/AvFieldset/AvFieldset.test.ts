@@ -35,14 +35,14 @@ BddTest().given('an AvFieldset component', () => {
     })
 
     BddTest().then('it should render the hint with text and class', () => {
-      const hintEl = wrapper.find('span.fr-hint-text')
+      const hintEl = wrapper.find('span.av-hint-text')
       expect(hintEl.exists()).toBe(true)
       expect(hintEl.text()).toContain('My hint')
       expect(hintEl.classes()).toContain('custom-hint')
     })
 
     BddTest().then('it should render the default slot', () => {
-      const contentEl = wrapper.find('div.fr-fieldset__element p')
+      const contentEl = wrapper.find('div.av-fieldset__content p')
       expect(contentEl.exists()).toBe(true)
       expect(contentEl.text()).toBe('Default content')
     })
@@ -65,7 +65,7 @@ BddTest().given('an AvFieldset component', () => {
     })
 
     BddTest().then('it should render the hint slot content', () => {
-      const hintEl = wrapper.find('span.fr-hint-text')
+      const hintEl = wrapper.find('span.av-hint-text')
       expect(hintEl.html()).toContain('Hint Slot')
     })
   })

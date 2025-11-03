@@ -55,10 +55,10 @@ export interface AvDropdownProps {
   triggerVariant?: AvButtonProps['variant']
 
   /**
-   * Size of the trigger button.
-   * @default 'sm'
+   * Display the trigger button in small size (`true`) or default size (`false`).
+   * @default true
    */
-  triggerSize?: AvButtonProps['size']
+  triggerSmall?: AvButtonProps['small']
 
   /**
    * Width of the dropdown menu.
@@ -73,10 +73,10 @@ export interface AvDropdownProps {
   padding?: string
 
   /**
-   * Size of menu item buttons.
-   * @default 'sm'
+   * Display menu item buttons in small size (`true`) or default size (`false`).
+   * @default true
    */
-  itemSize?: AvButtonProps['size']
+  itemSmall?: AvButtonProps['small']
 
   /**
    * Theme of menu item buttons.
@@ -97,10 +97,10 @@ const {
   triggerIcon = MDI_ICONS.DOTS_VERTICAL,
   triggerLabel,
   triggerVariant = 'OUTLINED',
-  triggerSize = 'sm',
+  triggerSmall = true,
   width = '15rem',
   padding = 'var(--spacing-xs)',
-  itemSize = 'sm',
+  itemSmall = true,
   itemTheme = 'SECONDARY',
   itemIconScale = 1.3
 } = defineProps<AvDropdownProps>()
@@ -134,7 +134,7 @@ function handleItemClick (itemName: string, close: () => void) {
         :label="triggerLabel || triggerAriaLabel"
         :aria-label="triggerAriaLabel"
         :variant="triggerVariant"
-        :size="triggerSize"
+        :small="triggerSmall"
         @click="toggle"
       />
     </template>
@@ -147,7 +147,7 @@ function handleItemClick (itemName: string, close: () => void) {
           :icon="item.icon"
           :label="item.label"
           :aria-label="item.label"
-          :size="itemSize"
+          :small="itemSmall"
           :theme="itemTheme"
           :icon-scale="itemIconScale"
           no-radius

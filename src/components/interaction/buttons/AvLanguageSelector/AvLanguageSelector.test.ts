@@ -3,6 +3,10 @@ import { beforeEach } from 'vitest'
 import AvLanguageSelector, { type AvLanguageSelectorProps } from '@/components/interaction/buttons/AvLanguageSelector/AvLanguageSelector.vue'
 import { BddTest } from '@/tests'
 
+vi.mock('@/composables', () => ({
+  useAvBreakpoints: () => ({ isBelowLg: false }),
+}))
+
 BddTest().given('a language selector', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvLanguageSelector>>
 

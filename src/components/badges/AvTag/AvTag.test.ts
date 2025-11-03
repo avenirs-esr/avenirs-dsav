@@ -54,7 +54,7 @@ BddTest().given('an AvTag component', () => {
         const icon = wrapper.find('.av-tag').findComponent({ name: 'AvIcon' })
         expect(icon.exists()).toBe(true)
         expect(icon.props('name')).toBe(newProps.icon)
-        expect(icon.props('size')).toBe(0.9)
+        expect(icon.props('size')).toBe(1)
       })
     })
 
@@ -67,48 +67,12 @@ BddTest().given('an AvTag component', () => {
 
       BddTest().then('it should render the icon', () => {
         const tag = wrapper.find('.av-tag')
-        expect(tag.classes()).toContain('fr-tag--sm')
+        expect(tag.classes()).toContain('av-tag--sm')
 
         const icon = tag.findComponent({ name: 'AvIcon' })
         expect(icon.exists()).toBe(true)
         expect(icon.props('name')).toBe(newProps.icon)
-        expect(icon.props('size')).toBe(0.65)
-      })
-    })
-
-    BddTest().and('given an external link', () => {
-      const newProps: AvTagProps = { ...props, link: 'https://avenirs-esr.github.io/avenirs-dsav/' }
-
-      beforeEach(() => {
-        wrapper = mount(AvTag, { props: newProps })
-      })
-
-      BddTest().then('it should render the tag as a link', () => {
-        const tag = wrapper.find('a')
-        expect(tag.exists()).toBe(true)
-        expect(wrapper.find('routerlink').exists()).toBe(false)
-        expect(wrapper.find('p').exists()).toBe(false)
-        expect(wrapper.find('button').exists()).toBe(false)
-        expect(tag.attributes('href')).toBe(newProps.link)
-        expect(tag.attributes('to')).toBeUndefined()
-      })
-    })
-
-    BddTest().and('given an internal link', () => {
-      const newProps: AvTagProps = { ...props, link: '#' }
-
-      beforeEach(() => {
-        wrapper = mount(AvTag, { props: newProps })
-      })
-
-      BddTest().then('it should render the tag as a routerlink', () => {
-        const tag = wrapper.find('routerlink')
-        expect(tag.exists()).toBe(true)
-        expect(wrapper.find('a').exists()).toBe(false)
-        expect(wrapper.find('p').exists()).toBe(false)
-        expect(wrapper.find('button').exists()).toBe(false)
-        expect(tag.attributes('to')).toBe(newProps.link)
-        expect(tag.attributes('href')).toBeUndefined()
+        expect(icon.props('size')).toBe(0.875)
       })
     })
 

@@ -48,7 +48,6 @@ const meta: Meta<AvTagProps> = {
       type: { name: 'string', required: true },
       control: 'text',
     },
-    link: { control: 'text' },
     tagName: {
       control: 'select',
       options: ['p', 'button'],
@@ -89,9 +88,6 @@ Default.args = {}
 
 export const Small = Template.bind({})
 Small.args = { small: true }
-
-export const WithLink = Template.bind({})
-WithLink.args = { link: '#' }
 
 export const IconOnly = Template.bind({})
 IconOnly.args = { iconOnly: true }
