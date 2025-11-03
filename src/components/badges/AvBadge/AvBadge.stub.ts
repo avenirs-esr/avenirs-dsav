@@ -3,7 +3,7 @@ export const AvBadgeStub = defineComponent({
   template: `
     <div
       class="av-badge-stub"
-      :style="{ backgroundColor, borderColor, color }
+      :style="{ backgroundColor, borderColor, color }"
     >
       {{ label }}
     </div>`,
