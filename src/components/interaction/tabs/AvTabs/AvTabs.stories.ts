@@ -68,13 +68,19 @@ const Template: StoryFn<AvTabsProps> = args => ({
   template: `
     <AvTabs v-bind="args" v-model="activeTab">
       <AvTab
-        title="Tab 1"
+        title="Tab 1 avec un nom giga long pour voir comment ça se comporte en vrai et si je rajoute du texte il se passe quoi ?"
         icon="mdi:format-list-bulleted"
       >
         <span>First tab content</span>
       </AvTab>
       <AvTab
         title="Tab 2"
+        icon="mdi:calendar-month-outline"
+      >
+        <span>Second tab content</span>
+      </AvTab>
+      <AvTab
+        title="Tab 3"
         icon="mdi:calendar-month-outline"
       >
         <span>Second tab content</span>

@@ -6,6 +6,7 @@ const stories = [
   'Default',
   'InfoNotice',
   'AlertNotice',
+  'WithoutTitle',
 ]
 
 testStories(component, title, stories)

@@ -50,7 +50,7 @@ BddTest().given('a NavigationMenu', () => {
     })
 
     BddTest().then('it should render the menu button with the correct title', () => {
-      const button = wrapper.find('.fr-nav__btn')
+      const button = wrapper.find('.av-nav__btn')
       expect(button.text()).toBe('Common')
     })
 

@@ -15,6 +15,10 @@ import AvCheckbox, { type AvCheckboxProps } from '@/components/interaction/check
  *   the choice to a single item, use radio buttons (see <code>AvRadioButton</code>).
  * </p>
  *
+ * <p class="b2-regular">
+ *  Checkboxes must be used inside an <code>AvCheckboxesGroup</code> in order to benefit from <code>AvFieldset</code>.
+ * </p>
+ *
  * <h2 class="n2">🏗️ Structure</h2>
  *
  * <ul class="b2-regular">

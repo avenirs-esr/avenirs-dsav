@@ -35,7 +35,8 @@ const realId = computed(() => id ?? `nav-item-${crypto.randomUUID()}`)
 <template>
   <li
     :id="realId"
-    class="fr-nav__item"
+    class="av-nav__item"
+    :class="{ 'av-nav__item--active': active }"
     :aria-current="active ? 'page' : undefined"
   >
     <slot />
@@ -43,9 +44,9 @@ const realId = computed(() => id ?? `nav-item-${crypto.randomUUID()}`)
 </template>
 
 <style lang="scss" scoped>
-.fr-nav__item {
+.av-nav__item {
   &--active {
-    :deep(.fr-nav__link) {
+    :deep(.av-nav__link) {
       box-shadow: inset 0 -2px 0 0 var(--dark-background-primary1);
     }
   }

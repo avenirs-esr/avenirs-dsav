@@ -32,7 +32,7 @@ const meta: Meta<AvLanguageSelectorProps> = {
     title: { control: 'text' }
   },
   args: {
-    languages: [{ codeIso: 'fr', label: 'Français' }, { codeIso: 'en', label: 'English' }],
+    languages: [{ codeIso: 'fr', label: 'Français' }, { codeIso: 'en', label: 'English' }, { codeIso: 'es', label: 'Español' }],
     currentLanguage: 'fr',
     title: 'Select a language'
   },

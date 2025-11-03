@@ -74,7 +74,7 @@ const closeModal = useHeader?.() ?? (() => {})
 <template>
   <a
     v-if="isExternal"
-    class="fr-nav__link"
+    class="av-nav__link"
     :class="{
       'av-nav__link--active': activeId === realId,
       'av-nav__link--compact': isBelowLg,
@@ -83,11 +83,11 @@ const closeModal = useHeader?.() ?? (() => {})
     :href="(to as string)"
     @click="$emit('toggleId', realId); onClick($event)"
   >
-    {{ text }}
+    <span class="b1-regular">{{ text }}</span>
   </a>
   <RouterLink
     v-else
-    class="fr-nav__link"
+    class="av-nav__link"
     data-testid="nav-router-link"
     :to="to"
     @click="closeModal(); $emit('toggleId', realId); onClick?.($event)"
@@ -95,21 +95,25 @@ const closeModal = useHeader?.() ?? (() => {})
     <AvIcon
       v-if="icon"
       :name="icon"
-      :size="2.4"
+      :size="1.5"
     />
-    {{ text }}
+    <span class="b1-regular">{{ text }}</span>
   </RouterLink>
 </template>
 
 <style lang="scss" scoped>
-.fr-nav__link {
+.av-nav__link {
   display: flex;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-xs);
   justify-content: flex-start;
   border-radius: 1.5rem 1.5rem var(--radius-none) var(--radius-none);
 }
 
 .av-nav__link--compact {
   border-radius: var(--radius-none);
+}
+
+.b1-regular {
+  color: inherit;
 }
 </style>

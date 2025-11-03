@@ -70,14 +70,14 @@ const id = ref(`av-radio-button-${crypto.randomUUID()}`)
 </script>
 
 <template>
-  <div
-    class="fr-fieldset__element"
-    :class="{ 'fr-fieldset__element--inline': inline }"
+  <AvFieldsetElement
+    :inline="inline"
+    :disabled="disabled"
   >
     <div
-      class="fr-radio-group"
+      class="av-radio-group"
       :class="{
-        'fr-radio-group--sm': small,
+        'av-radio-group--sm': small,
       }"
     >
       <input
@@ -92,10 +92,35 @@ const id = ref(`av-radio-button-${crypto.randomUUID()}`)
       >
       <label
         :for="id"
-        class="fr-label"
+        class="av-label"
       >
         <slot />
       </label>
     </div>
-  </div>
+  </AvFieldsetElement>
 </template>
+
+<style lang="scss" scoped>
+.av-radio-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-xs);
+
+  input[type=radio] {
+    height: var(--dimension-md);
+    width: var(--dimension-md);
+  }
+
+  &--sm {
+    input[type=radio] {
+      height: var(--dimension-sm);
+      width: var(--dimension-sm);
+    }
+  }
+
+  .av-label {
+    padding: var(--spacing-none);
+  }
+}
+</style>

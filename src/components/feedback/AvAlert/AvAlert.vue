@@ -50,12 +50,6 @@ export interface AvAlertProps {
   small?: boolean
 
   /**
-   * The HTML tag used for the alert title.
-   * @default 'h3'
-   */
-  titleTag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
-
-  /**
    * The alert type. Affects the color and icon.
    * @default 'info'
    */
@@ -72,7 +66,6 @@ const {
   alert = false,
   id,
   title = '',
-  titleTag = 'h3',
   description,
   type = 'info',
   closeButtonLabel = 'Fermer',
@@ -106,9 +99,9 @@ const realId = computed(() => id ?? `alert-${crypto.randomUUID()}`)
 const onClick = () => emit('close')
 
 const classes = computed(() => ([
-  `fr-alert--${type}`,
+  `av-alert--${type}`,
   {
-    'fr-alert--sm': small,
+    'av-alert--sm': small,
   },
 ]),
 )
@@ -132,24 +125,23 @@ const icon = computed(() => {
   <div
     v-if="!closed"
     :id="realId"
-    class="fr-alert"
+    class="av-alert"
     :class="classes"
     :role="alert ? 'alert' : undefined"
   >
-    <div class="av-alert--container">
-      <div class="av-alert--content">
+    <div class="av-alert__container">
+      <div class="av-alert__content">
         <AvIcon
           v-bind="icon"
           :size="3"
         />
-        <div class="av-alert--title">
-          <component
-            :is="titleTag"
+        <div class="av-alert__title">
+          <span
             v-if="!small"
-            class="fr-alert__title"
+            class="s2-bold"
           >
             {{ title }}
-          </component>
+          </span>
           <slot>
             <span class="b1-regular">{{ description }}</span>
           </slot>
@@ -160,45 +152,47 @@ const icon = computed(() => {
         icon-only
         :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
         :label="closeButtonLabel"
-        small
         :on-click="onClick"
+        :small="small"
       />
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.fr-alert::before {
-  content: '' !important;
-  background: none !important;
-}
-
-.fr-alert {
-  background-image: none !important;
-  background-color: var(--dialog);
+.av-alert {
   border: 1px solid var(--dark-background-primary1);
   border-radius: var(--radius-lg);
-  margin: 0;
   padding: var(--spacing-md);
-}
+  background-color: var(--dialog);
 
-.av-alert--container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
+  &__container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: var(--spacing-md);
+  }
 
-.av-alert--content {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: var(--spacing-sm);
-}
+  &__content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
 
-.av-alert--title {
-  display: flex;
-  flex-direction: column;
+  &__title {
+    display: flex;
+    flex-direction: column;
+  }
+
+  +.av-alert {
+    margin-top: var(--spacing-sm);
+  }
+
+  &--sm {
+    padding: var(--spacing-sm);
+  }
 }
 </style>

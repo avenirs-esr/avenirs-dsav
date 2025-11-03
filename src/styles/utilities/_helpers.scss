@@ -1,9 +1,14 @@
 @use '../settings/breakpoints' as bp;
 @use '../core/namespace' as *;
 
+// === Hidden class ===
+@include ns("hidden") {
+  display: none !important;
+}
+
 // === Breakpoint visibility classes ===
 @each $bp-name, $bp-value in bp.$breakpoints {
-  @media (min-width: #{$bp-value}rem) {
+  @media (min-width: #{$bp-value}) {
     @include ns("hidden-#{$bp-name}") {
       display: none !important;
     }
@@ -126,10 +131,6 @@ ol>li{
   counter-increment:li-counter;
 }
 
-ol>li::marker{
-  content:none;
-}
-
 li::marker{
-  content: none;
+  content: counter(li-counter, ".") ". ";
 }

@@ -4,7 +4,7 @@
 
 The `AvButton` is an interaction element with an interface enabling the user to perform an action.
 
-The `AvButton` is an elegant, reusable Vue component designed to simplify the creation of custom buttons. It features adjustable sizes, an optional icon and a click manager. It's easy to use, with the flexibility to adapt to different contexts.
+The `AvButton` is an elegant, reusable Vue component designed to simplify the creation of custom buttons. It features adjustable sizes (small and default), an optional icon and a click manager. It's easy to use, with the flexibility to adapt to different contexts.
 
 The button only allow three variants (`DEFAULT` without border, `OUTLINED` with border and `FLAT` with filled background and border) and two themes (`PRIMARY` blue and `SECONDARY` grey).
 
@@ -26,10 +26,10 @@ Buttons consist of :
 | `noRadius` | `boolean` | `false` | | Allows you to remove radii from the button border. |
 | `disabled` | `boolean` | `false` | | Indicates the disabled state of the button. |
 | `label` | `string` | | ✅ | Text label for the button. |
-| `iconRight` | `boolean` | `false` | | Indicates the position of the icon in relation to the button text: left (`false`) or right (`true`). |
 | `iconOnly` | `boolean` | `false` | | Hide label text (`true`) or show it (`false`). |
-| `size` | `'sm' \| 'small' \| 'lg' \| 'large' \| 'md' \| 'medium' \| '' \| undefined` | `'md'` | | Button size. |
+| `small` | `boolean` | `false` | | Display the button in small size (`true`) or default size (`false`). |
 | `icon` | `string \| InstanceType<typeof AvIcon>['$props']` | `undefined` | | Icon to be displayed in button. Can be a name or icon configuration. |
+| `noSentenceCase` | `boolean` | `false` | | Disable sentence case transformation on the label. You should only use this on very specific cases. |
 | `onClick` | `($event: MouseEvent) => void` | `undefined` | | Function called when button is clicked.
 
 ## 🔊 Events

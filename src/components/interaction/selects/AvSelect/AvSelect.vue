@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { ICONS_DATA_URL } from '@/tokens'
+
 /**
  * AvSelect component props.
  */
@@ -114,22 +116,26 @@ const title = computed(() => {
   return selected ? selected.text : placeholder
 })
 
+const styleVars = computed(() => ({
+  '--icon-path': `url(${ICONS_DATA_URL.MDI_KEYBOARD_ARROW_DOWN})`,
+}))
+
 const message = computed(() => {
   return errorMessage || successMessage
 })
 const messageType = computed(() => {
-  return errorMessage ? 'error' : 'valid'
+  return errorMessage ? 'error' : 'success'
 })
 </script>
 
 <template>
-  <div :class="{ 'fr-select--dense': dense }">
+  <div :class="{ 'av-select--dense': dense }">
     <div
-      class="fr-select-group"
-      :class="{ [`fr-select-group--${messageType}`]: message }"
+      class="av-select-group"
+      :class="{ [`av-select-group--${messageType}`]: message }"
     >
       <label
-        class="fr-label b2-light"
+        class="av-label b2-light"
         :for="realId"
       >
         <span>{{ label }}</span>
@@ -140,14 +146,16 @@ const messageType = computed(() => {
 
         <span
           v-if="hint"
-          class="fr-hint-text"
-        >{{ hint }}</span>
+          class="av-hint-text"
+        >
+          {{ hint }}
+        </span>
       </label>
 
       <select
         :id="realId"
-        :class="{ [`fr-select--${messageType}`]: message }"
-        class="fr-select"
+        :class="{ [`av-select--${messageType}`]: message }"
+        class="av-select"
         :name="name || realId"
         :disabled="disabled"
         :aria-disabled="disabled"
@@ -155,6 +163,7 @@ const messageType = computed(() => {
         :aria-required="required"
         :title="title"
         v-bind="$attrs"
+        :style="styleVars"
         @change="emit('update:modelValue', ($event.target as HTMLInputElement)?.value)"
       >
         <option
@@ -177,14 +186,11 @@ const messageType = computed(() => {
           {{ option.text }}
         </option>
       </select>
-
-      <p
-        v-if="message"
-        :id="`select-${messageType}-desc-${messageType}`"
-        :class="`fr-${messageType}-text`"
-      >
-        {{ message }}
-      </p>
+      <AvMessage
+        :message-id="`select-${messageType}-desc-${messageType}`"
+        :message="message"
+        :type="messageType"
+      />
     </div>
   </div>
 </template>
@@ -192,7 +198,9 @@ const messageType = computed(() => {
 <style lang="scss" scoped>
 @use '@/styles/core/_typography.scss';
 
-.fr-select {
+.av-select {
+  @extend .b1-regular;
+
   background-color: var(--other-background-base);
   border: 1px solid var(--stroke);
   color: var(--text1);
@@ -201,29 +209,40 @@ const messageType = computed(() => {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%232929A2' d='M7.41 8.58L12 13.17l4.59-4.59L18 10l-6 6l-6-6z'/%3E%3C/svg%3E");
+  background-image: var(--icon-path);
+  background-position: calc(100% - var(--dimension-sm)) 50%;
+  background-repeat: no-repeat;
+  background-size: var(--dimension-sm) var(--dimension-sm);
   margin-top: var(--spacing-none);
-  padding-bottom: var(--spacing-xxs);
-}
+  display: block;
+  padding: var(--spacing-xs) var(--spacing-xl) var(--spacing-xs) var(--spacing-sm);
+  width: 100%;
 
-.fr-select--dense .fr-select {
-  padding-top: .1rem !important;
-  padding-bottom: .1rem !important;
-}
+  &--dense {
+    .av-select {
+      @extend .b2-regular;
 
-.fr-select[aria-disabled=true] {
-  background-color: var(--light-background-neutral);
-  color: var(--text1);
-}
+      padding-top: .1rem !important;
+      padding-bottom: .1rem !important;
+    }
+  }
 
-.fr-select:not([aria-disabled=true]):hover {
-  background-color: var(--dark-background-primary1);
-  color: var(--other-background-base);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23FFFFFF' d='M7.41 8.58L12 13.17l4.59-4.59L18 10l-6 6l-6-6z'/%3E%3C/svg%3E");
-}
+  &[aria-disabled=true] {
+    background-color: var(--light-background-neutral);
+    color: var(--text1);
+  }
 
-.fr-select:hover option {
-  color: var(--text1);
-  background-color: var(--other-background-base);
+  &:not([aria-disabled=true]):hover {
+    background-color: var(--dark-background-primary1);
+    color: var(--other-background-base);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23FFFFFF' d='M7.41 8.58L12 13.17l4.59-4.59L18 10l-6 6l-6-6z'/%3E%3C/svg%3E");
+  }
+
+  &:hover {
+    option {
+      color: var(--text1);
+      background-color: var(--other-background-base);
+    }
+  }
 }
 </style>

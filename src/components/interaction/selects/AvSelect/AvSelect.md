@@ -8,7 +8,7 @@ The drop-down list provides a list of options from which the user can choose. On
 
 ## 🏗️ Structure
 
-`AvSelect` consists of a set of `<option>` within a `<select>`.
+The `AvSelect` consists of a set of `<option>` within a `<select>`.
 
 ## 🏷️ Props
 

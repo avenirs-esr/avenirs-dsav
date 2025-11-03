@@ -3,6 +3,7 @@ import type AvButton from '@/components/interaction/buttons/AvButton/AvButton.vu
 import type { AvMultiselectOption } from '@/components/interaction/selects/AvMultiselect/AvMultiselect.types'
 import MultiselectCollapse from '@/components/interaction/selects/AvMultiselect/components/MultiselectCollapse.vue'
 import { useCollapsable } from '@/composables/use-collapsable/use-collapsable'
+import { ICONS_DATA_URL } from '@/tokens'
 
 export interface AvMultiselectProps {
   /**
@@ -168,7 +169,7 @@ const message = computed(() => {
   return errorMessage || successMessage
 })
 const messageType = computed(() => {
-  return errorMessage ? 'error' : 'valid'
+  return errorMessage ? 'error' : 'success'
 })
 
 const {
@@ -270,159 +271,135 @@ onUnmounted(() => {
 })
 
 const finalLabelClass = computed(() => [
-  'fr-label',
+  'av-label',
   { invisible: !labelVisible },
   labelClass,
 ])
+
+const styleVars = computed(() => ({
+  '--icon-path': `url(${ICONS_DATA_URL.MDI_KEYBOARD_ARROW_DOWN})`,
+}))
 </script>
 
 <template>
   <div
-    :class="{
-      'fr-multiselect--dense': dense,
-      'fr-multiselect--unselected': modelValue.length === 0,
-      'fr-multiselect--selected': modelValue.length > 0,
-    }"
+    class="av-select-group"
+    :class="{ [`av-select-group--${messageType}`]: message }"
+    :title="title"
   >
-    <div
-      class="fr-select-group"
-      :class="{ [`fr-select-group--${messageType}`]: message }"
-      :title="title"
+    <label
+      :class="finalLabelClass"
+      :for="realId"
     >
-      <label
-        :class="finalLabelClass"
-        :for="realId"
+      <span class="b2-light">{{ label }}</span>
+      <span
+        v-if="'required' in $attrs && $attrs.required !== false"
+        class="required"
+      />
+
+      <span
+        v-if="hint"
+        class="av-hint-text"
       >
-        <span class="b2-light">{{ label }}</span>
-        <span
-          v-if="'required' in $attrs && $attrs.required !== false"
-          class="required"
-        />
+        {{ hint }}
+      </span>
+    </label>
 
-        <span
-          v-if="hint"
-          class="fr-hint-text"
-        >
-          {{ hint }}
-        </span>
-      </label>
-
-      <AvButton
-        :id="realId"
-        ref="host"
-        type="button"
-        variant="OUTLINED"
-        v-bind="$attrs"
-        :label="title"
-        class="fr-select fr-multiselect"
-        :disabled="disabled"
-        :aria-expanded="expanded"
-        :aria-controls="`${realId}-collapse`"
-        :class="{
-          'fr-multiselect--is-open': expanded,
-          [`fr-select--${messageType}`]: message,
-        }"
-        :size="dense ? 'sm' : 'md'"
-        @click="handleClick"
-        @keydown.shift.tab="handleFocusPreviousElement"
-      />
-      <MultiselectCollapse
-        :id="realId"
-        :legend="legend"
-        :hint="collapseHint"
-        :model-value="computedModelValue"
-        :is-visible="isVisible"
-        :select-all="selectAll"
-        :select-all-label="selectAllLabel"
-        :search="search"
-        :options="options"
-        :selected="modelValue"
-        :use-collapsable-return="useCollapsableReturn"
-        :max-overflow-height="maxOverflowHeight"
-        @close="close"
-        @update:model-value="onUpdateModelValue"
-      />
-    </div>
-    <p
-      v-if="message"
-      :id="`select-${messageType}-desc-${messageType}`"
-      :class="`fr-${messageType}-text`"
-    >
-      {{ message }}
-    </p>
+    <AvButton
+      :id="realId"
+      ref="host"
+      type="button"
+      variant="OUTLINED"
+      v-bind="$attrs"
+      :label="title"
+      class="av-multiselect"
+      :disabled="disabled"
+      :aria-expanded="expanded"
+      :aria-controls="`${realId}-collapse`"
+      :class="{
+        'av-multiselect--is-open': expanded,
+        'av-multiselect--dense': dense,
+        'av-multiselect--unselected': modelValue.length === 0,
+        'av-multiselect--selected': modelValue.length > 0,
+      }"
+      :size="dense ? 'sm' : 'md'"
+      :style="styleVars"
+      @click="handleClick"
+      @keydown.shift.tab="handleFocusPreviousElement"
+    />
+    <MultiselectCollapse
+      :id="realId"
+      :legend="legend"
+      :hint="collapseHint"
+      :model-value="computedModelValue"
+      :is-visible="isVisible"
+      :select-all="selectAll"
+      :select-all-label="selectAllLabel"
+      :search="search"
+      :options="options"
+      :selected="modelValue"
+      :use-collapsable-return="useCollapsableReturn"
+      :max-overflow-height="maxOverflowHeight"
+      @close="close"
+      @update:model-value="onUpdateModelValue"
+    />
   </div>
+  <AvMessage
+    :message-id="`multiselect-${messageType}-desc-${messageType}`"
+    :type="messageType"
+    :message="message"
+  />
 </template>
 
 <style lang="scss" scoped>
 @use '@/styles/core/_typography.scss';
 
-.fr-multiselect {
+.av-multiselect {
   text-align: left;
   background-image: none;
   display: inline-flex;
   flex-direction: row;
-  padding: 0.75rem 1rem;
-}
-
-.fr-multiselect::after {
-  --icon-size: 1rem;
-  background-color: currentColor;
-  content: "";
-  display: inline-block;
-  flex: 0 0 auto;
-  height: 1rem;
-  height: var(--icon-size);
-  margin-left: auto;
-  margin-right: 0;
-  -webkit-mask-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCI+PHBhdGggZD0ibTEyIDEzLjE3MiA0Ljk1LTQuOTUgMS40MTQgMS40MTRMMTIgMTYgNS42MzYgOS42MzYgNy4wNSA4LjIyMmw0Ljk1IDQuOTVaIi8+PC9zdmc+);
-  mask-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCI+PHBhdGggZD0ibTEyIDEzLjE3MiA0Ljk1LTQuOTUgMS40MTQgMS40MTRMMTIgMTYgNS42MzYgOS42MzYgNy4wNSA4LjIyMmw0Ljk1IDQuOTVaIi8+PC9zdmc+);
-  -webkit-mask-size: 100% 100%;
-  mask-size: 100% 100%;
-  transition: transform 0.3s;
-  vertical-align: calc(0.375em - 0.5rem);
-  vertical-align: calc((0.75em - var(--icon-size)) * 0.5);
-  width: 1rem;
-  width: var(--icon-size);
-  margin-top: auto;
-  margin-bottom: auto;
-}
-
-.fr-multiselect--is-open::after {
-  transform: rotate(-180deg);
-}
-
-.fr-select {
-  background-color: var(--other-background-base);
-  border: 1px solid var(--stroke);
-  color: var(--text1);
-  box-shadow: none;
-  border-radius: var(--radius-md);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-top: var(--spacing-none);
+  padding: 0.75rem var(--spacing-sm);
   width: v-bind('width');
-}
-
-.fr-multiselect--dense .fr-select {
-  padding-top: .1rem !important;
-  padding-bottom: .1rem !important;
   height: v-bind('height');
-}
 
-.fr-select:not([aria-disabled=true]):hover {
-  background-color: var(--dark-background-primary1);
-  color: var(--other-background-base);
-}
+  &::after {
+    background-color: currentColor;
+    content: "";
+    display: inline-block;
+    flex: 0 0 auto;
+    height: var(--dimension-sm);
+    height: var(--dimension-sm);
+    -webkit-mask-image: var(--icon-path);
+    mask-image: var(--icon-path);
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    transition: transform 0.3s;
+    vertical-align: calc(0.375em - 0.5rem);
+    vertical-align: calc((0.75em - var(--dimension-sm)) * 0.5);
+    width: var(--dimension-sm);
+    margin-top: auto;
+    margin-bottom: auto;
+  }
 
-.fr-select:hover option {
-  color: var(--text1);
-  background-color: var(--other-background-base);
-}
+  &--is-open::after {
+    transform: rotate(-180deg);
+  }
 
-.fr-multiselect--unselected button {
-  @extend .caption-regular;
-  font-style: italic;
+  &--dense {
+    padding-top: .1rem !important;
+    padding-bottom: .1rem !important;
+  }
+
+  &:not([aria-disabled=true]):hover {
+    background-color: var(--dark-background-primary1);
+    color: var(--other-background-base);
+  }
+
+  &--unselected {
+    @extend .b1-regular;
+    font-style: italic;
+  }
 }
 
 :deep(.av-button span) {

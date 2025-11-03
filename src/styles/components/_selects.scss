@@ -1,0 +1,13 @@
+@use '../core/namespace' as *;
+
+@include ns("select-group") {
+  position: relative;
+
+  &--error .av-label * {
+    color: var(--dark-background-error) !important;
+  }
+
+  &--success .av-label * {
+    color: var(--dark-background-success) !important;
+  }
+}

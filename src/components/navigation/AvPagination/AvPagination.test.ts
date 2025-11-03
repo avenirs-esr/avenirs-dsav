@@ -35,7 +35,7 @@ BddTest().given('an AvPagination', () => {
     })
 
     BddTest().then('it should render correctly', () => {
-      const links = wrapper.findAll('a.fr-pagination__link')
+      const links = wrapper.findAll('a.av-pagination__link')
       expect(links.length).toBeGreaterThan(0)
       expect(links[0].attributes('href')).toBe('#page-1')
 
@@ -59,7 +59,7 @@ BddTest().given('an AvPagination', () => {
 
       BddTest().then('it should render compact mode text', () => {
         expect(wrapper.text()).toContain('Page 3 sur 4')
-        const pageNumberLinks = wrapper.findAll('a.fr-pagination__link.fr-unhidden-lg')
+        const pageNumberLinks = wrapper.findAll('a.av-pagination__link.av-unhidden-lg')
         expect(pageNumberLinks.length).toBe(0)
       })
     })
@@ -79,9 +79,11 @@ BddTest().given('an AvPagination', () => {
         await wrapper.find('a[title="Dernière page"]').trigger('click')
         expect(wrapper.emitted('update:current-page')![3]).toEqual([pagesMock.length - 1])
 
-        const pageLinks = wrapper.findAll('a.fr-pagination__link.fr-unhidden-lg')
-        await pageLinks[2].trigger('click')
-        expect(wrapper.emitted('update:current-page')![4]).toEqual([2])
+        const pageLinks = wrapper.findAll('a.av-pagination__link:not(.av-unhidden-md)')
+        const linkToPage2 = pageLinks.find(link => link.text() === '2')
+        await linkToPage2!.trigger('click')
+
+        expect(wrapper.emitted('update:current-page')![4]).toEqual([1])
       })
     })
   })

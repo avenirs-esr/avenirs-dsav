@@ -4,8 +4,26 @@ import { nextTick } from 'vue'
 import AvHeader from '@/components/header/AvHeader/AvHeader.vue'
 import { BddTest, mountWithRouter } from '@/tests/utils'
 
+vi.mock('@/composables', () => ({
+  useAvBreakpoints: () => ({ isBelowLg: false }),
+}))
+
 BddTest().given('an AvHeader', () => {
   let wrapper: VueWrapper
+
+  const stubs = {
+    AvModal: {
+      name: 'AvModal',
+      template: `
+      <div class="av-modal-stub">
+        <slot name="header" />
+        <slot />
+      </div>
+    `,
+      props: ['opened', 'id', 'closeButtonLabel', 'confirmButtonLabel'],
+      emits: ['close', 'confirm']
+    }
+  }
 
   const serviceTitle = 'Service title'
   const quickLinks = [{ text: 'Lien', to: '/' }]
@@ -16,7 +34,7 @@ BddTest().given('an AvHeader', () => {
 
   BddTest().when('the component is mounted', () => {
     beforeEach(async () => {
-      wrapper = await mountWithRouter(AvHeader)
+      wrapper = await mountWithRouter(AvHeader, { global: { stubs } })
     })
 
     BddTest().then('ot should display default logo and text', async () => {
@@ -27,6 +45,7 @@ BddTest().given('an AvHeader', () => {
       beforeEach(async () => {
         wrapper = await mountWithRouter(AvHeader, {
           props: { serviceTitle },
+          global: { stubs }
         })
       })
 
@@ -39,26 +58,23 @@ BddTest().given('an AvHeader', () => {
   BddTest().when('the menu button is clicked', () => {
     beforeEach(async () => {
       wrapper = await mountWithRouter(AvHeader, {
-        props: {
-          quickLinks,
-        },
+        props: { quickLinks },
+        global: { stubs }
       })
     })
 
     BddTest().then('it should open menu', async () => {
       const menuButton = wrapper.get('[data-testid="open-menu-btn"]')
       await menuButton.trigger('click')
-      expect(wrapper.find('.fr-header__menu.fr-modal--opened').exists()).toBe(true)
+      expect(wrapper.findComponent({ name: 'AvModal' }).props('opened')).toBe(true)
     })
   })
 
   BddTest().when('using the search bar', () => {
     beforeEach(async () => {
       wrapper = await mountWithRouter(AvHeader, {
-        props: {
-          showSearch,
-          modelValue,
-        },
+        props: { showSearch, modelValue },
+        global: { stubs }
       })
     })
 
@@ -75,22 +91,21 @@ BddTest().given('an AvHeader', () => {
     BddTest().and('the search button is clicked', () => {
       beforeEach(async () => {
         wrapper = await mountWithRouter<typeof AvHeader>(AvHeader, {
-          props: {
-            showSearch,
-          },
+          props: { showSearch },
+          global: { stubs }
         })
       })
 
       BddTest().then('it should open search modal and close menu modal', async () => {
-        const searchButton = wrapper.find('button.fr-btn--search')
+        const searchButton = wrapper.find('.search-button')
         expect(searchButton.exists()).toBe(true)
 
         await searchButton.trigger('click')
 
-        const headerMenu = wrapper.find('.fr-header__menu')
-        const searchBar = headerMenu.find('.fr-search-bar')
+        const headerMenu = wrapper.find('.av-header__menu-modal')
+        const searchBar = headerMenu.find('.av-search-bar')
         expect(searchBar.exists()).toBe(true)
-        const menuLinks = wrapper.find('.fr-header__menu-links')
+        const menuLinks = wrapper.find('.av-header__menu-modal-links')
         const quickLinks = menuLinks.find('[aria-label="Menu secondaire"]')
         expect(quickLinks.exists()).toBe(false)
       })
@@ -99,23 +114,20 @@ BddTest().given('an AvHeader', () => {
     BddTest().and('the close button is clicked', () => {
       beforeEach(async () => {
         wrapper = await mountWithRouter(AvHeader, {
-          props: {
-            serviceTitle,
-            quickLinks,
-          },
+          props: { serviceTitle, quickLinks },
+          global: { stubs }
         })
       })
 
       BddTest().then('it should close the menu modal when close button is clicked', async () => {
-        const menuModal = wrapper.get('.fr-header__menu.fr-modal')
+        const menuModal = wrapper.findComponent({ name: 'AvModal' })
 
         const openBtn = wrapper.get('[data-testid="open-menu-btn"]')
         await openBtn.trigger('click')
-        expect(menuModal.classes()).toContain('fr-modal--opened')
+        expect(menuModal.props('opened')).toBe(true)
 
-        const closeBtn = wrapper.get('[data-testid="close-modal-btn"]')
-        await closeBtn.trigger('click')
-        expect(menuModal.classes()).not.toContain('fr-modal--opened')
+        await menuModal.vm.$emit('close')
+        expect(menuModal.props('opened')).toBe(false)
       })
     })
 
@@ -133,9 +145,8 @@ BddTest().given('an AvHeader', () => {
         document.body.appendChild(menuBtn)
 
         wrapper = await mountWithRouter(AvHeader, {
-          props: {
-            quickLinks,
-          },
+          props: { quickLinks },
+          global: { stubs }
         })
       })
 
@@ -145,8 +156,9 @@ BddTest().given('an AvHeader', () => {
 
       BddTest().and('clicking the close button', () => {
         BddTest().then('it should focus #button-menu', async () => {
+          expect(wrapper.find('[data-testid="open-menu-btn"]').exists()).toBe(true)
           await wrapper.get('[data-testid="open-menu-btn"]').trigger('click')
-          await wrapper.get('[data-testid="close-modal-btn"]').trigger('click')
+          await wrapper.findComponent({ name: 'AvModal' }).vm.$emit('close')
 
           expect(focusMock).toHaveBeenCalled()
         })
@@ -177,9 +189,8 @@ BddTest().given('an AvHeader', () => {
         document.body.appendChild(closeBtn)
 
         wrapper = await mountWithRouter(AvHeader, {
-          props: {
-            quickLinks,
-          },
+          props: { quickLinks },
+          global: { stubs }
         })
       })
 
@@ -205,7 +216,8 @@ BddTest().given('an AvHeader', () => {
             currentLanguage,
             languages
           }
-        }
+        },
+        global: { stubs }
       })
     })
 
@@ -223,7 +235,7 @@ BddTest().given('an AvHeader', () => {
   BddTest().when('the component is unmounted', () => {
     beforeEach(async () => {
       vi.clearAllMocks()
-      wrapper = await mountWithRouter(AvHeader)
+      wrapper = await mountWithRouter(AvHeader, { global: { stubs } })
     })
 
     BddTest().then('it should remove keydown event listener', () => {

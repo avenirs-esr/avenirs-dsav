@@ -6,6 +6,8 @@ The `AvCheckbox` allow the user to select one or more options from a list. They 
 
 Checkboxes can be used alone or in a list. Avoid lists with more than 5 items, and when you want to restrict the choice to a single item, use radio buttons (see `AvRadioButton`).
 
+Checkboxes must be used inside an `AvCheckboxesGroup` in order to benefit from `AvFieldset`.
+
 ## 🏗️ Structure
 
 The `AvCheckbox` component consists of the following elements:

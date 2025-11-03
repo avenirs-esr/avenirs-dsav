@@ -17,7 +17,6 @@ $focus-elements: (
   'details>summary:first-of-type',
   'input',
   'input[type=button]',
-  'input[type=checkbox]+label:before',
   'input[type=image]',
   'input[type=radio]+label:before',
   'input[type=reset]',
@@ -25,6 +24,11 @@ $focus-elements: (
   'select',
   'textarea',
   'video[controls]'
+);
+
+// === Elements visually linked to a focused input ===
+$focus-linked-elements: (
+  'input[type=checkbox]:focus-visible + label',
 );
 
 // === Apply focus styles ===
@@ -37,6 +41,13 @@ $focus-elements: (
   }
   #{$el}:focus:not(:focus-visible) {
     outline-style: none;
+  }
+}
+
+// === Apply focus styles to visual “linked” elements (labels) ===
+@each $el in $focus-linked-elements {
+  #{$el} {
+    @include focus-style;
   }
 }
 

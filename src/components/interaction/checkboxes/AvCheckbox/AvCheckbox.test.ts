@@ -57,7 +57,7 @@ BddTest().given('an AvCheckbox component', () => {
     })
 
     BddTest().then('it should render the hint', () => {
-      const hint = wrapper.find('.fr-hint-text')
+      const hint = wrapper.find('.av-hint-text')
       expect(hint.exists()).toBe(true)
       expect(hint.text()).toBe('This is a hint')
     })
@@ -69,10 +69,9 @@ BddTest().given('an AvCheckbox component', () => {
     })
 
     BddTest().then('it should render the error message with correct class', () => {
-      const msg = wrapper.find('.fr-message--info')
+      const msg = wrapper.find('.av-message--error')
       expect(msg.exists()).toBe(true)
       expect(msg.text()).toBe('Error!')
-      expect(msg.classes()).toContain('fr-error-text')
     })
   })
 
@@ -82,10 +81,9 @@ BddTest().given('an AvCheckbox component', () => {
     })
 
     BddTest().then('it should render the valid message with correct class', () => {
-      const msg = wrapper.find('.fr-message--info')
+      const msg = wrapper.find('.av-message--success')
       expect(msg.exists()).toBe(true)
       expect(msg.text()).toBe('Valid!')
-      expect(msg.classes()).toContain('fr-valid-text')
     })
   })
 

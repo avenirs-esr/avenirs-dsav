@@ -115,7 +115,6 @@ defineSlots<{
 const realId = computed(() => id ?? `radio-button-set-${crypto.randomUUID()}`)
 
 const message = computed(() => errorMessage || validMessage)
-const additionalMessageClass = computed(() => errorMessage ? 'fr-error-text' : 'fr-valid-text')
 
 function onChange ($event: string) {
   if ($event === modelValue) {
@@ -180,63 +179,31 @@ defineExpose({ selected })
 </script>
 
 <template>
-  <div class="fr-form-group">
-    <fieldset
-      class="fr-fieldset"
-      :class="{
-        'fr-fieldset--error': errorMessage,
-        'fr-fieldset--valid': validMessage,
-      }"
-      :disabled="disabled"
-      :aria-labelledby="realId"
-      :aria-describedby="describedByElement"
-      :role="(errorMessage || validMessage) ? 'group' : undefined"
+  <AvFieldset
+    :id="realId"
+    :legend="legend"
+    :hint="hint"
+    :required="required"
+    :disabled="disabled"
+    :aria-labelledby="realId"
+    :aria-describedby="describedByElement"
+    :role="(errorMessage || validMessage) ? 'group' : undefined"
+    :error-message="errorMessage"
+    :success-message="validMessage"
+    :inline="inline"
+  >
+    <RadioButton
+      v-for="(radio, index) in radios"
+      :key="index"
+      v-model="selected"
+      :value="radio.props?.value"
+      :disabled="radio.props?.disabled ?? disabled"
+      :small="small"
+      :inline="inline"
+      :name="name"
+      @update:model-value="onChange($event as string)"
     >
-      <legend
-        v-if="legend || hint"
-        :id="realId"
-        class="fr-fieldset__legend fr-fieldset__legend--regular"
-      >
-        <span class="caption-regular">{{ legend }}</span>
-        <span
-          v-if="hint"
-          class="caption-regular fr-hint-text"
-        >
-          {{ hint }}
-        </span>
-        <span
-          v-if="required"
-          class="caption-regular required"
-        >&nbsp;*</span>
-      </legend>
-      <RadioButton
-        v-for="(radio, index) in radios"
-        :key="index"
-        v-model="selected"
-        :value="radio.props?.value"
-        :disabled="radio.props?.disabled ?? disabled"
-        :small="small"
-        :inline="inline"
-        :name="name"
-        @update:model-value="onChange($event as string)"
-      >
-        <component :is="(radio.children as Record<string, unknown>)?.default" />
-      </RadioButton>
-
-      <div
-        v-if="message"
-        :id="`messages-${realId}`"
-        class="fr-messages-group"
-        aria-live="assertive"
-        role="alert"
-      >
-        <p
-          class="fr-message  fr-message--info  flex  items-center"
-          :class="additionalMessageClass"
-        >
-          {{ message }}
-        </p>
-      </div>
-    </fieldset>
-  </div>
+      <component :is="(radio.children as Record<string, unknown>)?.default" />
+    </RadioButton>
+  </AvFieldset>
 </template>

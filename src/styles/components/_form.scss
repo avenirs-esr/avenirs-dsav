@@ -1,3 +1,6 @@
+@use '../core/namespace' as *;
+@use '../core/typography' as *;
+
 // === Form elements reset ===
 input,
 select,
@@ -23,4 +26,25 @@ input[type=range] {
   -webkit-appearance:auto;
   -moz-appearance:auto;
   appearance:auto;
+}
+
+// === Label ===
+@include ns("label") {
+  @extend .b2-regular;
+  display: block;
+  padding-bottom: var(--spacing-xxs);
+
+  &::before {
+    display: none;
+  }
+}
+
+// === Hint text ===
+@include ns("hint-text") {
+  @extend .caption-regular;
+  display: block;
+
+  +.#{$prefix}hint-text {
+    padding-top: var(--spacing-xxs);
+  }
 }

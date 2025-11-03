@@ -19,11 +19,10 @@ BddTest().given('an AvBadge', () => {
 
     BddTest().then('it should render with given properties', () => {
       const badge = wrapper.find('.av-badge')
-      expect(badge.classes()).toContain('fr-badge--info')
       expect(badge.text()).toBe(props.label)
-      expect(badge.classes()).not.toContain('av-badge--customIcon')
-      expect(badge.classes()).not.toContain('fr-badge--no-icon')
-      expect(badge.classes()).not.toContain('fr-badge--sm')
+      expect(badge.classes()).not.toContain('av-badge--custom-icon')
+      expect(badge.classes()).toContain('av-badge--no-icon')
+      expect(badge.classes()).not.toContain('av-badge--sm')
     })
 
     BddTest().and('given iconDataUrl prop', () => {
@@ -39,19 +38,6 @@ BddTest().given('an AvBadge', () => {
       })
     })
 
-    BddTest().and('given another type', () => {
-      const newProps: AvBadgeProps = { ...props, type: 'error' }
-
-      beforeEach(() => {
-        wrapper = mount(AvBadge, { props: newProps })
-      })
-
-      BddTest().then('it should update type class', () => {
-        const badge = wrapper.find('.av-badge')
-        expect(badge.classes()).toContain('fr-badge--error')
-      })
-    })
-
     BddTest().and('given small prop', () => {
       const newProps: AvBadgeProps = { ...props, small: true }
 
@@ -61,20 +47,7 @@ BddTest().given('an AvBadge', () => {
 
       BddTest().then('it should add small class', () => {
         const badge = wrapper.find('.av-badge')
-        expect(badge.classes()).toContain('fr-badge--sm')
-      })
-    })
-
-    BddTest().and('given no icon prop', () => {
-      const newProps: AvBadgeProps = { ...props, noIcon: true }
-
-      beforeEach(() => {
-        wrapper = mount(AvBadge, { props: newProps })
-      })
-
-      BddTest().then('it should add no icon class', () => {
-        const badge = wrapper.find('.av-badge')
-        expect(badge.classes()).toContain('fr-badge--no-icon')
+        expect(badge.classes()).toContain('av-badge--sm')
       })
     })
 
@@ -87,7 +60,7 @@ BddTest().given('an AvBadge', () => {
 
       BddTest().then('it should add an ellipsis class', () => {
         const badge = wrapper.find('.av-badge')
-        expect(badge.find('.fr-ellipsis').exists()).toBe(true)
+        expect(badge.find('.av-ellipsis').exists()).toBe(true)
       })
     })
   })

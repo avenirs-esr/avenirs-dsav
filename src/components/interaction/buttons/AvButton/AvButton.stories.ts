@@ -15,7 +15,7 @@ import AvButton, { type AvButtonProps } from '@/components/interaction/buttons/A
  * <p>
  *   <span class="b2-regular">
  *     The <code>AvButton</code> is an elegant, reusable Vue component designed to simplify the creation of custom buttons.
- *     It features adjustable sizes, an optional icon and a click manager.
+ *     It features adjustable sizes (small and default), an optional icon and a click manager.
  *     It's easy to use, with the flexibility to adapt to different contexts.
  *   </span>
  * </p>
@@ -62,12 +62,8 @@ const meta: Meta<AvButtonProps> = {
       control: { type: 'radio' },
       options: ['PRIMARY', 'SECONDARY'],
     },
-    size: {
-      control: { type: 'select' },
-      options: ['sm', 'small', 'md', 'medium', 'lg', 'large', '', undefined],
-    },
+    small: { control: 'boolean' },
     iconOnly: { control: 'boolean' },
-    iconRight: { control: 'boolean' },
     isLoading: { control: 'boolean' },
     noRadius: { control: 'boolean' },
     disabled: { control: 'boolean' },
@@ -82,9 +78,8 @@ const meta: Meta<AvButtonProps> = {
     icon: '',
     variant: 'DEFAULT',
     theme: 'PRIMARY',
-    size: 'md',
+    small: false,
     iconOnly: false,
-    iconRight: false,
     isLoading: false,
     noRadius: false,
     disabled: false,

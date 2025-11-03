@@ -91,12 +91,12 @@ BddTest().given('an AvTagPicker', () => {
 
       BddTest().then('it should mark selected option as selected and disabled', () => {
         const tags = wrapper.findAllComponents({ name: 'AvTag' })
-        expect(tags[0].classes()).not.toContain('fr-tag--selected')
-        expect(tags[0].classes()).not.toContain('fr-tag--disabled')
-        expect(tags[1].classes()).toContain('fr-tag--selected')
-        expect(tags[1].classes()).toContain('fr-tag--disabled')
-        expect(tags[2].classes()).not.toContain('fr-tag--selected')
-        expect(tags[2].classes()).not.toContain('fr-tag--disabled')
+        expect(tags[0].classes()).not.toContain('av-tag--selected')
+        expect(tags[0].classes()).not.toContain('av-tag--disabled')
+        expect(tags[1].classes()).toContain('av-tag--selected')
+        expect(tags[1].classes()).toContain('av-tag--disabled')
+        expect(tags[2].classes()).not.toContain('av-tag--selected')
+        expect(tags[2].classes()).not.toContain('av-tag--disabled')
       })
     })
 
@@ -128,10 +128,10 @@ BddTest().given('an AvTagPicker', () => {
         BddTest().then('it should deselect the previous option and select the new one', () => {
           expect(handleSelectChange).toHaveBeenLastCalledWith(mockOptions[1])
           const tags = wrapper.findAllComponents({ name: 'AvTag' })
-          expect(tags[0].classes()).not.toContain('fr-tag--selected')
-          expect(tags[0].classes()).not.toContain('fr-tag--disabled')
-          expect(tags[1].classes()).toContain('fr-tag--selected')
-          expect(tags[1].classes()).toContain('fr-tag--disabled')
+          expect(tags[0].classes()).not.toContain('av-tag--selected')
+          expect(tags[0].classes()).not.toContain('av-tag--disabled')
+          expect(tags[1].classes()).toContain('av-tag--selected')
+          expect(tags[1].classes()).toContain('av-tag--disabled')
         })
       })
     })
@@ -166,9 +166,9 @@ BddTest().given('an AvTagPicker', () => {
 
       BddTest().then('it should mark first option as selected but not disabled', () => {
         const tags = wrapper.findAllComponents({ name: 'AvTag' })
-        expect(tags[0].classes()).toContain('fr-tag--selected')
-        expect(tags[0].classes()).not.toContain('fr-tag--disabled')
-        expect(tags[1].classes()).not.toContain('fr-tag--selected')
+        expect(tags[0].classes()).toContain('av-tag--selected')
+        expect(tags[0].classes()).not.toContain('av-tag--disabled')
+        expect(tags[1].classes()).not.toContain('av-tag--selected')
       })
 
       BddTest().when('when second option is selected', () => {
@@ -184,10 +184,10 @@ BddTest().given('an AvTagPicker', () => {
 
         BddTest().then('both options should be selected but not disabled', () => {
           const tags = wrapper.findAllComponents({ name: 'AvTag' })
-          expect(tags[0].classes()).toContain('fr-tag--selected')
-          expect(tags[0].classes()).not.toContain('fr-tag--disabled')
-          expect(tags[1].classes()).toContain('fr-tag--selected')
-          expect(tags[1].classes()).not.toContain('fr-tag--disabled')
+          expect(tags[0].classes()).toContain('av-tag--selected')
+          expect(tags[0].classes()).not.toContain('av-tag--disabled')
+          expect(tags[1].classes()).toContain('av-tag--selected')
+          expect(tags[1].classes()).not.toContain('av-tag--disabled')
         })
       })
     })
@@ -224,10 +224,10 @@ BddTest().given('an AvTagPicker', () => {
         BddTest().then('it should deselect the second option', () => {
           expect(handleSelectChange).toHaveBeenLastCalledWith([mockOptions[0]])
           const tags = wrapper.findAllComponents({ name: 'AvTag' })
-          expect(tags[0].classes()).toContain('fr-tag--selected')
-          expect(tags[0].classes()).not.toContain('fr-tag--disabled')
-          expect(tags[1].classes()).not.toContain('fr-tag--selected')
-          expect(tags[1].classes()).not.toContain('fr-tag--disabled')
+          expect(tags[0].classes()).toContain('av-tag--selected')
+          expect(tags[0].classes()).not.toContain('av-tag--disabled')
+          expect(tags[1].classes()).not.toContain('av-tag--selected')
+          expect(tags[1].classes()).not.toContain('av-tag--disabled')
         })
       })
     })
@@ -251,8 +251,8 @@ BddTest().given('an AvTagPicker', () => {
       BddTest().when('the component is mounted', () => {
         BddTest().then('it should display the selected option as selected', () => {
           const tags = wrapper.findAllComponents({ name: 'AvTag' })
-          expect(tags[0].classes()).toContain('fr-tag--selected')
-          expect(tags[1].classes()).not.toContain('fr-tag--selected')
+          expect(tags[0].classes()).toContain('av-tag--selected')
+          expect(tags[1].classes()).not.toContain('av-tag--selected')
         })
       })
     })
@@ -277,9 +277,9 @@ BddTest().given('an AvTagPicker', () => {
       BddTest().when('the component is mounted', () => {
         BddTest().then('it should display the selected options as selected', () => {
           const tags = wrapper.findAllComponents({ name: 'AvTag' })
-          expect(tags[0].classes()).toContain('fr-tag--selected')
-          expect(tags[1].classes()).not.toContain('fr-tag--selected')
-          expect(tags[2].classes()).toContain('fr-tag--selected')
+          expect(tags[0].classes()).toContain('av-tag--selected')
+          expect(tags[1].classes()).not.toContain('av-tag--selected')
+          expect(tags[2].classes()).toContain('av-tag--selected')
         })
       })
     })

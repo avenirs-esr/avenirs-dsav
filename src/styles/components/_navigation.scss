@@ -1,0 +1,122 @@
+@use '../core/namespace' as *;
+@use '../settings/breakpoints' as *;
+
+@include ns("nav") {
+  &__list,
+  &__item {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__list {
+    position: relative;
+    margin: var(--spacing-none);
+    padding: var(--spacing-none);
+  }
+
+  &__item {
+    align-items: stretch;
+    flex: 0 1 auto;
+    position: relative;
+
+    &::before {
+      box-shadow: 0 -1px 0 0 var(--light-background-neutral), inset 0 -1px 0 0 var(--light-background-neutral);
+      content: "";
+      display: block;
+      height: 100%;
+      inset: var(--spacing-none);
+      pointer-events: none;
+      position: absolute;
+      width: 100%;
+    }
+
+    &:first-child:last-child::before {
+      box-shadow: none;
+    }
+
+    &:first-child::before {
+      box-shadow: inset 0 -1px 0 0 var(--light-background-neutral);
+    }
+
+    &:last-child::before {
+      box-shadow: 0 -1px 0 0 var(--light-background-neutral);
+    }
+  }
+
+  &__btn,
+  &__link {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    width: auto;
+    margin: var(--spacing-none);
+    padding: .75rem var(--spacing-sm);
+    text-align: left;
+    color: var(--text1);
+    min-height: var(--dimension-2xl);
+
+    &:hover {
+      background-color: var(--dark-background-primary1) !important;
+      color: var(--other-background-base) !important;
+    }
+  }
+
+  &__link {
+    &:not([href])[aria-current]:not([aria-current=false]) {
+      cursor: default;
+      pointer-events: none;
+    }
+  }
+  
+  & li::marker {
+    content: none;
+  }
+
+  @include min-width(lg) {
+    &__list {
+      flex-direction: row;
+      flex-wrap: nowrap;
+
+      &>:first-child:nth-last-child(2)~*,
+      &>:first-child:nth-last-child(3)~*,
+      &>:first-child:nth-last-child(4)~* {
+        margin-left: 1.25rem;
+      }
+    }
+
+    &__item {
+      align-items: flex-start;
+      position: static;
+
+      &::before {
+        content: none;
+      }
+    }
+
+    &__btn,
+    &__link {
+      padding: var(--spacing-sm);
+
+      &[aria-current]:not([aria-current=false]) {
+        position: relative;
+
+        &::before {
+          position: absolute;
+          top: auto;
+          bottom: 0;
+          left: 0;
+          margin-top: 0;
+          height: var(--dimension-xxxs);
+          width: 100%;
+          content: "";
+        }
+      }
+    }
+
+    &__btn {
+      justify-content: flex-start;
+    }
+  }
+}

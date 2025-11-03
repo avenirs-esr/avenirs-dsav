@@ -6,6 +6,7 @@ const stories = [
   'Default',
   'Inline',
   'Disabled',
+  'Small',
   'Error',
   'SuccessInline',
 ]

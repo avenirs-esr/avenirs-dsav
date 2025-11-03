@@ -1,0 +1,50 @@
+@use '../core/namespace' as *;
+@use '../settings/breakpoints' as *;
+
+@include ns("menu") {
+  &.#{$prefix}collapsing {
+    margin-top: var(--spacing-none);
+    padding-top: var(--spacing-none);
+  }
+
+  &__list {
+    margin: var(--spacing-none);
+    padding: var(--spacing-none) var(--spacing-sm) var(--spacing-sm);
+  }
+
+  .#{$prefix}nav__link {
+    height: auto;
+    min-height: auto;
+    padding: 0.75rem var(--spacing-sm);
+    width: 100%;
+
+    &[aria-current]:not([aria-current=false]) {
+      position: relative;
+
+      &::before {
+        content: "";
+        display: block;
+        height: var(--dimension-md);
+        left: 0;
+        margin-top: calc(-1 * var(--dimension-md) / 2);
+        position: absolute;
+        top: 50%;
+        width: var(--dimension-xxxs);
+      }
+    }
+  }
+
+  @include min-width(lg) {
+    pointer-events: none;
+    position: absolute;
+    top: 100%;
+    z-index: 1000;
+
+    &__list {
+      margin-bottom: var(--spacing-lg);
+      padding: var(--spacing-none);
+      pointer-events: auto;
+      width: 20rem;
+    }
+  }
+}

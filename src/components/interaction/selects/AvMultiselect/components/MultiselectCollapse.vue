@@ -1,10 +1,9 @@
 <script lang="ts" setup>
-import type { Slot } from 'vue'
 import type AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
 import type { AvMultiselectOption } from '@/components/interaction/selects/AvMultiselect/AvMultiselect.types'
 import type { UseCollapsableReturn } from '@/composables/use-collapsable/use-collapsable'
-import AvFieldset from '@/components/base/AvFieldset/AvFieldset.vue'
 import AvCheckbox from '@/components/interaction/checkboxes/AvCheckbox/AvCheckbox.vue'
+import AvCheckboxesGroup from '@/components/interaction/checkboxes/AvCheckboxesGroup/AvCheckboxesGroup.vue'
 import { MDI_ICONS } from '@/tokens/icons'
 
 export interface MultiselectCollapseProps {
@@ -46,11 +45,6 @@ const emit = defineEmits<{
    * Event triggered when the collapse closes.
    */
   (e: 'close'): void
-}>()
-
-defineSlots<{
-  'legend'?: Slot
-  'no-results'?: Slot
 }>()
 
 const filteringKey:(keyof AvMultiselectOption) = 'label'
@@ -203,7 +197,7 @@ onUnmounted(() => {
     :style="{
       '--width-host': `${hostWidth}px`,
     }"
-    class="fr-multiselect__collapse av-collapse"
+    class="av-multiselect__collapse av-collapse"
     :class="{ 'av-collapse--expanded': cssExpanded, 'fr-collapsing': collapsing }"
     @transitionend="onTransitionEnd(expanded)"
   >
@@ -229,63 +223,45 @@ onUnmounted(() => {
         />
       </li>
     </ul>
-    <div
-      v-if="search"
-      class="fr-input-group"
-    >
-      <div class="fr-input-wrap fr-icon-search-line">
-        <AvInput
-          v-model="searchInput"
-          :aria-describedby="`${id}-text-hint`"
-          :aria-controls="`${id}-checkboxes`"
-          aria-live="polite"
-          placeholder="Rechercher"
-          type="text"
-          @keydown.down="handleFocusFirstCheckbox"
-          @keydown.right="handleFocusFirstCheckbox"
-          @keydown.tab="handleFocusPreviousElement"
-        />
-      </div>
-      <div
-        class="fr-messages-group"
-        aria-live="assertive"
+    <div v-if="search">
+      <AvInput
+        v-model="searchInput"
+        :aria-describedby="`${id}-text-hint`"
+        :aria-controls="`${id}-checkboxes`"
+        :prefix-icon="MDI_ICONS.MAGNIFY"
+        aria-live="polite"
+        placeholder="Rechercher"
+        type="search"
+        @keydown.down="handleFocusFirstCheckbox"
+        @keydown.right="handleFocusFirstCheckbox"
+        @keydown.tab="handleFocusPreviousElement"
       />
     </div>
-    <AvFieldset
+    <AvCheckboxesGroup
       :id="`${id}-checkboxes`"
-      class="fr-multiselect__collapse__fieldset"
-      aria-live="polite"
+      class="av-multiselect__collapse__fieldset"
       :style="{ '--maxOverflowHeight': `${maxOverflowHeight}` }"
       :legend="legend"
       :legend-id="`${id}-checkboxes-legend`"
     >
-      <slot name="legend" />
-      <div
+      <AvCheckbox
         v-for="option in filteredOptions"
-        :key="`${generateId(option, id)}-checkbox`"
-        class="fr-fieldset__element"
-      >
-        <div class="fr-checkbox-group fr-checkbox-group--sm">
-          <AvCheckbox
-            :id="`${generateId(option, id)}-checkbox`"
-            v-model="model"
-            :value="option.value"
-            :label="option.label"
-            :icon="option.icon"
-            :name="`${generateId(option, id)}-checkbox`"
-            @keydown.down="handleFocusNextCheckbox"
-            @keydown.right="handleFocusNextCheckbox"
-            @keydown.up="handleFocusPreviousCheckbox"
-            @keydown.left="handleFocusPreviousCheckbox"
-            @keydown.tab="handleFocusNextElementUsingTab"
-          />
-        </div>
-      </div>
-    </AvFieldset>
+        :id="`${generateId(option, id)}-checkbox`"
+        :key="`${generateId(option, id)}-fieldset`"
+        v-model="model"
+        :value="option.value"
+        :label="option.label"
+        :icon="option.icon"
+        :name="`${generateId(option, id)}-checkbox`"
+        @keydown.down="handleFocusNextCheckbox"
+        @keydown.right="handleFocusNextCheckbox"
+        @keydown.up="handleFocusPreviousCheckbox"
+        @keydown.left="handleFocusPreviousCheckbox"
+        @keydown.tab="handleFocusNextElementUsingTab"
+      />
+    </AvCheckboxesGroup>
     <div v-if="filteredOptions.length === 0">
-      <slot name="no-results">
-        {{ noResultLabel }}
-      </slot>
+      {{ noResultLabel }}
     </div>
   </div>
 </template>
@@ -293,33 +269,19 @@ onUnmounted(() => {
 <style lang="scss" scoped>
 @use '@/styles/core/_typography.scss';
 
-.fr-multiselect__search__icon {
-  margin-right: 1rem;
-}
-
-.fr-multiselect__collapse {
+.av-multiselect__collapse {
   z-index: 1;
   position: absolute;
   transform-origin: left top;
   width: auto;
   padding: var(--spacing-xs);
   margin-left: var(--spacing-xxs);
-  margin-top: var(--spacing-xxs);
-  background-color: var(--background-overlap-grey);
-  filter: drop-shadow(var(--overlap-shadow));
-}
+  background-color: var(--surface-background);
+  border: 1px solid var(--stroke);
 
-.fr-multiselect__collapse__fieldset {
-  max-height: var(--maxOverflowHeight);
-  overflow: auto;
-}
-
-.fr-multiselect__collapse__fieldset label {
-  color: inherit;
-}
-
-:deep(.fr-label) {
-  color: var(--text1);
-  padding-bottom: var(--spacing-xxs);
+  &__fieldset {
+    max-height: var(--maxOverflowHeight);
+    overflow: auto;
+  }
 }
 </style>

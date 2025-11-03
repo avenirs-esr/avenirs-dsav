@@ -61,7 +61,7 @@ BddTest().given('an AvRadioButtonSet component', () => {
     BddTest().when('an errorMessage is provided', () => {
       BddTest().then('it should render the error message with the correct class', async () => {
         await wrapper.setProps({ errorMessage: 'Error message' })
-        const msg = wrapper.find('.fr-error-text')
+        const msg = wrapper.find('.av-message--error')
         expect(msg.exists()).toBe(true)
         expect(msg.text()).toBe('Error message')
       })
@@ -70,7 +70,7 @@ BddTest().given('an AvRadioButtonSet component', () => {
     BddTest().when('a validMessage is provided', () => {
       BddTest().then('it should render the valid message with the correct class', async () => {
         await wrapper.setProps({ validMessage: 'Valid message' })
-        const msg = wrapper.find('.fr-valid-text')
+        const msg = wrapper.find('.av-message--success')
         expect(msg.exists()).toBe(true)
         expect(msg.text()).toBe('Valid message')
       })

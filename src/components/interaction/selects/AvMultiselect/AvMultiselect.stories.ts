@@ -65,7 +65,8 @@ const meta = {
     placeholder: { control: 'text', required: true },
     selectAll: { control: 'boolean' },
     search: { control: 'boolean' },
-    width: { control: 'text' }
+    width: { control: 'text' },
+    height: { control: 'text' },
   },
   args: {
     options: [

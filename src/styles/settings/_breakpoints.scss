@@ -1,6 +1,33 @@
+@use 'sass:map';
+
 $breakpoints: (
   sm: 36rem,  // 576px
   md: 48rem,  // 768px
   lg: 64rem,  // 1024px
   xl: 90rem,  // 1440px
 );
+
+// === Mixins for media queries ===
+@mixin min-width($size) {
+  $breakpoint: map.get($breakpoints, $size);
+
+  @if $breakpoint {
+    @media (min-width: $breakpoint) {
+      @content;
+    }
+  } @else {
+    @warn "⚠️ Breakpoint `#{$size}` not found in $breakpoints map.";
+  }
+}
+
+@mixin max-width($size) {
+  $breakpoint: map.get($breakpoints, $size);
+
+  @if $breakpoint {
+    @media (max-width: $breakpoint) {
+      @content;
+    }
+  } @else {
+    @warn "⚠️ Breakpoint `#{$size}` not found in $breakpoints map.";
+  }
+}

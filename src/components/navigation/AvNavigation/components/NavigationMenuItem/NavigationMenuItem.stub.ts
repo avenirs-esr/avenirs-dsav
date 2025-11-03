@@ -4,5 +4,5 @@ export const NavigationMenuItemStub = defineComponent({
     id: { type: String, required: false },
     active: { type: Boolean, required: false },
   },
-  template: `<li class="fr-menu__item"><slot /></li>`,
+  template: `<li class="av-menu__item"><slot /></li>`,
 })

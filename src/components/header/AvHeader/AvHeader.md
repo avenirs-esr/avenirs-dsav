@@ -68,7 +68,7 @@ const searchQuery = ref('')
     @language-select="selectLanguage($event)"
   >
     <template #before-quick-links>
-      <ul class="fr-btns-group">
+      <ul class="av-btns-group">
         <li>
           <StudentMailboxPopover />
         </li>

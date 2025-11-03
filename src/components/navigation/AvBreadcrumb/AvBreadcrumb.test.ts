@@ -4,7 +4,6 @@ import AvBreadcrumb, { type AvBreadcrumbProps } from '@/components/navigation/Av
 import { BddTest } from '@/tests'
 
 const doExpandSpy = vi.fn()
-const onTransitionEndSpy = vi.fn()
 
 vi.mock('@/composables/use-collapsable/use-collapsable', () => ({
   useCollapsable: () => ({
@@ -12,8 +11,14 @@ vi.mock('@/composables/use-collapsable/use-collapsable', () => ({
     collapsing: ref(false),
     cssExpanded: ref(false),
     doExpand: doExpandSpy,
-    onTransitionEnd: onTransitionEndSpy,
+    onTransitionEnd: vi.fn(),
   }),
+}))
+
+const mockIsAboveMd = ref(false)
+
+vi.mock('@/composables', () => ({
+  useAvBreakpoints: () => ({ isAboveMd: mockIsAboveMd }),
 }))
 
 const stubs = { RouterLink: RouterLinkStub }
@@ -45,8 +50,37 @@ BddTest().given('an AvBreadcrumb component', () => {
       ]
     }
 
-    BddTest().when('the component is mounted', () => {
+    BddTest().when('the component is mounted in a small viewport', () => {
       beforeEach(() => {
+        mockIsAboveMd.value = false
+        wrapper = mount(AvBreadcrumb, { props, global: { stubs } })
+      })
+
+      BddTest().then('it should render the breadcrumb', () => {
+        expect(wrapper.find('.av-breadcrumb').exists()).toBe(true)
+      })
+
+      BddTest().then('it should render the expand button', () => {
+        const button = wrapper.find('.av-breadcrumb__button')
+        expect(button.exists()).toBe(true)
+        expect(button.text()).toBe('Voir le fil d’ariane')
+      })
+
+      BddTest().and('when clicking the expand button', () => {
+        beforeEach(async () => {
+          const button = wrapper.find('.av-breadcrumb__button')
+          await button.trigger('click')
+        })
+
+        BddTest().then('it should call doExpand', () => {
+          expect(doExpandSpy).toHaveBeenCalled()
+        })
+      })
+    })
+
+    BddTest().when('the component is mounted in a large viewport', () => {
+      beforeEach(() => {
+        mockIsAboveMd.value = true
         wrapper = mount(AvBreadcrumb, { props, global: { stubs } })
       })
 
@@ -55,7 +89,7 @@ BddTest().given('an AvBreadcrumb component', () => {
       })
 
       BddTest().then('it should render the links items', () => {
-        expect(wrapper.findAll('.fr-breadcrumb__item')).toHaveLength(4)
+        expect(wrapper.findAll('.av-breadcrumb__item')).toHaveLength(4)
       })
 
       BddTest().then('it should render one RouterLink', () => {
@@ -67,7 +101,7 @@ BddTest().given('an AvBreadcrumb component', () => {
       })
 
       BddTest().then('it should set aria-current="page" only on the last item', () => {
-        const items = wrapper.findAll('.fr-breadcrumb__link')
+        const items = wrapper.findAll('.av-breadcrumb__link')
 
         const lastItem = items.at(items.length - 1)!
         expect(lastItem.attributes('aria-current')).toBe('page')
@@ -77,32 +111,9 @@ BddTest().given('an AvBreadcrumb component', () => {
         }
       })
 
-      BddTest().then('it should render the expand button', () => {
-        const button = wrapper.find('.fr-breadcrumb__button')
-        expect(button.exists()).toBe(true)
-        expect(button.text()).toBe('Voir le fil d’Ariane')
-      })
-
-      BddTest().and('when clicking the expand button', () => {
-        beforeEach(async () => {
-          const button = wrapper.find('.fr-breadcrumb__button')
-          await button.trigger('click')
-        })
-
-        BddTest().then('it should call doExpand', () => {
-          expect(doExpandSpy).toHaveBeenCalled()
-        })
-      })
-    })
-
-    BddTest().when('transitionend is triggered', () => {
-      beforeEach(() => {
-        wrapper = mount(AvBreadcrumb, { props, global: { stubs } })
-      })
-
-      BddTest().then('it should call onTransitionEnd with current isActive and false', async () => {
-        await wrapper.find('.av-collapse').trigger('transitionend')
-        expect(onTransitionEndSpy).toHaveBeenCalledWith(false)
+      BddTest().then('it should not render the expand button', () => {
+        const button = wrapper.find('.av-breadcrumb__button')
+        expect(button.exists()).toBe(false)
       })
     })
   })
@@ -115,13 +126,14 @@ BddTest().given('an AvBreadcrumb component', () => {
       ]
     }
 
-    BddTest().when('the component is mounted', () => {
+    BddTest().when('the component is mounted in a large viewport', () => {
       beforeEach(() => {
+        mockIsAboveMd.value = true
         wrapper = mount(AvBreadcrumb, { props, global: { stubs } })
       })
 
       BddTest().then('it should set aria-current="page" on the last RouterLink item', () => {
-        const items = wrapper.findAll('.fr-breadcrumb__link')
+        const items = wrapper.findAll('.av-breadcrumb__link')
 
         const lastItem = items.at(items.length - 1)!
         expect(lastItem.attributes('aria-current')).toBe('page')
@@ -142,8 +154,9 @@ BddTest().given('an AvBreadcrumb component', () => {
       showBreadcrumbLabel: 'Custom show breadcrumb label',
     }
 
-    BddTest().when('the component is mounted', () => {
+    BddTest().when('the component is mounted in a small viewport', () => {
       beforeEach(() => {
+        mockIsAboveMd.value = false
         wrapper = mount(AvBreadcrumb, { props, global: { stubs } })
       })
 
@@ -152,7 +165,7 @@ BddTest().given('an AvBreadcrumb component', () => {
       })
 
       BddTest().then('it should render the custom show breadcrumb label', () => {
-        const button = wrapper.find('.fr-breadcrumb__button')
+        const button = wrapper.find('.av-breadcrumb__button')
         expect(button.text()).toBe('Custom show breadcrumb label')
       })
     })

@@ -1,0 +1,15 @@
+@use '../core/namespace' as *;
+@use '../settings/breakpoints' as *;
+
+@include ns("footer") {
+  margin-top: var(--spacing-4xl);
+  padding-top: var(--spacing-none);
+  width: 100%;
+  background-color: var(--other-background-base);
+
+  @include min-width(sm) {
+    &__content-list>li {
+      margin-right:1.5rem
+    }
+  }
+}

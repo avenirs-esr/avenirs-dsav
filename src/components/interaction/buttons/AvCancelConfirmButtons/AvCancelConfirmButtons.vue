@@ -82,7 +82,7 @@ const emit = defineEmits<{
       variant="OUTLINED"
       :is-loading="cancelIsLoading"
       :disabled="cancelDisabled"
-      size="sm"
+      small
       @click="() => emit('cancel')"
     />
     <AvButton
@@ -93,7 +93,7 @@ const emit = defineEmits<{
       variant="FLAT"
       :is-loading="confirmIsLoading"
       :disabled="confirmDisabled"
-      size="sm"
+      small
       @click="() => emit('confirm')"
     />
   </div>

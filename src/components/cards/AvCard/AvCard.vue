@@ -96,10 +96,6 @@ const slots = defineSlots<{
 </template>
 
 <style lang="scss" scoped>
-.fr-card {
-  background-image: none !important;
-}
-
 .av-card {
   display: flex;
   flex-direction: column;

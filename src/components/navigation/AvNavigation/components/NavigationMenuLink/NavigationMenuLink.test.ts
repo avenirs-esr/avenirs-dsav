@@ -1,8 +1,9 @@
-import { mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
+import { RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
+import { registerNavigationLinkKey } from '@/components/header/AvHeader/injection-key'
 import NavigationMenuLink, { type NavigationMenuLinkProps } from '@/components/navigation/AvNavigation/components/NavigationMenuLink/NavigationMenuLink.vue'
-import { BddTest } from '@/tests/utils'
+import { BddTest, mountWithRouter } from '@/tests/utils'
 
 vi.mock('@/composables', () => ({
   useAvBreakpoints: () => ({ isBelowLg: false }),
@@ -11,8 +12,12 @@ vi.mock('@/composables', () => ({
 BddTest().given('a navigation menu link', () => {
   let wrapper: VueWrapper<InstanceType<typeof NavigationMenuLink>>
 
-  const stubs = { RouterLink: RouterLinkStub }
   const onClick = vi.fn()
+  const mockCloseModal = vi.fn()
+
+  const provide = {
+    [registerNavigationLinkKey as symbol]: () => mockCloseModal,
+  }
 
   const internalLink: NavigationMenuLinkProps = {
     id: 'home-link',
@@ -36,12 +41,12 @@ BddTest().given('a navigation menu link', () => {
   }
 
   BddTest().when('the commponent is mounted with an internal link', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       vi.clearAllMocks()
 
-      wrapper = mount(NavigationMenuLink, {
+      wrapper = await mountWithRouter(NavigationMenuLink, {
         props: internalLink,
-        global: { stubs },
+        global: { provide }
       })
     })
 
@@ -69,11 +74,12 @@ BddTest().given('a navigation menu link', () => {
   })
 
   BddTest().when('the commponent is mounted with an external link', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       vi.clearAllMocks()
 
-      wrapper = mount(NavigationMenuLink, {
+      wrapper = await mountWithRouter(NavigationMenuLink, {
         props: externalLink,
+        global: { provide }
       })
     })
 
@@ -86,6 +92,7 @@ BddTest().given('a navigation menu link', () => {
     BddTest().and('the link is clicked', () => {
       beforeEach(async () => {
         const externalLink = wrapper.get('[data-testid="nav-external-link"]')
+        externalLink.element.addEventListener('click', e => e.preventDefault())
         await externalLink.trigger('click')
         await nextTick()
       })
@@ -101,10 +108,10 @@ BddTest().given('a navigation menu link', () => {
   })
 
   BddTest().when('the commponent is mounted with a link with an icon', () => {
-    beforeEach(() => {
-      wrapper = mount(NavigationMenuLink, {
+    beforeEach(async () => {
+      wrapper = await mountWithRouter(NavigationMenuLink, {
         props: linkWithIcon,
-        global: { stubs },
+        global: { provide }
       })
     })
 

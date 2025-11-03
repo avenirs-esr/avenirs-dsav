@@ -10,10 +10,10 @@ export const NavigationMenuStub = defineComponent({
   emits: ['toggleId'],
   template: `
     <div>
-      <button class="fr-nav__btn" @click="$emit('toggleId', id)">
+      <button class="av-nav__btn" @click="$emit('toggleId', id)">
         {{ title }}
       </button>
-      <ul class="fr-menu__list">
+      <ul class="av-menu__list">
         <li v-for="link in links" :key="link.id || link.text">
           {{ link.text }}
         </li>

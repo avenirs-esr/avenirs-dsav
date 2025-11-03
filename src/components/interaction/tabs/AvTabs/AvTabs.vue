@@ -123,7 +123,7 @@ watch(activeTab, (newIndex, lastIndex) => {
 <template>
   <div
     ref="$el"
-    class="av-tabs fr-tabs"
+    class="av-tabs"
     :class="{
       'av-tabs--compact': compact,
     }"
@@ -131,7 +131,7 @@ watch(activeTab, (newIndex, lastIndex) => {
   >
     <ul
       ref="tablist"
-      class="av-tabs__list fr-tabs__list"
+      class="av-tabs__list"
       :class="{
         'av-tabs__list--compact': compact,
       }"
@@ -172,22 +172,19 @@ watch(activeTab, (newIndex, lastIndex) => {
 @use '@/styles/core/_typography.scss';
 
 .av-tabs {
-  box-shadow: none !important;
-
-  &::before {
-    box-shadow: none !important;
-  }
-
   &__list {
-    display: flex !important;
-    width: 100% !important;
-    background: var(--surface-background) !important;
-    gap: 0.75rem !important;
-    align-items: center !important;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: var(--spacing-none) var(--spacing-xs);
+    background: var(--surface-background);
+    gap: 0.75rem;
+    align-items: center;
+    overflow-x:auto;
 
     &--compact {
-      width: fit-content !important;
-      background: none !important;
+      width: fit-content;
+      background: none;
     }
   }
 }
