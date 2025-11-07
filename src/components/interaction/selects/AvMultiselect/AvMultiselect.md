@@ -23,25 +23,25 @@ Inside the list:
 
 ## 🏷️ Props
 
-| Name | Type | Default | Mandatory | Description |
-| --- | --- | --- | --- | --- |
-| `modelValue` | `(string \| number)[]` | | ✅ | Selected option(s) value(s). |
-| `disabled` | `boolean` | `false` | | Indicated if the select is disabled.|
-| `options` | `{ value: string \| number, label: string, icon?: string})[]` | `[]` | | Selectable options. |
-| `label` | `string` | | ✅ | Select text label.|
-| `name` | `string` | | | Field name.|
-| `hint` | `string` | | | Hint for guidance.|
+| Name             | Type | Default | Mandatory | Description |
+|------------------| --- | --- | --- | --- |
+| `modelValue`     | `(string \| number)[]` | | ✅ | Selected option(s) value(s). |
+| `disabled`       | `boolean` | `false` | | Indicated if the select is disabled.|
+| `options`        | `{ value: string \| number, label: string, icon?: string})[]` | `[]` | | Selectable options. |
+| `label`          | `string` | | ✅ | Select text label.|
+| `name`           | `string` | | | Field name.|
+| `hint`           | `string` | | | Hint for guidance.|
 | `successMessage` | `string` | `''` | | If set, display a success message. |
-| `errorMessage` | `string` | `''` | | If set, display an error message.|
-| `placeholder` | `string` | | ✅ | Placeholder text.|
-| `selectId` | `string` | `useRandomId('select')` | | Unique id for the select. Used for the accessibility. |
-| `dense` | `boolean` | | | Dense mode for reduced padding.|
-| `selectedText` | `string` | `'x option(s) sélectionné(s)'` | | Displayed text when options are selected.|
-| `selectAll` | `boolean` | `false` | | Displays the select all items button.|
+| `errorMessage`   | `string` | `''` | | If set, display an error message.|
+| `placeholder`    | `string` | | ✅ | Placeholder text.|
+| `selectId`       | `string` | `useRandomId('select')` | | Unique id for the select. Used for the accessibility. |
+| `dense`          | `boolean` | | | Dense mode for reduced padding.|
+| `selectedText`   | `string` | `'x option(s) sélectionné(s)'` | | Displayed text when options are selected.|
+| `selectAll`      | `boolean` | `false` | | Displays the select all items button.|
 | `selectAllLabel` | `[string, string]` | `["Tout sélectionner", "Tout désélectionner"]` | | Update the select all items button label.|
-| `search` | `boolean` | `false` | | Displays the search bar.|
-| `width` | `string` | `undefined` | | Fixes the width of the multiselect.|
-
+| `search`         | `boolean` | `false` | | Displays the search bar.|
+| `width`          | `string` | `undefined` | | Fixes the width of the multiselect.|
+| `height`         | `string` | `undefined` | | Fixes the height of the multiselect.|
 ## 🔊 Events
 
 | Name | Data (*payload*) | Description |

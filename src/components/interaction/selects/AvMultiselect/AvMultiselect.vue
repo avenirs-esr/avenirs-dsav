@@ -117,6 +117,11 @@ export interface AvMultiselectProps {
    * Fixes the width of the multiselect
    */
   width?: string
+
+  /**
+   * Fixes the height of the multiselect
+   */
+  height?: string
 }
 
 const {
@@ -139,7 +144,8 @@ const {
   search = false,
   legend = '',
   maxOverflowHeight = 'var(--dimension-8xl)',
-  width
+  width,
+  height
 } = defineProps<AvMultiselectProps>()
 
 /**
@@ -401,6 +407,7 @@ const finalLabelClass = computed(() => [
 .fr-multiselect--dense .fr-select {
   padding-top: .1rem !important;
   padding-bottom: .1rem !important;
+  height: v-bind('height');
 }
 
 .fr-select:not([aria-disabled=true]):hover {
