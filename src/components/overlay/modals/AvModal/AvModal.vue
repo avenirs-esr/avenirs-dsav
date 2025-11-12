@@ -207,9 +207,6 @@ onBeforeUnmount(() => {
 </template>
 
 <style lang="scss" scoped>
-.fr-modal {
-  background-color: var(--dialog);
-}
 :global(body.modal-open) {
   overflow: hidden;
 }
