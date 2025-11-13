@@ -106,8 +106,7 @@ defineExpose({
         label="Clear selected items"
         :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
         icon-only
-        :icon-scale="0.8"
-        size="sm"
+        :icon-scale="1.25"
         variant="DEFAULT"
         theme="SECONDARY"
         :on-click="handleClearSelection"
@@ -123,7 +122,7 @@ defineExpose({
 
 .av-autocomplete-input__suffix {
   position: absolute;
-  right: var(--spacing-xxs);
+  right: var(--spacing-xs);
   top: 2.7rem;
   z-index: 2;
   display: flex;

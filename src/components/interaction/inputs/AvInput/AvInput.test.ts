@@ -245,7 +245,7 @@ BddTest().given('an AvInput', () => {
       })
 
       BddTest().then('it should set role="alert" on error container', () => {
-        const error = wrapper.find('.av-message--error')
+        const error = wrapper.find('.av-message')
         expect(error.attributes('role')).toBe('alert')
       })
     })

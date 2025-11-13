@@ -59,10 +59,10 @@ const mockItems = [
  * <p><span class="b2-regular">The side navigation component consists of the following elements:</span></p>
  *
  * <ul>
- *   <li><span class="b2-regular"><strong>Side Menu Container:</strong> The main AvSideMenu wrapper that handles collapsible behavior</span></li>
- *   <li><span class="b2-regular"><strong>Navigation List:</strong> An AvList component that contains all navigation items</span></li>
- *   <li><span class="b2-regular"><strong>Navigation Items:</strong> Individual AvListItem components representing each navigational option</span></li>
- *   <li><span class="b2-regular"><strong>Toggle Functionality:</strong> Automatic label hiding/showing based on collapsed state</span></li>
+ *   <li><span class="b2-regular">the <strong>Side Menu Container:</strong> The main AvSideMenu wrapper that handles collapsible behavior</span></li>
+ *   <li><span class="b2-regular">the <strong>Navigation List:</strong> An AvList component that contains all navigation items</span></li>
+ *   <li><span class="b2-regular">the <strong>Navigation Items:</strong> Individual AvListItem components representing each navigational option</span></li>
+ *   <li><span class="b2-regular">the <strong>Toggle Functionality:</strong> Automatic label hiding/showing based on collapsed state</span></li>
  * </ul>
  *
  * <p><span class="b2-regular">The side navigation integrates:</span></p>

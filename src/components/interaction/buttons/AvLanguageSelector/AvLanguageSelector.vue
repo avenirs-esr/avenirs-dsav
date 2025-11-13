@@ -194,7 +194,8 @@ watch(expanded, (newValue, oldValue) => {
   .av-collapse {
     position: absolute;
     background: var(--other-background-base);
-    top: 2rem;
+    top: var(--spacing-lg);
+    left: var(--spacing-none);
     z-index: 1000;
     border: 1px solid var(--divider);
   }
@@ -206,6 +207,10 @@ watch(expanded, (newValue, oldValue) => {
 
     &__menu {
       margin: calc(-1 * var(--spacing-xxs)) calc(-1 * var(--spacing-sm));
+    }
+
+    .av-collapse {
+      left: var(--spacing-sm);
     }
   }
 }

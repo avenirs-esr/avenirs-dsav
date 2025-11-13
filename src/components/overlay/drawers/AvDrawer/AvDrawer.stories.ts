@@ -32,9 +32,9 @@ import AvDrawer, { type AvDrawerProps } from '@/components/overlay/drawers/AvDra
  * <p><span class="b2-regular">The drawer consists of the following elements:</span></p>
  *
  * <ul>
- *   <li><span class="b2-regular"><strong>Container:</strong> The main drawer panel that slides in from the specified edge</span></li>
- *   <li><span class="b2-regular"><strong>Backdrop:</strong> (optional) Semi-transparent overlay that dims the background content</span></li>
- *   <li><span class="b2-regular"><strong>Content Area:</strong> Flexible content container that accepts any slotted content</span></li>
+ *   <li><span class="b2-regular">the <strong>Container:</strong> The main drawer panel that slides in from the specified edge</span></li>
+ *   <li><span class="b2-regular">the <strong>Backdrop:</strong> (optional) Semi-transparent overlay that dims the background content</span></li>
+ *   <li><span class="b2-regular">the <strong>Content Area:</strong> Flexible content container that accepts any slotted content</span></li>
  * </ul>
  *
  * <p><span class="b2-regular">The drawer integrates:</span></p>
@@ -70,7 +70,7 @@ const meta: Meta<AvDrawerProps> = {
   parameters: {
     docs: {
       story: {
-        height: '20rem',
+        height: '25rem',
       },
     },
   }

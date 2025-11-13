@@ -57,6 +57,27 @@ $row-alignments: (
   bottom: flex-end
 );
 
+@include ns("row") {
+  display: flex;
+  flex-wrap: wrap;
+
+  // Horizontal alignments
+  // Ex: .av-row--left / .av-row--center
+  @each $mod-name, $justify in $row-justifications {
+    &--#{$mod-name} {
+      justify-content: $justify;
+    }
+  }
+
+  // Vertical alignments
+  // Ex: .av-row--top / .av-row--bottom
+  @each $mod-name, $align in $row-alignments {
+    &--#{$mod-name} {
+      align-items: $align;
+    }
+  }
+}
+
 @each $bp-name, $bp-value in bp.$breakpoints {
   @media (min-width: #{$bp-value}) {
     // Base row

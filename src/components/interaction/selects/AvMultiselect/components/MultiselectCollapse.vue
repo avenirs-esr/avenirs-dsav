@@ -276,7 +276,6 @@ onUnmounted(() => {
   width: auto;
   padding: var(--spacing-xs);
   margin-left: var(--spacing-xxs);
-  background-color: var(--surface-background);
   border: 1px solid var(--stroke);
 
   &__fieldset {

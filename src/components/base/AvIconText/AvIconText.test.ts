@@ -55,5 +55,53 @@ BddTest().given('an AvIconText', () => {
         expect(text.classes()).toContain(allProps.typographyClass)
       })
     })
+
+    BddTest().and('given the inline prop', () => {
+      beforeEach(() => {
+        wrapper = mount(AvIconText, { props: { ...baseProps, inline: true }, global: { stubs } })
+      })
+
+      BddTest().then('it should not render the ellipsis classes', async () => {
+        expect(wrapper.classes()).not.toContain('ellipsis-container')
+        const text = wrapper.find('.icon-text--text')
+        expect(text.classes()).not.toContain('ellipsis')
+      })
+    })
+
+    BddTest().and('not given the inline prop', () => {
+      beforeEach(() => {
+        wrapper = mount(AvIconText, { props: { ...baseProps, inline: false }, global: { stubs } })
+      })
+
+      BddTest().then('it should render the ellipsis classes', async () => {
+        expect(wrapper.classes()).toContain('ellipsis-container')
+        const text = wrapper.find('.icon-text--text')
+        expect(text.classes()).toContain('ellipsis')
+      })
+    })
+
+    BddTest().and('given a caption typographyClass', () => {
+      beforeEach(() => {
+        wrapper = mount(AvIconText, { props: { ...baseProps, typographyClass: 'caption-regular' }, global: { stubs } })
+      })
+
+      BddTest().then('it should render the icon accordingly', () => {
+        const icon = wrapper.findComponent({ name: 'AvIcon' })
+        expect(icon.exists()).toBe(true)
+        expect(icon.props('size')).toBe(1.125)
+      })
+    })
+
+    BddTest().and('given a title typographyClass', () => {
+      beforeEach(() => {
+        wrapper = mount(AvIconText, { props: { ...baseProps, typographyClass: 'n6' }, global: { stubs } })
+      })
+
+      BddTest().then('it should render the icon accordingly', () => {
+        const icon = wrapper.findComponent({ name: 'AvIcon' })
+        expect(icon.exists()).toBe(true)
+        expect(icon.props('size')).toBe(2)
+      })
+    })
   })
 })
