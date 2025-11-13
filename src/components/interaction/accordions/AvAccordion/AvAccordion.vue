@@ -105,7 +105,7 @@ watch(isActive, (newValue, oldValue) => {
       class="av-collapse"
       :class="{
         'av-collapse--expanded': cssExpanded, // Need to use a separate data to add/remove the class after a RAF
-        'fr-collapsing': collapsing,
+        'av-collapsing': collapsing,
       }"
       @transitionend="onTransitionEnd(isActive, false)"
     >

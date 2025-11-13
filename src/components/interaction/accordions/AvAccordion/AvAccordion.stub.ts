@@ -6,7 +6,7 @@ export const AvAccordionStub = defineComponent({
   template: `
     <div class="av-accordion">
       <button
-        class="fr-accordion__btn"
+        class="av-accordion__btn"
         type="button"
         @click="expand"
         :aria-expanded="isActive"

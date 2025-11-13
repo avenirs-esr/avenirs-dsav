@@ -57,7 +57,7 @@ const emit = defineEmits<{
     :aria-label="navAriaLabel"
   >
     <ul
-      class="fr-btns-group"
+      class="av-btns-group"
     >
       <li
         v-for="(quickLink, index) in links"

@@ -96,7 +96,7 @@ onMounted(() => {
       class="av-collapse"
       :class="{
         'av-collapse--expanded': cssExpanded,
-        'fr-collapsing': collapsing,
+        'av-collapsing': collapsing,
       }"
     >
       <ol class="av-breadcrumb__list">

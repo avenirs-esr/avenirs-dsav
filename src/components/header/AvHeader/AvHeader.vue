@@ -251,7 +251,6 @@ provide(registerNavigationLinkKey, () => hideModal)
                   aria-controls="header-search"
                   :aria-label="showSearchLabel"
                   :title="showSearchLabel"
-                  :data-fr-opened="searchModalOpened"
                   :icon="MDI_ICONS.MAGNIFY"
                   icon-only
                   @click.prevent.stop="showSearchModal()"
@@ -260,7 +259,6 @@ provide(registerNavigationLinkKey, () => hideModal)
                   v-if="isWithSlotNav || quickLinks?.length"
                   id="button-menu"
                   variant="OUTLINED"
-                  :data-fr-opened="showMenu"
                   :icon="MDI_ICONS.HAMBURGER_MENU"
                   aria-controls="header-navigation"
                   aria-haspopup="dialog"

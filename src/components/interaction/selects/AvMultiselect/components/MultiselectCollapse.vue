@@ -198,7 +198,7 @@ onUnmounted(() => {
       '--width-host': `${hostWidth}px`,
     }"
     class="av-multiselect__collapse av-collapse"
-    :class="{ 'av-collapse--expanded': cssExpanded, 'fr-collapsing': collapsing }"
+    :class="{ 'av-collapse--expanded': cssExpanded, 'av-collapsing': collapsing }"
     @transitionend="onTransitionEnd(expanded)"
   >
     <p
@@ -209,7 +209,7 @@ onUnmounted(() => {
     </p>
     <ul
       v-if="selectAll"
-      class="fr-btns-group"
+      class="av-btns-group"
     >
       <li>
         <AvButton
