@@ -121,7 +121,7 @@ watch(expanded, (newValue, oldValue) => {
         class="av-collapse av-translate__menu av-menu"
         :class="{
           'av-collapse--expanded': cssExpanded,
-          'fr-collapsing': collapsing,
+          'av-collapsing': collapsing,
         }"
         @transitionend="onTransitionEnd(expanded)"
       >

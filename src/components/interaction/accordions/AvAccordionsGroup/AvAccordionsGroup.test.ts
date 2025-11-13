@@ -45,7 +45,7 @@ BddTest().given('multiple accordions inside the group', () => {
 
   BddTest().when('clicking on an accordion', () => {
     BddTest().then('it should emit the update event for v-model', async () => {
-      const buttons = wrapper.findAll('.fr-accordion__btn')
+      const buttons = wrapper.findAll('.av-accordion__btn')
       await buttons[2].trigger('click')
 
       const emitted = wrapper.emitted('update:activeAccordion')

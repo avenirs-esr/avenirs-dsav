@@ -98,7 +98,7 @@ onMounted(() => {
     ref="collapse"
     class="av-collapse av-menu"
     data-testid="navigation-menu"
-    :class="{ 'av-collapse--expanded': cssExpanded, 'fr-collapsing': collapsing }"
+    :class="{ 'av-collapse--expanded': cssExpanded, 'av-collapsing': collapsing }"
     @transitionend="onTransitionEnd(expanded)"
   >
     <ul

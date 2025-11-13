@@ -73,7 +73,7 @@ provide(registerAccordionKey, (title: Ref<string>) => {
 
 <template>
   <div
-    class="fr-accordions-group"
+    class="av-accordions-group"
     role="group"
     aria-label="Accordion group"
   >
