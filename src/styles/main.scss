@@ -28,9 +28,6 @@
 @use './utilities/helpers' as *;
 @use './utilities/spacing' as *;
 
-// === Vendor ===
-@use './vendor/dsfr' as *;
-
 // === Global ===
 :root {
   --default-global-background-color: var(--other-background-base);
