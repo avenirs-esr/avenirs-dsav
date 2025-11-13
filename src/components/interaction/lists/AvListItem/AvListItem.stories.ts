@@ -31,10 +31,10 @@ import AvListItem, { type AvListItemProps } from './AvListItem.vue'
  * <p><span class="b2-regular">The list item consists of the following elements:</span></p>
  *
  * <ul>
- *   <li><span class="b2-regular"><strong>Container:</strong> (mandatory) Root wrapper element that can be div, button, or anchor based on usage</span></li>
- *   <li><span class="b2-regular"><strong>Icon:</strong> (optional) Visual indicator displayed on the left side of the content</span></li>
- *   <li><span class="b2-regular"><strong>Content Area:</strong> (mandatory) Contains title, description, and/or custom content</span></li>
- *   <li><span class="b2-regular"><strong>Custom Content Slot:</strong> (optional) Allows insertion of any custom elements within the content area</span></li>
+ *   <li><span class="b2-regular">the <strong>Container:</strong> (mandatory) Root wrapper element that can be div, button, or anchor based on usage</span></li>
+ *   <li><span class="b2-regular">the <strong>Icon:</strong> (optional) Visual indicator displayed on the left side of the content</span></li>
+ *   <li><span class="b2-regular">the <strong>Content Area:</strong> (mandatory) Contains title, description, and/or custom content</span></li>
+ *   <li><span class="b2-regular">the <strong>Custom Content Slot:</strong> (optional) Allows insertion of any custom elements within the content area</span></li>
  * </ul>
  *
  * <p><span class="b2-regular">The list item integrates:</span></p>

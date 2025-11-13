@@ -50,7 +50,7 @@ BddTest().given('a file uploader', () => {
       BddTest().then('it should render only the error message', () => {
         const avIconText = wrapper.findComponent({ name: 'AvIconText' })
         expect(avIconText.exists()).toBe(true)
-        expect(avIconText.props('icon')).toBe('mdi:close-circle-outline')
+        expect(avIconText.props('icon')).toBe('mdi:close-octagon')
         expect(avIconText.props('text')).toBe('Error')
       })
     })
@@ -65,7 +65,7 @@ BddTest().given('a file uploader', () => {
       BddTest().then('it should render the valid message', () => {
         const avIconText = wrapper.findComponent({ name: 'AvIconText' })
         expect(avIconText.exists()).toBe(true)
-        expect(avIconText.props('icon')).toBe('mdi:check-circle-outline')
+        expect(avIconText.props('icon')).toBe('mdi:success-circle-outline')
         expect(avIconText.props('text')).toBe('Valid message')
       })
     })

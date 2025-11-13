@@ -39,7 +39,7 @@ const meta: Meta<AvLanguageSelectorProps> = {
   parameters: {
     docs: {
       story: {
-        height: '10rem',
+        height: '12rem',
       },
     },
   }

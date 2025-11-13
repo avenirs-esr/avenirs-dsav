@@ -404,12 +404,9 @@ defineExpose({
     @extend .b2-light;
 
     &[type="date"]::-webkit-calendar-picker-indicator {
-      opacity: 0;
       cursor: pointer;
       position: absolute;
-      width: 100%;
-      height: 100%;
-      margin-left: -2rem;
+      right: var(--spacing-sm);
     }
   }
 

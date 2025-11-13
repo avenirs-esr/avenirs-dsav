@@ -188,13 +188,15 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
     primary: (
       text: var(--dark-background-primary1),
       bg: var(--other-background-base),
-      hover-bg: var(--dark-background-primary1),
+      hover-bg: var(--dark-background-primary2),
+      hover-bg-alt: var(--light-background-primary1),
       hover-text: var(--other-background-base)
     ),
     secondary: (
       text: var(--text1),
       bg: var(--other-background-base),
       hover-bg: var(--light-background-neutral),
+      hover-bg-alt: var(--contrast-foreground),
       hover-text: var(--text1)
     )
   ) {
@@ -240,7 +242,7 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
 
           @if $variant == flat {
             &:hover:not(.av-button--disabled) {
-              background-color: map.get($colors, bg);
+              background-color: map.get($colors, hover-bg-alt);
               color: map.get($colors, text);
               border-color: map.get($colors, text);
             }

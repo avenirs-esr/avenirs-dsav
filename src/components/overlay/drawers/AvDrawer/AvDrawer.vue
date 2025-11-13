@@ -139,6 +139,7 @@ onBeforeUnmount(() => {
   display: flex;
   flex-direction: column;
   width: v-bind('width');
+  max-width: 90%;
 }
 
 .av-drawer--left {

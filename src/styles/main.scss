@@ -39,7 +39,8 @@ html,
 body,
 #app {
   height: 100%;
-  background-color: red;
+  background-color: var(--global-background-color);
+  font-family: var(--font-family-primary);
 }
 
 // === Reset headers ===
@@ -53,4 +54,11 @@ h1, h2, h3, h4, h5, h6 {
 ::before,
 ::after {
   box-sizing: inherit;
+}
+
+// === Typography base ===
+*,
+::before,
+::after {
+  font-family: var(--font-family-primary);
 }

@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import AvIconText from '@/components/base/AvIconText/AvIconText.vue'
-import { MDI_ICONS } from '@/tokens'
-
 export interface AvFileUploadAlertProps {
   /**
    * Error message to be displayed in case of upload problem.
@@ -25,19 +22,10 @@ withDefaults(defineProps<AvFileUploadAlertProps>(), {
 </script>
 
 <template>
-  <div
-    v-if="error || validMessage"
-    class="messages-group"
-    role="alert"
-  >
-    <AvIconText
-      :icon="error ? MDI_ICONS.CLOSE_CIRCLE_OUTLINE : MDI_ICONS.CHECK_CIRCLE_OUTLINE"
-      :icon-color="error ? 'var(--dark-background-error)' : 'var(--dark-background-success)'"
-      :text="error ? error : validMessage"
-      :text-color="error ? 'var(--dark-background-error)' : 'var(--dark-background-success)'"
-      typography-class="caption-regular"
-    />
-  </div>
+  <AvMessage
+    :type="error ? 'error' : 'success'"
+    :message="error ? error : validMessage"
+  />
 </template>
 
 <style scoped lang="scss">

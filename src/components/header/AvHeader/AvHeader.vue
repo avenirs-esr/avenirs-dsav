@@ -226,7 +226,7 @@ provide(registerNavigationLinkKey, () => hideModal)
     class="av-header"
   >
     <div class="av-header__body">
-      <div class="av-container  width-inherit">
+      <div class="av-container">
         <div class="av-header__body-row">
           <div class="av-header__brand">
             <div class="av-header__brand-top">
@@ -319,7 +319,7 @@ provide(registerNavigationLinkKey, () => hideModal)
     <div class="av-header__menu av-hidden av-unhidden-lg">
       <div
         v-if="isWithSlotNav && !modalOpened"
-        class="av-container"
+        class="av-container av-header__mainnav"
       >
         <slot
           name="mainnav"
@@ -328,20 +328,25 @@ provide(registerNavigationLinkKey, () => hideModal)
       </div>
     </div>
 
-    <AvModal
+    <AvDrawer
       v-if="showSearch || isWithSlotNav || (quickLinks && quickLinks.length) || languageSelectorRef"
       id="header-navigation"
-      :opened="modalOpened"
+      :show="modalOpened"
       :close-button-label="closeMenuModalLabel"
       :close-button-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
       :aria-label="menuModalLabel"
       role="dialog"
       aria-modal="true"
-      :style="{
-        '--av-modal-bg': 'red',
-      }"
+      padding="var(--spacing-sm)"
       @close="hideModal"
     >
+      <div class="av-row av-row--right">
+        <AvCancelConfirmButtons
+          :cancel-label="closeMenuModalLabel"
+          :cancel-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
+          @cancel="hideModal"
+        />
+      </div>
       <div class="av-header__menu-modal">
         <div class="av-header__menu-modal-links">
           <template v-if="languageSelectorRef">
@@ -380,7 +385,7 @@ provide(registerNavigationLinkKey, () => hideModal)
           />
         </div>
       </div>
-    </AvModal>
+    </AvDrawer>
   </header>
 </template>
 
@@ -478,6 +483,10 @@ provide(registerNavigationLinkKey, () => hideModal)
       border-bottom: 1px solid var(--stroke);
       margin-bottom: var(--spacing-xs);
     }
+  }
+
+  &__mainnav {
+    padding-bottom: var(--spacing-xs);
   }
 
   li::marker {

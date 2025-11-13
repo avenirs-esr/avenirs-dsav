@@ -34,9 +34,9 @@ import { MDI_ICONS } from '@/tokens'
  * <p><span class="b2-regular">The side-menu component consists of the following elements:</span></p>
  *
  * <ul>
- *   <li><span class="b2-regular"><strong>Header:</strong> (optional) Contains the collapse/expand toggle button when collapsible=true</span></li>
- *   <li><span class="b2-regular"><strong>Toggle Button:</strong> (optional) Interactive button to collapse/expand the menu</span></li>
- *   <li><span class="b2-regular"><strong>Content Area:</strong> Scrollable area for your custom content via default slot</span></li>
+ *   <li><span class="b2-regular">the <strong>Header:</strong> (optional) Contains the collapse/expand toggle button when collapsible=true</span></li>
+ *   <li><span class="b2-regular">the <strong>Toggle Button:</strong> (optional) Interactive button to collapse/expand the menu</span></li>
+ *   <li><span class="b2-regular">the <strong>Content Area:</strong> Scrollable area for your custom content via default slot</span></li>
  * </ul>
  *
  * <p><span class="b2-regular">The side-menu integrates:</span></p>

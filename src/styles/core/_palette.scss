@@ -36,6 +36,7 @@
   --text1: #14171ACC;
   --text2: #14171AA3;
   --icon: #14171A7A;
+  --icon-filter: invert(65%) sepia(6%) saturate(100%) hue-rotate(180deg) brightness(75%) contrast(85%);
   --divider: #14171A5C;
   --stroke: #14171A29;
   --selected-disabled-foreground: #14171ACC;
@@ -106,6 +107,7 @@
   --text1: #FAFAFACC;
   --text2: #FAFAFAA3;
   --icon: #FAFAFA7A;
+  --icon-filter: invert(98%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(25%);
   --divider: #FAFAFA5C;
   --stroke: #FAFAFA29;
   --selected-disabled-foreground: #FAFAFACC;

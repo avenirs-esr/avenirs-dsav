@@ -2,6 +2,7 @@ import type { VueWrapper } from '@vue/test-utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 import AvHeader from '@/components/header/AvHeader/AvHeader.vue'
+import { AvCancelConfirmButtonsStub, AvDrawerStub } from '@/tests'
 import { BddTest, mountWithRouter } from '@/tests/utils'
 
 vi.mock('@/composables', () => ({
@@ -12,17 +13,8 @@ BddTest().given('an AvHeader', () => {
   let wrapper: VueWrapper
 
   const stubs = {
-    AvModal: {
-      name: 'AvModal',
-      template: `
-      <div class="av-modal-stub">
-        <slot name="header" />
-        <slot />
-      </div>
-    `,
-      props: ['opened', 'id', 'closeButtonLabel', 'confirmButtonLabel'],
-      emits: ['close', 'confirm']
-    }
+    AvDrawer: AvDrawerStub,
+    AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
   }
 
   const serviceTitle = 'Service title'
@@ -37,7 +29,7 @@ BddTest().given('an AvHeader', () => {
       wrapper = await mountWithRouter(AvHeader, { global: { stubs } })
     })
 
-    BddTest().then('ot should display default logo and text', async () => {
+    BddTest().then('it should display default logo and text', async () => {
       expect(wrapper.get('[data-testid="header-logo"]')).toBeTruthy()
     })
 
@@ -66,7 +58,7 @@ BddTest().given('an AvHeader', () => {
     BddTest().then('it should open menu', async () => {
       const menuButton = wrapper.get('[data-testid="open-menu-btn"]')
       await menuButton.trigger('click')
-      expect(wrapper.findComponent({ name: 'AvModal' }).props('opened')).toBe(true)
+      expect(wrapper.findComponent({ name: 'AvDrawer' }).props('show')).toBe(true)
     })
   })
 
@@ -120,14 +112,14 @@ BddTest().given('an AvHeader', () => {
       })
 
       BddTest().then('it should close the menu modal when close button is clicked', async () => {
-        const menuModal = wrapper.findComponent({ name: 'AvModal' })
+        const menuDrawer = wrapper.findComponent({ name: 'AvDrawer' })
 
         const openBtn = wrapper.get('[data-testid="open-menu-btn"]')
         await openBtn.trigger('click')
-        expect(menuModal.props('opened')).toBe(true)
+        expect(menuDrawer.props('show')).toBe(true)
 
-        await menuModal.vm.$emit('close')
-        expect(menuModal.props('opened')).toBe(false)
+        await menuDrawer.findComponent({ name: 'AvCancelConfirmButtons' }).vm.$emit('cancel')
+        expect(menuDrawer.props('show')).toBe(false)
       })
     })
 
@@ -158,7 +150,7 @@ BddTest().given('an AvHeader', () => {
         BddTest().then('it should focus #button-menu', async () => {
           expect(wrapper.find('[data-testid="open-menu-btn"]').exists()).toBe(true)
           await wrapper.get('[data-testid="open-menu-btn"]').trigger('click')
-          await wrapper.findComponent({ name: 'AvModal' }).vm.$emit('close')
+          await wrapper.findComponent({ name: 'AvCancelConfirmButtons' }).vm.$emit('cancel')
 
           expect(focusMock).toHaveBeenCalled()
         })

@@ -9,7 +9,6 @@ import { useFocusTrap } from '@/composables'
 export interface AvPopoverProps {
   /**
    * Popover width.
-   * @default '12.5rem'
    */
   width?: string
 
@@ -20,10 +19,7 @@ export interface AvPopoverProps {
   padding?: string
 }
 
-withDefaults(defineProps<AvPopoverProps>(), {
-  width: '12.5rem',
-  padding: 'var(--spacing-md)'
-})
+const { width, padding = 'var(--spacing-md)' } = defineProps<AvPopoverProps>()
 
 defineSlots<{
   /**
@@ -117,7 +113,11 @@ onBeforeUnmount(() => {
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
+* {
+  box-sizing: border-box;
+}
+
 .av-popover-wrapper {
   display: flex;
 }

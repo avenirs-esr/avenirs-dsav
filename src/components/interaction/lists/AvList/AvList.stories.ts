@@ -34,8 +34,8 @@ import AvList, { type AvListProps } from './AvList.vue'
  * <p><span class="b2-regular">The list component consists of the following elements:</span></p>
  *
  * <ul>
- *   <li><span class="b2-regular"><strong>Container:</strong> (mandatory) Main wrapper that contains all list items with proper semantic structure</span></li>
- *   <li><span class="b2-regular"><strong>List Items:</strong> (mandatory) Individual items rendered within the list, typically <code>AvListItem</code> components</span></li>
+ *   <li><span class="b2-regular">the <strong>Container:</strong> (mandatory) Main wrapper that contains all list items with proper semantic structure</span></li>
+ *   <li><span class="b2-regular">the <strong>List Items:</strong> (mandatory) Individual items rendered within the list, typically <code>AvListItem</code> components</span></li>
  * </ul>
  *
  * <p><span class="b2-regular">The list integrates:</span></p>
