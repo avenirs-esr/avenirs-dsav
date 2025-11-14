@@ -1,4 +1,4 @@
-import { testStories } from '../../../utils'
+import { testStories } from 'a11y/utils'
 
 const component = 'AvLanguageSelector'
 const title = 'Components/Interaction/Buttons/AvLanguageSelector'

@@ -1,4 +1,4 @@
-import { testStories } from '../../../utils'
+import { testStories } from 'a11y/utils'
 
 const component = 'AvSearchBar'
 const title = 'Components/Interaction/Inputs/AvSearchBar'

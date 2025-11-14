@@ -1,4 +1,4 @@
-import { testStories } from '../../utils'
+import { testStories } from 'a11y/utils'
 
 const component = 'AvAlert'
 const title = 'Components/Feedback/AvAlert'

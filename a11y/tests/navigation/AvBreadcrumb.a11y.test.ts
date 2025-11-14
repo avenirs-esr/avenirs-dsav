@@ -1,4 +1,4 @@
-import { testStories } from '../../utils'
+import { testStories } from 'a11y/utils'
 
 const component = 'AvBreadcrumb'
 const title = 'Components/Navigation/AvBreadcrumb'

@@ -2,6 +2,8 @@
 @use '../settings/breakpoints' as *;
 
 @include ns("menu") {
+  background-color: var(--other-background-base);
+  
   &.#{$prefix}collapsing {
     margin-top: var(--spacing-none);
     padding-top: var(--spacing-none);

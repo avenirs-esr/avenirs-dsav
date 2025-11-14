@@ -1,4 +1,4 @@
-import { testStories } from '../../../utils'
+import { testStories } from 'a11y/utils'
 
 const component = 'AvToggle'
 const title = 'Components/Interaction/Toggles/AvToggle'
