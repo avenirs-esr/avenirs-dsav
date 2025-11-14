@@ -159,8 +159,6 @@ const message = computed(() => errorMessage || successMessage)
   border: none;
 
   &__legend {
-    @extend .b1-regular;
-
     width: 100%;
     padding-bottom: var(--spacing-xs);
   }

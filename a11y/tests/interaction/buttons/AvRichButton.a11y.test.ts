@@ -1,4 +1,4 @@
-import { testStories } from '../../../utils'
+import { testStories } from 'a11y/utils'
 
 const component = 'AvRichButton'
 const title = 'Components/Interaction/Buttons/AvRichButton'
