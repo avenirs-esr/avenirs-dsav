@@ -41,19 +41,13 @@ body,
   height: 100%;
   background-color: var(--global-background-color);
   font-family: var(--font-family-primary);
+  margin: var(--spacing-none);
 }
 
 // === Reset headers ===
 h1, h2, h3, h4, h5, h6 {
   margin-bottom: 0;
   margin-top: 0;
-}
-
-// === Box sizing ===
-*,
-::before,
-::after {
-  box-sizing: inherit;
 }
 
 // === Typography base ===

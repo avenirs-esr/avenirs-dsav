@@ -8,7 +8,6 @@ $columns: 12;
 // Default container
 // Ex: .av-container, .av-container--fluid
 @include ns("container") {
-  width: 100%;
   max-width: 90rem;
   margin-left: auto;
   margin-right: auto;

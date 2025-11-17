@@ -206,6 +206,7 @@ defineExpose({
   box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.1);
   margin-top: var(--spacing-xxxs);
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 .av-autocomplete-dropdown__options {

@@ -367,6 +367,7 @@ defineExpose({
     background-color: var(--other-background-base);
     padding: var(--spacing-xs) var(--spacing-sm);
     width: 100%;
+    box-sizing: border-box;
 
     &--error {
       border-color: var(--dark-background-error);
@@ -402,6 +403,11 @@ defineExpose({
 
   input {
     @extend .b2-light;
+
+    &[type="date"] {
+      appearance: textfield;
+      -webkit-appearance: textfield;
+    }
 
     &[type="date"]::-webkit-calendar-picker-indicator {
       cursor: pointer;

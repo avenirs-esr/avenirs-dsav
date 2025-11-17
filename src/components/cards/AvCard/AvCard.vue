@@ -106,6 +106,7 @@ const slots = defineSlots<{
   justify-content: space-between;
 
   &__title {
+    box-sizing: border-box;
     margin: calc(-1 * var(--spacing-sm)) calc(-1 * var(--spacing-sm)) 0 calc(-1 * var(--spacing-sm));
     padding: 1rem;
   }

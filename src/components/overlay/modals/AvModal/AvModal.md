@@ -22,7 +22,6 @@ It consists of the following elements:
 | `id` | `string` | `modal-${crypto.randomUUID()}` | | Unique identifier for the modal. |
 | `opened` | `boolean` | `false` | | Indicates whether the modal is open. |
 | `isAlert` | `boolean` | `false` | | Specifies whether the modal is an alert (role `"alertdialog"` if `true`) or not (role will then be `"dialog"`). |
-| `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `md` | | Size of modal. |
 | `closeButtonLabel` | `string` | | ✅ | Label and title (for accessibility) of close button. |
 | `closeButtonIcon` | `string` | `mdi:close-circle-outline` | | Icon name of the close button. |
 | `closeButtonDisabled` | `boolean` | `false` | | Add a disabled state on the close button. |
@@ -61,7 +60,6 @@ const { showModal, displayModal, hideModal } = useModal()
   <AvModal
     :opened="showModal"
     close-button-label="Close"
-    size="lg"
     @close="hideModal"
   >
     <template #header>
