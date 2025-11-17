@@ -28,6 +28,7 @@ export const MDI_ICONS = {
   CIRCLE: 'mdi:circle',
   CLOSE_CIRCLE_OUTLINE: 'mdi:close-circle-outline',
   CONTENT_SAVE_OUTLINE: 'mdi:content-save-outline',
+  DIAMOND_STONE: 'mdi:diamond-stone',
   DOTS_VERTICAL: 'mdi:dots-vertical',
   ELECTRON_FRAMEWORK: 'mdi:electron-framework',
   FAMILY: 'mdi:family',
@@ -72,11 +73,13 @@ export const MDI_ICONS = {
   TRAY_UPLOAD: 'mdi:tray-upload',
   VECTOR_POLYGON_VARIANT: 'mdi:vector-polygon-variant',
   WARNING_OUTLINE: 'mdi:warning-outline',
+  WEIGHTS: 'mdi:weights',
 }
 
 export const RI_ICONS = {
   DICE_1_LINE: 'ri:dice-1-line',
   DICE_4_LINE: 'ri:dice-4-line',
+  HAND_HEART_LINE: 'ri:hand-heart-line',
   LOADER_LINE: 'ri:loader-line',
 }
 
