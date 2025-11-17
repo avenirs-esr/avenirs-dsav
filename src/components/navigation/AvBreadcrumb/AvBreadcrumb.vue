@@ -166,6 +166,10 @@ onMounted(() => {
     color: var(--dark-background-primary1);
     padding: var(--spacing-none);
 
+    &[href]:hover {
+      text-decoration: underline;
+    }
+
     &:not([href]) {
       color: var(--text2);
       background-image: none;

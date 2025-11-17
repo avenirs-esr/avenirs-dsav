@@ -20,78 +20,69 @@ export interface AvStepperProps {
   width?: string
 }
 
-const props = withDefaults(defineProps<AvStepperProps>(), {
-  width: '100%'
-})
-
-const { steps, currentStep, width } = toRefs(props)
+const { steps, currentStep, width = '100%' } = defineProps<AvStepperProps>()
 </script>
 
 <template>
-  <div class="custom-width-container">
-    <div class="block-container">
-      <div class="main-container">
+  <div class="av-stepper">
+    <div class="main-container">
+      <div
+        class="step step--active"
+        :aria-current="currentStep === 0 ? 'step' : undefined"
+      >
+        <span class="b1-regular">1</span>
+      </div>
+      <div
+        v-for="(_step, index) in steps.slice(1, steps.length)"
+        :key="index"
+        class="steps-container"
+      >
         <div
-          class="step step--active"
-          :aria-current="currentStep === 0 ? 'step' : undefined"
-        >
-          <span class="b1-regular">1</span>
-        </div>
+          class="separator"
+          :class="{ 'separator--active': index + 1 <= currentStep }"
+        />
         <div
-          v-for="(_step, index) in steps.slice(1, steps.length)"
-          :key="index"
-          class="steps-container"
+          class="step"
+          :class="{ 'step--active': index + 1 <= currentStep }"
+          :aria-current="index + 1 === currentStep ? 'step' : undefined"
         >
-          <div
-            class="separator"
-            :class="{ 'separator--active': index + 1 <= currentStep }"
-          />
-          <div
-            class="step"
-            :class="{ 'step--active': index + 1 <= currentStep }"
-            :aria-current="index + 1 === currentStep ? 'step' : undefined"
-          >
-            <span class="b1-regular">{{ index + 2 }}</span>
-          </div>
+          <span class="b1-regular">{{ index + 2 }}</span>
         </div>
       </div>
+    </div>
 
-      <div class="main-labels-container">
-        <div
-          v-for="(step, index) in steps"
-          :key="index"
-          class="label-container"
+    <div class="main-labels-container">
+      <div
+        v-for="(step, index) in steps"
+        :key="index"
+        class="label-container"
+      >
+        <span
+          class="label"
+          :class="{ 'b1-bold': index <= currentStep,
+                    'b1-light': index > currentStep,
+          }"
         >
-          <span
-            class="label"
-            :class="{ 'b1-bold': index <= currentStep,
-                      'b1-light': index > currentStep,
-            }"
-          >
-            {{ step }}
-          </span>
-        </div>
+          {{ step }}
+        </span>
       </div>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.custom-width-container {
+.av-stepper {
   display: flex;
   width: v-bind('width');
-}
-
-.block-container {
-  display: block;
-  width: 100%;
+  flex-direction: column;
+  flex: 1;
 }
 
 .main-container, .steps-container {
   display: flex;
   flex-direction: row;
-  width: 100%;
   align-items: center;
+  flex: 1;
 }
 
 .main-labels-container {
@@ -99,7 +90,6 @@ const { steps, currentStep, width } = toRefs(props)
   flex-direction: row;
   align-items: start;
   justify-content: space-between;
-  width: 100%;
   padding-top: var(--spacing-xs);
 }
 

@@ -109,12 +109,6 @@ export interface AvMultiselectProps {
   legend?: string
 
   /**
-   * Dropdown max height
-   * @default var(--dimension-8xl)
-   */
-  maxOverflowHeight?: CSSStyleDeclaration['maxHeight']
-
-  /**
    * Fixes the width of the multiselect
    */
   width?: string
@@ -144,7 +138,6 @@ const {
   selectAllLabel = ['Tout sélectionner', 'Tout désélectionner'],
   search = false,
   legend = '',
-  maxOverflowHeight = 'var(--dimension-8xl)',
   width,
   height
 } = defineProps<AvMultiselectProps>()
@@ -339,7 +332,6 @@ const styleVars = computed(() => ({
       :options="options"
       :selected="modelValue"
       :use-collapsable-return="useCollapsableReturn"
-      :max-overflow-height="maxOverflowHeight"
       @close="close"
       @update:model-value="onUpdateModelValue"
     />
@@ -353,13 +345,13 @@ const styleVars = computed(() => ({
 
 <style lang="scss" scoped>
 @use '@/styles/core/_typography.scss';
+@use '@/styles/components/_texts.scss';
 
 .av-multiselect {
   text-align: left;
   background-image: none;
   display: inline-flex;
   flex-direction: row;
-  padding: 0.75rem var(--spacing-sm);
   width: v-bind('width');
   height: v-bind('height');
 
@@ -403,6 +395,8 @@ const styleVars = computed(() => ({
 }
 
 :deep(.av-button span) {
+  @extend .av-ellipsis;
+
   color: var(--text2) !important;
 }
 

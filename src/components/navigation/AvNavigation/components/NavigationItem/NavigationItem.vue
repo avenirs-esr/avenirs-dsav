@@ -44,10 +44,24 @@ const realId = computed(() => id ?? `nav-item-${crypto.randomUUID()}`)
 </template>
 
 <style lang="scss" scoped>
-.av-nav__item {
-  &--active {
-    :deep(.av-nav__link) {
-      box-shadow: inset 0 -2px 0 0 var(--dark-background-primary1);
+:deep(a[aria-current="page"]) {
+  &::before {
+  content: "";
+    display: inline-block;
+    width: var(--dimension-xxxs);
+    height: 100%;
+    background-color: var(--dark-background-primary1);
+    margin-right: var(--dimension-xs);
+    vertical-align: middle;
+  }
+
+  & > * {
+    color: var(--dark-background-primary1) !important;
+  }
+
+  &:hover {
+    & > * {
+      color: inherit !important;
     }
   }
 }

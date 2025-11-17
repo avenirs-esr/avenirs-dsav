@@ -26,12 +26,6 @@ export interface AvModalProps {
   isAlert?: boolean
 
   /**
-   * Modal size.
-   * @default 'md'
-   */
-  size?: 'sm' | 'md' | 'lg' | 'xl'
-
-  /**
    * Label and title (for accessibility) of the close button.
    */
   closeButtonLabel: string
@@ -75,7 +69,6 @@ const {
   id,
   opened = false,
   isAlert = false,
-  size = 'md',
   closeButtonLabel,
   closeButtonIcon = MDI_ICONS.CLOSE_CIRCLE_OUTLINE,
   closeButtonDisabled = false,
@@ -161,40 +154,31 @@ onBeforeUnmount(() => {
       >
         <div class="av-container av-container-md av-container--fluid">
           <div class="av-row-md av-row-md--center">
-            <div
-              class="av-col-12"
-              :class="{
-                'av-col-md-8': size === 'lg',
-                'av-col-md-6': size === 'md',
-                'av-col-md-4': size === 'sm',
-              }"
-            >
-              <div class="av-modal__body">
-                <div class="av-modal__content">
-                  <div
-                    v-if="slots.header"
-                    class="header"
-                  >
-                    <slot name="header" />
-                  </div>
-                  <slot />
+            <div class="av-modal__body">
+              <div class="av-modal__content">
+                <div
+                  v-if="slots.header"
+                  class="header"
+                >
+                  <slot name="header" />
                 </div>
-                <div class="av-modal__footer">
-                  <AvCancelConfirmButtons
-                    ref="closeBtn"
-                    :cancel-label="closeButtonLabel"
-                    :cancel-icon="closeButtonIcon"
-                    :cancel-disabled="closeButtonDisabled"
-                    :cancel-is-loading="isLoading"
-                    :confirm-label="confirmButtonLabel"
-                    :confirm-icon="confirmButtonIcon"
-                    :confirm-disabled="confirmButtonDisabled"
-                    :confirm-is-loading="isLoading"
-                    @cancel="() => emit('close')"
-                    @confirm="() => emit('confirm')"
-                  />
-                  <slot name="footer" />
-                </div>
+                <slot />
+              </div>
+              <div class="av-modal__footer">
+                <AvCancelConfirmButtons
+                  ref="closeBtn"
+                  :cancel-label="closeButtonLabel"
+                  :cancel-icon="closeButtonIcon"
+                  :cancel-disabled="closeButtonDisabled"
+                  :cancel-is-loading="isLoading"
+                  :confirm-label="confirmButtonLabel"
+                  :confirm-icon="confirmButtonIcon"
+                  :confirm-disabled="confirmButtonDisabled"
+                  :confirm-is-loading="isLoading"
+                  @cancel="() => emit('close')"
+                  @confirm="() => emit('confirm')"
+                />
+                <slot name="footer" />
               </div>
             </div>
           </div>
@@ -230,6 +214,8 @@ onBeforeUnmount(() => {
   z-index: 1750;
   background-color: var(--transparency);
 
+    width: 100%;
+
   &__header {
     align-items: center;
     display: flex;
@@ -264,19 +250,28 @@ onBeforeUnmount(() => {
   }
 
   &--opened {
-    height:100%;
-    opacity:1;
-    transition:opacity .3s,
-    visibility .3s;
-    visibility:inherit;
-    width:100%
+    height: 100%;
+    opacity: 1;
+    transition: opacity .3s, visibility .3s;
+    visibility: inherit;
+    width: 100%;
+  }
+
+  .av-container--fluid {
+    min-width: 50%;
   }
 
   @include max-width(md) {
+    .av-container--fluid {
+      width: 100%;
+    }
+
     justify-content: flex-end;
+    width: 100%;
 
     &__body {
       max-height: 80vh;
+      width: 100%;
     }
 
     &__content {

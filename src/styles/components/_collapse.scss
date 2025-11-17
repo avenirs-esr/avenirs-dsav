@@ -5,13 +5,13 @@
   --collapser: "";
   --collapse-max-height: none;
 
+  background-color: var(--other-background-base);
   max-height: var(--collapse-max-height);
   overflow: hidden;
   transition: visibility 0.3s;
 
   &--expanded {
     overflow-x: hidden;
-    overflow-y: auto;
   }
 
   &:before {

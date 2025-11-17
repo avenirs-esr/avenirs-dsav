@@ -3,6 +3,7 @@ import AvIconText from '@/components/base/AvIconText/AvIconText.vue'
 import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
 import AvModal, { type AvModalProps } from '@/components/overlay/modals/AvModal/AvModal.vue'
 import { MDI_ICONS } from '@/tokens'
+
 /**
  * <h1 class="n1">Modals - <code>AvModal</code></h1>
  *
@@ -41,7 +42,6 @@ const meta: Meta<AvModalProps> = {
   argTypes: {
     opened: { control: 'boolean' },
     isAlert: { control: 'boolean' },
-    size: { control: 'select', options: ['sm', 'md', 'lg', 'xl'] },
     closeButtonLabel: { control: 'text', required: true },
     closeButtonIcon: { control: 'text' },
     closeButtonDisabled: { control: 'boolean' },
@@ -53,7 +53,6 @@ const meta: Meta<AvModalProps> = {
   args: {
     opened: false,
     isAlert: false,
-    size: 'md',
     closeButtonLabel: 'Close',
     closeButtonIcon: MDI_ICONS.CLOSE_CIRCLE_OUTLINE,
     closeButtonDisabled: false,

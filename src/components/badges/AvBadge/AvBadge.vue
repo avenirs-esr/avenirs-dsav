@@ -98,6 +98,7 @@ const styleVars = computed(() => (
   width: -moz-fit-content;
   width: fit-content;
   align-items: center;
+  margin: var(--spacing-none);
 
   & span {
     color: inherit;

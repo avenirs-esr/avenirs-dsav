@@ -204,7 +204,6 @@ const messageType = computed(() => {
   background-color: var(--other-background-base);
   border: 1px solid var(--stroke);
   color: var(--text1);
-  box-shadow: none;
   border-radius: var(--radius-md);
   white-space: nowrap;
   overflow: hidden;
@@ -216,14 +215,13 @@ const messageType = computed(() => {
   margin-top: var(--spacing-none);
   display: block;
   padding: var(--spacing-xs) var(--spacing-xl) var(--spacing-xs) var(--spacing-sm);
-  width: 100%;
 
   &--dense {
     .av-select {
       @extend .b2-regular;
 
-      padding-top: .1rem !important;
-      padding-bottom: .1rem !important;
+      padding-top: var(--spacing-xxs) !important;
+      padding-bottom: var(--spacing-xxs) !important;
     }
   }
 

@@ -16,7 +16,6 @@ export interface MultiselectCollapseProps {
   selectAll?: boolean
   search?: boolean
   selectAllLabel?: [string, string]
-  maxOverflowHeight?: CSSStyleDeclaration['maxHeight']
   useCollapsableReturn: Omit<UseCollapsableReturn, 'adjust'>
   noResultLabel?: string
 }
@@ -28,7 +27,6 @@ const {
   selectAll = false,
   selectAllLabel = ['Tout sélectionner', 'Tout désélectionner'],
   search = false,
-  maxOverflowHeight = '400px',
   id,
   options,
   selected,
@@ -240,7 +238,6 @@ onUnmounted(() => {
     <AvCheckboxesGroup
       :id="`${id}-checkboxes`"
       class="av-multiselect__collapse__fieldset"
-      :style="{ '--maxOverflowHeight': `${maxOverflowHeight}` }"
       :legend="legend"
       :legend-id="`${id}-checkboxes-legend`"
     >
@@ -276,10 +273,10 @@ onUnmounted(() => {
   width: auto;
   padding: var(--spacing-xs);
   margin-left: var(--spacing-xxs);
-  border: 1px solid var(--stroke);
+  border: 2px solid var(--stroke);
+  border-top-width: 1px;
 
   &__fieldset {
-    max-height: var(--maxOverflowHeight);
     overflow: auto;
   }
 }

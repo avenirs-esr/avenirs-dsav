@@ -6,7 +6,7 @@ import { AvCancelConfirmButtonsStub, AvDrawerStub } from '@/tests'
 import { BddTest, mountWithRouter } from '@/tests/utils'
 
 vi.mock('@/composables', () => ({
-  useAvBreakpoints: () => ({ isBelowLg: false }),
+  useAvBreakpoints: () => ({ isBelowLg: true }),
 }))
 
 BddTest().given('an AvHeader', () => {
@@ -58,7 +58,10 @@ BddTest().given('an AvHeader', () => {
     BddTest().then('it should open menu', async () => {
       const menuButton = wrapper.get('[data-testid="open-menu-btn"]')
       await menuButton.trigger('click')
-      expect(wrapper.findComponent({ name: 'AvDrawer' }).props('show')).toBe(true)
+
+      const drawer = wrapper.findComponent({ name: 'AvDrawer' })
+      expect(drawer.exists()).toBe(true)
+      expect(drawer.props('show')).toBe(true)
     })
   })
 

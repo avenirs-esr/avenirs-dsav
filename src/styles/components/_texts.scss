@@ -2,10 +2,10 @@
 
 // === Ellipsis ===
 @include ns("ellipsis") {
-  display: inline!important;
-  overflow: hidden!important;
-  text-overflow: ellipsis!important;
-  white-space: nowrap!important
+  display: inline !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
 }
 
 .ellipsis {
