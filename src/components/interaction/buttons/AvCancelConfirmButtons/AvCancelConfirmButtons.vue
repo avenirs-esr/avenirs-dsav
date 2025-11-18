@@ -83,7 +83,7 @@ const emit = defineEmits<{
       :is-loading="cancelIsLoading"
       :disabled="cancelDisabled"
       small
-      @click="() => emit('cancel')"
+      @click="emit('cancel')"
     />
     <AvButton
       v-if="confirmLabel"
@@ -94,7 +94,7 @@ const emit = defineEmits<{
       :is-loading="confirmIsLoading"
       :disabled="confirmDisabled"
       small
-      @click="() => emit('confirm')"
+      @click="emit('confirm')"
     />
   </div>
 </template>
