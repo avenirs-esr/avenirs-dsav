@@ -338,6 +338,10 @@ defineExpose({
     &:focus-within {
       .av-input__prefix {
         color: var(--dark-background-primary1);
+
+        :deep(.av-icon__icon) {
+          background-color: var(--dark-background-primary1 );
+        }
       }
     }
   }
@@ -353,9 +357,10 @@ defineExpose({
     color: var(--text2);
     transition: color 0.2s ease;
 
-    svg {
-      color: inherit;
-    }
+      :deep(.av-icon__icon) {
+        background-color: var(--text2);
+        transition: background-color 0.2s ease;
+      }
   }
 
   &__input {
@@ -392,6 +397,10 @@ defineExpose({
       color: var(--text2);
       cursor: not-allowed;
       opacity: 0.7;
+
+      :deep(.av-icon__icon) {
+        background-color: var(--text2);
+      }
     }
 
     &::placeholder {

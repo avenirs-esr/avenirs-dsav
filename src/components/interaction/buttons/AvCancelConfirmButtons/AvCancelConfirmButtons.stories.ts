@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
 import AvCancelConfirmButtons, { type AvCancelConfirmButtonsProps } from '@/components/interaction/buttons/AvCancelConfirmButtons/AvCancelConfirmButtons.vue'
+import { iconMapping, iconOptions } from '@/utils/storybook'
 
 /**
  * <h2 class="n2">✨ Introduction</h2>
@@ -37,11 +38,11 @@ const meta: Meta<AvCancelConfirmButtonsProps> = {
   component: AvCancelConfirmButtons,
   argTypes: {
     cancelLabel: { control: 'text' },
-    cancelIcon: { control: 'text' },
+    cancelIcon: { control: 'select', options: iconOptions, mapping: iconMapping },
     cancelDisabled: { control: 'boolean' },
     cancelIsLoading: { control: 'boolean' },
     confirmLabel: { control: 'text' },
-    confirmIcon: { control: 'text' },
+    confirmIcon: { control: 'select', options: iconOptions, mapping: iconMapping },
     confirmDisabled: { control: 'boolean' },
     confirmIsLoading: { control: 'boolean' },
   },

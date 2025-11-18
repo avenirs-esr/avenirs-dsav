@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
 import AvTag, { type AvTagProps } from '@/components/badges/AvTag/AvTag.vue'
+import { iconMapping, iconOptions } from '@/utils/storybook'
 
 /**
  * <h1 class="n1">Tags - <code>AvTag</code></h1>
@@ -52,7 +53,7 @@ const meta: Meta<AvTagProps> = {
       control: 'select',
       options: ['p', 'button'],
     },
-    icon: { control: 'text' },
+    icon: { control: 'select', options: iconOptions, mapping: iconMapping },
     disabled: { control: 'boolean' },
     small: { control: 'boolean' },
     iconOnly: { control: 'boolean' },
@@ -63,7 +64,7 @@ const meta: Meta<AvTagProps> = {
   args: {
     label: 'A super tag',
     tagName: 'p',
-    icon: 'mdi:home',
+    icon: iconOptions[0],
     disabled: false,
     small: false,
     iconOnly: false,

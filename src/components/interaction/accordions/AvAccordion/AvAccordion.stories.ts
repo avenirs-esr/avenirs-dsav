@@ -33,7 +33,7 @@ const meta: Meta<AvAccordionProps> = {
   },
   args: {
     title: 'Accordion 1',
-    icon: 'mdi:home',
+    icon: 'mdi:home-variant-outline',
   },
 }
 

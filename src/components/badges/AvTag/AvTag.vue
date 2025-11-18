@@ -98,7 +98,7 @@ const styleVars = computed(() => ({
   >
     <AvIcon
       v-if="icon"
-      :label="iconOnly ? label : undefined"
+      :title="iconOnly ? label : undefined"
       :size="small ? 0.875 : 1"
       :name="icon"
     />
@@ -122,6 +122,10 @@ const styleVars = computed(() => ({
   width: -moz-fit-content;
   width: fit-content;
 
+  :deep(.av-icon__icon) {
+    background-color: var(--text1);
+  }
+
   &:after {
     display: block;
   }
@@ -135,6 +139,10 @@ const styleVars = computed(() => ({
     color: var(--other-background-base);
     background-color: var(--dark-background-primary1);
     position: relative;
+
+    :deep(.av-icon__icon) {
+      background-color: var(--other-background-base);
+    }
 
     &::after,
     &::before {
@@ -165,7 +173,7 @@ const styleVars = computed(() => ({
 
   .caption-regular,
   .b2-regular {
-    color: inherit,
+    color: inherit;
   }
 }
 
@@ -173,9 +181,17 @@ button.av-tag {
   background-color: var(--light-background-primary1);
   color: var(--light-foreground-primary1);
 
+  :deep(.av-icon__icon) {
+    background-color: var(--light-foreground-primary1);
+  }
+
   &:hover {
-  background-color: var(--dark-background-primary1);
-  color: var(--other-background-base);
+    background-color: var(--dark-background-primary1);
+    color: var(--other-background-base);
+
+    :deep(.av-icon__icon) {
+      background-color: var(--other-background-base);
+    }
   }
 }
 </style>

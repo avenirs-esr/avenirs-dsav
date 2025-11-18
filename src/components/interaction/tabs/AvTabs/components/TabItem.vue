@@ -179,15 +179,27 @@ watch(() => isSelected, () => {
     width: 100%;
     color: var(--text2);
 
+    :deep(.av-icon__icon) {
+      background-color: var(--text2);
+    }
+
     &[aria-selected=true]:not(:disabled),
     &[aria-selected=true]:not(:disabled) > * {
       color: var(--dark-background-primary1);
       background: var(--other-background-base) !important;
+
+      :deep(.av-icon__icon) {
+        background-color: var(--dark-background-primary1);
+      }
     }
 
     &:not([aria-selected=true]:not(:disabled)):hover,
     &:not([aria-selected=true]:not(:disabled)):hover > * {
       color: var(--dark-background-primary1);
+
+      :deep(.av-icon__icon) {
+        background-color: var(--dark-background-primary1);
+      }
     }
   }
 

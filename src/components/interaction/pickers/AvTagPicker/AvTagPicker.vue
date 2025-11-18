@@ -222,10 +222,18 @@ watch(() => props.selected, (newSelected) => {
   justify-content: center !important;
   text-align: center !important;
 
+  :deep(.av-icon__icon) {
+    background-color: var(--text2) !important;
+  }
+
   &:hover {
     border: 1px solid var(--dark-background-primary1);
     color: var(--other-background-base) !important;
     background: var(--dark-background-primary1) !important;
+
+    :deep(.av-icon__icon) {
+      background-color: var(--other-background-base) !important;
+    }
   }
 
   &--selected {
@@ -233,10 +241,18 @@ watch(() => props.selected, (newSelected) => {
     color: var(--dark-background-primary1) !important;
     background: var(--other-background-base) !important;
 
+    :deep(.av-icon__icon) {
+      background-color: var(--dark-background-primary1) !important;
+    }
+
     &:hover {
       border: 1px solid var(--dark-background-primary1);
       color: var(--dark-background-primary1) !important;
       background: var(--other-background-base) !important;
+
+      :deep(.av-icon__icon) {
+        background-color: var(--dark-background-primary1) !important;
+      }
     }
 
     &:after,

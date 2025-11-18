@@ -247,10 +247,12 @@ const selectedClass = computed(() => selected ? 'av-list-item--selected' : '')
 <style lang="scss" scoped>
 @mixin hoverColors {
   .av-list-item__title,
-  .av-list-item__description,
-
-  .av-list-item__icon :deep(svg) {
+  .av-list-item__description{
     color: v-bind('colorOnHover') !important;
+  }
+
+  :deep(.av-icon__icon) {
+    background-color: v-bind('colorOnHover') !important;
   }
 }
 

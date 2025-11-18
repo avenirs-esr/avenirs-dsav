@@ -60,7 +60,7 @@ const {
   cancelDisabled,
   cancelIsLoading,
   confirmLabel,
-  confirmIcon = MDI_ICONS.CLOSE_CIRCLE_OUTLINE,
+  confirmIcon = MDI_ICONS.CHECK_CIRCLE_OUTLINE,
   confirmDisabled,
   confirmIsLoading,
   form

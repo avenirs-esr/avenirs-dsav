@@ -138,7 +138,7 @@ defineExpose({
       class="av-autocomplete-dropdown__loading"
     >
       <AvIcon
-        :name="MDI_ICONS.LOADING_OUTLINE"
+        :name="MDI_ICONS.LOADING"
         :size="1.5"
         class="av-autocomplete-dropdown__spinner"
       />

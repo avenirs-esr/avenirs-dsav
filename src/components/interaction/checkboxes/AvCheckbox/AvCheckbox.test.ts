@@ -42,7 +42,7 @@ BddTest().given('an AvCheckbox component', () => {
 
   BddTest().when('icon prop is provided', () => {
     beforeEach(() => {
-      wrapper = mountWithProps({ icon: 'mdi:home' })
+      wrapper = mountWithProps({ icon: 'mdi:home-variant-outline' })
     })
 
     BddTest().then('it should render the icon', () => {
@@ -93,7 +93,7 @@ BddTest().given('an AvCheckbox component', () => {
     })
 
     BddTest().then('label class should be bold and icon updated', () => {
-      const labelText = wrapper.find('label span')
+      const labelText = wrapper.find('.label')
       expect(labelText.classes()).toContain('b2-bold')
     })
   })

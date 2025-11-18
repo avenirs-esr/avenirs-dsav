@@ -1,6 +1,6 @@
 export const AvButtonStub = defineComponent({
   name: 'AvButton',
-  props: ['label', 'variant', 'type', 'disabled', 'isLoading', 'size'],
+  props: ['label', 'variant', 'type', 'disabled', 'isLoading', 'small'],
   emits: ['click'],
   template: `
     <button

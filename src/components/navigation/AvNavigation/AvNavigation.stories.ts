@@ -31,7 +31,7 @@ const meta: Meta<AvNavigationProps> = {
       {
         text: 'Direct link',
         to: '#home',
-        icon: 'mdi:home',
+        icon: 'mdi:home-variant-outline',
       },
       {
         title: 'Menu 1',

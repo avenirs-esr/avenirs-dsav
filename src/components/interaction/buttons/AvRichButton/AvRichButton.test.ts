@@ -38,7 +38,7 @@ BddTest().given('an AvRichButton', () => {
   BddTest().when('mounted with a left icon', () => {
     const customProps = {
       ...props,
-      iconLeft: 'mdi:home'
+      iconLeft: 'mdi:home-variant-outline'
     }
 
     beforeEach(() => {
@@ -56,7 +56,7 @@ BddTest().given('an AvRichButton', () => {
   BddTest().when('mounted with right icon', () => {
     const customProps = {
       ...props,
-      iconRight: 'mdi:home'
+      iconRight: 'mdi:home-variant-outline'
     }
 
     beforeEach(() => {

@@ -70,7 +70,7 @@ BddTest().given('an AvMultiselect component', () => {
       })
 
       BddTest().then('it should render the button in medium size', () => {
-        expect(wrapper.findComponent({ name: 'AvButton' }).props('size')).toBe('md')
+        expect(wrapper.findComponent({ name: 'AvButton' }).props('small')).toBe(false)
       })
 
       BddTest().and('Escape key is pressed', () => {
@@ -195,7 +195,7 @@ BddTest().given('an AvMultiselect component', () => {
     })
 
     BddTest().then('it should render the button in small size', () => {
-      expect(wrapper.findComponent({ name: 'AvButton' }).props('size')).toBe('sm')
+      expect(wrapper.findComponent({ name: 'AvButton' }).props('small')).toBe(true)
     })
   })
 

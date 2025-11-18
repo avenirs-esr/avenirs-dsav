@@ -1,3 +1,17 @@
+/**
+ * This file contains the icon names used in the application.
+ * These icons are sourced from Material Design Icons (MDI) and Remix Icon (RI) libraries.
+ * Each icon is represented by a constant for easy reference throughout the codebase.
+ * These constants must only be used within AvIcon component in order to benefit from
+ * the _icons.scss generated file that contains the root paths for each icon.
+ *
+ * When adding new icons in this file, please ensure to:
+ * 1. Use uppercase letters with underscores for constant names.
+ * 2. Follow the naming convention of the icon libraries (e.g., 'mdi:icon-name' for MDI).
+ * 3. Keep the list organized alphabetically for better readability.
+ * 4. Execute 'npm run generate:icons' to update the icon assets after adding new icons.
+ */
+
 export const MDI_ICONS = {
   ACCOUNT_CIRCLE_OUTLINE: 'mdi:account-circle-outline',
   ACCOUNT_STUDENT_OUTLINE: 'mdi:account-student-outline',
@@ -15,6 +29,7 @@ export const MDI_ICONS = {
   BOOK_LOCATION_OUTLINE: 'mdi:book-location-outline',
   BRIEFCASE_VARIANT_OUTLINE: 'mdi:briefcase-variant-outline',
   CALENDAR_MONTH_OUTLINE: 'mdi:calendar-month-outline',
+  CALENDAR_OUTLINE: 'mdi:calendar-outline',
   CHART_TIMELINE_VARIANT_SHIMMER: 'mdi:chart-timeline-variant-shimmer',
   CHAT_ALERT: 'mdi:chat-alert',
   CHAT_BUBBLE_OUTLINE: 'mdi:chat-bubble-outline',
@@ -32,6 +47,7 @@ export const MDI_ICONS = {
   DIAMOND_STONE: 'mdi:diamond-stone',
   DOTS_VERTICAL: 'mdi:dots-vertical',
   ELECTRON_FRAMEWORK: 'mdi:electron-framework',
+  EMAIL_OUTLINE: 'mdi:email-outline',
   FAMILY: 'mdi:family',
   FILE: 'mdi:file',
   FILE_ACCOUNT_OUTLINE: 'mdi:file-account-outline',
@@ -51,9 +67,11 @@ export const MDI_ICONS = {
   INFORMATION_BOX_OUTLINE: 'mdi:information-box-outline',
   INFORMATION_OUTLINE: 'mdi:information-outline',
   LINK: 'mdi:link',
-  LOADING_OUTLINE: 'mdi:loading',
+  LOADING: 'mdi:loading',
+  LOCK_OUTLINE: 'mdi:lock-outline',
   LOGOUT: 'mdi:logout',
   MAGNIFY: 'mdi:magnify',
+  MAP_MARKER_OUTLINE: 'mdi:map-marker-outline',
   NAVIGATE_BEFORE: 'mdi:navigate-before',
   NAVIGATE_NEXT: 'mdi:navigate-next',
   NOTEBOOK_CHECK: 'mdi:notebook-check',
@@ -62,6 +80,7 @@ export const MDI_ICONS = {
   PAGE_LAST: 'mdi:page-last',
   PENCIL_OUTLINE: 'mdi:pencil-outline',
   PEOPLE_GROUP_OUTLINE: 'mdi:people-group-outline',
+  PHONE_OUTLINE: 'mdi:phone-outline',
   PLUS_CIRCLE_OUTLINE: 'mdi:plus-circle-outline',
   POST_IT_NOTES_OUTLINE: 'mdi:post-it-notes-outline',
   RECORD_CIRCLE_OUTLINE: 'mdi:record-circle-outline',

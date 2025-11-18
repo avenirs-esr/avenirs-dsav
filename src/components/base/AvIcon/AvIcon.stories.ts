@@ -1,5 +1,7 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
 import AvIcon, { type AvIconProps } from '@/components/base/AvIcon/AvIcon.vue'
+import { MDI_ICONS } from '@/tokens'
+import { iconMapping, iconOptions } from '@/utils/storybook'
 
 /**
  * <h2 class="n2">✨ Introduction</h2>
@@ -47,11 +49,7 @@ const meta: Meta<AvIconProps> = {
   component: AvIcon,
   tags: ['autodocs'],
   argTypes: {
-    name: {
-      control: 'text',
-      description: 'Name of the icon (from Iconify naming convention)',
-      type: { name: 'string', required: true },
-    },
+    name: { control: 'select', options: iconOptions, mapping: iconMapping },
     size: {
       control: { type: 'range', min: 0.5, max: 5, step: 0.25 },
       description: 'Size in rem of the container and icon scale',
@@ -69,20 +67,16 @@ const meta: Meta<AvIconProps> = {
       options: ['horizontal', 'vertical', 'both', undefined],
     },
     color: { control: 'color' },
-    label: { control: 'text' },
     title: { control: 'text' },
-    ssr: { control: 'boolean' },
   },
   args: {
-    name: 'mdi:check',
+    name: iconOptions[0],
     size: 2,
     animation: undefined,
     speed: undefined,
     flip: undefined,
     color: 'var(--text1)',
-    label: 'Check icon',
-    title: 'Check',
-    ssr: true,
+    title: 'Some icon',
   },
 }
 
@@ -101,7 +95,7 @@ Default.args = {}
 
 export const Animated = Template.bind({})
 Animated.args = {
-  name: 'mdi:loading',
+  name: MDI_ICONS.LOADING,
   animation: 'spin',
   speed: 'fast',
   title: 'Loading',

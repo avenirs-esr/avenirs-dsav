@@ -315,7 +315,7 @@ const styleVars = computed(() => ({
         'av-multiselect--unselected': modelValue.length === 0,
         'av-multiselect--selected': modelValue.length > 0,
       }"
-      :size="dense ? 'sm' : 'md'"
+      :small="dense"
       :style="styleVars"
       @click="handleClick"
       @keydown.shift.tab="handleFocusPreviousElement"
