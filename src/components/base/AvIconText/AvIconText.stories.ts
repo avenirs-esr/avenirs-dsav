@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
+import { iconMapping, iconOptions } from '@/utils/storybook'
 import AvIconText, { type AvIconTextProps } from './AvIconText.vue'
 
 const typographyClasses = [
@@ -62,10 +63,7 @@ const meta: Meta<AvIconTextProps> = {
   argTypes: {
     textColor: { control: 'color' },
     iconColor: { control: 'color' },
-    icon: {
-      control: 'text',
-      type: { name: 'string', required: true },
-    },
+    icon: { control: 'select', options: iconOptions, mapping: iconMapping },
     text: {
       control: 'text',
       type: { name: 'string', required: true },
@@ -80,7 +78,7 @@ const meta: Meta<AvIconTextProps> = {
   args: {
     textColor: 'var(--text1)',
     iconColor: 'var(--text1)',
-    icon: 'mdi:calendar-month',
+    icon: iconOptions[0],
     text: 'Example text with icon',
     typographyClass: 'b2-regular',
     gap: 'var(--spacing-xxs)',
@@ -111,7 +109,7 @@ InlineNoEllipsis.args = {
 
 export const CustomColors = Template.bind({})
 CustomColors.args = {
-  icon: 'mdi:calendar-month',
+  icon: iconOptions[0],
   text: 'Warning icon with custom colors',
   iconColor: 'var(--dark-background-primary1)',
   textColor: 'var(--dark-background-primary2)',

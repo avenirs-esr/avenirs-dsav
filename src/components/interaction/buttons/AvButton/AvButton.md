@@ -63,7 +63,7 @@ You can find examples of use and demo of the component on its dedicated [Storybo
     icon="mdi:dots-vertical"
     icon-only
     variant="OUTLINED"
-    size="sm"
+    small
     label="Paramètres de la trace"
     :on-click="toggleSettingsMenu"
   />
@@ -77,7 +77,7 @@ You can find examples of use and demo of the component on its dedicated [Storybo
     icon="mdi:logout"
     variant="DEFAULT"
     theme="SECONDARY"
-    size="sm"
+    small
     no-radius
   />
 </template>

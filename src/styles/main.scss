@@ -13,6 +13,7 @@
 @use './settings/breakpoints' as *;
 
 // === Components ===
+@use './components/icons' as *;
 @use './components/grid' as *;
 @use './components/buttons' as *;
 @use './components/collapse' as *;

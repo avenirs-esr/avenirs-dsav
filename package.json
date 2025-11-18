@@ -66,6 +66,7 @@
     "release:minor": "npm version minor --git-tag-version -m \"chore(release): update version to %s\" --tag-version-prefix v",
     "release:major": "npm version major --git-tag-version -m \"chore(release): update version to %s\" --tag-version-prefix v",
     "docs:generate": "node generate-docs.js",
+    "icons:generate": "node generate-icons-scss.js",
     "docs:dev": "npm run docs:generate && vitepress dev docs",
     "docs:build": "npm run docs:generate && vitepress build docs"
   },
@@ -84,7 +85,6 @@
     }
   },
   "dependencies": {
-    "@iconify/vue": "^4.3.0",
     "@vueuse/core": "^13.9.0",
     "date-fns": "^4.1.0",
     "focus-trap": "^7.5.4",
@@ -97,6 +97,8 @@
     "@chromatic-com/storybook": "^4.1.1",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
+    "@iconify-json/mdi": "^1.2.3",
+    "@iconify-json/ri": "^1.2.6",
     "@playwright/test": "1.56.0",
     "@rushstack/eslint-patch": "^1.10.4",
     "@storybook/addon-a11y": "^9.1.6",

@@ -44,7 +44,7 @@ BddTest().given('an AvTag component', () => {
     })
 
     BddTest().and('given an icon', () => {
-      const newProps: AvTagProps = { ...props, icon: 'mdi:home' }
+      const newProps: AvTagProps = { ...props, icon: 'mdi:home-variant-outline' }
 
       beforeEach(() => {
         wrapper = mount(AvTag, { props: newProps, global: { stubs } })
@@ -59,7 +59,7 @@ BddTest().given('an AvTag component', () => {
     })
 
     BddTest().and('given the small prop', () => {
-      const newProps: AvTagProps = { ...props, small: true, icon: 'mdi:home' }
+      const newProps: AvTagProps = { ...props, small: true, icon: 'mdi:home-variant-outline' }
 
       beforeEach(() => {
         wrapper = mount(AvTag, { props: newProps, global: { stubs } })
@@ -94,7 +94,7 @@ BddTest().given('an AvTag component', () => {
     })
 
     BddTest().and('given the icon only prop', () => {
-      const newProps: AvTagProps = { ...props, icon: 'mdi:home', iconOnly: true }
+      const newProps: AvTagProps = { ...props, icon: 'mdi:home-variant-outline', iconOnly: true }
 
       beforeEach(() => {
         wrapper = mount(AvTag, { props: newProps, global: { stubs } })
@@ -104,7 +104,7 @@ BddTest().given('an AvTag component', () => {
         const tag = wrapper.find('p')
         expect(tag.text()).not.toContain(newProps.label)
         const icon = wrapper.findComponent({ name: 'AvIcon' })
-        expect(icon.attributes('label')).toBe(newProps.label)
+        expect(icon.props('title')).toBe(newProps.label)
       })
     })
 

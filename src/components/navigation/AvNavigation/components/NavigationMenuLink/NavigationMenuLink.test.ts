@@ -36,7 +36,7 @@ BddTest().given('a navigation menu link', () => {
   const linkWithIcon: NavigationMenuLinkProps = {
     text: 'Home',
     to: '/',
-    icon: 'mdi:home',
+    icon: 'mdi:home-variant-outline',
     onClick
   }
 
@@ -118,7 +118,7 @@ BddTest().given('a navigation menu link', () => {
     BddTest().then('it should render the icon', () => {
       const icon = wrapper.findComponent({ name: 'AvIcon' })
       expect(icon.exists()).toBe(true)
-      expect(icon.props('name')).toBe('mdi:home')
+      expect(icon.props('name')).toBe('mdi:home-variant-outline')
     })
   })
 })

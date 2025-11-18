@@ -19,6 +19,7 @@ export default () => {
     'public/mockServiceWorker.js',
     'src/__mocks__/*',
     'src/test-utils.ts',
+    'src/utils/storybook.ts',
     'storybook-static/*',
     'generate-docs.js',
   ]

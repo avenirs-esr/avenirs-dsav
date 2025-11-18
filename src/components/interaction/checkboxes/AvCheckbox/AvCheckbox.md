@@ -54,7 +54,7 @@ You can find examples of use and demo of the component on its dedicated [Storybo
     v-model="model"
     :value="1"
     label="Some checkbox"
-    icon="mdi:home"
+    icon="mdi:home-variant-outline"
     name="some-checkbox"
     small
     @keydown.down="handleFocusNextCheckbox"

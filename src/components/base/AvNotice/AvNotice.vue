@@ -32,12 +32,12 @@ const formattedDesc = computed(() => formatTextToHtml(text))
 const icon = computed(() => {
   switch (type) {
     case 'warning':
-      return MDI_ICONS.WARNING
+      return { name: MDI_ICONS.WARNING, color: 'var(--dark-background-warn)' }
     case 'alert':
-      return MDI_ICONS.WARNING_CIRCLE
+      return { name: MDI_ICONS.WARNING_CIRCLE, color: 'var(--dark-background-error)' }
     case 'info':
     default:
-      return MDI_ICONS.INFORMATION_BOX
+      return { name: MDI_ICONS.INFORMATION_BOX, color: 'var(--dark-background-info)' }
   }
 })
 </script>
@@ -48,7 +48,7 @@ const icon = computed(() => {
     :class="`av-notice--${type}`"
   >
     <AvIcon
-      :name="icon"
+      v-bind="icon"
       :size="1.5"
     />
     <span class="b2-bold">

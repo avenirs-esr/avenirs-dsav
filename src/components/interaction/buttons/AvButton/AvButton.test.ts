@@ -103,7 +103,7 @@ BddTest().given('an AvButton', () => {
       BddTest().then('it should render the icon', () => {
         const icon = wrapper.findComponent({ name: 'AvIcon' })
         expect(icon.exists()).toBe(true)
-        expect(icon.props('name')).toBe(MDI_ICONS.LOADING_OUTLINE)
+        expect(icon.props('name')).toBe(MDI_ICONS.LOADING)
         expect(icon.props('animation')).toBe('spin')
       })
 
@@ -115,7 +115,7 @@ BddTest().given('an AvButton', () => {
   })
 
   BddTest().and('iconOnly is true', () => {
-    const props: AvButtonProps = { label: 'This is a test label', icon: 'mdi:home', iconOnly: true }
+    const props: AvButtonProps = { label: 'This is a test label', icon: 'mdi:home-variant-outline', iconOnly: true }
 
     beforeEach(() => {
       wrapper = mount(AvButton, {
@@ -180,7 +180,7 @@ BddTest().given('an AvButton', () => {
       (small, expectedIconSize) => {
         beforeEach(() => {
           wrapper = mount(AvButton, {
-            props: { label: 'test', icon: 'mdi:home', small },
+            props: { label: 'test', icon: 'mdi:home-variant-outline', small },
             global: { stubs }
           })
         })
@@ -194,7 +194,7 @@ BddTest().given('an AvButton', () => {
     BddTest().when('iconScale is a valid number', () => {
       beforeEach(() => {
         wrapper = mount(AvButton, {
-          props: { label: 'test', icon: 'mdi:home', iconScale: 3 },
+          props: { label: 'test', icon: 'mdi:home-variant-outline', iconScale: 3 },
           global: { stubs }
         })
       })
@@ -207,7 +207,7 @@ BddTest().given('an AvButton', () => {
     BddTest().when('iconScale is NaN', () => {
       beforeEach(() => {
         wrapper = mount(AvButton, {
-          props: { label: 'test', icon: 'mdi:home', iconScale: Number.NaN, small: false },
+          props: { label: 'test', icon: 'mdi:home-variant-outline', iconScale: Number.NaN, small: false },
           global: { stubs }
         })
       })

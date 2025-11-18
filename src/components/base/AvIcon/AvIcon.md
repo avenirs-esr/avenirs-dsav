@@ -23,8 +23,7 @@ The icon is composed of a square `div` of configurable size containing the `Icon
 | `animation` | `'spin' \| 'wrench' \| 'pulse' \| 'spin-pulse' \| 'flash' \| 'float' \| 'ring'` | `undefined` | | Animation type applied to the icon. |
 | `speed` | `'fast' \| 'slow'` | `undefined` | | Animation speed, if defined. |
 | `flip` | `'horizontal' \| 'vertical' \| 'both'` | `undefined` | | Flips the icon horizontally, vertically, or both. |
-| `label` | `string` | `undefined` | | ARIA label for accessibility. |
-| `title` | `number` | `undefined` | | Icon title (`<title>` tag), used for accessibility and tooltips. |
+| `title` | `number` | `undefined` | | Icon title used for accessibility and tooltips. |
 | `color` | `string` | `undefined` | | Main color of the icon. |
 | `ssr` | `boolean` | `1` | | Enables server-side rendering. |
 

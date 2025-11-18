@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
 import AvButton, { type AvButtonProps } from '@/components/interaction/buttons/AvButton/AvButton.vue'
+import { iconMapping, iconOptions } from '@/utils/storybook'
 
 /**
  * <h1 class="n1">Buttons - <code>AvButton</code></h1>
@@ -53,7 +54,7 @@ const meta: Meta<AvButtonProps> = {
       type: { name: 'string', required: true },
       control: 'text',
     },
-    icon: { control: 'text' },
+    icon: { control: 'select', options: iconOptions, mapping: iconMapping },
     variant: {
       control: { type: 'radio' },
       options: ['DEFAULT', 'OUTLINED'],
@@ -102,7 +103,7 @@ Default.args = {}
 export const DefaultIconOnly = Template.bind({})
 DefaultIconOnly.args = {
   iconOnly: true,
-  icon: 'mdi:settings',
+  icon: 'mdi:home-variant-outline',
   label: 'Settings',
 }
 
@@ -135,7 +136,7 @@ export const OutlinedIconOnly = Template.bind({})
 OutlinedIconOnly.args = {
   variant: 'OUTLINED',
   iconOnly: true,
-  icon: 'mdi:settings',
+  icon: 'mdi:home-variant-outline',
   label: 'Settings',
 }
 
@@ -172,7 +173,7 @@ export const FlatIconOnly = Template.bind({})
 FlatIconOnly.args = {
   variant: 'FLAT',
   iconOnly: true,
-  icon: 'mdi:settings',
+  icon: 'mdi:home-variant-outline',
   label: 'Settings',
 }
 

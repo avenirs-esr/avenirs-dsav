@@ -114,7 +114,7 @@ const Template: StoryFn<AvHeaderProps> = args => ({
       <template #mainnav>
         <AvButton
           label="Navigation link 1"
-          icon="mdi:home"
+          icon="mdi:home-variant-outline"
         />
       </template>
     </AvHeader>

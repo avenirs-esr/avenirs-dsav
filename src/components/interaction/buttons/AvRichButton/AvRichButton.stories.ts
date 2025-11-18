@@ -1,6 +1,7 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import AvRichButton, { type AvRichButtonProps } from '@/components/interaction/buttons/AvRichButton/AvRichButton.vue'
+import { iconMapping, iconOptions } from '@/utils/storybook'
 
 /**
  * <h1 class="n1">Rich buttons - <code>AvRichButton</code></h1>
@@ -45,8 +46,8 @@ const meta: Meta<AvRichButtonProps> = {
       type: { name: 'string', required: true },
       control: 'text',
     },
-    iconLeft: { control: 'text' },
-    iconRight: { control: 'text' },
+    iconLeft: { control: 'select', options: iconOptions, mapping: iconMapping },
+    iconRight: { control: 'select', options: iconOptions, mapping: iconMapping },
     customPadding: { control: 'text' },
     onClick: {
       type: { name: 'function' },

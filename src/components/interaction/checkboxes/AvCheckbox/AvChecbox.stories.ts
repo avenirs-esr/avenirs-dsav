@@ -77,7 +77,7 @@ export const WithIcon = Template.bind({})
 WithIcon.args = {
   name: 'with-icon-checkbox',
   label: 'A checkbox with icon',
-  icon: 'mdi:home'
+  icon: 'mdi:home-variant-outline'
 }
 
 export const Required = Template.bind({})
@@ -127,7 +127,7 @@ SmallWithIcon.args = {
   name: 'small-with-icon-checkbox',
   label: 'A disabled checkbox with icon',
   small: true,
-  icon: 'mdi:home'
+  icon: 'mdi:home-variant-outline'
 }
 
 export const SmallRequired = Template.bind({})

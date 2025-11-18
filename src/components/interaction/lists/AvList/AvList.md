@@ -74,7 +74,7 @@ You can find examples of use and demo of the component on its dedicated [Storybo
   >
     <AvListItem
       title="Item 1"
-      icon="mdi:home"
+      icon="mdi:home-variant-outline"
     />
     <AvListItem
       title="Item 2"
