@@ -24,6 +24,7 @@ This component consist of two optional buttons :
 | `confirmDisabled` | `boolean` | `undefined` | | Adds a disabled state on the cancel button. |
 | `confirmIsLoading` | `boolean` | `undefined` | | Adds a loading state on the cancel button. |
 | `isLoading` | `boolean` | `false` | | Indicates a loading status for the buttons. |
+| `form` | `string` | `undefined` | | Associates the confirm button with a form. |
 
 ## 🔊 Events
 
@@ -65,6 +66,18 @@ You can find examples of use and demo of the component on its dedicated [Storybo
   <AvCancelConfirmButton
     cancel-label="Previous step"
     confirm-label="Next step"
+    @cancel="goToPrevStep"
+    @confirm="goToNextStep"
+  />
+</template>
+```
+
+```vue
+<template>
+  <AvCancelConfirmButton
+    cancel-label="Previous step"
+    confirm-label="Validate form"
+    form="some-form"
     @cancel="goToPrevStep"
     @confirm="goToNextStep"
   />
