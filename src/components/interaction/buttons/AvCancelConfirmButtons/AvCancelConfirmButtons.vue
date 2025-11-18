@@ -47,6 +47,11 @@ export interface AvCancelConfirmButtonsProps {
    * Adds a loading state on the confirm button.
    */
   confirmIsLoading?: boolean
+
+  /**
+   * Associates the confirm button with a form.
+   */
+  form?: string
 }
 
 const {
@@ -57,7 +62,8 @@ const {
   confirmLabel,
   confirmIcon = MDI_ICONS.CLOSE_CIRCLE_OUTLINE,
   confirmDisabled,
-  confirmIsLoading
+  confirmIsLoading,
+  form
 } = defineProps<AvCancelConfirmButtonsProps>()
 
 /**
@@ -93,6 +99,8 @@ const emit = defineEmits<{
       variant="FLAT"
       :is-loading="confirmIsLoading"
       :disabled="confirmDisabled"
+      :type="form ? 'submit' : undefined"
+      :form="form"
       small
       @click="emit('confirm')"
     />
