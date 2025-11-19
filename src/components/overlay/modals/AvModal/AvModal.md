@@ -55,7 +55,7 @@ const { showModal, displayModal, hideModal } = useModal()
 <template>
   <AvButton
     label="Open modal"
-    :on-click="displayModal"
+    @click="displayModal"
   />
   <AvModal
     :opened="showModal"

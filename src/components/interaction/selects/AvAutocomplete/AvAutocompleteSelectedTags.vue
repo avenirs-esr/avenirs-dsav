@@ -49,7 +49,7 @@ function removeOption (option: T) {
         size="sm"
         variant="OUTLINED"
         theme="SECONDARY"
-        :on-click="() => removeOption(option)"
+        @click="() => removeOption(option)"
       />
     </div>
   </div>

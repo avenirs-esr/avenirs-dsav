@@ -48,12 +48,6 @@ const meta: Meta<AvRichButtonProps> = {
     },
     iconLeft: { control: 'select', options: iconOptions, mapping: iconMapping },
     iconRight: { control: 'select', options: iconOptions, mapping: iconMapping },
-    customPadding: { control: 'text' },
-    onClick: {
-      type: { name: 'function' },
-      control: false,
-      action: 'click'
-    },
   },
   args: {
     label: 'Ckick me',

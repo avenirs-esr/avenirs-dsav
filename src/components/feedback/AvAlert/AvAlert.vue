@@ -152,8 +152,8 @@ const icon = computed(() => {
         icon-only
         :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
         :label="closeButtonLabel"
-        :on-click="onClick"
         :small="small"
+        @click="onClick"
       />
     </div>
   </div>

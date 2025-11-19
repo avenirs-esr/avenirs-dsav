@@ -75,6 +75,7 @@ export interface AvButtonProps {
   /**
    * Function called when button is clicked.
    * @param event The click MouseEvent
+   * @deprecated Use `@click` event listener instead.
    */
   onClick?: ($event: MouseEvent) => void
 }
@@ -241,6 +242,7 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
             &:hover:not(.av-button--disabled) {
               background-color: map.get($colors, hover-bg);
               color: map.get($colors, hover-text);
+              border-color: map.get($colors, hover-bg);
 
               :deep(.av-icon__icon) {
                 background-color: map.get($colors, hover-text);

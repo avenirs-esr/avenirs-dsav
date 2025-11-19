@@ -109,7 +109,7 @@ defineExpose({
         :icon-scale="1.25"
         variant="DEFAULT"
         theme="SECONDARY"
-        :on-click="handleClearSelection"
+        @click="handleClearSelection"
       />
     </div>
   </div>

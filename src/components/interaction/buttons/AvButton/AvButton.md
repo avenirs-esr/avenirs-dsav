@@ -30,7 +30,6 @@ Buttons consist of :
 | `small` | `boolean` | `false` | | Display the button in small size (`true`) or default size (`false`). |
 | `icon` | `string \| InstanceType<typeof AvIcon>['$props']` | `undefined` | | Icon to be displayed in button. Can be a name or icon configuration. |
 | `noSentenceCase` | `boolean` | `false` | | Disable sentence case transformation on the label. You should only use this on very specific cases. |
-| `onClick` | `($event: MouseEvent) => void` | `undefined` | | Function called when button is clicked.
 
 ## 🔊 Events
 
@@ -50,8 +49,8 @@ You can find examples of use and demo of the component on its dedicated [Storybo
 <template>
   <AvButton
     label="See all"
-    :on-click="navigateToStudentDeliverables"
     icon="mdi:arrow-right-thin"
+    @click="navigateToStudentDeliverables"
   />
 </template>
 ```
@@ -65,7 +64,7 @@ You can find examples of use and demo of the component on its dedicated [Storybo
     variant="OUTLINED"
     small
     label="Paramètres de la trace"
-    :on-click="toggleSettingsMenu"
+    @click="toggleSettingsMenu"
   />
 </template>
 ```

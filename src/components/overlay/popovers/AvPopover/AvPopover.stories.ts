@@ -74,7 +74,7 @@ const Template: StoryFn<AvPopoverProps> = args => ({
       <template #trigger="{ toggle }">
         <AvButton
           label="Open popover"
-          :on-click="toggle"
+          @click="toggle"
         />
       </template>
       <template #popover>
@@ -152,7 +152,7 @@ Default.parameters = {
       <template #trigger="{ toggle }">
         <AvButton
           label="Open popover"
-          :on-click="toggle"
+          @click="toggle"
         />
       </template>
       <template #popover>

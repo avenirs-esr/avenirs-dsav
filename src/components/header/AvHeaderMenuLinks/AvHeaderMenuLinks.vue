@@ -66,7 +66,7 @@ const emit = defineEmits<{
         <AvButton
           :icon="quickLink.icon"
           :label="quickLink.label ?? ''"
-          :on-click="($event: MouseEvent) => {
+          @click="($event: MouseEvent) => {
             emit('linkClick', $event)
             quickLink.onClick?.($event)
           }"

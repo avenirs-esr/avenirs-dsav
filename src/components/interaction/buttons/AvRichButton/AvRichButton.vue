@@ -32,6 +32,7 @@ export interface AvRichButtonProps {
   /**
    * Function called when button is clicked.
    * @param event The MouseEvent of the click.
+   * @deprecated Use `@click` event listener instead.
    */
   onClick?: (event: MouseEvent) => void
 }
@@ -62,7 +63,7 @@ defineSlots<{
     class="av-rich-button"
     :title="label"
     :aria-label="label"
-    @click="onClick"
+    @click="onClick ? onClick($event) : () => {}"
   >
     <div class="av-rich-button__line">
       <div class="av-rich-button__left">
