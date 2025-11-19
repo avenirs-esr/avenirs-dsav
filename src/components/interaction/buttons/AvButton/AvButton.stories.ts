@@ -68,11 +68,6 @@ const meta: Meta<AvButtonProps> = {
     isLoading: { control: 'boolean' },
     noRadius: { control: 'boolean' },
     disabled: { control: 'boolean' },
-    onClick: {
-      type: { name: 'function' },
-      control: false,
-      action: 'click'
-    },
   },
   args: {
     label: 'Ckick me',

@@ -4,45 +4,23 @@ import { MDI_ICONS } from '@/tokens'
 import { iconMapping, iconOptions } from '@/utils/storybook'
 
 /**
+ * <h1 class="n1">Messages - <code>AvMessage</code></h1>
+ *
  * <h2 class="n2">✨ Introduction</h2>
  *
- * <p>
- *   <span class="b2-regular">
- *     The <code>AvIcon</code> component places an <code>Icon</code>
- *     (see <a href="https://iconify.design/docs/icon-components/vue/" target="_blank">Icon component from Iconify</a>)
- *     in a square <code>div</code> of configurable size.
- *     It is a Vue.js component for displaying icons with a wide range of customization options,
- *     including animations, colors, and sizes.
- *   </span>
- * </p>
- *
- * <p>
- *   <span class="b2-regular">
- *     It's designed to be flexible and performant, with support for various display options,
- *     flip options, and accessible titles.
- *   </span>
- * </p>
- *
- * <p>
- *   <span class="b2-regular">
- *     It has exactly the same API as <code>OhVueIcon</code>, and uses <code>@iconify/vue</code> under the hood.
- *   </span>
- * </p>
- *
- * <p>
- *   <span class="b2-regular">
- *     <strong>⚠️ Icon names must be those from </strong>
- *     <a href="https://icon-sets.iconify.design/" target="_blank" rel="noopener noreferrer">Iconify-vue</a>
- *   </span>
+ * <p class="b2-regular">
+ *   The <code>AvMessage</code> component allows you to display short texts accompanied by an icon on the left,
+ *   depending on the type of information. This component is useful for displaying contextual feedback messages,
+ *   such as errors or successes, to the user.
  * </p>
  *
  * <h2 class="n2">🏗️ Structure</h2>
  *
- * <p>
- *   <span class="b2-regular">
- *     The icon is composed of a square <code>div</code> of configurable size containing the <code>Icon</code> component.
- *   </span>
- * </p>
+ * <ul>
+ *   <li>The component is based on an <code>AvIconText</code> element.</li>
+ *   <li>The icon and color are automatically adjusted according to the <code>type</code> prop.</li>
+ *   <li>Common types include <code>error</code> and <code>success</code>.</li>
+ * </ul>
  */
 const meta: Meta<AvIconProps> = {
   title: 'Components/Base/AvIcon',

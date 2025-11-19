@@ -2,17 +2,15 @@
 
 ## ✨ Introduction
 
-The `AvIcon` component places an `Icon` (see [Icon component from Iconify](https://iconify.design/docs/icon-components/vue/)) in a square `div` of configurable size. It is a Vue.js component for displaying icons with a wide range of customization options, including animations, colors, and sizes. It's designed to be flexible and performant, with support for various display options, flip options, and accessible titles.
-
-It has exactly the same API as OhVueIcon, and uses `@iconify/vue` under the hood.
+The `AvIcon` component places an `span` (with the base64 icon as a mask image) in a square `div` of configurable size. It is a Vue.js component for displaying icons with a wide range of customization options, including animations, colors, and sizes. It's designed to be flexible and performant, with support for various display options, flip options, and accessible titles.
 
 ::: warning
-Icon names must be those from [Iconify-vue](https://icon-sets.iconify.design/).
+Icon names must be those from [Iconify](https://icon-sets.iconify.design/).
 :::
 
 ## 🏗️ Structure
 
-The icon is composed of a square `div` of configurable size containing the `Icon` component.
+The icon is composed of a square `div` of configurable size containing a `span` with a mask image for the icon.
 
 ## 🏷️ Props
 

@@ -96,13 +96,13 @@ const Template: StoryFn<AvModalProps> = args => ({
           label="Enseignant"
           theme="SECONDARY"
           size="sm"
-          :on-click="onTeacherButtonClick"
+          @click="onTeacherButtonClick"
         />
         <AvButton
           label="Étudiant"
           theme="SECONDARY"
           size="sm"
-          :on-click="onStudentButtonClick"
+          @click="onStudentButtonClick"
         />
       </div>
     </AvModal>
