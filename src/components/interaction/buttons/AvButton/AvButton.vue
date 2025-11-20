@@ -233,20 +233,12 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
           color: map.get($style, color);
           border: 1px solid map.get($style, border);
 
-          :deep(.av-icon__icon) {
-            background-color: map.get($style, color);
-          }
-
           // === Hover ===
           @if $variant != flat {
             &:hover:not(.av-button--disabled) {
               background-color: map.get($colors, hover-bg);
               color: map.get($colors, hover-text);
               border-color: map.get($colors, hover-bg);
-
-              :deep(.av-icon__icon) {
-                background-color: map.get($colors, hover-text);
-              }
             }
           }
 
@@ -255,10 +247,6 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
               background-color: map.get($colors, hover-bg-alt);
               color: map.get($colors, text);
               border-color: map.get($colors, text);
-
-              :deep(.av-icon__icon) {
-                background-color: map.get($colors, text);
-              }
             }
           }
 
@@ -268,10 +256,6 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
             color: var(--divider);
             border-color: var(--divider);
             cursor: default;
-
-            :deep(.av-icon__icon) {
-              background-color: var(--divider);
-            }
           }
         }
       }

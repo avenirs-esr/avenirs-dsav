@@ -50,7 +50,7 @@ const {
   speed,
   flip,
   title,
-  color = 'inherit',
+  color = 'currentColor',
 } = defineProps<AvIconProps>()
 
 const fontSize = computed(() => `${size}rem`)
