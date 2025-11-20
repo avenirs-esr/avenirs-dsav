@@ -108,4 +108,17 @@ BddTest().given('an AvCheckbox component', () => {
       expect(input.attributes('tabindex')).toBe('-1')
     })
   })
+
+  BddTest().when('a label slot is provided', () => {
+    beforeEach(() => {
+      wrapper = mountWithProps({}, { label: '<span class="custom-label">Custom Label</span>' })
+    })
+
+    BddTest().then('it should render the slot content instead of the label prop', () => {
+      const label = wrapper.find('.custom-label')
+      expect(label.exists()).toBe(true)
+      expect(label.text()).toBe('Custom Label')
+      expect(wrapper.text()).not.toContain(defaultProps.label)
+    })
+  })
 })

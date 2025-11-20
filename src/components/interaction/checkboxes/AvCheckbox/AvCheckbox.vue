@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { Slot } from 'vue'
 import { MDI_ICONS } from '@/tokens/icons'
 
 /**
@@ -52,8 +53,9 @@ export interface AvCheckboxProps {
 
   /**
    * Label to be displayed next to the checkbox
+   * This prop is optional if you use the `label` slot.
    */
-  label: string
+  label?: string
 
   /**
    * Error message to be displayed under the checkbox
@@ -92,6 +94,18 @@ const {
   validMessage,
   hint
 } = defineProps<AvCheckboxProps>()
+
+/**
+ * Slots available in the AvCheckbox component.
+ *
+ * @slot label - Slot for the checkbox label.
+ */
+defineSlots<{
+  /**
+   * Slot for the checkbox label
+   */
+  label?: Slot
+}>()
 
 const realId = computed(() => id ?? `checkbox-${crypto.randomUUID()}`)
 
@@ -162,7 +176,9 @@ const labelClass = computed(() => {
           class="label"
           :class="labelClass"
         >
-          {{ label }}
+          <slot name="label">
+            {{ label }}
+          </slot>
         </span>
         <span
           v-if="required"

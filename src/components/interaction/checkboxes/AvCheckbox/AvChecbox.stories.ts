@@ -39,7 +39,7 @@ const meta: Meta<AvCheckboxProps> = {
     small: { control: 'boolean' },
     inline: { control: 'boolean' },
     disabled: { control: 'boolean' },
-    label: { control: 'text', required: true },
+    label: { control: 'text' },
     errorMessage: { control: 'text' },
     validMessage: { control: 'text' },
     hint: { control: 'text' },
@@ -68,6 +68,23 @@ const Template: StoryFn<AvCheckboxProps> = args => ({
     return { args, model }
   },
   template: `<AvCheckbox v-bind="args" v-model="model" />`,
+})
+
+const LabelSlotTemplate: StoryFn<AvCheckboxProps> = args => ({
+  components: { AvCheckbox },
+  setup () {
+    const model = ref<(string | number)[]>([])
+    return { args, model }
+  },
+  template: `
+    <AvCheckbox v-bind="args" v-model="model">
+      <template #label>
+        <span class="b2-bold">
+          Some title: 
+          <span class="caption-regular">This is some description</span>
+        </span>
+      </template>
+    </AvCheckbox>`,
 })
 
 export const Default = Template.bind({})
@@ -136,4 +153,10 @@ SmallRequired.args = {
   label: 'A small required checkbox',
   small: true,
   required: true
+}
+
+export const LabelSlot = LabelSlotTemplate.bind({})
+LabelSlot.args = {
+  name: 'label-slot-checkbox',
+  label: '',
 }
