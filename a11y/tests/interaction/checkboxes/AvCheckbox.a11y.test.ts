@@ -13,6 +13,7 @@ const stories = [
   'Small',
   'SmallWithIcon',
   'SmallRequired',
+  'LabelSlot',
 ]
 
 testStories(component, title, stories)

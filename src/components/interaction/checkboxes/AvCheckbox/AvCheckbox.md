@@ -28,7 +28,7 @@ The `AvCheckbox` component consists of the following elements:
 | `small` | `boolean` | `false` | | Displays the checkbox in its small version |
 | `inline` | `boolean` | `false` | | Displays the chekbox in its inline version |
 | `disabled` | `boolean` | `false` | | Simulates a disabled state to make the checkbox as disabled |
-| `label` | `string` | | ✅ | Label to be displayed next to the checkbox |
+| `label` | `string` | | | Label to be displayed next to the checkbox. This prop is optional if you use the `label` slot. |
 | `errorMessage` | `string` | `''` | | Error message to be displayed under the checkbox |
 | `validMessage` | `string` | `''` | | Valid message to be displayed under the checkbox |
 | `hint` | `string` | `''` | | Hint to be displayed under the checkbox |
@@ -39,7 +39,9 @@ None.
 
 ## 🎨 Slots
 
-None.
+| Name | Description |
+| --- | --- |
+| `label` | Slot for the checkbox label. |
 
 ## 🚀 Storybook demos
 

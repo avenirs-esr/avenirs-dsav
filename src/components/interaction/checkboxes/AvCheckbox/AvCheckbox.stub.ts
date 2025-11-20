@@ -22,7 +22,7 @@ export const AvCheckboxStub = defineComponent({
         )"
         :data-testid="'checkbox-' + id"
       />
-      <label :for="id">{{ label }}</label>
+      <label :for="id"><slot name="label">{{ label }}</slot></label>
     </div>
   `
 })
