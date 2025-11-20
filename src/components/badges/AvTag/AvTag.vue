@@ -122,10 +122,6 @@ const styleVars = computed(() => ({
   width: -moz-fit-content;
   width: fit-content;
 
-  :deep(.av-icon__icon) {
-    background-color: var(--text1);
-  }
-
   &:after {
     display: block;
   }
@@ -139,10 +135,6 @@ const styleVars = computed(() => ({
     color: var(--other-background-base);
     background-color: var(--dark-background-primary1);
     position: relative;
-
-    :deep(.av-icon__icon) {
-      background-color: var(--other-background-base);
-    }
 
     &::after,
     &::before {
@@ -181,17 +173,9 @@ button.av-tag {
   background-color: var(--light-background-primary1);
   color: var(--light-foreground-primary1);
 
-  :deep(.av-icon__icon) {
-    background-color: var(--light-foreground-primary1);
-  }
-
   &:hover {
     background-color: var(--dark-background-primary1);
     color: var(--other-background-base);
-
-    :deep(.av-icon__icon) {
-      background-color: var(--other-background-base);
-    }
   }
 }
 </style>

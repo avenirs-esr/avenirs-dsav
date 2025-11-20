@@ -247,6 +247,7 @@ onBeforeUnmount(() => {
     position: sticky;
     transition: box-shadow .3s;
     z-index: calc(var(--ground) + 1250);
+    justify-content: flex-end;
   }
 
   &--opened {
@@ -293,13 +294,5 @@ onBeforeUnmount(() => {
 
 .header {
   padding-bottom: var(--spacing-md);
-}
-
-.footer {
-  display: flex;
-  flex-direction: row;
-  justify-content: right;
-  width: 100%;
-  gap: var(--spacing-sm);
 }
 </style>

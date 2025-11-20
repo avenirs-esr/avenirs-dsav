@@ -235,10 +235,6 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
     gap: var(--spacing-xxs);
     color: var(--dark-background-primary1);
 
-    :deep(.av-icon__icon) {
-      background-color: var(--dark-background-primary1);
-    }
-
     & * {
       color: inherit;
     }
@@ -247,10 +243,6 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
     &[aria-disabled="true"] * {
       color: var(--dark-background-neutral);
       pointer-events: none;
-
-      :deep(.av-icon__icon) {
-        background-color: var(--dark-background-neutral);
-      }
     }
 
     &[aria-current="page"],
