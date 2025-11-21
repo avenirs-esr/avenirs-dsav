@@ -1,0 +1,1 @@
+import{R as o,M as s}from"./icons-Cf51SoRU.js";const c=Object.keys(s).map(n=>`MDI_ICON.${n}`),i=Object.fromEntries(Object.entries(s).map(([n,t])=>[`MDI_ICON.${n}`,t])),I=Object.keys(o).map(n=>`RI_ICON.${n}`),e=Object.fromEntries(Object.entries(o).map(([n,t])=>[`RI_ICON.${n}`,t])),O=[...c,...I],a={...i,...e};export{a,O as i};
