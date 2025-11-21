@@ -144,10 +144,11 @@ const collapsed = ref(defaultCollapsed)
     box-sizing: border-box;
     margin: calc(-1 * var(--spacing-sm)) calc(-1 * var(--spacing-sm)) 0 calc(-1 * var(--spacing-sm));
     padding: var(--spacing-sm);
+    gap: var(--spacing-sm);
 
     &--collapsed {
       margin: calc(-1 * var(--spacing-sm));
-      padding: var(--spacing-xs);
+      padding: var(--spacing-xs) var(--spacing-sm);
     }
   }
 
