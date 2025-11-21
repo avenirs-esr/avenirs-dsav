@@ -40,6 +40,8 @@ export const MDI_ICONS = {
   CHECKBOX_MARKED: 'mdi:checkbox-marked',
   CHEVRON_DOUBLE_LEFT: 'mdi:chevron-double-left',
   CHEVRON_DOUBLE_RIGHT: 'mdi:chevron-double-right',
+  CHEVRON_DOWN: 'mdi:chevron-down',
+  CHEVRON_LEFT: 'mdi:chevron-left',
   CIRCLE: 'mdi:circle',
   CLOSE_CIRCLE_OUTLINE: 'mdi:close-circle-outline',
   CLOSE_OCTAGON: 'mdi:close-octagon',

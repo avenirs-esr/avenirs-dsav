@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { Slot } from 'vue'
+import { MDI_ICONS } from '@/tokens'
 
 /**
  * AvCard component props.
@@ -27,6 +28,19 @@ export interface AvCardProps {
    * The height of the card title.
    */
   titleHeight?: string
+
+  /**
+   * Whether the card is collapsible. When collapsed, the title is still shown.
+   * This requires a title slot to be provided.
+   * @default false
+   */
+  collapsible?: boolean
+
+  /**
+   * Whether the card is collapsed by default (only if collapsible is true).
+   * @default false
+   */
+  collapsed?: boolean
 }
 
 const {
@@ -34,6 +48,8 @@ const {
   borderColor = 'var(--stroke)',
   titleBackground = 'var(--surface-background)',
   titleHeight,
+  collapsible = false,
+  collapsed: defaultCollapsed = false
 } = defineProps<AvCardProps>()
 
 /**
@@ -65,6 +81,8 @@ const slots = defineSlots<{
    */
   default?: Slot
 }>()
+
+const collapsed = ref(defaultCollapsed)
 </script>
 
 <template>
@@ -75,22 +93,35 @@ const slots = defineSlots<{
     <div
       v-if="slots.title"
       class="av-card__title"
+      :class="{ 'av-card__title--collapsed': collapsed }"
       :style="{ background: titleBackground, height: titleHeight }"
     >
       <slot name="title" />
+      <AvButton
+        v-if="collapsible"
+        :icon="collapsed ? MDI_ICONS.CHEVRON_DOWN : MDI_ICONS.CHEVRON_LEFT"
+        icon-only
+        label=""
+        @click="collapsed = !collapsed"
+      />
     </div>
-    <slot />
     <div
-      v-if="slots.body"
-      class="av-card__body"
+      v-show="!collapsible || !collapsed"
+      class="av-card__content-collapsible"
     >
-      <slot name="body" />
-    </div>
-    <div
-      v-if="slots.footer"
-      class="av-card__footer"
-    >
-      <slot name="footer" />
+      <slot />
+      <div
+        v-if="slots.body"
+        class="av-card__body"
+      >
+        <slot name="body" />
+      </div>
+      <div
+        v-if="slots.footer"
+        class="av-card__footer"
+      >
+        <slot name="footer" />
+      </div>
     </div>
   </div>
 </template>
@@ -106,9 +137,22 @@ const slots = defineSlots<{
   justify-content: space-between;
 
   &__title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
     box-sizing: border-box;
     margin: calc(-1 * var(--spacing-sm)) calc(-1 * var(--spacing-sm)) 0 calc(-1 * var(--spacing-sm));
-    padding: 1rem;
+    padding: var(--spacing-sm);
+
+    &--collapsed {
+      margin: calc(-1 * var(--spacing-sm));
+      padding: var(--spacing-xs);
+    }
+  }
+
+  .av-button {
+    background-color: transparent;
   }
 }
 </style>
