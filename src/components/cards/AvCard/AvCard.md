@@ -2,11 +2,19 @@
 
 ## ✨ Introduction
 
-The `AvCard` card is a component for creating customizable styled containers.
+The `AvCard` component is used to create customizable, styled containers.
+It provides a structured layout with optional sections and can include collapsible behavior for advanced interactions.
 
 ## 🏗️ Structure
 
-The card is composed of a main `div` containing a div for the title (slot `title`), a generic slot by default, a div for the body (slot `body`) as well as a div for the footer (slot `footer`).
+The card consists of the following elements:
+- a main wrapper `div`,
+- a title area rendered through the `title` slot,
+- a `default` slot for general content,
+- a body section rendered through the `body` slot,
+- a footer section rendered through the `footer` slot.
+
+When the `collapsible` prop is enabled, the card displays only the `title` slot along with a toggle button that expands or collapses the rest of the content.
 
 ## 🏷️ Props
 
@@ -16,6 +24,8 @@ The card is composed of a main `div` containing a div for the title (slot `title
 | `borderColor` | `string` | `'var(--stroke)'` | | The border color of the card. |
 | `titleBackground` | `string` | `'var(--surface-background)'` | | The background color of the card title. |
 | `titleHeight` | `string` | `undefined` | | The height of the card title. |
+| `collapsible` | `boolean` | `false` | | Whether the card is collapsible. When collapsed, the title is still shown. This requires a title slot to be provided. |
+| `collapsed` | `boolean` | `false` | | Whether the card is collapsed by default (only if collapsible is true). |
 
 ## 🔊 Events
 
