@@ -1,7 +1,7 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
 import AvBadge, { type AvBadgeProps } from '@/components/badges/AvBadge/AvBadge.vue'
 import { BddTest } from '@/tests/utils'
-import { ICONS_DATA_URL } from '@/tokens'
+import { ICONS_DATA_URL, MDI_ICONS } from '@/tokens'
 
 BddTest().given('an AvBadge', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvBadge>>
@@ -25,8 +25,21 @@ BddTest().given('an AvBadge', () => {
       expect(badge.classes()).not.toContain('av-badge--sm')
     })
 
-    BddTest().and('given iconDataUrl prop', () => {
-      const newProps: AvBadgeProps = { ...props, iconDataUrl: ICONS_DATA_URL.MDI_CHECK_CIRCLE }
+    BddTest().and('given icon prop with base64', () => {
+      const newProps: AvBadgeProps = { ...props, icon: ICONS_DATA_URL.MDI_CHECK_CIRCLE }
+
+      beforeEach(() => {
+        wrapper = mount(AvBadge, { props: newProps })
+      })
+
+      BddTest().then('it should add custom icon class', () => {
+        const badge = wrapper.find('.av-badge')
+        expect(badge.classes()).toContain('av-badge--custom-icon')
+      })
+    })
+
+    BddTest().and('given icon prop with MDI_ICON', () => {
+      const newProps: AvBadgeProps = { ...props, icon: MDI_ICONS.STAR }
 
       beforeEach(() => {
         wrapper = mount(AvBadge, { props: newProps })

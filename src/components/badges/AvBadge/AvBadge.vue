@@ -19,10 +19,10 @@ export interface AvBadgeProps {
   borderColor?: string
 
   /**
-   * The base64 icon to be displayed.
-   * You can use the `ICONS_DATA_URL` constant from DSAV.
+   * The name of the icon or the base64 icon to be displayed.
+   * You can use the `MDI_ICONS`, `RI_ICONS`, and `ICONS_DATA_URL` constants from DSAV.
    */
-  iconDataUrl?: string
+  icon?: string
 
   /**
    * The text to display in the badge.
@@ -46,17 +46,29 @@ const {
   color,
   backgroundColor,
   borderColor,
-  iconDataUrl,
+  icon,
   label,
   small = false,
-  ellipsis = false
+  ellipsis = false,
 } = defineProps<AvBadgeProps>()
 
-const styleVars = computed(() => (
-  iconDataUrl
-    ? { '--icon-path': `url(${iconDataUrl})` }
-    : {}
-))
+const safeName = computed(() => {
+  if (icon?.startsWith('data:')) {
+    return null
+  }
+  return icon?.replace(':', '-')
+})
+const varName = computed(() => `--icon-${safeName.value}`)
+
+const styleVars = computed(() => {
+  if (safeName.value) {
+    return { '--icon-path': `var(${varName.value})` }
+  }
+  if (icon) {
+    return { '--icon-path': `url(${icon})` }
+  }
+  return {}
+})
 </script>
 
 <template>
@@ -64,8 +76,8 @@ const styleVars = computed(() => (
     class="av-badge"
     :class="{
       'av-badge--sm': small,
-      'av-badge--custom-icon': iconDataUrl,
-      'av-badge--no-icon': !iconDataUrl,
+      'av-badge--custom-icon': icon,
+      'av-badge--no-icon': !icon,
     }"
     :title="ellipsis ? label : undefined"
     :style="styleVars"
