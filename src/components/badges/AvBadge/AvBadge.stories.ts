@@ -1,9 +1,7 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
 import AvBadge, { type AvBadgeProps } from '@/components/badges/AvBadge/AvBadge.vue'
 import { ICONS_DATA_URL } from '@/tokens'
-
-const iconOptions = Object.keys(ICONS_DATA_URL)
-const iconMapping = ICONS_DATA_URL
+import { iconMappingWithDataUrl, iconOptionsWithDataUrl } from '@/utils/storybook'
 
 /**
  * <h1 class="n1">Badges - <code>AvBadge</code></h1>
@@ -42,12 +40,12 @@ const meta: Meta<AvBadgeProps> = {
     color: { control: 'color' },
     backgroundColor: { control: 'color' },
     borderColor: { control: 'color' },
-    iconDataUrl: {
+    icon: {
       control: 'select',
-      options: ['', ...iconOptions],
+      options: ['', ...iconOptionsWithDataUrl],
       mapping: {
         '': '',
-        ...iconMapping,
+        ...iconMappingWithDataUrl,
       },
     },
     small: { control: 'boolean' },
@@ -58,7 +56,7 @@ const meta: Meta<AvBadgeProps> = {
     color: 'var(--dark-background-primary1)',
     backgroundColor: 'var(--light-background-primary2)',
     borderColor: '',
-    iconDataUrl: iconOptions[0],
+    icon: iconOptionsWithDataUrl[0],
     small: false,
     ellipsis: false,
   },
@@ -93,7 +91,7 @@ Default.args = {}
 
 export const WithoutIcon = Template.bind({})
 WithoutIcon.args = {
-  iconDataUrl: undefined,
+  icon: undefined,
 }
 
 export const SmallEllipsis = TemplateWithWidth.bind({})
@@ -109,7 +107,7 @@ StatusNotStarted.args = {
   color: 'var(--text2)',
   backgroundColor: 'var(--other-background-base)',
   borderColor: 'var(--other-border-skill-card)',
-  iconDataUrl: ICONS_DATA_URL.MDI_CALENDAR_CLOCK_OUTLINE
+  icon: ICONS_DATA_URL.MDI_CALENDAR_CLOCK_OUTLINE
 }
 
 export const StatusInProgress = Template.bind({})
@@ -117,7 +115,7 @@ StatusInProgress.args = {
   label: 'In progress',
   color: 'var(--dark-background-primary1)',
   backgroundColor: 'var(--light-background-primary2)',
-  iconDataUrl: ICONS_DATA_URL.MDI_CALENDAR_RANGE_OUTLINE
+  icon: ICONS_DATA_URL.MDI_CALENDAR_RANGE_OUTLINE
 }
 
 export const StatusSubmitted = Template.bind({})
@@ -125,7 +123,7 @@ StatusSubmitted.args = {
   label: 'Submitted for evaluation',
   color: 'var(--light-foreground-primary1)',
   backgroundColor: 'var(--light-background-critical)',
-  iconDataUrl: ICONS_DATA_URL.MDI_DOTS_HORIZONTAL_CIRCLE_OUTLINE
+  icon: ICONS_DATA_URL.MDI_DOTS_HORIZONTAL_CIRCLE_OUTLINE
 }
 
 export const StatusCompleted = Template.bind({})
@@ -133,5 +131,5 @@ StatusCompleted.args = {
   label: 'Completed',
   color: 'var(--light-foreground-neutral)',
   backgroundColor: 'var(--light-background-neutral)',
-  iconDataUrl: ICONS_DATA_URL.MDI_CALENDAR_CHECK_OUTLINE
+  icon: ICONS_DATA_URL.MDI_CALENDAR_CHECK_OUTLINE
 }

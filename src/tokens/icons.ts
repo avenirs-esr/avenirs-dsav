@@ -88,6 +88,7 @@ export const MDI_ICONS = {
   RECORD_CIRCLE_OUTLINE: 'mdi:record-circle-outline',
   SCHOOL_OUTLINE: 'mdi:school-outline',
   SHARE_VARIANT_OUTLINE: 'mdi:share-variant-outline',
+  STAR: 'mdi:star',
   STAR_CHECK_OUTLINE: 'mdi:star-check-outline',
   STAR_SHOOTING_OUTLINE: 'mdi:star-shooting-outline',
   STARS: 'mdi:stars',

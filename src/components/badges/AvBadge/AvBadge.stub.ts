@@ -20,6 +20,6 @@ export const AvBadgeStub = defineComponent({
     color: String,
     backgroundColor: String,
     borderColor: String,
-    iconDataUrl: String
+    icon: String
   }
 })
