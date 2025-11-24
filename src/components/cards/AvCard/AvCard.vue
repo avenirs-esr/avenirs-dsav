@@ -152,6 +152,14 @@ const collapsed = ref(defaultCollapsed)
     }
   }
 
+  &__content-collapsible {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: space-between;
+    gap: var(--spacing-sm);
+  }
+
   .av-button {
     background-color: transparent;
   }
