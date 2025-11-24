@@ -94,7 +94,7 @@ const collapsed = ref(defaultCollapsed)
       v-if="slots.title"
       class="av-card__title"
       :class="{ 'av-card__title--collapsed': collapsed }"
-      :style="{ background: titleBackground, height: titleHeight }"
+      :style="{ background: titleBackground, minHeight: titleHeight, maxHeight: titleHeight }"
     >
       <slot name="title" />
       <AvButton
