@@ -163,7 +163,10 @@ watch(activeTab, (newIndex, lastIndex) => {
       :is-visible="activeTab === index"
       :asc="asc"
     >
-      <component :is="(tab.children as Record<string, unknown>).default" />
+      <component
+        :is="(tab.children as Record<string, unknown>).default"
+        v-if="activeTab === index"
+      />
     </TabContent>
   </div>
 </template>
