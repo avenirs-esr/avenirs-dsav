@@ -15,6 +15,24 @@ function getLastEmittedUpdate (wrapper: VueWrapper<InstanceType<typeof AvTabs>>)
 const observeMock = vi.fn()
 const unobserveMock = vi.fn()
 const disconnectMock = vi.fn()
+const childOneMounted = vi.fn()
+const childTwoMounted = vi.fn()
+
+const ChildOne = {
+  name: 'ChildOne',
+  template: '<div data-test="child-one" />',
+  mounted () {
+    childOneMounted()
+  }
+}
+
+const ChildTwo = {
+  name: 'ChildTwo',
+  template: '<div data-test="child-two" />',
+  mounted () {
+    childTwoMounted()
+  }
+}
 
 vi.stubGlobal('ResizeObserver', class {
   constructor (cb: ResizeObserverCallback) {
@@ -297,6 +315,65 @@ BddTest().given('a tab switcher ', () => {
       BddTest().then('it should not render any tab', () => {
         const tabs = wrapper.findAll('.av-tab-item')
         expect(tabs.length).toBe(0)
+      })
+    })
+  })
+
+  BddTest().and('with lazy loaded tab contents', () => {
+    let wrapperLazy: VueWrapper<InstanceType<typeof AvTabs>>
+
+    beforeEach(() => {
+      childOneMounted.mockClear()
+      childTwoMounted.mockClear()
+
+      const lazySlots = {
+        default: `
+          <AvTab title="Tab 1">
+            <ChildOne />
+          </AvTab>
+          <AvTab title="Tab 2">
+            <ChildTwo />
+          </AvTab>
+        `
+      }
+
+      wrapperLazy = mount(AvTabs, {
+        props: { modelValue: 0 },
+        slots: lazySlots,
+        global: {
+          stubs: {
+            AvIcon: AvIconStub,
+            AvTab: {
+              name: 'AvTab',
+              template: '<slot />'
+            }
+          },
+          components: {
+            ChildOne,
+            ChildTwo
+          }
+        }
+      })
+    })
+
+    BddTest().when('the first tab is active', () => {
+      BddTest().then('it should only mount the first tab content', () => {
+        expect(childOneMounted).toHaveBeenCalledTimes(1)
+        expect(childTwoMounted).not.toHaveBeenCalled()
+        expect(wrapperLazy.find('[data-test="child-one"]').exists()).toBe(true)
+        expect(wrapperLazy.find('[data-test="child-two"]').exists()).toBe(false)
+      })
+
+      BddTest().and('the second tab becomes active', () => {
+        beforeEach(async () => {
+          await wrapperLazy.setProps({ modelValue: 1 })
+          await wrapperLazy.vm.$nextTick()
+        })
+
+        BddTest().then('it should mount the second tab content lazily', () => {
+          expect(childTwoMounted).toHaveBeenCalledTimes(1)
+          expect(wrapperLazy.find('[data-test="child-two"]').exists()).toBe(true)
+        })
       })
     })
   })
