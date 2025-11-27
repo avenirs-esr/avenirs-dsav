@@ -9,7 +9,7 @@
  * 1. Use uppercase letters with underscores for constant names.
  * 2. Follow the naming convention of the icon libraries (e.g., 'mdi:icon-name' for MDI).
  * 3. Keep the list organized alphabetically for better readability.
- * 4. Execute 'npm run generate:icons' to update the icon assets after adding new icons.
+ * 4. Execute 'npm run icons:generate' to update the icon assets after adding new icons.
  */
 
 export const MDI_ICONS = {
@@ -85,6 +85,7 @@ export const MDI_ICONS = {
   PHONE_OUTLINE: 'mdi:phone-outline',
   PLUS_CIRCLE_OUTLINE: 'mdi:plus-circle-outline',
   POST_IT_NOTES_OUTLINE: 'mdi:post-it-notes-outline',
+  RATE_REVIEW: 'mdi:rate-review',
   RECORD_CIRCLE_OUTLINE: 'mdi:record-circle-outline',
   SCHOOL_OUTLINE: 'mdi:school-outline',
   SHARE_VARIANT_OUTLINE: 'mdi:share-variant-outline',
