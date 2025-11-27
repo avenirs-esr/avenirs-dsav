@@ -175,6 +175,7 @@ $flex-directions: (
   @each $size, $value in sp.$spacing {
     @include ns("flex-#{$dir-name}-#{$size}") {
       display: flex;
+      flex: 1;
       flex-direction: $dir-value;
       gap: var(--spacing-#{$size});
     }

@@ -41,7 +41,6 @@ const slots = useSlots()
 const tabItems = computed(() => slots.default?.() || [])
 
 const activeTab = defineModel<number>('modelValue', { default: 0 })
-const asc = ref(false)
 
 const $el = ref<HTMLElement | null>(null)
 const tablist = ref<HTMLUListElement | null>(null)
@@ -69,12 +68,10 @@ function selectTab (offset: number) {
 }
 
 function selectPrevious () {
-  asc.value = false
   selectTab(-1)
 }
 
 function selectNext () {
-  asc.value = true
   selectTab(1)
 }
 
@@ -113,10 +110,6 @@ onUnmounted(() => {
     }
   })
   resizeObserver.value?.disconnect()
-})
-
-watch(activeTab, (newIndex, lastIndex) => {
-  asc.value = newIndex > lastIndex
 })
 </script>
 
@@ -161,7 +154,6 @@ watch(activeTab, (newIndex, lastIndex) => {
       :panel-id="`${getIdFromIndex(index)}-panel`"
       :tab-id="getIdFromIndex(index)"
       :is-visible="activeTab === index"
-      :asc="asc"
     >
       <component
         :is="(tab.children as Record<string, unknown>).default"
