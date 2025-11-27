@@ -19,6 +19,7 @@ import { AvSideNavigationStub } from '@/components/navigation/AvSideNavigation/A
 import { AvStepperStub } from '@/components/navigation/AvStepper/AvStepper.stub'
 import { AvDrawerStub } from '@/components/overlay/drawers/AvDrawer/AvDrawer.stub'
 import { AvDropdownStub } from '@/components/overlay/dropdowns/AvDropdown/AvDropdown.stub'
+import { AvModalStub } from '@/components/overlay/modals/AvModal/AvModal.stub'
 import { BddTest } from '@/tests/utils'
 
 export {
@@ -37,6 +38,7 @@ export {
   AvInputStub,
   AvListItemStub,
   AvListStub,
+  AvModalStub,
   AvSelectStub,
   AvSideNavigationStub,
   AvStepperStub,

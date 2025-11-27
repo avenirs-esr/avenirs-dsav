@@ -248,6 +248,7 @@ onBeforeUnmount(() => {
     transition: box-shadow .3s;
     z-index: calc(var(--ground) + 1250);
     justify-content: flex-end;
+    background-color: var(--dialog);
   }
 
   &--opened {
