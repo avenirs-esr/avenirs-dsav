@@ -7,6 +7,7 @@ import { AvAccordionStub } from '@/components/interaction/accordions/AvAccordion
 import { AvButtonStub } from '@/components/interaction/buttons/AvButton/AvButton.stub'
 import { AvCancelConfirmButtonsStub } from '@/components/interaction/buttons/AvCancelConfirmButtons/AvCancelConfirmButtons.stub'
 import { AvCheckboxStub } from '@/components/interaction/checkboxes/AvCheckbox/AvCheckbox.stub'
+import { AvInputStub } from '@/components/interaction/inputs/AvInput/AvInput.stub'
 import { AvListStub } from '@/components/interaction/lists/AvList/AvList.stub'
 import { AvListItemStub } from '@/components/interaction/lists/AvListItem/AvListItem.stub'
 import { AvTagPickerStub } from '@/components/interaction/pickers/AvTagPicker/AvTagPicker.stub'
@@ -33,6 +34,7 @@ export {
   AvFieldsetStub,
   AvIconStub,
   AvIconTextStub,
+  AvInputStub,
   AvListItemStub,
   AvListStub,
   AvSelectStub,
