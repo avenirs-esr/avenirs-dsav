@@ -148,7 +148,6 @@ const collapsed = ref(defaultCollapsed)
 
     &--collapsed {
       margin: calc(-1 * var(--spacing-sm));
-      padding: var(--spacing-xs) var(--spacing-sm);
     }
   }
 
@@ -158,6 +157,7 @@ const collapsed = ref(defaultCollapsed)
     flex: 1;
     justify-content: space-between;
     gap: var(--spacing-sm);
+    padding: var(--spacing-sm) 0;
   }
 
   .av-button {
