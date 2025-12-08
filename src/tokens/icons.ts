@@ -43,6 +43,7 @@ export const MDI_ICONS = {
   CHEVRON_DOWN: 'mdi:chevron-down',
   CHEVRON_LEFT: 'mdi:chevron-left',
   CIRCLE: 'mdi:circle',
+  CIRCLE_OUTLINE: 'mdi:circle-outline',
   CLOSE_CIRCLE_OUTLINE: 'mdi:close-circle-outline',
   CLOSE_OCTAGON: 'mdi:close-octagon',
   CONTENT_SAVE_OUTLINE: 'mdi:content-save-outline',
