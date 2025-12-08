@@ -135,6 +135,7 @@ function handleItemClick (itemName: string, close: () => void) {
         :aria-label="triggerAriaLabel"
         :variant="triggerVariant"
         :small="triggerSmall"
+        :icon-only="!!triggerAriaLabel && !triggerLabel"
         @click="toggle"
       />
     </template>
