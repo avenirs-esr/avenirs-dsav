@@ -23,7 +23,8 @@ export const AvInputStub = defineComponent({
     maxDate: String,
     width: String,
     noRadius: Boolean,
-    modelModifiers: Object
+    modelModifiers: Object,
+    textareaMinHeight: String,
   },
   emits: ['update:modelValue'],
   template: '<input data-testid="av-input-stub" :value="modelValue" :placeholder="placeholder" :disabled="disabled" :required="required" :maxlength="maxlength" /><slot name="customCaptions" :current-value="modelValue" />'

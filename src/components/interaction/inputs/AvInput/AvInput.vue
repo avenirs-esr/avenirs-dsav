@@ -115,6 +115,11 @@ export interface AvInputProps {
   prefixIcon?: string
 
   /**
+   * Minimum height of the textarea (if isTextarea is true)
+   */
+  textareaMinHeight?: string
+
+  /**
    * Width of the input
    */
   width?: string
@@ -142,6 +147,7 @@ const {
   modelValue = '',
   placeholder,
   type = 'text',
+  textareaMinHeight = 'var(--dimension-5xl)',
   minDate,
   maxDate,
   disabled = false,
@@ -423,7 +429,7 @@ defineExpose({
   textarea {
     @extend .b2-light;
 
-    min-height: var(--dimension-5xl);
+    min-height: v-bind('textareaMinHeight');
     resize: vertical;
     align-items: flex-start;
     padding-top: var(--spacing-xs);
