@@ -28,6 +28,7 @@ export const MDI_ICONS = {
   BELL_NOTIFICATION: 'mdi:bell-notification',
   BOOK_LOCATION_OUTLINE: 'mdi:book-location-outline',
   BRIEFCASE_VARIANT_OUTLINE: 'mdi:briefcase-variant-outline',
+  BUILDING: 'mdi:building',
   CALENDAR_MONTH_OUTLINE: 'mdi:calendar-month-outline',
   CALENDAR_OUTLINE: 'mdi:calendar-outline',
   CHART_TIMELINE_VARIANT_SHIMMER: 'mdi:chart-timeline-variant-shimmer',
@@ -116,6 +117,7 @@ export const RI_ICONS = {
   DICE_1_LINE: 'ri:dice-1-line',
   DICE_4_LINE: 'ri:dice-4-line',
   HAND_HEART_LINE: 'ri:hand-heart-line',
+  LAYOUT_6_LINE: 'ri:layout-6-line',
   LOADER_LINE: 'ri:loader-line',
 }
 
