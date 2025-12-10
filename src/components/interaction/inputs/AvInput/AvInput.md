@@ -45,6 +45,7 @@ The component integrates focus management, proper ARIA attributes, and responsiv
 | `prefixIcon` | `string` | `undefined` |  | Prefix icon name (optional) |
 | `width` | `string` | `undefined` |  | Width of the input |
 | `noRadius` | `boolean` | `false` |  | Removes the radii from the input border |
+| `textareaMinHeight` | `string` | `var(--dimension-5xl)` |  | Minimum height of the textarea (if isTextarea is true) |
 
 ## 🔊 Events
 
