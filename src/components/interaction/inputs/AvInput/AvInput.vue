@@ -236,60 +236,61 @@ defineExpose({
     }"
   >
     <div class="av-input__wrapper">
-      <div
-        v-if="prefixIcon"
-        class="av-input__prefix"
-      >
-        <AvIcon
-          :name="prefixIcon"
-          :size="1.2"
+      <div class="av-input__control">
+        <div
+          v-if="prefixIcon"
+          class="av-input__prefix"
+        >
+          <AvIcon
+            :name="prefixIcon"
+            :size="1.2"
+          />
+        </div>
+
+        <label
+          :class="finalLabelClass"
+          :for="realId"
+        >
+          <span :class="labelClass">
+            {{ label }}
+            <slot name="requiredTip">
+              <span
+                v-if="required"
+                class="required"
+              >*</span>
+            </slot>
+            <span
+              v-if="hint"
+              class="av-hint-text"
+            >
+              {{ hint }}
+            </span>
+          </span>
+        </label>
+
+        <component
+          :is="isComponent"
+          :id="realId"
+          ref="__input"
+          class="av-input__input"
+          :class="{
+            'av-input__input--error': isInvalid,
+            'av-input__input--valid': isValid,
+          }"
+          :placeholder="placeholder"
+          :type="type"
+          :disabled="disabled"
+          :maxlength="maxlength"
+          :minlength="minlength"
+          :required="required"
+          v-bind="$attrs"
+          :max="max"
+          :min="min"
+          :value="modelValue"
+          :aria-describedby="descriptionId || undefined"
+          @input="emit('update:modelValue', $event.target.value)"
         />
       </div>
-      <label
-        :class="finalLabelClass"
-        :for="realId"
-      >
-        <span :class="labelClass">
-          {{ label }}
-          <slot name="requiredTip">
-            <span
-              v-if="required === true"
-              class="required"
-            >
-              *
-            </span>
-          </slot>
-          <span
-            v-if="hint"
-            class="av-hint-text"
-          >
-            {{ hint }}
-          </span>
-        </span>
-      </label>
-
-      <component
-        :is="isComponent"
-        :id="realId"
-        ref="__input"
-        :placeholder="placeholder"
-        :type="type"
-        :disabled="disabled"
-        :maxlength="maxlength"
-        :minlength="minlength"
-        :required="required"
-        v-bind="$attrs"
-        :max="max"
-        :min="min"
-        class="av-input__input"
-        :class="{
-          'av-input__input--error': isInvalid,
-          'av-input__input--valid': isValid,
-        }"
-        :value="modelValue"
-        :aria-describedby="descriptionId || undefined"
-        @input="emit('update:modelValue', $event.target.value)"
-      />
       <slot
         name="customCaptions"
         :current-value="modelValue"
@@ -333,6 +334,12 @@ defineExpose({
   width: v-bind('width');
 
   &__wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xxs);
+  }
+
+  &__control {
     position: relative;
 
     &:focus-within {
@@ -345,7 +352,8 @@ defineExpose({
   &__prefix {
     position: absolute;
     left: var(--spacing-xs);
-    top: 55%;
+    top: 66%;
+    transform: translateY(-50%);
     z-index: 1;
     display: flex;
     align-items: center;
