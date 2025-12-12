@@ -1,1 +1,1 @@
-export { default as AvCard } from './AvCard/AvCard.vue'
+export { default as AvCard, type AvCardProps } from './AvCard/AvCard.vue'

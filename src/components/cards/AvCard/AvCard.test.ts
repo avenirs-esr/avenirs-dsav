@@ -167,5 +167,40 @@ BddTest().given('an AvCard', () => {
         expect(toggleButton.props('icon')).toBe(MDI_ICONS.CHEVRON_DOWN)
       })
     })
+
+    BddTest().and('is in title only mode', () => {
+      beforeEach(async () => {
+        wrapper = await mountWithRouter<typeof AvCard>(AvCard, {
+          props: {
+            titleOnly: true,
+          },
+          slots: {
+            title: '<h2>Titre</h2>',
+            default: '<p>Contenu principal</p>',
+          },
+          global: {
+            stubs,
+          },
+        })
+      })
+
+      BddTest().then('it should apply the title-only class to the title section', () => {
+        const title = wrapper.get('.av-card__title')
+        expect(title.classes()).toContain('av-card__title--title-only')
+      })
+
+      BddTest().then('it should render the title slot content', () => {
+        expect(wrapper.text()).toContain('Titre')
+      })
+
+      BddTest().then('it should not render the toggle button', () => {
+        const toggleButton = wrapper.findComponent(AvButtonStub)
+        expect(toggleButton.exists()).toBe(false)
+      })
+
+      BddTest().then('it should not show the content section', () => {
+        expect(wrapper.text()).not.toContain('Contenu principal')
+      })
+    })
   })
 })

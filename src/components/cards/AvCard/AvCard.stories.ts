@@ -125,3 +125,8 @@ CollapsedByDefault.args = {
   collapsible: true,
   collapsed: true,
 }
+
+export const TitleOnly = Template.bind({})
+TitleOnly.args = {
+  titleOnly: true,
+}

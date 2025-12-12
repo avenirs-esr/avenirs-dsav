@@ -3,6 +3,7 @@ import { AvTagStub } from '@/components/badges/AvTag/AvTag.stub'
 import { AvFieldsetStub } from '@/components/base/AvFieldset/AvFieldset.stub'
 import { AvIconStub } from '@/components/base/AvIcon/AvIcon.stub'
 import { AvIconTextStub } from '@/components/base/AvIconText/AvIconText.stub'
+import { AvCardStub } from '@/components/cards/AvCard/AvCard.stub'
 import { AvAccordionStub } from '@/components/interaction/accordions/AvAccordion/AvAccordion.stub'
 import { AvButtonStub } from '@/components/interaction/buttons/AvButton/AvButton.stub'
 import { AvCancelConfirmButtonsStub } from '@/components/interaction/buttons/AvCancelConfirmButtons/AvCancelConfirmButtons.stub'
@@ -29,6 +30,7 @@ export {
   AvBreadcrumbStub,
   AvButtonStub,
   AvCancelConfirmButtonsStub,
+  AvCardStub,
   AvCheckboxStub,
   AvDrawerStub,
   AvDropdownStub,

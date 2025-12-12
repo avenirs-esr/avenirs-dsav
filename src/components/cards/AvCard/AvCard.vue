@@ -7,6 +7,12 @@ import { MDI_ICONS } from '@/tokens'
  */
 export interface AvCardProps {
   /**
+   * If true, the card will be displayed in title-only mode.
+   * @default false
+   */
+  titleOnly?: boolean
+
+  /**
    * The background color of the card.
    * @default 'var(--card)'
    */
@@ -44,6 +50,7 @@ export interface AvCardProps {
 }
 
 const {
+  titleOnly = false,
   backgroundColor = 'var(--card)',
   borderColor = 'var(--stroke)',
   titleBackground = 'var(--surface-background)',
@@ -93,12 +100,14 @@ const collapsed = ref(defaultCollapsed)
     <div
       v-if="slots.title"
       class="av-card__title"
-      :class="{ 'av-card__title--collapsed': collapsed }"
+      :class="{ 'av-card__title--collapsed': collapsed,
+                'av-card__title--title-only': titleOnly,
+      }"
       :style="{ background: titleBackground, minHeight: titleHeight, maxHeight: titleHeight }"
     >
       <slot name="title" />
       <AvButton
-        v-if="collapsible"
+        v-if="!titleOnly && collapsible"
         :icon="collapsed ? MDI_ICONS.CHEVRON_DOWN : MDI_ICONS.CHEVRON_LEFT"
         icon-only
         label=""
@@ -106,6 +115,7 @@ const collapsed = ref(defaultCollapsed)
       />
     </div>
     <div
+      v-if="!titleOnly"
       v-show="!collapsible || !collapsed"
       class="av-card__content-collapsible"
     >
@@ -146,6 +156,7 @@ const collapsed = ref(defaultCollapsed)
     padding: var(--spacing-sm);
     gap: var(--spacing-sm);
 
+    &--title-only,
     &--collapsed {
       margin: calc(-1 * var(--spacing-sm));
     }
