@@ -71,13 +71,6 @@ export interface AvButtonProps {
    * @default false
    */
   noSentenceCase?: boolean
-
-  /**
-   * Function called when button is clicked.
-   * @param event The click MouseEvent
-   * @deprecated Use `@click` event listener instead.
-   */
-  onClick?: ($event: MouseEvent) => void
 }
 
 const {
@@ -92,8 +85,14 @@ const {
   iconScale,
   noSentenceCase = false,
   label,
-  onClick
 } = defineProps<AvButtonProps>()
+
+defineEmits<{
+  /**
+   * Emitted when the button is clicked.
+   */
+  (e: 'click', event: MouseEvent): void
+}>()
 
 const btn = ref<{ focus: () => void } | null>(null)
 function focus () {
@@ -148,7 +147,7 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
     :aria-disabled="buttonDisabled"
     :aria-label="labelToRender"
     :style="iconOnly ? { 'padding-inline': 'var(--spacing-xs)' } : {}"
-    @click="onClick ? onClick($event) : () => {}"
+    @click="$emit('click', $event)"
   >
     <AvIcon
       v-if="iconToRender"

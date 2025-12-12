@@ -23,11 +23,12 @@ Rich buttons consist of a button composed of :
 | `iconLeft` | `string` | `undefined` | | Icon to be displayed on the left of the button. Must be an icon name. |
 | `iconRight` | `string` | `undefined` | Icon to be displayed on the right of the button. Must be an icon name. |
 | `customPadding` | `string` | `'1rem'` | | Allows you to modify button padding. |
-| `onClick` | `($event: MouseEvent) => void` | `undefined` | | Function called when button is clicked. |
 
 ## 🔊 Events
 
-None.
+| Name | Description |
+| --- | --- |
+| `click` | Emitted when the button is clicked. |
 
 ## 🎨 Slots
 
