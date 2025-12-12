@@ -33,7 +33,9 @@ Buttons consist of :
 
 ## 🔊 Events
 
-None.
+| Name | Description |
+| --- | --- |
+| `click` | Emitted when the button is clicked. |
 
 ## 🎨 Slots
 

@@ -28,13 +28,6 @@ export interface AvRichButtonProps {
    * @default '1rem'
    */
   customPadding?: string
-
-  /**
-   * Function called when button is clicked.
-   * @param event The MouseEvent of the click.
-   * @deprecated Use `@click` event listener instead.
-   */
-  onClick?: (event: MouseEvent) => void
 }
 
 const {
@@ -42,8 +35,14 @@ const {
   iconLeft = undefined,
   iconRight = undefined,
   customPadding = 'var(--spacing-sm)',
-  onClick
 } = defineProps<AvRichButtonProps>()
+
+defineEmits<{
+  /**
+   * Emitted when the button is clicked.
+   */
+  (e: 'click', event: MouseEvent): void
+}>()
 
 /**
  * Slots available in the AvRichButton component.
@@ -63,7 +62,7 @@ defineSlots<{
     class="av-rich-button"
     :title="label"
     :aria-label="label"
-    @click="onClick ? onClick($event) : () => {}"
+    @click="$emit('click', $event)"
   >
     <div class="av-rich-button__line">
       <div class="av-rich-button__left">

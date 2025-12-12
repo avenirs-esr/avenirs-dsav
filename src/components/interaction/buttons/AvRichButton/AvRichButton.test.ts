@@ -1,5 +1,5 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
+import { beforeEach, expect } from 'vitest'
 import { AvIconStub } from '@/components/base/AvIcon/AvIcon.stub'
 import AvRichButton from '@/components/interaction/buttons/AvRichButton/AvRichButton.vue'
 import { BddTest } from '@/tests/utils'
@@ -18,6 +18,16 @@ BddTest().given('an AvRichButton', () => {
 
     BddTest().then('it should render an empty button', () => {
       expect(wrapper.findAllComponents({ name: 'AvIcon' })).toHaveLength(0)
+    })
+
+    BddTest().and('the button is clicked', () => {
+      beforeEach(async () => {
+        await wrapper.find('button').trigger('click')
+      })
+
+      BddTest().then('it should emit a click event', () => {
+        expect(wrapper.emitted('click')).toBeTruthy()
+      })
     })
   })
 
@@ -69,24 +79,6 @@ BddTest().given('an AvRichButton', () => {
       expect(leftIcon.exists()).toBe(false)
       const rightIcon = wrapper.findComponent({ name: 'AvIcon' })
       expect(rightIcon.props('name')).toBe(customProps.iconRight)
-    })
-  })
-
-  BddTest().when('mounted with onClick and the button is clicked', () => {
-    const onClick = vi.fn()
-
-    const customProps = {
-      ...props,
-      onClick
-    }
-
-    beforeEach(() => {
-      wrapper = mount(AvRichButton, { props: customProps, global: { stubs } })
-    })
-
-    BddTest().then('it should call onClick', async () => {
-      await wrapper.find('button').trigger('click')
-      expect(onClick).toHaveBeenCalled()
     })
   })
 })

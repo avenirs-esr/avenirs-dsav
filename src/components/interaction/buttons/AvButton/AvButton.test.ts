@@ -152,22 +152,18 @@ BddTest().given('an AvButton', () => {
     })
   })
 
-  BddTest().and('a click handler is passed', () => {
-    const onClick = vi.fn()
-
-    beforeEach(() => {
+  BddTest().and('the button is clicked', () => {
+    beforeEach(async () => {
       wrapper = mount(AvButton, {
-        props: { label: 'test', onClick },
+        props: { label: 'test' },
         global: { stubs }
       })
+      await wrapper.find('button').trigger('click')
     })
 
-    BddTest().when('the button is clicked', () => {
-      BddTest().then('the handler should be called', async () => {
-        const btn = wrapper.find('button')
-        await btn.trigger('click')
-        expect(onClick).toHaveBeenCalled()
-      })
+    BddTest().then('it should emit a click event', () => {
+      expect(wrapper.emitted('click')).toBeDefined()
+      expect(wrapper.emitted('click')!.length).toBe(1)
     })
   })
 
