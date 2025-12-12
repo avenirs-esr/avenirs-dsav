@@ -79,6 +79,7 @@ export const MDI_ICONS = {
   MINUS: 'mdi:minus',
   NAVIGATE_BEFORE: 'mdi:navigate-before',
   NAVIGATE_NEXT: 'mdi:navigate-next',
+  NEWSPAPER_VARIANT: 'mdi:newspaper-variant',
   NOTEBOOK_CHECK: 'mdi:notebook-check',
   NOTIFICATIONS_NONE: 'mdi:notifications-none',
   PAGE_FIRST: 'mdi:page-first',

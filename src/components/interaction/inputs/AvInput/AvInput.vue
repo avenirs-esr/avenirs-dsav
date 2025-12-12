@@ -228,6 +228,8 @@ const finalLabelClass = computed(() => [
   { invisible: !labelVisible },
 ])
 
+const prefixIconTop = computed(() => labelVisible ? '69%' : '55%')
+
 defineExpose({
   focus,
 })
@@ -358,7 +360,7 @@ defineExpose({
   &__prefix {
     position: absolute;
     left: var(--spacing-xs);
-    top: 66%;
+    top: v-bind('prefixIconTop');
     transform: translateY(-50%);
     z-index: 1;
     display: flex;
