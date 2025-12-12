@@ -20,6 +20,7 @@ When the `collapsible` prop is enabled, the card displays only the `title` slot 
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
+| `titleOnly` | `boolean` | `false` | | If true, the card will be displayed in title-only mode. |
 | `backgroundColor` | `string` | `'var(--card)'` | | The background color of the card. |
 | `borderColor` | `string` | `'var(--stroke)'` | | The border color of the card. |
 | `titleBackground` | `string` | `'var(--surface-background)'` | | The background color of the card title. |

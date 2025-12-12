@@ -6,6 +6,7 @@ const stories = [
   'Default',
   'WithCustomColors',
   'WithOnlyDefaultSlot',
+  'TitleOnly',
 ]
 
 testStories(component, title, stories)
