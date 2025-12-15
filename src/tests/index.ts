@@ -8,12 +8,15 @@ import { AvAccordionStub } from '@/components/interaction/accordions/AvAccordion
 import { AvButtonStub } from '@/components/interaction/buttons/AvButton/AvButton.stub'
 import { AvCancelConfirmButtonsStub } from '@/components/interaction/buttons/AvCancelConfirmButtons/AvCancelConfirmButtons.stub'
 import { AvCheckboxStub } from '@/components/interaction/checkboxes/AvCheckbox/AvCheckbox.stub'
+import { AvCheckboxesGroupStub } from '@/components/interaction/checkboxes/AvCheckboxesGroup/AvCheckboxesGroup.stub'
 import { AvInputStub } from '@/components/interaction/inputs/AvInput/AvInput.stub'
 import { AvListStub } from '@/components/interaction/lists/AvList/AvList.stub'
 import { AvListItemStub } from '@/components/interaction/lists/AvListItem/AvListItem.stub'
 import { AvTagPickerStub } from '@/components/interaction/pickers/AvTagPicker/AvTagPicker.stub'
 import { AvAutocompleteStub } from '@/components/interaction/selects/AvAutocomplete/AvAutocomplete.stub'
 import { AvSelectStub } from '@/components/interaction/selects/AvSelect/AvSelect.stub'
+import { AvTabStub } from '@/components/interaction/tabs/AvTab/AvTab.stub'
+import { AvTabsStub } from '@/components/interaction/tabs/AvTabs/AvTabs.stub'
 import { AvToggleStub } from '@/components/interaction/toggles/AvToggle/AvToggle.stub'
 import { AvBreadcrumbStub } from '@/components/navigation/AvBreadcrumb/AvBreadcrumb.stub'
 import { AvSideNavigationStub } from '@/components/navigation/AvSideNavigation/AvSideNavigation.stub'
@@ -31,6 +34,7 @@ export {
   AvButtonStub,
   AvCancelConfirmButtonsStub,
   AvCardStub,
+  AvCheckboxesGroupStub,
   AvCheckboxStub,
   AvDrawerStub,
   AvDropdownStub,
@@ -44,6 +48,8 @@ export {
   AvSelectStub,
   AvSideNavigationStub,
   AvStepperStub,
+  AvTabsStub,
+  AvTabStub,
   AvTagPickerStub,
   AvTagStub,
   AvToggleStub,
