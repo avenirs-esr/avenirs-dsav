@@ -41,14 +41,15 @@ withDefaults(defineProps<AvSideNavigationProps>(), {
 defineEmits<{
   /**
    * Emitted when the selected item changes.
-   * @param value - The ID of the newly selected item
+   * @param event - The event name
+   * @param selectedItem - The ID of the newly selected item
    */
-  'update:selectedItem': [value: string]
+  (event: 'update:selectedItem', selectedItem: string): void
   /**
    * Emitted when the side menu collapse state changes.
    * @param value - New collapsed state (true for collapsed, false for expanded)
    */
-  'update:isSideMenuCollapsed': [value: boolean]
+  (event: 'update:isSideMenuCollapsed', value: boolean): void
 }>()
 
 const selectedItem = defineModel<string>('selectedItem', {
