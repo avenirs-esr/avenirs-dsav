@@ -168,7 +168,7 @@ const collapsed = ref(defaultCollapsed)
     flex: 1;
     justify-content: space-between;
     gap: var(--spacing-sm);
-    padding: var(--spacing-sm) 0;
+    padding-top: var(--spacing-sm);
   }
 
   .av-button {
