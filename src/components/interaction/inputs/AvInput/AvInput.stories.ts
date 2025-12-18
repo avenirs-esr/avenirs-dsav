@@ -74,7 +74,8 @@ const meta: Meta<AvInputProps> = {
         'mdi:map-marker-outline'
       ]
     },
-    width: { control: 'text' }
+    width: { control: 'text' },
+    formatDateStr: { control: 'text' }
   },
   args: {
     label: 'Input Label',

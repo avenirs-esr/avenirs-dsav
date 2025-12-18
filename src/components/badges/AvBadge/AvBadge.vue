@@ -85,8 +85,8 @@ const styleVars = computed(() => {
     <span
       :class="{
         'av-ellipsis': ellipsis,
-        'caption-bold': small,
-        'b2-bold': !small,
+        'caption-regular': small,
+        'b2-regular': !small,
       }"
     >
       {{ label }}

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { Ref, Slot } from 'vue'
-import { format, isValid as isValidDate } from 'date-fns'
+import { type Ref, type Slot, useAttrs } from 'vue'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
+import { formatDateForInputType, formatDisplayedDate, getDateInputPlaceholder, getDateInputPrefixIcon, isDateInputType } from '@/components/interaction/inputs/AvInput/utils'
 
 export interface AvInputProps {
   /**
@@ -129,6 +129,12 @@ export interface AvInputProps {
    * @default false
    */
   noRadius?: boolean
+
+  /**
+   * Custom date format string for displayed date
+   * If invalid or not provided, defaults to standard format based on input type
+   */
+  formatDateStr?: string
 }
 
 defineOptions({
@@ -159,6 +165,7 @@ const {
   prefixIcon,
   width,
   noRadius = false,
+  formatDateStr,
 } = defineProps<AvInputProps>()
 
 /**
@@ -189,6 +196,8 @@ defineSlots<{
   customCaptions?: Slot<{ currentValue?: string | number | null, maxlength?: number }>
 }>()
 
+const attrs = useAttrs()
+
 const realId = computed(() => id ?? `input-${crypto.randomUUID()}`)
 
 const errorMessages = computed(() => {
@@ -209,18 +218,12 @@ const isInvalid = computed(() => {
   return !!errorMessage
 })
 
-const min = computed(() => formatDateYyyyMMdd(minDate))
-const max = computed(() => formatDateYyyyMMdd(maxDate))
-
-function formatDateYyyyMMdd (date: Date | undefined) {
-  if ((type !== 'date' && type !== 'datetime-local') || (date === undefined || !isValidDate(date))) {
-    return undefined
-  }
-  return format(date, 'yyyy-MM-dd')
-}
-
 const __input: Ref<HTMLElement | null> = ref(null)
 const focus = () => __input.value?.focus()
+
+function openPicker () {
+  (__input.value as HTMLInputElement)?.showPicker()
+}
 
 const isComponent = computed(() => isTextarea ? 'textarea' : 'input')
 const finalLabelClass = computed(() => [
@@ -229,6 +232,32 @@ const finalLabelClass = computed(() => [
 ])
 
 const prefixIconTop = computed(() => labelVisible ? '69%' : '55%')
+
+const commonInputClasses = computed(() => ({
+  'av-input__input': true,
+  'av-input__input--error': isInvalid.value,
+  'av-input__input--valid': isValid,
+}))
+
+const inputProps = computed(() => ({
+  ...attrs,
+  disabled,
+  maxlength,
+  minlength,
+  required,
+  type,
+  placeholder,
+  max: formatDateForInputType(type, maxDate),
+  min: formatDateForInputType(type, minDate),
+  ariaDescribedBy: descriptionId || undefined,
+}))
+
+const icon = computed(() => {
+  if (!isDateInputType(type)) {
+    return prefixIcon
+  }
+  return getDateInputPrefixIcon(type)
+})
 
 defineExpose({
   focus,
@@ -246,11 +275,11 @@ defineExpose({
     <div class="av-input__wrapper">
       <div class="av-input__control">
         <div
-          v-if="prefixIcon"
+          v-if="icon"
           class="av-input__prefix"
         >
           <AvIcon
-            :name="prefixIcon"
+            :name="icon"
             :size="1.2"
           />
         </div>
@@ -278,25 +307,27 @@ defineExpose({
 
         <component
           :is="isComponent"
+          v-bind="inputProps"
           :id="realId"
           ref="__input"
-          class="av-input__input"
           :class="{
-            'av-input__input--error': isInvalid,
-            'av-input__input--valid': isValid,
+            ...commonInputClasses,
+            'av-sr-only': isDateInputType(type),
           }"
-          :placeholder="placeholder"
-          :type="type"
-          :disabled="disabled"
-          :maxlength="maxlength"
-          :minlength="minlength"
-          :required="required"
-          v-bind="$attrs"
-          :max="max"
-          :min="min"
           :value="modelValue"
-          :aria-describedby="descriptionId || undefined"
           @input="emit('update:modelValue', $event.target.value)"
+        />
+
+        <component
+          :is="isComponent"
+          v-if="isDateInputType(type)"
+          :class="commonInputClasses"
+          v-bind="inputProps"
+          :placeholder="getDateInputPlaceholder(type)"
+          type="text"
+          readonly
+          :value="formatDisplayedDate(type, modelValue, formatDateStr)"
+          @click="openPicker"
         />
       </div>
       <slot
