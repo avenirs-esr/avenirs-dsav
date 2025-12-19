@@ -30,8 +30,72 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'AtkinsonHyperlegible';
+  src: url('@/assets/fonts/atkinson/AtkinsonHyperlegible-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'AtkinsonHyperlegible';
+  src: url('@/assets/fonts/atkinson/AtkinsonHyperlegible-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'AtkinsonHyperlegible';
+  src: url('@/assets/fonts/atkinson/AtkinsonHyperlegible-BoldItalic.woff2') format('woff2');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'AtkinsonHyperlegible';
+  src: url('@/assets/fonts/atkinson/AtkinsonHyperlegible-Italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'B612';
+  src: url('@/assets/fonts/b612/B612-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'B612';
+  src: url('@/assets/fonts/b612/B612-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'B612';
+  src: url('@/assets/fonts/b612/B612-BoldItalic.woff2') format('woff2');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'B612';
+  src: url('@/assets/fonts/b612/B612-Italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
 :root {
-  --font-family-primary: 'Luciole', 'arial', sans-serif;
+  --font-family-primary: 'B612', 'arial', sans-serif;
   --font-weight-light: 300;
   --font-weight-regular: 400;
   --font-weight-bold: 700;
