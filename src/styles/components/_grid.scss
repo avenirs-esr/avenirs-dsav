@@ -1,12 +1,13 @@
 @use '../core/namespace' as *;
 @use '../settings/breakpoints' as bp;
 @use '../core/spacing' as sp;
+@use "sass:map";
 
 $columns: 12;
 
 // === Containers ===
 // Default container
-// Ex: .av-container, .av-container--fluid
+// Ex: .av-container, .av-container-fluid
 @include ns("container") {
   max-width: 90rem;
   margin-left: auto;
@@ -14,30 +15,33 @@ $columns: 12;
   padding-left: sp.get(sm);
   padding-right: sp.get(sm);
 
-  &--fluid {
+  &-fluid {
     max-width: none;
-    padding-left: var(--spacing-none);
-    padding-right: var(--spacing-none);
+    padding-left: 0;
+    padding-right: 0;
     overflow: hidden;
   }
 }
 
+// Container paddings per breakpoint
+$container-paddings: (
+  sm: sm,
+  md: sm,
+  lg: md,
+  xl: md
+);
+
 // Breakpoint-specific containers
-// Ex: .av-container-md / .av-container-lg
+// Ex: .av-container--md / .av-container--lg
 @each $bp-name, $bp-value in bp.$breakpoints {
   @media (min-width: #{$bp-value}) {
-    @include ns("container-#{$bp-name}") {
+    @include ns("container--#{$bp-name}") {
       width: 100%;
       max-width: #{$bp-value};
       margin-left: auto;
       margin-right: auto;
-      @if $bp-name == lg or $bp-name == xl {
-        padding-left: sp.get(md);
-        padding-right: sp.get(md);
-      } @else {
-        padding-left: sp.get(sm);
-        padding-right: sp.get(sm);
-      }
+      padding-left: sp.get(map.get($container-paddings, $bp-name));
+      padding-right: sp.get(map.get($container-paddings, $bp-name));
     }
   }
 }
@@ -56,67 +60,32 @@ $row-alignments: (
   bottom: flex-end
 );
 
-@include ns("row") {
+// === Mixin row layout ===
+@mixin row-layout {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: row;
+}
 
-  // Horizontal alignments
-  // Ex: .av-row--left / .av-row--center
-  @each $mod-name, $justify in $row-justifications {
-    &--#{$mod-name} {
-      justify-content: $justify;
-    }
+// === Base row ===
+// Ex: .av-row / .av-row-wrap / .av-row-nowrap
+@include ns("row") {
+  @include row-layout;
+
+  &-wrap {
+    flex-wrap: wrap;
   }
 
-  // Vertical alignments
-  // Ex: .av-row--top / .av-row--bottom
-  @each $mod-name, $align in $row-alignments {
-    &--#{$mod-name} {
-      align-items: $align;
-    }
+  &-nowrap {
+    flex-wrap: nowrap;
   }
 }
 
+// === Responsive layout for rows ===
+// Ex: .av-row--md
 @each $bp-name, $bp-value in bp.$breakpoints {
   @media (min-width: #{$bp-value}) {
-    // Base row
-    // Ex: .av-row-md
-    @include ns("row-#{$bp-name}") {
-      display: flex;
-      flex-wrap: wrap;
-      margin-left: -#{sp.get(sm)};
-      margin-right: -#{sp.get(sm)};
-
-      > * {
-        padding-left: sp.get(sm);
-        padding-right: sp.get(sm);
-      }
-
-      &.av-no-gutters {
-        margin-left: 0;
-        margin-right: 0;
-
-        > * {
-          padding-left: 0;
-          padding-right: 0;
-        }
-      }
-
-      // Horizontal alignments
-      // Ex: .av-row-md--left / .av-row-lg--center
-      @each $mod-name, $justify in $row-justifications {
-        &--#{$mod-name} {
-          justify-content: $justify;
-        }
-      }
-
-      // Vertical alignments
-      // Ex: .av-row-md--top / .av-row-lg--bottom
-      @each $mod-name, $align in $row-alignments {
-        &--#{$mod-name} {
-          align-items: $align;
-        }
-      }
+    @include ns("row--#{$bp-name}") {
+      @include row-layout;
     }
   }
 }
@@ -128,56 +97,25 @@ $col-alignments: (
   bottom: flex-end
 );
 
-@each $bp-name, $bp-value in bp.$breakpoints {
-  @media (min-width: #{$bp-value}) {
-    // Base column
-    // Ex: .av-col-md
-    @include ns("col-#{$bp-name}") {
-      flex: 1;
-    }
-
-    // Align-self modifiers
-    // Ex: .av-col-md--top / .av-col-lg--bottom
-    @each $mod-name, $align in $col-alignments {
-      @include ns("col-#{$bp-name}--#{$mod-name}") {
-        align-self: $align;
-      }
-    }
-
-    // Width and offsets
-    // Ex: .av-col-md-4 / .av-col-offset-md-2 / .av-col-offset-md-2--right
-    @for $i from 1 through $columns {
-      @include ns("col-#{$bp-name}-#{$i}") {
-        flex: 0 0 calc(100% * #{$i} / #{$columns});
-        max-width: calc(100% * #{$i} / #{$columns});
-      }
-
-      @include ns("col-offset-#{$bp-name}-#{$i}") {
-        margin-left: calc(100% * #{$i} / #{$columns});
-      }
-
-      @include ns("col-offset-#{$bp-name}-#{$i}--right") {
-        margin-left: 0;
-        margin-right: calc(100% * #{$i} / #{$columns});
-      }
-    }
-  }
+// === Mixin column layout ===
+@mixin col-layout {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 auto;
 }
 
-// === Gapped flex directions ===
-// Ex: .av-flex-row-md / .av-flex-col-sm
-$flex-directions: (
-  row: row,
-  col: column,
-);
+// === Base column ===
+// Ex: .av-col
+@include ns("col") {
+  @include col-layout;
+}
 
-@each $dir-name, $dir-value in $flex-directions {
-  @each $size, $value in sp.$spacing {
-    @include ns("flex-#{$dir-name}-#{$size}") {
-      display: flex;
-      flex: 1;
-      flex-direction: $dir-value;
-      gap: var(--spacing-#{$size});
+// === Responsive layout for columns ===
+// Ex: .av-col--md
+@each $bp-name, $bp-value in bp.$breakpoints {
+  @media (min-width: #{$bp-value}) {
+    @include ns("col--#{$bp-name}") {
+      @include col-layout;
     }
   }
 }
