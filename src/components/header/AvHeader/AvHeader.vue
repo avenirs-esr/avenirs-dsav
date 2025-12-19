@@ -284,7 +284,7 @@ provide(registerNavigationLinkKey, () => hideModal)
               <slot name="serviceDescription" />
             </div>
           </div>
-          <div class="av-header__tools av-hidden av-unhidden-lg">
+          <div class="av-header__tools av-hidden av-unhidden--lg">
             <div class="av-header__tools-links">
               <slot name="before-quick-links" />
               <AvHeaderMenuLinks
@@ -319,7 +319,7 @@ provide(registerNavigationLinkKey, () => hideModal)
         <slot />
       </div>
     </div>
-    <div class="av-header__menu av-hidden av-unhidden-lg">
+    <div class="av-header__menu av-hidden av-unhidden--lg">
       <div
         v-if="isWithSlotNav && !modalOpened"
         class="av-container av-header__mainnav"
@@ -335,16 +335,13 @@ provide(registerNavigationLinkKey, () => hideModal)
       v-if="isBelowLg && (showSearch || isWithSlotNav || (quickLinks && quickLinks.length) || languageSelectorRef)"
       id="header-navigation"
       :show="modalOpened"
-      :close-button-label="closeMenuModalLabel"
-      :close-button-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
       :aria-label="menuModalLabel"
       role="dialog"
       aria-modal="true"
       padding="var(--spacing-sm)"
       width="75%"
-      @close="hideModal"
     >
-      <div class="av-row av-row--right">
+      <div class="av-row av-row-right">
         <AvCancelConfirmButtons
           :cancel-label="closeMenuModalLabel"
           :cancel-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"

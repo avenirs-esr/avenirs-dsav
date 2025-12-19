@@ -71,26 +71,13 @@ const realId = computed(() => id ?? `checkboxes-group-${crypto.randomUUID()}`)
     aria-live="polite"
   >
     <div
-      class="av-checkboxes-group"
+      class="av-checkboxes-group av-gap-sm"
       :class="{
-        'av-checkboxes-group--inline': inline,
+        'av-checkboxes-group--inline av-row av-row-wrap': inline,
+        'av-col': !inline,
       }"
     >
       <slot />
     </div>
   </AvFieldset>
 </template>
-
-<style lang="scss" scoped>
-.av-checkboxes-group {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-
-  &--inline {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: var(--spacing-sm);
-  }
-}
-</style>

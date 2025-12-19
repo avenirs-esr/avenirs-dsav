@@ -73,7 +73,7 @@ const messages = computed(() => {
 
 <template>
   <div
-    class="av-message"
+    class="av-message av-col av-gap-xs"
     role="alert"
   >
     <AvIconText
@@ -89,10 +89,6 @@ const messages = computed(() => {
 
 <style lang="scss" scoped>
 .av-message {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xs);
-
   & > *:first-child {
     padding-top: var(--spacing-xs);
   }

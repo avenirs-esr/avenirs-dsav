@@ -3,10 +3,15 @@
 @use '../core/spacing' as sp;
 @use "sass:map";
 
-$columns: 12;
-
 // === Containers ===
-// Default container
+$container-paddings: (
+  sm: sm,
+  md: sm,
+  lg: md,
+  xl: md
+);
+
+// === Base container ===
 // Ex: .av-container, .av-container-fluid
 @include ns("container") {
   max-width: 90rem;
@@ -23,15 +28,7 @@ $columns: 12;
   }
 }
 
-// Container paddings per breakpoint
-$container-paddings: (
-  sm: sm,
-  md: sm,
-  lg: md,
-  xl: md
-);
-
-// Breakpoint-specific containers
+// === Responsive containers ===
 // Ex: .av-container--md / .av-container--lg
 @each $bp-name, $bp-value in bp.$breakpoints {
   @media (min-width: #{$bp-value}) {
@@ -101,7 +98,6 @@ $col-alignments: (
 @mixin col-layout {
   display: flex;
   flex-direction: column;
-  flex: 0 0 auto;
 }
 
 // === Base column ===

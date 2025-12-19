@@ -111,7 +111,7 @@ function getToasterStyleVars (type: Message['type']) {
       mode="out-in"
       name="list"
       tag="div"
-      class="toasters"
+      class="toasters av-col av-align-center"
     >
       <AvAlert
         v-for="message in messages"
@@ -133,12 +133,6 @@ function getToasterStyleVars (type: Message['type']) {
   bottom: var(--spacing-sm);
   width: 100%;
   z-index: 9999;
-}
-
-.toasters {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .av-toaster {

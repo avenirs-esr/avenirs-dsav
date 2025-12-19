@@ -86,10 +86,11 @@ const styleVars = computed(() => ({
 <template>
   <component
     :is="is"
-    class="av-tag"
+    class="av-tag av-row av-gap-xxs av-align-center"
     :disabled="disabled"
     :class="{
-      'av-tag--sm': small,
+      'av-tag--sm av-py-xxxs av-px-xs': small,
+      'av-py-xxs av-px-sm': !small,
     }"
     :aria-pressed="rest.selectable ? rest.selected : undefined"
     v-bind="{ ...$attrs }"
@@ -110,14 +111,9 @@ const styleVars = computed(() => ({
 
 <style lang="scss" scoped>
 .av-tag {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: var(--spacing-xxs);
   color: var(--text1);
   background-color: var(--light-background-neutral);
   border-radius: var(--radius-xl);
-  justify-content: center;
   padding: var(--spacing-xxs) var(--spacing-sm);
   width: -moz-fit-content;
   width: fit-content;
@@ -128,7 +124,6 @@ const styleVars = computed(() => ({
 
   &--sm {
     border-radius: var(--radius-lg);
-    padding: var(--spacing-xxxs) var(--spacing-xs);
   }
 
   &[aria-pressed='true'] {

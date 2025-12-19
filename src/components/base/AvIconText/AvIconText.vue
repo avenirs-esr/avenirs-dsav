@@ -72,7 +72,7 @@ const ellipsisClass = computed(() => !inline ? 'ellipsis' : undefined)
 
 <template>
   <div
-    class="icon-text--container"
+    class="icon-text--container av-row av-align-center"
     :class="[ellipsisContainerClass]"
   >
     <AvIcon
@@ -92,9 +92,6 @@ const ellipsisClass = computed(() => !inline ? 'ellipsis' : undefined)
 
 <style lang="scss" scoped>
 .icon-text--container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
   gap: v-bind('gap');
   max-height: fit-content;
 }

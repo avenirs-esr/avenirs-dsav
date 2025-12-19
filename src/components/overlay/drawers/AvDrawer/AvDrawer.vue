@@ -98,19 +98,19 @@ onBeforeUnmount(() => {
       class="av-drawer-backdrop"
     />
     <div
-      class="av-drawer"
+      class="av-drawer av-col"
       :class="`av-drawer--${position}`"
       role="dialog"
       aria-modal="true"
       :aria-label="ariaLabel"
     >
-      <div class="av-drawer__content-wrapper">
+      <div class="av-drawer__content-wrapper av-col">
         <div class="av-drawer__content">
           <slot />
         </div>
         <div
           v-if="slots.footer"
-          class="footer-container"
+          class="footer-container av-p-md"
         >
           <slot name="footer" />
         </div>
@@ -136,8 +136,6 @@ onBeforeUnmount(() => {
   overflow: hidden;
   z-index: 1000;
   border-radius: var(--radius-hg);
-  display: flex;
-  flex-direction: column;
   width: v-bind('width');
   max-width: 90%;
 }
@@ -156,8 +154,6 @@ onBeforeUnmount(() => {
 
 .av-drawer__content-wrapper {
   flex: 1;
-  display: flex;
-  flex-direction: column;
   overflow: hidden;
 }
 
@@ -165,9 +161,5 @@ onBeforeUnmount(() => {
   flex: 1;
   overflow-y: auto;
   padding: v-bind('padding');
-}
-
-.footer-container {
-  padding: var(--spacing-md);
 }
 </style>

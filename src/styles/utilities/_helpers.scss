@@ -40,6 +40,7 @@
 @include responsive-utility("h-full", height, 100%);
 
 // === Flex alignment classes ===
+// Ex: .av-align-center / .av-align-end
 $alignments: (
   start: flex-start,
   center: center,
@@ -52,6 +53,7 @@ $alignments: (
 }
 
 // === Flex justification classes ===
+// Ex: .av-justify-center / .av-justify-between
 $justifications: (
   start: flex-start,
   center: center,

@@ -24,8 +24,8 @@ const { steps, currentStep, width = '100%' } = defineProps<AvStepperProps>()
 </script>
 
 <template>
-  <div class="av-stepper">
-    <div class="main-container">
+  <div class="av-stepper av-col">
+    <div class="main-container av-row av-align-center">
       <div
         class="step step--active"
         :aria-current="currentStep === 0 ? 'step' : undefined"
@@ -35,14 +35,14 @@ const { steps, currentStep, width = '100%' } = defineProps<AvStepperProps>()
       <div
         v-for="(_step, index) in steps.slice(1, steps.length)"
         :key="index"
-        class="steps-container"
+        class="steps-container av-row av-align-center"
       >
         <div
           class="separator"
           :class="{ 'separator--active': index + 1 <= currentStep }"
         />
         <div
-          class="step"
+          class="step av-col av-align-center av-justify-center"
           :class="{ 'step--active': index + 1 <= currentStep }"
           :aria-current="index + 1 === currentStep ? 'step' : undefined"
         >
@@ -51,14 +51,14 @@ const { steps, currentStep, width = '100%' } = defineProps<AvStepperProps>()
       </div>
     </div>
 
-    <div class="main-labels-container">
+    <div class="main-labels-container av-row av-align-start av-justify-between av-pt-xs">
       <div
         v-for="(step, index) in steps"
         :key="index"
-        class="label-container"
+        class="label-container av-col av-align-center av-justify-center"
       >
         <span
-          class="label"
+          class="label av-col av-align-center"
           :class="{ 'b1-bold': index <= currentStep,
                     'b1-light': index > currentStep,
           }"
@@ -72,25 +72,11 @@ const { steps, currentStep, width = '100%' } = defineProps<AvStepperProps>()
 
 <style lang="scss" scoped>
 .av-stepper {
-  display: flex;
   width: v-bind('width');
-  flex-direction: column;
-  flex: 1;
 }
 
 .main-container, .steps-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
   flex: 1;
-}
-
-.main-labels-container {
-  display: flex;
-  flex-direction: row;
-  align-items: start;
-  justify-content: space-between;
-  padding-top: var(--spacing-xs);
 }
 
 .main-container {
@@ -98,22 +84,16 @@ const { steps, currentStep, width = '100%' } = defineProps<AvStepperProps>()
 }
 
 .label-container {
-  display: flex;
   flex: 1 0 0;
-  align-items: center;
-  justify-content: center;
   max-width: calc(2 * var(--dimension-6xl));
 }
 
 .step {
-  display: flex;
   width: var(--dimension-md);
   height: var(--dimension-md);
   min-width: var(--dimension-md);
   min-height: var(--dimension-md);
-  align-items: center;
   text-align: center;
-  justify-content: center;
   background-color: var(--light-background-primary1);
   color: var(--light-foreground-primary1);
   border-radius: var(--radius-full);
@@ -139,8 +119,6 @@ const { steps, currentStep, width = '100%' } = defineProps<AvStepperProps>()
 }
 
 .label {
-  display: flex;
-  align-items: center;
   text-align: center;
 }
 

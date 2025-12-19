@@ -350,8 +350,6 @@ const styleVars = computed(() => ({
 .av-multiselect {
   text-align: left;
   background-image: none;
-  display: inline-flex;
-  flex-direction: row;
   width: v-bind('width');
   height: v-bind('height');
 

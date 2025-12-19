@@ -75,7 +75,7 @@ const id = ref(`av-radio-button-${crypto.randomUUID()}`)
     :disabled="disabled"
   >
     <div
-      class="av-radio-group"
+      class="av-radio-group av-row av-align-center av-gap-xs"
       :class="{
         'av-radio-group--sm': small,
       }"
@@ -102,11 +102,6 @@ const id = ref(`av-radio-button-${crypto.randomUUID()}`)
 
 <style lang="scss" scoped>
 .av-radio-group {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: var(--spacing-xs);
-
   input[type=radio] {
     height: var(--dimension-md);
     width: var(--dimension-md);

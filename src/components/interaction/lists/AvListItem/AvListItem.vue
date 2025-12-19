@@ -196,7 +196,7 @@ const selectedClass = computed(() => selected ? 'av-list-item--selected' : '')
   <div :role="role">
     <component
       :is="componentTag"
-      class="av-list-item"
+      class="av-list-item av-row av-align-center av-gap-xs av-w-full"
       :class="[clickableClass, disabledClass, selectedClass]"
       :tabindex="clickable && !disabled ? 0 : undefined"
       :aria-label="clickable ? computedAriaLabel : undefined"
@@ -211,7 +211,7 @@ const selectedClass = computed(() => selected ? 'av-list-item--selected' : '')
     >
       <div
         v-if="icon"
-        class="av-list-item__icon"
+        class="av-list-item__icon av-col av-align-center av-justify-center"
       >
         <AvIcon
           :name="icon"
@@ -220,23 +220,21 @@ const selectedClass = computed(() => selected ? 'av-list-item--selected' : '')
         />
       </div>
 
-      <div class="av-list-item__content">
-        <div
+      <div class="av-list-item__content av-col av-gap-xs">
+        <span
           v-if="title"
-          class="av-list-item__title"
+          class="av-list-item__title b2-bold"
         >
           {{ title }}
-        </div>
+        </span>
 
-        <div
+        <span
           v-if="description"
-          class="av-list-item__description"
+          class="av-list-item__description b1-bold"
         >
           {{ description }}
-        </div>
-        <div
-          v-if="slots.default"
-        >
+        </span>
+        <div v-if="slots.default">
           <slot />
         </div>
       </div>
@@ -257,40 +255,22 @@ const selectedClass = computed(() => selected ? 'av-list-item--selected' : '')
 }
 
 .av-list-item {
-  display: flex;
-  gap: var(--spacing-xs);
   border: none;
   background: transparent;
   text-align: left;
-  width: 100%;
   cursor: default;
   transition: all 0.2s ease-in-out;
-  font-weight: var(--font-weight-bold);
-  align-items: center;
 
   &__icon {
     flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  &__content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-xs);
   }
 
   &__title {
     color: v-bind('color');
-    font-size: var(--font-size-sm);
-    margin: 0;
   }
 
   &__description {
     color: v-bind('descriptionColor');
-    margin: 0;
   }
 
   &--clickable {

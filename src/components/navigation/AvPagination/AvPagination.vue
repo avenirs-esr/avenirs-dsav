@@ -109,7 +109,7 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
     class="av-pagination av-nav"
     :aria-label="ariaLabel"
   >
-    <ul class="av-pagination__list">
+    <ul class="av-pagination__list av-row av-row-wrap av-align-center av-gap-sm">
       <li v-if="compact && !!compactCurrentPageLabel">
         <span class="b2-regular">
           {{ compactCurrentPageLabel }}
@@ -213,14 +213,6 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
 
 <style lang="scss" scoped>
 .av-pagination {
-  &__list {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--spacing-sm);
-  }
-
   &__link {
     display: flex;
     flex-direction: row;

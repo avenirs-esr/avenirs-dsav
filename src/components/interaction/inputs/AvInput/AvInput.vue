@@ -234,7 +234,7 @@ const finalLabelClass = computed(() => [
 const prefixIconTop = computed(() => labelVisible ? '69%' : '55%')
 
 const commonInputClasses = computed(() => ({
-  'av-input__input': true,
+  'av-input__input av-col av-align-center av-w-full': true,
   'av-input__input--error': isInvalid.value,
   'av-input__input--valid': isValid,
 }))
@@ -266,17 +266,17 @@ defineExpose({
 
 <template>
   <div
-    class="av-input"
+    class="av-input av-col av-gap-xxs"
     :class="{
       'av-input--date': type === 'date',
       'av-input--no-radius': noRadius,
     }"
   >
-    <div class="av-input__wrapper">
+    <div class="av-input__wrapper av-col av-gap-xxs">
       <div class="av-input__control">
         <div
           v-if="icon"
-          class="av-input__prefix"
+          class="av-input__prefix av-align-center av-col"
         >
           <AvIcon
             :name="icon"
@@ -367,16 +367,7 @@ defineExpose({
 @use '@/styles/core/_typography.scss';
 
 .av-input {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xxs);
   width: v-bind('width');
-
-  &__wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-xxs);
-  }
 
   &__control {
     position: relative;
@@ -394,22 +385,17 @@ defineExpose({
     top: v-bind('prefixIconTop');
     transform: translateY(-50%);
     z-index: 1;
-    display: flex;
-    align-items: center;
     pointer-events: none;
     color: var(--text2);
     transition: color 0.2s ease;
   }
 
   &__input {
-    display: flex;
-    align-items: center;
     align-self: stretch;
     border-radius: var(--radius-lg);
     border: 1px solid var(--divider);
     background-color: var(--other-background-base);
     padding: var(--spacing-xs) var(--spacing-sm);
-    width: 100%;
     box-sizing: border-box;
 
     &--error {

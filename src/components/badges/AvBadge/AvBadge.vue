@@ -73,9 +73,10 @@ const styleVars = computed(() => {
 
 <template>
   <p
-    class="av-badge"
+    class="av-badge av-row av-align-center av-py-none av-m-none"
     :class="{
-      'av-badge--sm': small,
+      'av-badge--sm av-px-xxs': small,
+      'av-px-xs': !small,
       'av-badge--custom-icon': icon,
       'av-badge--no-icon': !icon,
     }"
@@ -100,17 +101,12 @@ const styleVars = computed(() => {
   background-color: v-bind('backgroundColor');
   border: 1px solid v-bind('borderColor');
   border-radius: var(--radius-sm);
-  display: inline-flex;
-  flex-direction: row;
   max-height: none;
   max-width: 100%;
   min-height: var(--dimension-md);
   overflow: initial;
-  padding: var(--spacing-none) var(--spacing-xs);
   width: -moz-fit-content;
   width: fit-content;
-  align-items: center;
-  margin: var(--spacing-none);
 
   & span {
     color: inherit;
@@ -136,10 +132,6 @@ const styleVars = computed(() => {
     mask-repeat: no-repeat;
     mask-position: center;
     background-color: currentColor;
-  }
-
-  &--sm {
-    padding: var(--spacing-none) var(--spacing-xxs);
   }
 }
 

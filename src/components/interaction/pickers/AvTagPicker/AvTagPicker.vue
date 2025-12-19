@@ -159,10 +159,10 @@ watch(() => props.selected, (newSelected) => {
 </script>
 
 <template>
-  <div class="av-select-container">
+  <div class="av-select-container av-row av-gap-xs">
     <span
       v-if="label"
-      class="av-select-label"
+      class="av-select-label av-row av-align-center"
       :class="[labelTypographyClass]"
     >
       {{ label }}
@@ -191,16 +191,11 @@ watch(() => props.selected, (newSelected) => {
 
 <style lang="scss" scoped>
 .av-select-container {
-  display: flex;
-  flex-direction: row;
   align-items: stretch;
-  gap: var(--spacing-xs);
   text-align: center;
 }
 
 .av-select-label {
-  display: flex;
-  align-items: center;
   color: v-bind('labelColor');
 }
 

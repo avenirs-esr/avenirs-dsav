@@ -59,13 +59,13 @@ defineSlots<{
 
 <template>
   <button
-    class="av-rich-button"
+    class="av-rich-button av-row av-w-full av-align-center av-justify-between"
     :title="label"
     :aria-label="label"
     @click="$emit('click', $event)"
   >
-    <div class="av-rich-button__line">
-      <div class="av-rich-button__left">
+    <div class="av-rich-button__line av-row av-align-center av-w-full">
+      <div class="av-rich-button__left av-row av-align-center av-w-full av-gap-sm av-pr-sm">
         <AvIcon
           v-if="iconLeft"
           :name="iconLeft"
@@ -86,11 +86,6 @@ defineSlots<{
 
 <style lang="scss" scoped>
 .av-rich-button {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
   border-radius: var(--radius-lg);
   border: 1px solid var(--stroke);
   overflow: hidden;
@@ -104,18 +99,10 @@ defineSlots<{
 }
 
 .av-rich-button__line {
-  display: flex;
-  width: 100%;
-  align-items: center;
   text-align: left;
 }
 
 .av-rich-button__left {
-  display: flex;
-  flex-direction: row;
-  flex: 1;
-  gap: var(--spacing-sm);
-  align-items: center;
   overflow: hidden;
 }
 </style>

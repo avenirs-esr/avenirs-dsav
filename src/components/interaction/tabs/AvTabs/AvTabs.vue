@@ -124,9 +124,10 @@ onUnmounted(() => {
   >
     <ul
       ref="tablist"
-      class="av-tabs__list"
+      class="av-tabs__list av-row av-px-xs av-py-none av-align-center av-gap-sm"
       :class="{
         'av-tabs__list--compact': compact,
+        'av-w-full': !compact,
       }"
       role="tablist"
       :aria-label="ariaLabel ?? 'Liste d’onglets'"
@@ -168,14 +169,8 @@ onUnmounted(() => {
 
 .av-tabs {
   &__list {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    padding: var(--spacing-none) var(--spacing-xs);
     background: var(--surface-background);
-    gap: 0.75rem;
-    align-items: center;
-    overflow-x:auto;
+    overflow-x: auto;
 
     &--compact {
       width: fit-content;

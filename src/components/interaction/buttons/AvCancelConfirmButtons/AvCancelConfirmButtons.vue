@@ -79,7 +79,7 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div class="av-cancel-confirm-buttons-container">
+  <div class="av-cancel-confirm-buttons-container av-row av-gap-sm">
     <AvButton
       v-if="cancelLabel"
       :icon="cancelIcon"
@@ -106,11 +106,3 @@ const emit = defineEmits<{
     />
   </div>
 </template>
-
-<style lang="scss" scoped>
-.av-cancel-confirm-buttons-container {
-  display: flex;
-  flex-direction: row;
-  gap: var(--spacing-sm);
-}
-</style>

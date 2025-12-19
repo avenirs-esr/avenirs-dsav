@@ -99,7 +99,7 @@ const dividedClass = computed(() => divided ? 'av-list--divided' : '')
 
 <template>
   <div
-    class="av-list"
+    class="av-list av-col av-gap-xxxs"
     :class="[sizeClass, borderedClass, dividedClass]"
     :role="role"
     :aria-label="ariaLabel"
@@ -112,13 +112,9 @@ const dividedClass = computed(() => divided ? 'av-list--divided' : '')
 
 <style lang="scss" scoped>
 .av-list {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
   background: v-bind('backgroundColor');
   border-radius: v-bind('borderRadius');
   padding: v-bind('padding');
-  gap: var(--spacing-xxxs);
 
   &--bordered {
     border: 0.0625rem solid v-bind('borderColor');
