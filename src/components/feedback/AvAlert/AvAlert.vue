@@ -101,7 +101,8 @@ const onClick = () => emit('close')
 const classes = computed(() => ([
   `av-alert--${type}`,
   {
-    'av-alert--sm': small,
+    'av-alert--sm av-p-sm': small,
+    'av-p-md': !small,
   },
 ]),
 )
@@ -129,8 +130,8 @@ const icon = computed(() => {
     :class="classes"
     :role="alert ? 'alert' : undefined"
   >
-    <div class="av-alert__container">
-      <div class="av-alert__content">
+    <div class="av-alert__container av-row av-align-center av-justify-between av-w-full av-gap-md">
+      <div class="av-alert__content av-row av-align-center av-gap-sm">
         <AvIcon
           v-bind="icon"
           :size="3"
@@ -163,24 +164,7 @@ const icon = computed(() => {
 .av-alert {
   border: 1px solid var(--dark-background-primary1);
   border-radius: var(--radius-lg);
-  padding: var(--spacing-md);
   background-color: var(--dialog);
-
-  &__container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    gap: var(--spacing-md);
-  }
-
-  &__content {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: var(--spacing-sm);
-  }
 
   &__title {
     display: flex;
@@ -189,10 +173,6 @@ const icon = computed(() => {
 
   +.av-alert {
     margin-top: var(--spacing-sm);
-  }
-
-  &--sm {
-    padding: var(--spacing-sm);
   }
 }
 </style>

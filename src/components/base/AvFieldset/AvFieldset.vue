@@ -106,18 +106,17 @@ const message = computed(() => errorMessage || successMessage)
 
 <template>
   <fieldset
-    class="av-fieldset"
+    class="av-fieldset av-col av-pl-xs"
     :class="{
       'av-fieldset--error': errorMessage,
       'av-fieldset--success': successMessage && !errorMessage,
-      'av-fieldset--inline': inline,
     }"
   >
     <div>
       <legend
         v-if="legend || slots.legend"
         :id="legendId"
-        class="av-fieldset__legend"
+        class="av-fieldset__legend av-w-full av-pb-xs"
         :class="legendClass"
       >
         {{ legend }}
@@ -139,7 +138,13 @@ const message = computed(() => errorMessage || successMessage)
           class="caption-regular required"
         >&nbsp;*</span>
       </div>
-      <div class="av-fieldset__content">
+      <div
+        class="av-fieldset__content av-col av-gap-xs"
+        :class="{
+          'av-col': !inline,
+          'av-row av-row-wrap av-justify-start': inline,
+        }"
+      >
         <slot />
       </div>
       <AvMessage
@@ -154,28 +159,7 @@ const message = computed(() => errorMessage || successMessage)
 @use '@/styles/core/_typography.scss';
 
 .av-fieldset {
-  display: flex;
-  flex-direction: column;
   border: none;
-
-  &__legend {
-    width: 100%;
-    padding-bottom: var(--spacing-xs);
-  }
-
-  &__content {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-sm);
-  }
-
-  &--inline {
-    .av-fieldset__content {
-      flex-direction: row;
-      justify-content: flex-start;
-      flex-wrap: wrap;
-    }
-  }
 
   &--error,
   &--info,

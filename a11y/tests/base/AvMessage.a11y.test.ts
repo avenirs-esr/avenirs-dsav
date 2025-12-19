@@ -7,6 +7,7 @@ const stories = [
   'Success',
   'Warning',
   'Error',
+  'MultipleMessages',
 ]
 
 testStories(component, title, stories)

@@ -152,34 +152,32 @@ onBeforeUnmount(() => {
         :open="opened"
         @keydown.esc="emit('close')"
       >
-        <div class="av-container av-container-md av-container--fluid">
-          <div class="av-row-md av-row-md--center">
-            <div class="av-modal__body">
-              <div class="av-modal__content">
-                <div
-                  v-if="slots.header"
-                  class="header"
-                >
-                  <slot name="header" />
-                </div>
-                <slot />
+        <div class="av-container av-container--md av-container-fluid">
+          <div class="av-modal__body">
+            <div class="av-modal__content">
+              <div
+                v-if="slots.header"
+                class="header"
+              >
+                <slot name="header" />
               </div>
-              <div class="av-modal__footer">
-                <AvCancelConfirmButtons
-                  ref="closeBtn"
-                  :cancel-label="closeButtonLabel"
-                  :cancel-icon="closeButtonIcon"
-                  :cancel-disabled="closeButtonDisabled"
-                  :cancel-is-loading="isLoading"
-                  :confirm-label="confirmButtonLabel"
-                  :confirm-icon="confirmButtonIcon"
-                  :confirm-disabled="confirmButtonDisabled"
-                  :confirm-is-loading="isLoading"
-                  @cancel="() => emit('close')"
-                  @confirm="() => emit('confirm')"
-                />
-                <slot name="footer" />
-              </div>
+              <slot />
+            </div>
+            <div class="av-modal__footer">
+              <AvCancelConfirmButtons
+                ref="closeBtn"
+                :cancel-label="closeButtonLabel"
+                :cancel-icon="closeButtonIcon"
+                :cancel-disabled="closeButtonDisabled"
+                :cancel-is-loading="isLoading"
+                :confirm-label="confirmButtonLabel"
+                :confirm-icon="confirmButtonIcon"
+                :confirm-disabled="confirmButtonDisabled"
+                :confirm-is-loading="isLoading"
+                @cancel="() => emit('close')"
+                @confirm="() => emit('confirm')"
+              />
+              <slot name="footer" />
             </div>
           </div>
         </div>
@@ -259,12 +257,12 @@ onBeforeUnmount(() => {
     width: 100%;
   }
 
-  .av-container--fluid {
+  .av-container-fluid {
     min-width: 50%;
   }
 
   @include max-width(md) {
-    .av-container--fluid {
+    .av-container-fluid {
       width: 100%;
     }
 

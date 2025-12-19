@@ -74,13 +74,13 @@ const labelId = computed(() => {
   <label
     :id="labelId"
     :for="inputId"
-    class="av-toggle"
+    class="av-toggle av-row av-justify-center av-gap-xs av-align-start"
     :class="{
       'av-toggle--disabled': disabled,
     }"
   >
     <div
-      class="toggle"
+      class="toggle av-row av-justify-center av-align-center av-gap-xxs"
       :class="{
         'toggle--disabled': disabled,
       }"
@@ -126,18 +126,11 @@ const labelId = computed(() => {
 
 <style lang="scss" scoped>
 .av-toggle, .toggle {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: flex-start;
   cursor: pointer;
-  gap: var(--spacing-xs);
   width: fit-content;
 }
 
 .toggle {
-  gap: var(--spacing-xxs);
-  align-items: center;
   width: 3.625rem;
 }
 

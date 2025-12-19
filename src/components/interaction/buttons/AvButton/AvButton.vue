@@ -132,11 +132,15 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
 <template>
   <button
     ref="btn"
-    class="av-button"
+    class="av-button av-row av-align-center av-gap-xs"
     :class="[
       {
         'av-button--disabled': buttonDisabled,
         'av-button--sm': small,
+        'av-px-xs av-py-xxs': small && !iconOnly,
+        'av-px-sm av-py-xs': !small && !iconOnly,
+        'av-px-xxs av-py-xxs': small && iconOnly,
+        'av-px-xs av-py-xs': !small && iconOnly,
         'av-button--no-radius': noRadius,
       },
       variantClass,
@@ -166,17 +170,11 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
 @use "sass:map";
 
 .av-button {
-  display: inline-flex;
-  flex-direction: row;
-  align-items: center;
-  padding: var(--spacing-xs) var(--spacing-sm);
   width: fit-content;
-  gap: var(--spacing-xs);
   border-radius: var(--radius-lg);
 
   &--sm {
     border-radius: var(--radius-md);
-    padding: var(--spacing-xxs) 0.75rem;
   }
 
   &--no-radius {

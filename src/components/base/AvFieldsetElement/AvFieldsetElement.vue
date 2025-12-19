@@ -31,7 +31,7 @@ defineSlots<{
 
 <template>
   <div
-    class="av-fieldset__element"
+    class="av-fieldset__element av-col av-px-xs"
     :class="{
       'av-fieldset__element--disabled': disabled,
     }"
@@ -42,12 +42,6 @@ defineSlots<{
 
 <style lang="scss" scoped>
 .av-fieldset__element {
-  display: flex;
-  flex-direction: column;
-  max-width: 100%;
-  padding-left: var(--spacing-xs);
-  padding-right: var(--spacing-xs);
-
   &--disabled {
     pointer-events: none;
     cursor: default;

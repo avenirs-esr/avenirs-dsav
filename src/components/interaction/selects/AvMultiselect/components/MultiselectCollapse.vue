@@ -195,7 +195,7 @@ onUnmounted(() => {
     :style="{
       '--width-host': `${hostWidth}px`,
     }"
-    class="av-multiselect__collapse av-collapse"
+    class="av-multiselect__collapse av-collapse av-p-xs av-ml-xxs"
     :class="{ 'av-collapse--expanded': cssExpanded, 'av-collapsing': collapsing }"
     @transitionend="onTransitionEnd(expanded)"
   >
@@ -271,8 +271,6 @@ onUnmounted(() => {
   position: absolute;
   transform-origin: left top;
   width: auto;
-  padding: var(--spacing-xs);
-  margin-left: var(--spacing-xxs);
   border: 2px solid var(--stroke);
   border-top-width: 1px;
 

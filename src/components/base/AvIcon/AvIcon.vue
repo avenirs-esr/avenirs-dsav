@@ -88,15 +88,11 @@ const varName = computed(() => `--icon-${safeName.value}`)
 <style lang="scss" scoped>
 .av-icon {
   display: flex;
-  align-items: center;
-  justify-content: center;
   width: v-bind('fontSize');
   height: v-bind('fontSize');
   color: v-bind('color');
 
   &__icon {
-    width: 100%;
-    height: 100%;
     background-color: v-bind('color');
     -webkit-mask-image: var(--icon);
     mask-image: var(--icon);

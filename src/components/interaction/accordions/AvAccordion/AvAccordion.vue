@@ -79,14 +79,14 @@ watch(isActive, (newValue, oldValue) => {
   <section class="av-accordion">
     <h3 class="av-accordion__title">
       <button
-        class="av-accordion__btn"
+        class="av-accordion__btn av-row av-align-center av-p-sm av-w-full"
         :aria-expanded="isActive"
         :aria-controls="realId"
         type="button"
         :style="styleVars"
         @click="expand"
       >
-        <div class="title-container">
+        <div class="title-container av-row av-gap-sm">
           <AvIcon
             v-if="icon"
             :size="2"
@@ -109,7 +109,7 @@ watch(isActive, (newValue, oldValue) => {
       }"
       @transitionend="onTransitionEnd(isActive, false)"
     >
-      <div class="accordion-content-container">
+      <div class="accordion-content-container av-pt-sm">
         <slot />
       </div>
     </div>
@@ -120,53 +120,36 @@ watch(isActive, (newValue, oldValue) => {
 @use '@/styles/settings/breakpoints' as *;
 
 .av-accordion {
-  position:relative;
+  position: relative;
 
   &:focus-within {
     z-index: 1;
   }
 
-  &__title {
-    display:block;
-    font-size:unset;
-    line-height:unset;
-    margin:0;
-  }
-
   &__btn {
-    align-items:center;
-    display:inline-flex;
-    flex-direction:row;
-    margin:var(--spacing-none);
-    max-height:none;
-    max-width:100%;
-    min-height:var(--dimension-2xl);
-    overflow:initial;
-    padding: var(--spacing-sm);
-    text-align:left;
-    width:-moz-fit-content;
-    width:fit-content;
-    width:100%;
+    max-height: none;
+    min-height: var(--dimension-2xl);
+    overflow: initial;
 
     &::after, &::before {
-      display:block;
+      display: block;
     }
 
     &::after {
-      background-color:currentColor;
-      content:"";
-      display:inline-block;
-      flex:0 0 auto;
-      height:var(--dimension-sm);
-      margin-left:auto;
+      background-color: currentColor;
+      content: "";
+      display: inline-block;
+      flex: 0 0 auto;
+      height: var(--dimension-sm);
+      margin-left: auto;
       margin-right: var(--spacing-none);
       -webkit-mask-image: var(--icon-path);
       mask-image: var(--icon-path);
-      -webkit-mask-size:100% 100%;
-      mask-size:100% 100%;
-      transition:transform .3s;
-      vertical-align:calc((.75em - var(--dimension-sm))*.5);
-      width:var(--dimension-sm);
+      -webkit-mask-size: 100% 100%;
+      mask-size: 100% 100%;
+      transition: transform .3s;
+      vertical-align: calc((.75em - var(--dimension-sm))*.5);
+      width: var(--dimension-sm);
     }
 
     &::before {
@@ -200,14 +183,7 @@ watch(isActive, (newValue, oldValue) => {
   }
 }
 
-.title-container {
-  display: flex;
-  flex-direction: row;
-  gap: 0.75rem;
-}
-
 .accordion-content-container {
   border-top: 1px solid var(--stroke);
-  padding-top: var(--spacing-sm);
 }
 </style>

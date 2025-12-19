@@ -26,7 +26,7 @@ const meta: Meta<AvMessageProps> = {
   tags: ['autodocs'],
   argTypes: {
     type: { control: 'select', options: ['info', 'success', 'warning', 'error'] },
-    message: { control: 'text' },
+    message: { control: 'object' },
   },
   args: {
     type: 'info',
@@ -65,4 +65,9 @@ export const Error = Template.bind({})
 Error.args = {
   type: 'error',
   message: 'This is an error message',
+}
+
+export const MultipleMessages = Template.bind({})
+MultipleMessages.args = {
+  message: ['This is the first message', 'This is the second message', 'This is the third message'],
 }

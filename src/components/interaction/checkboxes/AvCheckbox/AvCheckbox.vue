@@ -156,9 +156,9 @@ const labelClass = computed(() => {
     >
     <label
       :for="realId"
-      class="av-label"
+      class="av-label av-pb-none"
     >
-      <div class="label-container">
+      <div class="label-container av-row av-gap-xs av-align-center">
         <AvIcon
           class="option-checkbox"
           :name="checkboxIconName"
@@ -202,17 +202,6 @@ const labelClass = computed(() => {
 </template>
 
 <style lang="scss" scoped>
-.av-label {
-  padding-bottom: var(--spacing-none);
-}
-
-.label-container {
-  display: flex;
-  flex-direction: row;
-  gap: var(--spacing-xs);
-  align-items: center;
-}
-
 .av-fieldset__element--disabled {
   opacity: 0.95 !important;
 }

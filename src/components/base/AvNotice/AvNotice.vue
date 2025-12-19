@@ -44,7 +44,7 @@ const icon = computed(() => {
 
 <template>
   <div
-    class="av-notice"
+    class="av-notice av-row av-align-center av-gap-sm av-p-sm"
     :class="`av-notice--${type}`"
   >
     <AvIcon
@@ -62,12 +62,6 @@ const icon = computed(() => {
 
 <style lang="scss" scoped>
 .av-notice {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: var(--spacing-sm);
-  padding: var(--spacing-sm);
-
   &--info {
     background-color: var(--light-background-info);
     color: var(--dark-background-info);

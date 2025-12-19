@@ -94,12 +94,12 @@ const collapsed = ref(defaultCollapsed)
 
 <template>
   <div
-    class="av-card"
+    class="av-card av-col av-p-sm av-justify-between"
     :style="{ borderColor, background: backgroundColor }"
   >
     <div
       v-if="slots.title"
-      class="av-card__title"
+      class="av-card__title av-row av-align-center av-justify-between av-p-sm av-gap-sm"
       :class="{ 'av-card__title--collapsed': collapsed,
                 'av-card__title--title-only': titleOnly,
       }"
@@ -117,7 +117,7 @@ const collapsed = ref(defaultCollapsed)
     <div
       v-if="!titleOnly"
       v-show="!collapsible || !collapsed"
-      class="av-card__content-collapsible"
+      class="av-card__content-collapsible av-col av-justify-between av-pt-sm av-gap-sm"
     >
       <slot />
       <div
@@ -138,37 +138,18 @@ const collapsed = ref(defaultCollapsed)
 
 <style lang="scss" scoped>
 .av-card {
-  display: flex;
-  flex-direction: column;
   border-radius: 1.5rem;
   border: 1px solid transparent;
   overflow: hidden;
-  padding: var(--spacing-sm);
-  justify-content: space-between;
 
   &__title {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
     box-sizing: border-box;
     margin: calc(-1 * var(--spacing-sm)) calc(-1 * var(--spacing-sm)) 0 calc(-1 * var(--spacing-sm));
-    padding: var(--spacing-sm);
-    gap: var(--spacing-sm);
 
     &--title-only,
     &--collapsed {
       margin: calc(-1 * var(--spacing-sm));
     }
-  }
-
-  &__content-collapsible {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    justify-content: space-between;
-    gap: var(--spacing-sm);
-    padding-top: var(--spacing-sm);
   }
 
   .av-button {

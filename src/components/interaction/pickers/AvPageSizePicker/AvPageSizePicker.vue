@@ -41,7 +41,7 @@ const selectedOption: ComputedRef<AvTagPickerOption> = computed(() => ({
 </script>
 
 <template>
-  <div class="pagination-size-picker-container">
+  <div class="pagination-size-picker-container av-row">
     <AvTagPicker
       :options="options"
       :selected="selectedOption"
@@ -53,12 +53,3 @@ const selectedOption: ComputedRef<AvTagPickerOption> = computed(() => ({
     />
   </div>
 </template>
-
-<style lang="scss" scoped>
-.pagination-size-picker-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: var(--spacing-xs);
-}
-</style>
