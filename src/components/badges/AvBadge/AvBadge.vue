@@ -114,6 +114,7 @@ const styleVars = computed(() => {
 
   & span {
     color: inherit;
+    line-height: 1;
   }
 
   &::before {
