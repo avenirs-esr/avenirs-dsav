@@ -1,0 +1,142 @@
+@use '../core/namespace' as *;
+@use '../mixins/responsive-utility' as *;
+@use '../settings/breakpoints' as bp;
+@use '../core/spacing' as sp;
+@use "sass:map";
+
+// === Containers ===
+$container-paddings: (
+  sm: sm,
+  md: sm,
+  lg: md,
+  xl: md
+);
+
+// === Base container ===
+// Ex: .av-container, .av-container-fluid
+@include ns("container") {
+  max-width: 90rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--spacing-sm);
+  padding-right: var(--spacing-sm);
+
+  &-fluid {
+    max-width: none;
+    padding-left: var(--spacing-none);
+    padding-right: var(--spacing-none);
+    overflow: hidden;
+  }
+}
+
+// === Responsive containers ===
+// Ex: .av-container--md / .av-container--lg
+@each $bp-name, $bp-value in bp.$breakpoints {
+  @media (min-width: #{$bp-value}) {
+    @include ns("container--#{$bp-name}") {
+      width: 100%;
+      max-width: #{$bp-value};
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: var(--spacing-#{map.get($container-paddings, $bp-name)});
+      padding-right: var(--spacing-#{map.get($container-paddings, $bp-name)});
+    }
+  }
+}
+
+// === Rows ===
+@include responsive-utility("row", (
+  display: flex,
+  flex-direction: row
+));
+
+// === Columns ===
+@include responsive-utility("col", (
+  display: flex,
+  flex-direction: column
+));
+
+// === Flex wrap ===
+@include responsive-utility("wrap", (
+  flex-wrap: wrap
+));
+@include responsive-utility("nowrap", (
+  flex-wrap: nowrap
+));
+
+// === Accessibility ===
+// Ex: .av-sr-only / .av-sr-only--sm / .av-sr-only--md / .av-sr-only--lg / .av-sr-only--xl
+@include responsive-utility("sr-only", (
+  position: absolute !important,
+  width: 1px !important,
+  height: 1px !important,
+  padding: 0 !important,
+  margin: -1px !important,
+  overflow: hidden !important,
+  clip: rect(0, 0, 0, 0) !important,
+  white-space: nowrap !important,
+  border: 0 !important
+));
+
+// === Visibility classes ===
+// Ex: .av-hidden / .av-hidden--md / .av-unhidden / .av-unhidden--lg
+@include responsive-utility("hidden", (
+  display: none !important
+));
+@include responsive-utility("unhidden", (
+  display: inherit !important
+));
+
+// === Gapped layouts ===
+// Ex: .av-gap-sm / .av-gap-lg / .av-gap-lg--lg
+@each $size, $value in sp.$spacing {
+  @include responsive-utility("gap-#{$size}", (
+    gap: var(--spacing-#{$size})
+  ));
+}
+
+// === Flex fill class ===
+// Ex: .av-flex-fill / .av-flex-fill--md
+@include responsive-utility("flex-fill", (
+  flex: 1 1 0%
+));
+
+// === Full width/height classes ===
+// Ex: .av-w-full / .av-h-full / .av-w-full--lg / .av-h-full--md
+@include responsive-utility("w-full", (
+  width: 100%
+));
+@include responsive-utility("h-full", (
+  height: 100%
+));
+
+// === Flex alignment classes ===
+// Ex: .av-align-center / .av-align-end / .av-align-baseline--lg
+$alignments: (
+  start: flex-start,
+  center: center,
+  end: flex-end,
+  stretch: stretch,
+  baseline: baseline
+);
+@each $alignment, $value in $alignments {
+  @include responsive-utility("align-#{$alignment}", (
+    align-items: $value
+  ));
+}
+
+// === Flex justification classes ===
+// Ex: .av-justify-center / .av-justify-between / .av-justify-end--md
+$justifications: (
+  start: flex-start,
+  center: center,
+  end: flex-end,
+  between: space-between,
+  around: space-around,
+  evenly: space-evenly
+);
+@each $justification, $value in $justifications {
+  @include responsive-utility("justify-#{$justification}", (
+    justify-content: $value
+  ));
+}

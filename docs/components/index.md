@@ -1,3 +1,7 @@
+# Components
+
+_Last updated: 2026-01-06_
+
 ## Badges
 - [AvBadge](badges/AvBadge/AvBadge.md)
 - [AvTag](badges/AvTag/AvTag.md)

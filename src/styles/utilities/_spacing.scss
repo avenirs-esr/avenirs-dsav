@@ -1,5 +1,6 @@
 @use '../core/spacing' as sp;
 @use '../core/namespace' as *;
+@use '../mixins/responsive-utility' as *;
 @use '../settings/breakpoints' as bp;
 @use "sass:meta";
 
@@ -18,71 +19,31 @@ $directions: (
   y: (top, bottom),
 );
 
+// === Global classes ===
+// Ex : .av-m-sm / .av-p-md / .av-m-none--lg / .av-p-md--xl
+@each $type, $property-value in $properties {
+  @each $size, $value in sp.$spacing {
+    @include responsive-utility("#{$type}-#{$size}", (
+      #{$property-value}: var(--spacing-#{$size}) !important
+    ));
+  }
+}
+
 // === Directional classes ===
-// Ex : .av-mt-sm / .av-px-md
+// Ex : .av-mt-sm / .av-px-md / .av-mb-none--lg / .av-pt-md--xl
 @each $type, $property-value in $properties {
   @each $direction-key, $direction-value in $directions {
     @each $size, $value in sp.$spacing {
       @if meta.type-of($direction-value) == 'list' {
-        @include ns("#{$type}#{$direction-key}-#{$size}") {
-          @each $d in $direction-value {
-            #{$property-value}-#{$d}: var(--spacing-#{$size}) !important;
-          }
+        @each $d in $direction-value {
+          @include responsive-utility("#{$type}#{$direction-key}-#{$size}", (
+            #{$property-value}-#{$d}: var(--spacing-#{$size}) !important
+          ));
         }
       } @else {
-        @include ns("#{$type}#{$direction-key}-#{$size}") {
-          #{$property-value}-#{$direction-value}: var(--spacing-#{$size}) !important;
-        }
-      }
-    }
-  }
-}
-
-// === Global classes ===
-// Ex : .av-m-sm / .av-p-md
-@each $type, $property-value in $properties {
-  @each $size, $value in sp.$spacing {
-    @include ns("#{$type}-#{$size}") {
-      #{$property-value}: var(--spacing-#{$size}) !important;
-    }
-  }
-}
-
-// === Breakpoint-specific directional classes ===
-// Ex : .av-mt-sm--lg / .av-px-md--xl / .av-mt-none--lg
-@each $type, $property-value in $properties {
-  @each $direction-key, $direction-value in $directions {
-    @each $size, $value in sp.$spacing {
-      @each $breakpoint, $breakpoint-value in bp.$breakpoints {
-        @if meta.type-of($direction-value) == 'list' {
-          @include ns("#{$type}#{$direction-key}-#{$size}--#{$breakpoint}") {
-            @include bp.min-width($breakpoint) {
-              @each $d in $direction-value {
-                #{$property-value}-#{$d}: var(--spacing-#{$size}) !important;
-              }
-            }
-          }
-        } @else {
-          @include ns("#{$type}#{$direction-key}-#{$size}--#{$breakpoint}") {
-            @include bp.min-width($breakpoint) {
-              #{$property-value}-#{$direction-value}: var(--spacing-#{$size}) !important;
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-// === Breakpoint-specific global classes ===
-// Ex : .av-m-sm--lg / .av-p-md--xl / .av-m-none--lg
-@each $type, $property-value in $properties {
-  @each $size, $value in sp.$spacing {
-    @each $breakpoint, $breakpoint-value in bp.$breakpoints {
-      @include ns("#{$type}-#{$size}--#{$breakpoint}") {
-        @include bp.min-width($breakpoint) {
-          #{$property-value}: var(--spacing-#{$size}) !important;
-        }
+        @include responsive-utility("#{$type}#{$direction-key}-#{$size}", (
+          #{$property-value}-#{$direction-value}: var(--spacing-#{$size}) !important
+        ));
       }
     }
   }

@@ -1,7 +1,7 @@
 @use "sass:map";
 
 $spacing: (
-  none: 0,
+  none: 0,        /* 0px */
   xxxs: 0.125rem, /* 2px */
   xxs: 0.25rem,   /* 4px */
   xs: 0.5rem,     /* 8px */
@@ -18,10 +18,6 @@ $spacing: (
   @each $key, $value in $spacing {
     --spacing-#{$key}: #{$value};
   }
-}
-
-@function get($key) {
-  @return map.get($spacing, $key);
 }
 
 .line-break {

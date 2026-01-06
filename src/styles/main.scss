@@ -7,14 +7,12 @@
 @use './core/spacing' as *;
 @use './core/radius' as *;
 @use './core/dimensions' as *;
-@use './core/accessibility' as *;
 
 // === Settings ===
 @use './settings/breakpoints' as *;
 
 // === Components ===
 @use './components/icons' as *;
-@use './components/grid' as *;
 @use './components/buttons' as *;
 @use './components/collapse' as *;
 @use './components/form' as *;
@@ -28,6 +26,7 @@
 // === Utilities ===
 @use './utilities/helpers' as *;
 @use './utilities/spacing' as *;
+@use './utilities/layout' as *;
 
 // === Global ===
 :root {
