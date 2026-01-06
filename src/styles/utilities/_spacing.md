@@ -16,7 +16,7 @@ This `spacing` utility generates margin and padding classes for all defined spac
 | `.av-m{direction?}-{spacing}` | Applies `margin`; optional direction: `t` (`top`), `r` (`right`), `b` (`bottom`), `l` (`left`), `x` (`horizontal`), `y` (`vertical`) | `--sm`, `--md`, `--lg`, `--xl` |
 | `.av-p{direction?}-{spacing}` | Applies `padding`; optional direction: `t` (`top`), `r` (`right`), `b` (`bottom`), `l` (`left`), `x` (`horizontal`), `y` (`vertical`) | `--sm`, `--md`, `--lg`, `--xl` |
 
-📝 Notes: 
+📝 Notes:
 - `{spacing}` corresponds to the spacing scale defined in the core: `none`, `xxxs`, `xxs`, `xs`, `sm`, `md`, `lg`, `xl`, `2xl`, `4xl`, `5xl`.
 
 ## 🎨 Some CSS results

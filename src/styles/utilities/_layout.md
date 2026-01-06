@@ -111,7 +111,7 @@ This file contains layout-related utility classes for managing the overall struc
 }
 ```
 
-### Flex wrap
+### Flex wrap
 
 ```css
 .av-wrap {

@@ -134,13 +134,13 @@ function parseScssTokens (filePath) {
 }
 
 function parseSpacingTokens (filePath) {
-  const content = fs.readFileSync(filePath, 'utf8');
-  const regex = /(\w+):\s*([\d.]+rem|0),\s*\/\*\s*(\d+)px\s*\*\//g;
+  const content = fs.readFileSync(filePath, 'utf8')
+  const regex = /(\w+):\s*([\d.]+rem|0),\s*\/\*\s*(\d+)px\s*\*\//g
   return [...content.matchAll(regex)].map(([, name, rem, px]) => ({
     name: `--spacing-${name}`,
     rem,
     px
-  }));
+  }))
 }
 
 function renderTokensTable (title, tokens) {
