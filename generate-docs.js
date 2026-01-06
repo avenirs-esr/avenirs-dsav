@@ -6,16 +6,22 @@ import path from 'node:path'
  */
 const componentsDir = path.resolve('src/components')
 const docsComponentsDir = path.resolve('docs/components')
+const stylesComponentsDir = path.resolve('src/styles/components')
+const docsStylesComponentsDir = path.resolve('docs/styles/components')
+const stylesCoreDir = path.resolve('src/styles/core')
+const docsStylesCoreDir = path.resolve('docs/styles/core')
+const stylesUtilitiesDir = path.resolve('src/styles/utilities')
+const docsStylesUtilitiesDir = path.resolve('docs/styles/utilities')
 const rootReadme = path.resolve('README.md')
 const docsReadme = path.resolve('docs/index.md')
 const iconsPath = path.resolve('src/tokens/icons.ts')
 const iconsReadme = path.resolve('docs/icons/index.md')
-const tokensDir = path.resolve('src/styles')
+const tokensDir = path.resolve('src/styles/core')
 const tokensReadme = path.resolve('docs/tokens/index.md')
 const scssFiles = [
-  { file: 'dimensions.scss', title: 'Dimensions' },
-  { file: 'radius.scss', title: 'Radius' },
-  { file: 'spacing.scss', title: 'Spacing' },
+  { file: '_dimensions.scss', title: 'Dimensions' },
+  { file: '_radius.scss', title: 'Radius' },
+  { file: '_spacing.scss', title: 'Spacing' },
 ]
 
 /**
@@ -78,7 +84,7 @@ function renderIconsTable (title, iconPrefix, icons) {
   if (!icons.length) {
     return ''
   }
-  let md = `\n### ${title}\n`
+  let md = `\n## ${title}\n`
   md += `| Preview | ${iconPrefix} Name | ${iconPrefix === 'ICONS_DATA_URL' ? 'Inline SVG' : 'Iconify Code'} |\n`
   md += '| --- | --- | --- |\n'
   icons.forEach(({ name, value }) => {
@@ -98,7 +104,7 @@ function generateIconsDoc () {
   const riIcons = extractIcons('RI_ICONS')
   const customIcons = extractIcons('ICONS_DATA_URL')
 
-  let md = `## ICONS
+  let md = `# Icons
 
 _Last updated: ${new Date().toISOString().split('T')[0]}_
 
@@ -122,15 +128,26 @@ This file allows you to know all the current icons added as tokens in DSAV.
  */
 function parseScssTokens (filePath) {
   const content = fs.readFileSync(filePath, 'utf8')
-  return [...content.matchAll(/(--[\w-]+):\s*([\d.]+rem);\s*\/\*\s*(\d+)px\s*\*\//g)]
+  const regex = /(--[\w-]+):\s*([\d.]+rem);\s*\/\*\s*(\d+)px\s*\*\//g
+  return [...content.matchAll(regex)]
     .map(([, name, rem, px]) => ({ name, rem, px }))
+}
+
+function parseSpacingTokens (filePath) {
+  const content = fs.readFileSync(filePath, 'utf8');
+  const regex = /(\w+):\s*([\d.]+rem|0),\s*\/\*\s*(\d+)px\s*\*\//g;
+  return [...content.matchAll(regex)].map(([, name, rem, px]) => ({
+    name: `--spacing-${name}`,
+    rem,
+    px
+  }));
 }
 
 function renderTokensTable (title, tokens) {
   if (!tokens.length) {
     return ''
   }
-  let md = `\n### ${title}\n\n`
+  let md = `\n## ${title}\n\n`
   md += '| Token | Value (rem) | Value (px) |\n'
   md += '| --- | --- | --- |\n'
   tokens.forEach(({ name, rem, px }) => {
@@ -140,7 +157,7 @@ function renderTokensTable (title, tokens) {
 }
 
 function generateTokensDoc () {
-  let md = `## Tokens
+  let md = `# Tokens
 
 _Last updated: ${new Date().toISOString().split('T')[0]}_
 
@@ -151,7 +168,7 @@ Generated automatically from SCSS tokens.
     if (!fs.existsSync(filePath)) {
       return
     }
-    const tokens = parseScssTokens(filePath)
+    const tokens = file === '_spacing.scss' ? parseSpacingTokens(filePath) : parseScssTokens(filePath)
     md += renderTokensTable(title, tokens)
   })
 
@@ -165,5 +182,8 @@ Generated automatically from SCSS tokens.
  * RUN DOCS GENERATIONS
  */
 copyDocsRecursive(componentsDir, docsComponentsDir)
+copyDocsRecursive(stylesComponentsDir, docsStylesComponentsDir)
+copyDocsRecursive(stylesCoreDir, docsStylesCoreDir)
+copyDocsRecursive(stylesUtilitiesDir, docsStylesUtilitiesDir)
 generateIconsDoc()
 generateTokensDoc()

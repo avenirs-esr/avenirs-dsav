@@ -4,6 +4,7 @@
 
 DSAV is the deisgn system for AVENIR(s) projects and consists of a [**Vue 3**](https://v3.vuejs.org/)
 project in the form of a **component library**.
+It also provides an utility-first CSS framework for handling components styling.
 
 The code is [open and available on GitHub](https://github.com/avenirs-esr/avenirs-dsav/)
 
