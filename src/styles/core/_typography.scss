@@ -94,11 +94,29 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Open Sans';
+  src: url('@/assets/fonts/open-sans/OpenSans-VariableFont.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 300 800;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('@/assets/fonts/open-sans/OpenSans-Italic-VariableFont.ttf') format('truetype');
+  font-style: italic;
+  font-weight: 300 800;
+  font-display: swap;
+}
+
 :root {
-  --font-family-primary: 'B612', 'arial', sans-serif;
+  --font-family-primary: 'Open Sans', 'arial', sans-serif;
   --font-weight-light: 300;
   --font-weight-regular: 400;
+  --font-weight-semi-bold: 600;
   --font-weight-bold: 700;
+  --font-weight-extra-bold: 800;
   --font-size-xxs: 0.5rem; /* 8px */
   --font-size-xs: 0.75rem; /* 12px */
   --font-size-sm: 0.875rem; /* 14px */
@@ -140,7 +158,7 @@
 
 .b1-light {
   font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-light);
+  font-weight: var(--font-weight-regular);
   font-size: var(--font-size-md);
   line-height: var(--line-height-md);
   letter-spacing: var(--letter-spacing-md);
@@ -150,7 +168,7 @@
 p,
 .b1-regular {
   font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-regular);
+  font-weight: var(--font-weight-semi-bold);
   font-size: var(--font-size-md);
   line-height: var(--line-height-md);
   letter-spacing: var(--letter-spacing-md);
@@ -168,7 +186,7 @@ p,
 
 .b2-light {
   font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-light);
+  font-weight: var(--font-weight-regular);
   font-size: var(--font-size-sm);
   line-height: var(--line-height-sm);
   letter-spacing: var(--letter-spacing-sm);
@@ -177,7 +195,7 @@ p,
 
 .b2-regular {
   font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-regular);
+  font-weight: var(--font-weight-semi-bold);
   font-size: var(--font-size-sm);
   line-height: var(--line-height-sm);
   letter-spacing: var(--letter-spacing-sm);
@@ -195,7 +213,7 @@ p,
 
 .caption-light {
   font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-light);
+  font-weight: var(--font-weight-regular);
   font-size: var(--font-size-xs);
   line-height: var(--line-height-xs);
   letter-spacing: var(--letter-spacing-caption);
@@ -204,7 +222,7 @@ p,
 
 .caption-regular {
   font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-regular);
+  font-weight: var(--font-weight-semi-bold);
   font-size: var(--font-size-xs);
   line-height: var(--line-height-xs);
   letter-spacing: var(--letter-spacing-caption);
@@ -214,7 +232,7 @@ p,
 h1,
 .n1 {
   font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-light);
+  font-weight: var(--font-weight-regular);
   font-size: var(--font-size-n1);
   line-height: var(--line-height-n1);
   color: var(--title);
@@ -223,7 +241,7 @@ h1,
 h2,
 .n2 {
   font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-light);
+  font-weight: var(--font-weight-regular);
   font-size: var(--font-size-n2);
   line-height: var(--line-height-n2);
   color: var(--title);
@@ -232,7 +250,7 @@ h2,
 h3,
 .n3 {
   font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-regular);
+  font-weight: var(--font-weight-semi-bold);
   font-size: var(--font-size-n3);
   line-height: var(--line-height-n3);
   color: var(--title);
@@ -241,7 +259,7 @@ h3,
 h4,
 .n4 {
   font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-regular);
+  font-weight: var(--font-weight-semi-bold);
   font-size: var(--font-size-n4);
   line-height: var(--line-height-n4);
   color: var(--title);
@@ -250,7 +268,7 @@ h4,
 h5,
 .n5 {
   font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-regular);
+  font-weight: var(--font-weight-semi-bold);
   font-size: var(--font-size-n5);
   line-height: var(--line-height-n5);
   color: var(--title);
@@ -276,7 +294,7 @@ h6,
 
 .s1-light {
   font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-light);
+  font-weight: var(--font-weight-regular);
   font-size: var(--font-size-s1);
   line-height: var(--line-height-s1);
   letter-spacing: var(--letter-spacing-s1);
@@ -285,7 +303,7 @@ h6,
 
 .s1-regular {
   font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-regular);
+  font-weight: var(--font-weight-semi-bold);
   font-size: var(--font-size-s1);
   line-height: var(--line-height-s1);
   letter-spacing: var(--letter-spacing-s1);
@@ -303,7 +321,7 @@ h6,
 
 .s2-light {
   font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-light);
+  font-weight: var(--font-weight-regular);
   font-size: var(--font-size-s2);
   line-height: var(--line-height-s2);
   letter-spacing: var(--letter-spacing-s2);

@@ -28,7 +28,7 @@ export default defineConfig({
     sidebar: {
       '/': [
         { text: 'Home', link: '/' },
-        { 
+        {
           text: 'Components',
           link: '/components/',
           items: [
@@ -218,7 +218,7 @@ export default defineConfig({
         },
         { text: 'Tokens', link: '/tokens/' },
         { text: 'Icons', link: '/icons/' },
-        { 
+        {
           text: 'DSAV CSS',
           link: '/styles/',
           items: [
