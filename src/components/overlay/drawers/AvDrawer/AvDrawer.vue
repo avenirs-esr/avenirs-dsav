@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
+import { useContainedScroll } from '@/composables/use-contained-scroll/use-contained-scroll'
 
 export interface AvDrawerProps {
   /**
@@ -66,6 +67,7 @@ const slots = defineSlots<{
 }>()
 
 const { position, width, padding, show } = toRefs(props)
+const { onWheel, onTouchMove, onTouchStart } = useContainedScroll({ scrollableSelector: '.av-drawer__content' })
 
 function handleEscape (event: KeyboardEvent) {
   if (event.key === 'Escape') {
@@ -96,6 +98,8 @@ onBeforeUnmount(() => {
     <div
       v-if="backdrop"
       class="av-drawer-backdrop"
+      @wheel.prevent
+      @touchmove.prevent
     />
     <div
       class="av-drawer av-col"
@@ -103,6 +107,9 @@ onBeforeUnmount(() => {
       role="dialog"
       aria-modal="true"
       :aria-label="ariaLabel"
+      @wheel="onWheel"
+      @touchstart="onTouchStart"
+      @touchmove="onTouchMove"
     >
       <div class="av-drawer__content-wrapper av-col">
         <div class="av-drawer__content">
@@ -119,7 +126,9 @@ onBeforeUnmount(() => {
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
+@use '@/styles/settings/breakpoints' as *;
+
 .av-drawer-backdrop {
   position: fixed;
   inset: 0;
@@ -138,18 +147,34 @@ onBeforeUnmount(() => {
   border-radius: var(--radius-hg);
   width: v-bind('width');
   max-width: 90%;
+  overscroll-behavior: contain;
+  overscroll-behavior-block: contain;
+
+  @include max-width(md) {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 0;
+  }
 }
 
 .av-drawer--left {
   left: 0;
   border-radius: 0 var(--radius-hg) var(--radius-hg) 0;
   box-shadow: -0.125rem 0 0.625rem 0 #0000001A;
+
+  @include max-width(md) {
+    border-radius: 0;
+  }
 }
 
 .av-drawer--right {
   right: 0;
   border-radius: var(--radius-hg) 0 0 var(--radius-hg);
   box-shadow: 0.125rem 0 0.625rem 0 #0000001A;
+
+  @include max-width(md) {
+    border-radius: 0;
+  }
 }
 
 .av-drawer__content-wrapper {

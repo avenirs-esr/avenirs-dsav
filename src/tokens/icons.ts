@@ -69,6 +69,7 @@ export const MDI_ICONS = {
   FILE_REFRESH_OUTLINE: 'mdi:file-refresh-outline',
   FILE_RESTORE_OUTLINE: 'mdi:file-restore-outline',
   FILE_TREE_OUTLINE: 'mdi:file-tree-outline',
+  FILTER_OUTLINE: 'mdi:filter-outline',
   FLAG_VARIANT: 'mdi:flag-variant',
   FLARE: 'mdi:flare',
   FORMAT_LIST_BULLETED: 'mdi:format-list-bulleted',

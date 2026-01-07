@@ -110,3 +110,8 @@ BothLoading.args = {
   cancelIsLoading: true,
   confirmIsLoading: true,
 }
+
+export const IconOnly = Template.bind({})
+IconOnly.args = {
+  iconOnly: true,
+}

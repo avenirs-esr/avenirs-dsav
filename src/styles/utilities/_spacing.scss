@@ -19,29 +19,63 @@ $directions: (
   y: (top, bottom),
 );
 
+// === BASE CLASSES ===
+
 // === Global classes ===
-// Ex : .av-m-sm / .av-p-md / .av-m-none--lg / .av-p-md--xl
+// Ex : .av-m-sm / .av-p-md
 @each $type, $property-value in $properties {
   @each $size, $value in sp.$spacing {
-    @include responsive-utility("#{$type}-#{$size}", (
+    @include utility-base("#{$type}-#{$size}", (
       #{$property-value}: var(--spacing-#{$size}) !important
     ));
   }
 }
 
 // === Directional classes ===
-// Ex : .av-mt-sm / .av-px-md / .av-mb-none--lg / .av-pt-md--xl
+// Ex : .av-mt-sm / .av-px-md
 @each $type, $property-value in $properties {
   @each $direction-key, $direction-value in $directions {
     @each $size, $value in sp.$spacing {
       @if meta.type-of($direction-value) == 'list' {
         @each $d in $direction-value {
-          @include responsive-utility("#{$type}#{$direction-key}-#{$size}", (
+          @include utility-base("#{$type}#{$direction-key}-#{$size}", (
             #{$property-value}-#{$d}: var(--spacing-#{$size}) !important
           ));
         }
       } @else {
-        @include responsive-utility("#{$type}#{$direction-key}-#{$size}", (
+        @include utility-base("#{$type}#{$direction-key}-#{$size}", (
+          #{$property-value}-#{$direction-value}: var(--spacing-#{$size}) !important
+        ));
+      }
+    }
+  }
+}
+
+// === RESPONSIVE CLASSES ===
+
+// === Global classes ===
+// Ex : .av-m-none--lg / .av-p-md--xl
+@each $type, $property-value in $properties {
+  @each $size, $value in sp.$spacing {
+    @include utility-responsive("#{$type}-#{$size}", (
+      #{$property-value}: var(--spacing-#{$size}) !important
+    ));
+  }
+}
+
+// === Directional classes ===
+// Ex : .av-mb-none--lg / .av-pt-md--xl
+@each $type, $property-value in $properties {
+  @each $direction-key, $direction-value in $directions {
+    @each $size, $value in sp.$spacing {
+      @if meta.type-of($direction-value) == 'list' {
+        @each $d in $direction-value {
+          @include utility-responsive("#{$type}#{$direction-key}-#{$size}", (
+            #{$property-value}-#{$d}: var(--spacing-#{$size}) !important
+          ));
+        }
+      } @else {
+        @include utility-responsive("#{$type}#{$direction-key}-#{$size}", (
           #{$property-value}-#{$direction-value}: var(--spacing-#{$size}) !important
         ));
       }

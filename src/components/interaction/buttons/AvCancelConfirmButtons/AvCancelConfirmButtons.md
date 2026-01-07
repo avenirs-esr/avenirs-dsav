@@ -25,6 +25,7 @@ This component consist of two optional buttons :
 | `confirmIsLoading` | `boolean` | `undefined` | | Adds a loading state on the cancel button. |
 | `isLoading` | `boolean` | `false` | | Indicates a loading status for the buttons. |
 | `form` | `string` | `undefined` | | Associates the confirm button with a form. |
+| `iconOnly` | `boolean` | `false` | | If true, only the icons are displayed on the buttons. |
 
 ## 🔊 Events
 

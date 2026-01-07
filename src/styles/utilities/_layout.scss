@@ -12,6 +12,27 @@ $container-paddings: (
   xl: md
 );
 
+// === Flex alignments ===
+$alignments: (
+  start: flex-start,
+  center: center,
+  end: flex-end,
+  stretch: stretch,
+  baseline: baseline
+);
+
+// === Flex justifications ===
+$justifications: (
+  start: flex-start,
+  center: center,
+  end: flex-end,
+  between: space-between,
+  around: space-around,
+  evenly: space-evenly
+);
+
+// === BASE CLASSES ===
+
 // === Base container ===
 // Ex: .av-container, .av-container-fluid
 @include ns("container") {
@@ -29,6 +50,93 @@ $container-paddings: (
   }
 }
 
+// === Rows ===
+// Ex: .av-row
+@include utility-base("row", (
+  display: flex,
+  flex-direction: row
+));
+
+// === Columns ===
+// Ex: .av-col
+@include utility-base("col", (
+  display: flex,
+  flex-direction: column
+));
+
+// === Flex wrap ===
+// Ex: .av-wrap / .av-nowrap
+@include utility-base("wrap", (
+  flex-wrap: wrap
+));
+@include utility-base("nowrap", (
+  flex-wrap: nowrap
+));
+
+// === Accessibility ===
+// Ex: .av-sr-only
+@include utility-base("sr-only", (
+  position: absolute !important,
+  width: 1px !important,
+  height: 1px !important,
+  padding: 0 !important,
+  margin: -1px !important,
+  overflow: hidden !important,
+  clip: rect(0, 0, 0, 0) !important,
+  white-space: nowrap !important,
+  border: 0 !important
+));
+
+// === Visibility classes ===
+// Ex: .av-hidden / .av-unhidden
+@include utility-base("hidden", (
+  display: none !important
+));
+@include utility-base("unhidden", (
+  display: inherit !important
+));
+
+// === Gapped layouts ===
+// Ex: .av-gap-sm / .av-gap-lg
+@each $size, $value in sp.$spacing {
+  @include utility-base("gap-#{$size}", (
+    gap: var(--spacing-#{$size})
+  ));
+}
+
+// === Flex fill class ===
+// Ex: .av-flex-fill
+@include utility-base("flex-fill", (
+  flex: 1 1 0%
+));
+
+// === Full width/height classes ===
+// Ex: .av-w-full / .av-h-full
+@include utility-base("w-full", (
+  width: 100%
+));
+@include utility-base("h-full", (
+  height: 100%
+));
+
+// === Flex alignment classes ===
+// Ex: .av-align-center / .av-align-end
+@each $alignment, $value in $alignments {
+  @include utility-base("align-#{$alignment}", (
+    align-items: $value
+  ));
+}
+
+// === Flex justification classes ===
+// Ex: .av-justify-center / .av-justify-between
+@each $justification, $value in $justifications {
+  @include utility-base("justify-#{$justification}", (
+    justify-content: $value
+  ));
+}
+
+// === RESPONSIVE CLASSES ===
+
 // === Responsive containers ===
 // Ex: .av-container--md / .av-container--lg
 @each $bp-name, $bp-value in bp.$breakpoints {
@@ -45,28 +153,31 @@ $container-paddings: (
 }
 
 // === Rows ===
-@include responsive-utility("row", (
+// Ex: .av-row--sm / .av-row--lg
+@include utility-responsive("row", (
   display: flex,
   flex-direction: row
 ));
 
 // === Columns ===
-@include responsive-utility("col", (
+// Ex: .av-col--sm / .av-col--md
+@include utility-responsive("col", (
   display: flex,
   flex-direction: column
 ));
 
 // === Flex wrap ===
-@include responsive-utility("wrap", (
+// Ex: .av-wrap--md / .av-nowrap--lg
+@include utility-responsive("wrap", (
   flex-wrap: wrap
 ));
-@include responsive-utility("nowrap", (
+@include utility-responsive("nowrap", (
   flex-wrap: nowrap
 ));
 
 // === Accessibility ===
-// Ex: .av-sr-only / .av-sr-only--sm / .av-sr-only--md / .av-sr-only--lg / .av-sr-only--xl
-@include responsive-utility("sr-only", (
+// Ex: .av-sr-only--sm / .av-sr-only--md / .av-sr-only--lg / .av-sr-only--xl
+@include utility-responsive("sr-only", (
   position: absolute !important,
   width: 1px !important,
   height: 1px !important,
@@ -79,64 +190,49 @@ $container-paddings: (
 ));
 
 // === Visibility classes ===
-// Ex: .av-hidden / .av-hidden--md / .av-unhidden / .av-unhidden--lg
-@include responsive-utility("hidden", (
+// Ex: .av-hidden--md / .av-unhidden--lg
+@include utility-responsive("hidden", (
   display: none !important
 ));
-@include responsive-utility("unhidden", (
+@include utility-responsive("unhidden", (
   display: inherit !important
 ));
 
 // === Gapped layouts ===
-// Ex: .av-gap-sm / .av-gap-lg / .av-gap-lg--lg
+// Ex: .av-gap-lg--lg
 @each $size, $value in sp.$spacing {
-  @include responsive-utility("gap-#{$size}", (
+  @include utility-responsive("gap-#{$size}", (
     gap: var(--spacing-#{$size})
   ));
 }
 
 // === Flex fill class ===
-// Ex: .av-flex-fill / .av-flex-fill--md
-@include responsive-utility("flex-fill", (
+// Ex: .av-flex-fill--md
+@include utility-responsive("flex-fill", (
   flex: 1 1 0%
 ));
 
 // === Full width/height classes ===
-// Ex: .av-w-full / .av-h-full / .av-w-full--lg / .av-h-full--md
-@include responsive-utility("w-full", (
+// Ex: .av-w-full--lg / .av-h-full--md
+@include utility-responsive("w-full", (
   width: 100%
 ));
-@include responsive-utility("h-full", (
+@include utility-responsive("h-full", (
   height: 100%
 ));
 
 // === Flex alignment classes ===
-// Ex: .av-align-center / .av-align-end / .av-align-baseline--lg
-$alignments: (
-  start: flex-start,
-  center: center,
-  end: flex-end,
-  stretch: stretch,
-  baseline: baseline
-);
+// Ex: .av-align-baseline--lg
 @each $alignment, $value in $alignments {
-  @include responsive-utility("align-#{$alignment}", (
+  @include utility-responsive("align-#{$alignment}", (
     align-items: $value
   ));
 }
 
 // === Flex justification classes ===
-// Ex: .av-justify-center / .av-justify-between / .av-justify-end--md
-$justifications: (
-  start: flex-start,
-  center: center,
-  end: flex-end,
-  between: space-between,
-  around: space-around,
-  evenly: space-evenly
-);
+// Ex: .av-justify-end--md
 @each $justification, $value in $justifications {
-  @include responsive-utility("justify-#{$justification}", (
+  @include utility-responsive("justify-#{$justification}", (
     justify-content: $value
   ));
 }

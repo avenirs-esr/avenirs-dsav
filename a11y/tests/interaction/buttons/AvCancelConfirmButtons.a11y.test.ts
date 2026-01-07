@@ -12,6 +12,7 @@ const stories = [
   'CancelLoading',
   'ConfirmLoading',
   'BothLoading',
+  'IconOnly',
 ]
 
 testStories(component, title, stories)

@@ -341,10 +341,11 @@ provide(registerNavigationLinkKey, () => hideModal)
       padding="var(--spacing-sm)"
       width="75%"
     >
-      <div class="av-row av-row-right">
+      <div class="av-row av-justify-end">
         <AvCancelConfirmButtons
           :cancel-label="closeMenuModalLabel"
           :cancel-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
+          icon-only
           @cancel="hideModal"
         />
       </div>

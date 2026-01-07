@@ -49,6 +49,12 @@ export interface AvCancelConfirmButtonsProps {
   confirmIsLoading?: boolean
 
   /**
+   * If true, only the icon will be displayed on the buttons.
+   * @default false
+   */
+  iconOnly?: boolean
+
+  /**
    * Associates the confirm button with a form.
    */
   form?: string
@@ -63,7 +69,8 @@ const {
   confirmIcon = MDI_ICONS.CHECK_CIRCLE_OUTLINE,
   confirmDisabled,
   confirmIsLoading,
-  form
+  iconOnly = false,
+  form,
 } = defineProps<AvCancelConfirmButtonsProps>()
 
 /**
@@ -88,6 +95,7 @@ const emit = defineEmits<{
       variant="OUTLINED"
       :is-loading="cancelIsLoading"
       :disabled="cancelDisabled"
+      :icon-only="iconOnly"
       small
       @click="emit('cancel')"
     />
@@ -102,6 +110,7 @@ const emit = defineEmits<{
       :type="form ? 'submit' : undefined"
       :form="form"
       small
+      :icon-only="iconOnly"
       @click="emit('confirm')"
     />
   </div>
