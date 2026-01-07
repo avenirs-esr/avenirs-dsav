@@ -22,17 +22,20 @@ $directions: (
 // === BASE CLASSES ===
 
 // === Global classes ===
-// Ex : .av-m-sm / .av-p-md
+// Ex : .av-m-sm / .av-p-md / .av--m-lg / .av--p-xl
 @each $type, $property-value in $properties {
   @each $size, $value in sp.$spacing {
     @include utility-base("#{$type}-#{$size}", (
       #{$property-value}: var(--spacing-#{$size}) !important
     ));
+    @include utility-base("-#{$type}-#{$size}", (
+      #{$property-value}: calc(-1 * var(--spacing-#{$size})) !important
+    ));
   }
 }
 
 // === Directional classes ===
-// Ex : .av-mt-sm / .av-px-md
+// Ex : .av-mt-sm / .av-px-md / .av--mb-lg
 @each $type, $property-value in $properties {
   @each $direction-key, $direction-value in $directions {
     @each $size, $value in sp.$spacing {
@@ -41,10 +44,16 @@ $directions: (
           @include utility-base("#{$type}#{$direction-key}-#{$size}", (
             #{$property-value}-#{$d}: var(--spacing-#{$size}) !important
           ));
+          @include utility-base("-#{$type}#{$direction-key}-#{$size}", (
+            #{$property-value}-#{$d}: calc(-1 * var(--spacing-#{$size})) !important
+          ));
         }
       } @else {
         @include utility-base("#{$type}#{$direction-key}-#{$size}", (
           #{$property-value}-#{$direction-value}: var(--spacing-#{$size}) !important
+        ));
+        @include utility-base("-#{$type}#{$direction-key}-#{$size}", (
+          #{$property-value}-#{$direction-value}: calc(-1 * var(--spacing-#{$size})) !important
         ));
       }
     }
@@ -54,17 +63,20 @@ $directions: (
 // === RESPONSIVE CLASSES ===
 
 // === Global classes ===
-// Ex : .av-m-none--lg / .av-p-md--xl
+// Ex : .av-m-none--lg / .av-p-md--xl / .av--m-lg--md / .av--p-xl--sm
 @each $type, $property-value in $properties {
   @each $size, $value in sp.$spacing {
     @include utility-responsive("#{$type}-#{$size}", (
       #{$property-value}: var(--spacing-#{$size}) !important
     ));
+    @include utility-responsive("-#{$type}-#{$size}", (
+      #{$property-value}: calc(-1 * var(--spacing-#{$size})) !important
+    ));
   }
 }
 
 // === Directional classes ===
-// Ex : .av-mb-none--lg / .av-pt-md--xl
+// Ex : .av-mb-none--lg / .av-pt-md--xl / .av--mr-lg--md / .av--px-xl--sm
 @each $type, $property-value in $properties {
   @each $direction-key, $direction-value in $directions {
     @each $size, $value in sp.$spacing {
@@ -73,10 +85,16 @@ $directions: (
           @include utility-responsive("#{$type}#{$direction-key}-#{$size}", (
             #{$property-value}-#{$d}: var(--spacing-#{$size}) !important
           ));
+          @include utility-responsive("-#{$type}#{$direction-key}-#{$size}", (
+            #{$property-value}-#{$d}: calc(-1 * var(--spacing-#{$size})) !important
+          ));
         }
       } @else {
         @include utility-responsive("#{$type}#{$direction-key}-#{$size}", (
           #{$property-value}-#{$direction-value}: var(--spacing-#{$size}) !important
+        ));
+        @include utility-responsive("-#{$type}#{$direction-key}-#{$size}", (
+          #{$property-value}-#{$direction-value}: calc(-1 * var(--spacing-#{$size})) !important
         ));
       }
     }

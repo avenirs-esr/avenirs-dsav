@@ -121,4 +121,20 @@ BddTest().given('an AvPagination', () => {
       expect(wrapper.find('a[title="Dernière page"]').attributes('aria-disabled')).toBe('true')
     })
   })
+
+  BddTest().when('there are no pages', () => {
+    beforeEach(() => {
+      wrapper = mount(AvPagination, {
+        props: {
+          currentPage: 0,
+          pages: [],
+          ...labelProps
+        }
+      })
+    })
+
+    BddTest().then('it should not render the pagination', () => {
+      expect(wrapper.find('nav').exists()).toBe(false)
+    })
+  })
 })

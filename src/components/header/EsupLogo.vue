@@ -18,6 +18,8 @@ const svgProps = computed(() => ({
     <EsupLogoSvg
       v-bind="svgProps"
       class="logo"
+      role="img"
+      aria-label="Logo Esup Portail"
     />
   </div>
 </template>
