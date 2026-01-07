@@ -227,6 +227,7 @@ export default defineConfig({
           ],
           collapsed: true
         },
+        { text: 'SCSS Mixins', link: '/scss/' },
         { text: 'Storybook', link: '/storybook/', target: '_blank' },
       ]
     }

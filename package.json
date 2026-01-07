@@ -24,7 +24,8 @@
       "require": "./dist/test-utils.cjs.js"
     },
     "./style.css": "./dist/avenirs-dsav.css",
-    "./src/styles/*": "./src/styles/*"
+    "./src/styles/*": "./src/styles/*",
+    "./mixins": "./src/styles/mixins.scss"
   },
   "main": "dist/avenirs-dsav.umd.js",
   "module": "dist/avenirs-dsav.es.js",

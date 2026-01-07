@@ -28,6 +28,57 @@ In your project, run `npm install @ævenirs-esr/avenirs-dsav`.
 
 In order to make the style from `DSAV` work in your project, make sure to import the main `DSAV` style in your `main.ts` with the following : `import '@avenirs-esr/avenirs-dsav/style.css'`.
 
+## Using SCSS Mixins
+
+DSAV provides SCSS mixins that you can use in your project. To use them, import the mixins file in your Vue component's `<style>` block:
+
+```vue
+<style lang="scss" scoped>
+@use '@avenirs-esr/avenirs-dsav/mixins' as dsav;
+
+.my-component {
+  // Use responsive breakpoint mixins
+  @include dsav.min-width(md) {
+    width: 17.25rem;
+  }
+
+  @include dsav.max-width(lg) {
+    padding: 1rem;
+  }
+}
+</style>
+```
+
+### Available Mixins
+
+#### Responsive Breakpoints
+
+- `@include dsav.min-width($size)` - Apply styles for screens larger than the breakpoint
+- `@include dsav.max-width($size)` - Apply styles for screens smaller than the breakpoint
+
+Available breakpoints:
+- `sm` - 36rem (576px)
+- `md` - 48rem (768px)
+- `lg` - 64rem (1024px)
+- `xl` - 90rem (1440px)
+
+Example:
+```scss
+@use '@avenirs-esr/avenirs-dsav/mixins' as dsav;
+
+.responsive-card {
+  width: 100%;
+  
+  @include dsav.min-width(md) {
+    width: 50%;
+  }
+  
+  @include dsav.min-width(lg) {
+    width: 33.33%;
+  }
+}
+```
+
 ## Contributing
 
 ### Deploying a new npm version

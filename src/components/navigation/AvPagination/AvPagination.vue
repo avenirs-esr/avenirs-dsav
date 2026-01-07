@@ -93,6 +93,7 @@ const endIndex = computed(() => {
 const displayedPages = computed(() => {
   return pages.length > truncLimit ? pages.slice(startIndex.value, endIndex.value + 1) : pages
 })
+const hasPages = computed(() => pages.length > 0)
 
 const updatePage = (index: number) => emit('update:current-page', index)
 const toPage = (index: number) => updatePage(index)
@@ -105,6 +106,7 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
 
 <template>
   <nav
+    v-if="hasPages"
     role="navigation"
     class="av-pagination av-nav"
     :aria-label="ariaLabel"

@@ -94,7 +94,7 @@ const collapsed = ref(defaultCollapsed)
 
 <template>
   <div
-    class="av-card av-col av-p-sm av-justify-between"
+    class="av-card av-col av-p-sm av-justify-start"
     :style="{ borderColor, background: backgroundColor }"
   >
     <div
@@ -117,7 +117,7 @@ const collapsed = ref(defaultCollapsed)
     <div
       v-if="!titleOnly"
       v-show="!collapsible || !collapsed"
-      class="av-card__content-collapsible av-col av-justify-between av-pt-sm av-gap-sm"
+      class="av-card__content-collapsible av-col av-justify-between av-h-full av-pt-sm av-gap-sm"
     >
       <slot />
       <div
