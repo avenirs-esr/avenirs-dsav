@@ -1,7 +1,19 @@
 import { mount } from '@vue/test-utils'
-import { beforeEach, expect } from 'vitest'
+import { beforeEach, expect, vi } from 'vitest'
 import AvDrawer from '@/components/overlay/drawers/AvDrawer/AvDrawer.vue'
 import { BddTest } from '@/tests/utils'
+
+const mockOnWheel = vi.fn()
+const mockOnTouchStart = vi.fn()
+const mockOnTouchMove = vi.fn()
+
+vi.mock('@/composables/use-contained-scroll/use-contained-scroll', () => ({
+  useContainedScroll: vi.fn(() => ({
+    onWheel: mockOnWheel,
+    onTouchStart: mockOnTouchStart,
+    onTouchMove: mockOnTouchMove,
+  })),
+}))
 
 BddTest().given('a drawer component', () => {
   let wrapper: ReturnType<typeof mount<typeof AvDrawer>>
@@ -241,6 +253,40 @@ BddTest().given('a drawer component', () => {
 
     BddTest().then('it should have a default aria-label', () => {
       expect(wrapper.find('.av-drawer').attributes('aria-label')).toBe('Menu latéral')
+    })
+  })
+
+  BddTest().when('the drawer is scrolled', () => {
+    beforeEach(() => {
+      wrapper = mount(AvDrawer, {
+        props: {
+          show: true,
+        },
+      })
+      const drawerContent = wrapper.find('.av-drawer__content')
+      drawerContent.trigger('wheel')
+    })
+
+    BddTest().then('it should call the onWheel handler from useContainedScroll', () => {
+      expect(mockOnWheel).toHaveBeenCalled()
+    })
+  })
+
+  BddTest().when('touch events occur on the drawer', () => {
+    beforeEach(() => {
+      wrapper = mount(AvDrawer, {
+        props: {
+          show: true,
+        },
+      })
+      const drawerContent = wrapper.find('.av-drawer__content')
+      drawerContent.trigger('touchstart')
+      drawerContent.trigger('touchmove')
+    })
+
+    BddTest().then('it should call the onTouchStart and onTouchMove handlers from useContainedScroll', () => {
+      expect(mockOnTouchStart).toHaveBeenCalled()
+      expect(mockOnTouchMove).toHaveBeenCalled()
     })
   })
 })

@@ -1,15 +1,18 @@
 @use '../core/namespace' as *;
 @use '../settings/breakpoints' as bp;
 
-// === Responsive utility mixin ===
-@mixin responsive-utility($class-name, $rules) {
+// === Base utility mixin ===
+@mixin utility-base($class-name, $rules) {
   // Base class
   @include ns($class-name) {
     @each $prop, $value in $rules {
       #{$prop}: #{$value};
     }
   }
+}
 
+// === Responsive utility mixin ===
+@mixin utility-responsive($class-name, $rules) {
   // Breakpoint-specific classes
   @each $bp-name, $bp-value in bp.$breakpoints {
     @media (min-width: #{$bp-value}) {
