@@ -6,9 +6,11 @@ export const AvAccordionStub = defineComponent({
   template: `
     <div class="av-accordion">
       <button
-        class="av-accordion__btn"
+        :ref="setTriggerRef"
+        class="av-accordion__trigger"
         type="button"
         @click="expand"
+        @keydown="onKeydown"
         :aria-expanded="isActive"
       >
         <slot />
@@ -23,10 +25,10 @@ export const AvAccordionStub = defineComponent({
       const expand = () => {
         isActive.value = !isActive.value
       }
-      return { isActive, expand }
+      return { isActive, expand, onKeydown: () => {}, setTriggerRef: () => {} }
     }
 
-    const { isActive, expand } = registerAccordion(toRef(props, 'title'))
-    return { isActive, expand }
+    const { isActive, expand, onKeydown, setTriggerRef } = registerAccordion(toRef(props, 'title'))
+    return { isActive, expand, onKeydown, setTriggerRef }
   },
 })

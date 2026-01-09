@@ -23,10 +23,15 @@ export interface AvAccordionProps {
    * Accordion icon
    */
   icon?: string
+
+  /**
+   * Heading level for the accordion title.
+   * @default 'h3'
+   */
+  headingLevel?: 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
 }
 
-const { id, title, icon } = defineProps<AvAccordionProps>()
-
+const { id, title, icon, headingLevel = 'h3' } = defineProps<AvAccordionProps>()
 /**
  * Slots available in the AvAccordion component.
  * The default slot contains the content of the accordion.
@@ -46,14 +51,18 @@ const {
   onTransitionEnd,
 } = useCollapsable()
 
-const realId = computed(() => id ?? `accordion-${crypto.randomUUID()}`)
+const accordionHeaderId = computed(() => id ?? `accordion-${crypto.randomUUID()}`)
+const accordionPanelId = computed(() => `${accordionHeaderId.value}-panel`)
 
 const isStandaloneActive = ref()
+const triggerRef = ref<HTMLElement | null>(null)
 
 const useAccordion = inject(registerAccordionKey)!
-const { isActive, expand } = useAccordion?.(toRef(() => title)) ?? {
+const { isActive, expand, onKeydown, setTriggerRef } = useAccordion?.(toRef(() => title)) ?? {
   isActive: isStandaloneActive,
-  expand: () => isStandaloneActive.value = !isStandaloneActive.value
+  expand: () => isStandaloneActive.value = !isStandaloneActive.value,
+  onKeydown: undefined,
+  setTriggerRef: undefined,
 }
 
 const styleVars = computed(() => ({
@@ -61,6 +70,8 @@ const styleVars = computed(() => ({
 }))
 
 onMounted(() => {
+  setTriggerRef?.(triggerRef.value)
+
   // Accordion can be expanded by default
   // We need to trigger the expand animation on mounted
   if (isActive.value) {
@@ -77,14 +88,20 @@ watch(isActive, (newValue, oldValue) => {
 
 <template>
   <section class="av-accordion">
-    <h3 class="av-accordion__title">
+    <component
+      :is="headingLevel"
+      class="av-accordion__header"
+    >
       <button
-        class="av-accordion__btn av-row av-align-center av-p-sm av-w-full"
-        :aria-expanded="isActive"
-        :aria-controls="realId"
+        :id="accordionHeaderId"
+        ref="triggerRef"
         type="button"
+        :aria-expanded="isActive"
+        :aria-controls="accordionPanelId"
+        class="av-accordion__trigger av-row av-align-center av-p-sm av-w-full"
         :style="styleVars"
         @click="expand"
+        @keydown="onKeydown"
       >
         <div class="title-container av-row av-gap-sm">
           <AvIcon
@@ -93,16 +110,18 @@ watch(isActive, (newValue, oldValue) => {
             :name="icon"
             color="var(--icon)"
           />
-          <h6 class="n6">
+          <span class="n6">
             {{ title }}
-          </h6>
+          </span>
         </div>
       </button>
-    </h3>
+    </component>
     <div
-      :id="realId"
+      :id="accordionPanelId"
       ref="collapse"
-      class="av-collapse"
+      role="region"
+      :aria-labelledby="accordionHeaderId"
+      class="av-accordion__panel av-collapse"
       :class="{
         'av-collapse--expanded': cssExpanded, // Need to use a separate data to add/remove the class after a RAF
         'av-collapsing': collapsing,
@@ -126,7 +145,7 @@ watch(isActive, (newValue, oldValue) => {
     z-index: 1;
   }
 
-  &__btn {
+  &__trigger {
     max-height: none;
     min-height: var(--dimension-2xl);
     overflow: initial;

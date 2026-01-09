@@ -77,6 +77,7 @@ const varName = computed(() => `--icon-${safeName.value}`)
       transform: flip === 'horizontal' ? 'scaleX(-1)' : flip === 'vertical' ? 'scaleY(-1)' : flip === 'both' ? 'scale(-1,-1)' : 'none',
     }"
     :title="title"
+    aria-hidden="true"
   >
     <span
       class="av-icon__icon"
