@@ -184,10 +184,9 @@ defineExpose({
           :title="getDisplayLabel(option)"
           :icon="isSelected(option) ? MDI_ICONS.CHECK : undefined"
           :selected="isSelected(option)"
-          clickable
-          :on-click="() => toggleOption(option)"
           hover-background-color="var(--light-background-neutral)"
           color-on-hover="var(--base)"
+          @click="() => toggleOption(option)"
         />
       </template>
     </AvList>

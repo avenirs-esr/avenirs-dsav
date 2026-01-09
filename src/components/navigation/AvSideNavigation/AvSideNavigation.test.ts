@@ -41,7 +41,7 @@ const stubs = {
   },
   AvListItem: {
     name: 'AvListItem',
-    props: ['title', 'icon', 'iconSize', 'selected', 'tag', 'role', 'clickable'],
+    props: ['title', 'icon', 'iconSize', 'selected', 'role'],
     emits: ['click'],
     template: '<button class="av-list-item-stub" @click="$emit(\'click\')" :data-selected="selected" :data-icon="icon" :data-title="title">{{ title }}</button>'
   }
@@ -84,9 +84,7 @@ BddTest().given('an AvSideNavigation component', () => {
         icon: MDI_ICONS.BRIEFCASE_VARIANT_OUTLINE,
         iconSize: 1.8,
         selected: false,
-        tag: 'button',
         role: 'menuitem',
-        clickable: ''
       })
 
       expect(listItems[1].props()).toMatchObject({
@@ -94,9 +92,7 @@ BddTest().given('an AvSideNavigation component', () => {
         icon: MDI_ICONS.SCHOOL_OUTLINE,
         iconSize: 1.8,
         selected: false,
-        tag: 'button',
         role: 'menuitem',
-        clickable: ''
       })
 
       expect(listItems[2].props()).toMatchObject({
@@ -104,9 +100,7 @@ BddTest().given('an AvSideNavigation component', () => {
         icon: MDI_ICONS.VECTOR_POLYGON_VARIANT,
         iconSize: 1.8,
         selected: false,
-        tag: 'button',
         role: 'menuitem',
-        clickable: ''
       })
 
       expect(listItems[3].props()).toMatchObject({
@@ -114,9 +108,7 @@ BddTest().given('an AvSideNavigation component', () => {
         icon: MDI_ICONS.TARGET_ARROW,
         iconSize: 1.8,
         selected: false,
-        tag: 'button',
         role: 'menuitem',
-        clickable: ''
       })
     })
   })

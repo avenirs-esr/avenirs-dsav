@@ -35,13 +35,11 @@ The list item integrates:
 | `hoverBackgroundColor` | `string` | `'var(--dark-background-primary1)'` | | Background color when hovered or selected. |
 | `colorOnHover` | `string` | `'var(--card)'` | | Text and icon color when hovered or selected. |
 | `descriptionColor` | `string` | `'var(--text2)'` | | Color for the description text. |
-| `clickable` | `boolean` | `false` | | Whether the list item is interactive and clickable. |
 | `disabled` | `boolean` | `false` | | Whether the list item is disabled. |
 | `selected` | `boolean` | `false` | | Whether the list item is in selected/active state. |
 | `onClick` | `function` | | | Function called when the list item is clicked. |
 | `ariaLabel` | `string` | | | Custom ARIA label for accessibility. |
 | `ariaDescribedby` | `string` | | | ID of element that describes the list item. |
-| `tag` | `'button' \| 'div' \| 'a'` | `'button'` | | HTML tag to use when clickable. |
 | `href` | `string` | | | URL when tag is 'a'. |
 | `target` | `string` | | | Target attribute when tag is 'a'. |
 | `rel` | `string` | | | Rel attribute when tag is 'a'. |
@@ -51,7 +49,7 @@ The list item integrates:
 
 | Name | Description |
 | --- | --- |
-| `click` | Emitted when the list item is clicked (only when clickable and not disabled). |
+| `click` | Emitted when the list item is clicked (only when not disabled). |
 
 ## 🎨 Slots
 
@@ -84,7 +82,6 @@ You can find examples of use and demo of the component on its dedicated [Storybo
     title="Settings"
     description="Configure your preferences"
     icon="mdi:cog"
-    clickable
     @click="handleSettingsClick"
   />
 </template>
@@ -98,11 +95,9 @@ You can find examples of use and demo of the component on its dedicated [Storybo
     title="External Link"
     description="Opens in new tab"
     icon="mdi:open-in-new"
-    tag="a"
     href="https://example.com"
     target="_blank"
     rel="noopener noreferrer"
-    clickable
   />
 </template>
 ```
@@ -115,7 +110,7 @@ You can find examples of use and demo of the component on its dedicated [Storybo
     title="Active Item"
     icon="mdi:check-circle"
     selected
-    clickable
+    @click="handleItemClick"
   />
 </template>
 ```
@@ -129,7 +124,7 @@ You can find examples of use and demo of the component on its dedicated [Storybo
     description="This item is not available"
     icon="mdi:block-helper"
     disabled
-    clickable
+    @click="handleDisabledClick"
   />
 </template>
 ```
@@ -141,7 +136,7 @@ You can find examples of use and demo of the component on its dedicated [Storybo
   <AvListItem
     title="Custom Content"
     icon="mdi:information"
-    clickable
+    @click="handleCustomClick"
   >
     <div class="custom-actions">
       <button>Edit</button>
@@ -159,12 +154,12 @@ You can find examples of use and demo of the component on its dedicated [Storybo
     title="Custom Colors"
     description="With custom styling"
     icon="mdi:palette"
-    clickable
     color="#2563eb"
     icon-color="#dc2626"
     hover-background-color="#dbeafe"
     color-on-hover="#1d4ed8"
     description-color="#6b7280"
+    @click="handleCustomStyleClick"
   />
 </template>
 ```

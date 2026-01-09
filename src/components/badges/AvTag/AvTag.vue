@@ -86,13 +86,13 @@ const styleVars = computed(() => ({
 <template>
   <component
     :is="is"
+    :aria-pressed="rest.selectable ? rest.selected : undefined"
     class="av-tag av-row av-gap-xxs av-align-center"
     :disabled="disabled"
     :class="{
       'av-tag--sm av-py-xxxs av-px-xs': small,
       'av-py-xxs av-px-sm': !small,
     }"
-    :aria-pressed="rest.selectable ? rest.selected : undefined"
     v-bind="{ ...$attrs }"
     :style="styleVars"
     @click="!disabled && rest.selectable && $emit('select', [rest.value, rest.selected ?? false])"

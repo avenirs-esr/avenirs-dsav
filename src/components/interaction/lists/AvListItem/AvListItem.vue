@@ -126,13 +126,11 @@ const {
   iconSize = 1.3125,
   title,
   description,
-  clickable = false,
   disabled = false,
   selected = false,
   onClick,
   ariaLabel,
   ariaDescribedby,
-  tag = 'button',
   href,
   target,
   rel,
@@ -150,11 +148,18 @@ const slots = defineSlots<{
 }>()
 
 const componentTag = computed(() => {
-  if (!clickable) {
-    return 'div'
+  if (!!href || !!target || !!rel) {
+    return 'a'
   }
-  return tag
+  if (onClick) {
+    return 'button'
+  }
+  return 'div'
 })
+
+const isLink = computed(() => componentTag.value === 'a')
+const isButton = computed(() => componentTag.value === 'button')
+const clickable = computed(() => isLink.value || isButton.value)
 
 const computedAriaLabel = computed(() => {
   if (ariaLabel) {
@@ -166,15 +171,19 @@ const computedAriaLabel = computed(() => {
   return title || description || undefined
 })
 
+const clickableClass = computed(() => clickable.value ? 'av-list-item--clickable' : '')
+const disabledClass = computed(() => disabled && isButton.value ? 'av-list-item--disabled' : '')
+const selectedClass = computed(() => selected ? 'av-list-item--selected' : '')
+
 function handleClick (event: MouseEvent) {
-  if (!clickable || disabled) {
+  if (!clickable.value || disabled) {
     return
   }
   onClick?.(event)
 }
 
 function handleKeyDown (event: KeyboardEvent) {
-  if (!clickable || disabled) {
+  if (!clickable.value || disabled) {
     return
   }
   if (event.key === 'Enter' || event.key === ' ') {
@@ -186,26 +195,22 @@ function handleKeyDown (event: KeyboardEvent) {
     onClick?.(mouseEvent)
   }
 }
-
-const clickableClass = computed(() => clickable ? 'av-list-item--clickable' : '')
-const disabledClass = computed(() => disabled ? 'av-list-item--disabled' : '')
-const selectedClass = computed(() => selected ? 'av-list-item--selected' : '')
 </script>
 
 <template>
   <div :role="role">
     <component
       :is="componentTag"
-      class="av-list-item av-row av-align-center av-gap-xs av-w-full"
-      :class="[clickableClass, disabledClass, selectedClass]"
-      :tabindex="clickable && !disabled ? 0 : undefined"
       :aria-label="clickable ? computedAriaLabel : undefined"
       :aria-describedby="ariaDescribedby"
-      :aria-disabled="disabled ? 'true' : undefined"
-      :disabled="disabled && componentTag === 'button' ? true : undefined"
-      :href="componentTag === 'a' ? href : undefined"
-      :target="componentTag === 'a' ? target : undefined"
-      :rel="componentTag === 'a' ? rel : undefined"
+      :aria-disabled="disabled && isButton ? 'true' : undefined"
+      :tabindex="clickable && !disabled ? 0 : undefined"
+      class="av-list-item av-row av-align-center av-gap-xs av-w-full"
+      :class="[clickableClass, disabledClass, selectedClass]"
+      :disabled="disabled && isButton ? true : undefined"
+      :href="isLink ? href : undefined"
+      :target="isLink ? target : undefined"
+      :rel="isLink ? rel : undefined"
       @click="handleClick"
       @keydown="handleKeyDown"
     >

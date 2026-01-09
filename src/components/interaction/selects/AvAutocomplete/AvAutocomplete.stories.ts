@@ -226,9 +226,8 @@ export const WithCustomItemSlotExample = {
           <template #item="{ option, isSelected, toggle }">
             <AvListItem 
               :selected="isSelected"
-              @click="toggle"
-              clickable
               hover-background-color="var(--light-background-neutral)"
+              @click="toggle"
             >
               <div style="display: flex; flex-direction: column; gap: 0.25rem; width: 100%;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">

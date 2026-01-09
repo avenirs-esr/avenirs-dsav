@@ -61,6 +61,11 @@ export interface AvDropdownProps {
   triggerSmall?: AvButtonProps['small']
 
   /**
+   * If true, the trigger button will not apply sentence case to its label.
+   */
+  triggerNoSentenceCase?: AvButtonProps['noSentenceCase']
+
+  /**
    * Width of the dropdown menu.
    * @default '15rem'
    */
@@ -98,6 +103,7 @@ const {
   triggerLabel,
   triggerVariant = 'OUTLINED',
   triggerSmall = true,
+  triggerNoSentenceCase = false,
   width = '15rem',
   padding = 'var(--spacing-xs)',
   itemSmall = true,
@@ -135,6 +141,7 @@ function handleItemClick (itemName: string, close: () => void) {
         :aria-label="triggerAriaLabel"
         :variant="triggerVariant"
         :small="triggerSmall"
+        :no-sentence-case="triggerNoSentenceCase"
         :icon-only="!!triggerAriaLabel && !triggerLabel"
         @click="toggle"
       />

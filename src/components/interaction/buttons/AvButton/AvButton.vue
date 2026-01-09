@@ -132,6 +132,9 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
 <template>
   <button
     ref="btn"
+    :title="iconOnly ? labelToRender : undefined"
+    :aria-label="labelToRender"
+    :aria-disabled="buttonDisabled"
     class="av-button av-row av-align-center av-gap-xs"
     :class="[
       {
@@ -146,10 +149,7 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
       variantClass,
       themeClass,
     ]"
-    :title="iconOnly ? labelToRender : undefined"
     :disabled="buttonDisabled"
-    :aria-disabled="buttonDisabled"
-    :aria-label="labelToRender"
     :style="iconOnly ? { 'padding-inline': 'var(--spacing-xs)' } : {}"
     @click="$emit('click', $event)"
   >

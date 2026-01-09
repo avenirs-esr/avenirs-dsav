@@ -1,6 +1,6 @@
 export const AvListItemStub = defineComponent({
   name: 'AvListItem',
-  props: ['clickable', 'hoverBackgroundColor', 'selected', 'icon', 'iconSize', 'iconColor', 'colorOnHover'],
+  props: ['hoverBackgroundColor', 'selected', 'icon', 'iconSize', 'iconColor', 'colorOnHover'],
   emits: ['click'],
   template: `
     <div

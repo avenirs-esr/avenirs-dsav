@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import type { Meta, StoryFn } from '@storybook/vue3'
 import AvList from '@/components/interaction/lists/AvList/AvList.vue'
 import { MDI_ICONS } from '@/tokens'
@@ -71,13 +72,8 @@ const meta: Meta<AvListItemProps> = {
     hoverBackgroundColor: { control: 'color' },
     colorOnHover: { control: 'color' },
     descriptionColor: { control: 'color' },
-    clickable: { control: 'boolean' },
     disabled: { control: 'boolean' },
     selected: { control: 'boolean' },
-    tag: {
-      control: 'select',
-      options: ['button', 'div', 'a']
-    },
     href: { control: 'text' },
     target: { control: 'text' },
     rel: { control: 'text' },
@@ -90,10 +86,8 @@ const meta: Meta<AvListItemProps> = {
     hoverBackgroundColor: 'var(--dark-background-primary1)',
     colorOnHover: 'var(--card)',
     descriptionColor: 'var(--text2)',
-    clickable: false,
     disabled: false,
     selected: false,
-    tag: 'button'
   }
 }
 
@@ -134,7 +128,7 @@ Clickable.args = {
   title: 'Clickable Item',
   description: 'This item responds to clicks',
   icon: MDI_ICONS.PENCIL_OUTLINE,
-  clickable: true
+  onClick: () => alert('Item clicked!')
 }
 
 export const Selected = Template.bind({})
@@ -142,8 +136,8 @@ Selected.args = {
   title: 'Selected Item',
   description: 'This item is currently selected',
   icon: MDI_ICONS.STAR_CHECK_OUTLINE,
-  clickable: true,
-  selected: true
+  selected: true,
+  onClick: () => alert('Selected item clicked!')
 }
 
 export const Disabled = Template.bind({})
@@ -151,15 +145,15 @@ Disabled.args = {
   title: 'Disabled Item',
   description: 'This item is not available',
   icon: MDI_ICONS.ALERT_CIRCLE_OUTLINE,
-  clickable: true,
-  disabled: true
+  disabled: true,
+  onClick: () => alert('This should not trigger')
 }
 
 export const TitleOnly = Template.bind({})
 TitleOnly.args = {
   title: 'Title Only Item',
   icon: MDI_ICONS.INFORMATION_OUTLINE,
-  clickable: true
+  onClick: () => alert('Title only item clicked!')
 }
 
 export const DescriptionOnly = Template.bind({})
@@ -173,11 +167,10 @@ NavigationLink.args = {
   title: 'External Link',
   description: 'Opens in new tab',
   icon: MDI_ICONS.ARROW_TOP_RIGHT_THICK,
-  clickable: true,
-  tag: 'a',
   href: 'https://example.com',
   target: '_blank',
-  rel: 'noopener noreferrer'
+  rel: 'noopener noreferrer',
+  disabled: true
 }
 
 export const LargeIcon = Template.bind({})
@@ -186,7 +179,7 @@ LargeIcon.args = {
   description: 'Item with bigger icon',
   icon: MDI_ICONS.BRIEFCASE_VARIANT_OUTLINE,
   iconSize: 2,
-  clickable: true
+  onClick: () => alert('Large icon item clicked!')
 }
 
 export const CustomColors = Template.bind({})
@@ -194,18 +187,18 @@ CustomColors.args = {
   title: 'Custom Colors',
   description: 'Item with custom styling',
   icon: MDI_ICONS.STARS,
-  clickable: true,
   color: '#2563eb',
   hoverBackgroundColor: '#dbeafe',
   colorOnHover: '#1d4ed8',
-  descriptionColor: '#6b7280'
+  descriptionColor: '#6b7280',
+  onClick: () => alert('Custom colors item clicked!')
 }
 
 export const WithCustomContent = Template.bind({})
 WithCustomContent.args = {
   title: 'Custom Content',
   icon: MDI_ICONS.DOTS_VERTICAL,
-  clickable: true
+  onClick: () => alert('Custom content item clicked!')
 }
 WithCustomContent.render = args => ({
   components: { AvList, AvListItem },
@@ -231,9 +224,9 @@ WithAccessibility.args = {
   title: 'Accessible Item',
   description: 'Item with custom accessibility attributes',
   icon: MDI_ICONS.INFORMATION_OUTLINE,
-  clickable: true,
   ariaLabel: 'Custom accessible label for screen readers',
-  ariaDescribedby: 'helper-text'
+  ariaDescribedby: 'helper-text',
+  onClick: () => alert('Accessible item clicked!')
 }
 WithAccessibility.render = args => ({
   components: { AvList, AvListItem },
