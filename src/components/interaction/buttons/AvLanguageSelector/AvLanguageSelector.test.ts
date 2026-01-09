@@ -1,7 +1,7 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach } from 'vitest'
 import AvLanguageSelector, { type AvLanguageSelectorProps } from '@/components/interaction/buttons/AvLanguageSelector/AvLanguageSelector.vue'
-import { BddTest } from '@/tests'
+import { AvDropdownStub, BddTest } from '@/tests'
 
 vi.mock('@/composables', () => ({
   useAvBreakpoints: () => ({ isBelowLg: false }),
@@ -11,69 +11,54 @@ BddTest().given('a language selector', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvLanguageSelector>>
 
   const props: AvLanguageSelectorProps = {
-    languages: [{ codeIso: 'fr', label: 'Français' }, { codeIso: 'en', label: 'English' }]
+    languages: [{ codeIso: 'fr', label: 'Français' }, { codeIso: 'en', label: 'English' }],
+    title: 'Sélectionner une langue',
   }
 
-  BddTest().and('given only languages prop', () => {
+  const stubs = { AvDropdown: AvDropdownStub }
+
+  BddTest().when('the component is mounted', () => {
     beforeEach(() => {
-      wrapper = mount(AvLanguageSelector, { props })
+      wrapper = mount(AvLanguageSelector, { props, global: { stubs } })
     })
 
-    BddTest().when('the component is mounted', () => {
-      BddTest().then('it should render with default props', () => {
-        const expectedDefault = 'FR - Français'
-        const expectedCustom = 'EN - English'
-
-        const button = wrapper.find('button')
-        expect(button.exists()).toBe(true)
-        expect(button.attributes('title')).toBe('Sélectionner une langue')
-
-        const links = wrapper.findAll('a')
-        expect(links).toHaveLength(2)
-        expect(links[0].text()).toBe(expectedDefault)
-        expect(links[1].text()).toBe(expectedCustom)
-        expect(links[0].attributes('aria-current')).toBeDefined()
-        expect(links[1].attributes('lang')).toBeDefined()
-      })
+    BddTest().then('it should render the dropdown', () => {
+      const dropdown = wrapper.findComponent(AvDropdownStub)
+      expect(dropdown.exists()).toBe(true)
     })
 
-    BddTest().when('the second language link is clicked', () => {
+    BddTest().then('it should render the title', () => {
+      const dropdown = wrapper.findComponent(AvDropdownStub)
+      expect(dropdown.attributes('title')).toBe(props.title)
+    })
+
+    BddTest().then('it should render the default language as label', () => {
+      const button = wrapper.find('button')
+      const expectedLabel = 'FR - Français'
+      expect(button.exists()).toBe(true)
+      expect(button.text()).toBe(expectedLabel)
+    })
+
+    BddTest().then('it should render the default items', () => {
+      const dropdown = wrapper.findComponent(AvDropdownStub)
+      const items = dropdown.props('items')
+      expect(items).toHaveLength(2)
+      expect(items).toEqual([
+        { name: 'fr', label: 'FR - Français' },
+        { name: 'en', label: 'EN - English' },
+      ])
+    })
+
+    BddTest().and('the second language is clicked', () => {
       beforeEach(async () => {
-        await wrapper.findAll('a')[1].trigger('click')
+        wrapper.findComponent(AvDropdownStub).vm.$emit('itemSelected', props.languages[1].codeIso)
+        await wrapper.vm.$nextTick()
       })
 
       BddTest().then('it should select the second language', () => {
         expect(wrapper.emitted('select')).toBeTruthy()
         expect(wrapper.emitted('select')![0][0]).toEqual(props.languages[1])
       })
-    })
-  })
-
-  BddTest().and('given languages, currentLanguage and title props', () => {
-    const newProps: AvLanguageSelectorProps = {
-      ...props,
-      currentLanguage: 'en',
-      title: 'Select a language'
-    }
-
-    beforeEach(() => {
-      wrapper = mount(AvLanguageSelector, { props: newProps })
-    })
-
-    BddTest().then('it should render with given props', () => {
-      const expectedCustom = 'FR - Français'
-      const expectedDefault = 'EN - English'
-
-      const button = wrapper.find('button')
-      expect(button.exists()).toBe(true)
-      expect(button.attributes('title')).toBe(newProps.title)
-
-      const links = wrapper.findAll('a')
-      expect(links).toHaveLength(2)
-      expect(links[0].text()).toBe(expectedCustom)
-      expect(links[1].text()).toBe(expectedDefault)
-      expect(links[0].attributes('lang')).toBeDefined()
-      expect(links[1].attributes('aria-current')).toBeDefined()
     })
   })
 })

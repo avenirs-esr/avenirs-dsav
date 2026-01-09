@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { nextTick } from 'vue'
 import AvDrawer from '@/components/overlay/drawers/AvDrawer/AvDrawer.vue'
 import { BddTest } from '@/tests/utils'
 
@@ -59,6 +60,48 @@ BddTest().given('a drawer component', () => {
 
     BddTest().then('it should not render the backdrop', () => {
       expect(wrapper.find('.av-drawer-backdrop').exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the drawer is opened from a focusable element', () => {
+    let triggerElement: HTMLElement
+
+    beforeEach(async () => {
+      triggerElement = document.createElement('button')
+      triggerElement.textContent = 'Open Drawer'
+      document.body.appendChild(triggerElement)
+
+      triggerElement.focus()
+
+      wrapper = mount(AvDrawer, {
+        props: {
+          show: true,
+        },
+        attachTo: document.body,
+      })
+
+      await nextTick()
+    })
+
+    afterEach(() => {
+      document.body.removeChild(triggerElement)
+      wrapper.unmount()
+    })
+
+    BddTest().then('it should focus the drawer when opened', () => {
+      const drawerElement = wrapper.find('.av-drawer').element as HTMLElement
+      expect(document.activeElement).toBe(drawerElement)
+    })
+
+    BddTest().and('the drawer is closed', () => {
+      beforeEach(async () => {
+        await wrapper.setProps({ show: false })
+        await nextTick()
+      })
+
+      BddTest().then('it should return focus to the trigger element', () => {
+        expect(document.activeElement).toBe(triggerElement)
+      })
     })
   })
 

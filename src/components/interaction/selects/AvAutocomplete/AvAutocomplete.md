@@ -117,8 +117,7 @@ function handleSearch (query) {
     <template #item="{ option, isSelected, toggle }">
       <AvListItem
         :selected="isSelected"
-        clickable
-        :on-click="toggle"
+        @click="toggle"
       >
         <div class="custom-option">
           <div class="project-name">

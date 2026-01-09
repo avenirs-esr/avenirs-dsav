@@ -83,13 +83,11 @@ function handleSelectItem (itemId: string) {
         :icon-size="1.8"
         :selected="selectedItem === item.id"
         :hover-background-color="selectedItemColor"
-        tag="button"
         role="menuitem"
         class="av-side-navigation__menu-item"
         :class="{
           'av-side-navigation__menu-item--collapsed': isSideMenuCollapsed,
         }"
-        clickable
         @click="handleSelectItem(item.id)"
       />
     </AvList>

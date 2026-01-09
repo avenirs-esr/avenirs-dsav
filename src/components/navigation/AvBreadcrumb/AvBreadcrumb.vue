@@ -88,6 +88,7 @@ onMounted(() => {
       class="av-breadcrumb__button"
       :label="showBreadcrumbLabel"
       small
+      no-sentence-case
       @click="expanded = !expanded"
     />
     <div

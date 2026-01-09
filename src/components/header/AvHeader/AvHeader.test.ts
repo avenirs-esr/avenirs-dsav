@@ -15,6 +15,11 @@ BddTest().given('an AvHeader', () => {
   const stubs = {
     AvDrawer: AvDrawerStub,
     AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
+    AvLanguageSelector: {
+      name: 'AvLanguageSelector',
+      template: '<div></div>',
+      emits: ['select']
+    }
   }
 
   const serviceTitle = 'Service title'
@@ -218,6 +223,7 @@ BddTest().given('an AvHeader', () => {
 
     BddTest().then('it should emit "languageSelect" event', async () => {
       const languageSelector = wrapper.findComponent({ name: 'AvLanguageSelector' })
+      expect(languageSelector.exists()).toBe(true)
 
       const payload = { codeIso: 'en', label: 'English' }
       await languageSelector.vm.$emit('select', payload)

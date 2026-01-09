@@ -101,15 +101,15 @@ You can find examples of use and demo of the component on its dedicated [Storybo
   >
     <AvListItem
       title="Dashboard"
-      clickable
+      @click="handleDashboardClick"
     />
     <AvListItem
       title="Profile"
-      clickable
+      @click="handleProfileClick"
     />
     <AvListItem
       title="Settings"
-      clickable
+      @click="handleSettingsClick"
     />
   </AvList>
 </template>

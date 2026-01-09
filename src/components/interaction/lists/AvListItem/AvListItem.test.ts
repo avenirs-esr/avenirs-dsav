@@ -90,9 +90,11 @@ BddTest().given('an AvListItem component', () => {
     })
   })
 
-  BddTest().when('clickable prop is true', () => {
+  BddTest().when('onClick prop is defined', () => {
+    const clickSpy = vi.fn()
+
     beforeEach(async () => {
-      await wrapper.setProps({ clickable: true })
+      await wrapper.setProps({ onClick: clickSpy })
       avListItem = wrapper.find('.av-list-item')
     })
 
@@ -109,9 +111,6 @@ BddTest().given('an AvListItem component', () => {
     })
 
     BddTest().then('it should handle click events when clicked', async () => {
-      const clickSpy = vi.fn()
-      await wrapper.setProps({ onClick: clickSpy })
-
       await avListItem.trigger('click')
       expect(clickSpy).toHaveBeenCalled()
     })
@@ -126,8 +125,10 @@ BddTest().given('an AvListItem component', () => {
   })
 
   BddTest().when('disabled prop is true', () => {
+    const onClickMock = vi.fn()
+
     beforeEach(async () => {
-      await wrapper.setProps({ disabled: true, clickable: true })
+      await wrapper.setProps({ disabled: true, onClick: onClickMock })
       avListItem = wrapper.find('.av-list-item')
     })
 
@@ -144,9 +145,6 @@ BddTest().given('an AvListItem component', () => {
     })
 
     BddTest().then('it should not emit click when clicked', async () => {
-      const onClickMock = vi.fn()
-      await wrapper.setProps({ onClick: onClickMock })
-
       await avListItem.trigger('click')
       expect(onClickMock).not.toHaveBeenCalled()
     })
@@ -163,11 +161,9 @@ BddTest().given('an AvListItem component', () => {
     })
   })
 
-  BddTest().when('tag prop is set to anchor', () => {
+  BddTest().when('a ref is provided', () => {
     beforeEach(async () => {
       await wrapper.setProps({
-        clickable: true,
-        tag: 'a',
         href: 'https://example.com',
         target: '_blank',
         rel: 'noopener'
@@ -192,30 +188,15 @@ BddTest().given('an AvListItem component', () => {
     })
   })
 
-  BddTest().when('tag prop is set to div with clickable', () => {
-    beforeEach(async () => {
-      await wrapper.setProps({
-        clickable: true,
-        tag: 'div'
-      })
-      avListItem = wrapper.find('.av-list-item')
-    })
-
-    BddTest().then('it should render as div tag', () => {
-      expect(avListItem.element.tagName.toLowerCase()).toBe('div')
-    })
-  })
-
   BddTest().when('keyboard events are triggered', () => {
+    const onClickMock = vi.fn()
+
     beforeEach(async () => {
-      await wrapper.setProps({ clickable: true })
+      await wrapper.setProps({ onClick: onClickMock })
       avListItem = wrapper.find('.av-list-item')
     })
 
     BddTest().then('it should call onClick on Enter key', async () => {
-      const onClickMock = vi.fn()
-      await wrapper.setProps({ onClick: onClickMock })
-
       await avListItem.trigger('keydown', { key: 'Enter' })
       expect(onClickMock).toHaveBeenCalled()
     })
@@ -248,8 +229,8 @@ BddTest().given('an AvListItem component', () => {
   BddTest().when('aria-label is provided', () => {
     beforeEach(async () => {
       await wrapper.setProps({
-        clickable: true,
-        ariaLabel: 'Custom aria label'
+        ariaLabel: 'Custom aria label',
+        onClick: vi.fn(),
       })
       avListItem = wrapper.find('.av-list-item')
     })
@@ -262,9 +243,9 @@ BddTest().given('an AvListItem component', () => {
   BddTest().when('computed aria-label from title and description', () => {
     beforeEach(async () => {
       await wrapper.setProps({
-        clickable: true,
         title: 'Test Title',
-        description: 'Test Description'
+        description: 'Test Description',
+        onClick: vi.fn(),
       })
       avListItem = wrapper.find('.av-list-item')
     })
@@ -277,8 +258,8 @@ BddTest().given('an AvListItem component', () => {
   BddTest().when('only title is provided for aria-label', () => {
     beforeEach(async () => {
       await wrapper.setProps({
-        clickable: true,
-        title: 'Test Title'
+        title: 'Test Title',
+        onClick: vi.fn(),
       })
       avListItem = wrapper.find('.av-list-item')
     })

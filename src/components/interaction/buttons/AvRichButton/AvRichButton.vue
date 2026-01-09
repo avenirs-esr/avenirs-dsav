@@ -59,9 +59,9 @@ defineSlots<{
 
 <template>
   <button
-    class="av-rich-button av-row av-w-full av-align-center av-justify-between"
     :title="label"
     :aria-label="label"
+    class="av-rich-button av-row av-w-full av-align-center av-justify-between"
     @click="$emit('click', $event)"
   >
     <div class="av-rich-button__line av-row av-align-center av-w-full">

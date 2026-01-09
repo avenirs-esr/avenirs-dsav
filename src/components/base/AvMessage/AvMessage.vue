@@ -65,7 +65,7 @@ const messages = computed(() => {
     return []
   }
   if (!Array.isArray(message)) {
-    return [message ?? '']
+    return [message]
   }
   return message
 })

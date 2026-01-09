@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Slot } from 'vue'
+import { nextTick, type Slot } from 'vue'
 import { useContainedScroll } from '@/composables/use-contained-scroll/use-contained-scroll'
 
 export interface AvDrawerProps {
@@ -69,6 +69,9 @@ const slots = defineSlots<{
 const { position, width, padding, show } = toRefs(props)
 const { onWheel, onTouchMove, onTouchStart } = useContainedScroll({ scrollableSelector: '.av-drawer__content' })
 
+const drawerRef = ref<HTMLElement | null>(null)
+const previousActiveElement = ref<HTMLElement | null>(null)
+
 function handleEscape (event: KeyboardEvent) {
   if (event.key === 'Escape') {
     emit('escapePressed')
@@ -79,10 +82,21 @@ watch(
   show,
   (visible) => {
     if (visible) {
+      previousActiveElement.value = document.activeElement as HTMLElement
+
       window.addEventListener('keydown', handleEscape)
+
+      nextTick(() => {
+        drawerRef.value?.focus()
+      })
     }
     else {
       window.removeEventListener('keydown', handleEscape)
+
+      nextTick(() => {
+        previousActiveElement.value?.focus()
+        previousActiveElement.value = null
+      })
     }
   },
   { immediate: true }
@@ -102,11 +116,13 @@ onBeforeUnmount(() => {
       @touchmove.prevent
     />
     <div
+      ref="drawerRef"
       class="av-drawer av-col"
       :class="`av-drawer--${position}`"
       role="dialog"
       aria-modal="true"
       :aria-label="ariaLabel"
+      tabindex="-1"
       @wheel="onWheel"
       @touchstart="onTouchStart"
       @touchmove="onTouchMove"
