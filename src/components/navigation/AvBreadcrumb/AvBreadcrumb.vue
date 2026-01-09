@@ -25,13 +25,13 @@ export interface AvBreadcrumbProps {
 
   /**
    * Displayed label on the breadcrumb `nav` tag.
-   * @default 'Vous êtes ici :'
+   * @default 'Fil d\'Ariane'
    */
   navigationLabel?: string
 
   /**
    * Displayed breadcrumb button label.
-   * @default 'Voir le fil d’Ariane'
+   * @default 'Voir le fil d\'Ariane'
    */
   showBreadcrumbLabel?: string
 }
@@ -39,8 +39,8 @@ export interface AvBreadcrumbProps {
 const {
   id,
   links,
-  navigationLabel = 'Vous êtes ici :',
-  showBreadcrumbLabel = 'Voir le fil d’Ariane',
+  navigationLabel = 'Fil d\'Ariane',
+  showBreadcrumbLabel = 'Voir le fil d\'Ariane',
 } = defineProps<AvBreadcrumbProps>()
 
 const {
@@ -78,15 +78,15 @@ onMounted(() => {
   <nav
     v-if="links && links.length"
     role="navigation"
-    class="av-breadcrumb"
     :aria-label="navigationLabel"
+    class="av-breadcrumb"
   >
     <AvButton
       v-if="!expanded"
-      class="av-breadcrumb__button"
-      :label="showBreadcrumbLabel"
       :aria-expanded="expanded"
       :aria-controls="realId"
+      class="av-breadcrumb__button"
+      :label="showBreadcrumbLabel"
       small
       @click="expanded = !expanded"
     />
@@ -108,16 +108,16 @@ onMounted(() => {
         >
           <RouterLink
             v-if="link.to"
+            :aria-current="index === links.length - 1 ? 'page' : undefined"
             class="b2-regular av-breadcrumb__link"
             :to="link.to"
-            :aria-current="index === links.length - 1 ? 'page' : undefined"
           >
             {{ link.text }}
           </RouterLink>
           <a
-            v-if="!link.to"
-            class="b2-regular av-breadcrumb__link"
+            v-else
             :aria-current="index === links.length - 1 ? 'page' : undefined"
+            class="b2-regular av-breadcrumb__link"
           >
             {{ link.text }}
           </a>
