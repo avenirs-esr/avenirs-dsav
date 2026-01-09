@@ -63,7 +63,7 @@ BddTest().given('an AvBreadcrumb component', () => {
       BddTest().then('it should render the expand button', () => {
         const button = wrapper.find('.av-breadcrumb__button')
         expect(button.exists()).toBe(true)
-        expect(button.text()).toBe('Voir le fil d’ariane')
+        expect(button.text()).toBe('Voir le fil d\'Ariane')
       })
 
       BddTest().and('when clicking the expand button', () => {

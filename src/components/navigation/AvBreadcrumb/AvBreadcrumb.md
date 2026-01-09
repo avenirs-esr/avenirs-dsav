@@ -20,8 +20,8 @@ It consists of the following elements:
 | --- | --- | --- | --- | --- |
 | `id` | `string` | `breadcrumb-${crypto.randomUUID()}` | | The unique identifier for the breadcrumb element. |
 | `links` | `{ to?: string \| RouteLocationAsRelativeGeneric \| RouteLocationAsPathGeneric \| undefined; text: string }[] \| undefined` | `undefined` | | A table of objects representing the links in the breadcrumb. Each object can have a ‘text’ property and, optionally, a ‘to’ property for routes. |
-| `navigationLabel` | `string` | `undefined` | | Displayed label on the breadcrumb `nav` tag. |
-| `showBreadcrumbLabel` | `string` | `undefined` | | Displayed breadcrumb button label. |
+| `navigationLabel` | `string` | `'Fil d\'Ariane'` | | Displayed label on the breadcrumb `nav` tag. |
+| `showBreadcrumbLabel` | `string` | `'Voir le fil d\'Ariane'` | | Displayed breadcrumb button label. |
 
 ## 🔊 Events
 
