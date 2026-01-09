@@ -345,22 +345,17 @@ defineExpose({
       </slot>
     </div>
 
-    <div
+    <AvMessage
       v-if="errorMessages.length > 0"
-      role="alert"
-    >
-      <AvMessage
-        :message="errorMessages"
-        type="error"
-      />
-    </div>
+      :message="errorMessages"
+      type="error"
+    />
 
-    <div v-if="validMessages.length > 0">
-      <AvMessage
-        :message="validMessages"
-        type="success"
-      />
-    </div>
+    <AvMessage
+      v-if="validMessages.length > 0"
+      :message="validMessages"
+      type="success"
+    />
   </div>
 </template>
 

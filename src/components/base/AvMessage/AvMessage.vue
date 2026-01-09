@@ -69,12 +69,14 @@ const messages = computed(() => {
   }
   return message
 })
+
+const role = computed(() => (type === 'error' || type === 'warning' ? 'alert' : 'status'))
 </script>
 
 <template>
   <div
     class="av-message av-col av-gap-xs"
-    role="alert"
+    :role="role"
   >
     <AvIconText
       v-for="(msg, index) in messages"

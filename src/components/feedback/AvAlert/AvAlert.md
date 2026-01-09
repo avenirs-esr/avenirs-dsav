@@ -44,7 +44,6 @@ Other props:
 | `closed` | `boolean` | `false` | | Indicates whether the alert should be present (`false`) or not (`true`) in the DOM. |
 | `closeable` | `boolean` | `false` | | Indicates whether the close button should be present (`true`) or not (`false`) in the alert. |
 | `closeButtonLabel` | `string` | `'Close'` | | The label and aria-label of the alert close button. |
-| `alert` | `boolean` | `false` | | Indicates whether the alert should have the `alert` role (`true`) or not (`false`). |
 
 ## 🔊 Events
 
