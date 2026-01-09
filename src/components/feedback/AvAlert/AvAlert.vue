@@ -9,12 +9,6 @@ import { MDI_ICONS } from '@/tokens'
  */
 export interface AvAlertProps {
   /**
-   * If true, the alert is displayed with the `alert` role.
-   * @default false
-   */
-  alert?: boolean
-
-  /**
    * Indicates whether the alert is closed (`true`) or visible (`false`).
    * @default false
    */
@@ -63,7 +57,6 @@ export interface AvAlertProps {
 }
 
 const {
-  alert = false,
   id,
   title = '',
   description,
@@ -120,6 +113,8 @@ const icon = computed(() => {
       return { name: MDI_ICONS.INFORMATION_OUTLINE, color: 'var(--dark-background-primary1)' }
   }
 })
+
+const role = computed(() => (type === 'error' || type === 'warning' ? 'alert' : 'status'))
 </script>
 
 <template>
@@ -128,7 +123,7 @@ const icon = computed(() => {
     :id="realId"
     class="av-alert"
     :class="classes"
-    :role="alert ? 'alert' : undefined"
+    :role="role"
   >
     <div class="av-alert__container av-row av-align-center av-justify-between av-w-full av-gap-md">
       <div class="av-alert__content av-row av-align-center av-gap-sm">

@@ -62,7 +62,6 @@ const meta: Meta<AvAlertProps> = {
   component: AvAlert,
   tags: ['autodocs'],
   argTypes: {
-    alert: { control: 'boolean' },
     closed: { control: 'boolean' },
     closeable: { control: 'boolean' },
     id: { control: 'text' },
@@ -73,7 +72,6 @@ const meta: Meta<AvAlertProps> = {
     closeButtonLabel: { control: 'text' },
   },
   args: {
-    alert: false,
     closed: false,
     closeable: false,
     title: 'Alert Title',

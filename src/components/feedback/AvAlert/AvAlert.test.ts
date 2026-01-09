@@ -123,6 +123,11 @@ BddTest().given('an AvAlert', () => {
           size: 3,
         })
       })
+
+      BddTest().then('it should render status role', async () => {
+        const alert = wrapper.findComponent('.av-alert')
+        expect(alert.attributes('role')).toBe('status')
+      })
     })
 
     BddTest().and('given success type', () => {
@@ -138,6 +143,11 @@ BddTest().given('an AvAlert', () => {
           color: 'var(--dark-background-success)',
           size: 3,
         })
+      })
+
+      BddTest().then('it should render status role', async () => {
+        const alert = wrapper.findComponent('.av-alert')
+        expect(alert.attributes('role')).toBe('status')
       })
     })
 
@@ -155,6 +165,11 @@ BddTest().given('an AvAlert', () => {
           size: 3,
         })
       })
+
+      BddTest().then('it should render alert role', async () => {
+        const alert = wrapper.findComponent('.av-alert')
+        expect(alert.attributes('role')).toBe('alert')
+      })
     })
 
     BddTest().and('given warning type', () => {
@@ -171,33 +186,10 @@ BddTest().given('an AvAlert', () => {
           size: 3,
         })
       })
-    })
-
-    BddTest().and('given alert prop', () => {
-      beforeEach(() => {
-        wrapper = mount(AvAlert, {
-          props: { ...baseProps, alert: true },
-          global: { stubs }
-        })
-      })
 
       BddTest().then('it should render alert role', async () => {
         const alert = wrapper.findComponent('.av-alert')
         expect(alert.attributes('role')).toBe('alert')
-      })
-    })
-
-    BddTest().and('not given alert prop', () => {
-      beforeEach(() => {
-        wrapper = mount(AvAlert, {
-          props: { ...baseProps, alert: false },
-          global: { stubs }
-        })
-      })
-
-      BddTest().then('it should not render alert role', async () => {
-        const alert = wrapper.findComponent('.av-alert')
-        expect(alert.attributes('role')).toBeUndefined()
       })
     })
   })
