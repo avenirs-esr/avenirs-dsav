@@ -19,6 +19,7 @@ An accordion consists of the following elements:
 | `id` | `string` | `accordion-${crypto.randomUUID()}` | | Unique id of the accordion. |
 | `title` | `string` | | ✅ | Title of accordion displayed. |
 | `icon` | `string` | `undefined` | | Accordion icon. |
+| `headingLevel` | `'h2' \| 'h3' \| 'h4' \| 'h5' \| 'h6'` | `'h3'` | | Heading level for the accordion title. |
 
 ## 🔊 Events
 

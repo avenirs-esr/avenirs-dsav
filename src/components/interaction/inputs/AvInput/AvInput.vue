@@ -293,6 +293,7 @@ defineExpose({
             <slot name="requiredTip">
               <span
                 v-if="required"
+                aria-hidden="true"
                 class="required"
               >*</span>
             </slot>

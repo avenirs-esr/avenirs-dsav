@@ -44,6 +44,25 @@ const computedActiveAccordion = computed({
 })
 const accordions = ref(new Map<number, string>())
 const currentId = ref(0)
+const triggers = ref<HTMLElement[]>([])
+
+function registerTrigger (el: HTMLElement, index: number) {
+  triggers.value[index] = el
+}
+
+function focusByIndex (index: number) {
+  triggers.value[index]?.focus()
+}
+
+function focusByOffset (currentIndex: number, offset: number) {
+  const total = triggers.value.length
+  if (!total) {
+    return
+  }
+
+  const nextIndex = (currentIndex + offset + total) % total
+  focusByIndex(nextIndex)
+}
 
 provide(registerAccordionKey, (title: Ref<string>) => {
   const myIndex = currentId.value++
@@ -63,11 +82,38 @@ provide(registerAccordionKey, (title: Ref<string>) => {
     computedActiveAccordion.value = myIndex
   }
 
+  function onKeydown (event: KeyboardEvent) {
+    switch (event.key) {
+      case 'ArrowDown':
+        event.preventDefault()
+        focusByOffset(myIndex, +1)
+        break
+      case 'ArrowUp':
+        event.preventDefault()
+        focusByOffset(myIndex, -1)
+        break
+      case 'Home':
+        event.preventDefault()
+        focusByIndex(0)
+        break
+      case 'End':
+        event.preventDefault()
+        focusByIndex(triggers.value.length - 1)
+        break
+    }
+  }
+
+  function setTriggerRef (el: HTMLElement | null) {
+    if (el) {
+      registerTrigger(el, myIndex)
+    }
+  }
+
   onUnmounted(() => {
     accordions.value.delete(myIndex)
   })
 
-  return { isActive, expand }
+  return { isActive, expand, onKeydown, setTriggerRef }
 })
 </script>
 
