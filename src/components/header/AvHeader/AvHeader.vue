@@ -354,7 +354,7 @@ provide(registerNavigationLinkKey, () => hideModal)
           <template v-if="languageSelectorRef">
             <AvLanguageSelector
               v-bind="languageSelectorRef"
-              @select="languageSelectorRef.currentLanguage = $event.codeIso"
+              @select="emit('languageSelect', $event)"
             />
           </template>
           <slot name="before-quick-links" />
