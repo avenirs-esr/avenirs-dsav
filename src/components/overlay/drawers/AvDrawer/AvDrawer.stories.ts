@@ -111,6 +111,7 @@ const Template: StoryFn<AvDrawerProps> = args => ({
         :width="args.width"
         :backdrop="args.backdrop"
         :padding="args.padding"
+        @escape-pressed="closeDrawer"
       >
         <div style="display: flex; flex-direction: column; gap: 1rem;">
           <h3 style="margin: 0; color: var(--title);">Drawer Content</h3>
@@ -200,6 +201,7 @@ const TemplateWithFooter: StoryFn<AvDrawerProps> = args => ({
         :width="args.width"
         :backdrop="args.backdrop"
         :padding="args.padding"
+        @escape-pressed="closeDrawer"
       >
         <div style="display: flex; flex-direction: column; gap: 1rem;">
           <h3 style="margin: 0; color: var(--title);">Drawer Content</h3>
