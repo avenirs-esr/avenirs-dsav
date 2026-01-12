@@ -91,23 +91,87 @@ const slots = defineSlots<{
 }>()
 
 const collapsed = ref(defaultCollapsed)
+const isHoveringInteractive = ref(false)
 
 const id = computed(() => `av-card-${crypto.randomUUID()}`)
 const buttonRef = ref<InstanceType<typeof AvButton> | null>(null)
 
-function handleCardClick (event: MouseEvent) {
-  if (collapsible && buttonRef.value && event.target !== buttonRef.value.$el && !buttonRef.value.$el.contains(event.target as Node)) {
-    collapsed.value = !collapsed.value
+function isInteractiveElement (element: HTMLElement): boolean {
+  const interactiveTags = ['A', 'BUTTON', 'INPUT', 'SELECT', 'TEXTAREA']
+  const interactiveRoles = ['button', 'link', 'checkbox', 'radio', 'textbox', 'tab', 'menuitem']
+
+  if (interactiveTags.includes(element.tagName)) {
+    return true
   }
+
+  const role = element.getAttribute('role')
+  if (role && interactiveRoles.includes(role)) {
+    return true
+  }
+
+  if (element.hasAttribute('tabindex') && element.getAttribute('tabindex') !== '-1') {
+    return true
+  }
+
+  return false
+}
+
+function handleCardClick (event: MouseEvent) {
+  const target = event.target as HTMLElement
+
+  if (buttonRef.value && (target === buttonRef.value.$el || buttonRef.value.$el.contains(target))) {
+    return
+  }
+
+  let currentElement: HTMLElement | null = target
+  while (currentElement && currentElement !== event.currentTarget) {
+    if (isInteractiveElement(currentElement)) {
+      return
+    }
+    currentElement = currentElement.parentElement
+  }
+
+  if (collapsible) {
+    collapsed.value = !collapsed.value
+    buttonRef.value?.$el.focus()
+  }
+}
+
+function handleMouseMove (event: MouseEvent) {
+  if (!collapsible) {
+    return
+  }
+
+  const target = event.target as HTMLElement
+
+  if (buttonRef.value && (target === buttonRef.value.$el || buttonRef.value.$el.contains(target))) {
+    isHoveringInteractive.value = false
+    return
+  }
+
+  let currentElement: HTMLElement | null = target
+  while (currentElement && currentElement !== event.currentTarget) {
+    if (isInteractiveElement(currentElement)) {
+      isHoveringInteractive.value = true
+      return
+    }
+    currentElement = currentElement.parentElement
+  }
+
+  isHoveringInteractive.value = false
 }
 </script>
 
 <template>
   <div
     class="av-card av-col av-p-sm av-justify-start"
-    :class="{ 'av-card--collapsible': collapsible }"
+    :class="{
+      'av-card--collapsible': collapsible,
+      'av-card--hovering-interactive': isHoveringInteractive,
+    }"
     :style="{ borderColor, background: backgroundColor }"
     @click="handleCardClick"
+    @mousemove="handleMouseMove"
   >
     <header
       v-if="slots.title"
@@ -170,13 +234,19 @@ function handleCardClick (event: MouseEvent) {
   }
 
   &--collapsible:hover {
-    cursor: pointer;
-    outline: 1px solid v-bind('borderColor');
+    &:not(.av-card--hovering-interactive) {
+      cursor: pointer;
+      outline: 1px solid v-bind('borderColor');
 
-    .av-button {
-      background-color: var(--dark-background-primary2);
-      color: var(--other-background-base);
+      .av-button {
+        background-color: var(--dark-background-primary2);
+        color: var(--other-background-base);
+      }
     }
+  }
+
+  &--hovering-interactive {
+    cursor: default;
   }
 
   .av-button {
