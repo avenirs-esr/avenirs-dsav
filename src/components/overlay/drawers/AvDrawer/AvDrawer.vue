@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { nextTick, type Slot } from 'vue'
+import type { Slot } from 'vue'
+import { FocusTrap } from 'focus-trap-vue'
 import { useContainedScroll } from '@/composables/use-contained-scroll/use-contained-scroll'
 
 export interface AvDrawerProps {
@@ -70,41 +71,6 @@ const { position, width, padding, show } = toRefs(props)
 const { onWheel, onTouchMove, onTouchStart } = useContainedScroll({ scrollableSelector: '.av-drawer__content' })
 
 const drawerRef = ref<HTMLElement | null>(null)
-const previousActiveElement = ref<HTMLElement | null>(null)
-
-function handleEscape (event: KeyboardEvent) {
-  if (event.key === 'Escape') {
-    emit('escapePressed')
-  }
-}
-
-watch(
-  show,
-  (visible) => {
-    if (visible) {
-      previousActiveElement.value = document.activeElement as HTMLElement
-
-      window.addEventListener('keydown', handleEscape)
-
-      nextTick(() => {
-        drawerRef.value?.focus()
-      })
-    }
-    else {
-      window.removeEventListener('keydown', handleEscape)
-
-      nextTick(() => {
-        previousActiveElement.value?.focus()
-        previousActiveElement.value = null
-      })
-    }
-  },
-  { immediate: true }
-)
-
-onBeforeUnmount(() => {
-  window.removeEventListener('keydown', handleEscape)
-})
 </script>
 
 <template>
@@ -115,30 +81,35 @@ onBeforeUnmount(() => {
       @wheel.prevent
       @touchmove.prevent
     />
-    <div
-      ref="drawerRef"
-      class="av-drawer av-col"
-      :class="`av-drawer--${position}`"
-      role="dialog"
-      aria-modal="true"
-      :aria-label="ariaLabel"
-      tabindex="-1"
-      @wheel="onWheel"
-      @touchstart="onTouchStart"
-      @touchmove="onTouchMove"
+    <FocusTrap
+      initial-focus="drawerRef"
+      @deactivate="emit('escapePressed')"
     >
-      <div class="av-drawer__content-wrapper av-col">
-        <div class="av-drawer__content">
-          <slot />
-        </div>
-        <div
-          v-if="slots.footer"
-          class="footer-container av-p-md"
-        >
-          <slot name="footer" />
+      <div
+        ref="drawerRef"
+        class="av-drawer av-col"
+        :class="`av-drawer--${position}`"
+        role="dialog"
+        aria-modal="true"
+        :aria-label="ariaLabel"
+        tabindex="-1"
+        @wheel="onWheel"
+        @touchstart="onTouchStart"
+        @touchmove="onTouchMove"
+      >
+        <div class="av-drawer__content-wrapper av-col">
+          <div class="av-drawer__content">
+            <slot />
+          </div>
+          <div
+            v-if="slots.footer"
+            class="footer-container av-p-md"
+          >
+            <slot name="footer" />
+          </div>
         </div>
       </div>
-    </div>
+    </FocusTrap>
   </div>
 </template>
 

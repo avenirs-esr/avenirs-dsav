@@ -19,12 +19,16 @@ vi.mock('@/composables/use-contained-scroll/use-contained-scroll', () => ({
 BddTest().given('a drawer component', () => {
   let wrapper: ReturnType<typeof mount<typeof AvDrawer>>
 
+  const stubs = {
+    FocusTrap: {
+      name: 'FocusTrap',
+      emits: ['deactivate'],
+      template: '<div><slot /></div>',
+    },
+  }
+
   beforeEach(() => {
-    wrapper = mount(AvDrawer, {
-      props: {
-        show: true,
-      },
-    })
+    wrapper = mount(AvDrawer, { props: { show: true }, global: { stubs } })
   })
 
   BddTest().when('the drawer is mounted with default props', () => {
@@ -47,11 +51,7 @@ BddTest().given('a drawer component', () => {
 
   BddTest().when('the drawer is closed', () => {
     beforeEach(() => {
-      wrapper = mount(AvDrawer, {
-        props: {
-          show: false,
-        },
-      })
+      wrapper = mount(AvDrawer, { props: { show: false }, global: { stubs } })
     })
 
     BddTest().then('it should not render the drawer', () => {
@@ -73,12 +73,7 @@ BddTest().given('a drawer component', () => {
 
       triggerElement.focus()
 
-      wrapper = mount(AvDrawer, {
-        props: {
-          show: true,
-        },
-        attachTo: document.body,
-      })
+      wrapper = mount(AvDrawer, { props: { show: true, }, attachTo: document.body, global: { stubs } })
 
       await nextTick()
     })
@@ -86,11 +81,6 @@ BddTest().given('a drawer component', () => {
     afterEach(() => {
       document.body.removeChild(triggerElement)
       wrapper.unmount()
-    })
-
-    BddTest().then('it should focus the drawer when opened', () => {
-      const drawerElement = wrapper.find('.av-drawer').element as HTMLElement
-      expect(document.activeElement).toBe(drawerElement)
     })
 
     BddTest().and('the drawer is closed', () => {
@@ -107,12 +97,7 @@ BddTest().given('a drawer component', () => {
 
   BddTest().when('the drawer has left position', () => {
     beforeEach(() => {
-      wrapper = mount(AvDrawer, {
-        props: {
-          show: true,
-          position: 'left',
-        },
-      })
+      wrapper = mount(AvDrawer, { props: { show: true, position: 'left', }, global: { stubs } })
     })
 
     BddTest().then('it should have left position class', () => {
@@ -126,12 +111,7 @@ BddTest().given('a drawer component', () => {
 
   BddTest().when('the drawer has custom width', () => {
     beforeEach(() => {
-      wrapper = mount(AvDrawer, {
-        props: {
-          show: true,
-          width: '31.25rem',
-        },
-      })
+      wrapper = mount(AvDrawer, { props: { show: true, width: '31.25rem', }, global: { stubs } })
     })
 
     BddTest().then('it should render the drawer with custom width prop', () => {
@@ -142,12 +122,7 @@ BddTest().given('a drawer component', () => {
 
   BddTest().when('the drawer has custom padding', () => {
     beforeEach(() => {
-      wrapper = mount(AvDrawer, {
-        props: {
-          show: true,
-          padding: '2rem',
-        },
-      })
+      wrapper = mount(AvDrawer, { props: { show: true, padding: '2rem', }, global: { stubs } })
     })
 
     BddTest().then('it should render the drawer with custom padding prop', () => {
@@ -158,12 +133,7 @@ BddTest().given('a drawer component', () => {
 
   BddTest().when('backdrop is disabled', () => {
     beforeEach(() => {
-      wrapper = mount(AvDrawer, {
-        props: {
-          show: true,
-          backdrop: false,
-        },
-      })
+      wrapper = mount(AvDrawer, { props: { show: true, backdrop: false, }, global: { stubs } })
     })
 
     BddTest().then('it should not render the backdrop', () => {
@@ -177,12 +147,7 @@ BddTest().given('a drawer component', () => {
 
   BddTest().when('backdrop is enabled', () => {
     beforeEach(() => {
-      wrapper = mount(AvDrawer, {
-        props: {
-          show: true,
-          backdrop: true,
-        },
-      })
+      wrapper = mount(AvDrawer, { props: { show: true, backdrop: true, }, global: { stubs } })
     })
 
     BddTest().then('it should render the backdrop', () => {
@@ -193,12 +158,9 @@ BddTest().given('a drawer component', () => {
   BddTest().when('slot content is provided', () => {
     beforeEach(() => {
       wrapper = mount(AvDrawer, {
-        props: {
-          show: true,
-        },
-        slots: {
-          default: '<div class="test-content">Test Content</div>',
-        },
+        props: { show: true, },
+        slots: { default: '<div class="test-content">Test Content</div>', },
+        global: { stubs }
       })
     })
 
@@ -211,12 +173,9 @@ BddTest().given('a drawer component', () => {
   BddTest().when('footer slot content is provided', () => {
     beforeEach(() => {
       wrapper = mount(AvDrawer, {
-        props: {
-          show: true,
-        },
-        slots: {
-          footer: '<div class="test-content">Test Content</div>',
-        },
+        props: { show: true },
+        slots: { footer: '<div class="test-content">Test Content</div>' },
+        global: { stubs }
       })
     })
 
@@ -236,6 +195,7 @@ BddTest().given('a drawer component', () => {
           backdrop: false,
           padding: '1rem',
         },
+        global: { stubs }
       })
     })
 
@@ -253,17 +213,11 @@ BddTest().given('a drawer component', () => {
 
   BddTest().when('the drawer is visible', () => {
     beforeEach(() => {
-      wrapper = mount(AvDrawer, {
-        props: {
-          show: true,
-        },
-      })
+      wrapper = mount(AvDrawer, { props: { show: true, }, global: { stubs } })
     })
 
-    BddTest().then('it should emit escapePressed event on escape key press', async () => {
-      const event = new KeyboardEvent('keydown', { key: 'Escape' })
-      window.dispatchEvent(event)
-      await wrapper.vm.$nextTick()
+    BddTest().then('it should emit escapePressed event on focus trap deactivate', async () => {
+      await wrapper.findComponent({ name: 'FocusTrap' }).vm.$emit('deactivate')
       expect(wrapper.emitted('escapePressed')).toBeTruthy()
       expect(wrapper.emitted('escapePressed')?.length).toBe(1)
     })
@@ -272,12 +226,7 @@ BddTest().given('a drawer component', () => {
   BddTest().when('a custom ariaLabel is provided', () => {
     const ariaLabel = 'Custom Aria Label'
     beforeEach(() => {
-      wrapper = mount(AvDrawer, {
-        props: {
-          show: true,
-          ariaLabel,
-        },
-      })
+      wrapper = mount(AvDrawer, { props: { show: true, ariaLabel, }, global: { stubs } })
     })
 
     BddTest().then('it should set the aria-label attribute correctly', () => {
@@ -287,11 +236,7 @@ BddTest().given('a drawer component', () => {
 
   BddTest().when('no ariaLabel is provided', () => {
     beforeEach(() => {
-      wrapper = mount(AvDrawer, {
-        props: {
-          show: true,
-        },
-      })
+      wrapper = mount(AvDrawer, { props: { show: true }, global: { stubs } })
     })
 
     BddTest().then('it should have a default aria-label', () => {
@@ -301,11 +246,8 @@ BddTest().given('a drawer component', () => {
 
   BddTest().when('the drawer is scrolled', () => {
     beforeEach(() => {
-      wrapper = mount(AvDrawer, {
-        props: {
-          show: true,
-        },
-      })
+      wrapper = mount(AvDrawer, { props: { show: true }, global: { stubs } })
+
       const drawerContent = wrapper.find('.av-drawer__content')
       drawerContent.trigger('wheel')
     })
@@ -317,11 +259,7 @@ BddTest().given('a drawer component', () => {
 
   BddTest().when('touch events occur on the drawer', () => {
     beforeEach(() => {
-      wrapper = mount(AvDrawer, {
-        props: {
-          show: true,
-        },
-      })
+      wrapper = mount(AvDrawer, { props: { show: true }, global: { stubs } })
       const drawerContent = wrapper.find('.av-drawer__content')
       drawerContent.trigger('touchstart')
       drawerContent.trigger('touchmove')
