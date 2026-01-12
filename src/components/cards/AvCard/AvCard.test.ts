@@ -103,6 +103,20 @@ BddTest().given('an AvCard', () => {
         const content = wrapper.find('.av-card__content-collapsible')
         expect(content.isVisible()).toBe(true)
       })
+
+      BddTest().and('the cursor is moved into an interactive element inside the card', () => {
+        beforeEach(async () => {
+          const interactiveElement = document.createElement('button')
+          interactiveElement.className = 'interactive-element'
+          wrapper.element.querySelector('.av-card__title')?.appendChild(interactiveElement)
+          await wrapper.find('.interactive-element').trigger('mousemove')
+        })
+
+        BddTest().then('it should not render hovering-interactive class', () => {
+          const card = wrapper.get('.av-card')
+          expect(card.classes()).not.toContain('av-card--hovering-interactive')
+        })
+      })
     })
 
     BddTest().and('is collapsible and not collapsed', () => {
@@ -140,6 +154,131 @@ BddTest().given('an AvCard', () => {
         BddTest().then('it should render the collapsed icon', () => {
           const toggleButton = wrapper.findComponent(AvButtonStub)
           expect(toggleButton.props('icon')).toBe(MDI_ICONS.CHEVRON_DOWN)
+        })
+      })
+
+      BddTest().and('the card is clicked on an interactive tag element', () => {
+        beforeEach(async () => {
+          const interactiveElement = document.createElement('button')
+          interactiveElement.className = 'interactive-element'
+          wrapper.element.querySelector('.av-card__title')?.appendChild(interactiveElement)
+          await wrapper.find('.interactive-element').trigger('click')
+        })
+
+        BddTest().then('it should still render the non collapsed icon', () => {
+          const toggleButton = wrapper.findComponent(AvButtonStub)
+          expect(toggleButton.props('icon')).toBe(MDI_ICONS.CHEVRON_LEFT)
+        })
+      })
+
+      BddTest().and('the card is clicked on a non-interactive tag element', () => {
+        beforeEach(async () => {
+          const nonInteractiveElement = document.createElement('div')
+          nonInteractiveElement.className = 'non-interactive-element'
+          wrapper.element.querySelector('.av-card__title')?.appendChild(nonInteractiveElement)
+          await wrapper.find('.non-interactive-element').trigger('click')
+        })
+
+        BddTest().then('it should render the collapsed icon', () => {
+          const toggleButton = wrapper.findComponent(AvButtonStub)
+          expect(toggleButton.props('icon')).toBe(MDI_ICONS.CHEVRON_DOWN)
+        })
+      })
+
+      BddTest().and('the card is clicked on an interactive role element', () => {
+        beforeEach(async () => {
+          const interactiveElement = document.createElement('div')
+          interactiveElement.setAttribute('role', 'button')
+          interactiveElement.className = 'interactive-role-element'
+          wrapper.element.querySelector('.av-card__title')?.appendChild(interactiveElement)
+          await wrapper.find('.interactive-role-element').trigger('click')
+        })
+
+        BddTest().then('it should still render the non collapsed icon', () => {
+          const toggleButton = wrapper.findComponent(AvButtonStub)
+          expect(toggleButton.props('icon')).toBe(MDI_ICONS.CHEVRON_LEFT)
+        })
+      })
+
+      BddTest().and('the card is clicked on a non-interactive role element', () => {
+        beforeEach(async () => {
+          const nonInteractiveElement = document.createElement('div')
+          nonInteractiveElement.setAttribute('role', 'article')
+          nonInteractiveElement.className = 'non-interactive-role-element'
+          wrapper.element.querySelector('.av-card__title')?.appendChild(nonInteractiveElement)
+          await wrapper.find('.non-interactive-role-element').trigger('click')
+        })
+
+        BddTest().then('it should render the collapsed icon', () => {
+          const toggleButton = wrapper.findComponent(AvButtonStub)
+          expect(toggleButton.props('icon')).toBe(MDI_ICONS.CHEVRON_DOWN)
+        })
+      })
+
+      BddTest().and('the card is clicked on an element with interactive tabindex', () => {
+        beforeEach(async () => {
+          const interactiveElement = document.createElement('div')
+          interactiveElement.setAttribute('tabindex', '0')
+          interactiveElement.className = 'interactive-tabindex-element'
+          wrapper.element.querySelector('.av-card__title')?.appendChild(interactiveElement)
+          await wrapper.find('.interactive-tabindex-element').trigger('click')
+        })
+
+        BddTest().then('it should still render the non collapsed icon', () => {
+          const toggleButton = wrapper.findComponent(AvButtonStub)
+          expect(toggleButton.props('icon')).toBe(MDI_ICONS.CHEVRON_LEFT)
+        })
+      })
+
+      BddTest().and('the card is clicked on an element with non-interactive tabindex', () => {
+        beforeEach(async () => {
+          const nonInteractiveElement = document.createElement('div')
+          nonInteractiveElement.setAttribute('tabindex', '-1')
+          nonInteractiveElement.className = 'non-interactive-tabindex-element'
+          wrapper.element.querySelector('.av-card__title')?.appendChild(nonInteractiveElement)
+          await wrapper.find('.non-interactive-tabindex-element').trigger('click')
+        })
+
+        BddTest().then('it should render the collapsed icon', () => {
+          const toggleButton = wrapper.findComponent(AvButtonStub)
+          expect(toggleButton.props('icon')).toBe(MDI_ICONS.CHEVRON_DOWN)
+        })
+      })
+
+      BddTest().and('the cursor is moved into the card', () => {
+        beforeEach(async () => {
+          await wrapper.find('.av-card').trigger('mousemove')
+        })
+
+        BddTest().then('it should not render hovering-interactive class', () => {
+          const card = wrapper.get('.av-card')
+          expect(card.classes()).not.toContain('av-card--hovering-interactive')
+        })
+      })
+
+      BddTest().and('the cursor is moved into an interactive element inside the card', () => {
+        beforeEach(async () => {
+          const interactiveElement = document.createElement('button')
+          interactiveElement.className = 'interactive-element'
+          wrapper.element.querySelector('.av-card__title')?.appendChild(interactiveElement)
+          await wrapper.find('.interactive-element').trigger('mousemove')
+        })
+
+        BddTest().then('it should render hovering-interactive class', () => {
+          const card = wrapper.get('.av-card')
+          expect(card.classes()).toContain('av-card--hovering-interactive')
+        })
+      })
+
+      BddTest().and('the cursor is moved into the collapse toggle button', () => {
+        beforeEach(async () => {
+          const toggleButton = wrapper.findComponent(AvButtonStub)
+          await toggleButton.trigger('mousemove')
+        })
+
+        BddTest().then('it should not render hovering-interactive class', () => {
+          const card = wrapper.get('.av-card')
+          expect(card.classes()).not.toContain('av-card--hovering-interactive')
         })
       })
 

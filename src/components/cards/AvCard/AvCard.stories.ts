@@ -78,6 +78,7 @@ const Template: StoryFn<AvCardProps> = args => ({
       </template>
       <template #body>
         <p class="b2-regular">This is the card body. You can put any content here.</p>
+        <button>Click Me</button>
       </template>
       <template #footer>
         <small class="caption-regular">Footer content</small>
