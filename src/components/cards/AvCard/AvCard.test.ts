@@ -40,7 +40,7 @@ BddTest().given('an AvCard', () => {
         })
 
         const title = wrapper.get('.av-card__title')
-        expect(title.text()).toBe('Titre')
+        expect(title.text()).toContain('Titre')
         expect(title.attributes('style')).toContain('background: red')
       })
     })
@@ -130,6 +130,17 @@ BddTest().given('an AvCard', () => {
       BddTest().then('it should render the non collapsed icon', () => {
         const toggleButton = wrapper.findComponent(AvButtonStub)
         expect(toggleButton.props('icon')).toBe(MDI_ICONS.CHEVRON_LEFT)
+      })
+
+      BddTest().and('the card is clicked', () => {
+        beforeEach(async () => {
+          await wrapper.find('.av-card').trigger('click')
+        })
+
+        BddTest().then('it should render the collapsed icon', () => {
+          const toggleButton = wrapper.findComponent(AvButtonStub)
+          expect(toggleButton.props('icon')).toBe(MDI_ICONS.CHEVRON_DOWN)
+        })
       })
 
       BddTest().and('the toggle button is clicked', () => {

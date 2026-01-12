@@ -120,6 +120,11 @@ fix: handle null pointer in dashboard
 docs: update installation guide
 ```
 
+### ARIA Authoring Practices Guide
+
+When developing components, please refer to the [ARIA Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/) to ensure accessibility compliance.
+You can find [design patterns](https://www.w3.org/WAI/ARIA/apg/patterns/) and [best practices](https://www.w3.org/WAI/ARIA/apg/practices/) for implementing accessible web components.
+
 ## Projects using DSAV
 
 - [AVENIR(s) Cofolio](https://github.com/avenirs-esr/avenirs-cofolio-client) : An ePortfolio for Higher Education and Research

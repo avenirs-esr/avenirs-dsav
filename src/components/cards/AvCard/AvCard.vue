@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { Slot } from 'vue'
+import type AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
 import { MDI_ICONS } from '@/tokens'
 
 /**
@@ -90,14 +91,25 @@ const slots = defineSlots<{
 }>()
 
 const collapsed = ref(defaultCollapsed)
+
+const id = computed(() => `av-card-${crypto.randomUUID()}`)
+const buttonRef = ref<InstanceType<typeof AvButton> | null>(null)
+
+function handleCardClick (event: MouseEvent) {
+  if (collapsible && buttonRef.value && event.target !== buttonRef.value.$el && !buttonRef.value.$el.contains(event.target as Node)) {
+    collapsed.value = !collapsed.value
+  }
+}
 </script>
 
 <template>
   <div
     class="av-card av-col av-p-sm av-justify-start"
+    :class="{ 'av-card--collapsible': collapsible }"
     :style="{ borderColor, background: backgroundColor }"
+    @click="handleCardClick"
   >
-    <div
+    <header
       v-if="slots.title"
       class="av-card__title av-row av-align-center av-justify-between av-p-sm av-gap-sm"
       :class="{ 'av-card__title--collapsed': collapsed,
@@ -107,16 +119,21 @@ const collapsed = ref(defaultCollapsed)
     >
       <slot name="title" />
       <AvButton
-        v-if="!titleOnly && collapsible"
+        v-if="collapsible"
+        ref="buttonRef"
+        :aria-controls="`${id}-content`"
+        :aria-expanded="!collapsed"
         :icon="collapsed ? MDI_ICONS.CHEVRON_DOWN : MDI_ICONS.CHEVRON_LEFT"
         icon-only
-        label=""
+        label="Details"
         @click="collapsed = !collapsed"
       />
-    </div>
+    </header>
     <div
       v-if="!titleOnly"
       v-show="!collapsible || !collapsed"
+      :id="`${id}-content`"
+      :aria-hidden="collapsible && collapsed"
       class="av-card__content-collapsible av-col av-justify-between av-h-full av-pt-sm av-gap-sm"
     >
       <slot />
@@ -152,8 +169,19 @@ const collapsed = ref(defaultCollapsed)
     }
   }
 
+  &--collapsible:hover {
+    cursor: pointer;
+    outline: 1px solid v-bind('borderColor');
+
+    .av-button {
+      background-color: var(--dark-background-primary2);
+      color: var(--other-background-base);
+    }
+  }
+
   .av-button {
     background-color: transparent;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
   }
 }
 </style>
