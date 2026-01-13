@@ -157,8 +157,6 @@ watch(() => isSelected, () => {
 </template>
 
 <style lang="scss" scoped>
-@use "@/styles/core/_typography.scss";
-
 .av-tab-item {
   width: 100%;
   flex: 1 1 0%;

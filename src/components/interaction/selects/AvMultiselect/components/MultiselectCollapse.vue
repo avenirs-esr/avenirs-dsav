@@ -264,8 +264,6 @@ onUnmounted(() => {
 </template>
 
 <style lang="scss" scoped>
-@use '@/styles/core/_typography.scss';
-
 .av-multiselect__collapse {
   z-index: 1;
   position: absolute;

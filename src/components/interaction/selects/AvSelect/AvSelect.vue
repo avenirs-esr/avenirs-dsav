@@ -154,7 +154,10 @@ const messageType = computed(() => {
 
       <select
         :id="realId"
-        :class="{ [`av-select--${messageType}`]: message }"
+        :class="{ [`av-select--${messageType}`]: message,
+                  'b1-regular': !dense,
+                  'b2-regular': dense,
+        }"
         class="av-select"
         :name="name || realId"
         :disabled="disabled"
@@ -196,11 +199,7 @@ const messageType = computed(() => {
 </template>
 
 <style lang="scss" scoped>
-@use '@/styles/core/_typography.scss';
-
 .av-select {
-  @extend .b1-regular;
-
   background-color: var(--other-background-base);
   border: 1px solid var(--stroke);
   color: var(--text1);
@@ -218,8 +217,6 @@ const messageType = computed(() => {
 
   &--dense {
     .av-select {
-      @extend .b2-regular;
-
       padding-top: var(--spacing-xxs) !important;
       padding-bottom: var(--spacing-xxs) !important;
     }
