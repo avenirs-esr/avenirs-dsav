@@ -156,8 +156,6 @@ const message = computed(() => errorMessage || successMessage)
 </template>
 
 <style lang="scss" scoped>
-@use '@/styles/core/_typography.scss';
-
 .av-fieldset {
   border: none;
 

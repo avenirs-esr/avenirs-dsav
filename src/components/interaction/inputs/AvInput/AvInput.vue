@@ -234,7 +234,7 @@ const finalLabelClass = computed(() => [
 const prefixIconTop = computed(() => labelVisible ? '69%' : '55%')
 
 const commonInputClasses = computed(() => ({
-  'av-input__input av-col av-align-center av-w-full': true,
+  'av-input__input av-col av-align-center av-w-full b2-light': true,
   'av-input__input--error': isInvalid.value,
   'av-input__input--valid': isValid,
 }))
@@ -360,8 +360,6 @@ defineExpose({
 </template>
 
 <style lang="scss" scoped>
-@use '@/styles/core/_typography.scss';
-
 .av-input {
   width: v-bind('width');
 
@@ -420,15 +418,11 @@ defineExpose({
     }
 
     &::placeholder {
-      @extend .b2-light;
-
       font-style: italic;
     }
   }
 
   input {
-    @extend .b2-light;
-
     &[type="date"] {
       appearance: textfield;
       -webkit-appearance: textfield;
@@ -442,8 +436,6 @@ defineExpose({
   }
 
   textarea {
-    @extend .b2-light;
-
     min-height: v-bind('textareaMinHeight');
     resize: vertical;
     align-items: flex-start;

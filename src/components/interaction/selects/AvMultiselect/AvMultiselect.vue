@@ -344,7 +344,6 @@ const styleVars = computed(() => ({
 </template>
 
 <style lang="scss" scoped>
-@use '@/styles/core/_typography.scss';
 @use '@/styles/components/_texts.scss';
 
 .av-multiselect {
@@ -387,7 +386,6 @@ const styleVars = computed(() => ({
   }
 
   &--unselected {
-    @extend .b1-regular;
     font-style: italic;
   }
 }

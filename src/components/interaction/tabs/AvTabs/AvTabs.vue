@@ -165,8 +165,6 @@ onUnmounted(() => {
 </template>
 
 <style lang="scss" scoped>
-@use '@/styles/core/_typography.scss';
-
 .av-tabs {
   &__list {
     background: var(--surface-background);
