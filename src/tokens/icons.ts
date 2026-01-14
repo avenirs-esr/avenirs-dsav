@@ -77,6 +77,7 @@ export const MDI_ICONS = {
   HISTORY: 'mdi:history',
   HOME_VARIANT_OUTLINE: 'mdi:home-variant-outline',
   HOURGLASS: 'mdi:hourglass',
+  HUB_OUTLINE: 'mdi:hub-outline',
   IMAGE_FILTER_CENTER_FOCUS_WEAK: 'mdi:image-filter-center-focus-weak',
   IMAGE_OUTLINE: 'mdi:image-outline',
   IMAGE_REFRESH_OUTLINE: 'mdi:image-refresh-outline',
@@ -137,6 +138,7 @@ export const RI_ICONS = {
   DICE_1_LINE: 'ri:dice-1-line',
   DICE_4_LINE: 'ri:dice-4-line',
   HAND_HEART_LINE: 'ri:hand-heart-line',
+  HONOUR_LINE: 'ri:honour-line',
   LAYOUT_6_LINE: 'ri:layout-6-line',
   LOADER_LINE: 'ri:loader-line',
 }
