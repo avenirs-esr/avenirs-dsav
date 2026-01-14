@@ -198,7 +198,7 @@ function handleMouseMove (event: MouseEvent) {
       v-show="!collapsible || !collapsed"
       :id="`${id}-content`"
       :aria-hidden="collapsible && collapsed"
-      class="av-card__content-collapsible av-col av-justify-between av-h-full av-pt-sm av-gap-sm"
+      class="av-card__content-collapsible av-col av-justify-between av-h-full av-gap-sm"
     >
       <slot />
       <div
