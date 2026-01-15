@@ -112,6 +112,7 @@ export default defineConfig({
                   text: 'Inputs',
                   items: [
                     { text: 'AvInput', link: '/components/interaction/inputs/AvInput/AvInput.md' },
+                    { text: 'AvPeriodInput', link: '/components/interaction/inputs/AvPeriodInput/AvPeriodInput.md' },
                     { text: 'AvSearchBar', link: '/components/interaction/inputs/AvSearchBar/AvSearchBar.md' },
                   ],
                   collapsed: true
