@@ -22,6 +22,7 @@ The period input is composed of:
 | --- | --- | --- | --- |---------------------------------------------------------------------------------------|
 | `id` | `string` | `period-input-${crypto.randomUUID()}` |  | Unique id for the period input.                                                       |
 | `label` | `string` |  | ✅ | Label displayed above the two inputs.                                                 |
+| `labelClass` | `string` | `'b2-light'` |  | CSS class for the common label                                                        |
 | `startModelValue` | `string` | `''` |  | Start date value (ISO string: `YYYY-MM-DD`).                                          |
 | `endModelValue` | `string` | `''` |  | End date value (ISO string: `YYYY-MM-DD`).                                            |
 | `startLabel` | `string` |  | ✅ | Label for the start input (internal labels are hidden by default).                    |

@@ -21,6 +21,12 @@ export interface AvPeriodInputProps {
   label: string
 
   /**
+   * CSS class for the label
+   * @default 'b2-light'
+   */
+  labelClass?: string
+
+  /**
    * Start date value (ISO string: YYYY-MM-DD)
    * @default ''
    */
@@ -93,6 +99,7 @@ export interface AvPeriodInputProps {
 const {
   id,
   label,
+  labelClass = 'b2-light',
   startModelValue = '',
   endModelValue = '',
   startLabel,
@@ -175,12 +182,13 @@ function onEndUpdate (value: string | number | null) {
 
 <template>
   <div
-    class="av-period-input av-col av-gap-sm"
+    class="av-period-input av-col av-gap-xxs"
     :class="{ 'av-period-input--stacked': stacked }"
   >
     <label
-      class="av-period-input__label"
+      :class="labelClass"
       :for="startId"
+      data-testid="common-label"
     >
       {{ label }}
     </label>
