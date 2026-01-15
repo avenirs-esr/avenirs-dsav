@@ -43,6 +43,7 @@ declare module 'vue' {
     AvNotice: typeof import('./components/base/AvNotice/AvNotice.vue')['default']
     AvPageSizePicker: typeof import('./components/interaction/pickers/AvPageSizePicker/AvPageSizePicker.vue')['default']
     AvPagination: typeof import('./components/navigation/AvPagination/AvPagination.vue')['default']
+    AvPeriodInput: typeof import('./components/interaction/inputs/AvPeriodInput/AvPeriodInput.vue')['default']
     AvPopover: typeof import('./components/overlay/popovers/AvPopover/AvPopover.vue')['default']
     AvRadioButton: typeof import('./components/interaction/radios/AvRadioButton/AvRadioButton.vue')['default']
     AvRadioButtonSet: typeof import('./components/interaction/radios/AvRadioButtonSet/AvRadioButtonSet.vue')['default']
