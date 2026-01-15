@@ -37,6 +37,10 @@ BddTest().given('a period input', () => {
     return inputs.find(input => input.attributes('data-testid') === 'end-date-input') ?? inputs[1]
   }
 
+  function findCommonLabel () {
+    return wrapper.find('[data-testid="common-label"]')
+  }
+
   BddTest().and('given required props', () => {
     BddTest().when('the component is mounted', () => {
       beforeEach(() => {
@@ -44,9 +48,10 @@ BddTest().given('a period input', () => {
       })
 
       BddTest().then('it should render with default props', () => {
-        const label = wrapper.find('label.av-period-input__label')
+        const label = findCommonLabel()
         expect(label.exists()).toBe(true)
         expect(label.text()).toBe('Period')
+        expect(label.classes()).contain('b2-light')
 
         const inputs = wrapper.findAllComponents({ name: 'AvInput' })
         expect(inputs).toHaveLength(2)
@@ -158,7 +163,7 @@ BddTest().given('a period input', () => {
     })
 
     BddTest().then('it should render the label and bind props to both inputs', () => {
-      const label = wrapper.find('label.av-period-input__label')
+      const label = findCommonLabel()
       expect(label.exists()).toBe(true)
       expect(label.text()).toBe(props.label)
 

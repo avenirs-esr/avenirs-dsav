@@ -40,6 +40,7 @@ const meta: Meta<AvPeriodInputProps> = {
   argTypes: {
     id: { control: 'text' },
     label: { control: 'text', required: true },
+    labelClass: { control: 'text' },
 
     startModelValue: { control: 'text' },
     endModelValue: { control: 'text' },
