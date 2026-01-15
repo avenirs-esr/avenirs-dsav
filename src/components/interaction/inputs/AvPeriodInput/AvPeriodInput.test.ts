@@ -1,66 +1,46 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
+import { parseISO } from 'date-fns'
 import { beforeEach } from 'vitest'
 import AvPeriodInput, { type AvPeriodInputProps } from '@/components/interaction/inputs/AvPeriodInput/AvPeriodInput.vue'
-import { BddTest } from '@/tests'
+import { AvInputStub, BddTest } from '@/tests'
 
 BddTest().given('a period input', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvPeriodInput>>
 
   const stubs = {
-    AvInput: {
-      name: 'AvInput',
-      props: {
-        id: String,
-        type: String,
-        modelValue: String,
-        label: String,
-        labelVisible: Boolean,
-        disabled: Boolean,
-        ariaDisabled: Boolean,
-        width: String,
-        minDate: Object,
-        maxDate: Object,
-      },
-      emits: ['update:modelValue'],
-      template: `
-        <input
-          class="av-input"
-          :data-id="id"
-          :value="modelValue"
-          @input="$emit('update:modelValue', $event.target.value)"
-        />
-      `,
-    },
+    AvInput: AvInputStub,
+  }
+
+  const requiredProps: AvPeriodInputProps = {
+    label: 'Period',
+    startLabel: 'Start',
+    endLabel: 'End',
+  }
+
+  function toLocalDateOnly (date?: Date) {
+    if (!date) {
+      return undefined
+    }
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    return `${year}-${month}-${day}`
   }
 
   function findStartInput () {
-    const startId = wrapper.vm.$props.id
-      ? `${wrapper.vm.$props.id}__start`
-      : undefined
-
     const inputs = wrapper.findAllComponents({ name: 'AvInput' })
-    if (startId) {
-      return inputs.find(i => i.props('id') === startId) ?? inputs[0]
-    }
-    return inputs[0]
+    return inputs.find(input => input.attributes('data-testid') === 'start-date-input') ?? inputs[0]
   }
 
   function findEndInput () {
-    const endId = wrapper.vm.$props.id
-      ? `${wrapper.vm.$props.id}__end`
-      : undefined
-
     const inputs = wrapper.findAllComponents({ name: 'AvInput' })
-    if (endId) {
-      return inputs.find(i => i.props('id') === endId) ?? inputs[1]
-    }
-    return inputs[1]
+    return inputs.find(input => input.attributes('data-testid') === 'end-date-input') ?? inputs[1]
   }
 
-  BddTest().and('given no props', () => {
+  BddTest().and('given required props', () => {
     BddTest().when('the component is mounted', () => {
       beforeEach(() => {
-        wrapper = mount(AvPeriodInput, { global: { stubs } })
+        wrapper = mount(AvPeriodInput, { props: requiredProps, global: { stubs } })
       })
 
       BddTest().then('it should render with default props', () => {
@@ -155,8 +135,8 @@ BddTest().given('a period input', () => {
   })
 
   BddTest().and('given custom props', () => {
-    const startMaxDate = new Date('2026-01-20')
-    const endMinDate = new Date('2026-01-10')
+    const startMaxDate = parseISO('2026-01-20')
+    const endMinDate = parseISO('2026-01-10')
 
     const props: AvPeriodInputProps = {
       id: 'my-period',
@@ -166,13 +146,12 @@ BddTest().given('a period input', () => {
       startLabel: 'Start',
       endLabel: 'End',
       disabled: true,
-      startWidth: '14.875rem',
-      endWidth: '14.875rem',
+      width: '14.875rem',
       startMaxDate,
       endMinDate,
       stacked: true,
       separatorSpacing: '1.5rem',
-    } as any
+    }
 
     beforeEach(() => {
       wrapper = mount(AvPeriodInput, { props, global: { stubs } })
@@ -201,11 +180,10 @@ BddTest().given('a period input', () => {
       expect(startInput.props('disabled')).toBe(true)
       expect(endInput.props('disabled')).toBe(true)
 
-      expect(startInput.props('width')).toBe(props.startWidth)
-      expect(endInput.props('width')).toBe(props.endWidth)
+      expect(startInput.props('width')).toBe(props.width)
 
-      expect(startInput.props('maxDate')).toEqual(startMaxDate)
-      expect(endInput.props('minDate')).toEqual(endMinDate)
+      expect(toLocalDateOnly(startInput.props('maxDate'))).toEqual('2026-01-20')
+      expect(toLocalDateOnly(endInput.props('minDate'))).toEqual('2026-01-10')
 
       expect(startInput.props('label')).toBe(props.startLabel)
       expect(endInput.props('label')).toBe(props.endLabel)
@@ -226,9 +204,12 @@ BddTest().given('a period input', () => {
   BddTest().and('given separatorSpacing and not stacked', () => {
     const props: AvPeriodInputProps = {
       id: 'my-period',
+      label: 'Custom period',
+      startLabel: 'Start',
+      endLabel: 'End',
       separatorSpacing: '2rem',
       stacked: false,
-    } as any
+    }
 
     beforeEach(() => {
       wrapper = mount(AvPeriodInput, { props, global: { stubs } })

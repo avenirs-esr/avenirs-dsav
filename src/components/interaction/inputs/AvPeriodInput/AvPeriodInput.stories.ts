@@ -23,6 +23,15 @@ import AvPeriodInput, { type AvPeriodInputProps } from '@/components/interaction
  *   <li><span class="b2-regular">a spacer separator</span></li>
  *   <li><span class="b2-regular">an end date input</span></li>
  * </ul>
+ *
+ * <h2 class="n2">🔁 Built-in range behavior</h2>
+ *
+ * <p>
+ *   <span class="b2-regular">
+ *     Selecting a start date automatically constrains the end date minimum, and selecting
+ *     an end date automatically constrains the start date maximum.
+ *   </span>
+ * </p>
  */
 const meta: Meta<AvPeriodInputProps> = {
   title: 'Components/Interaction/Inputs/AvPeriodInput',
@@ -30,20 +39,17 @@ const meta: Meta<AvPeriodInputProps> = {
   tags: ['autodocs'],
   argTypes: {
     id: { control: 'text' },
-    label: { control: 'text' },
+    label: { control: 'text', required: true },
 
     startModelValue: { control: 'text' },
     endModelValue: { control: 'text' },
 
-    startLabel: { control: 'text' },
-    endLabel: { control: 'text' },
+    startLabel: { control: 'text', required: true },
+    endLabel: { control: 'text', required: true },
 
     disabled: { control: 'boolean' },
 
-    startWidth: { control: 'text' },
-    endWidth: { control: 'text' },
-
-    separatorSpacing: { control: 'text' },
+    width: { control: 'text' },
 
     startMinDate: { control: 'object' },
     startMaxDate: { control: 'object' },
@@ -51,14 +57,17 @@ const meta: Meta<AvPeriodInputProps> = {
     endMaxDate: { control: 'object' },
 
     stacked: { control: 'boolean' },
+    separatorSpacing: { control: 'text' },
   },
   args: {
     label: 'Period',
+    startLabel: 'Start',
+    endLabel: 'End',
     startModelValue: '',
     endModelValue: '',
     disabled: false,
     stacked: false,
-    separatorSpacing: 'var(--spacing-3)',
+    separatorSpacing: 'var(--spacing-sm)',
   },
 }
 
@@ -95,26 +104,21 @@ const Template: StoryFn<AvPeriodInputProps> = args => ({
 export const Default = Template.bind({})
 Default.args = {}
 
-export const WithCustomSpacing = Template.bind({})
-WithCustomSpacing.args = {
-  separatorSpacing: '1.5rem',
-}
-
-export const TightSpacing = Template.bind({})
-TightSpacing.args = {
-  separatorSpacing: '0.5rem',
-}
-
 export const Prefilled = Template.bind({})
 Prefilled.args = {
   startModelValue: '2026-01-10',
   endModelValue: '2026-01-20',
 }
 
-export const WithWidths = Template.bind({})
-WithWidths.args = {
-  startWidth: '14.875rem',
-  endWidth: '14.875rem',
+export const WithWidth = Template.bind({})
+WithWidth.args = {
+  width: '14.875rem',
+}
+
+export const WithCustomSpacing = Template.bind({})
+WithCustomSpacing.args = {
+  width: '14.875rem',
+  separatorSpacing: '1rem',
 }
 
 export const Disabled = Template.bind({})
@@ -122,20 +126,26 @@ Disabled.args = {
   disabled: true,
   startModelValue: '2026-01-10',
   endModelValue: '2026-01-20',
+  width: '14.875rem',
 }
 
 export const Stacked = Template.bind({})
 Stacked.args = {
   stacked: true,
-  startWidth: '14.875rem',
-  endWidth: '14.875rem',
+  width: '14.875rem',
+  separatorSpacing: '1rem',
 }
 
-export const WithConstraints = Template.bind({})
-WithConstraints.args = {
+export const WithExternalBounds = Template.bind({})
+WithExternalBounds.args = {
+  width: '14.875rem',
+  startMinDate: new Date('2026-01-01'),
+  endMaxDate: new Date('2026-12-31'),
+}
+
+export const WithRangeBehavior = Template.bind({})
+WithRangeBehavior.args = {
   startModelValue: '2026-01-10',
   endModelValue: '2026-01-20',
-  separatorSpacing: '1rem',
-  startMaxDate: new Date('2026-01-20'),
-  endMinDate: new Date('2026-01-10'),
+  width: '14.875rem',
 }
