@@ -199,6 +199,7 @@ function handleMouseMove (event: MouseEvent) {
       :id="`${id}-content`"
       :aria-hidden="collapsible && collapsed"
       class="av-card__content-collapsible av-col av-justify-between av-h-full av-gap-sm"
+      :class="{ 'av-pt-sm': !!slots.title }"
     >
       <slot />
       <div
