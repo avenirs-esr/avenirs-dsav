@@ -29,6 +29,7 @@ export const MDI_ICONS = {
   BELL_NOTIFICATION: 'mdi:bell-notification',
   BOOK_LOCATION_OUTLINE: 'mdi:book-location-outline',
   BOOK_OPEN_VARIANT: 'mdi:book-open-variant',
+  BOOK_OUTLINE: 'mdi:book-outline',
   BRIEFCASE_VARIANT_OUTLINE: 'mdi:briefcase-variant-outline',
   BUILDING: 'mdi:building',
   CALENDAR_BLANK_OUTLINE: 'mdi:calendar-blank-outline',
