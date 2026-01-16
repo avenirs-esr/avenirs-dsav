@@ -1,0 +1,22 @@
+export const AvPeriodInputStub = defineComponent({
+  name: 'AvPeriodInput',
+  props: {
+    id: String,
+    label: String,
+    labelClass: String,
+    startModelValue: String,
+    endModelValue: String,
+    startLabel: String,
+    endLabel: String,
+    disabled: Boolean,
+    width: String,
+    startMinDate: Date,
+    startMaxDate: Date,
+    endMinDate: Date,
+    endMaxDate: Date,
+    stacked: Boolean,
+    separatorSpacing: String,
+  },
+  emits: ['update:startModelValue', 'update:endModelValue', 'change'],
+  template: `<div class="av-period-input-stub" data-testid="av-period-input-stub" />`,
+})
