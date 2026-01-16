@@ -59,7 +59,7 @@ The component integrates focus management, proper ARIA attributes, and responsiv
 | Name | Description | Slot Props |
 | --- | --- | --- |
 | `requiredTip` | Slot for custom required field indicator | None |
-| `customCaptions` | Slot for custom captions, such as character count or additional info | `currentValue: string \| number \| null`, `maxlength: number \| undefined` |
+| `maxLengthCaption` | Slot for max length caption to display the current length / max length | `currentValue: string \| number \| null`, `maxlength: number \| undefined` |
 
 ## 🚀 Storybook demos
 
@@ -150,7 +150,7 @@ You can find examples of use and demo of the component on its dedicated [Storybo
   label="Message"
   :maxlength="200"
 >
-  <template #customCaptions="{ currentValue, maxlength }">
+  <template #maxLengthCaption="{ currentValue, maxlength }">
     <span class="caption-light">
       {{ currentValue?.toString().length }} / {{ maxlength }} characters
     </span>

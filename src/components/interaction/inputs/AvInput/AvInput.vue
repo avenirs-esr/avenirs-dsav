@@ -191,9 +191,9 @@ defineSlots<{
   requiredTip?: Slot
 
   /**
-   * Slot for custom captions, such as error or valid messages.
+   * Slot for max length caption to display the current length / max length
    */
-  customCaptions?: Slot<{ currentValue?: string | number | null, maxlength?: number }>
+  maxLengthCaption?: Slot<{ currentValue?: string | number | null, maxlength?: number }>
 }>()
 
 const attrs = useAttrs()
@@ -332,7 +332,8 @@ defineExpose({
         />
       </div>
       <slot
-        name="customCaptions"
+        v-if="!disabled"
+        name="maxLengthCaption"
         :current-value="modelValue"
         :maxlength="maxlength"
       >
