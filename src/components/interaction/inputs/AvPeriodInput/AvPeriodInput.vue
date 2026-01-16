@@ -130,12 +130,6 @@ const realId = computed(() => id ?? `period-input-${crypto.randomUUID()}`)
 const startId = computed(() => `${realId.value}__start`)
 const endId = computed(() => `${realId.value}__end`)
 
-const separatorStyle = computed(() => {
-  return stacked
-    ? { height: separatorSpacing }
-    : { width: separatorSpacing }
-})
-
 function toValidDate (value?: string): Date | undefined {
   if (!value) {
     return undefined
@@ -207,18 +201,11 @@ function onEndUpdate (value: string | number | null) {
         :label="startLabel"
         :label-visible="false"
         :disabled="disabled"
-        :aria-disabled="disabled"
         :width="width"
         :min-date="computedStartMinDate"
         :max-date="computedStartMaxDate"
         data-testid="start-date-input"
         @update:model-value="onStartUpdate($event)"
-      />
-
-      <div
-        class="av-period-input__separator"
-        aria-hidden="true"
-        :style="separatorStyle"
       />
 
       <AvInput
@@ -228,7 +215,6 @@ function onEndUpdate (value: string | number | null) {
         :label="endLabel"
         :label-visible="false"
         :disabled="disabled"
-        :aria-disabled="disabled"
         :width="width"
         :min-date="computedEndMinDate"
         :max-date="computedEndMaxDate"
@@ -245,6 +231,7 @@ function onEndUpdate (value: string | number | null) {
 
   &__row {
     box-sizing: border-box;
+    gap: v-bind('separatorSpacing');
   }
 
   &__separator {

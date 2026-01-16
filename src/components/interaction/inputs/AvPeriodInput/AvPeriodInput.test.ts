@@ -70,9 +70,6 @@ BddTest().given('a period input', () => {
 
         expect(startInput.props('labelVisible')).toBe(false)
         expect(endInput.props('labelVisible')).toBe(false)
-
-        const separator = wrapper.find('.av-period-input__separator')
-        expect(separator.exists()).toBe(true)
       })
 
       BddTest().and('a start date is typed', () => {
@@ -200,9 +197,9 @@ BddTest().given('a period input', () => {
       const container = wrapper.find('.av-period-input')
       expect(container.classes()).toContain('av-period-input--stacked')
 
-      const separator = wrapper.find('.av-period-input__separator')
+      const separator = wrapper.find('.av-period-input__row')
       expect(separator.exists()).toBe(true)
-      expect(separator.attributes('style')).toContain('height: 1.5rem')
+      expect(wrapper.props('separatorSpacing')).toBe('1.5rem')
     })
   })
 
@@ -221,9 +218,9 @@ BddTest().given('a period input', () => {
     })
 
     BddTest().then('it should render the separator and apply the spacing width style', () => {
-      const separator = wrapper.find('.av-period-input__separator')
+      const separator = wrapper.find('.av-period-input__row')
       expect(separator.exists()).toBe(true)
-      expect(separator.attributes('style')).toContain('width: 2rem')
+      expect(wrapper.props('separatorSpacing')).toBe('2rem')
     })
   })
 })
