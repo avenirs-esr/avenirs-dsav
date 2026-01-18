@@ -1,7 +1,8 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 import AvSelect from '@/components/interaction/selects/AvSelect/AvSelect.vue'
-import { BddTest } from '@/tests/utils'
+import { AvIconStub, BddTest } from '@/tests'
+import { MDI_ICONS } from '@/tokens/icons'
 
 const options = [
   { value: '1', text: 'Option 1' },
@@ -305,6 +306,49 @@ BddTest().given('a select component', () => {
     BddTest().when('the component is mounted', () => {
       BddTest().then('it should set the name attribute on the select element', () => {
         expect(wrapper.find('select').attributes('name')).toBe(name)
+      })
+    })
+  })
+
+  BddTest().and('with a prefixIcon prop', () => {
+    beforeEach(() => {
+      wrapper = mount(AvSelect, {
+        props: { ...defaultProps, prefixIcon: MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE },
+        global: {
+          stubs: {
+            AvIcon: AvIconStub,
+          },
+        },
+      })
+    })
+
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should render the prefix icon container', () => {
+        expect(wrapper.find('.av-select-prefix').exists()).toBe(true)
+      })
+
+      BddTest().then('it should render the AvIcon component', () => {
+        expect(wrapper.findComponent(AvIconStub).exists()).toBe(true)
+      })
+
+      BddTest().then('it should add the with-prefix class to the select', () => {
+        expect(wrapper.find('select').classes()).toContain('av-select--with-prefix')
+      })
+    })
+  })
+
+  BddTest().and('without a prefixIcon prop', () => {
+    beforeEach(() => {
+      wrapper = mountWithProps()
+    })
+
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should not render the prefix icon container', () => {
+        expect(wrapper.find('.av-select-prefix').exists()).toBe(false)
+      })
+
+      BddTest().then('it should not add the with-prefix class to the select', () => {
+        expect(wrapper.find('select').classes()).not.toContain('av-select--with-prefix')
       })
     })
   })

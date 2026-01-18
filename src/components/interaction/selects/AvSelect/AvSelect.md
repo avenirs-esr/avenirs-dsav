@@ -25,7 +25,8 @@ The `AvSelect` consists of a set of `<option>` within a `<select>`.
 | `errorMessage` | `string` | `''` | | If set, display an error message.|
 | `placeholder` | `string` | | ✅ | Placeholder text.|
 | `id` | `string` | `select-${crypto.randomUUID()}` | | Unique id for the select. Used for the accessibility. |
-| `dense` | `boolean` | `true` | | Dense mode for reduced padding.|
+| `dense` | `boolean` | `false` | | Dense mode for reduced padding.|
+| `prefixIcon` | `string` | | | Prefix icon name (optional).|
 
 ## 🔊 Events
 

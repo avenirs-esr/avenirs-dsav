@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import { ICONS_DATA_URL } from '@/tokens'
 
 /**
@@ -78,6 +79,11 @@ export interface AvSelectProps {
    * @default false
    */
   dense?: boolean
+
+  /**
+   * Prefix icon name (optional)
+   */
+  prefixIcon?: string
 }
 
 const {
@@ -93,6 +99,7 @@ const {
   errorMessage = '',
   placeholder,
   dense = false,
+  prefixIcon,
 } = defineProps<AvSelectProps>()
 
 /**
@@ -134,61 +141,72 @@ const messageType = computed(() => {
       class="av-select-group"
       :class="{ [`av-select-group--${messageType}`]: message }"
     >
-      <label
-        class="av-label b2-light"
-        :for="realId"
-      >
-        <span>{{ label }}</span>
-        <span
-          v-if="required"
-          class="required"
-        >&nbsp;*</span>
-
-        <span
-          v-if="hint"
-          class="av-hint-text"
+      <div class="av-select-control">
+        <div
+          v-if="prefixIcon"
+          class="av-select-prefix av-align-center av-col"
         >
-          {{ hint }}
-        </span>
-      </label>
+          <AvIcon
+            :name="prefixIcon"
+            :size="1.2"
+          />
+        </div>
 
-      <select
-        :id="realId"
-        :class="{ [`av-select--${messageType}`]: message,
-                  'b1-regular': !dense,
-                  'b2-regular': dense,
-        }"
-        class="av-select"
-        :name="name || realId"
-        :disabled="disabled"
-        :aria-disabled="disabled"
-        :required="required"
-        :aria-required="required"
-        :title="title"
-        v-bind="$attrs"
-        :style="styleVars"
-        @change="emit('update:modelValue', ($event.target as HTMLInputElement)?.value)"
-      >
-        <option
-          :selected="!options.some(option => option.value === modelValue)"
-          disabled
-          value=""
-          hidden=""
+        <label
+          class="av-label b2-light"
+          :for="realId"
         >
-          {{ placeholder }}
-        </option>
+          <span>{{ label }}</span>
+          <span
+            v-if="required"
+            class="required"
+          >&nbsp;*</span>
 
-        <option
-          v-for="(option, index) in options"
-          :key="index"
-          :selected="modelValue === option.value"
-          :value="option.value"
-          :disabled="option.disabled"
-          :aria-disabled="option.disabled"
+          <span
+            v-if="hint"
+            class="av-hint-text"
+          >
+            {{ hint }}
+          </span>
+        </label>
+
+        <select
+          :id="realId"
+          :class="{ [`av-select--${messageType}`]: message,
+                    'av-select--with-prefix': prefixIcon,
+          }"
+          class="av-select b2-light"
+          :name="name || realId"
+          :disabled="disabled"
+          :aria-disabled="disabled"
+          :required="required"
+          :aria-required="required"
+          :title="title"
+          v-bind="$attrs"
+          :style="styleVars"
+          @change="emit('update:modelValue', ($event.target as HTMLInputElement)?.value)"
         >
-          {{ option.text }}
-        </option>
-      </select>
+          <option
+            :selected="!options.some(option => option.value === modelValue)"
+            disabled
+            value=""
+            hidden=""
+          >
+            {{ placeholder }}
+          </option>
+
+          <option
+            v-for="(option, index) in options"
+            :key="index"
+            :selected="modelValue === option.value"
+            :value="option.value"
+            :disabled="option.disabled"
+            :aria-disabled="option.disabled"
+          >
+            {{ option.text }}
+          </option>
+        </select>
+      </div>
       <AvMessage
         :message-id="`select-${messageType}-desc-${messageType}`"
         :message="message"
@@ -199,11 +217,32 @@ const messageType = computed(() => {
 </template>
 
 <style lang="scss" scoped>
+.av-select-control {
+  position: relative;
+
+  &:hover {
+    .av-select-prefix {
+      color: white;
+    }
+  }
+}
+
+.av-select-prefix {
+  position: absolute;
+  left: var(--spacing-xs);
+  top: 69%;
+  transform: translateY(-50%);
+  z-index: 1;
+  pointer-events: none;
+  color: var(--text2);
+  transition: color 0.2s ease;
+}
+
 .av-select {
   background-color: var(--other-background-base);
-  border: 1px solid var(--stroke);
-  color: var(--text1);
-  border-radius: var(--radius-md);
+  border: 1px solid var(--divider);
+  color: var(--text2);
+  border-radius: var(--radius-lg);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -212,7 +251,7 @@ const messageType = computed(() => {
   background-repeat: no-repeat;
   background-size: var(--dimension-sm) var(--dimension-sm);
   margin-top: var(--spacing-none);
-  display: block;
+  width: 100%;
   padding: var(--spacing-xs) var(--spacing-xl) var(--spacing-xs) var(--spacing-sm);
 
   &--dense {
@@ -220,6 +259,10 @@ const messageType = computed(() => {
       padding-top: var(--spacing-xxs) !important;
       padding-bottom: var(--spacing-xxs) !important;
     }
+  }
+
+  &--with-prefix {
+    padding-left: calc(var(--spacing-xs) * 3 + var(--spacing-sm));
   }
 
   &[aria-disabled=true] {

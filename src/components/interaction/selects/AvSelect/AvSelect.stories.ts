@@ -1,5 +1,6 @@
 import type { StoryFn } from '@storybook/vue3'
 import AvSelect, { type AvSelectProps } from '@/components/interaction/selects/AvSelect/AvSelect.vue'
+import { MDI_ICONS } from '@/tokens/icons'
 
 /**
  * <h1 class="n1">Drop-down list - <code>AvSelect</code></h1>
@@ -42,6 +43,7 @@ const meta = {
     successMessage: { control: 'text' },
     errorMessage: { control: 'text' },
     placeholder: { control: 'text', required: true },
+    prefixIcon: { control: 'text' },
   },
   args: {
     options: [
@@ -61,6 +63,7 @@ const meta = {
     successMessage: '',
     errorMessage: '',
     dense: false,
+    prefixIcon: '',
   },
 }
 
@@ -127,4 +130,11 @@ WithSuccess.args = {
   name: 'with-success-select',
   successMessage: 'Selection successful!',
   label: 'With success Select',
+}
+
+export const WithPrefixIcon = Template.bind({})
+WithPrefixIcon.args = {
+  name: 'with-prefix-icon-select',
+  prefixIcon: MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE,
+  label: 'With prefix icon Select',
 }

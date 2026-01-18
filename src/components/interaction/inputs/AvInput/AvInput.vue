@@ -297,12 +297,6 @@ defineExpose({
                 class="required"
               >*</span>
             </slot>
-            <span
-              v-if="hint"
-              class="av-hint-text"
-            >
-              {{ hint }}
-            </span>
           </span>
         </label>
 
@@ -345,6 +339,13 @@ defineExpose({
         </span>
       </slot>
     </div>
+
+    <span
+      v-if="hint"
+      class="av-hint-text"
+    >
+      {{ hint }}
+    </span>
 
     <AvMessage
       v-if="errorMessages.length > 0"
