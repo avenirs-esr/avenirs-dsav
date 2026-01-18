@@ -30,7 +30,7 @@ input[type=range] {
 
 // === Label ===
 @include ns("label") {
-  @extend .b2-regular;
+  @extend .b1-regular;
   display: block;
   padding-bottom: var(--spacing-xxs);
 
@@ -41,7 +41,7 @@ input[type=range] {
 
 // === Hint text ===
 @include ns("hint-text") {
-  @extend .caption-regular;
+  @extend .caption-light;
   display: block;
 
   +.#{$prefix}hint-text {
