@@ -23,11 +23,13 @@ The period input is composed of:
 | `id` | `string` | `period-input-${crypto.randomUUID()}` |  | Unique id for the period input.                                                       |
 | `label` | `string` |  | ✅ | Label displayed above the two inputs.                                                 |
 | `labelClass` | `string` | `'b2-light'` |  | CSS class for the common label                                                        |
+| `labelVisible` | `boolean` | `true` |  | Whether the label is visible.                                                         |
 | `startModelValue` | `string` | `''` |  | Start date value (ISO string: `YYYY-MM-DD`).                                          |
 | `endModelValue` | `string` | `''` |  | End date value (ISO string: `YYYY-MM-DD`).                                            |
 | `startLabel` | `string` |  | ✅ | Label for the start input (internal labels are hidden by default).                    |
 | `endLabel` | `string` |  | ✅ | Label for the end input (internal labels are hidden by default).                      |
-| `disabled` | `boolean` | `false` |  | If `true`, disable both inputs.                                                       |
+| `startDateDisabled` | `boolean` | `false` |  | If `true`, disable only the start date input.                                         |
+| `endDateDisabled` | `boolean` | `false` |  | If `true`, disable only the end date input.                                           |
 | `width` | `string` |  |  | Optional width for both inputs (CSS value).                                           |
 | `startMinDate` | `Date` |  |  | Minimum selectable date for the start input.                                          |
 | `startMaxDate` | `Date` |  |  | Maximum selectable date for the start input. Also impacted by the selected end date.  |
@@ -35,6 +37,7 @@ The period input is composed of:
 | `endMaxDate` | `Date` |  |  | Maximum selectable date for the end input.                                            |
 | `stacked` | `boolean` | `false` |  | If `true`, stack inputs vertically.                                                   |
 | `separatorSpacing` | `string` | `var(--spacing-sm)` |  | Spacing between inputs. Uses `width` in horizontal mode and `height` in stacked mode. |
+| `type` | `'date' \| 'datetime-local' \| 'month' \| 'time' \| 'week'` | `'date'` |  | Input type for both date inputs.                                                      |
 
 ## 🔁 Built-in range behavior
 

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { isValid, max, min, parseISO } from 'date-fns'
-import AvInput from '@/components/interaction/inputs/AvInput/AvInput.vue'
+import AvInput, { type AvInputProps } from '@/components/interaction/inputs/AvInput/AvInput.vue'
 
 /**
  * AvPeriodInput component.
@@ -51,12 +51,6 @@ export interface AvPeriodInputProps {
   endLabel: string
 
   /**
-   * If `true`, disable both inputs
-   * @default false
-   */
-  disabled?: boolean
-
-  /**
    * Optional width for both inputs (CSS value)
    * e.g. '14.875rem', '240px', '100%'
    */
@@ -94,6 +88,26 @@ export interface AvPeriodInputProps {
    * @default var(--spacing-sm)
    */
   separatorSpacing?: string
+  /**
+   * If `true`, disable the end date input
+   * @default false
+   */
+  endDateDisabled?: boolean
+  /**
+   * If `true`, disable the start date input
+   * @default false
+   */
+  startDateDisabled?: boolean
+  /**
+   * Input type for both date inputs
+   * @default 'date'
+   */
+  type?: Extract<AvInputProps['type'], 'date' | 'datetime-local' | 'month' | 'time' | 'week'>
+  /**
+   * Whether the label is visible
+   * @default true
+   */
+  labelVisible?: boolean
 }
 
 const {
@@ -104,14 +118,17 @@ const {
   endModelValue = '',
   startLabel,
   endLabel,
-  disabled = false,
   width,
   startMinDate,
   startMaxDate,
   endMinDate,
   endMaxDate,
   stacked = false,
+  startDateDisabled = false,
+  endDateDisabled = false,
   separatorSpacing = 'var(--spacing-sm)',
+  labelVisible = true,
+  type = 'date',
 } = defineProps<AvPeriodInputProps>()
 
 /**
@@ -161,6 +178,12 @@ const computedEndMinDate = computed(() => {
 
 const computedEndMaxDate = computed(() => endMaxDate)
 
+const finalLabelClass = computed(() => [
+  'av-label',
+  { 'av-hidden': !labelVisible },
+  labelClass
+])
+
 function onStartUpdate (value: string | number | null) {
   const next = value?.toString() ?? ''
   emit('update:startModelValue', next)
@@ -180,7 +203,7 @@ function onEndUpdate (value: string | number | null) {
     :class="{ 'av-period-input--stacked': stacked }"
   >
     <label
-      :class="labelClass"
+      :class="finalLabelClass"
       :for="startId"
       data-testid="common-label"
     >
@@ -196,11 +219,11 @@ function onEndUpdate (value: string | number | null) {
     >
       <AvInput
         :id="startId"
-        type="date"
+        :type="type"
         :model-value="startModelValue"
         :label="startLabel"
         :label-visible="false"
-        :disabled="disabled"
+        :disabled="startDateDisabled"
         :width="width"
         :min-date="computedStartMinDate"
         :max-date="computedStartMaxDate"
@@ -210,11 +233,11 @@ function onEndUpdate (value: string | number | null) {
 
       <AvInput
         :id="endId"
-        type="date"
+        :type="type"
         :model-value="endModelValue"
         :label="endLabel"
         :label-visible="false"
-        :disabled="disabled"
+        :disabled="endDateDisabled"
         :width="width"
         :min-date="computedEndMinDate"
         :max-date="computedEndMaxDate"

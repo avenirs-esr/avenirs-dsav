@@ -147,7 +147,8 @@ BddTest().given('a period input', () => {
       endModelValue: '2026-01-20',
       startLabel: 'Start',
       endLabel: 'End',
-      disabled: true,
+      startDateDisabled: true,
+      endDateDisabled: true,
       width: '14.875rem',
       startMaxDate,
       endMinDate,
@@ -221,6 +222,111 @@ BddTest().given('a period input', () => {
       const separator = wrapper.find('.av-period-input__row')
       expect(separator.exists()).toBe(true)
       expect(wrapper.props('separatorSpacing')).toBe('2rem')
+    })
+  })
+
+  BddTest().and('given startDateDisabled is true', () => {
+    const props: AvPeriodInputProps = {
+      ...requiredProps,
+      startDateDisabled: true,
+    }
+
+    beforeEach(() => {
+      wrapper = mount(AvPeriodInput, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should disable only the start date input', () => {
+      const startInput = findStartInput()
+      const endInput = findEndInput()
+
+      expect(startInput.props('disabled')).toBe(true)
+      expect(endInput.props('disabled')).toBe(false)
+    })
+  })
+
+  BddTest().and('given endDateDisabled is true', () => {
+    const props: AvPeriodInputProps = {
+      ...requiredProps,
+      endDateDisabled: true,
+    }
+
+    beforeEach(() => {
+      wrapper = mount(AvPeriodInput, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should disable only the end date input', () => {
+      const startInput = findStartInput()
+      const endInput = findEndInput()
+
+      expect(startInput.props('disabled')).toBe(false)
+      expect(endInput.props('disabled')).toBe(true)
+    })
+  })
+
+  BddTest().and('given type is datetime-local', () => {
+    const props: AvPeriodInputProps = {
+      ...requiredProps,
+      type: 'datetime-local',
+    }
+
+    beforeEach(() => {
+      wrapper = mount(AvPeriodInput, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should pass the type to both inputs', () => {
+      const startInput = findStartInput()
+      const endInput = findEndInput()
+
+      expect(startInput.props('type')).toBe('datetime-local')
+      expect(endInput.props('type')).toBe('datetime-local')
+    })
+  })
+
+  BddTest().and('given type is month', () => {
+    const props: AvPeriodInputProps = {
+      ...requiredProps,
+      type: 'month',
+    }
+
+    beforeEach(() => {
+      wrapper = mount(AvPeriodInput, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should pass the type to both inputs', () => {
+      const startInput = findStartInput()
+      const endInput = findEndInput()
+
+      expect(startInput.props('type')).toBe('month')
+      expect(endInput.props('type')).toBe('month')
+    })
+  })
+
+  BddTest().and('given labelVisible is false', () => {
+    const props: AvPeriodInputProps = {
+      ...requiredProps,
+      labelVisible: false,
+    }
+
+    beforeEach(() => {
+      wrapper = mount(AvPeriodInput, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should hide the common label', () => {
+      const label = findCommonLabel()
+      expect(label.exists()).toBe(true)
+      expect(label.classes()).toContain('av-hidden')
+    })
+  })
+
+  BddTest().and('given labelVisible is true (default)', () => {
+    beforeEach(() => {
+      wrapper = mount(AvPeriodInput, { props: requiredProps, global: { stubs } })
+    })
+
+    BddTest().then('it should show the common label without av-hidden class', () => {
+      const label = findCommonLabel()
+      expect(label.exists()).toBe(true)
+      expect(label.classes()).not.toContain('av-hidden')
     })
   })
 })

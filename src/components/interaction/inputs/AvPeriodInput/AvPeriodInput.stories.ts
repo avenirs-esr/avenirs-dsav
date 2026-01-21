@@ -41,6 +41,7 @@ const meta: Meta<AvPeriodInputProps> = {
     id: { control: 'text' },
     label: { control: 'text', required: true },
     labelClass: { control: 'text' },
+    labelVisible: { control: 'boolean' },
 
     startModelValue: { control: 'text' },
     endModelValue: { control: 'text' },
@@ -48,7 +49,8 @@ const meta: Meta<AvPeriodInputProps> = {
     startLabel: { control: 'text', required: true },
     endLabel: { control: 'text', required: true },
 
-    disabled: { control: 'boolean' },
+    startDateDisabled: { control: 'boolean' },
+    endDateDisabled: { control: 'boolean' },
 
     width: { control: 'text' },
 
@@ -59,6 +61,11 @@ const meta: Meta<AvPeriodInputProps> = {
 
     stacked: { control: 'boolean' },
     separatorSpacing: { control: 'text' },
+
+    type: {
+      control: 'select',
+      options: ['date', 'datetime-local', 'month', 'time', 'week'],
+    },
   },
   args: {
     label: 'Period',
@@ -66,9 +73,12 @@ const meta: Meta<AvPeriodInputProps> = {
     endLabel: 'End',
     startModelValue: '',
     endModelValue: '',
-    disabled: false,
+    startDateDisabled: false,
+    endDateDisabled: false,
     stacked: false,
     separatorSpacing: 'var(--spacing-sm)',
+    type: 'date',
+    labelVisible: true,
   },
 }
 
@@ -122,9 +132,10 @@ WithCustomSpacing.args = {
   separatorSpacing: '1rem',
 }
 
-export const Disabled = Template.bind({})
-Disabled.args = {
-  disabled: true,
+export const BothDisabled = Template.bind({})
+BothDisabled.args = {
+  startDateDisabled: true,
+  endDateDisabled: true,
   startModelValue: '2026-01-10',
   endModelValue: '2026-01-20',
   width: '14.875rem',
@@ -148,5 +159,43 @@ export const WithRangeBehavior = Template.bind({})
 WithRangeBehavior.args = {
   startModelValue: '2026-01-10',
   endModelValue: '2026-01-20',
+  width: '14.875rem',
+}
+
+export const StartDateDisabled = Template.bind({})
+StartDateDisabled.args = {
+  startDateDisabled: true,
+  startModelValue: '2026-01-10',
+  endModelValue: '2026-01-20',
+  width: '14.875rem',
+}
+
+export const EndDateDisabled = Template.bind({})
+EndDateDisabled.args = {
+  endDateDisabled: true,
+  startModelValue: '2026-01-10',
+  endModelValue: '2026-01-20',
+  width: '14.875rem',
+}
+
+export const MonthType = Template.bind({})
+MonthType.args = {
+  type: 'month',
+  startModelValue: '2026-01',
+  endModelValue: '2026-06',
+  width: '14.875rem',
+}
+
+export const DateTimeLocalType = Template.bind({})
+DateTimeLocalType.args = {
+  type: 'datetime-local',
+  startModelValue: '2026-01-10T09:00',
+  endModelValue: '2026-01-10T17:00',
+  width: '14.875rem',
+}
+
+export const HiddenLabel = Template.bind({})
+HiddenLabel.args = {
+  labelVisible: false,
   width: '14.875rem',
 }
