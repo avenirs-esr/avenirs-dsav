@@ -40,14 +40,18 @@ $directions: (
   @each $direction-key, $direction-value in $directions {
     @each $size, $value in sp.$spacing {
       @if meta.type-of($direction-value) == 'list' {
+        $props: ();
+        $negative-props: ();
         @each $d in $direction-value {
-          @include utility-base("#{$type}#{$direction-key}-#{$size}", (
+          $props: map-merge($props, (
             #{$property-value}-#{$d}: var(--spacing-#{$size}) !important
           ));
-          @include utility-base("-#{$type}#{$direction-key}-#{$size}", (
+          $negative-props: map-merge($negative-props, (
             #{$property-value}-#{$d}: calc(-1 * var(--spacing-#{$size})) !important
           ));
         }
+        @include utility-base("#{$type}#{$direction-key}-#{$size}", $props);
+        @include utility-base("-#{$type}#{$direction-key}-#{$size}", $negative-props);
       } @else {
         @include utility-base("#{$type}#{$direction-key}-#{$size}", (
           #{$property-value}-#{$direction-value}: var(--spacing-#{$size}) !important
@@ -81,14 +85,18 @@ $directions: (
   @each $direction-key, $direction-value in $directions {
     @each $size, $value in sp.$spacing {
       @if meta.type-of($direction-value) == 'list' {
+        $props: ();
+        $negative-props: ();
         @each $d in $direction-value {
-          @include utility-responsive("#{$type}#{$direction-key}-#{$size}", (
+          $props: map-merge($props, (
             #{$property-value}-#{$d}: var(--spacing-#{$size}) !important
           ));
-          @include utility-responsive("-#{$type}#{$direction-key}-#{$size}", (
+          $negative-props: map-merge($negative-props, (
             #{$property-value}-#{$d}: calc(-1 * var(--spacing-#{$size})) !important
           ));
         }
+        @include utility-responsive("#{$type}#{$direction-key}-#{$size}", $props);
+        @include utility-responsive("-#{$type}#{$direction-key}-#{$size}", $negative-props);
       } @else {
         @include utility-responsive("#{$type}#{$direction-key}-#{$size}", (
           #{$property-value}-#{$direction-value}: var(--spacing-#{$size}) !important
