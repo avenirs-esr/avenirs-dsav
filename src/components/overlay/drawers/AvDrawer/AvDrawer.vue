@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
+import { useScrollLock } from '@vueuse/core'
 import { FocusTrap } from 'focus-trap-vue'
-import { useContainedScroll } from '@/composables/use-contained-scroll/use-contained-scroll'
 
 export interface AvDrawerProps {
   /**
@@ -68,9 +68,13 @@ const slots = defineSlots<{
 }>()
 
 const { position, width, padding, show } = toRefs(props)
-const { onWheel, onTouchMove, onTouchStart } = useContainedScroll({ scrollableSelector: '.av-drawer__content' })
 
 const drawerRef = ref<HTMLElement | null>(null)
+const isLocked = useScrollLock(document.body)
+
+watch(show, (newValue) => {
+  isLocked.value = newValue
+})
 </script>
 
 <template>
@@ -78,8 +82,6 @@ const drawerRef = ref<HTMLElement | null>(null)
     <div
       v-if="backdrop"
       class="av-drawer-backdrop"
-      @wheel.prevent
-      @touchmove.prevent
     />
     <FocusTrap
       initial-focus="drawerRef"
@@ -93,9 +95,6 @@ const drawerRef = ref<HTMLElement | null>(null)
         aria-modal="true"
         :aria-label="ariaLabel"
         tabindex="-1"
-        @wheel="onWheel"
-        @touchstart="onTouchStart"
-        @touchmove="onTouchMove"
       >
         <div class="av-drawer__content-wrapper av-col">
           <div class="av-drawer__content">
