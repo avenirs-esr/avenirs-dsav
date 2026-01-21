@@ -4,17 +4,15 @@ import { nextTick } from 'vue'
 import AvDrawer from '@/components/overlay/drawers/AvDrawer/AvDrawer.vue'
 import { BddTest } from '@/tests/utils'
 
-const mockOnWheel = vi.fn()
-const mockOnTouchStart = vi.fn()
-const mockOnTouchMove = vi.fn()
+const mockIsLocked = ref(false)
 
-vi.mock('@/composables/use-contained-scroll/use-contained-scroll', () => ({
-  useContainedScroll: vi.fn(() => ({
-    onWheel: mockOnWheel,
-    onTouchStart: mockOnTouchStart,
-    onTouchMove: mockOnTouchMove,
-  })),
-}))
+vi.mock('@vueuse/core', async () => {
+  const actual = await vi.importActual('@vueuse/core')
+  return {
+    ...actual,
+    useScrollLock: vi.fn(() => mockIsLocked),
+  }
+})
 
 BddTest().given('a drawer component', () => {
   let wrapper: ReturnType<typeof mount<typeof AvDrawer>>
@@ -244,30 +242,31 @@ BddTest().given('a drawer component', () => {
     })
   })
 
-  BddTest().when('the drawer is scrolled', () => {
-    beforeEach(() => {
-      wrapper = mount(AvDrawer, { props: { show: true }, global: { stubs } })
-
-      const drawerContent = wrapper.find('.av-drawer__content')
-      drawerContent.trigger('wheel')
+  BddTest().when('the drawer is opened', () => {
+    beforeEach(async () => {
+      mockIsLocked.value = false
+      wrapper = mount(AvDrawer, { props: { show: false }, global: { stubs } })
+      await wrapper.setProps({ show: true })
+      await nextTick()
     })
 
-    BddTest().then('it should call the onWheel handler from useContainedScroll', () => {
-      expect(mockOnWheel).toHaveBeenCalled()
+    BddTest().then('it should lock the body scroll', () => {
+      expect(mockIsLocked.value).toBe(true)
     })
   })
 
-  BddTest().when('touch events occur on the drawer', () => {
-    beforeEach(() => {
+  BddTest().when('the drawer is closed after being opened', () => {
+    beforeEach(async () => {
+      mockIsLocked.value = false
       wrapper = mount(AvDrawer, { props: { show: true }, global: { stubs } })
-      const drawerContent = wrapper.find('.av-drawer__content')
-      drawerContent.trigger('touchstart')
-      drawerContent.trigger('touchmove')
+      await nextTick()
+      mockIsLocked.value = true
+      await wrapper.setProps({ show: false })
+      await nextTick()
     })
 
-    BddTest().then('it should call the onTouchStart and onTouchMove handlers from useContainedScroll', () => {
-      expect(mockOnTouchStart).toHaveBeenCalled()
-      expect(mockOnTouchMove).toHaveBeenCalled()
+    BddTest().then('it should unlock the body scroll', () => {
+      expect(mockIsLocked.value).toBe(false)
     })
   })
 })

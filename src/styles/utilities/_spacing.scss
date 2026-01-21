@@ -3,6 +3,7 @@
 @use '../mixins/responsive-utility' as *;
 @use '../settings/breakpoints' as bp;
 @use "sass:meta";
+@use "sass:map";
 
 // === Properties and directions ===
 $properties: (
@@ -43,10 +44,10 @@ $directions: (
         $props: ();
         $negative-props: ();
         @each $d in $direction-value {
-          $props: map-merge($props, (
+          $props: map.merge($props, (
             #{$property-value}-#{$d}: var(--spacing-#{$size}) !important
           ));
-          $negative-props: map-merge($negative-props, (
+          $negative-props: map.merge($negative-props, (
             #{$property-value}-#{$d}: calc(-1 * var(--spacing-#{$size})) !important
           ));
         }
@@ -88,10 +89,10 @@ $directions: (
         $props: ();
         $negative-props: ();
         @each $d in $direction-value {
-          $props: map-merge($props, (
+          $props: map.merge($props, (
             #{$property-value}-#{$d}: var(--spacing-#{$size}) !important
           ));
-          $negative-props: map-merge($negative-props, (
+          $negative-props: map.merge($negative-props, (
             #{$property-value}-#{$d}: calc(-1 * var(--spacing-#{$size})) !important
           ));
         }
