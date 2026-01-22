@@ -1,5 +1,6 @@
 import { type Preview, setup } from '@storybook/vue3-vite'
 import '@/styles/main.scss'
+// eslint-disable-next-line no-restricted-imports
 import './preview.scss'
 
 function toggleDarkTheme (story, context) {
