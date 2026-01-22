@@ -61,6 +61,7 @@ You can find examples of use and demo of the component on its dedicated [Storybo
 ```vue
 <script setup lang="ts">
 import { MDI_ICONS } from '@/components/tokens/icons'
+
 const selectedItem = ref('dashboard')
 const isCollapsed = ref(false)
 
