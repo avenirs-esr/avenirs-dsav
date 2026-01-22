@@ -1,7 +1,7 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
+import AvList, { type AvListProps } from '@/components/interaction/lists/AvList/AvList.vue'
 import AvListItem from '@/components/interaction/lists/AvListItem/AvListItem.vue'
 import { MDI_ICONS } from '@/tokens'
-import AvList, { type AvListProps } from './AvList.vue'
 
 /**
  * <h1 class="n1">Lists - <code>AvList</code></h1>

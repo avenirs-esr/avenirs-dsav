@@ -1,8 +1,8 @@
 /* eslint-disable no-alert */
 import type { Meta, StoryFn } from '@storybook/vue3'
 import AvList from '@/components/interaction/lists/AvList/AvList.vue'
+import AvListItem, { type AvListItemProps } from '@/components/interaction/lists/AvListItem/AvListItem.vue'
 import { MDI_ICONS } from '@/tokens'
-import AvListItem, { type AvListItemProps } from './AvListItem.vue'
 
 /**
  * <h1 class="n1">Lists - <code>AvListItem</code></h1>
