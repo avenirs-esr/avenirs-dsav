@@ -1,5 +1,4 @@
 import { type Preview, setup } from '@storybook/vue3-vite'
-
 import '@/styles/main.scss'
 import './preview.scss'
 
