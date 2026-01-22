@@ -108,6 +108,14 @@ export interface AvPeriodInputProps {
    * @default true
    */
   labelVisible?: boolean
+  /**
+   * Error message for start input
+   */
+  startErrorMessage?: string
+  /**
+   * Error message for end input
+   */
+  endErrorMessage?: string
 }
 
 const {
@@ -129,6 +137,8 @@ const {
   separatorSpacing = 'var(--spacing-sm)',
   labelVisible = true,
   type = 'date',
+  startErrorMessage,
+  endErrorMessage,
 } = defineProps<AvPeriodInputProps>()
 
 /**
@@ -228,6 +238,7 @@ function onEndUpdate (value: string | number | null) {
         :width="width"
         :min-date="computedStartMinDate"
         :max-date="computedStartMaxDate"
+        :error-message="startErrorMessage"
         data-testid="start-date-input"
         @update:model-value="onStartUpdate($event)"
       />
@@ -243,6 +254,7 @@ function onEndUpdate (value: string | number | null) {
         :width="width"
         :min-date="computedEndMinDate"
         :max-date="computedEndMaxDate"
+        :error-message="endErrorMessage"
         data-testid="end-date-input"
         @update:model-value="onEndUpdate($event)"
       />

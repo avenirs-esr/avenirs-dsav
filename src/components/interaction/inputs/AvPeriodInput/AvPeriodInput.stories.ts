@@ -46,6 +46,9 @@ const meta: Meta<AvPeriodInputProps> = {
     startModelValue: { control: 'text' },
     endModelValue: { control: 'text' },
 
+    startErrorMessage: { control: 'text' },
+    endErrorMessage: { control: 'text' },
+
     startLabel: { control: 'text', required: true },
     endLabel: { control: 'text', required: true },
 
@@ -73,6 +76,8 @@ const meta: Meta<AvPeriodInputProps> = {
     endLabel: 'End',
     startModelValue: '',
     endModelValue: '',
+    startErrorMessage: '',
+    endErrorMessage: '',
     startDateDisabled: false,
     endDateDisabled: false,
     stacked: false,
