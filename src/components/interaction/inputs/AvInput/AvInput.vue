@@ -246,7 +246,7 @@ const inputProps = computed(() => ({
   minlength,
   required,
   type,
-  placeholder,
+  placeholder: !disabled ? placeholder : '',
   max: formatDateForInputType(type, maxDate),
   min: formatDateForInputType(type, minDate),
   ariaDescribedBy: descriptionId || undefined,
@@ -318,7 +318,7 @@ defineExpose({
           v-if="isDateInputType(type)"
           :class="commonInputClasses"
           v-bind="inputProps"
-          :placeholder="getDateInputPlaceholder(type)"
+          :placeholder="!disabled ? getDateInputPlaceholder(type) : ''"
           type="text"
           readonly
           :value="formatDisplayedDate(type, modelValue, formatDateStr)"
