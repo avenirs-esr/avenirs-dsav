@@ -421,6 +421,11 @@ defineExpose({
 
     &::placeholder {
       font-style: italic;
+      opacity: 0.6;
+    }
+
+    &:disabled::placeholder {
+      opacity: 0.7;
     }
   }
 
