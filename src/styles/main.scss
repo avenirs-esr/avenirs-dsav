@@ -28,6 +28,8 @@
 @use './utilities/helpers' as *;
 @use './utilities/spacing' as *;
 @use './utilities/layout' as *;
+@use './utilities/palette' as *;
+@use './utilities/border' as *;
 
 // === Global ===
 :root {

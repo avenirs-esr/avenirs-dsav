@@ -1,0 +1,45 @@
+@use '../core/radius' as r;
+@use '../mixins/responsive-utility' as *;
+@use "sass:map";
+
+// === Border widths ===
+$border-widths: (
+  none: 0,        /* 0px */
+  sm: 0.0625rem, /* 1px */
+  md: 0.125rem,   /* 2px */
+  lg: 0.25rem,    /* 4px */
+);
+
+// === Border styles ===
+$border-styles: (
+  solid,
+  dashed,
+  dotted,
+  none,
+);
+
+// === BASE CLASSES ===
+
+// === Border width classes ===
+// Ex : .av-border-sm / .av-border-lg
+@each $size, $value in $border-widths {
+  @include utility-base("border-width-#{$size}", (
+    border-width: #{$value} !important
+  ));
+}
+
+// === Border style classes ===
+// Ex : .av-border-solid / .av-border-dashed
+@each $style in $border-styles {
+  @include utility-base("border-style-#{$style}", (
+    border-style: #{$style} !important
+  ));
+}
+
+// === Border radius classes ===
+// Ex : .av-radius-sm / .av-radius-lg
+@each $size, $value in r.$radius {
+  @include utility-base("radius-#{$size}", (
+    border-radius: var(--radius-#{$size}) !important
+  ));
+}

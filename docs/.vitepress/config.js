@@ -223,7 +223,9 @@ export default defineConfig({
           text: 'DSAV CSS',
           link: '/styles/',
           items: [
+            { text: 'Border', link: '/styles/utilities/_border.md' },
             { text: 'Layout', link: '/styles/utilities/_layout.md' },
+            { text: 'Palette', link: '/styles/utilities/_palette.md' },
             { text: 'Spacing', link: '/styles/utilities/_spacing.md' }
           ],
           collapsed: true
