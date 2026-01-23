@@ -1,0 +1,14 @@
+@use '../core/namespace' as *;
+
+// === Usual text color classes ===
+@include ns("text-text1") {
+  color: var(--text1);
+}
+
+@include ns("text-text2") {
+  color: var(--text2);
+}
+
+@include ns("text-title") {
+  color: var(--title);
+}

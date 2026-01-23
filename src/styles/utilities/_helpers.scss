@@ -114,3 +114,11 @@ ol>li{
 li::marker{
   content: counter(li-counter, ".") ". ";
 }
+
+// === List reset class ===
+// Ex: .av-list-reset
+@include ns("list-reset") {
+  list-style: none;
+  padding: var(--spacing-none);
+  margin: var(--spacing-none);
+}

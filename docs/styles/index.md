@@ -8,5 +8,7 @@ DSAV CSS represents the utility-first CSS framework that underpins the DSAV desi
 
 ## Utility-first CSS framework
 
+- [Border](utilities/_border.md)
 - [Layout](utilities/_layout.md)
+- [Palette](utilities/_palette.md)
 - [Spacing](utilities/_spacing.md)
