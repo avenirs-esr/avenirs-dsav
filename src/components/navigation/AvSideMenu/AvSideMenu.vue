@@ -152,6 +152,7 @@ function toggleCollapse () {
 
 .av-side-menu__collapse-button {
   padding: var(--spacing-xs);
+  margin: var(--spacing-xs);
   gap: 0;
   min-height: var(--dimension-lg);
 }
