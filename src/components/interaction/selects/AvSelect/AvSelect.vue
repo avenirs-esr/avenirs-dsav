@@ -266,8 +266,10 @@ const messageType = computed(() => {
   }
 
   &[aria-disabled=true] {
-    background-color: var(--light-background-neutral);
-    color: var(--text1);
+    background-color: var(--surface-background);
+    color: var(--text2);
+    cursor: not-allowed;
+    opacity: 0.7;
   }
 
   &:not([aria-disabled=true]):hover {
