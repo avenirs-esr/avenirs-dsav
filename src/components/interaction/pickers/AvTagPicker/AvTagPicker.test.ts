@@ -32,7 +32,7 @@ BddTest().given('an AvTagPicker', () => {
 
     BddTest().when('the component is mounted', () => {
       BddTest().then('it should not render label', () => {
-        const label = wrapper.find('.av-select-label')
+        const label = wrapper.find('.av-tag-picker__label')
         expect(label.exists()).toBe(false)
       })
     })
@@ -55,7 +55,7 @@ BddTest().given('an AvTagPicker', () => {
 
     BddTest().when('the component is mounted', () => {
       BddTest().then('it should render given label', () => {
-        const label = wrapper.find('.av-select-label')
+        const label = wrapper.find('.av-tag-picker__label')
         expect(label.exists()).toBe(true)
         expect(label.text()).toContain(testLabel)
       })

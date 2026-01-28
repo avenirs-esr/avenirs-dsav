@@ -147,23 +147,23 @@ onBeforeUnmount(() => {
         aria-modal="true"
         :aria-labelledby="realId"
         :role="role"
-        class="av-modal"
-        :class="{ 'av-modal--opened': opened }"
+        class="av-modal av-col av-h-full av-w-full av-align-stretch av-justify-end av-justify-around--md av-p-none av-m-none"
+        :class="{ 'av-modal--opened av-w-full av-h-full': opened }"
         :open="opened"
         @keydown.esc="emit('close')"
       >
-        <div class="av-container av-container--md av-container-fluid">
-          <div class="av-modal__body">
-            <div class="av-modal__content">
+        <div class="av-container av-container--md av-container--lg av-container-fluid av-w-full">
+          <div class="av-modal__body av-pt-sm av-pt-none--md">
+            <div class="av-modal__content av-mb-4xl av-px-lg av-pt-sm--md">
               <div
                 v-if="slots.header"
-                class="header"
+                class="header av-row av-align-center av-pb-md"
               >
                 <slot name="header" />
               </div>
               <slot />
             </div>
-            <div class="av-modal__footer">
+            <div class="av-modal__footer av-row av-justify-end av-p-sm av--mt-2xl">
               <AvCancelConfirmButtons
                 ref="closeBtn"
                 :cancel-label="closeButtonLabel"
@@ -190,71 +190,38 @@ onBeforeUnmount(() => {
 @use '@/styles/settings/breakpoints' as *;
 
 .av-modal {
-  --ground: 2000;
-  align-items: stretch;
-  border: none;
-  bottom: 0;
-  color: inherit;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  justify-content: space-around;
-  left: 0;
-  margin: 0;
-  opacity: 0;
-  padding: 0;
   position: fixed;
-  right: 0;
-  top: 0;
+  inset: 0;
+  border: none;
+  color: inherit;
+  opacity: 0;
   transition: opacity .3s, visibility .3s;
   visibility: hidden;
-  width: 100%;
-  z-index: 1750;
   background-color: var(--transparency);
 
-    width: 100%;
-
   &__header {
-    align-items: center;
-    display: flex;
     flex: auto 0 0;
-    padding: 1rem 1rem .5rem;
-  }
-
-  &__content {
-    padding: var(--spacing-sm) var(--spacing-lg) var(--spacing-none);
-    margin-bottom: 3.5rem;
   }
 
   &__body {
-    border-radius: var(--radius-lg);
-    --modal-max-height: calc(100vh - 2rem);
-    flex: 1 1 auto;
-    max-height: var(--modal-max-height);
+    border-radius: var(--radius-lg) var(--radius-lg) var(--radius-none) var(--radius-none);
+    max-height: calc(100vh - var(--spacing-lg));
     overflow-y: auto;
-    z-index: calc(var(--ground) + 2000);
     background-color: var(--dialog);
   }
 
   &__footer {
     bottom: 0;
-    display: flex;
     flex: auto 0 0;
-    margin-top: -2.5rem;
-    padding: 1rem;
     position: sticky;
     transition: box-shadow .3s;
-    z-index: calc(var(--ground) + 1250);
-    justify-content: flex-end;
     background-color: var(--dialog);
   }
 
   &--opened {
-    height: 100%;
     opacity: 1;
     transition: opacity .3s, visibility .3s;
     visibility: inherit;
-    width: 100%;
   }
 
   .av-container-fluid {
@@ -262,36 +229,13 @@ onBeforeUnmount(() => {
   }
 
   @include max-width(md) {
-    .av-container-fluid {
-      width: 100%;
-    }
-
-    justify-content: flex-end;
-    width: 100%;
-
     &__body {
       max-height: 80vh;
-      width: 100%;
-    }
-
-    &__content {
-      margin-bottom: var(--spacing-4xl);
-      padding-left: var(--spacing-lg);
-      padding-right: var(--spacing-lg);
-    }
-
-    &__footer {
-      margin-top: calc(-1 * var(--spacing-2xl));
-      padding: var(--spacing-lg);
     }
   }
 }
 
 :global(body.modal-open) {
   overflow: hidden;
-}
-
-.header {
-  padding-bottom: var(--spacing-md);
 }
 </style>

@@ -96,6 +96,18 @@ const isHoveringInteractive = ref(false)
 const id = computed(() => `av-card-${crypto.randomUUID()}`)
 const buttonRef = ref<InstanceType<typeof AvButton> | null>(null)
 
+const titleClasses = computed(() => {
+  if (collapsed.value) {
+    return 'av-card__title--collapsed av--m-sm'
+  }
+
+  if (titleOnly) {
+    return 'av-card__title--title-only av--m-sm'
+  }
+
+  return 'av--mt-sm av--mx-sm'
+})
+
 function isInteractiveElement (element: HTMLElement): boolean {
   const interactiveTags = ['A', 'BUTTON', 'INPUT', 'SELECT', 'TEXTAREA']
   const interactiveRoles = ['button', 'link', 'checkbox', 'radio', 'textbox', 'tab', 'menuitem']
@@ -116,19 +128,33 @@ function isInteractiveElement (element: HTMLElement): boolean {
   return false
 }
 
-function handleCardClick (event: MouseEvent) {
-  const target = event.target as HTMLElement
-
+/**
+ * Finds the first interactive element in the ancestor chain.
+ * Returns the interactive element if found, or null otherwise.
+ * Treats the collapse button as an interactive element.
+ */
+function findInteractiveAncestor (target: HTMLElement, currentTarget: EventTarget | null): HTMLElement | null {
   if (buttonRef.value && (target === buttonRef.value.$el || buttonRef.value.$el.contains(target))) {
-    return
+    return buttonRef.value.$el
   }
 
   let currentElement: HTMLElement | null = target
-  while (currentElement && currentElement !== event.currentTarget) {
+  while (currentElement && currentElement !== currentTarget) {
     if (isInteractiveElement(currentElement)) {
-      return
+      return currentElement
     }
     currentElement = currentElement.parentElement
+  }
+
+  return null
+}
+
+function handleCardClick (event: MouseEvent) {
+  const target = event.target as HTMLElement
+  const interactiveElement = findInteractiveAncestor(target, event.currentTarget)
+
+  if (interactiveElement) {
+    return
   }
 
   if (collapsible) {
@@ -143,28 +169,15 @@ function handleMouseMove (event: MouseEvent) {
   }
 
   const target = event.target as HTMLElement
+  const interactiveElement = findInteractiveAncestor(target, event.currentTarget)
 
-  if (buttonRef.value && (target === buttonRef.value.$el || buttonRef.value.$el.contains(target))) {
-    isHoveringInteractive.value = false
-    return
-  }
-
-  let currentElement: HTMLElement | null = target
-  while (currentElement && currentElement !== event.currentTarget) {
-    if (isInteractiveElement(currentElement)) {
-      isHoveringInteractive.value = true
-      return
-    }
-    currentElement = currentElement.parentElement
-  }
-
-  isHoveringInteractive.value = false
+  isHoveringInteractive.value = !!interactiveElement
 }
 </script>
 
 <template>
   <div
-    class="av-card av-col av-p-sm av-justify-start"
+    class="av-card av-col av-p-sm av-justify-start av-radius-2xl"
     :class="{
       'av-card--collapsible': collapsible,
       'av-card--hovering-interactive': isHoveringInteractive,
@@ -176,9 +189,7 @@ function handleMouseMove (event: MouseEvent) {
     <header
       v-if="slots.title"
       class="av-card__title av-row av-align-center av-justify-between av-p-sm av-gap-sm"
-      :class="{ 'av-card__title--collapsed': collapsed,
-                'av-card__title--title-only': titleOnly,
-      }"
+      :class="titleClasses"
       :style="{ background: titleBackground, minHeight: titleHeight, maxHeight: titleHeight }"
     >
       <slot name="title" />
@@ -220,18 +231,11 @@ function handleMouseMove (event: MouseEvent) {
 
 <style lang="scss" scoped>
 .av-card {
-  border-radius: 1.5rem;
   border: 1px solid transparent;
   overflow: hidden;
 
   &__title {
     box-sizing: border-box;
-    margin: calc(-1 * var(--spacing-sm)) calc(-1 * var(--spacing-sm)) 0 calc(-1 * var(--spacing-sm));
-
-    &--title-only,
-    &--collapsed {
-      margin: calc(-1 * var(--spacing-sm));
-    }
   }
 
   &--collapsible:hover {

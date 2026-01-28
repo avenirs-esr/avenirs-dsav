@@ -68,7 +68,7 @@ const realId = computed(() => id ?? `search-bar-${crypto.randomUUID()}`)
 
 <template>
   <div
-    class="av-search-bar"
+    class="av-search-bar av-row av-align-end"
     role="search"
   >
     <div>
@@ -101,9 +101,6 @@ const realId = computed(() => id ?? `search-bar-${crypto.randomUUID()}`)
 
 <style lang="scss" scoped>
 .av-search-bar {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
   box-sizing: border-box;
 
   :deep(.av-input__input) {

@@ -234,9 +234,12 @@ const finalLabelClass = computed(() => [
 const prefixIconTop = computed(() => labelVisible ? '69%' : '55%')
 
 const commonInputClasses = computed(() => ({
-  'av-input__input av-col av-align-center av-w-full b2-light': true,
+  'av-input__input av-col av-align-center av-w-full b2-light av-py-xs av-px-sm': true,
   'av-input__input--error': isInvalid.value,
   'av-input__input--valid': isValid,
+  'av-pt-xs av-align-start': isTextarea,
+  'av-radius-none': noRadius,
+  'av-radius-lg': !noRadius,
 }))
 
 const inputProps = computed(() => ({
@@ -388,10 +391,8 @@ defineExpose({
 
   &__input {
     align-self: stretch;
-    border-radius: var(--radius-lg);
     border: 1px solid var(--divider);
     background-color: var(--other-background-base);
-    padding: var(--spacing-xs) var(--spacing-sm);
     box-sizing: border-box;
 
     &--error {
@@ -445,20 +446,12 @@ defineExpose({
   textarea {
     min-height: v-bind('textareaMinHeight');
     resize: vertical;
-    align-items: flex-start;
-    padding-top: var(--spacing-xs);
     height: auto;
     cursor: text;
   }
 
   &:has(.av-input__prefix) &__input {
     padding-left: calc(var(--spacing-xs) * 3 + var(--spacing-sm));
-  }
-
-  &--no-radius {
-    .av-input__input {
-      border-radius: var(--radius-none);
-    }
   }
 }
 

@@ -1,7 +1,7 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
 import AvIcon, { type AvIconProps } from '@/components/base/AvIcon/AvIcon.vue'
 import { MDI_ICONS } from '@/tokens'
-import { iconMapping, iconOptions } from '@/utils/storybook'
+import { iconMappingWithDataUrl, iconOptionsWithDataUrl } from '@/utils/storybook'
 
 /**
  * <h1 class="n1">Messages - <code>AvMessage</code></h1>
@@ -27,7 +27,7 @@ const meta: Meta<AvIconProps> = {
   component: AvIcon,
   tags: ['autodocs'],
   argTypes: {
-    name: { control: 'select', options: iconOptions, mapping: iconMapping },
+    name: { control: 'select', options: iconOptionsWithDataUrl, mapping: iconMappingWithDataUrl },
     size: {
       control: { type: 'range', min: 0.5, max: 5, step: 0.25 },
       description: 'Size in rem of the container and icon scale',
@@ -48,7 +48,7 @@ const meta: Meta<AvIconProps> = {
     title: { control: 'text' },
   },
   args: {
-    name: iconOptions[0],
+    name: iconOptionsWithDataUrl[0],
     size: 2,
     animation: undefined,
     speed: undefined,

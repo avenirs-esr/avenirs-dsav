@@ -230,9 +230,9 @@ provide(registerNavigationLinkKey, () => hideModal)
   >
     <div class="av-header__body">
       <div class="av-container">
-        <div class="av-header__body-row">
-          <div class="av-header__brand">
-            <div class="av-header__brand-top">
+        <div class="av-row av-justify-start av-align-center av-py-sm">
+          <div class="av-header__brand av-row av-justify-start av-align-center av-wrap av-px-xxs av-w-full av-nowrap--lg av--my-sm--lg av-px-none--lg">
+            <div class="av-header__brand-top av-row av-justify-start av-align-center av-w-full">
               <div class="av-header__logo av-enlarge-link">
                 <RouterLink
                   :to="homeTo"
@@ -245,7 +245,7 @@ provide(registerNavigationLinkKey, () => hideModal)
               </div>
               <div
                 v-if="showSearch || isWithSlotNav || quickLinks?.length"
-                class="av-header__navbar"
+                class="av-header__navbar av-row av-flex-fill av-align-start av-justify-end av-mt-xxs av-p-xxs av-gap-sm"
               >
                 <AvButton
                   v-if="showSearch"
@@ -276,7 +276,7 @@ provide(registerNavigationLinkKey, () => hideModal)
             </div>
             <div
               v-if="serviceTitle"
-              class="av-header__service"
+              class="av-col av-gap-xxs av-p-sm"
             >
               <span class="n6">
                 {{ serviceTitle }}
@@ -284,8 +284,8 @@ provide(registerNavigationLinkKey, () => hideModal)
               <slot name="serviceDescription" />
             </div>
           </div>
-          <div class="av-header__tools av-hidden av-unhidden--lg">
-            <div class="av-header__tools-links">
+          <div class="av-header__tools av-hidden av-unhidden--lg av-align-end--lg av-col--lg av-pl-sm--lg av-pr-md--lg">
+            <div class="av-header__tools-links av-row--lg av-justify-end--lg av-align-center--lg av-gap-xs--lg">
               <slot name="before-quick-links" />
               <AvHeaderMenuLinks
                 v-if="!menuOpened && quickLinks?.length"
@@ -319,7 +319,7 @@ provide(registerNavigationLinkKey, () => hideModal)
         <slot />
       </div>
     </div>
-    <div class="av-header__menu av-hidden av-unhidden--lg">
+    <div class="av-header__menu av-hidden av-unhidden--lg av-mt-sm">
       <div
         v-if="isWithSlotNav && !modalOpened"
         class="av-container av-header__mainnav"
@@ -350,7 +350,7 @@ provide(registerNavigationLinkKey, () => hideModal)
         />
       </div>
       <div class="av-header__menu-modal">
-        <div class="av-header__menu-modal-links">
+        <div class="av-header__menu-modal-links av-col">
           <template v-if="languageSelectorRef">
             <AvLanguageSelector
               v-bind="languageSelectorRef"
@@ -399,27 +399,10 @@ provide(registerNavigationLinkKey, () => hideModal)
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
   background-color: var(--other-background-base);
 
-  &__brand,
-  &__body-row {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    padding: var(--spacing-sm) 0;
-  }
-
   &__brand {
-    flex-wrap: wrap;
-    padding: var(--spacing-none) var(--spacing-xxs);
-    width: 100%;
     z-index: 750;
 
     &-top {
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-start;
-      align-items: center;
-      width: 100%;
       overflow: hidden;
       border-bottom: 1px solid var(--stroke);
     }
@@ -435,28 +418,9 @@ provide(registerNavigationLinkKey, () => hideModal)
     padding: calc(var(--spacing-md) / 2);
   }
 
-  &__service {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-xxs);
-
-    margin-left: calc(var(--spacing-md) / 2);
-    margin-right: calc(var(--spacing-md) / 2);
-    padding-bottom: calc(var(--spacing-md) / 2);
-    padding-top: calc(var(--spacing-md) / 2);
-  }
-
   &__navbar {
-    display: flex;
-    flex-direction: row;
-    flex: 1;
-    align-items: flex-start;
     align-self: stretch;
-    justify-content: flex-end;
-    margin-top: var(--spacing-xxs);
     order: 3;
-    padding: var(--spacing-xxs);
-    gap: var(--spacing-sm);
     z-index: 1000;
   }
 
@@ -467,20 +431,11 @@ provide(registerNavigationLinkKey, () => hideModal)
   }
 
   &__menu {
-    margin-top: var(--spacing-sm);
     box-shadow:inset 0 1px 0 0 var(--stroke);
-
-    &-links {
-      display: flex;
-      flex-direction: column;
-      gap: var(--spacing-md);
-    }
   }
 
   &__menu-modal {
     &-links {
-      display: flex;
-      flex-direction: column;
       border-bottom: 1px solid var(--stroke);
     }
   }
@@ -491,11 +446,6 @@ provide(registerNavigationLinkKey, () => hideModal)
 
   @include min-width(lg) {
     &__brand {
-      flex-wrap: nowrap;
-      margin-bottom: -1rem;
-      margin-top: -1rem;
-      padding-left: var(--spacing-none);
-      padding-right: var(--spacing-none);
       width: auto;
       z-index: auto;
 
@@ -506,21 +456,9 @@ provide(registerNavigationLinkKey, () => hideModal)
     }
 
     &__tools {
-      align-items: flex-end;
       flex: 1 0 auto;
-      flex-direction: column;
       margin-left: auto;
-      padding-left: var(--spacing-sm);
-      padding-right: var(--spacing-md);
       text-align: right;
-
-      &-links {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-end;
-        align-items: center;
-        gap: var(--spacing-xs);
-      }
     }
 
     &__navbar {
@@ -535,12 +473,6 @@ provide(registerNavigationLinkKey, () => hideModal)
     .search-button {
       display: none;
     }
-  }
-}
-
-:deep() {
-  li::marker {
-    content: none;
   }
 }
 </style>

@@ -121,7 +121,7 @@ const role = computed(() => (type === 'error' || type === 'warning' ? 'alert' : 
   <div
     v-if="!closed"
     :id="realId"
-    class="av-alert"
+    class="av-alert av-radius-lg"
     :class="classes"
     :role="role"
   >
@@ -131,7 +131,7 @@ const role = computed(() => (type === 'error' || type === 'warning' ? 'alert' : 
           v-bind="icon"
           :size="3"
         />
-        <div class="av-alert__title">
+        <div class="av-col">
           <span
             v-if="!small"
             class="s2-bold"
@@ -158,13 +158,7 @@ const role = computed(() => (type === 'error' || type === 'warning' ? 'alert' : 
 <style lang="scss" scoped>
 .av-alert {
   border: 1px solid var(--dark-background-primary1);
-  border-radius: var(--radius-lg);
   background-color: var(--dialog);
-
-  &__title {
-    display: flex;
-    flex-direction: column;
-  }
 
   +.av-alert {
     margin-top: var(--spacing-sm);

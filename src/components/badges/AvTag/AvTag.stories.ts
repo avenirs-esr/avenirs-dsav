@@ -1,4 +1,5 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
+import type { ConcreteComponent } from 'vue'
 import AvTag, { type AvTagProps } from '@/components/badges/AvTag/AvTag.vue'
 import { iconMapping, iconOptions } from '@/utils/storybook'
 
@@ -40,9 +41,9 @@ import { iconMapping, iconOptions } from '@/utils/storybook'
  *   <li><span class="b2-regular">An optional icon, using an <code>@iconify/vue</code> icon name.</span></li>
  * </ul>
  */
-const meta: Meta<AvTagProps> = {
+const meta: Meta<AvTagProps<string>> = {
   title: 'Components/Badges/AvTag',
-  component: AvTag,
+  component: AvTag as unknown as ConcreteComponent<AvTagProps<string>>,
   tags: ['autodocs'],
   argTypes: {
     label: {
@@ -74,7 +75,7 @@ const meta: Meta<AvTagProps> = {
 
 export default meta
 
-const Template: StoryFn<AvTagProps> = args => ({
+const Template: StoryFn<AvTagProps<string>> = args => ({
   components: { AvTag },
   setup () {
     return { args }

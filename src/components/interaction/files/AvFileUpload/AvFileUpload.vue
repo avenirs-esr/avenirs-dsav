@@ -2,7 +2,6 @@
 import { nextTick, type Slot } from 'vue'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
-import AvFileUploadAlert from '@/components/interaction/files/AvFileUpload/AvFileUploadAlert.vue'
 import { MDI_ICONS } from '@/tokens'
 
 /**
@@ -286,11 +285,11 @@ function onClear (value: File | null) {
   <component
     :is="isPreview ? 'div' : 'label'"
     v-bind="isPreview ? {} : uploadLabelAttrs"
-    :class="isPreview ? 'file-preview-container' : ''"
+    :class="isPreview ? 'file-preview-container av-radius-lg av-p-xs' : ''"
   >
-    <div :class="isPreview ? '' : 'file-upload-container'">
-      <div class="file-upload-content">
-        <div class="left-content-container">
+    <div :class="isPreview ? '' : 'file-upload-container av-radius-lg av-p-xs'">
+      <div class="av-row av-align-center av-gap-xs">
+        <div class="left-content-container av-row av-align-center av-justify-center av-radius-md">
           <slot name="left">
             <AvIcon
               :size="2.5"
@@ -299,27 +298,27 @@ function onClear (value: File | null) {
             />
           </slot>
         </div>
-        <div class="content-container">
+        <div class="content-container av-col">
           <div v-if="isPreview">
             <span class="b2-bold">{{ fileName || modelValue!.name }}</span>
           </div>
           <div
             v-else
-            class="title-container"
+            class="av-col av-gap-xxs"
           >
             <span class="b2-regular">{{ title }}</span>
             <span class="caption-light">{{ description }}</span>
           </div>
 
-          <AvFileUploadAlert
-            :valid-message="validMessage"
-            :error="error"
+          <AvMessage
+            :type="error ? 'error' : 'success'"
+            :message="error ? error : validMessage"
           />
         </div>
 
         <div
           v-if="!disabled"
-          class="right-icon-container"
+          class="av-px-xs"
         >
           <AvButton
             v-if="isPreview"
@@ -360,12 +359,6 @@ function onClear (value: File | null) {
   outline-offset: 2px;
 }
 
-.title-container {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xxs);
-}
-
 .av-upload {
   position: absolute;
   width: 0;
@@ -375,8 +368,6 @@ function onClear (value: File | null) {
   clip: rect(0 0 0 0);
   white-space: nowrap;
   border: 0;
-  padding: 0;
-  margin: 0;
 
   &::-webkit-file-upload-button {
     -webkit-appearance:button;
@@ -399,14 +390,10 @@ function onClear (value: File | null) {
 
 .file-preview-container {
   border: 1px solid var(--divider);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-xs);
 }
 
 .file-upload-container {
   border: 1px dashed var(--divider);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-xs);
 }
 
 .drag-over .file-upload-container {
@@ -414,39 +401,18 @@ function onClear (value: File | null) {
   border-color: var(--dark-background-primary1);
 }
 
-.file-upload-content {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: var(--spacing-xs);
-}
-
 .left-content-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   height: var(--dimension-4xl);
   width: var(--dimension-4xl);
   overflow: hidden;
-  border-radius: var(--radius-md);
 }
 
 .content-container {
-  display: flex;
-  flex-direction: column;
   flex: 1 1 auto;
   min-width: 0;
 }
 
-.right-icon-container {
-  padding: var(--spacing-none) var(--spacing-xs);
-}
-
 .left-content-container, .right-icon-container {
   flex: 0 0 auto;
-}
-
-.messages-group {
-  padding-top: var(--spacing-xxs);
 }
 </style>

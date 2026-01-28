@@ -121,9 +121,9 @@ watch(isActive, (newValue, oldValue) => {
       ref="collapse"
       role="region"
       :aria-labelledby="accordionHeaderId"
-      class="av-accordion__panel av-collapse"
+      class="av-accordion__panel av-collapse av-my-none--md av--mx-xxs--md av-px-sm--md"
       :class="{
-        'av-collapse--expanded': cssExpanded, // Need to use a separate data to add/remove the class after a RAF
+        'av-collapse--expanded av-py-md': cssExpanded,
         'av-collapsing': collapsing,
       }"
       @transitionend="onTransitionEnd(isActive, false)"
@@ -186,19 +186,6 @@ watch(isActive, (newValue, oldValue) => {
 
   .av-collapse {
     transition:visibility .3s, padding .3s;
-
-    &--expanded {
-      padding-bottom: var(--spacing-md);
-      padding-top: var(--spacing-sm);
-    }
-  }
-
-  @include min-width(md) {
-    .av-collapse {
-      margin: var(--spacing-none) calc(-1 * var(--spacing-xxs));
-      padding-left: var(--spacing-sm);
-      padding-right: var(--spacing-sm);
-    }
   }
 }
 

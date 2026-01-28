@@ -135,7 +135,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="av-autocomplete">
+  <div class="av-autocomplete av-col av-gap-xxs">
     <div
       ref="wrapperRef"
       class="av-autocomplete__wrapper"
@@ -184,7 +184,7 @@ onUnmounted(() => {
       >
         <slot
           name="selectedItem"
-          :option="(option) as T"
+          :option="(option as T)"
           :remove="remove"
         />
       </template>
@@ -194,9 +194,6 @@ onUnmounted(() => {
 
 <style lang="scss" scoped>
 .av-autocomplete {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xxs);
   position: relative;
 }
 

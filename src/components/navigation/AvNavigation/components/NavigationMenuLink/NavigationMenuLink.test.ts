@@ -5,10 +5,6 @@ import { registerNavigationLinkKey } from '@/components/header/AvHeader/injectio
 import NavigationMenuLink, { type NavigationMenuLinkProps } from '@/components/navigation/AvNavigation/components/NavigationMenuLink/NavigationMenuLink.vue'
 import { BddTest, mountWithRouter } from '@/tests/utils'
 
-vi.mock('@/composables', () => ({
-  useAvBreakpoints: () => ({ isBelowLg: false }),
-}))
-
 BddTest().given('a navigation menu link', () => {
   let wrapper: VueWrapper<InstanceType<typeof NavigationMenuLink>>
 

@@ -22,7 +22,7 @@ The icon is composed of a square `div` of configurable size containing a `span` 
 | `speed` | `'fast' \| 'slow'` | `undefined` | | Animation speed, if defined. |
 | `flip` | `'horizontal' \| 'vertical' \| 'both'` | `undefined` | | Flips the icon horizontally, vertically, or both. |
 | `title` | `number` | `undefined` | | Icon title used for accessibility and tooltips. |
-| `color` | `string` | `undefined` | | Main color of the icon. |
+| `color` | `string` | `'currentColor'` | | Main color of the icon. |
 | `ssr` | `boolean` | `1` | | Enables server-side rendering. |
 
 ## 🔊 Events
