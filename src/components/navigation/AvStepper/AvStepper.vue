@@ -25,9 +25,9 @@ const { steps, currentStep, width = '100%' } = defineProps<AvStepperProps>()
 
 <template>
   <div class="av-stepper av-col">
-    <div class="main-container av-row av-align-center">
+    <div class="main-container av-row av-align-center av-flex-fill">
       <div
-        class="step step--active"
+        class="step step--active av-radius-full"
         :aria-current="currentStep === 0 ? 'step' : undefined"
       >
         <span class="b1-regular">1</span>
@@ -35,14 +35,14 @@ const { steps, currentStep, width = '100%' } = defineProps<AvStepperProps>()
       <div
         v-for="(_step, index) in steps.slice(1, steps.length)"
         :key="index"
-        class="steps-container av-row av-align-center"
+        class="av-row av-align-center av-flex-fill"
       >
         <div
-          class="separator"
+          class="separator av-row av-flex-fill"
           :class="{ 'separator--active': index + 1 <= currentStep }"
         />
         <div
-          class="step av-col av-align-center av-justify-center"
+          class="step av-col av-align-center av-justify-center av-radius-full"
           :class="{ 'step--active': index + 1 <= currentStep }"
           :aria-current="index + 1 === currentStep ? 'step' : undefined"
         >
@@ -59,8 +59,8 @@ const { steps, currentStep, width = '100%' } = defineProps<AvStepperProps>()
       >
         <span
           class="label av-col av-align-center"
-          :class="{ 'b1-bold': index <= currentStep,
-                    'b1-light': index > currentStep,
+          :class="{ 'b1-bold av-text-text1': index <= currentStep,
+                    'b1-light av-text-text1': index > currentStep,
           }"
         >
           {{ step }}
@@ -73,10 +73,6 @@ const { steps, currentStep, width = '100%' } = defineProps<AvStepperProps>()
 <style lang="scss" scoped>
 .av-stepper {
   width: v-bind('width');
-}
-
-.main-container, .steps-container {
-  flex: 1;
 }
 
 .main-container {
@@ -96,7 +92,6 @@ const { steps, currentStep, width = '100%' } = defineProps<AvStepperProps>()
   text-align: center;
   background-color: var(--light-background-primary1);
   color: var(--light-foreground-primary1);
-  border-radius: var(--radius-full);
   z-index: 0;
 
   &--active {
@@ -108,8 +103,6 @@ const { steps, currentStep, width = '100%' } = defineProps<AvStepperProps>()
 }
 
 .separator {
-  display: flex;
-  flex: 1;
   height: var(--dimension-xxxs);
   background-color: var(--light-background-primary1);
 
@@ -124,9 +117,5 @@ const { steps, currentStep, width = '100%' } = defineProps<AvStepperProps>()
 
 .b1-regular {
   color: currentColor;
-}
-
-.b1-bold, .b1-light {
-  color: var(--text1);
 }
 </style>

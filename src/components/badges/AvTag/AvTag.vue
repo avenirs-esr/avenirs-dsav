@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T = string">
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import { ICONS_DATA_URL } from '@/tokens/icons'
 
@@ -68,19 +68,25 @@ const {
   small,
   iconOnly,
   ...rest
-} = defineProps<AvTagProps>()
+} = defineProps<AvTagProps<T>>()
 
-defineEmits<{
-  select: [[unknown, boolean]]
+const emit = defineEmits<{
+  select: [[T | undefined, boolean]]
 }>()
 
 const is = computed(() => {
-  return ((disabled && tagName === 'p') || rest.selectable) ? 'button' : tagName
+  return (disabled || rest.selectable) ? 'button' : tagName
 })
 
 const styleVars = computed(() => ({
   '--icon-path': `url(${ICONS_DATA_URL.MDI_CHECK_CIRCLE_OUTLINE})`,
 }))
+
+function handleClick () {
+  if (!disabled && rest.selectable) {
+    emit('select', [rest.value, rest.selected ?? false])
+  }
+}
 </script>
 
 <template>
@@ -90,12 +96,12 @@ const styleVars = computed(() => ({
     class="av-tag av-row av-gap-xxs av-align-center"
     :disabled="disabled"
     :class="{
-      'av-tag--sm av-py-xxxs av-px-xs': small,
-      'av-py-xxs av-px-sm': !small,
+      'av-tag--sm av-py-xxxs av-px-xs av-radius-lg': small,
+      'av-py-xxs av-px-sm av-radius-xl': !small,
     }"
-    v-bind="{ ...$attrs }"
+    v-bind="$attrs"
     :style="styleVars"
-    @click="!disabled && rest.selectable && $emit('select', [rest.value, rest.selected ?? false])"
+    @click="handleClick"
   >
     <AvIcon
       v-if="icon"
@@ -113,17 +119,10 @@ const styleVars = computed(() => ({
 .av-tag {
   color: var(--text1);
   background-color: var(--light-background-neutral);
-  border-radius: var(--radius-xl);
-  padding: var(--spacing-xxs) var(--spacing-sm);
-  width: -moz-fit-content;
   width: fit-content;
 
   &:after {
     display: block;
-  }
-
-  &--sm {
-    border-radius: var(--radius-lg);
   }
 
   &[aria-pressed='true'] {
@@ -137,7 +136,7 @@ const styleVars = computed(() => ({
       display: inline-block;
       flex: 0 0 auto;
       height: var(--dimension-md);
-      margin: -.5rem;
+      margin: calc(var(--spacing-xs) * -1);
       -webkit-mask-size: 100% 100%;
       mask-size: 100% 100%;
       position: absolute;

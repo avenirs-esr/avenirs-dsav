@@ -2,7 +2,6 @@
 import type { RouteLocationRaw } from 'vue-router'
 import { hasInjectionContext } from 'vue'
 import { registerNavigationLinkKey } from '@/components/header/AvHeader/injection-key'
-import { useAvBreakpoints } from '@/composables'
 
 /**
  * NavigationMenuLink component props.
@@ -61,8 +60,6 @@ defineEmits<{
   (event: 'toggleId', id: string): void
 }>()
 
-const { isBelowLg } = useAvBreakpoints()
-
 const realId = computed(() => id ?? `menu-link-${crypto.randomUUID()}`)
 
 const isExternal = computed(() => typeof to === 'string' && to.startsWith('http'))
@@ -74,11 +71,8 @@ const closeModal = useHeader?.() ?? (() => {})
 <template>
   <a
     v-if="isExternal"
-    class="av-nav__link"
-    :class="{
-      'av-nav__link--active': activeId === realId,
-      'av-nav__link--compact': isBelowLg,
-    }"
+    class="av-nav__link av-row av-align-start"
+    :class="{ 'av-nav__link--active': activeId === realId }"
     data-testid="nav-external-link"
     :href="(to as string)"
     @click="$emit('toggleId', realId); onClick($event)"
@@ -102,15 +96,14 @@ const closeModal = useHeader?.() ?? (() => {})
 </template>
 
 <style lang="scss" scoped>
-.av-nav__link {
-  display: flex;
-  gap: var(--spacing-xs);
-  justify-content: flex-start;
-  border-radius: 1.5rem 1.5rem var(--radius-none) var(--radius-none);
-}
+@use '@/styles/settings/breakpoints' as *;
 
-.av-nav__link--compact {
+.av-nav__link {
   border-radius: var(--radius-none);
+
+  @include min-width(lg) {
+    border-radius: var(--radius-xl) var(--radius-xl) var(--radius-none) var(--radius-none);
+  }
 }
 
 .b1-regular {

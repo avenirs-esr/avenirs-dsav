@@ -147,7 +147,7 @@ function handleItemClick (itemName: string, close: () => void) {
       />
     </template>
     <template #popover="{ close }">
-      <div class="av-dropdown">
+      <div class="av-dropdown av-col">
         <AvButton
           v-for="item in items"
           :key="item.name"
@@ -168,14 +168,8 @@ function handleItemClick (itemName: string, close: () => void) {
 
 <style lang="scss" scoped>
 .av-dropdown {
-  display: flex;
-  flex-direction: column;
-
   &__menu-item {
-    display: flex;
     width: 100%;
-    align-items: center;
-    align-self: stretch;
 
     &:first-child {
       border-radius: var(--radius-sm) var(--radius-sm) 0 0;

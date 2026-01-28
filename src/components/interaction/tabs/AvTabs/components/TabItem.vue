@@ -125,8 +125,10 @@ watch(() => isSelected, () => {
 
 <template>
   <li
-    class="av-tab-item"
-    :class="{ 'av-tab-item--compact': compact }"
+    class="av-tab-item av-py-xs"
+    :class="{ 'av-tab-item--compact av-no-before': compact,
+              'av-flex-fill av-w-full': !compact,
+    }"
     role="presentation"
   >
     <button
@@ -134,8 +136,10 @@ watch(() => isSelected, () => {
       :id="tabId"
       ref="button"
       :data-testid="`test-${tabId}`"
-      class="av-tab-item__tab"
-      :class="{ 'av-tab-item--compact__tab': compact }"
+      class="av-tab-item__tab av-row av-gap-xs av-align-center av-justify-center av-text-text2 av-w-full"
+      :class="{ 'av-tab-item--compact__tab av-radius-none av-m-none av-py-xs av-px-2xl': compact,
+                'av-radius-lg': !compact,
+      }"
       :tabindex="isSelected ? 0 : -1"
       role="tab"
       type="button"
@@ -158,24 +162,8 @@ watch(() => isSelected, () => {
 
 <style lang="scss" scoped>
 .av-tab-item {
-  width: 100%;
-  flex: 1 1 0%;
-  padding: var(--spacing-xs) var(--spacing-none);
-
-  &::marker {
-    content: none;
-  }
-
   &__tab {
-    display: flex;
-    flex-direction: row;
-    gap: var(--spacing-xs);
-    align-items: center;
-    justify-content: center;
     text-align: center;
-    border-radius: var(--radius-lg);
-    width: 100%;
-    color: var(--text2);
 
     &[aria-selected=true]:not(:disabled),
     &[aria-selected=true]:not(:disabled) > * {
@@ -204,17 +192,7 @@ watch(() => isSelected, () => {
   }
 
   &--compact {
-    width: unset;
-    flex: unset;
-
-    &::before {
-      display: none;
-    }
-
     &__tab {
-      border-radius: var(--radius-none);
-      margin: var(--spacing-none);
-      padding: var(--spacing-xs) var(--spacing-2xl);
       border-bottom: 3px solid transparent;
 
       &[aria-selected=true]:not(:disabled) {

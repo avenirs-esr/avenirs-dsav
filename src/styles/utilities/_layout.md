@@ -21,6 +21,8 @@ This file contains layout-related utility classes for managing the overall struc
 | `.av-flex-fill` | `flex: 1 1 0%` (grow and fill available space) | `--sm`, `--md`, `--lg`, `--xl` |
 | `.av-w-full` | `width: 100%` | `--sm`, `--md`, `--lg`, `--xl` |
 | `.av-h-full` | `height: 100%` | `--sm`, `--md`, `--lg`, `--xl` |
+| `.av-w-unset` | `width: unset` | `--sm`, `--md`, `--lg`, `--xl` |
+| `.av-h-unset` | `height: unset` | `--sm`, `--md`, `--lg`, `--xl` |
 | `.av-align-{alignment}` | Sets `align-items`: `start` (`flex-start`), `center`, `end` (`flex-end`), `stretch`, `baseline` | `--sm`, `--md`, `--lg`, `--xl` |
 | `.av-justify-{justification}` | Sets `justify-content`: `start` (`flex-start`), `center`, `end` (`flex-end`), `between` (`space-between`), `around` (`space-around`), `evenly` (`space-evenly`) | `--sm`, `--md`, `--lg`, `--xl` |
 
@@ -225,6 +227,30 @@ This file contains layout-related utility classes for managing the overall struc
 @media (min-width: 36rem) {
   .av-h-full--sm {
     height: 100%;
+  }
+}
+```
+
+### Unset width and height
+
+```css
+.av-w-unset {
+  width: unset;
+}
+
+@media (min-width: 36rem) {
+  .av-w-unset--sm {
+    width: unset;
+  }
+}
+
+.av-h-unset {
+  height: unset;
+}
+
+@media (min-width: 36rem) {
+  .av-h-unset--sm {
+    height: unset;
   }
 }
 ```

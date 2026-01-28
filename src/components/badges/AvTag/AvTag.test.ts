@@ -1,9 +1,9 @@
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import AvTag, { type AvTagProps } from '@/components/badges/AvTag/AvTag.vue'
 import { AvIconStub, BddTest } from '@/tests'
 
 BddTest().given('an AvTag component', () => {
-  let wrapper: VueWrapper<InstanceType<typeof AvTag>>
+  let wrapper: ReturnType<typeof mount<typeof AvTag>>
 
   const props: AvTagProps = {
     label: 'A super tag'

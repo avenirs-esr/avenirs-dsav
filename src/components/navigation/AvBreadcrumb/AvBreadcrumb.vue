@@ -100,7 +100,7 @@ onMounted(() => {
         'av-collapsing': collapsing,
       }"
     >
-      <ol class="av-breadcrumb__list">
+      <ol class="av-breadcrumb__list av-list-reset">
         <li
           v-for="(link, index) in links"
           :key="index"
@@ -110,7 +110,7 @@ onMounted(() => {
           <RouterLink
             v-if="link.to"
             :aria-current="index === links.length - 1 ? 'page' : undefined"
-            class="b2-regular av-breadcrumb__link"
+            class="b2-regular av-breadcrumb__link av-p-none"
             :to="link.to"
           >
             {{ link.text }}
@@ -118,7 +118,7 @@ onMounted(() => {
           <a
             v-else
             :aria-current="index === links.length - 1 ? 'page' : undefined"
-            class="b2-regular av-breadcrumb__link"
+            class="b2-regular av-breadcrumb__link av-p-none"
           >
             {{ link.text }}
           </a>
@@ -132,8 +132,6 @@ onMounted(() => {
 @use '@/styles/settings/breakpoints' as *;
 
 .av-breadcrumb {
-  margin: var(--spacing-sm) var(--spacing-none) var(--spacing-lg);
-
   &__list {
     transform:translateY(var(--spacing-xxs));
 
@@ -165,7 +163,6 @@ onMounted(() => {
 
   &__link {
     color: var(--dark-background-primary1);
-    padding: var(--spacing-none);
 
     &[href]:hover {
       text-decoration: underline;
@@ -179,17 +176,7 @@ onMounted(() => {
     }
   }
 
-  .av-collapse {
-    margin-left: calc(-1 * var(--spacing-xxs));
-    margin-right: calc(-1 * var(--spacing-xxs));
-    padding-left: var(--spacing-xxs);
-    padding-right: var(--spacing-xxs);
-    transform: translateY(var(--spacing-xxs));
-  }
-
   @include min-width(md) {
-    margin-bottom: var(--spacing-xl);
-
     &__button {
       display: none;
     }
@@ -199,10 +186,6 @@ onMounted(() => {
     }
 
     .av-collapse {
-      margin-left: var(--spacing-none);
-      margin-right: var(--spacing-none);
-      padding-left: var(--spacing-none);
-      padding-right: var(--spacing-none);
       max-height: none;
       overflow: visible;
       transform: none;

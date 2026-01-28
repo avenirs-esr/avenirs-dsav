@@ -28,7 +28,7 @@ function removeOption (option: T) {
 <template>
   <div
     v-if="props.multiSelect && selectedItems.length > 0 && props.showSelectedSection"
-    class="av-autocomplete-selected-tags"
+    class="av-autocomplete-selected-tags av-row av-wrap av-gap-xs av-mt-xs"
   >
     <div
       v-for="option in selectedItems"
@@ -56,13 +56,6 @@ function removeOption (option: T) {
 </template>
 
 <style lang="scss" scoped>
-.av-autocomplete-selected-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-xs);
-  margin-top: var(--spacing-xs);
-}
-
 .av-autocomplete-selected-tags__item {
   display: inline-flex;
 }

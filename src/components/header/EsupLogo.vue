@@ -14,7 +14,7 @@ const svgProps = computed(() => ({
 </script>
 
 <template>
-  <div class="svg-wrapper">
+  <div class="svg-wrapper av-p-xxxs">
     <EsupLogoSvg
       v-bind="svgProps"
       class="logo"
@@ -26,7 +26,6 @@ const svgProps = computed(() => ({
 
 <style lang="scss" scoped>
 .svg-wrapper {
-  padding: var(--spacing-xxxs);
   background: v-bind('color');
 }
 

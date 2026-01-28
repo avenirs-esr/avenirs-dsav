@@ -129,25 +129,26 @@ defineExpose({
   <div
     v-if="isOpen"
     ref="dropdownRef"
-    class="av-autocomplete-dropdown"
+    class="av-autocomplete-dropdown av-mt-xxxs av-radius-lg"
     :class="props.dropdownClass"
     :style="{ width: props.dropdownWidth, maxHeight: props.maxDropdownHeight }"
   >
     <div
       v-if="dropdownState === DropdownState.LOADING"
-      class="av-autocomplete-dropdown__loading"
+      class="av-row av-align-center av-justify-center av-gap-xs av-p-md av-text-text2"
+      data-testid="av-autocomplete-dropdown__loading"
     >
       <AvIcon
         :name="MDI_ICONS.LOADING"
         :size="1.5"
-        class="av-autocomplete-dropdown__spinner"
+        animation="spin"
       />
-      <span class="av-autocomplete-dropdown__loading-text">Loading...</span>
+      <span class="av-autocomplete-dropdown__loading-text av-text-text2">Loading...</span>
     </div>
 
     <div
       v-else-if="dropdownState === DropdownState.NO_OPTIONS"
-      class="av-autocomplete-dropdown__empty"
+      class="av-autocomplete-dropdown__empty av-p-md"
     >
       <slot
         v-if="slots.empty"
@@ -155,7 +156,7 @@ defineExpose({
       />
       <div
         v-else
-        class="av-autocomplete-dropdown__empty-text"
+        class="av-autocomplete-dropdown__empty-text av-text-text2"
       >
         No results found
       </div>
@@ -201,9 +202,7 @@ defineExpose({
   z-index: 1000;
   background-color: var(--other-background-base);
   border: 1px solid var(--dark-background-primary1);
-  border-radius: var(--radius-lg);
   box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.1);
-  margin-top: var(--spacing-xxxs);
   overflow: hidden;
   box-sizing: border-box;
 }
@@ -232,42 +231,17 @@ defineExpose({
 }
 
 .av-autocomplete-dropdown__empty {
-  padding: var(--spacing-md);
   text-align: center;
 }
 
 .av-autocomplete-dropdown__empty-text {
   font-size: 0.875rem;
   font-weight: 300;
-  color: var(--text2);
-}
-
-.av-autocomplete-dropdown__loading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-xs);
-  padding: var(--spacing-md);
-  color: var(--text2);
-}
-
-.av-autocomplete-dropdown__spinner {
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 .av-autocomplete-dropdown__loading-text {
   font-size: 0.875rem;
   font-weight: 400;
-  color: var(--text2);
 }
 </style>
 

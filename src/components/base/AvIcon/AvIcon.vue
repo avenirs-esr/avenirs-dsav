@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { getIconPath } from '@/utils/icon-path/icon-path'
+
 /**
  * AvIcon component props.
  */
@@ -38,7 +40,7 @@ export interface AvIconProps {
 
   /**
    * Main color of the icon.
-   * @default 'inherit'
+   * @default 'currentColor'
    */
   color?: string
 }
@@ -55,28 +57,25 @@ const {
 
 const fontSize = computed(() => `${size}rem`)
 
-const safeName = computed(() => {
-  if (name?.startsWith('data:')) {
-    return null
-  }
-  return name?.replace(':', '-')
-})
-const varName = computed(() => `--icon-${safeName.value}`)
+const iconPathStyleVars = getIconPath(name)
 
-const styleVars = computed(() => {
-  if (safeName.value) {
-    return { '--icon': `var(${varName.value})` }
+const flipTransform = computed(() => {
+  if (flip === 'horizontal') {
+    return 'scaleX(-1)'
   }
-  if (name) {
-    return { '--icon': `url(${name})` }
+  if (flip === 'vertical') {
+    return 'scaleY(-1)'
   }
-  return {}
+  if (flip === 'both') {
+    return 'scale(-1, -1)'
+  }
+  return undefined
 })
 </script>
 
 <template>
   <div
-    class="av-icon"
+    class="av-icon av-col"
     :class="{
       'av-icon--spin': animation === 'spin',
       'av-icon--wrench': animation === 'wrench',
@@ -88,30 +87,28 @@ const styleVars = computed(() => {
       'av-icon--slow': speed === 'slow',
       'av-icon--fast': speed === 'fast',
     }"
-    :style="{
-      transform: flip === 'horizontal' ? 'scaleX(-1)' : flip === 'vertical' ? 'scaleY(-1)' : flip === 'both' ? 'scale(-1,-1)' : 'none',
-    }"
     :title="title"
     aria-hidden="true"
   >
     <span
       class="av-icon__icon"
-      :style="[styleVars, { width: fontSize, height: fontSize }]"
+      :style="[iconPathStyleVars, { transform: flipTransform }]"
     />
   </div>
 </template>
 
 <style lang="scss" scoped>
 .av-icon {
-  display: flex;
   width: v-bind('fontSize');
   height: v-bind('fontSize');
   color: v-bind('color');
 
   &__icon {
+    width: 100%;
+    height: 100%;
     background-color: v-bind('color');
-    -webkit-mask-image: var(--icon);
-    mask-image: var(--icon);
+    -webkit-mask-image: var(--icon-path);
+    mask-image: var(--icon-path);
     mask-repeat: no-repeat;
     mask-position: center;
     mask-size: contain;
@@ -295,10 +292,10 @@ const styleVars = computed(() => {
     }
 
     @keyframes flash {
-      0%, 100%, 50%{
+      0%, 100%, 50% {
         opacity: 1;
       }
-      25%, 75%{
+      25%, 75% {
         opacity: 0;
       }
     }

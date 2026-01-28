@@ -45,7 +45,7 @@ export interface AvBadgeProps {
 const {
   color,
   backgroundColor,
-  borderColor,
+  borderColor = 'transparent',
   icon,
   label,
   small = false,
@@ -72,15 +72,16 @@ const styleVars = computed(() => {
 </script>
 
 <template>
-  <p
-    class="av-badge av-row av-align-center av-py-none av-m-none"
+  <span
+    role="status"
+    class="av-badge av-row av-align-center av-py-none av-m-none av-radius-sm"
     :class="{
       'av-badge--sm av-px-xxs': small,
       'av-px-xs': !small,
       'av-badge--custom-icon': icon,
       'av-badge--no-icon': !icon,
     }"
-    :title="ellipsis ? label : undefined"
+    :title="label"
     :style="styleVars"
   >
     <span
@@ -92,7 +93,7 @@ const styleVars = computed(() => {
     >
       {{ label }}
     </span>
-  </p>
+  </span>
 </template>
 
 <style lang="scss" scoped>
@@ -100,12 +101,9 @@ const styleVars = computed(() => {
   color: v-bind('color');
   background-color: v-bind('backgroundColor');
   border: 1px solid v-bind('borderColor');
-  border-radius: var(--radius-sm);
-  max-height: none;
   max-width: 100%;
   min-height: var(--dimension-md);
   overflow: initial;
-  width: -moz-fit-content;
   width: fit-content;
 
   & span {

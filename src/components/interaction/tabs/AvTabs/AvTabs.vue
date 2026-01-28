@@ -124,7 +124,7 @@ onUnmounted(() => {
   >
     <ul
       ref="tablist"
-      class="av-tabs__list av-row av-px-xs av-py-none av-align-center av-gap-sm"
+      class="av-tabs__list av-row av-px-xs av-py-none av-align-center av-gap-sm av-list-reset"
       :class="{
         'av-tabs__list--compact': compact,
         'av-w-full': !compact,

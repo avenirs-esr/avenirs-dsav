@@ -147,7 +147,7 @@ const messageType = computed(() => {
       >
         <div
           v-if="prefixIcon"
-          class="av-select-prefix av-align-center av-col"
+          class="av-select-prefix av-align-center av-col av-text-text2"
         >
           <AvIcon
             :name="prefixIcon"
@@ -176,9 +176,11 @@ const messageType = computed(() => {
         <select
           :id="realId"
           :class="{ [`av-select--${messageType}`]: message,
-                    'av-select--with-prefix': prefixIcon,
+                    'av-select--with-prefix av-pl-xl': prefixIcon,
+                    'av-py-xxs': dense,
+                    'av-py-xs': !dense,
           }"
-          class="av-select b2-light"
+          class="av-select b2-light av-w-full av-pr-xl av-pl-sm av-text-text2"
           :name="name || realId"
           :disabled="disabled"
           :aria-disabled="disabled"
@@ -237,14 +239,12 @@ const messageType = computed(() => {
   transform: translateY(-50%);
   z-index: 1;
   pointer-events: none;
-  color: var(--text2);
   transition: color 0.2s ease;
 }
 
 .av-select {
   background-color: var(--other-background-base);
   border: 1px solid var(--divider);
-  color: var(--text2);
   border-radius: var(--radius-lg);
   white-space: nowrap;
   overflow: hidden;
@@ -253,20 +253,6 @@ const messageType = computed(() => {
   background-position: calc(100% - var(--dimension-sm)) 50%;
   background-repeat: no-repeat;
   background-size: var(--dimension-sm) var(--dimension-sm);
-  margin-top: var(--spacing-none);
-  width: 100%;
-  padding: var(--spacing-xs) var(--spacing-xl) var(--spacing-xs) var(--spacing-sm);
-
-  &--dense {
-    .av-select {
-      padding-top: var(--spacing-xxs) !important;
-      padding-bottom: var(--spacing-xxs) !important;
-    }
-  }
-
-  &--with-prefix {
-    padding-left: calc(var(--spacing-xs) * 3 + var(--spacing-sm));
-  }
 
   &[aria-disabled=true] {
     background-color: var(--surface-background);

@@ -99,26 +99,26 @@ function toggleCollapse () {
 <template>
   <nav
     :id="menuId"
-    class="av-side-menu"
+    class="av-side-menu av-col av-h-full"
     :class="{ 'av-side-menu--collapsed': isCollapsed }"
     :aria-label="ariaLabel"
   >
     <div
       v-if="props.collapsible"
-      class="av-side-menu__header"
+      class="av-side-menu__header av-row av-align-center av-justify-end"
     >
       <AvButton
         :aria-expanded="!isCollapsed"
         :aria-controls="menuId"
         :icon="isCollapsed ? MDI_ICONS.CHEVRON_DOUBLE_RIGHT : MDI_ICONS.CHEVRON_DOUBLE_LEFT"
-        class="av-side-menu__collapse-button"
+        class="av-side-menu__collapse-button av-p-xs av-m-xs av-gap-none"
         :label="isCollapsed ? `${menuId}-expand-button` : `${menuId}-collapse-button`"
         icon-only
         @click="toggleCollapse"
       />
     </div>
 
-    <div class="av-side-menu__content">
+    <div class="av-side-menu__content av-row av-flex-fill av-py-sm">
       <slot />
     </div>
   </nav>
@@ -126,9 +126,6 @@ function toggleCollapse () {
 
 <style lang="scss" scoped>
 .av-side-menu {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
   width: v-bind('currentWidth');
   background-color: var(--other-background-base);
   transition: width 0.3s ease;
@@ -137,23 +134,14 @@ function toggleCollapse () {
 }
 
 .av-side-menu__header {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
   min-height: var(--dimension-4xl);
 }
 
 .av-side-menu__content {
-  display: flex;
-  flex: 1;
   overflow-y: auto;
-  padding: var(--spacing-sm) 0;
 }
 
 .av-side-menu__collapse-button {
-  padding: var(--spacing-xs);
-  margin: var(--spacing-xs);
-  gap: 0;
   min-height: var(--dimension-lg);
 }
 </style>

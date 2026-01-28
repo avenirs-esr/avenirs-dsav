@@ -159,10 +159,10 @@ watch(() => props.selected, (newSelected) => {
 </script>
 
 <template>
-  <div class="av-select-container av-row av-gap-xs">
+  <div class="av-tag-picker av-row av-gap-xs">
     <span
       v-if="label"
-      class="av-select-label av-row av-align-center"
+      class="av-tag-picker__label av-row av-align-center"
       :class="[labelTypographyClass]"
     >
       {{ label }}
@@ -171,9 +171,10 @@ watch(() => props.selected, (newSelected) => {
     <div
       v-for="option in renderedOptions"
       :key="option.value"
-      class="tag-wrapper"
+      class="tag-wrapper av-row av-flex-fill"
     >
       <AvTag
+        class="av-row av-align-center av-justify-center av-flex-fill av-py-xxs av-px-xs av-radius-md av-no-before av-no-after av-border-width-sm av-border-style-solid"
         :class="{
           'av-tag--selected': isOptionSelected(option),
           'av-tag--disabled': getDisabled(option),
@@ -190,55 +191,31 @@ watch(() => props.selected, (newSelected) => {
 </template>
 
 <style lang="scss" scoped>
-.av-select-container {
-  align-items: stretch;
-  text-align: center;
-}
-
-.av-select-label {
+.av-tag-picker__label {
   color: v-bind('labelColor');
 }
 
-.tag-wrapper {
-  flex: 1 1 0;
-  display: flex;
-}
-
 .av-tag {
-  border: 1px solid var(--divider);
-  border-radius: var(--radius-md);
+  border-color: var(--divider);
   color: var(--text2) !important;
   background: var(--other-background-base) !important;
-  padding: var(--spacing-xxs) var(--spacing-xs) !important;
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: center !important;
-  flex: 1 !important;
-  justify-content: center !important;
   text-align: center !important;
 
   &:hover {
-    border: 1px solid var(--dark-background-primary1);
+    border-color: var(--dark-background-primary1);
     color: var(--other-background-base) !important;
     background: var(--dark-background-primary1) !important;
   }
 
   &--selected {
-    border: 1px solid var(--dark-background-primary1);
+    border-color: var(--dark-background-primary1);
     color: var(--dark-background-primary1) !important;
     background: var(--other-background-base) !important;
 
     &:hover {
-      border: 1px solid var(--dark-background-primary1);
+      border-color: var(--dark-background-primary1);
       color: var(--dark-background-primary1) !important;
       background: var(--other-background-base) !important;
-    }
-
-    &:after,
-    &:before {
-      content: '';
-      mask: none !important;
-      background: none !important;
     }
   }
 

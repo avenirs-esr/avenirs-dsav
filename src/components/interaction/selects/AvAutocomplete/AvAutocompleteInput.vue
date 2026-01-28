@@ -100,7 +100,7 @@ defineExpose({
 
     <div
       v-if="selectedItems.length > 0"
-      class="av-autocomplete-input__suffix"
+      class="av-autocomplete-input__suffix av-row av-align-center"
     >
       <AvButton
         label="Clear selected items"
@@ -125,19 +125,18 @@ defineExpose({
   right: var(--spacing-xs);
   top: 2.7rem;
   z-index: 2;
-  display: flex;
-  align-items: center;
   transform: translateY(-50%);
   pointer-events: none;
 
   & :deep(.av-button) {
     padding: 0 !important;
     margin: 0 !important;
+    margin-top: var(--spacing-xs) !important;
     pointer-events: all;
   }
 }
 
 .av-autocomplete-input :deep(input) {
-  padding-right: calc(var(--spacing-xs) * 3 + 1rem);
+  padding-right: var(--spacing-xl);
 }
 </style>

@@ -84,10 +84,10 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="av-popover-wrapper">
+  <div class="av-popover-wrapper av-row">
     <div
       :ref="setTriggerRef"
-      class="av-popover-trigger-wrapper"
+      class="av-popover-trigger-wrapper av-row av-flex-fill"
     >
       <slot
         name="trigger"
@@ -100,7 +100,7 @@ onBeforeUnmount(() => {
         v-if="showPopover"
         ref="popoverRef"
         tabindex="-1"
-        class="av-popover"
+        class="av-popover av-radius-lg"
         :style="`top: ${popoverPosition.top}rem; left: ${popoverPosition.left}rem;`"
         @keydown.esc.prevent="closePopover"
       >
@@ -118,25 +118,16 @@ onBeforeUnmount(() => {
   box-sizing: border-box;
 }
 
-.av-popover-wrapper {
-  display: flex;
-}
-
-.av-popover-trigger-wrapper {
-  display: flex;
-  flex: 1;
-}
-
 .av-popover {
   position: absolute;
   background: var(--dialog);
   border: 1px solid var(--dark-background-primary2);
-  border-radius: var(--radius-lg);
   box-shadow: 0 var(--spacing-xxs) var(--spacing-xs) rgba(0, 0, 0, 0.15);
   z-index: 9999;
   width: v-bind('width');
   padding: v-bind('padding');
   animation: fadeIn 0.2s ease;
+  width: fit-content;
 }
 
 @keyframes fadeIn {

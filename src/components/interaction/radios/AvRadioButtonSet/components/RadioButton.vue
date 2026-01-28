@@ -92,7 +92,7 @@ const id = ref(`av-radio-button-${crypto.randomUUID()}`)
       >
       <label
         :for="id"
-        class="av-label"
+        class="av-label av-p-none"
       >
         <slot />
       </label>
@@ -112,10 +112,6 @@ const id = ref(`av-radio-button-${crypto.randomUUID()}`)
       height: var(--dimension-sm);
       width: var(--dimension-sm);
     }
-  }
-
-  .av-label {
-    padding: var(--spacing-none);
   }
 }
 </style>

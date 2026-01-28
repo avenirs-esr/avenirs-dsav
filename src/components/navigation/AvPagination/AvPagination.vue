@@ -111,7 +111,7 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
     class="av-pagination av-nav"
     :aria-label="ariaLabel"
   >
-    <ul class="av-pagination__list av-row av-row-wrap av-align-center av-gap-sm">
+    <ul class="av-pagination__list av-row av-row-wrap av-align-center av-gap-sm av-list-reset">
       <li v-if="compact && !!compactCurrentPageLabel">
         <span class="b2-regular">
           {{ compactCurrentPageLabel }}
@@ -121,7 +121,7 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
         <a
           v-if="!compact"
           :href="pages[0]?.href"
-          class="av-pagination__link"
+          class="av-pagination__link av-row av-align-center av-justify-center av-py-xxs av-px-xs av-radius-lg av-gap-xxs"
           :title="firstPageLabel"
           :aria-disabled="currentPage === 0 ? true : undefined"
           @click.prevent="tofirstPage()"
@@ -136,7 +136,7 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
       <li>
         <a
           :href="pages[Math.max(currentPage - 1, 0)]?.href"
-          class="av-pagination__link"
+          class="av-pagination__link av-row av-align-center av-justify-center av-py-xxs av-px-xs av-radius-lg av-gap-xxs"
           :title="prevPageLabel"
           :aria-disabled="currentPage === 0 ? true : undefined"
           @click.prevent="toPreviousPage()"
@@ -160,7 +160,7 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
         >
           <a
             :href="page?.href"
-            class="av-pagination__link"
+            class="av-pagination__link av-row av-align-center av-justify-center av-py-xxs av-px-xs av-radius-lg av-gap-xxs"
             :title="page.title"
             :aria-current="isCurrentPage(page) ? 'page' : undefined"
             @click.prevent="toPage(pages.indexOf(page))"
@@ -174,7 +174,7 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
       <li>
         <a
           :href="pages[Math.min(currentPage + 1, pages.length - 1)]?.href"
-          class="av-pagination__link"
+          class="av-pagination__link av-row av-align-center av-justify-center av-py-xxs av-px-xs av-radius-lg av-gap-xxs"
           :title="nextPageLabel"
           :disabled="currentPage === pages.length - 1 ? true : undefined"
           :aria-disabled="currentPage === pages.length - 1 ? true : undefined"
@@ -195,7 +195,7 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
       <li>
         <a
           v-if="!compact"
-          class="av-pagination__link"
+          class="av-pagination__link av-row av-align-center av-justify-center av-py-xxs av-px-xs av-radius-lg av-gap-xxs"
           :href="pages[pages.length - 1]?.href"
           :title="lastPageLabel"
           :disabled="currentPage === pages.length - 1 ? true : undefined"
@@ -216,17 +216,10 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
 <style lang="scss" scoped>
 .av-pagination {
   &__link {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
     min-height: var(--dimension-lg);
     min-width: var(--dimension-lg);
-    padding: var(--spacing-xxs) var(--spacing-xs);
     width: -moz-fit-content;
     width: fit-content;
-    border-radius: var(--radius-lg);
-    gap: var(--spacing-xxs);
     color: var(--dark-background-primary1);
 
     & * {

@@ -119,6 +119,15 @@ $justifications: (
   height: 100%
 ));
 
+// === Unset width/height classes ===
+// Ex: .av-w-unset / .av-h-unset
+@include utility-base("w-unset", (
+  width: unset
+));
+@include utility-base("h-unset", (
+  height: unset
+));
+
 // === Flex alignment classes ===
 // Ex: .av-align-center / .av-align-end
 @each $alignment, $value in $alignments {
@@ -219,6 +228,15 @@ $justifications: (
 ));
 @include utility-responsive("h-full", (
   height: 100%
+));
+
+// === Unset width/height classes ===
+// Ex: .av-w-unset--md / .av-h-unset--lg
+@include utility-responsive("w-unset", (
+  width: unset
+));
+@include utility-responsive("h-unset", (
+  height: unset
 ));
 
 // === Flex alignment classes ===
