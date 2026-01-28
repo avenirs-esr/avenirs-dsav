@@ -141,7 +141,10 @@ const messageType = computed(() => {
       class="av-select-group"
       :class="{ [`av-select-group--${messageType}`]: message }"
     >
-      <div class="av-select-control">
+      <div
+        class="av-select-control"
+        :class="{ 'av-select-control--disabled': disabled }"
+      >
         <div
           v-if="prefixIcon"
           class="av-select-prefix av-align-center av-col"
@@ -220,7 +223,7 @@ const messageType = computed(() => {
 .av-select-control {
   position: relative;
 
-  &:hover {
+  &:not(.av-select-control--disabled):hover {
     .av-select-prefix {
       color: white;
     }
