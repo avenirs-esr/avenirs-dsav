@@ -55,8 +55,23 @@ const {
 
 const fontSize = computed(() => `${size}rem`)
 
-const safeName = computed(() => name.replace(':', '-'))
+const safeName = computed(() => {
+  if (name?.startsWith('data:')) {
+    return null
+  }
+  return name?.replace(':', '-')
+})
 const varName = computed(() => `--icon-${safeName.value}`)
+
+const styleVars = computed(() => {
+  if (safeName.value) {
+    return { '--icon': `var(${varName.value})` }
+  }
+  if (name) {
+    return { '--icon': `url(${name})` }
+  }
+  return {}
+})
 </script>
 
 <template>
@@ -81,7 +96,7 @@ const varName = computed(() => `--icon-${safeName.value}`)
   >
     <span
       class="av-icon__icon"
-      :style="{ '--icon': `var(${varName})`, 'width': fontSize, 'height': fontSize }"
+      :style="[styleVars, { width: fontSize, height: fontSize }]"
     />
   </div>
 </template>
