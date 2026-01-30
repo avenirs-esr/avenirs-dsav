@@ -168,6 +168,7 @@ onUnmounted(() => {
 .av-tabs {
   &__list {
     list-style: none outside none;
+    border-radius: var(--radius-lg);
     background: var(--surface-background);
     overflow-x: auto;
 
