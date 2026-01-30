@@ -26,12 +26,19 @@ export interface AvNavigationProps {
    * - A navigation submenu (`NavigationMenuProps`) with `title`, `links` and `active` props.
    */
   navItems: (NavigationMenuLinkProps | NavigationMenuProps)[]
+
+  /**
+   * Data-testid for the navigation element.
+   * @default undefined
+   */
+  dataTestid?: string
 }
 
 const {
   id,
   label = 'Menu principal',
   navItems,
+  dataTestid,
 } = defineProps<AvNavigationProps>()
 
 const realId = computed(() => id ?? `nav-${crypto.randomUUID()}`)
@@ -88,6 +95,7 @@ onUnmounted(() => {
       class="av-nav"
       role="navigation"
       :aria-label="label"
+      :data-testid="dataTestid"
     >
       <ul class="av-nav__list">
         <NavigationItem

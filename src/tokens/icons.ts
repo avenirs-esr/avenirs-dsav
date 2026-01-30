@@ -138,6 +138,7 @@ export const MDI_ICONS = {
 export const RI_ICONS = {
   DICE_1_LINE: 'ri:dice-1-line',
   DICE_4_LINE: 'ri:dice-4-line',
+  DRAW_LINE: 'ri:draw-line',
   HAND_HEART_LINE: 'ri:hand-heart-line',
   HONOUR_LINE: 'ri:honour-line',
   LAYOUT_6_LINE: 'ri:layout-6-line',
