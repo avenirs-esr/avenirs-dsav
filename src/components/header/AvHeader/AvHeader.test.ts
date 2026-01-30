@@ -1,6 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { afterEach, beforeEach, expect, vi } from 'vitest'
-import { nextTick } from 'vue'
+import { beforeEach, expect, vi } from 'vitest'
 import AvHeader from '@/components/header/AvHeader/AvHeader.vue'
 import { AvCancelConfirmButtonsStub, AvDrawerStub } from '@/tests'
 import { BddTest, mountWithRouter } from '@/tests/utils'
@@ -28,6 +27,14 @@ BddTest().given('an AvHeader', () => {
   const modelValue = ''
   const currentLanguage = 'fr'
   const languages = [{ codeIso: 'fr', label: 'Français' }, { codeIso: 'en', label: 'English' }]
+
+  function getMenuDrawer () {
+    return wrapper.findAllComponents(AvDrawerStub).find(drawer => drawer.attributes('data-testid') === 'header-menu-drawer')
+  }
+
+  function getSearchDrawer () {
+    return wrapper.findAllComponents(AvDrawerStub).find(drawer => drawer.attributes('data-testid') === 'header-search-drawer')
+  }
 
   BddTest().when('the component is mounted', () => {
     beforeEach(async () => {
@@ -64,9 +71,9 @@ BddTest().given('an AvHeader', () => {
       const menuButton = wrapper.get('[data-testid="open-menu-btn"]')
       await menuButton.trigger('click')
 
-      const drawer = wrapper.findComponent({ name: 'AvDrawer' })
-      expect(drawer.exists()).toBe(true)
-      expect(drawer.props('show')).toBe(true)
+      const drawer = getMenuDrawer()
+      expect(drawer?.exists()).toBe(true)
+      expect(drawer!.props('show')).toBe(true)
     })
   })
 
@@ -87,27 +94,29 @@ BddTest().given('an AvHeader', () => {
     })
   })
 
-  BddTest().when('the menu modal is opened', () => {
+  BddTest().when('the menu drawer is opened', () => {
     BddTest().and('the search button is clicked', () => {
       beforeEach(async () => {
         wrapper = await mountWithRouter<typeof AvHeader>(AvHeader, {
           props: { showSearch },
           global: { stubs }
         })
+
+        const searchButton = wrapper.find('[data-testid="open-search-btn"]')
+        expect(searchButton.exists()).toBe(true)
+        await searchButton.trigger('click')
       })
 
-      BddTest().then('it should open search modal and close menu modal', async () => {
-        const searchButton = wrapper.find('.search-button')
-        expect(searchButton.exists()).toBe(true)
+      BddTest().then('it should open search drawer', async () => {
+        const searchDrawer = getSearchDrawer()
+        expect(searchDrawer?.exists()).toBe(true)
+        expect(searchDrawer!.props('show')).toBe(true)
+      })
 
-        await searchButton.trigger('click')
-
-        const headerMenu = wrapper.find('.av-header__menu-modal')
-        const searchBar = headerMenu.find('.av-search-bar')
-        expect(searchBar.exists()).toBe(true)
-        const menuLinks = wrapper.find('.av-header__menu-modal-links')
-        const quickLinks = menuLinks.find('[aria-label="Menu secondaire"]')
-        expect(quickLinks.exists()).toBe(false)
+      BddTest().then('it should close menu drawer', async () => {
+        const menuDrawer = getMenuDrawer()
+        expect(menuDrawer?.exists()).toBe(true)
+        expect(menuDrawer!.props('show')).toBe(false)
       })
     })
 
@@ -119,91 +128,40 @@ BddTest().given('an AvHeader', () => {
         })
       })
 
-      BddTest().then('it should close the menu modal when close button is clicked', async () => {
-        const menuDrawer = wrapper.findComponent({ name: 'AvDrawer' })
+      BddTest().then('it should close the menu drawer when close button is clicked', async () => {
+        const menuDrawer = getMenuDrawer()
 
         const openBtn = wrapper.get('[data-testid="open-menu-btn"]')
         await openBtn.trigger('click')
-        expect(menuDrawer.props('show')).toBe(true)
+        expect(menuDrawer?.exists()).toBe(true)
+        expect(menuDrawer!.props('show')).toBe(true)
 
-        await menuDrawer.findComponent({ name: 'AvCancelConfirmButtons' }).vm.$emit('cancel')
-        expect(menuDrawer.props('show')).toBe(false)
+        await menuDrawer!.findComponent({ name: 'AvCancelConfirmButtons' }).vm.$emit('cancel')
+        expect(menuDrawer!.props('show')).toBe(false)
       })
     })
 
-    BddTest().and('has a focus', () => {
-      const focusMock = vi.fn()
-
-      let menuBtn: HTMLButtonElement
-
+    BddTest().and('the escape key is pressed', () => {
       beforeEach(async () => {
-        vi.clearAllMocks()
-
-        menuBtn = document.createElement('button')
-        menuBtn.setAttribute('id', 'button-menu')
-        menuBtn.focus = focusMock
-        document.body.appendChild(menuBtn)
-
         wrapper = await mountWithRouter(AvHeader, {
-          props: { quickLinks },
+          props: { serviceTitle, quickLinks },
           global: { stubs }
         })
       })
 
-      afterEach(() => {
-        document.body.removeChild(menuBtn)
-      })
+      BddTest().then('it should close the menu drawer when escape key is pressed', async () => {
+        const menuDrawer = getMenuDrawer()
 
-      BddTest().and('clicking the close button', () => {
-        BddTest().then('it should focus #button-menu', async () => {
-          expect(wrapper.find('[data-testid="open-menu-btn"]').exists()).toBe(true)
-          await wrapper.get('[data-testid="open-menu-btn"]').trigger('click')
-          await wrapper.findComponent({ name: 'AvCancelConfirmButtons' }).vm.$emit('cancel')
-
-          expect(focusMock).toHaveBeenCalled()
-        })
-      })
-
-      BddTest().and('pressing Escape', () => {
-        BddTest().then('it should trigger hideModal and focus #button-menu', async () => {
-          const event = new KeyboardEvent('keydown', { key: 'Escape' })
-          document.dispatchEvent(event)
-          await nextTick()
-
-          expect(focusMock).toHaveBeenCalled()
-        })
-      })
-    })
-
-    BddTest().when('opening the menu', () => {
-      const focusMock = vi.fn()
-
-      let closeBtn: HTMLButtonElement
-
-      beforeEach(async () => {
-        vi.clearAllMocks()
-
-        closeBtn = document.createElement('button')
-        closeBtn.setAttribute('id', 'close-button')
-        closeBtn.focus = focusMock
-        document.body.appendChild(closeBtn)
-
-        wrapper = await mountWithRouter(AvHeader, {
-          props: { quickLinks },
-          global: { stubs }
-        })
-      })
-
-      afterEach(() => {
-        document.body.removeChild(closeBtn)
-      })
-
-      BddTest().then('it should focus #close-button', async () => {
         const openBtn = wrapper.get('[data-testid="open-menu-btn"]')
         await openBtn.trigger('click')
-        await new Promise(resolve => setTimeout(resolve))
+        expect(menuDrawer?.exists()).toBe(true)
+        expect(menuDrawer!.props('show')).toBe(true)
 
-        expect(focusMock).toHaveBeenCalled()
+        const escapeEvent = new KeyboardEvent('keydown', { key: 'Escape' })
+        document.dispatchEvent(escapeEvent)
+        await wrapper.vm.$nextTick()
+
+        expect(menuDrawer!.props('show')).toBe(false)
       })
     })
   })

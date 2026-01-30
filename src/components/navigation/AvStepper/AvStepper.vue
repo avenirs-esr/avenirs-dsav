@@ -24,16 +24,20 @@ const { steps, currentStep, width = '100%' } = defineProps<AvStepperProps>()
 </script>
 
 <template>
-  <div class="av-stepper av-col">
+  <div
+    role="list"
+    class="av-stepper av-col"
+  >
     <div class="main-container av-row av-align-center av-flex-fill">
       <div
+        role="listitem"
         class="step step--active av-radius-full"
         :aria-current="currentStep === 0 ? 'step' : undefined"
       >
         <span class="b1-regular">1</span>
       </div>
       <div
-        v-for="(_step, index) in steps.slice(1, steps.length)"
+        v-for="(_step, index) in steps.slice(1)"
         :key="index"
         class="av-row av-align-center av-flex-fill"
       >
@@ -42,6 +46,7 @@ const { steps, currentStep, width = '100%' } = defineProps<AvStepperProps>()
           :class="{ 'separator--active': index + 1 <= currentStep }"
         />
         <div
+          role="listitem"
           class="step av-col av-align-center av-justify-center av-radius-full"
           :class="{ 'step--active': index + 1 <= currentStep }"
           :aria-current="index + 1 === currentStep ? 'step' : undefined"

@@ -53,6 +53,4 @@ Other props:
 
 ## 🎨 Slots
 
-| Name | Description |
-| --- | --- |
-| `default` | Default slot for alert description. |
+None.

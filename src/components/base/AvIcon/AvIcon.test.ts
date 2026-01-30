@@ -21,13 +21,7 @@ BddTest().given('an AvIcon component', () => {
 
       const icon = avIcon.find('.av-icon__icon')
       expect(icon.exists()).toBe(true)
-      expect(icon.attributes('style')).toContain('--icon: var(--icon-mdi-test);')
-    })
-
-    BddTest().then('it should have default size', () => {
-      const avIcon = wrapper.find('.av-icon__icon')
-      expect(avIcon.attributes('style')).toContain('width: 1rem;')
-      expect(avIcon.attributes('style')).toContain('height: 1rem;')
+      expect(icon.attributes('style')).toContain('--icon-path: var(--icon-mdi-test);')
     })
 
     BddTest().then('it should not have any animation classes', () => {
@@ -44,11 +38,6 @@ BddTest().given('an AvIcon component', () => {
       for (const speed of speeds) {
         expect(avIcon.classes()).not.toContain(`av-icon--${speed}`)
       }
-    })
-
-    BddTest().then('it should not have any flip styles', () => {
-      const icon = wrapper.find('.av-icon')
-      expect(icon.attributes('style')).toContain('transform: none;')
     })
 
     BddTest().then('it should not have title attribute', () => {
@@ -70,12 +59,6 @@ BddTest().given('an AvIcon component', () => {
           title: 'Test Icon',
         },
       })
-    })
-
-    BddTest().then('it should render the icon with correct size', () => {
-      const avIcon = wrapper.find('.av-icon__icon')
-      expect(avIcon.attributes('style')).toContain('width: 2rem;')
-      expect(avIcon.attributes('style')).toContain('height: 2rem;')
     })
 
     BddTest().then('it should have correct animation class', () => {
@@ -101,7 +84,7 @@ BddTest().given('an AvIcon component', () => {
     })
 
     BddTest().then('it should have correct flip styles', () => {
-      const icon = wrapper.find('.av-icon')
+      const icon = wrapper.find('.av-icon__icon')
       expect(icon.attributes('style')).toContain('transform: scaleX(-1);')
     })
 

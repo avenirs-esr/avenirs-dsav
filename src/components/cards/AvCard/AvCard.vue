@@ -108,6 +108,10 @@ const titleClasses = computed(() => {
   return 'av--mt-sm av--mx-sm'
 })
 
+function toggleCollapsed () {
+  collapsed.value = !collapsed.value
+}
+
 function isInteractiveElement (element: HTMLElement): boolean {
   const interactiveTags = ['A', 'BUTTON', 'INPUT', 'SELECT', 'TEXTAREA']
   const interactiveRoles = ['button', 'link', 'checkbox', 'radio', 'textbox', 'tab', 'menuitem']
@@ -135,7 +139,7 @@ function isInteractiveElement (element: HTMLElement): boolean {
  */
 function findInteractiveAncestor (target: HTMLElement, currentTarget: EventTarget | null): HTMLElement | null {
   if (buttonRef.value && (target === buttonRef.value.$el || buttonRef.value.$el.contains(target))) {
-    return buttonRef.value.$el
+    return null
   }
 
   let currentElement: HTMLElement | null = target
@@ -158,7 +162,7 @@ function handleCardClick (event: MouseEvent) {
   }
 
   if (collapsible) {
-    collapsed.value = !collapsed.value
+    toggleCollapsed()
     buttonRef.value?.$el.focus()
   }
 }
@@ -169,6 +173,7 @@ function handleMouseMove (event: MouseEvent) {
   }
 
   const target = event.target as HTMLElement
+
   const interactiveElement = findInteractiveAncestor(target, event.currentTarget)
 
   isHoveringInteractive.value = !!interactiveElement
@@ -196,12 +201,13 @@ function handleMouseMove (event: MouseEvent) {
       <AvButton
         v-if="collapsible"
         ref="buttonRef"
+        :key="`collapse-${collapsed}`"
         :aria-controls="`${id}-content`"
         :aria-expanded="!collapsed"
         :icon="collapsed ? MDI_ICONS.CHEVRON_DOWN : MDI_ICONS.CHEVRON_LEFT"
         icon-only
         label="Details"
-        @click="collapsed = !collapsed"
+        @click.stop="toggleCollapsed"
       />
     </header>
     <div

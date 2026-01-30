@@ -80,8 +80,6 @@ const emit = defineEmits<{
   last: []
 }>()
 
-const button = ref<HTMLButtonElement | null>(null)
-
 const buttonEl = useTemplateRef('button')
 
 const labelClass = computed(() => {
@@ -145,7 +143,7 @@ watch(() => isSelected, () => {
       type="button"
       :aria-selected="isSelected"
       :aria-controls="panelId"
-      @click.prevent="$emit('click', tabId)"
+      @click.prevent="emit('click', tabId)"
       @keydown="onKeyDown($event)"
     >
       <AvIcon

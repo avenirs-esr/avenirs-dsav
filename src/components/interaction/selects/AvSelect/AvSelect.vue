@@ -113,7 +113,7 @@ const emit = defineEmits<{
   (e: 'update:modelValue', value: string | number): void
 }>()
 
-const realId = computed(() => id ?? `select-${crypto.randomUUID()}`)
+const realId = id ?? `select-${crypto.randomUUID()}`
 
 const title = computed(() => {
   if (!modelValue) {
@@ -180,12 +180,13 @@ const messageType = computed(() => {
                     'av-py-xxs': dense,
                     'av-py-xs': !dense,
           }"
-          class="av-select b2-light av-w-full av-pr-xl av-pl-sm av-text-text2"
+          class="av-select b2-light av-w-full av-pr-xl av-pl-sm av-text-text2 av-radius-lg"
           :name="name || realId"
           :disabled="disabled"
           :aria-disabled="disabled"
           :required="required"
           :aria-required="required"
+          :aria-describedby="message ? `${realId}-${messageType}` : undefined"
           :title="title"
           v-bind="$attrs"
           :style="styleVars"
@@ -213,7 +214,7 @@ const messageType = computed(() => {
         </select>
       </div>
       <AvMessage
-        :message-id="`select-${messageType}-desc-${messageType}`"
+        :message-id="`${realId}-${messageType}`"
         :message="message"
         :type="messageType"
       />
@@ -245,7 +246,6 @@ const messageType = computed(() => {
 .av-select {
   background-color: var(--other-background-base);
   border: 1px solid var(--divider);
-  border-radius: var(--radius-lg);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

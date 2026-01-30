@@ -147,9 +147,9 @@ const emit = defineEmits<{
 
   /**
    * Event emitted when the selected file is changed.
-   * @param payload The new list of selected files (FileList).
+   * @param payload The new list of selected files (FileList or File[]).
    */
-  (e: 'change', payload: FileList): void
+  (e: 'change', payload: FileList | File[]): void
 
   /**
    * Event emitted when a file of wrong type is dropped.
@@ -174,7 +174,7 @@ defineSlots<{
   default?: Slot
 }>()
 
-const realId = computed(() => id ?? `file-upload-${crypto.randomUUID()}`)
+const realId = id ?? `file-upload-${crypto.randomUUID()}`
 
 const acceptTypes = computed(() => {
   if (Array.isArray(accept)) {
@@ -212,12 +212,12 @@ async function onDrop (event: DragEvent) {
     return
   }
 
-  const files = Array.from(event.dataTransfer.files).filter(isFileAccepted)
+  const acceptedFiles = Array.from(event.dataTransfer.files).filter(isFileAccepted)
   await nextTick()
 
-  if (files.length) {
-    emit('change', files as unknown as FileList)
-    emit('update:modelValue', files[0] ?? '')
+  if (acceptedFiles.length) {
+    emit('change', acceptedFiles)
+    emit('update:modelValue', acceptedFiles[0] ?? null)
   }
   else {
     emit('onDropAcceptTypeError')
@@ -246,7 +246,7 @@ const isPreview = computed(() => fileName || (modelValue && !enableMultiple))
 const uploadLabelAttrs = computed(() => {
   return {
     'for':
-    realId.value,
+    realId,
     'class':
     [
       'av-upload-group',
@@ -368,15 +368,6 @@ function onClear (value: File | null) {
   clip: rect(0 0 0 0);
   white-space: nowrap;
   border: 0;
-
-  &::-webkit-file-upload-button {
-    -webkit-appearance:button;
-    -moz-appearance:button;
-    appearance:button;
-    cursor:pointer;
-    font:inherit;
-    margin-right: var(--spacing-sm);
-  }
 }
 
 .av-upload-group {

@@ -24,8 +24,7 @@ export const AllIcons: StoryFn = () => ({
         :key="key" 
         style="display: flex; flex-direction: column; align-items: center; width: 10rem; word-break: break-word; text-align: center;"
       >
-        <img v-if="icon.startsWith('data:')" :src="icon" :alt="key" style="width: 2rem; height: 2rem; filter: var(--icon-filter);" />
-        <AvIcon v-else :name="icon" size="2" color="var(--icon)" />
+        <AvIcon :name="icon" size="2" color="var(--icon)" />
         <span style="font-size: 0.75rem; text-align: center;">{{ key }}</span>
       </div>
     </div>
@@ -82,7 +81,7 @@ export const DataUrlIcons: StoryFn = () => ({
         :key="key" 
         style="display: flex; flex-direction: column; align-items: center; width: 10rem; word-break: break-word; text-align: center;"
       >
-        <img :src="icon" :alt="key" style="width: 2rem; height: 2rem;" />
+        <AvIcon :name="icon" size="2" color="var(--icon)" />
         <span style="font-size: 0.75rem; text-align: center;">{{ key }}</span>
       </div>
     </div>

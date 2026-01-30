@@ -34,7 +34,7 @@ const {
   navItems,
 } = defineProps<AvNavigationProps>()
 
-const realId = computed(() => id ?? `nav-${crypto.randomUUID()}`)
+const realId = id ?? `nav-${crypto.randomUUID()}`
 const expandedMenuId = ref<string | undefined>(undefined)
 
 function toggle (newId: string | undefined) {
@@ -46,7 +46,7 @@ function toggle (newId: string | undefined) {
 }
 
 function handleElementClick (el: HTMLElement) {
-  if (el === document.getElementById(realId.value)) {
+  if (el === document.getElementById(realId)) {
     return
   }
 

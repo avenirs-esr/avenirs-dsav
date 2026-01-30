@@ -51,8 +51,8 @@ const {
   onTransitionEnd,
 } = useCollapsable()
 
-const accordionHeaderId = computed(() => id ?? `accordion-${crypto.randomUUID()}`)
-const accordionPanelId = computed(() => `${accordionHeaderId.value}-panel`)
+const accordionHeaderId = id ?? `accordion-${crypto.randomUUID()}`
+const accordionPanelId = computed(() => `${accordionHeaderId}-panel`)
 
 const isStandaloneActive = ref()
 const triggerRef = ref<HTMLElement | null>(null)

@@ -30,7 +30,6 @@ const meta: Meta<AvHeaderProps> = {
   component: AvHeader,
   tags: ['autodocs'],
   argTypes: {
-    searchbarId: { control: false },
     serviceTitle: { control: false },
     homeTo: { control: false },
     modelValue: { control: false },
@@ -42,12 +41,9 @@ const meta: Meta<AvHeaderProps> = {
     showSearch: { control: false },
     showSearchLabel: { control: false },
     menuLabel: { control: false },
-    menuModalLabel: { control: false },
-    closeMenuModalLabel: { control: false },
     homeLabel: { control: false },
   },
   args: {
-    searchbarId: 'searchbar-header',
     serviceTitle: 'Student Cofolio',
     homeTo: '#',
     modelValue: '',
@@ -57,8 +53,6 @@ const meta: Meta<AvHeaderProps> = {
     quickLinksAriaLabel: 'Menu secondaire',
     showSearchLabel: 'Recherche',
     menuLabel: 'Menu',
-    menuModalLabel: 'Menu',
-    closeMenuModalLabel: 'Fermer',
     homeLabel: 'Accueil',
     showSearch: true,
     languageSelector: {
@@ -90,7 +84,7 @@ const Template: StoryFn<AvHeaderProps> = args => ({
   template: `
     <AvHeader v-bind="args">
       <template #before-quick-links>
-        <ul class="av-btns-group">
+        <ul class="av-btns-group av-list-reset">
           <li class="demo-display-none">
             <AvButton
               label="Mailbox"
