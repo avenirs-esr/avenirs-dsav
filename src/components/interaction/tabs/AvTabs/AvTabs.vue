@@ -167,6 +167,7 @@ onUnmounted(() => {
 <style lang="scss" scoped>
 .av-tabs {
   &__list {
+    list-style: none outside none;
     background: var(--surface-background);
     overflow-x: auto;
 
