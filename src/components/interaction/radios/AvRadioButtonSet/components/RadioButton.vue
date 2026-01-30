@@ -66,7 +66,7 @@ defineSlots<{
   default?: Slot
 }>()
 
-const id = ref(`av-radio-button-${crypto.randomUUID()}`)
+const id = `av-radio-button-${crypto.randomUUID()}`
 </script>
 
 <template>

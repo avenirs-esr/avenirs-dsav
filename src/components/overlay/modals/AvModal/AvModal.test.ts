@@ -88,6 +88,13 @@ BddTest().given('an AvModal', () => {
       expect(wrapper.emitted('close')).toHaveLength(1)
     })
 
+    BddTest().then('it should emit "confirm" when the confirm button is clicked', async () => {
+      const buttons = wrapper.findComponent({ name: 'AvCancelConfirmButtons' })
+      expect(buttons.exists()).toBe(true)
+      await buttons.find('.confirm').trigger('click')
+      expect(wrapper.emitted('confirm')).toHaveLength(1)
+    })
+
     BddTest().then('it should pass isLoading to the button', async () => {
       wrapper.setProps({ isLoading: true })
       await nextTick()

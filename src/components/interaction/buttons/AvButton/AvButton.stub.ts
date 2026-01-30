@@ -18,7 +18,7 @@ export const AvButtonStub = defineComponent({
     <button
       class="av-button-stub"
       :disabled="disabled"
-      @click="$emit(\'click\')"
+      @click="$emit('click', $event)"
     >
       {{ label }}
     </button>

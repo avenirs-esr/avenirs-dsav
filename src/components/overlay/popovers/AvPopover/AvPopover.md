@@ -22,7 +22,7 @@ The popover integrates :
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
-| `width` | `string` | `'12.5rem'` | | Width of popover. |
+| `width` | `string` | `'fit-content'` | | Width of popover. |
 | `padding` | `string` | `'var(--spacing-md)'` | | Internal padding of popover. |
 
 ## 🔊 Events

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type AvTab from '@/components/interaction/tabs/AvTab/AvTab.vue'
-import { useSlots, type VNode } from 'vue'
+import { type Slots, useSlots, type VNode } from 'vue'
 import TabContent from '@/components/interaction/tabs/AvTabs/components/TabContent.vue'
 import TabItem from '@/components/interaction/tabs/AvTabs/components/TabItem.vue'
 import { useTabsStyle } from '@/components/interaction/tabs/AvTabs/composables/use-tabs-style'
@@ -124,7 +124,7 @@ onUnmounted(() => {
   >
     <ul
       ref="tablist"
-      class="av-tabs__list av-row av-px-xs av-py-none av-align-center av-gap-sm av-list-reset"
+      class="av-tabs__list av-row av-px-xs av-py-none av-align-center av-gap-sm av-list-reset av-radius-lg"
       :class="{
         'av-tabs__list--compact': compact,
         'av-w-full': !compact,
@@ -157,7 +157,7 @@ onUnmounted(() => {
       :is-visible="activeTab === index"
     >
       <component
-        :is="(tab.children as Record<string, unknown>).default"
+        :is="(tab.children as Slots).default"
         v-if="activeTab === index"
       />
     </TabContent>
@@ -167,8 +167,6 @@ onUnmounted(() => {
 <style lang="scss" scoped>
 .av-tabs {
   &__list {
-    list-style: none outside none;
-    border-radius: var(--radius-lg);
     background: var(--surface-background);
     overflow-x: auto;
 

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { getIconPath } from '@/utils/icon-path/icon-path'
+
 /**
  * AvBadge component props.
  */
@@ -52,23 +54,7 @@ const {
   ellipsis = false,
 } = defineProps<AvBadgeProps>()
 
-const safeName = computed(() => {
-  if (icon?.startsWith('data:')) {
-    return null
-  }
-  return icon?.replace(':', '-')
-})
-const varName = computed(() => `--icon-${safeName.value}`)
-
-const styleVars = computed(() => {
-  if (safeName.value) {
-    return { '--icon-path': `var(${varName.value})` }
-  }
-  if (icon) {
-    return { '--icon-path': `url(${icon})` }
-  }
-  return {}
-})
+const iconPathStyleVars = computed(() => getIconPath(icon))
 </script>
 
 <template>
@@ -82,7 +68,7 @@ const styleVars = computed(() => {
       'av-badge--no-icon': !icon,
     }"
     :title="label"
-    :style="styleVars"
+    :style="iconPathStyleVars"
   >
     <span
       :class="{

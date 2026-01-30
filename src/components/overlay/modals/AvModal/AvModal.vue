@@ -102,7 +102,7 @@ const slots = defineSlots<{
   footer?: Slot
 }>()
 
-const realId = computed(() => id ?? `modal-${crypto.randomUUID()}`)
+const realId = id ?? `modal-${crypto.randomUUID()}`
 
 const role = computed(() => {
   return isAlert ? 'alertdialog' : 'dialog'
@@ -145,7 +145,7 @@ onBeforeUnmount(() => {
         :id="realId"
         ref="modal"
         aria-modal="true"
-        :aria-labelledby="realId"
+        :aria-labelledby="`${realId}-header`"
         :role="role"
         class="av-modal av-col av-h-full av-w-full av-align-stretch av-justify-end av-justify-around--md av-p-none av-m-none"
         :class="{ 'av-modal--opened av-w-full av-h-full': opened }"
@@ -157,6 +157,7 @@ onBeforeUnmount(() => {
             <div class="av-modal__content av-mb-4xl av-px-lg av-pt-sm--md">
               <div
                 v-if="slots.header"
+                :id="`${realId}-header`"
                 class="header av-row av-align-center av-pb-md"
               >
                 <slot name="header" />

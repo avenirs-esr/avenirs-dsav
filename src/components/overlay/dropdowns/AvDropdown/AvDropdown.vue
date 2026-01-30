@@ -142,7 +142,7 @@ function handleItemClick (itemName: string, close: () => void) {
         :variant="triggerVariant"
         :small="triggerSmall"
         :no-sentence-case="triggerNoSentenceCase"
-        :icon-only="!!triggerAriaLabel && !triggerLabel"
+        :icon-only="!triggerLabel"
         @click="toggle"
       />
     </template>

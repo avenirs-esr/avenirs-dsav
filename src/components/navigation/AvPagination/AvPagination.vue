@@ -165,7 +165,7 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
             :aria-current="isCurrentPage(page) ? 'page' : undefined"
             @click.prevent="toPage(pages.indexOf(page))"
           >
-            <span v-if="displayedPages.indexOf(page) === 0 && startIndex > 0 ">...</span>
+            <span v-if="displayedPages.indexOf(page) === 0 && startIndex > 0">...</span>
             {{ page.label }}
             <span v-if="displayedPages.indexOf(page) === displayedPages.length - 1 && endIndex < pages.length - 1">...</span>
           </a>
@@ -176,7 +176,6 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
           :href="pages[Math.min(currentPage + 1, pages.length - 1)]?.href"
           class="av-pagination__link av-row av-align-center av-justify-center av-py-xxs av-px-xs av-radius-lg av-gap-xxs"
           :title="nextPageLabel"
-          :disabled="currentPage === pages.length - 1 ? true : undefined"
           :aria-disabled="currentPage === pages.length - 1 ? true : undefined"
           @click.prevent="toNextPage()"
         >
@@ -198,7 +197,6 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
           class="av-pagination__link av-row av-align-center av-justify-center av-py-xxs av-px-xs av-radius-lg av-gap-xxs"
           :href="pages[pages.length - 1]?.href"
           :title="lastPageLabel"
-          :disabled="currentPage === pages.length - 1 ? true : undefined"
           :aria-disabled="currentPage === pages.length - 1 ? true : undefined"
           @click.prevent="toLastPage()"
         >

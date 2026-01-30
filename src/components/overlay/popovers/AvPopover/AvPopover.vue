@@ -9,6 +9,7 @@ import { useFocusTrap } from '@/composables'
 export interface AvPopoverProps {
   /**
    * Popover width.
+   * @default 'fit-content'
    */
   width?: string
 
@@ -19,7 +20,7 @@ export interface AvPopoverProps {
   padding?: string
 }
 
-const { width, padding = 'var(--spacing-md)' } = defineProps<AvPopoverProps>()
+const { width = 'fit-content', padding = 'var(--spacing-md)' } = defineProps<AvPopoverProps>()
 
 defineSlots<{
   /**
@@ -99,6 +100,8 @@ onBeforeUnmount(() => {
       <div
         v-if="showPopover"
         ref="popoverRef"
+        role="dialog"
+        aria-modal="false"
         tabindex="-1"
         class="av-popover av-radius-lg"
         :style="`top: ${popoverPosition.top}rem; left: ${popoverPosition.left}rem;`"
@@ -127,7 +130,6 @@ onBeforeUnmount(() => {
   width: v-bind('width');
   padding: v-bind('padding');
   animation: fadeIn 0.2s ease;
-  width: fit-content;
 }
 
 @keyframes fadeIn {

@@ -60,18 +60,18 @@ defineEmits<{
   (event: 'toggleId', id: string): void
 }>()
 
-const realId = computed(() => id ?? `menu-link-${crypto.randomUUID()}`)
+const realId = id ?? `menu-link-${crypto.randomUUID()}`
 
 const isExternal = computed(() => typeof to === 'string' && to.startsWith('http'))
 
 const useHeader = hasInjectionContext() ? inject(registerNavigationLinkKey)! : undefined
-const closeModal = useHeader?.() ?? (() => {})
+const closeModal = useHeader?.()
 </script>
 
 <template>
   <a
     v-if="isExternal"
-    class="av-nav__link av-row av-align-start"
+    class="av-nav__link av-row av-justify-start av-gap-xs"
     :class="{ 'av-nav__link--active': activeId === realId }"
     data-testid="nav-external-link"
     :href="(to as string)"
@@ -81,10 +81,10 @@ const closeModal = useHeader?.() ?? (() => {})
   </a>
   <RouterLink
     v-else
-    class="av-nav__link"
+    class="av-nav__link av-row av-justify-start av-gap-xs"
     data-testid="nav-router-link"
     :to="to"
-    @click="closeModal(); $emit('toggleId', realId); onClick?.($event)"
+    @click="closeModal?.(); $emit('toggleId', realId); onClick($event)"
   >
     <AvIcon
       v-if="icon"
@@ -102,7 +102,7 @@ const closeModal = useHeader?.() ?? (() => {})
   border-radius: var(--radius-none);
 
   @include min-width(lg) {
-    border-radius: var(--radius-xl) var(--radius-xl) var(--radius-none) var(--radius-none);
+    border-radius: 1.5rem 1.5rem var(--radius-none) var(--radius-none);
   }
 }
 

@@ -60,16 +60,16 @@ const fontSize = computed(() => `${size}rem`)
 const iconPathStyleVars = getIconPath(name)
 
 const flipTransform = computed(() => {
-  if (flip === 'horizontal') {
-    return 'scaleX(-1)'
+  switch (flip) {
+    case 'horizontal':
+      return 'scaleX(-1)'
+    case 'vertical':
+      return 'scaleY(-1)'
+    case 'both':
+      return 'scale(-1, -1)'
+    default:
+      return undefined
   }
-  if (flip === 'vertical') {
-    return 'scaleY(-1)'
-  }
-  if (flip === 'both') {
-    return 'scale(-1, -1)'
-  }
-  return undefined
 })
 </script>
 
@@ -91,7 +91,7 @@ const flipTransform = computed(() => {
     aria-hidden="true"
   >
     <span
-      class="av-icon__icon"
+      class="av-icon__icon av-w-full av-h-full"
       :style="[iconPathStyleVars, { transform: flipTransform }]"
     />
   </div>
@@ -104,8 +104,6 @@ const flipTransform = computed(() => {
   color: v-bind('color');
 
   &__icon {
-    width: 100%;
-    height: 100%;
     background-color: v-bind('color');
     -webkit-mask-image: var(--icon-path);
     mask-image: var(--icon-path);

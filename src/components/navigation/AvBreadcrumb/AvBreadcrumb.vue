@@ -52,7 +52,7 @@ const {
 
 const { isAboveMd } = useAvBreakpoints()
 
-const realId = computed(() => id ?? `breadcrumb-${crypto.randomUUID()}`)
+const realId = id ?? `breadcrumb-${crypto.randomUUID()}`
 const styleVars = computed(() => ({
   '--icon-path': `url(${ICONS_DATA_URL.MDI_KEYBOARD_ARROW_RIGHT})`,
 }))
@@ -152,9 +152,7 @@ onMounted(() => {
         height: var(--dimension-sm);
         margin-left: var(--spacing-xxs);
         margin-right: var(--spacing-xxs);
-        -webkit-mask-image: var(--icon-path);
         mask-image: var(--icon-path);
-        -webkit-mask-size: 100% 100%;
         mask-size: 100% 100%;
         width: var(--dimension-sm);
       }

@@ -84,7 +84,6 @@ watch(show, (newValue) => {
       class="av-drawer-backdrop"
     />
     <FocusTrap
-      initial-focus="drawerRef"
       @deactivate="emit('escapePressed')"
     >
       <div
@@ -94,7 +93,6 @@ watch(show, (newValue) => {
         role="dialog"
         aria-modal="true"
         :aria-label="ariaLabel"
-        tabindex="-1"
       >
         <div class="av-drawer__content-wrapper av-col">
           <div class="av-drawer__content">

@@ -28,6 +28,8 @@ code, tbody, tbody *, th, th *, .sb-bar {
   color: var(--text1) !important;
   background: var(--light-background-neutral) !important;
   border: none !important;
+  font-size: inherit !important;
+  font-weight: inherit !important;
 }
 
 body, .sbdocs-wrapper, .storybook-docs, .docs-story {

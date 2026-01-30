@@ -61,14 +61,15 @@ defineSlots<{
   /**
    * Slot for custom content (menu items, etc.)
    */
-  default?: () => Slot
+  default?: Slot
 }>()
 
 const collapsed = defineModel<boolean>('collapsed', { default: false })
 
 const { width, collapsedWidth } = toRefs(props)
-const menuId = computed(() => props.id ?? crypto.randomUUID())
-const ariaLabel = computed(() => `${menuId.value} navigation`)
+
+const menuId = props.id ?? crypto.randomUUID()
+const ariaLabel = computed(() => `${menuId} navigation`)
 
 const isCollapsed = computed({
   get: () => {
@@ -112,7 +113,7 @@ function toggleCollapse () {
         :aria-controls="menuId"
         :icon="isCollapsed ? MDI_ICONS.CHEVRON_DOUBLE_RIGHT : MDI_ICONS.CHEVRON_DOUBLE_LEFT"
         class="av-side-menu__collapse-button av-p-xs av-m-xs av-gap-none"
-        :label="isCollapsed ? `${menuId}-expand-button` : `${menuId}-collapse-button`"
+        :label="isCollapsed ? 'Expand button' : 'Collapse button'"
         icon-only
         @click="toggleCollapse"
       />

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { Slot } from 'vue'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
 import { MDI_ICONS } from '@/tokens'
@@ -10,6 +9,7 @@ import { MDI_ICONS } from '@/tokens'
 export interface AvAlertProps {
   /**
    * Indicates whether the alert is closed (`true`) or visible (`false`).
+   * Managed by the parent component (typically AvToaster).
    * @default false
    */
   closed?: boolean
@@ -76,19 +76,7 @@ const emit = defineEmits<{
   (e: 'close'): void
 }>()
 
-/**
- * Slots available in the AvAlert component.
- *
- * @slot default - Default slot for global content.
- */
-defineSlots<{
-  /**
-   * Default slot for global content.
-   */
-  default?: Slot
-}>()
-
-const realId = computed(() => id ?? `alert-${crypto.randomUUID()}`)
+const realId = id ?? `alert-${crypto.randomUUID()}`
 const onClick = () => emit('close')
 
 const classes = computed(() => ([
@@ -138,9 +126,7 @@ const role = computed(() => (type === 'error' || type === 'warning' ? 'alert' : 
           >
             {{ title }}
           </span>
-          <slot>
-            <span class="b1-regular">{{ description }}</span>
-          </slot>
+          <span class="b1-regular">{{ description }}</span>
         </div>
       </div>
       <AvButton

@@ -121,7 +121,7 @@ onMounted(() => {
 @use '@/styles/settings/breakpoints' as *;
 
 .av-nav__btn {
-  border-radius: 1.5rem 1.5rem var(--radius-none) var(--radius-none);
+  border-radius: var(--radius-2xl) var(--radius-2xl) var(--radius-none) var(--radius-none);
 
   &::after {
     background-color: currentColor;

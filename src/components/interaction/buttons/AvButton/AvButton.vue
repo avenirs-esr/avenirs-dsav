@@ -144,13 +144,14 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
         'av-px-sm av-py-xs': !small && !iconOnly,
         'av-px-xxs av-py-xxs': small && iconOnly,
         'av-px-xs av-py-xs': !small && iconOnly,
-        'av-button--no-radius': noRadius,
+        'av-radius-md': !noRadius && small,
+        'av-radius-lg': !noRadius && !small,
+        'av-radius-none': noRadius,
       },
       variantClass,
       themeClass,
     ]"
     :disabled="buttonDisabled"
-    :style="iconOnly ? { 'padding-inline': 'var(--spacing-xs)' } : {}"
     @click="$emit('click', $event)"
   >
     <AvIcon
@@ -171,30 +172,20 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
 
 .av-button {
   width: fit-content;
-  border-radius: var(--radius-lg);
-
-  &--sm {
-    border-radius: var(--radius-md);
-  }
-
-  &--no-radius {
-    border-radius: var(--radius-none);
-  }
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 
   // === Themes ===
   @each $theme, $colors in (
     primary: (
       text: var(--dark-background-primary1),
       bg: var(--other-background-base),
-      hover-bg: var(--dark-background-primary2),
-      hover-bg-alt: var(--light-background-primary1),
+      hover-bg: var(--light-background-primary1),
       hover-text: var(--other-background-base)
     ),
     secondary: (
       text: var(--text1),
       bg: var(--other-background-base),
-      hover-bg: var(--light-background-neutral),
-      hover-bg-alt: var(--contrast-foreground),
+      hover-bg: var(--contrast-foreground),
       hover-text: var(--text1)
     )
   ) {
@@ -231,17 +222,12 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
           border: 1px solid map.get($style, border);
 
           // === Hover ===
-          @if $variant != flat {
-            &:hover:not(.av-button--disabled) {
+          &:hover:not(.av-button--disabled) {
+            @if $variant == default {
               background-color: map.get($colors, hover-bg);
-              color: map.get($colors, hover-text);
-              border-color: map.get($colors, hover-bg);
-            }
-          }
-
-          @if $variant == flat {
-            &:hover:not(.av-button--disabled) {
-              background-color: map.get($colors, hover-bg-alt);
+              color: map.get($colors, text);
+            } @else {
+              background-color: map.get($colors, hover-bg);
               color: map.get($colors, text);
               border-color: map.get($colors, text);
             }

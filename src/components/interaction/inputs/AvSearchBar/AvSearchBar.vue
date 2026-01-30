@@ -63,7 +63,7 @@ const emit = defineEmits<{
   (e: 'search', payload: string): void
 }>()
 
-const realId = computed(() => id ?? `search-bar-${crypto.randomUUID()}`)
+const realId = id ?? `search-bar-${crypto.randomUUID()}`
 </script>
 
 <template>

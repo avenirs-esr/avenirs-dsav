@@ -87,6 +87,18 @@ BddTest().given('a NavigationMenu', () => {
         expect(emits).toBeTruthy()
       })
     })
+
+    BddTest().and('the nav button is clicked', () => {
+      beforeEach(async () => {
+        const button = wrapper.get('.av-nav__btn')
+        await button.trigger('click')
+      })
+
+      BddTest().then('it should emit toggleId with id', () => {
+        const emits = wrapper.emitted('toggleId')
+        expect(emits?.[0][0]).toBe('common')
+      })
+    })
   })
 
   BddTest().and('given expandedId is the same as id', () => {

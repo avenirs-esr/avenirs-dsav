@@ -1,5 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { expect } from 'vitest'
+import { beforeEach, expect } from 'vitest'
 import AvCard from '@/components/cards/AvCard/AvCard.vue'
 import { AvButtonStub } from '@/tests'
 import { BddTest, mountWithRouter } from '@/tests/utils'

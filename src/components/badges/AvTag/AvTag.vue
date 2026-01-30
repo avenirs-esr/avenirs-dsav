@@ -71,7 +71,12 @@ const {
 } = defineProps<AvTagProps<T>>()
 
 const emit = defineEmits<{
-  select: [[T | undefined, boolean]]
+  /**
+   * Event emitted when the tag is clicked in selectable mode.
+   * @event select
+   * @param payload Tuple containing the tag value and its new selected state.
+   */
+  (e: 'select', payload: [T | undefined, boolean]): void
 }>()
 
 const is = computed(() => {

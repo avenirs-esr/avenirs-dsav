@@ -42,7 +42,6 @@ import AvAlert, { type AvAlertProps } from '@/components/feedback/AvAlert/AvAler
  *       <ul>
  *         <li>optional on the MD version</li>
  *         <li>mandatory on the SM version</li>
- *         <li>the default <code>slot</code> can be used as a description</li>
  *       </ul>
  *     </li>
  *     <li>a closing cross if the <code>closeable</code> prop is set to <code>true</code></li>

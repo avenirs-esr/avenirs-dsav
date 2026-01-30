@@ -32,7 +32,7 @@ It consists of the following elements:
 
 | Name | Data (*payload*) | Description |
 | --- | --- | --- |
-| `'select'` | `T[]` | Event emitted when a selectable tag is (un)selected. This updates the selected values list. |
+| `'select'` | `[T \| undefined, boolean]` | Event emitted when a selectable tag is (un)selected. This updates the selected values list. |
 
 ## 🎨 Slots
 

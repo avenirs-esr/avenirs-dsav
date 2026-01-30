@@ -198,7 +198,7 @@ defineSlots<{
 
 const attrs = useAttrs()
 
-const realId = computed(() => id ?? `input-${crypto.randomUUID()}`)
+const realId = id ?? `input-${crypto.randomUUID()}`
 
 const errorMessages = computed(() => {
   if (!errorMessage) {
@@ -433,7 +433,6 @@ defineExpose({
   input {
     &[type="date"] {
       appearance: textfield;
-      -webkit-appearance: textfield;
     }
 
     &[type="date"]::-webkit-calendar-picker-indicator {
@@ -449,10 +448,10 @@ defineExpose({
     height: auto;
     cursor: text;
   }
+}
 
-  &:has(.av-input__prefix) &__input {
-    padding-left: calc(var(--spacing-xs) * 3 + var(--spacing-sm));
-  }
+.av-input:has(.av-input__prefix) .av-input__input {
+  padding-left: var(--spacing-xl);
 }
 
 .invisible {
