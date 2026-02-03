@@ -199,6 +199,7 @@ onBeforeUnmount(() => {
   transition: opacity .3s, visibility .3s;
   visibility: hidden;
   background-color: var(--transparency);
+  z-index: 2000;
 
   &__header {
     flex: auto 0 0;
