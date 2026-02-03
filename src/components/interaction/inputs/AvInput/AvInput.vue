@@ -451,7 +451,7 @@ defineExpose({
 }
 
 .av-input:has(.av-input__prefix) .av-input__input {
-  padding-left: var(--spacing-xl);
+  padding-left: var(--spacing-xl) !important;
 }
 
 .invisible {

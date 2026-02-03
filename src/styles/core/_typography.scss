@@ -1,3 +1,5 @@
+@use '../settings/breakpoints' as *;
+
 :root {
   --ui-base-font-family-primary: 'Inter', 'arial', sans-serif;
   --dyslexia-font-family-primary: 'Lexend', 'Inter', 'arial', sans-serif;
@@ -226,4 +228,20 @@ h6,
   line-height: var(--line-height-s2);
   letter-spacing: var(--letter-spacing-s2);
   color: var(--text1);
+}
+
+@include max-width(md) {
+  :root {
+    --font-size-n1: 2.5rem;    /* 40px instead of 62px */
+    --font-size-n2: 2rem;      /* 32px instead of 48px */
+    --font-size-n3: 1.75rem;   /* 28px instead of 40px */
+    --font-size-n4: 1.5rem;    /* 24px instead of 32px */
+    --font-size-n5: 1.25rem;   /* 20px instead of 26px */
+    
+    --line-height-n1: 3rem;    /* 48px instead of 94px */
+    --line-height-n2: 2.5rem;  /* 40px instead of 56px */
+    --line-height-n3: 2.25rem; /* 36px instead of 60px */
+    --line-height-n4: 2rem;    /* 32px instead of 48px */
+    --line-height-n5: 1.75rem; /* 28px instead of 40px */
+  }
 }

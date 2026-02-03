@@ -100,7 +100,10 @@ onMounted(() => {
         'av-collapsing': collapsing,
       }"
     >
-      <ol class="av-breadcrumb__list av-list-reset">
+      <ol
+        v-if="expanded"
+        class="av-breadcrumb__list av-list-reset"
+      >
         <li
           v-for="(link, index) in links"
           :key="index"
