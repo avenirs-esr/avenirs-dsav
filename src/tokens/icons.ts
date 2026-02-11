@@ -1,6 +1,6 @@
 /**
  * This file contains the icon names used in the application.
- * These icons are sourced from Material Design Icons (MDI) and Remix Icon (RI) libraries.
+ * These icons are sourced from Material Design Icons (MDI), Remix Icon (RI), and EOS Icon (EOS) libraries.
  * Each icon is represented by a constant for easy reference throughout the codebase.
  * These constants must only be used within AvIcon component in order to benefit from
  * the _icons.scss generated file that contains the root paths for each icon.
@@ -50,6 +50,7 @@ export const MDI_ICONS = {
   CHEVRON_DOUBLE_RIGHT: 'mdi:chevron-double-right',
   CHEVRON_DOWN: 'mdi:chevron-down',
   CHEVRON_LEFT: 'mdi:chevron-left',
+  CHEVRON_RIGHT: 'mdi:chevron-right',
   CIRCLE: 'mdi:circle',
   CIRCLE_OUTLINE: 'mdi:circle-outline',
   CLOCK_OUTLINE: 'mdi:clock-outline',
@@ -143,6 +144,10 @@ export const RI_ICONS = {
   HONOUR_LINE: 'ri:honour-line',
   LAYOUT_6_LINE: 'ri:layout-6-line',
   LOADER_LINE: 'ri:loader-line',
+}
+
+export const EOS_ICONS = {
+  ACTION_CHAINS_OUTLINED: 'eos-icons:action-chains-outlined'
 }
 
 /**
