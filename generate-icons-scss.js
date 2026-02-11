@@ -18,10 +18,15 @@ const riJson = JSON.parse(fs.readFileSync(
   path.resolve('node_modules/@iconify-json/ri/icons.json'),
   'utf8'
 ))
+const eosJson = JSON.parse(fs.readFileSync(
+  path.resolve('node_modules/@iconify-json/eos-icons/icons.json'),
+  'utf8'
+))
 
 const COLLECTIONS = {
-  mdi: mdiJson,
-  ri: riJson
+  'mdi': mdiJson,
+  'ri': riJson,
+  'eos-icons': eosJson
 }
 
 // === Get icons from tokens ===
@@ -79,14 +84,15 @@ function svgToBase64 (svg) {
 async function generate () {
   const MDI_ICONS = extractIcons('MDI_ICONS')
   const RI_ICONS = extractIcons('RI_ICONS')
-  const ALL_ICONS = [...MDI_ICONS, ...RI_ICONS]
+  const EOS_ICONS = extractIcons('EOS_ICONS')
+  const ALL_ICONS = [...MDI_ICONS, ...RI_ICONS, ...EOS_ICONS]
 
   // eslint-disable-next-line no-console
   console.log(`⏳ Generating ${ALL_ICONS.length} icons from local Iconify JSON...`)
 
   let scss = `/**
   * This file is auto-generated via \`npm run icons:generate\` and
-  * the icons in MDI_ICONS and RI_ICONS from \`src/tokens/icons.ts\`.
+  * the icons in MDI_ICONS, RI_ICONS, and EOS_ICONS from \`src/tokens/icons.ts\`.
   * Do not remove it and do not edit it directly.
   */
 :root {\n`

@@ -94,7 +94,9 @@ const Template: StoryFn<AvIconTextProps> = args => ({
     return { args }
   },
   template: `
-    <AvIconText v-bind="args" />
+    <div style="width: 150px">
+      <AvIconText v-bind="args" />
+    </div>
   `,
 })
 

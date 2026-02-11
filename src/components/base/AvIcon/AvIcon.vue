@@ -102,6 +102,7 @@ const flipTransform = computed(() => {
   width: v-bind('fontSize');
   height: v-bind('fontSize');
   color: v-bind('color');
+  flex-shrink: 0;
 
   &__icon {
     background-color: v-bind('color');
