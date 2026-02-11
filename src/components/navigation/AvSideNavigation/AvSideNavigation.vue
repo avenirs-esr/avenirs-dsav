@@ -8,11 +8,13 @@ export interface AvSideNavigationItem {
   icon: string
 }
 
+export interface AvSideNavigationMenuItem extends AvSideNavigationItem { expanded?: boolean, children?: AvSideNavigationItem[] }
+
 export interface AvSideNavigationProps {
   /**
    * List of items to display in the side navigation.
    */
-  items: AvSideNavigationItem[]
+  items: AvSideNavigationMenuItem[]
   /**
    * The currently selected item ID.
    */
@@ -31,9 +33,7 @@ export interface AvSideNavigationProps {
   selectedItemColor?: string
 }
 
-withDefaults(defineProps<AvSideNavigationProps>(), {
-  collapsedWidth: '3.5rem'
-})
+const { items, collapsedWidth = '3.5rem' } = defineProps<AvSideNavigationProps>()
 
 /**
  * Events emitted by the component.
@@ -60,8 +60,24 @@ const isSideMenuCollapsed = defineModel<boolean>('isSideMenuCollapsed', {
   default: false
 })
 
+const expandedMenus = ref<string[]>(items.filter(item => item.expanded).map(item => item.id))
+
 function handleSelectItem (itemId: string) {
   selectedItem.value = itemId
+}
+
+function isItemSelected (item: AvSideNavigationMenuItem): boolean {
+  return selectedItem.value === item.id
+    || (item.children ? item.children.some(child => selectedItem.value === child.id) : false)
+}
+
+function handleMenuItemClick (itemId: string) {
+  if (expandedMenus.value.includes(itemId)) {
+    expandedMenus.value = expandedMenus.value.filter(id => id !== itemId)
+  }
+  else {
+    expandedMenus.value.push(itemId)
+  }
 }
 </script>
 
@@ -75,21 +91,54 @@ function handleSelectItem (itemId: string) {
       size="small"
       role="menu"
     >
-      <AvListItem
+      <template
         v-for="item in items"
         :key="item.id"
-        :title="isSideMenuCollapsed ? undefined : item.label"
-        :icon="item.icon"
-        :icon-size="1.8"
-        :selected="selectedItem === item.id"
-        :hover-background-color="selectedItemColor"
-        role="menuitem"
-        class="av-side-navigation__menu-item"
-        :class="{
-          'av-side-navigation__menu-item--collapsed': isSideMenuCollapsed,
-        }"
-        @click="handleSelectItem(item.id)"
-      />
+      >
+        <AvListItem
+          :title="isSideMenuCollapsed ? undefined : item.label"
+          :icon="item.icon"
+          :icon-size="1.8"
+          :selected="isItemSelected(item)"
+          :hover-background-color="selectedItemColor"
+          role="menuitem"
+          class="av-side-navigation__menu-item"
+          :class="{
+            'av-side-navigation__menu-item--collapsed': isSideMenuCollapsed,
+          }"
+          :data-testid="expandedMenus.includes(item.id) ? `expanded-menu-${item.id}` : `collapsed-menu-${item.id}`"
+          @click="item.children ? handleMenuItemClick(item.id) : handleSelectItem(item.id)"
+        />
+
+        <template v-if="item.children && item.children.length > 0">
+          <div
+            v-show="expandedMenus.includes(item.id)"
+            class="av-pl-sm"
+          >
+            <AvList
+              size="small"
+              role="menu"
+            >
+              <AvListItem
+                v-for="subitem in item.children"
+                :key="subitem.id"
+                :title="isSideMenuCollapsed ? undefined : subitem.label"
+                :icon="subitem.icon"
+                :icon-size="1.8"
+                :selected="selectedItem === subitem.id"
+                :hover-background-color="selectedItemColor"
+                role="menuitem"
+                type="sub"
+                class="av-side-navigation__menu-item"
+                :class="{
+                  'av-side-navigation__menu-item--collapsed': isSideMenuCollapsed,
+                }"
+                @click="handleSelectItem(subitem.id)"
+              />
+            </AvList>
+          </div>
+        </template>
+      </template>
     </AvList>
   </AvSideMenu>
 </template>

@@ -115,6 +115,12 @@ export interface AvListItemProps {
    * ARIA role for the list item. If not provided, defaults based on context.
    */
   role?: string
+
+  /**
+   * Type of list item, affecting styling. 'main' for primary items, 'sub' for nested items.
+   * @default 'main'
+   */
+  type?: 'main' | 'sub'
 }
 
 const {
@@ -134,7 +140,8 @@ const {
   href,
   target,
   rel,
-  role = 'listitem'
+  role = 'listitem',
+  type = 'main'
 } = defineProps<AvListItemProps>()
 
 /**
@@ -174,6 +181,7 @@ const computedAriaLabel = computed(() => {
 const clickableClass = computed(() => clickable.value ? 'av-list-item--clickable' : '')
 const disabledClass = computed(() => disabled && isButton.value ? 'av-list-item--disabled' : '')
 const selectedClass = computed(() => selected ? 'av-list-item--selected' : '')
+const itemClass = computed(() => `av-list-${type}item`)
 
 function handleClick (event: MouseEvent) {
   if (!clickable.value || disabled) {
@@ -198,7 +206,10 @@ function handleKeyDown (event: KeyboardEvent) {
 </script>
 
 <template>
-  <div :role="role">
+  <div
+    :role="role"
+    :class="itemClass"
+  >
     <component
       :is="componentTag"
       :aria-label="clickable ? computedAriaLabel : undefined"
@@ -228,14 +239,16 @@ function handleKeyDown (event: KeyboardEvent) {
       <div class="av-list-item__content av-col av-gap-xs">
         <span
           v-if="title"
-          class="av-list-item__title b2-bold"
+          class="av-list-item__title"
+          :class="type === 'main' ? 'b2-bold' : 'b2-regular'"
         >
           {{ title }}
         </span>
 
         <span
           v-if="description"
-          class="av-list-item__description b1-bold"
+          class="av-list-item__description"
+          :class="type === 'main' ? 'b1-bold' : 'b1-regular'"
         >
           {{ description }}
         </span>
@@ -259,16 +272,21 @@ function handleKeyDown (event: KeyboardEvent) {
   }
 }
 
+@mixin subHoverColors {
+  .av-list-item__title,
+  .av-list-item__description{
+    color: v-bind('hoverBackgroundColor') !important;
+  }
+
+  :deep(.av-icon__icon) {
+    background-color: v-bind('hoverBackgroundColor') !important;
+  }
+}
+
 .av-list-item {
-  border: none;
-  background: transparent;
   text-align: left;
   cursor: default;
   transition: all 0.2s ease-in-out;
-
-  &__icon {
-    flex-shrink: 0;
-  }
 
   &__title {
     color: v-bind('color');
@@ -281,24 +299,6 @@ function handleKeyDown (event: KeyboardEvent) {
   &--clickable {
     cursor: pointer;
     border-radius: var(--radius-sm);
-
-    &:hover:not(.av-list-item--disabled) {
-      background-color: v-bind('hoverBackgroundColor');
-      transform: translateY(-0.0625rem);
-      @include hoverColors;
-    }
-
-    &:focus-visible {
-      outline: 0.125rem solid var(--dark-background-primary1);
-      outline-offset: 0.125rem;
-      background-color: v-bind('hoverBackgroundColor');
-      @include hoverColors;
-    }
-
-    &:active:not(.av-list-item--disabled) {
-      transform: translateY(0);
-      box-shadow: 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.1);
-    }
   }
 
   &--disabled {
@@ -314,10 +314,73 @@ function handleKeyDown (event: KeyboardEvent) {
       opacity: 0.5;
     }
   }
+}
 
-  &--selected {
-    background-color: v-bind('hoverBackgroundColor');
-    @include hoverColors;
+.av-list-mainitem {
+  .av-list-item {
+    &--clickable {
+      &:hover:not(.av-list-item--disabled) {
+        background-color: v-bind('hoverBackgroundColor');
+        transform: translateY(-0.0625rem);
+        @include hoverColors;
+      }
+
+      &:focus-visible {
+        outline: 0.125rem solid var(--dark-background-primary1);
+        outline-offset: 0.125rem;
+        background-color: v-bind('hoverBackgroundColor');
+        @include hoverColors;
+      }
+
+      &:active:not(.av-list-item--disabled) {
+        transform: translateY(0);
+        box-shadow: 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    &--selected {
+      background-color: v-bind('hoverBackgroundColor');
+      @include hoverColors;
+    }
+  }
+}
+
+.av-list-subitem {
+  .av-list-item {
+    &--clickable {
+      &:hover:not(.av-list-item--disabled) {
+        background-color: v-bind('colorOnHover');
+        transform: translateY(-0.0625rem);
+        @include subHoverColors;
+      }
+
+      &:focus-visible {
+        outline: 0.125rem solid var(--dark-background-primary1);
+        outline-offset: 0.125rem;
+        background-color: v-bind('colorOnHover');
+        @include subHoverColors;
+      }
+
+      &:active:not(.av-list-item--disabled) {
+        transform: translateY(0);
+        box-shadow: 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    &--selected {
+      position: relative;
+      @include subHoverColors;
+
+      &:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: var(--spacing-xs);
+        bottom: var(--spacing-xs);
+        width: 2px;
+        background-color: v-bind('hoverBackgroundColor');
+      }
+    }
   }
 }
 </style>

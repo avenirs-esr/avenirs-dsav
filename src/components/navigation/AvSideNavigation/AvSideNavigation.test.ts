@@ -1,10 +1,10 @@
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-import AvSideNavigation, { type AvSideNavigationItem } from '@/components/navigation/AvSideNavigation/AvSideNavigation.vue'
+import AvSideNavigation, { type AvSideNavigationMenuItem } from '@/components/navigation/AvSideNavigation/AvSideNavigation.vue'
 import { BddTest } from '@/tests/utils'
 import { MDI_ICONS } from '@/tokens'
 
-const mockItems: AvSideNavigationItem[] = [
+const mockItems: AvSideNavigationMenuItem[] = [
   {
     id: 'careers',
     label: 'Career Information',
@@ -24,6 +24,23 @@ const mockItems: AvSideNavigationItem[] = [
     id: 'activities',
     label: 'Activities & Projects',
     icon: MDI_ICONS.TARGET_ARROW
+  },
+  {
+    id: 'with-subitems',
+    label: 'Item with Subitems',
+    icon: MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE,
+    children: [
+      {
+        id: 'subitem-1',
+        label: 'Subitem 1',
+        icon: MDI_ICONS.FILE
+      },
+      {
+        id: 'subitem-2',
+        label: 'Subitem 2',
+        icon: MDI_ICONS.FILE
+      }
+    ]
   }
 ]
 
@@ -43,12 +60,25 @@ const stubs = {
     name: 'AvListItem',
     props: ['title', 'icon', 'iconSize', 'selected', 'role'],
     emits: ['click'],
-    template: '<button class="av-list-item-stub" @click="$emit(\'click\')" :data-selected="selected" :data-icon="icon" :data-title="title">{{ title }}</button>'
+    template: `
+      <button class="av-list-item-stub" @click="$emit(\'click\')" :data-selected="selected" :data-icon="icon" :data-title="title" v-bind="$attrs">
+        {{ title }}
+        <slot />
+      </button>
+    `
   }
 }
 
 BddTest().given('an AvSideNavigation component', () => {
   let wrapper: ReturnType<typeof mount<typeof AvSideNavigation>>
+
+  function getExpandedMenu () {
+    return wrapper.find(`[data-testid="expanded-menu-${mockItems[4].id}"]`)
+  }
+
+  function getCollapsedMenu () {
+    return wrapper.find(`[data-testid="collapsed-menu-${mockItems[4].id}"]`)
+  }
 
   BddTest().when('mounted with default props', () => {
     beforeEach(() => {
@@ -77,7 +107,7 @@ BddTest().given('an AvSideNavigation component', () => {
 
     BddTest().then('it should render navigation items with correct properties', () => {
       const listItems = wrapper.findAllComponents({ name: 'AvListItem' })
-      expect(listItems).toHaveLength(4)
+      expect(listItems).toHaveLength(7)
 
       expect(listItems[0].props()).toMatchObject({
         title: 'Career Information',
@@ -246,6 +276,81 @@ BddTest().given('an AvSideNavigation component', () => {
       expect(listItems[1].props('selected')).toBe(false)
       expect(listItems[2].props('selected')).toBe(false)
       expect(listItems[3].props('selected')).toBe(true)
+      expect(listItems[4].props('selected')).toBe(false)
+      expect(listItems[5].props('selected')).toBe(false)
+      expect(listItems[6].props('selected')).toBe(false)
+    })
+  })
+
+  BddTest().when('a navigation item with children is clicked multiple times', () => {
+    beforeEach(async () => {
+      wrapper = mount(AvSideNavigation, {
+        props: {
+          items: mockItems
+        },
+        global: {
+          stubs
+        }
+      })
+    })
+
+    BddTest().then('it should toggle the expanded state of the item', async () => {
+      expect(getExpandedMenu().exists()).toBe(false)
+      expect(getCollapsedMenu().exists()).toBe(true)
+
+      await getCollapsedMenu().trigger('click')
+
+      expect(getExpandedMenu().exists()).toBe(true)
+      expect(getCollapsedMenu().exists()).toBe(false)
+
+      await getExpandedMenu().trigger('click')
+
+      expect(getExpandedMenu().exists()).toBe(false)
+      expect(getCollapsedMenu().exists()).toBe(true)
+    })
+  })
+
+  BddTest().when('a navigation subitem is clicked', () => {
+    beforeEach(async () => {
+      wrapper = mount(AvSideNavigation, {
+        props: {
+          items: mockItems
+        },
+        global: {
+          stubs
+        }
+      })
+
+      expect(getExpandedMenu().exists()).toBe(false)
+      expect(getCollapsedMenu().exists()).toBe(true)
+
+      await getCollapsedMenu().trigger('click')
+
+      expect(getExpandedMenu().exists()).toBe(true)
+      expect(getCollapsedMenu().exists()).toBe(false)
+    })
+
+    BddTest().then('it should emit update:selectedItem event', async () => {
+      const listItems = wrapper.findAllComponents({ name: 'AvListItem' })
+
+      await listItems[5].trigger('click')
+
+      expect(wrapper.emitted('update:selectedItem')).toBeTruthy()
+      expect(wrapper.emitted('update:selectedItem')?.[0]).toEqual(['subitem-1'])
+    })
+
+    BddTest().then('it should update the selected state when selectedItem prop changes', async () => {
+      const listItems = wrapper.findAllComponents({ name: 'AvListItem' })
+
+      await wrapper.setProps({ selectedItem: 'subitem-1' })
+
+      expect(listItems[0].props('selected')).toBe(false)
+      expect(listItems[1].props('selected')).toBe(false)
+      expect(listItems[2].props('selected')).toBe(false)
+      expect(listItems[3].props('selected')).toBe(false)
+      expect(listItems[4].props('selected')).toBe(true)
+      expect(listItems[5].props('selected')).toBe(true)
+      expect(listItems[6].props('selected')).toBe(false)
     })
   })
 
