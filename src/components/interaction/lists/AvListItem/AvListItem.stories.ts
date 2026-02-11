@@ -131,12 +131,31 @@ Clickable.args = {
   onClick: () => alert('Item clicked!')
 }
 
+export const SubClickable = Template.bind({})
+SubClickable.args = {
+  title: 'Clickable Subitem',
+  description: 'This item responds to clicks',
+  icon: MDI_ICONS.PENCIL_OUTLINE,
+  type: 'sub',
+  onClick: () => alert('Item clicked!')
+}
+
 export const Selected = Template.bind({})
 Selected.args = {
   title: 'Selected Item',
   description: 'This item is currently selected',
   icon: MDI_ICONS.STAR_CHECK_OUTLINE,
   selected: true,
+  onClick: () => alert('Selected item clicked!')
+}
+
+export const SubSelected = Template.bind({})
+SubSelected.args = {
+  title: 'Selected Subitem',
+  description: 'This item is currently selected',
+  icon: MDI_ICONS.STAR_CHECK_OUTLINE,
+  selected: true,
+  type: 'sub',
   onClick: () => alert('Selected item clicked!')
 }
 
@@ -173,12 +192,34 @@ NavigationLink.args = {
   disabled: true
 }
 
+export const SubNavigationLink = Template.bind({})
+SubNavigationLink.args = {
+  title: 'External Link',
+  description: 'Opens in new tab',
+  icon: MDI_ICONS.ARROW_TOP_RIGHT_THICK,
+  href: 'https://example.com',
+  target: '_blank',
+  rel: 'noopener noreferrer',
+  disabled: true,
+  type: 'sub'
+}
+
 export const LargeIcon = Template.bind({})
 LargeIcon.args = {
   title: 'Large Icon',
   description: 'Item with bigger icon',
   icon: MDI_ICONS.BRIEFCASE_VARIANT_OUTLINE,
   iconSize: 2,
+  onClick: () => alert('Large icon item clicked!')
+}
+
+export const SubLargeIcon = Template.bind({})
+SubLargeIcon.args = {
+  title: 'Large Icon',
+  description: 'Subitem with bigger icon',
+  icon: MDI_ICONS.BRIEFCASE_VARIANT_OUTLINE,
+  iconSize: 2,
+  type: 'sub',
   onClick: () => alert('Large icon item clicked!')
 }
 
@@ -192,6 +233,19 @@ CustomColors.args = {
   colorOnHover: '#1d4ed8',
   descriptionColor: '#6b7280',
   onClick: () => alert('Custom colors item clicked!')
+}
+
+export const SubCustomColors = Template.bind({})
+SubCustomColors.args = {
+  title: 'Sub Custom Colors',
+  description: 'Subitem with custom styling',
+  icon: MDI_ICONS.STARS,
+  color: '#2563eb',
+  hoverBackgroundColor: '#dbeafe',
+  colorOnHover: '#1d4ed8',
+  descriptionColor: '#6b7280',
+  type: 'sub',
+  onClick: () => alert('Custom colors subitem clicked!')
 }
 
 export const WithCustomContent = Template.bind({})

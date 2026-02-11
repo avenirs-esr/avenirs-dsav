@@ -25,6 +25,33 @@ const mockItems = [
   }
 ]
 
+const mockItemsWithChildren = [
+  {
+    id: 'default',
+    label: 'Default item',
+    icon: MDI_ICONS.BRIEFCASE_VARIANT_OUTLINE,
+  },
+  {
+    id: 'menu-expanded',
+    label: 'Menu Expanded',
+    icon: MDI_ICONS.SCHOOL_OUTLINE,
+    children: [
+      { id: 'subitem-1-1', label: 'Subitem 1-1', icon: MDI_ICONS.CHEVRON_RIGHT },
+      { id: 'subitem-1-2', label: 'Subitem 1-2', icon: MDI_ICONS.CHEVRON_RIGHT }
+    ],
+    expanded: true
+  },
+  {
+    id: 'collapsed-menu',
+    label: 'Collapsed Menu',
+    icon: MDI_ICONS.VECTOR_POLYGON_VARIANT,
+    children: [
+      { id: 'subitem-2-1', label: 'Subitem 2-1', icon: MDI_ICONS.CHEVRON_RIGHT },
+      { id: 'subitem-2-2', label: 'Subitem 2-2', icon: MDI_ICONS.CHEVRON_RIGHT }
+    ]
+  },
+]
+
 /**
  * <h1 class="n1">Navigation - <code>AvSideNavigation</code></h1>
  *
@@ -116,6 +143,31 @@ export const Default: Story = {
     },
     template: `
       <div style="height: 400px; display: flex;">
+        <AvSideNavigation 
+          v-bind="args"
+          v-model:selected-item="selectedItem"
+          v-model:is-side-menu-collapsed="isSideMenuCollapsed"
+        />
+        <div style="flex: 1; padding: 1rem; background: #f5f5f5;">
+          <p><strong>Selected item:</strong> {{ selectedItem }}</p>
+          <p><strong>Menu collapsed:</strong> {{ isSideMenuCollapsed }}</p>
+          <p>This component uses defineModel for automatic two-way binding with parent components.</p>
+        </div>
+      </div>
+    `
+  })
+}
+
+export const MenuItems: Story = {
+  render: args => ({
+    components: { AvSideNavigation },
+    setup () {
+      const selectedItem = ref('subitem-1-1')
+      const isSideMenuCollapsed = ref(false)
+      return { args: { ...args, items: mockItemsWithChildren }, selectedItem, isSideMenuCollapsed }
+    },
+    template: `
+      <div style="height: 600px; display: flex;">
         <AvSideNavigation 
           v-bind="args"
           v-model:selected-item="selectedItem"
