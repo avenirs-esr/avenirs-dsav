@@ -10,6 +10,18 @@ const __dirname = path.dirname(__filename)
 const INPUT_FILE = path.resolve('src/tokens/icons.ts')
 const OUTPUT_FILE = path.join(__dirname, 'src/styles/components/_icons.scss')
 
+const cuidaJson = JSON.parse(fs.readFileSync(
+  path.resolve('node_modules/@iconify-json/cuida/icons.json'),
+  'utf8'
+))
+const eosJson = JSON.parse(fs.readFileSync(
+  path.resolve('node_modules/@iconify-json/eos-icons/icons.json'),
+  'utf8'
+))
+const fluentJson = JSON.parse(fs.readFileSync(
+  path.resolve('node_modules/@iconify-json/fluent/icons.json'),
+  'utf8'
+))
 const mdiJson = JSON.parse(fs.readFileSync(
   path.resolve('node_modules/@iconify-json/mdi/icons.json'),
   'utf8'
@@ -18,15 +30,13 @@ const riJson = JSON.parse(fs.readFileSync(
   path.resolve('node_modules/@iconify-json/ri/icons.json'),
   'utf8'
 ))
-const eosJson = JSON.parse(fs.readFileSync(
-  path.resolve('node_modules/@iconify-json/eos-icons/icons.json'),
-  'utf8'
-))
 
 const COLLECTIONS = {
+  'cuida': cuidaJson,
+  'eos-icons': eosJson,
+  'fluent': fluentJson,
   'mdi': mdiJson,
-  'ri': riJson,
-  'eos-icons': eosJson
+  'ri': riJson
 }
 
 // === Get icons from tokens ===
@@ -82,17 +92,19 @@ function svgToBase64 (svg) {
 
 // === SCSS generation ===
 async function generate () {
+  const CUIDA_ICONS = extractIcons('CUIDA_ICONS')
+  const EOS_ICONS = extractIcons('EOS_ICONS')
+  const FLUENT_ICONS = extractIcons('FLUENT_ICONS')
   const MDI_ICONS = extractIcons('MDI_ICONS')
   const RI_ICONS = extractIcons('RI_ICONS')
-  const EOS_ICONS = extractIcons('EOS_ICONS')
-  const ALL_ICONS = [...MDI_ICONS, ...RI_ICONS, ...EOS_ICONS]
+  const ALL_ICONS = [...CUIDA_ICONS, ...EOS_ICONS, ...FLUENT_ICONS, ...MDI_ICONS, ...RI_ICONS]
 
   // eslint-disable-next-line no-console
   console.log(`⏳ Generating ${ALL_ICONS.length} icons from local Iconify JSON...`)
 
   let scss = `/**
   * This file is auto-generated via \`npm run icons:generate\` and
-  * the icons in MDI_ICONS, RI_ICONS, and EOS_ICONS from \`src/tokens/icons.ts\`.
+  * the icons in XXX_ICONS from \`src/tokens/icons.ts\`.
   * Do not remove it and do not edit it directly.
   */
 :root {\n`
