@@ -178,13 +178,13 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
   @each $theme, $colors in (
     primary: (
       text: var(--dark-background-primary1),
-      bg: var(--other-background-base),
+      bg: transparent,
       hover-bg: var(--light-background-primary1),
       hover-text: var(--other-background-base)
     ),
     secondary: (
       text: var(--text1),
-      bg: var(--other-background-base),
+      bg: transparent,
       hover-bg: var(--contrast-foreground),
       hover-text: var(--text1)
     )
