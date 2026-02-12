@@ -57,7 +57,7 @@ const {
 
 const fontSize = computed(() => `${size}rem`)
 
-const iconPathStyleVars = getIconPath(name)
+const iconPathStyleVars = computed(() => getIconPath(name))
 
 const flipTransform = computed(() => {
   switch (flip) {
@@ -91,7 +91,7 @@ const flipTransform = computed(() => {
     aria-hidden="true"
   >
     <span
-      class="av-icon__icon av-w-full av-h-full"
+      class="av-icon__icon av-w-full av-h-full av-align-center av-justify-center"
       :style="[iconPathStyleVars, { transform: flipTransform }]"
     />
   </div>

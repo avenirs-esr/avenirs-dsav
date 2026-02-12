@@ -201,7 +201,6 @@ function handleMouseMove (event: MouseEvent) {
       <AvButton
         v-if="collapsible"
         ref="buttonRef"
-        :key="`collapse-${collapsed}`"
         :aria-controls="`${id}-content`"
         :aria-expanded="!collapsed"
         :icon="collapsed ? MDI_ICONS.CHEVRON_DOWN : MDI_ICONS.CHEVRON_LEFT"

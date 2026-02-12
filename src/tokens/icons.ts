@@ -1,6 +1,6 @@
 /**
  * This file contains the icon names used in the application.
- * These icons are sourced from Material Design Icons (MDI), Remix Icon (RI), and EOS Icon (EOS) libraries.
+ * These icons are sourced from various libraries available at http://icon-sets.iconify.design/.
  * Each icon is represented by a constant for easy reference throughout the codebase.
  * These constants must only be used within AvIcon component in order to benefit from
  * the _icons.scss generated file that contains the root paths for each icon.
@@ -11,6 +11,25 @@
  * 3. Keep the list organized alphabetically for better readability.
  * 4. Execute 'npm run icons:generate' to update the icon assets after adding new icons.
  */
+
+export const CUIDA_ICONS = {
+  VISIBILITY_ON_OUTLINE: 'cuida:visibility-on-outline'
+}
+
+export const EOS_ICONS = {
+  ACTION_CHAINS_OUTLINED: 'eos-icons:action-chains-outlined'
+}
+
+export const FLUENT_ICONS = {
+  TASK_LIST_SQUARE_SPARKLE_24_REGULAR: 'fluent:task-list-square-sparkle-24-regular'
+}
+
+export const MS_ICONS = {
+  CLOCK_LOADER_20: 'material-symbols:clock-loader-20',
+  CLOCK_LOADER_40: 'material-symbols:clock-loader-40',
+  CLOCK_LOADER_60: 'material-symbols:clock-loader-60',
+  CLOCK_LOADER_90: 'material-symbols:clock-loader-90'
+}
 
 export const MDI_ICONS = {
   ACCOUNT_CIRCLE_OUTLINE: 'mdi:account-circle-outline',
@@ -30,12 +49,16 @@ export const MDI_ICONS = {
   BOOK_LOCATION_OUTLINE: 'mdi:book-location-outline',
   BOOK_OPEN_VARIANT: 'mdi:book-open-variant',
   BOOK_OUTLINE: 'mdi:book-outline',
+  BOOKMARK_CHECK: 'mdi:bookmark-check',
   BRIEFCASE_VARIANT_OUTLINE: 'mdi:briefcase-variant-outline',
   BUILDING: 'mdi:building',
   CALENDAR_BLANK_OUTLINE: 'mdi:calendar-blank-outline',
+  CALENDAR_CHECK_OUTLINE: 'mdi:calendar-check-outline',
+  CALENDAR_CLOCK_OUTLINE: 'mdi:calendar-clock-outline',
   CALENDAR_MONTH_OUTLINE: 'mdi:calendar-month-outline',
   CALENDAR_OUTLINE: 'mdi:calendar-outline',
   CALENDAR_TIME: 'mdi:calendar-time',
+  CALENDAR_RANGE_OUTLINE: 'mdi:calendar-range-outline',
   CALENDAR_WEEK_OUTLINE: 'mdi:calendar-week-outline',
   CHART_TIMELINE_VARIANT_SHIMMER: 'mdi:chart-timeline-variant-shimmer',
   CHAT_ALERT: 'mdi:chat-alert',
@@ -58,6 +81,7 @@ export const MDI_ICONS = {
   CLOSE_OCTAGON: 'mdi:close-octagon',
   CONTENT_SAVE_OUTLINE: 'mdi:content-save-outline',
   DIAMOND_STONE: 'mdi:diamond-stone',
+  DOTS_HORIZONTAL_CIRCLE_OUTLINE: 'mdi:dots-horizontal-circle-outline',
   DOTS_VERTICAL: 'mdi:dots-vertical',
   ELECTRON_FRAMEWORK: 'mdi:electron-framework',
   EMAIL_OUTLINE: 'mdi:email-outline',
@@ -86,12 +110,15 @@ export const MDI_ICONS = {
   INFORMATION_BOX: 'mdi:information-box',
   INFORMATION_BOX_OUTLINE: 'mdi:information-box-outline',
   INFORMATION_OUTLINE: 'mdi:information-outline',
+  KEYBOARD_ARROW_DOWN: 'mdi:keyboard-arrow-down',
+  KEYBOARD_ARROW_RIGHT: 'mdi:keyboard-arrow-right',
   LINK: 'mdi:link',
   LOADING: 'mdi:loading',
   LOCK_OUTLINE: 'mdi:lock-outline',
   LOGOUT: 'mdi:logout',
   MAGNIFY: 'mdi:magnify',
   MAP_MARKER_OUTLINE: 'mdi:map-marker-outline',
+  MESSAGE_BADGE: 'mdi:message-badge',
   MINUS: 'mdi:minus',
   NAVIGATE_BEFORE: 'mdi:navigate-before',
   NAVIGATE_NEXT: 'mdi:navigate-next',
@@ -125,6 +152,7 @@ export const MDI_ICONS = {
   SWAP_VERTICAL_VARIANT: 'mdi:swap-vertical-variant',
   TARGET_ARROW: 'mdi:target-arrow',
   TEST_TUBE_EMPTY: 'mdi:test-tube-empty',
+  TEXT_BOX_CHECK_OUTLINE: 'mdi:text-box-check-outline',
   TRANSLATE: 'mdi:translate',
   TRASH_CAN_OUTLINE: 'mdi:trash-can-outline',
   TRAY_UPLOAD: 'mdi:tray-upload',
@@ -144,10 +172,6 @@ export const RI_ICONS = {
   HONOUR_LINE: 'ri:honour-line',
   LAYOUT_6_LINE: 'ri:layout-6-line',
   LOADER_LINE: 'ri:loader-line',
-}
-
-export const EOS_ICONS = {
-  ACTION_CHAINS_OUTLINED: 'eos-icons:action-chains-outlined'
 }
 
 /**

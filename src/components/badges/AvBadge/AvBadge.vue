@@ -22,7 +22,7 @@ export interface AvBadgeProps {
 
   /**
    * The name of the icon or the base64 icon to be displayed.
-   * You can use the `MDI_ICONS`, `RI_ICONS`, and `ICONS_DATA_URL` constants from DSAV.
+   * You can use the `XXX_ICONS` and `ICONS_DATA_URL` constants from DSAV.
    */
   icon?: string
 
