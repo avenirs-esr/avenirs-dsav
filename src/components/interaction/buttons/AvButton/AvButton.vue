@@ -206,12 +206,12 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
           $theme == primary,
           (
             bg: map.get($colors, text),
-            color: map.get($colors, bg),
+            color: map.get($colors, hover-text),
             border: map.get($colors, text)
           ),
           (
             bg: var(--light-background-neutral),
-            color: map.get($colors, text),
+            color: map.get($colors, hover-text),
             border: var(--light-background-neutral)
           )
         )
