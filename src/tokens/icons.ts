@@ -151,6 +151,7 @@ export const MDI_ICONS = {
   STAR_CHECK_OUTLINE: 'mdi:star-check-outline',
   STAR_SHOOTING_OUTLINE: 'mdi:star-shooting-outline',
   STARS: 'mdi:stars',
+  STOREFRONT_OUTLINE: 'mdi:storefront-outline',
   SUCCESS_CIRCLE_OUTLINE: 'mdi:success-circle-outline',
   SWAP_HORIZONTAL: 'mdi:swap-horizontal',
   SWAP_VERTICAL_VARIANT: 'mdi:swap-vertical-variant',
