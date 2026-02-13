@@ -22,6 +22,10 @@ const fluentJson = JSON.parse(fs.readFileSync(
   path.resolve('node_modules/@iconify-json/fluent/icons.json'),
   'utf8'
 ))
+const ixIcons = JSON.parse(fs.readFileSync(
+  path.resolve('node_modules/@iconify-json/ix/icons.json'),
+  'utf8'
+))
 const mdiJson = JSON.parse(fs.readFileSync(
   path.resolve('node_modules/@iconify-json/mdi/icons.json'),
   'utf8'
@@ -35,6 +39,7 @@ const COLLECTIONS = {
   'cuida': cuidaJson,
   'eos-icons': eosJson,
   'fluent': fluentJson,
+  'ix': ixIcons,
   'mdi': mdiJson,
   'ri': riJson
 }
@@ -82,7 +87,10 @@ function fetchSvg (iconValue) {
     }
   }
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">${icon.body}</svg>`
+  const width = icon.width ?? collection.width ?? 24
+  const height = icon.height ?? collection.height ?? 24
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 ${width} ${height}">${icon.body}</svg>`
 }
 
 // === Base64 encoding ===
@@ -95,9 +103,17 @@ async function generate () {
   const CUIDA_ICONS = extractIcons('CUIDA_ICONS')
   const EOS_ICONS = extractIcons('EOS_ICONS')
   const FLUENT_ICONS = extractIcons('FLUENT_ICONS')
+  const IX_ICONS = extractIcons('IX_ICONS')
   const MDI_ICONS = extractIcons('MDI_ICONS')
   const RI_ICONS = extractIcons('RI_ICONS')
-  const ALL_ICONS = [...CUIDA_ICONS, ...EOS_ICONS, ...FLUENT_ICONS, ...MDI_ICONS, ...RI_ICONS]
+  const ALL_ICONS = [
+    ...CUIDA_ICONS,
+    ...EOS_ICONS,
+    ...FLUENT_ICONS,
+    ...IX_ICONS,
+    ...MDI_ICONS,
+    ...RI_ICONS
+  ]
 
   // eslint-disable-next-line no-console
   console.log(`⏳ Generating ${ALL_ICONS.length} icons from local Iconify JSON...`)

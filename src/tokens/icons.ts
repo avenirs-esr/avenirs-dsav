@@ -24,6 +24,10 @@ export const FLUENT_ICONS = {
   TASK_LIST_SQUARE_SPARKLE_24_REGULAR: 'fluent:task-list-square-sparkle-24-regular'
 }
 
+export const IX_ICONS = {
+  LIBRARY_NEW: 'ix:library-new'
+}
+
 export const MS_ICONS = {
   CLOCK_LOADER_20: 'material-symbols:clock-loader-20',
   CLOCK_LOADER_40: 'material-symbols:clock-loader-40',

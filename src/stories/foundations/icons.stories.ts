@@ -1,6 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
 import { AvIcon } from '@/components/base'
-import { cuidaIcons, dataUrlIcons, eosIcons, fluentIcons, mdiIcons, riIcons } from '@/utils/storybook'
+import { allIcons, cuidaIcons, dataUrlIcons, eosIcons, fluentIcons, ixIcons, mdiIcons, riIcons } from '@/utils/storybook'
 
 const meta: Meta = {
   title: 'Foundations/3. DSAV icons',
@@ -24,7 +24,7 @@ const template = `
 export const AllIcons: StoryFn = () => ({
   components: { AvIcon },
   setup () {
-    const icons = [...cuidaIcons, ...eosIcons, ...mdiIcons, ...riIcons, ...dataUrlIcons]
+    const icons = allIcons
     return { icons }
   },
   template,
@@ -50,6 +50,14 @@ export const FluentIcons: StoryFn = () => ({
   components: { AvIcon },
   setup () {
     return { icons: fluentIcons }
+  },
+  template,
+})
+
+export const IxIcons: StoryFn = () => ({
+  components: { AvIcon },
+  setup () {
+    return { icons: ixIcons }
   },
   template,
 })
