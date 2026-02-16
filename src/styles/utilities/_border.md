@@ -11,15 +11,16 @@ This `border` utility generates border width, border style and border radius cla
 
 ## 🏷️ Class patterns
 
-| Class pattern | Description | Responsive variants |
-|---------------|-------------|---------------------|
-| `.av-border-width-{widthSize}` | Applies `border-width` with the specified size | `--sm`, `--md`, `--lg`, `--xl` |
-| `.av-border-style-{style}` | Applies `border-style` with the specified style | `solid`, `dashed`, `dotted`, `none` |
-| `.av-radius-{radiusSize}` | Applies `border-radius` with the specified size | `--sm`, `--md`, `--lg`, `--xl` |
+| Class pattern | Description |
+|---------------|-------------|
+| `.av-border-width-{widthSize}` | Applies `border-width` with the specified size |
+| `.av-border-style-{style}` | Applies `border-style` with the specified style |
+| `.av-radius-{radiusSize}` | Applies `border-radius` with the specified size |
 
 📝 Notes:
 - `{widthSize}` corresponds to the border width scale defined in this file: `none` (`0`), `sm` (`0.0625rem`), `md` (`0.125rem`), `lg` (`0.25rem`).
 - `{radiusSize}` corresponds to the radius scale defined in the core: `none`, `xxs`, `xs`, `sm`, `md`, `lg`, `xl`, `hg`, `full`.
+- `{style}` options include: `solid`, `dashed`, `dotted`, `none`.
 
 ## 🎨 Some CSS results
 
