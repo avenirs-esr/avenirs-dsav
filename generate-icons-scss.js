@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -90,12 +89,24 @@ function fetchSvg (iconValue) {
   const width = icon.width ?? collection.width ?? 24
   const height = icon.height ?? collection.height ?? 24
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 ${width} ${height}">${icon.body}</svg>`
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}">${icon.body}</svg>`
 }
 
-// === Base64 encoding ===
-function svgToBase64 (svg) {
-  return Buffer.from(svg).toString('base64')
+// === SVG Data URI encoding ===
+function svgToDataUri (svg) {
+  const compactSvg = svg
+    .replace(/>\s+</g, '><')
+    .replace(/\s{2,}/g, ' ')
+    .trim()
+    .replace(/"/g, '\'')
+
+  const encodedSvg = encodeURIComponent(compactSvg)
+    .replace(/%20/g, ' ')
+    .replace(/%3D/g, '=')
+    .replace(/%3A/g, ':')
+    .replace(/%2F/g, '/')
+
+  return `url("data:image/svg+xml,${encodedSvg}")`
 }
 
 // === SCSS generation ===
@@ -125,8 +136,11 @@ async function generate () {
   */
 :root {\n`
 
+  const generatedByDataUri = new Map()
+
   for (const { name, value } of ALL_ICONS) {
     const [prefix] = value.split(':')
+    const varName = `--icon-${prefix.toLowerCase()}-${name.toLowerCase().replace(/_/g, '-')}`
 
     try {
       const svg = fetchSvg(value)
@@ -134,11 +148,16 @@ async function generate () {
         console.warn(`⚠ Skipping ${value}: no SVG`)
         continue
       }
-      const base64 = svgToBase64(svg)
+      const dataUri = svgToDataUri(svg)
 
-      const varName = `--icon-${prefix.toLowerCase()}-${name.toLowerCase().replace(/_/g, '-')}`
+      const alreadyGeneratedVarName = generatedByDataUri.get(dataUri)
+      if (alreadyGeneratedVarName) {
+        scss += `  ${varName}: var(${alreadyGeneratedVarName});\n`
+        continue
+      }
 
-      scss += `  ${varName}: url("data:image/svg+xml;base64,${base64}");\n`
+      scss += `  ${varName}: ${dataUri};\n`
+      generatedByDataUri.set(dataUri, varName)
       // eslint-disable-next-line no-console
       console.log(`✔ Generated ${varName}`)
     }
