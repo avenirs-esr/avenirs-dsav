@@ -36,8 +36,8 @@ const typographyClasses = [
  *   <span class="b2-regular">
  *     The <code>AvIconText</code> is a component that allows you to display text with an icon on the left
  *     (preferably an
- *     <a href="https://icon-sets.iconify.design/mdi/" target="_blank" rel="noopener noreferrer">MDI</a>
- *     icon). This View component is ideal for displaying text with an icon that allows you to visualize
+ *     <a href="https://icon-sets.iconify.design/mdi/" target="_blank" rel="noopener noreferrer">MDI</a> icon).
+ *     This View component is ideal for displaying text with an icon that allows you to visualize
  *     the type of information conveyed by the text.
  *   </span>
  * </p>

@@ -1,8 +1,3 @@
----
-layout: page
-lastUpdated: true
----
-
 # Palette
 
 ## ✨ Introduction
