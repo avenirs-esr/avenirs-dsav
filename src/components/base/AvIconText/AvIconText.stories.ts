@@ -81,7 +81,7 @@ const meta: Meta<AvIconTextProps> = {
     icon: iconOptions[0],
     text: 'Example text with icon',
     typographyClass: 'b2-regular',
-    gap: 'var(--spacing-xxs)',
+    gap: 'var(--spacing-xs)',
     inline: false,
   },
 }
