@@ -1,6 +1,7 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect } from 'vitest'
+import { beforeEach, expect, vi } from 'vitest'
 import AvIconText from '@/components/base/AvIconText/AvIconText.vue'
+import { DEFAULT_ICON_SIZE_REM } from '@/components/base/AvIconText/utils'
 import { AvIconStub } from '@/tests'
 import { BddTest } from '@/tests/utils'
 import { MDI_ICONS } from '@/tokens'
@@ -80,27 +81,41 @@ BddTest().given('an AvIconText', () => {
       })
     })
 
-    BddTest().and('given a caption typographyClass', () => {
+    BddTest().and('given a specific line height', () => {
+      const expectedIconSize = 3
+
       beforeEach(() => {
-        wrapper = mount(AvIconText, { props: { ...baseProps, typographyClass: 'caption-regular' }, global: { stubs } })
+        vi.spyOn(window, 'getComputedStyle').mockReturnValue({
+          lineHeight: `${expectedIconSize}rem`,
+          fontSize: '1rem',
+        } as CSSStyleDeclaration)
+
+        wrapper = mount(AvIconText, { props: { ...baseProps }, global: { stubs } })
       })
 
-      BddTest().then('it should render the icon accordingly', () => {
+      BddTest().then('it should update the icon size accordingly', async () => {
         const icon = wrapper.findComponent({ name: 'AvIcon' })
         expect(icon.exists()).toBe(true)
-        expect(icon.props('size')).toBe(1.125)
+        expect(icon.props('size')).toBe(expectedIconSize)
       })
     })
 
-    BddTest().and('given a title typographyClass', () => {
+    BddTest().and('given null line height and font size', () => {
+      const expectedIconSize = DEFAULT_ICON_SIZE_REM
+
       beforeEach(() => {
-        wrapper = mount(AvIconText, { props: { ...baseProps, typographyClass: 'n6' }, global: { stubs } })
+        vi.spyOn(window, 'getComputedStyle').mockReturnValue({
+          lineHeight: '0',
+          fontSize: '0',
+        } as CSSStyleDeclaration)
+
+        wrapper = mount(AvIconText, { props: { ...baseProps }, global: { stubs } })
       })
 
-      BddTest().then('it should render the icon accordingly', () => {
+      BddTest().then('it should fallback the icon size to default icon size', async () => {
         const icon = wrapper.findComponent({ name: 'AvIcon' })
         expect(icon.exists()).toBe(true)
-        expect(icon.props('size')).toBe(2)
+        expect(icon.props('size')).toBe(expectedIconSize)
       })
     })
   })
