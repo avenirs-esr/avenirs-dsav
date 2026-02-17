@@ -1,8 +1,3 @@
----
-layout: page
-lastUpdated: true
----
-
 # Spacing
 
 ## ✨ Introduction
