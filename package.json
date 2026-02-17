@@ -102,6 +102,7 @@
     "@iconify-json/eos-icons": "^1.2.4",
     "@iconify-json/fluent": "^1.2.38",
     "@iconify-json/ix": "^1.2.11",
+    "@iconify-json/material-symbols": "^1.2.55",
     "@iconify-json/mdi": "^1.2.3",
     "@iconify-json/ri": "^1.2.8",
     "@playwright/test": "1.56.0",

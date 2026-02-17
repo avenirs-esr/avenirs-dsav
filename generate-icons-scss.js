@@ -29,6 +29,10 @@ const mdiJson = JSON.parse(fs.readFileSync(
   path.resolve('node_modules/@iconify-json/mdi/icons.json'),
   'utf8'
 ))
+const msJson = JSON.parse(fs.readFileSync(
+  path.resolve('node_modules/@iconify-json/material-symbols/icons.json'),
+  'utf8'
+))
 const riJson = JSON.parse(fs.readFileSync(
   path.resolve('node_modules/@iconify-json/ri/icons.json'),
   'utf8'
@@ -40,6 +44,7 @@ const COLLECTIONS = {
   'fluent': fluentJson,
   'ix': ixIcons,
   'mdi': mdiJson,
+  'material-symbols': msJson,
   'ri': riJson
 }
 
@@ -116,6 +121,7 @@ async function generate () {
   const FLUENT_ICONS = extractIcons('FLUENT_ICONS')
   const IX_ICONS = extractIcons('IX_ICONS')
   const MDI_ICONS = extractIcons('MDI_ICONS')
+  const MS_ICONS = extractIcons('MS_ICONS')
   const RI_ICONS = extractIcons('RI_ICONS')
   const ALL_ICONS = [
     ...CUIDA_ICONS,
@@ -123,6 +129,7 @@ async function generate () {
     ...FLUENT_ICONS,
     ...IX_ICONS,
     ...MDI_ICONS,
+    ...MS_ICONS,
     ...RI_ICONS
   ]
 
@@ -153,6 +160,8 @@ async function generate () {
       const alreadyGeneratedVarName = generatedByDataUri.get(dataUri)
       if (alreadyGeneratedVarName) {
         scss += `  ${varName}: var(${alreadyGeneratedVarName});\n`
+        // eslint-disable-next-line no-console
+        console.log(`✔ Generated ${varName} (reusing ${alreadyGeneratedVarName})`)
         continue
       }
 

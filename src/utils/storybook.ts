@@ -1,10 +1,11 @@
-import { CUIDA_ICONS, EOS_ICONS, FLUENT_ICONS, ICONS_DATA_URL, IX_ICONS, MDI_ICONS, RI_ICONS } from '@/tokens'
+import { CUIDA_ICONS, EOS_ICONS, FLUENT_ICONS, ICONS_DATA_URL, IX_ICONS, MDI_ICONS, MS_ICONS, RI_ICONS } from '@/tokens'
 
 export const cuidaIcons = Object.entries(CUIDA_ICONS).map(([key, icon]) => [`CUIDA_ICONS.${key}`, icon])
 export const eosIcons = Object.entries(EOS_ICONS).map(([key, icon]) => [`EOS_ICONS.${key}`, icon])
 export const fluentIcons = Object.entries(FLUENT_ICONS).map(([key, icon]) => [`FLUENT_ICONS.${key}`, icon])
 export const ixIcons = Object.entries(IX_ICONS).map(([key, icon]) => [`IX_ICONS.${key}`, icon])
 export const mdiIcons = Object.entries(MDI_ICONS).map(([key, icon]) => [`MDI_ICONS.${key}`, icon])
+export const msIcons = Object.entries(MS_ICONS).map(([key, icon]) => [`MS_ICONS.${key}`, icon])
 export const riIcons = Object.entries(RI_ICONS).map(([key, icon]) => [`RI_ICONS.${key}`, icon])
 export const dataUrlIcons = Object.entries(ICONS_DATA_URL).map(([key, icon]) => [`ICONS_DATA_URL.${key}`, icon])
 
@@ -14,6 +15,7 @@ export const allIcons = [
   ...fluentIcons,
   ...ixIcons,
   ...mdiIcons,
+  ...msIcons,
   ...riIcons,
   ...dataUrlIcons
 ]
@@ -33,6 +35,9 @@ const ixIconMapping = Object.fromEntries(ixIcons)
 const mdiIconOptions = Object.keys(MDI_ICONS).map(key => `MDI_ICONS.${key}`)
 const mdIconMapping = Object.fromEntries(mdiIcons)
 
+const msIconsOptions = Object.keys(MS_ICONS).map(key => `MS_ICONS.${key}`)
+const msIconMapping = Object.fromEntries(msIcons)
+
 const riIconsOptions = Object.keys(RI_ICONS).map(key => `RI_ICONS.${key}`)
 const riIconMapping = Object.fromEntries(riIcons)
 
@@ -45,6 +50,7 @@ export const iconOptions = [
   ...fluentIconsOptions,
   ...ixIconsOptions,
   ...mdiIconOptions,
+  ...msIconsOptions,
   ...riIconsOptions
 ]
 export const iconMapping = {
@@ -53,6 +59,7 @@ export const iconMapping = {
   ...fluentIconMapping,
   ...ixIconMapping,
   ...mdIconMapping,
+  ...msIconMapping,
   ...riIconMapping,
 }
 
