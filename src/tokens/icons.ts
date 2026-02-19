@@ -28,14 +28,6 @@ export const IX_ICONS = {
   LIBRARY_NEW: 'ix:library-new'
 }
 
-export const MS_ICONS = {
-  BOOKMARK_STAR_OUTLINE: 'material-symbols:bookmark-star-outline',
-  CLOCK_LOADER_20: 'material-symbols:clock-loader-20',
-  CLOCK_LOADER_40: 'material-symbols:clock-loader-40',
-  CLOCK_LOADER_60: 'material-symbols:clock-loader-60',
-  CLOCK_LOADER_90: 'material-symbols:clock-loader-90'
-}
-
 export const MDI_ICONS = {
   ACCOUNT_CIRCLE_OUTLINE: 'mdi:account-circle-outline',
   ACCOUNT_STUDENT_OUTLINE: 'mdi:account-student-outline',
@@ -168,6 +160,18 @@ export const MDI_ICONS = {
   WARNING_CIRCLE: 'mdi:warning-circle',
   WARNING_OUTLINE: 'mdi:warning-outline',
   WEIGHTS: 'mdi:weights',
+}
+
+export const MS_ICONS = {
+  BOOKMARK_STAR_OUTLINE: 'material-symbols:bookmark-star-outline',
+  CLOCK_LOADER_20: 'material-symbols:clock-loader-20',
+  CLOCK_LOADER_40: 'material-symbols:clock-loader-40',
+  CLOCK_LOADER_60: 'material-symbols:clock-loader-60',
+  CLOCK_LOADER_90: 'material-symbols:clock-loader-90'
+}
+
+export const PH_ICONS = {
+  NOTE_PENCIL: 'ph:note-pencil',
 }
 
 export const RI_ICONS = {

@@ -33,6 +33,10 @@ const msJson = JSON.parse(fs.readFileSync(
   path.resolve('node_modules/@iconify-json/material-symbols/icons.json'),
   'utf8'
 ))
+const phJson = JSON.parse(fs.readFileSync(
+  path.resolve('node_modules/@iconify-json/ph/icons.json'),
+  'utf8'
+))
 const riJson = JSON.parse(fs.readFileSync(
   path.resolve('node_modules/@iconify-json/ri/icons.json'),
   'utf8'
@@ -45,6 +49,7 @@ const COLLECTIONS = {
   'ix': ixIcons,
   'mdi': mdiJson,
   'material-symbols': msJson,
+  'ph': phJson,
   'ri': riJson
 }
 
@@ -122,6 +127,7 @@ async function generate () {
   const IX_ICONS = extractIcons('IX_ICONS')
   const MDI_ICONS = extractIcons('MDI_ICONS')
   const MS_ICONS = extractIcons('MS_ICONS')
+  const PH_ICONS = extractIcons('PH_ICONS')
   const RI_ICONS = extractIcons('RI_ICONS')
   const ALL_ICONS = [
     ...CUIDA_ICONS,
@@ -130,6 +136,7 @@ async function generate () {
     ...IX_ICONS,
     ...MDI_ICONS,
     ...MS_ICONS,
+    ...PH_ICONS,
     ...RI_ICONS
   ]
 
