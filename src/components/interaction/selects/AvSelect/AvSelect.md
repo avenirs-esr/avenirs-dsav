@@ -8,7 +8,7 @@ The drop-down list provides a list of options from which the user can choose. On
 
 ## 🏗️ Structure
 
-The `AvSelect` consists of a set of `<option>` within a `<select>`.
+The `AvSelect` consists of a set of `<option>` within a `<select>`. If an option group is provided, it is rendered as an `<optgroup>` containing its child options.
 
 ## 🏷️ Props
 
@@ -17,7 +17,7 @@ The `AvSelect` consists of a set of `<option>` within a `<select>`.
 | `modelValue` | `string \| number` | | | Selected option value. |
 | `required` | `boolean` | `false` | | Indicates if the select is required.|
 | `disabled` | `boolean` | `false` | | Indicated if the select is disabled.|
-| `options` | `(string \| undefined \| { value: string \| undefined, text: string disabled?: boolean})[]` | `[]` | | Selectable options. |
+| `options` | `SelectOption[]` | `[]` | | Selectable options. |
 | `label` | `string` | `''` | | Select text label.|
 | `name` | `string` | `''` | | Field name.|
 | `hint` | `string` | | `''` | Texte d'indice pour guider.|
@@ -27,6 +27,34 @@ The `AvSelect` consists of a set of `<option>` within a `<select>`.
 | `id` | `string` | `select-${crypto.randomUUID()}` | | Unique id for the select. Used for the accessibility. |
 | `dense` | `boolean` | `false` | | Dense mode for reduced padding.|
 | `prefixIcon` | `string` | | | Prefix icon name (optional).|
+
+N.B. The `options` prop is an array of objects with the following structure:
+
+```ts
+/**
+ * Select option type, can be either a simple option or an option group.
+ */
+interface SelectOptionBase {
+  text: string
+  disabled?: boolean
+}
+
+/**
+ * Select option item type, representing a single selectable option.
+ */
+interface SelectOptionItem extends SelectOptionBase {
+  value: string | number | undefined
+}
+
+/**
+ * Select option group type, representing a group of options.
+ */
+interface SelectOptionGroup extends SelectOptionBase {
+  children: SelectOptionItem[]
+}
+
+export type SelectOption = SelectOptionItem | SelectOptionGroup
+```
 
 ## 🔊 Events
 

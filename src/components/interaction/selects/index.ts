@@ -2,4 +2,11 @@ export * from './AvAutocomplete/AvAutocomplete.types'
 export { default as AvAutocomplete } from './AvAutocomplete/AvAutocomplete.vue'
 export type { AvMultiselectOption } from './AvMultiselect/AvMultiselect.types'
 export { default as AvMultiselect, type AvMultiselectProps } from './AvMultiselect/AvMultiselect.vue'
-export { default as AvSelect, type AvSelectProps } from './AvSelect/AvSelect.vue'
+export {
+  default as AvSelect,
+  type AvSelectProps,
+  type SelectOption,
+  type SelectOptionBase,
+  type SelectOptionGroup,
+  type SelectOptionItem
+} from './AvSelect/AvSelect.vue'

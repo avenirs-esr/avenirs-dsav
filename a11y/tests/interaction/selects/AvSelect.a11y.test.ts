@@ -11,7 +11,8 @@ const stories = [
   'CustomPlaceholder',
   'WithError',
   'WithSuccess',
-  'WithPrefixIcon'
+  'WithPrefixIcon',
+  'WithOptGroups',
 ]
 
 testStories(component, title, stories)

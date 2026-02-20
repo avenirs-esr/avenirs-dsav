@@ -3,6 +3,30 @@ import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import { ICONS_DATA_URL } from '@/tokens'
 
 /**
+ * Select option type, can be either a simple option or an option group.
+ */
+export interface SelectOptionBase {
+  text: string
+  disabled?: boolean
+}
+
+/**
+ * Select option item type, representing a single selectable option.
+ */
+export interface SelectOptionItem extends SelectOptionBase {
+  value: string | number | undefined
+}
+
+/**
+ * Select option group type, representing a group of options.
+ */
+export interface SelectOptionGroup extends SelectOptionBase {
+  children: SelectOptionItem[]
+}
+
+export type SelectOption = SelectOptionItem | SelectOptionGroup
+
+/**
  * AvSelect component props.
  */
 export interface AvSelectProps {
@@ -51,11 +75,7 @@ export interface AvSelectProps {
    * Selectable options.
    * @default []
    */
-  options?: {
-    value: string | number | undefined
-    text: string
-    disabled?: boolean
-  }[]
+  options?: SelectOption[]
 
   /**
    * If set, display a success message.
@@ -119,7 +139,7 @@ const title = computed(() => {
   if (!modelValue) {
     return placeholder
   }
-  const selected = options?.find(option => String(option.value) === String(modelValue))
+  const selected = findSelectedOption()
   return selected ? selected.text : placeholder
 })
 
@@ -133,6 +153,19 @@ const message = computed(() => {
 const messageType = computed(() => {
   return errorMessage ? 'error' : 'success'
 })
+
+function isOptionGroup (option: SelectOption): option is SelectOptionGroup {
+  return 'children' in option
+}
+
+function findSelectedOption () {
+  return options?.find((option) => {
+    if (isOptionGroup(option)) {
+      return option.children.some(child => String(child.value) === String(modelValue))
+    }
+    return String(option.value) === String(modelValue)
+  })
+}
 </script>
 
 <template>
@@ -193,7 +226,7 @@ const messageType = computed(() => {
           @change="emit('update:modelValue', ($event.target as HTMLInputElement)?.value)"
         >
           <option
-            :selected="!options.some(option => option.value === modelValue)"
+            :selected="!findSelectedOption()"
             disabled
             value=""
             hidden=""
@@ -201,16 +234,38 @@ const messageType = computed(() => {
             {{ placeholder }}
           </option>
 
-          <option
+          <template
             v-for="(option, index) in options"
             :key="index"
-            :selected="modelValue === option.value"
-            :value="option.value"
-            :disabled="option.disabled"
-            :aria-disabled="option.disabled"
           >
-            {{ option.text }}
-          </option>
+            <template v-if="isOptionGroup(option)">
+              <optgroup
+                v-if="option.children.length > 0"
+                :label="option.text"
+              >
+                <option
+                  v-for="(childOption, childIndex) in option.children"
+                  :key="`${index}-${childIndex}`"
+                  :selected="findSelectedOption() === childOption"
+                  :value="childOption.value"
+                  :disabled="childOption.disabled"
+                  :aria-disabled="childOption.disabled"
+                >
+                  {{ childOption.text }}
+                </option>
+              </optgroup>
+            </template>
+
+            <option
+              v-else
+              :selected="findSelectedOption() === option"
+              :value="option.value"
+              :disabled="option.disabled"
+              :aria-disabled="option.disabled"
+            >
+              {{ option.text }}
+            </option>
+          </template>
         </select>
       </div>
       <AvMessage
@@ -254,6 +309,11 @@ const messageType = computed(() => {
   background-repeat: no-repeat;
   background-size: var(--dimension-sm) var(--dimension-sm);
 
+  optgroup {
+    background: var(--other-background-base);
+    color: var(--title);
+  }
+
   &[aria-disabled=true] {
     background-color: var(--surface-background);
     color: var(--text2);
@@ -272,6 +332,12 @@ const messageType = computed(() => {
       color: var(--text1);
       background-color: var(--other-background-base);
     }
+  }
+
+  option[aria-disabled=true] {
+    background-color: var(--surface-background);
+    color: var(--text2);
+    opacity: 0.7;
   }
 }
 </style>

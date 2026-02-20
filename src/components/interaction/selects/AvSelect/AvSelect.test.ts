@@ -352,4 +352,35 @@ BddTest().given('a select component', () => {
       })
     })
   })
+
+  BddTest().and('with optgroup options', () => {
+    const optgroupOptions = [
+      { value: '1', text: 'Option 1' },
+      {
+        text: 'Group 1',
+        children: [
+          { value: '2', text: 'Option 2' },
+          { value: '3', text: 'Option 3' }
+        ]
+      }
+    ]
+
+    beforeEach(() => {
+      wrapper = mountWithProps({ options: optgroupOptions })
+    })
+
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should render the optgroup element', () => {
+        expect(wrapper.find('optgroup').exists()).toBe(true)
+        expect(wrapper.find('optgroup').attributes('label')).toBe('Group 1')
+      })
+
+      BddTest().then('it should render the child options within the optgroup', () => {
+        const options = wrapper.findAll('option')
+        expect(options.length).toBe(4)
+        expect(options[2].text()).toBe('Option 2')
+        expect(options[3].text()).toBe('Option 3')
+      })
+    })
+  })
 })

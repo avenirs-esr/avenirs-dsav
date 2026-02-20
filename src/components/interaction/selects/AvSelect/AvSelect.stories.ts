@@ -138,3 +138,26 @@ WithPrefixIcon.args = {
   prefixIcon: MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE,
   label: 'With prefix icon Select',
 }
+
+export const WithOptGroups = Template.bind({})
+WithOptGroups.args = {
+  name: 'with-optgroups-select',
+  label: 'Select with optgroups',
+  options: [
+    {
+      text: 'Group 1',
+      children: [
+        { value: '1', text: 'Choice 1' },
+        { value: '2', text: 'Choice 2' },
+      ],
+    },
+    {
+      text: 'Group 2',
+      children: [
+        { value: '3', text: 'Choice 3' },
+        { value: '4', text: 'Choice 4' },
+      ],
+    },
+    { value: '5', text: 'Ungrouped Choice' },
+  ],
+}
