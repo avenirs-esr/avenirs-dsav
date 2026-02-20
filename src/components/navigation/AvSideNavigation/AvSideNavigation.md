@@ -39,11 +39,13 @@ interface AvSideNavigationItem {
 
 ## 🔊 Events
 
-The component uses `defineModel` for two-way binding:
+The component uses `defineModel` for both selected item and side menu collapsed state.
+
+### Model events
 
 | Model | Type | Description |
 | --- | --- | --- |
-| `selectedItem` | `string` | Currently selected navigation item ID |
+| `selectedItem` | `{ itemId: string, parentId?: string }` | Current selection. `parentId` is set when a child item is selected |
 | `isSideMenuCollapsed` | `boolean` | Whether the side menu is in collapsed state |
 
 ## 🎨 Slots
@@ -62,7 +64,7 @@ You can find examples of use and demo of the component on its dedicated [Storybo
 <script setup lang="ts">
 import { MDI_ICONS } from '@/components/tokens/icons'
 
-const selectedItem = ref('dashboard')
+const selectedItem = ref({ itemId: 'dashboard' })
 const isCollapsed = ref(false)
 
 const navigationItems: AvSideNavigationItem[] = [
@@ -116,7 +118,7 @@ import DashboardView from './views/DashboardView.vue'
 import ProfileView from './views/ProfileView.vue'
 import SettingsView from './views/SettingsView.vue'
 
-const currentSection = ref('dashboard')
+const currentSection = ref({ itemId: 'dashboard' })
 const menuCollapsed = ref(false)
 
 const navigationItems: AvSideNavigationItem[] = [
@@ -144,7 +146,7 @@ const componentsMap = {
 }
 
 const currentComponent = computed(() => {
-  return componentsMap[currentSection.value] || DashboardView
+  return componentsMap[currentSection.value.itemId] || DashboardView
 })
 </script>
 

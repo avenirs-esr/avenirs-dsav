@@ -8,6 +8,11 @@ export interface AvSideNavigationItem {
   icon: string
 }
 
+export interface AvSideNavigationSelectedItem {
+  itemId: string
+  parentId?: string
+}
+
 export interface AvSideNavigationMenuItem extends AvSideNavigationItem { expanded?: boolean, children?: AvSideNavigationItem[] }
 
 export interface AvSideNavigationProps {
@@ -18,7 +23,7 @@ export interface AvSideNavigationProps {
   /**
    * The currently selected item ID.
    */
-  selectedItem?: string
+  selectedItem?: AvSideNavigationSelectedItem
   /**
    * Whether the side menu is collapsed or not.
    */
@@ -33,27 +38,10 @@ export interface AvSideNavigationProps {
   selectedItemColor?: string
 }
 
-const { items, collapsedWidth = '3.5rem' } = defineProps<AvSideNavigationProps>()
+const { items, collapsedWidth = '3.5rem', selectedItemColor } = defineProps<AvSideNavigationProps>()
 
-/**
- * Events emitted by the component.
- */
-defineEmits<{
-  /**
-   * Emitted when the selected item changes.
-   * @param event - The event name
-   * @param selectedItem - The ID of the newly selected item
-   */
-  (event: 'update:selectedItem', selectedItem: string): void
-  /**
-   * Emitted when the side menu collapse state changes.
-   * @param value - New collapsed state (true for collapsed, false for expanded)
-   */
-  (event: 'update:isSideMenuCollapsed', value: boolean): void
-}>()
-
-const selectedItem = defineModel<string>('selectedItem', {
-  default: ''
+const selectedItem = defineModel<AvSideNavigationSelectedItem>('selectedItem', {
+  default: () => ({ itemId: '' })
 })
 
 const isSideMenuCollapsed = defineModel<boolean>('isSideMenuCollapsed', {
@@ -62,13 +50,21 @@ const isSideMenuCollapsed = defineModel<boolean>('isSideMenuCollapsed', {
 
 const expandedMenus = ref<string[]>(items.filter(item => item.expanded).map(item => item.id))
 
-function handleSelectItem (itemId: string) {
-  selectedItem.value = itemId
+function handleSelectItem (itemId: string, parentId?: string) {
+  selectedItem.value = parentId ? { itemId, parentId } : { itemId }
+}
+
+function isSubItemSelected (parentItem: AvSideNavigationMenuItem, subItem: AvSideNavigationItem): boolean {
+  if (selectedItem.value.parentId) {
+    return selectedItem.value.parentId === parentItem.id && selectedItem.value.itemId === subItem.id
+  }
+
+  return selectedItem.value.itemId === subItem.id
 }
 
 function isItemSelected (item: AvSideNavigationMenuItem): boolean {
-  return selectedItem.value === item.id
-    || (item.children ? item.children.some(child => selectedItem.value === child.id) : false)
+  return selectedItem.value.itemId === item.id
+    || (item.children ? item.children.some(child => isSubItemSelected(item, child)) : false)
 }
 
 function handleMenuItemClick (itemId: string) {
@@ -125,7 +121,7 @@ function handleMenuItemClick (itemId: string) {
                 :title="isSideMenuCollapsed ? undefined : subitem.label"
                 :icon="subitem.icon"
                 :icon-size="1.8"
-                :selected="selectedItem === subitem.id"
+                :selected="isSubItemSelected(item, subitem)"
                 :hover-background-color="selectedItemColor"
                 role="menuitem"
                 type="sub"
@@ -133,7 +129,7 @@ function handleMenuItemClick (itemId: string) {
                 :class="{
                   'av-side-navigation__menu-item--collapsed': isSideMenuCollapsed,
                 }"
-                @click="handleSelectItem(subitem.id)"
+                @click="handleSelectItem(subitem.id, item.id)"
               />
             </AvList>
           </div>
