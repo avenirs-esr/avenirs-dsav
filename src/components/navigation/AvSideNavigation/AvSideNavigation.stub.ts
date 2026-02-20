@@ -2,7 +2,10 @@ export const AvSideNavigationStub = defineComponent({
   name: 'AvSideNavigation',
   props: {
     items: Array,
-    selectedItem: String,
+    selectedItem: {
+      type: Object as () => { itemId: string, parentId?: string },
+      required: true
+    },
     isSideMenuCollapsed: Boolean,
     collapsedWidth: String
   },

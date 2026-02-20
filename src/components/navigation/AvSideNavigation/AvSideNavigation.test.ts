@@ -148,7 +148,7 @@ BddTest().given('an AvSideNavigation component', () => {
       wrapper = mount(AvSideNavigation, {
         props: {
           items: mockItems,
-          selectedItem: 'educations'
+          selectedItem: { itemId: 'educations' }
         },
         global: {
           stubs
@@ -264,13 +264,13 @@ BddTest().given('an AvSideNavigation component', () => {
       await listItems[2].trigger('click')
 
       expect(wrapper.emitted('update:selectedItem')).toBeTruthy()
-      expect(wrapper.emitted('update:selectedItem')?.[0]).toEqual(['experiences'])
+      expect(wrapper.emitted('update:selectedItem')?.[0]).toEqual([{ itemId: 'experiences' }])
     })
 
     BddTest().then('it should update the selected state when selectedItem prop changes', async () => {
       const listItems = wrapper.findAllComponents({ name: 'AvListItem' })
 
-      await wrapper.setProps({ selectedItem: 'activities' })
+      await wrapper.setProps({ selectedItem: { itemId: 'activities' } })
 
       expect(listItems[0].props('selected')).toBe(false)
       expect(listItems[1].props('selected')).toBe(false)
@@ -336,18 +336,28 @@ BddTest().given('an AvSideNavigation component', () => {
       await listItems[5].trigger('click')
 
       expect(wrapper.emitted('update:selectedItem')).toBeTruthy()
-      expect(wrapper.emitted('update:selectedItem')?.[0]).toEqual(['subitem-1'])
+      expect(wrapper.emitted('update:selectedItem')?.[0]).toEqual([{ itemId: 'subitem-1', parentId: 'with-subitems' }])
     })
 
     BddTest().then('it should update the selected state when selectedItem prop changes', async () => {
       const listItems = wrapper.findAllComponents({ name: 'AvListItem' })
 
-      await wrapper.setProps({ selectedItem: 'subitem-1' })
+      await wrapper.setProps({ selectedItem: { itemId: 'subitem-1', parentId: 'with-subitems' } })
 
       expect(listItems[0].props('selected')).toBe(false)
       expect(listItems[1].props('selected')).toBe(false)
       expect(listItems[2].props('selected')).toBe(false)
       expect(listItems[3].props('selected')).toBe(false)
+      expect(listItems[4].props('selected')).toBe(true)
+      expect(listItems[5].props('selected')).toBe(true)
+      expect(listItems[6].props('selected')).toBe(false)
+    })
+
+    BddTest().then('it should keep backward compatibility with child-only selectedItem', async () => {
+      const listItems = wrapper.findAllComponents({ name: 'AvListItem' })
+
+      await wrapper.setProps({ selectedItem: { itemId: 'subitem-1' } })
+
       expect(listItems[4].props('selected')).toBe(true)
       expect(listItems[5].props('selected')).toBe(true)
       expect(listItems[6].props('selected')).toBe(false)

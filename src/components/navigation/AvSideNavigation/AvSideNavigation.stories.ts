@@ -117,7 +117,7 @@ const meta: Meta<typeof AvSideNavigation> = {
     },
     selectedItem: {
       description: 'Currently selected item ID (v-model)',
-      control: { type: 'text' }
+      control: { type: 'object' }
     },
     isSideMenuCollapsed: {
       description: 'Whether the side menu is collapsed (v-model)',
@@ -137,7 +137,7 @@ export const Default: Story = {
   render: args => ({
     components: { AvSideNavigation },
     setup () {
-      const selectedItem = ref('careers')
+      const selectedItem = ref({ itemId: 'careers' })
       const isSideMenuCollapsed = ref(false)
       return { args, selectedItem, isSideMenuCollapsed }
     },
@@ -149,7 +149,8 @@ export const Default: Story = {
           v-model:is-side-menu-collapsed="isSideMenuCollapsed"
         />
         <div style="flex: 1; padding: 1rem; background: #f5f5f5;">
-          <p><strong>Selected item:</strong> {{ selectedItem }}</p>
+          <p><strong>Selected item:</strong> {{ selectedItem.itemId }}</p>
+          <p><strong>Parent item:</strong> {{ selectedItem.parentId }}</p>
           <p><strong>Menu collapsed:</strong> {{ isSideMenuCollapsed }}</p>
           <p>This component uses defineModel for automatic two-way binding with parent components.</p>
         </div>
@@ -162,7 +163,7 @@ export const MenuItems: Story = {
   render: args => ({
     components: { AvSideNavigation },
     setup () {
-      const selectedItem = ref('subitem-1-1')
+      const selectedItem = ref({ itemId: 'subitem-1-1', parentId: 'menu-expanded' })
       const isSideMenuCollapsed = ref(false)
       return { args: { ...args, items: mockItemsWithChildren }, selectedItem, isSideMenuCollapsed }
     },
@@ -174,7 +175,8 @@ export const MenuItems: Story = {
           v-model:is-side-menu-collapsed="isSideMenuCollapsed"
         />
         <div style="flex: 1; padding: 1rem; background: #f5f5f5;">
-          <p><strong>Selected item:</strong> {{ selectedItem }}</p>
+          <p><strong>Selected item:</strong> {{ selectedItem.itemId }}</p>
+          <p><strong>Parent item:</strong> {{ selectedItem.parentId }}</p>
           <p><strong>Menu collapsed:</strong> {{ isSideMenuCollapsed }}</p>
           <p>This component uses defineModel for automatic two-way binding with parent components.</p>
         </div>
@@ -187,7 +189,7 @@ export const Collapsed: Story = {
   render: args => ({
     components: { AvSideNavigation },
     setup () {
-      const selectedItem = ref('educations')
+      const selectedItem = ref({ itemId: 'educations' })
       const isSideMenuCollapsed = ref(true)
       return { args, selectedItem, isSideMenuCollapsed }
     },
@@ -199,7 +201,8 @@ export const Collapsed: Story = {
           v-model:is-side-menu-collapsed="isSideMenuCollapsed"
         />
         <div style="flex: 1; padding: 1rem; background: #f5f5f5;">
-          <p><strong>Selected item:</strong> {{ selectedItem }}</p>
+          <p><strong>Selected item:</strong> {{ selectedItem.itemId }}</p>
+          <p><strong>Parent item:</strong> {{ selectedItem.parentId }}</p>
           <p><strong>Menu collapsed:</strong> {{ isSideMenuCollapsed }}</p>
           <p>This story demonstrates the collapsed state where only icons are visible.</p>
         </div>
@@ -212,7 +215,7 @@ export const CustomWidth: Story = {
   render: args => ({
     components: { AvSideNavigation },
     setup () {
-      const selectedItem = ref('experiences')
+      const selectedItem = ref({ itemId: 'experiences' })
       const isSideMenuCollapsed = ref(false)
       return { args, selectedItem, isSideMenuCollapsed }
     },
@@ -224,7 +227,8 @@ export const CustomWidth: Story = {
           v-model:is-side-menu-collapsed="isSideMenuCollapsed"
         />
         <div style="flex: 1; padding: 1rem; background: #f5f5f5;">
-          <p><strong>Selected item:</strong> {{ selectedItem }}</p>
+          <p><strong>Selected item:</strong> {{ selectedItem.itemId }}</p>
+          <p><strong>Parent item:</strong> {{ selectedItem.parentId }}</p>
           <p><strong>Menu collapsed:</strong> {{ isSideMenuCollapsed }}</p>
           <p>This story demonstrates custom collapsed width (5rem instead of default 3.5rem).</p>
         </div>
@@ -240,7 +244,7 @@ export const CustomColor: Story = {
   render: args => ({
     components: { AvSideNavigation },
     setup () {
-      const selectedItem = ref('activities')
+      const selectedItem = ref({ itemId: 'activities' })
       const isSideMenuCollapsed = ref(false)
       return { args, selectedItem, isSideMenuCollapsed }
     },
@@ -252,7 +256,8 @@ export const CustomColor: Story = {
           v-model:is-side-menu-collapsed="isSideMenuCollapsed"
         />
         <div style="flex: 1; padding: 1rem; background: #f5f5f5;">
-          <p><strong>Selected item:</strong> {{ selectedItem }}</p>
+          <p><strong>Selected item:</strong> {{ selectedItem.itemId }}</p>
+          <p><strong>Parent item:</strong> {{ selectedItem.parentId }}</p>
           <p><strong>Menu collapsed:</strong> {{ isSideMenuCollapsed }}</p>
           <p>This story demonstrates custom colors using CSS variables.</p>
         </div>
