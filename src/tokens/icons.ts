@@ -182,6 +182,7 @@ export const RI_ICONS = {
   HONOUR_LINE: 'ri:honour-line',
   LAYOUT_6_LINE: 'ri:layout-6-line',
   LOADER_LINE: 'ri:loader-line',
+  TIMER_LINE: 'ri:timer-line',
 }
 
 /**
