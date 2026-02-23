@@ -1,6 +1,13 @@
 import type { StoryFn } from '@storybook/vue3'
-import AvSelect, { type AvSelectProps } from '@/components/interaction/selects/AvSelect/AvSelect.vue'
+import AvSelect, {
+  type AvSelectProps,
+  type AvSelectSelectedOption,
+} from '@/components/interaction/selects/AvSelect/AvSelect.vue'
 import { MDI_ICONS } from '@/tokens/icons'
+
+type AvSelectStoryArgs = AvSelectProps & {
+  selectedItem: AvSelectSelectedOption
+}
 
 /**
  * <h1 class="n1">Drop-down list - <code>AvSelect</code></h1>
@@ -34,12 +41,12 @@ const meta = {
     dense: { control: 'boolean' },
     name: { control: 'text' },
     hint: { control: 'text' },
-    modelValue: { control: 'text' },
     label: { control: 'text' },
     options: {
-      type: { name: '{value: string | number | undefined, text: string, disabled?: boolean}[]', required: true },
+      type: { name: '{id: string | number | undefined, label: string, disabled?: boolean}[]', required: true },
       control: false,
     },
+    selectedItem: { control: false },
     successMessage: { control: 'text' },
     errorMessage: { control: 'text' },
     placeholder: { control: 'text', required: true },
@@ -47,18 +54,18 @@ const meta = {
   },
   args: {
     options: [
-      { value: '1', text: 'Choice 1' },
-      { value: '2', text: 'Choice 2' },
-      { value: '3', text: 'Choice 3' },
-      { value: '4', text: 'Choice 4' },
-      { value: '5', text: 'Choice 5' },
+      { id: '1', label: 'Choice 1' },
+      { id: '2', label: 'Choice 2' },
+      { id: '3', label: 'Choice 3' },
+      { id: '4', label: 'Choice 4' },
+      { id: '5', label: 'Choice 5' },
     ],
     placeholder: 'Placeholder',
     required: false,
     disabled: false,
     name: 'select',
     hint: '',
-    modelValue: '',
+    selectedItem: { itemId: '' },
     label: '',
     successMessage: '',
     errorMessage: '',
@@ -69,12 +76,16 @@ const meta = {
 
 export default meta
 
-const Template: StoryFn<AvSelectProps> = args => ({
+const Template: StoryFn<AvSelectStoryArgs> = args => ({
   components: { AvSelect },
   setup () {
     return { args }
   },
-  template: `<AvSelect v-bind="args" v-model="args.modelValue" />`,
+  template: `
+    <AvSelect v-bind="args" v-model:selected-item="args.selectedItem" />
+    <p>Selected item: {{ args.selectedItem.itemId }}</p>
+    <p>Selected item parent: {{ args.selectedItem.parentId }}</p>
+  `,
 })
 
 export const Default = Template.bind({})
@@ -145,19 +156,47 @@ WithOptGroups.args = {
   label: 'Select with optgroups',
   options: [
     {
-      text: 'Group 1',
+      id: 'group1',
+      label: 'Group 1',
       children: [
-        { value: '1', text: 'Choice 1' },
-        { value: '2', text: 'Choice 2' },
+        { id: '1', label: 'Choice 1' },
+        { id: '2', label: 'Choice 2' },
       ],
     },
     {
-      text: 'Group 2',
+      id: 'group2',
+      label: 'Group 2',
       children: [
-        { value: '3', text: 'Choice 3' },
-        { value: '4', text: 'Choice 4' },
+        { id: '3', label: 'Choice 3' },
+        { id: '4', label: 'Choice 4' },
       ],
     },
-    { value: '5', text: 'Ungrouped Choice' },
+    { id: '5', label: 'Ungrouped Choice' },
   ],
+}
+
+export const WithOptGroupsAndSelectedItem = Template.bind({})
+WithOptGroupsAndSelectedItem.args = {
+  name: 'with-optgroups-select',
+  label: 'Select with optgroups',
+  options: [
+    {
+      id: 'group1',
+      label: 'Group 1',
+      children: [
+        { id: '1', label: 'Choice 1' },
+        { id: '2', label: 'Choice 2' },
+      ],
+    },
+    {
+      id: 'group2',
+      label: 'Group 2',
+      children: [
+        { id: '3', label: 'Choice 3' },
+        { id: '4', label: 'Choice 4' },
+      ],
+    },
+    { id: '5', label: 'Ungrouped Choice' },
+  ],
+  selectedItem: { itemId: '3', parentId: 'group2' },
 }

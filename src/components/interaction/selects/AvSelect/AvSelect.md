@@ -14,10 +14,10 @@ The `AvSelect` consists of a set of `<option>` within a `<select>`. If an option
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
-| `modelValue` | `string \| number` | | | Selected option value. |
+| `selectedItem` | `AvSelectSelectedOption` | `{ itemId: '' }` | | Selected option object used with `v-model:selectedItem`. |
 | `required` | `boolean` | `false` | | Indicates if the select is required.|
 | `disabled` | `boolean` | `false` | | Indicated if the select is disabled.|
-| `options` | `SelectOption[]` | `[]` | | Selectable options. |
+| `options` | `AvSelectOption[]` | `[]` | | Selectable options. |
 | `label` | `string` | `''` | | Select text label.|
 | `name` | `string` | `''` | | Field name.|
 | `hint` | `string` | | `''` | Texte d'indice pour guider.|
@@ -31,36 +31,25 @@ The `AvSelect` consists of a set of `<option>` within a `<select>`. If an option
 N.B. The `options` prop is an array of objects with the following structure:
 
 ```ts
-/**
- * Select option type, can be either a simple option or an option group.
- */
-interface SelectOptionBase {
-  text: string
+export interface AvSelectOptionBase {
+  id: string
+  label: string
   disabled?: boolean
 }
 
-/**
- * Select option item type, representing a single selectable option.
- */
-interface SelectOptionItem extends SelectOptionBase {
-  value: string | number | undefined
+export interface AvSelectSelectedOption {
+  itemId: string
+  parentId?: string
 }
 
-/**
- * Select option group type, representing a group of options.
- */
-interface SelectOptionGroup extends SelectOptionBase {
-  children: SelectOptionItem[]
-}
-
-export type SelectOption = SelectOptionItem | SelectOptionGroup
+export interface AvSelectOption extends AvSelectOptionBase { children?: AvSelectOption[] }
 ```
 
 ## 🔊 Events
 
 | Name | Data (*payload*) | Description |
 | --- | --- | --- |
-| `'update:modelValue'` | `string \| number` | Emitted when an option is selected. |
+| `'update:selectedItem'` | `AvSelectSelectedOption` | Emitted when an option is selected (includes `parentId` when option comes from an `optgroup`). |
 
 ## 🎨 Slots
 
@@ -73,14 +62,25 @@ You can find examples of use and demo of the component on its dedicated [Storybo
 ## 💡 Examples of use
 
 ```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const selectedItem = ref({ itemId: '' })
+</script>
+
 <template>
   <AvSelect
-    v-model="select"
+    v-model:selected-item="selectedItem"
     :options="[
-      { value: 1, text: 'Choice number 1' },
-      { value: 2, text: '2' },
-      { value: 3, text: '3' },
-      { value: 4, text: '4' },
+      {
+        id: 'group-1',
+        label: 'Group 1',
+        children: [
+          { id: '1', label: 'Choice 1' },
+          { id: '2', label: 'Choice 2' },
+        ],
+      },
+      { id: '3', label: 'Choice 3' },
     ]"
     placeholder="Placeholder"
   />
