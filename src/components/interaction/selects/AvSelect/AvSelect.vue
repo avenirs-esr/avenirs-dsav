@@ -2,29 +2,18 @@
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import { ICONS_DATA_URL } from '@/tokens'
 
-/**
- * Select option type, can be either a simple option or an option group.
- */
-export interface SelectOptionBase {
-  text: string
+export interface AvSelectOptionBase {
+  id: string
+  label: string
   disabled?: boolean
 }
 
-/**
- * Select option item type, representing a single selectable option.
- */
-export interface SelectOptionItem extends SelectOptionBase {
-  value: string | number | undefined
+export interface AvSelectSelectedOption {
+  itemId: string
+  parentId?: string
 }
 
-/**
- * Select option group type, representing a group of options.
- */
-export interface SelectOptionGroup extends SelectOptionBase {
-  children: SelectOptionItem[]
-}
-
-export type SelectOption = SelectOptionItem | SelectOptionGroup
+export interface AvSelectOption extends AvSelectOptionBase { children?: AvSelectOption[] }
 
 /**
  * AvSelect component props.
@@ -61,11 +50,6 @@ export interface AvSelectProps {
   hint?: string
 
   /**
-   * Selected option value.
-   */
-  modelValue?: string | number | undefined
-
-  /**
    * Select text label.
    * @default ''
    */
@@ -75,7 +59,7 @@ export interface AvSelectProps {
    * Selectable options.
    * @default []
    */
-  options?: SelectOption[]
+  options?: AvSelectOption[]
 
   /**
    * If set, display a success message.
@@ -112,7 +96,6 @@ const {
   id,
   name = '',
   hint = '',
-  modelValue,
   label = '',
   options = [],
   successMessage = '',
@@ -122,25 +105,22 @@ const {
   prefixIcon,
 } = defineProps<AvSelectProps>()
 
-/**
- * Events emitted by the component.
- */
-const emit = defineEmits<{
-  /**
-   * Emitted when an option is selected.
-   * @param value Value (`string | number`) of the selected option.
-   */
-  (e: 'update:modelValue', value: string | number): void
-}>()
+const selectedItem = defineModel<AvSelectSelectedOption>('selectedItem', {
+  default: () => ({ itemId: '' })
+})
+
+const selectedId = computed(() => {
+  return String(selectedItem.value.itemId ?? '')
+})
 
 const realId = id ?? `select-${crypto.randomUUID()}`
 
 const title = computed(() => {
-  if (!modelValue) {
+  if (!selectedId.value) {
     return placeholder
   }
-  const selected = findSelectedOption()
-  return selected ? selected.text : placeholder
+  const selected = findSelectedOptionById(selectedId.value)
+  return selected ? selected.label : placeholder
 })
 
 const styleVars = computed(() => ({
@@ -154,17 +134,47 @@ const messageType = computed(() => {
   return errorMessage ? 'error' : 'success'
 })
 
-function isOptionGroup (option: SelectOption): option is SelectOptionGroup {
-  return 'children' in option
+function isOptionGroup (option: AvSelectOption): option is AvSelectOption {
+  return Array.isArray(option.children)
 }
 
-function findSelectedOption () {
-  return options?.find((option) => {
-    if (isOptionGroup(option)) {
-      return option.children.some(child => String(child.value) === String(modelValue))
+function findSelectedOptionById (id: string) {
+  for (const option of options) {
+    if (isOptionGroup(option) && option.children) {
+      const selectedChild = option.children.find(child => String(child.id) === id)
+      if (selectedChild) {
+        return selectedChild
+      }
     }
-    return String(option.value) === String(modelValue)
-  })
+
+    if (String(option.id) === id) {
+      return option
+    }
+  }
+
+  return undefined
+}
+
+function buildSelectedOptionById (id: string): AvSelectSelectedOption {
+  for (const option of options) {
+    if (isOptionGroup(option) && option.children) {
+      const selectedChild = option.children.find(child => String(child.id) === id)
+      if (selectedChild) {
+        return { itemId: selectedChild.id, parentId: option.id }
+      }
+    }
+
+    if (String(option.id) === id) {
+      return { itemId: option.id }
+    }
+  }
+
+  return { itemId: id }
+}
+
+function handleSelectChange (event: Event) {
+  const id = (event.target as HTMLSelectElement).value
+  selectedItem.value = buildSelectedOptionById(id)
 }
 </script>
 
@@ -208,6 +218,7 @@ function findSelectedOption () {
 
         <select
           :id="realId"
+          :value="selectedId"
           :class="{ [`av-select--${messageType}`]: message,
                     'av-select--with-prefix av-pl-xl': prefixIcon,
                     'av-py-xxs': dense,
@@ -223,10 +234,9 @@ function findSelectedOption () {
           :title="title"
           v-bind="$attrs"
           :style="styleVars"
-          @change="emit('update:modelValue', ($event.target as HTMLInputElement)?.value)"
+          @change="handleSelectChange"
         >
           <option
-            :selected="!findSelectedOption()"
             disabled
             value=""
             hidden=""
@@ -238,32 +248,30 @@ function findSelectedOption () {
             v-for="(option, index) in options"
             :key="index"
           >
-            <template v-if="isOptionGroup(option)">
+            <template v-if="isOptionGroup(option) && option.children">
               <optgroup
                 v-if="option.children.length > 0"
-                :label="option.text"
+                :label="option.label"
               >
                 <option
                   v-for="(childOption, childIndex) in option.children"
                   :key="`${index}-${childIndex}`"
-                  :selected="findSelectedOption() === childOption"
-                  :value="childOption.value"
+                  :value="childOption.id"
                   :disabled="childOption.disabled"
                   :aria-disabled="childOption.disabled"
                 >
-                  {{ childOption.text }}
+                  {{ childOption.label }}
                 </option>
               </optgroup>
             </template>
 
             <option
               v-else
-              :selected="findSelectedOption() === option"
-              :value="option.value"
+              :value="option.id"
               :disabled="option.disabled"
               :aria-disabled="option.disabled"
             >
-              {{ option.text }}
+              {{ option.label }}
             </option>
           </template>
         </select>

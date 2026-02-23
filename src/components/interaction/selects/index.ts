@@ -4,9 +4,8 @@ export type { AvMultiselectOption } from './AvMultiselect/AvMultiselect.types'
 export { default as AvMultiselect, type AvMultiselectProps } from './AvMultiselect/AvMultiselect.vue'
 export {
   default as AvSelect,
+  type AvSelectOption,
+  type AvSelectOptionBase,
   type AvSelectProps,
-  type SelectOption,
-  type SelectOptionBase,
-  type SelectOptionGroup,
-  type SelectOptionItem
+  type AvSelectSelectedOption
 } from './AvSelect/AvSelect.vue'

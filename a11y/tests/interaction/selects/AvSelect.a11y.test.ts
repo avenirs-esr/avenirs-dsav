@@ -13,6 +13,7 @@ const stories = [
   'WithSuccess',
   'WithPrefixIcon',
   'WithOptGroups',
+  'WithOptGroupsAndSelectedItem',
 ]
 
 testStories(component, title, stories)

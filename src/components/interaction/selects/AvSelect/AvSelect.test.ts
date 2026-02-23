@@ -1,22 +1,21 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-import AvSelect from '@/components/interaction/selects/AvSelect/AvSelect.vue'
+import AvSelect, { type AvSelectProps, type AvSelectSelectedOption } from '@/components/interaction/selects/AvSelect/AvSelect.vue'
 import { AvIconStub, BddTest } from '@/tests'
 import { MDI_ICONS } from '@/tokens/icons'
 
 const options = [
-  { value: '1', text: 'Option 1' },
-  { value: '2', text: 'Option 2' },
-  { value: '3', text: 'Option 3', disabled: true }
+  { id: '1', label: 'Option 1' },
+  { id: '2', label: 'Option 2' },
+  { id: '3', label: 'Option 3', disabled: true }
 ]
 
-const defaultProps = {
-  modelValue: undefined,
+const defaultProps: AvSelectProps = {
   placeholder: 'Select an option',
   options
 }
 
-function mountWithProps (props = {}) {
+function mountWithProps (props: Partial<AvSelectProps> = {}) {
   return mount(AvSelect, {
     props: { ...defaultProps, ...props },
   })
@@ -40,49 +39,42 @@ BddTest().given('a select component', () => {
         expect(wrapper.text()).toContain('Option 2')
         expect(wrapper.text()).toContain('Option 3')
       })
+
+      BddTest().then('it should fallback to placeholder when selectedItem.itemId is undefined', () => {
+        const wrapperWithUndefinedItemId = mount(AvSelect, {
+          props: {
+            ...defaultProps,
+            selectedItem: {} as AvSelectSelectedOption
+          },
+        })
+
+        expect(wrapperWithUndefinedItemId.find('select').attributes('title')).toBe('Select an option')
+      })
+
+      BddTest().then('it should fallback to placeholder when selectedItem.itemId does not match any option', () => {
+        const wrapperWithUnknownItemId = mount(AvSelect, {
+          props: {
+            ...defaultProps,
+            selectedItem: { itemId: 'unknown-id' }
+          },
+        })
+
+        expect(wrapperWithUnknownItemId.find('select').attributes('title')).toBe('Select an option')
+      })
     })
 
     BddTest().when('the user selects a new value (changes via select)', () => {
-      BddTest().then('it should emit update:modelValue with new value', async () => {
+      BddTest().then('it should emit update:selectedItem with new value', async () => {
         await wrapper.find('select').setValue('1')
-        expect(wrapper.emitted('update:modelValue')).toBeTruthy()
-        expect(wrapper.emitted('update:modelValue')![0]).toEqual(['1'])
+        expect(wrapper.emitted('update:selectedItem')).toBeTruthy()
+        expect(wrapper.emitted('update:selectedItem')![0]).toEqual([{ itemId: '1' }])
       })
-    })
-  })
 
-  BddTest().and('with a valid modelValue', () => {
-    beforeEach(() => {
-      wrapper = mountWithProps({ modelValue: '2' })
-    })
+      BddTest().then('it should fallback to itemId only when selected value is empty', async () => {
+        await wrapper.find('select').setValue('')
 
-    BddTest().when('the component is mounted', () => {
-      BddTest().then('it should use the matching option as title', () => {
-        expect(wrapper.find('select').attributes('title')).toBe('Option 2')
-      })
-    })
-  })
-
-  BddTest().and('with an unknown modelValue', () => {
-    beforeEach(() => {
-      wrapper = mountWithProps({ modelValue: '999' })
-    })
-
-    BddTest().when('the component is mounted', () => {
-      BddTest().then('it should fallback to placeholder', () => {
-        expect(wrapper.find('select').attributes('title')).toBe('Select an option')
-      })
-    })
-  })
-
-  BddTest().and('with a disabled option selected', () => {
-    beforeEach(() => {
-      wrapper = mountWithProps({ modelValue: '3' })
-    })
-
-    BddTest().when('the component is mounted', () => {
-      BddTest().then('it should use the matching option as title', () => {
-        expect(wrapper.find('select').attributes('title')).toBe('Option 3')
+        expect(wrapper.emitted('update:selectedItem')).toBeTruthy()
+        expect(wrapper.emitted('update:selectedItem')![0]).toEqual([{ itemId: '' }])
       })
     })
   })
@@ -194,18 +186,6 @@ BddTest().given('a select component', () => {
 
       BddTest().then('it should not have the aria-disabled attribute', () => {
         expect(wrapper.find('select').attributes('aria-disabled')).toBe(false.toString())
-      })
-    })
-  })
-
-  BddTest().and('with a numeric modelValue', () => {
-    beforeEach(() => {
-      wrapper = mountWithProps({ modelValue: 2 })
-    })
-
-    BddTest().when('the component is mounted', () => {
-      BddTest().then('it should use the matching option as title', () => {
-        expect(wrapper.find('select').attributes('title')).toBe('Option 2')
       })
     })
   })
@@ -355,12 +335,13 @@ BddTest().given('a select component', () => {
 
   BddTest().and('with optgroup options', () => {
     const optgroupOptions = [
-      { value: '1', text: 'Option 1' },
+      { id: '1', label: 'Option 1' },
       {
-        text: 'Group 1',
+        id: 'group1',
+        label: 'Group 1',
         children: [
-          { value: '2', text: 'Option 2' },
-          { value: '3', text: 'Option 3' }
+          { id: '2', label: 'Option 2' },
+          { id: '3', label: 'Option 3' }
         ]
       }
     ]
@@ -380,6 +361,27 @@ BddTest().given('a select component', () => {
         expect(options.length).toBe(4)
         expect(options[2].text()).toBe('Option 2')
         expect(options[3].text()).toBe('Option 3')
+      })
+
+      BddTest().then('it should use selected child label as title when selectedItem points to an optgroup child', () => {
+        const wrapperWithSelectedChild = mount(AvSelect, {
+          props: {
+            ...defaultProps,
+            options: optgroupOptions,
+            selectedItem: { itemId: '2' }
+          },
+        })
+
+        expect(wrapperWithSelectedChild.find('select').attributes('title')).toBe('Option 2')
+      })
+    })
+
+    BddTest().when('the user selects a child option in an optgroup', () => {
+      BddTest().then('it should emit update:selectedItem with itemId and parentId', async () => {
+        await wrapper.find('select').setValue('2')
+
+        expect(wrapper.emitted('update:selectedItem')).toBeTruthy()
+        expect(wrapper.emitted('update:selectedItem')![0]).toEqual([{ itemId: '2', parentId: 'group1' }])
       })
     })
   })
