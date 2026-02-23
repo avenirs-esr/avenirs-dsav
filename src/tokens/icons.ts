@@ -175,6 +175,7 @@ export const PH_ICONS = {
 }
 
 export const RI_ICONS = {
+  BOOK_SHELF_LINE: 'ri:book-shelf-line',
   DICE_1_LINE: 'ri:dice-1-line',
   DICE_4_LINE: 'ri:dice-4-line',
   DRAW_LINE: 'ri:draw-line',
