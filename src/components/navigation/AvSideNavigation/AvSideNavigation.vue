@@ -129,6 +129,7 @@ function handleMenuItemClick (itemId: string) {
                 :class="{
                   'av-side-navigation__menu-item--collapsed': isSideMenuCollapsed,
                 }"
+                :data-testid="`menu-${item.id}-${subitem.id}`"
                 @click="handleSelectItem(subitem.id, item.id)"
               />
             </AvList>

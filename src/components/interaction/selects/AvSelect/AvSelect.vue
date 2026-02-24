@@ -252,6 +252,7 @@ function handleSelectChange (event: Event) {
               <optgroup
                 v-if="option.children.length > 0"
                 :label="option.label"
+                :data-testid="`select-optgroup-${option.id}`"
               >
                 <option
                   v-for="(childOption, childIndex) in option.children"
