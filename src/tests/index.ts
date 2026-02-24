@@ -20,6 +20,7 @@ import { AvTabStub } from '@/components/interaction/tabs/AvTab/AvTab.stub'
 import { AvTabsStub } from '@/components/interaction/tabs/AvTabs/AvTabs.stub'
 import { AvToggleStub } from '@/components/interaction/toggles/AvToggle/AvToggle.stub'
 import { AvBreadcrumbStub } from '@/components/navigation/AvBreadcrumb/AvBreadcrumb.stub'
+import { AvPaginationStub } from '@/components/navigation/AvPagination/AvPagination.stub'
 import { AvSideNavigationStub } from '@/components/navigation/AvSideNavigation/AvSideNavigation.stub'
 import { AvStepperStub } from '@/components/navigation/AvStepper/AvStepper.stub'
 import { AvDrawerStub } from '@/components/overlay/drawers/AvDrawer/AvDrawer.stub'
@@ -46,6 +47,7 @@ export {
   AvListItemStub,
   AvListStub,
   AvModalStub,
+  AvPaginationStub,
   AvPeriodInputStub,
   AvSelectStub,
   AvSideNavigationStub,
