@@ -97,6 +97,7 @@ const emit = defineEmits<{
       :disabled="cancelDisabled"
       :icon-only="iconOnly"
       small
+      data-testid="cancel-button"
       @click="emit('cancel')"
     />
     <AvButton
@@ -109,8 +110,9 @@ const emit = defineEmits<{
       :disabled="confirmDisabled"
       :type="form ? 'submit' : undefined"
       :form="form"
-      small
       :icon-only="iconOnly"
+      small
+      data-testid="confirm-button"
       @click="emit('confirm')"
     />
   </div>
