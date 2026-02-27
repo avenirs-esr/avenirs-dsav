@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type AvIcon from '@/components/base/AvIcon/AvIcon.vue'
+import { useAttrs } from 'vue'
 import { MDI_ICONS } from '@/tokens'
 import { toSentenceCase } from '@/utils'
 
@@ -73,6 +74,10 @@ export interface AvButtonProps {
   noSentenceCase?: boolean
 }
 
+defineOptions({
+  inheritAttrs: false,
+})
+
 const {
   variant = 'DEFAULT',
   theme = 'PRIMARY',
@@ -95,6 +100,7 @@ defineEmits<{
 }>()
 
 const btn = ref<{ focus: () => void } | null>(null)
+const attrs = useAttrs()
 function focus () {
   btn.value?.focus()
 }
@@ -132,6 +138,7 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
 <template>
   <button
     ref="btn"
+    v-bind="attrs"
     :title="iconOnly ? labelToRender : undefined"
     :aria-label="labelToRender"
     :aria-disabled="buttonDisabled"

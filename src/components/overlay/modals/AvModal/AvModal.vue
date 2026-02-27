@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { Slot } from 'vue'
 import { FocusTrap } from 'focus-trap-vue'
+import { type Slot, useAttrs } from 'vue'
 import { MDI_ICONS } from '@/tokens'
 
 /**
@@ -65,6 +65,10 @@ export interface AvModalProps {
   isLoading?: boolean
 }
 
+defineOptions({
+  inheritAttrs: false,
+})
+
 const {
   id,
   opened = false,
@@ -101,6 +105,8 @@ const slots = defineSlots<{
   header?: Slot
   footer?: Slot
 }>()
+
+const attrs = useAttrs()
 
 const realId = id ?? `modal-${crypto.randomUUID()}`
 
@@ -144,6 +150,7 @@ onBeforeUnmount(() => {
       <dialog
         :id="realId"
         ref="modal"
+        v-bind="attrs"
         aria-modal="true"
         :aria-labelledby="`${realId}-header`"
         :role="role"
