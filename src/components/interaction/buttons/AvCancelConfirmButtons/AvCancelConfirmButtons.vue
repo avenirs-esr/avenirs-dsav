@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useAttrs } from 'vue'
 import { AvButton } from '@/components/interaction'
 import { MDI_ICONS } from '@/tokens'
 
@@ -60,6 +61,10 @@ export interface AvCancelConfirmButtonsProps {
   form?: string
 }
 
+defineOptions({
+  inheritAttrs: false,
+})
+
 const {
   cancelLabel,
   cancelIcon = MDI_ICONS.CLOSE_CIRCLE_OUTLINE,
@@ -83,10 +88,15 @@ const emit = defineEmits<{
   (e: 'cancel'): void
   (e: 'confirm'): void
 }>()
+
+const attrs = useAttrs()
 </script>
 
 <template>
-  <div class="av-cancel-confirm-buttons-container av-row av-gap-sm">
+  <div
+    class="av-cancel-confirm-buttons-container av-row av-gap-sm"
+    v-bind="attrs"
+  >
     <AvButton
       v-if="cancelLabel"
       :icon="cancelIcon"
