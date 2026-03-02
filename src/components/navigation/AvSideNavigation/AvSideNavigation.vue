@@ -75,6 +75,14 @@ function handleMenuItemClick (itemId: string) {
     expandedMenus.value.push(itemId)
   }
 }
+
+watchEffect(() => {
+  const parentId = selectedItem.value.parentId ?? selectedItem.value.itemId
+
+  if (parentId && !expandedMenus.value.includes(parentId)) {
+    expandedMenus.value.push(parentId)
+  }
+})
 </script>
 
 <template>
