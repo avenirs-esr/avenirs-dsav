@@ -35,6 +35,10 @@ export interface TabItemProps {
   compact?: boolean
 }
 
+defineOptions({
+  inheritAttrs: false
+})
+
 const {
   panelId,
   tabId,
@@ -133,7 +137,6 @@ watch(() => isSelected, () => {
       v-bind="$attrs"
       :id="tabId"
       ref="button"
-      :data-testid="`test-${tabId}`"
       class="av-tab-item__tab av-row av-gap-xs av-align-center av-justify-center av-text-text2 av-w-full"
       :class="{ 'av-tab-item--compact__tab av-radius-none av-m-none av-py-xs av-px-2xl': compact,
                 'av-radius-lg': !compact,

@@ -139,6 +139,7 @@ onUnmounted(() => {
         :panel-id="`${getIdFromIndex(index)}-panel`"
         :title="tab.props?.title"
         :icon="tab.props?.icon"
+        :data-testid="tab.props?.['data-testid']"
         :compact="compact"
         :is-selected="activeTab === index"
         @click="activeTab = index"
