@@ -79,6 +79,7 @@ const {
 const emit = defineEmits<{
   /**
    * Événement émis lorsque l'utilisateur change de page.
+   * @param e Le nom de l'événement.
    * @param payload L'index de la nouvelle page sélectionnée.
    */
   (e: 'update:current-page', payload: number): void
@@ -97,7 +98,7 @@ const hasPages = computed(() => pages.length > 0)
 
 const updatePage = (index: number) => emit('update:current-page', index)
 const toPage = (index: number) => updatePage(index)
-const tofirstPage = () => toPage(0)
+const toFirstPage = () => toPage(0)
 const toPreviousPage = () => toPage(Math.max(0, currentPage - 1))
 const toNextPage = () => toPage(Math.min(pages.length - 1, currentPage + 1))
 const toLastPage = () => toPage(pages.length - 1)
@@ -124,7 +125,8 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
           class="av-pagination__link av-row av-align-center av-justify-center av-py-xxs av-px-xs av-radius-lg av-gap-xxs"
           :title="firstPageLabel"
           :aria-disabled="currentPage === 0 ? true : undefined"
-          @click.prevent="tofirstPage()"
+          data-testid="first-page-link"
+          @click.prevent="toFirstPage()"
         >
           <AvIcon
             :name="MDI_ICONS.PAGE_FIRST"
@@ -139,6 +141,7 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
           class="av-pagination__link av-row av-align-center av-justify-center av-py-xxs av-px-xs av-radius-lg av-gap-xxs"
           :title="prevPageLabel"
           :aria-disabled="currentPage === 0 ? true : undefined"
+          data-testid="previous-page-link"
           @click.prevent="toPreviousPage()"
         >
           <AvIcon
@@ -163,6 +166,7 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
             class="av-pagination__link av-row av-align-center av-justify-center av-py-xxs av-px-xs av-radius-lg av-gap-xxs"
             :title="page.title"
             :aria-current="isCurrentPage(page) ? 'page' : undefined"
+            :data-testid="`page-link-${pages.indexOf(page)}`"
             @click.prevent="toPage(pages.indexOf(page))"
           >
             <span v-if="displayedPages.indexOf(page) === 0 && startIndex > 0">...</span>
@@ -177,6 +181,7 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
           class="av-pagination__link av-row av-align-center av-justify-center av-py-xxs av-px-xs av-radius-lg av-gap-xxs"
           :title="nextPageLabel"
           :aria-disabled="currentPage === pages.length - 1 ? true : undefined"
+          data-testid="next-page-link"
           @click.prevent="toNextPage()"
         >
           <span
@@ -198,6 +203,7 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
           :href="pages[pages.length - 1]?.href"
           :title="lastPageLabel"
           :aria-disabled="currentPage === pages.length - 1 ? true : undefined"
+          data-testid="last-page-link"
           @click.prevent="toLastPage()"
         >
           <span class="av-sr-only">{{ lastPageLabel }}</span>
