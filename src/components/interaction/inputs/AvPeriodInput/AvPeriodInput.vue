@@ -116,6 +116,12 @@ export interface AvPeriodInputProps {
    * Error message for end input
    */
   endErrorMessage?: string
+
+  /**
+   * If `true`, show individual labels for each input (start/end) instead of a single wrapper label.
+   * Note: if this prop is `true`, the `label` prop will be ignored and the `startLabel` and `endLabel` will be shown instead.
+   */
+  showEachInputLabel?: boolean
 }
 
 const {
@@ -139,6 +145,7 @@ const {
   type = 'date',
   startErrorMessage,
   endErrorMessage,
+  showEachInputLabel = false,
 } = defineProps<AvPeriodInputProps>()
 
 /**
@@ -213,6 +220,7 @@ function onEndUpdate (value: string | number | null) {
     :class="{ 'av-period-input--stacked': stacked }"
   >
     <label
+      v-if="!showEachInputLabel"
       :class="finalLabelClass"
       :for="startId"
       data-testid="common-label"
@@ -233,7 +241,7 @@ function onEndUpdate (value: string | number | null) {
         :model-value="startModelValue"
         :label="startLabel"
         :aria-label="startLabel"
-        :label-visible="false"
+        :label-visible="showEachInputLabel"
         :disabled="startDateDisabled"
         :width="width"
         :min-date="computedStartMinDate"
@@ -249,7 +257,7 @@ function onEndUpdate (value: string | number | null) {
         :model-value="endModelValue"
         :label="endLabel"
         :aria-label="endLabel"
-        :label-visible="false"
+        :label-visible="showEachInputLabel"
         :disabled="endDateDisabled"
         :width="width"
         :min-date="computedEndMinDate"
