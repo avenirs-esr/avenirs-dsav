@@ -329,4 +329,46 @@ BddTest().given('a period input', () => {
       expect(label.classes()).not.toContain('av-hidden')
     })
   })
+
+  BddTest().and('given showEachInputLabel is true', () => {
+    const props: AvPeriodInputProps = {
+      ...requiredProps,
+      showEachInputLabel: true,
+    }
+
+    beforeEach(() => {
+      wrapper = mount(AvPeriodInput, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should not render the common label and show individual input labels', () => {
+      const label = findCommonLabel()
+      expect(label.exists()).toBe(false)
+
+      const startInput = findStartInput()
+      const endInput = findEndInput()
+
+      expect(startInput.props('labelVisible')).toBe(true)
+      expect(endInput.props('labelVisible')).toBe(true)
+    })
+  })
+
+  BddTest().and('given startErrorMessage and endErrorMessage', () => {
+    const props: AvPeriodInputProps = {
+      ...requiredProps,
+      startErrorMessage: 'Start date is required',
+      endErrorMessage: 'End date is required',
+    }
+
+    beforeEach(() => {
+      wrapper = mount(AvPeriodInput, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should pass error messages to the respective inputs', () => {
+      const startInput = findStartInput()
+      const endInput = findEndInput()
+
+      expect(startInput.props('errorMessage')).toBe('Start date is required')
+      expect(endInput.props('errorMessage')).toBe('End date is required')
+    })
+  })
 })
