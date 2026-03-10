@@ -12,9 +12,7 @@ BddTest().given('a period input', () => {
   }
 
   const requiredProps: AvPeriodInputProps = {
-    label: 'Period',
-    startLabel: 'Start',
-    endLabel: 'End',
+    label: 'Period'
   }
 
   function toLocalDateOnly (date?: Date) {
@@ -145,8 +143,6 @@ BddTest().given('a period input', () => {
       label: 'Custom period',
       startModelValue: '2026-01-10',
       endModelValue: '2026-01-20',
-      startLabel: 'Start',
-      endLabel: 'End',
       startDateDisabled: true,
       endDateDisabled: true,
       width: '14.875rem',
@@ -314,7 +310,7 @@ BddTest().given('a period input', () => {
     BddTest().then('it should hide the common label', () => {
       const label = findCommonLabel()
       expect(label.exists()).toBe(true)
-      expect(label.classes()).toContain('av-hidden')
+      expect(label.classes()).toContain('av-sr-only')
     })
   })
 
@@ -334,6 +330,8 @@ BddTest().given('a period input', () => {
     const props: AvPeriodInputProps = {
       ...requiredProps,
       showEachInputLabel: true,
+      startLabel: 'Start',
+      endLabel: 'End',
     }
 
     beforeEach(() => {

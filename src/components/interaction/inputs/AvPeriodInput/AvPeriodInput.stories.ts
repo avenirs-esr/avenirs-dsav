@@ -7,9 +7,18 @@ import AvPeriodInput, { type AvPeriodInputProps } from '@/components/interaction
  * <p>
  *   <span class="b2-regular">
  *     The <code>AvPeriodInput</code> component allows users to select a period
- *     by choosing a start date and an end date under a single label.
+ *     by choosing a start date and an end date.
  *   </span>
  * </p>
+ *
+ * <p>
+ *   <span class="b2-regular">It supports two label modes:</span>
+ * </p>
+ *
+ * <ul>
+ *   <li><span class="b2-regular"><strong>Single label</strong> (default): one label is displayed above both inputs via the <code>label</code> prop.</span></li>
+ *   <li><span class="b2-regular"><strong>Separated labels</strong>: each input has its own label via <code>startLabel</code> and <code>endLabel</code>, enabled with <code>showEachInputLabel</code>.</span></li>
+ * </ul>
  *
  * <h2 class="n2">🏗️ Structure</h2>
  *
@@ -18,7 +27,7 @@ import AvPeriodInput, { type AvPeriodInputProps } from '@/components/interaction
  * </p>
  *
  * <ul>
- *   <li><span class="b2-regular">a wrapper label</span></li>
+ *   <li><span class="b2-regular">a wrapper label (single mode) or individual input labels (separated mode)</span></li>
  *   <li><span class="b2-regular">a start date input</span></li>
  *   <li><span class="b2-regular">a spacer separator</span></li>
  *   <li><span class="b2-regular">an end date input</span></li>
@@ -39,7 +48,7 @@ const meta: Meta<AvPeriodInputProps> = {
   tags: ['autodocs'],
   argTypes: {
     id: { control: 'text' },
-    label: { control: 'text', required: true },
+    label: { control: 'text' },
     labelClass: { control: 'text' },
     labelVisible: { control: 'boolean' },
 
@@ -49,8 +58,9 @@ const meta: Meta<AvPeriodInputProps> = {
     startErrorMessage: { control: 'text' },
     endErrorMessage: { control: 'text' },
 
-    startLabel: { control: 'text', required: true },
-    endLabel: { control: 'text', required: true },
+    showEachInputLabel: { control: 'boolean' },
+    startLabel: { control: 'text' },
+    endLabel: { control: 'text' },
 
     startDateDisabled: { control: 'boolean' },
     endDateDisabled: { control: 'boolean' },
@@ -72,12 +82,11 @@ const meta: Meta<AvPeriodInputProps> = {
   },
   args: {
     label: 'Period',
-    startLabel: 'Start',
-    endLabel: 'End',
     startModelValue: '',
     endModelValue: '',
     startErrorMessage: '',
     endErrorMessage: '',
+    showEachInputLabel: false,
     startDateDisabled: false,
     endDateDisabled: false,
     stacked: false,
@@ -202,5 +211,25 @@ DateTimeLocalType.args = {
 export const HiddenLabel = Template.bind({})
 HiddenLabel.args = {
   labelVisible: false,
+  width: '14.875rem',
+}
+
+export const WithEachInputLabel = Template.bind({})
+WithEachInputLabel.args = {
+  showEachInputLabel: true,
+  startLabel: 'Start date',
+  endLabel: 'End date',
+  width: '14.875rem',
+}
+
+export const WithEachInputLabelAndErrors = Template.bind({})
+WithEachInputLabelAndErrors.args = {
+  showEachInputLabel: true,
+  startLabel: 'Start date',
+  endLabel: 'End date',
+  startModelValue: '2026-01-20',
+  endModelValue: '2026-01-10',
+  startErrorMessage: '',
+  endErrorMessage: 'The end date cannot be before the start date.',
   width: '14.875rem',
 }
