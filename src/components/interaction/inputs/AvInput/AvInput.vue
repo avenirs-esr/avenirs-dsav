@@ -318,12 +318,14 @@ defineExpose({
 
         <component
           :is="isComponent"
-          v-if="isDateInputType(type)"
-          :class="commonInputClasses"
           v-bind="inputProps"
+          v-if="isDateInputType(type)"
+          :id="`${realId}-picker`"
+          :class="commonInputClasses"
           :placeholder="!disabled ? getDateInputPlaceholder(type) : ''"
           type="text"
           readonly
+          aria-hidden="true"
           :value="formatDisplayedDate(type, modelValue, formatDateStr)"
           @click="openPicker"
         />

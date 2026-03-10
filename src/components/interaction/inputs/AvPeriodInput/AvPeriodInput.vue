@@ -8,17 +8,12 @@ import AvInput, { type AvInputProps } from '@/components/interaction/inputs/AvIn
  * This component renders two date inputs (start/end) under a single label.
  * It is designed to be used for period/range selection.
  */
-export interface AvPeriodInputProps {
+interface AvPeriodInputBaseProps {
   /**
    * Unique id for the period input
    * @default `period-input-${crypto.randomUUID()}`
    */
   id?: string
-
-  /**
-   * Label displayed above the two inputs
-   */
-  label: string
 
   /**
    * CSS class for the label
@@ -37,18 +32,6 @@ export interface AvPeriodInputProps {
    * @default ''
    */
   endModelValue?: string
-
-  /**
-   * Label for the start input (optional).
-   * Note: the internal labels are hidden by default since this component has a single wrapper label.
-   */
-  startLabel: string
-
-  /**
-   * Label for the end input (optional).
-   * Note: the internal labels are hidden by default since this component has a single wrapper label.
-   */
-  endLabel: string
 
   /**
    * Optional width for both inputs (CSS value)
@@ -88,41 +71,68 @@ export interface AvPeriodInputProps {
    * @default var(--spacing-sm)
    */
   separatorSpacing?: string
+
   /**
    * If `true`, disable the end date input
    * @default false
    */
   endDateDisabled?: boolean
+
   /**
    * If `true`, disable the start date input
    * @default false
    */
   startDateDisabled?: boolean
+
   /**
    * Input type for both date inputs
    * @default 'date'
    */
   type?: Extract<AvInputProps['type'], 'date' | 'datetime-local' | 'month' | 'time' | 'week'>
+
   /**
    * Whether the label is visible
    * @default true
    */
   labelVisible?: boolean
+
   /**
    * Error message for start input
    */
   startErrorMessage?: string
+
   /**
    * Error message for end input
    */
   endErrorMessage?: string
-
-  /**
-   * If `true`, show individual labels for each input (start/end) instead of a single wrapper label.
-   * Note: if this prop is `true`, the `label` prop will be ignored and the `startLabel` and `endLabel` will be shown instead.
-   */
-  showEachInputLabel?: boolean
 }
+
+export type AvPeriodInputProps = AvPeriodInputBaseProps & (
+  | {
+    /**
+     * If `true`, show individual labels for each input (start/end) instead of a single wrapper label.
+     */
+    showEachInputLabel: true
+    /**
+     * Label for the start input. Required when `showEachInputLabel` is `true`.
+     */
+    startLabel: string
+    /**
+     * Label for the end input. Required when `showEachInputLabel` is `true`.
+     */
+    endLabel: string
+    label?: string
+  }
+  | {
+    showEachInputLabel?: false
+    /**
+     * Label displayed above the two inputs. Required when `showEachInputLabel` is `false` or not set.
+     */
+    label: string
+    startLabel?: string
+    endLabel?: string
+  }
+)
 
 const {
   id,
@@ -197,7 +207,7 @@ const computedEndMaxDate = computed(() => endMaxDate)
 
 const finalLabelClass = computed(() => [
   'av-label',
-  { 'av-hidden': !labelVisible },
+  { 'av-sr-only': !labelVisible },
   labelClass
 ])
 
@@ -231,7 +241,7 @@ function onEndUpdate (value: string | number | null) {
     <div
       class="av-period-input__row"
       :class="{
-        'av-row av-align-end': !stacked,
+        'av-row av-align-start': !stacked,
         'av-col av-align-stretch': stacked,
       }"
     >
