@@ -12,6 +12,7 @@ const stories = [
   'LargeItems',
   'PrimaryItems',
   'WithoutIcons',
+  'WithDisabledItem',
   'SettingsMenu',
 ]
 

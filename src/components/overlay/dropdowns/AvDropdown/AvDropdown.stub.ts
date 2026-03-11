@@ -8,6 +8,7 @@ export const AvDropdownStub = defineComponent({
         v-for="item in items"
         :key="item.name"
         :data-name="item.name"
+        :disabled="item.disabled"
         @click="$emit('itemSelected', item.name)"
       >
         {{ item.label }}

@@ -39,6 +39,7 @@ interface AvDropdownItem {
   name: string // Unique identifier for the item
   label: string // Display text for the item
   icon?: string // Optional icon (MDI icon name)
+  disabled?: boolean // If true, the menu item is disabled.
 }
 ```
 

@@ -151,6 +151,15 @@ WithoutIcons.args = {
   ],
 }
 
+export const WithDisabledItem = Template.bind({})
+WithDisabledItem.args = {
+  items: [
+    { name: 'edit', label: 'Edit' },
+    { name: 'delete', label: 'Delete' },
+    { name: 'share', label: 'Share', disabled: true }
+  ],
+}
+
 export const SettingsMenu = Template.bind({})
 SettingsMenu.args = {
   items: [

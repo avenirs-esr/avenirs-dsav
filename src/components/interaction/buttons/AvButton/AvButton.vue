@@ -242,9 +242,13 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
 
           // === Disabled ===
           &.av-button--disabled {
+            @if $variant == default {
+              border-color: transparent;
+            } @else {
+              border-color: var(--divider);
+            }
             background-color: transparent;
             color: var(--divider);
-            border-color: var(--divider);
             cursor: default;
           }
         }

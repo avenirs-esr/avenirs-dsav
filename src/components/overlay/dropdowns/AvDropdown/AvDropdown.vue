@@ -21,6 +21,11 @@ export interface AvDropdownItem {
    * Optional icon (MDI icon name).
    */
   icon?: string
+
+  /**
+   * If true, the menu item is disabled.
+   */
+  disabled?: boolean
 }
 
 /**
@@ -158,6 +163,7 @@ function handleItemClick (itemName: string, close: () => void) {
           :small="itemSmall"
           :theme="itemTheme"
           :icon-scale="itemIconScale"
+          :disabled="item.disabled"
           no-radius
           @click="handleItemClick(item.name, close)"
         />
