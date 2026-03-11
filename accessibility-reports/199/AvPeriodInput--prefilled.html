@@ -94,16 +94,16 @@
     <main role="main">
         <div style="padding: 2rem">
             <h1>
-                Axe-core® Accessibility Results for DSAV A11y Report - AvPeriodInput--end-date-disabled project
+                Axe-core® Accessibility Results for DSAV A11y Report - AvPeriodInput--prefilled project
             </h1>
             <div class="summarySection">
                 <div class="summary">
                     Page URL:
-                    <a href="http:&#x2F;&#x2F;localhost:6006&#x2F;iframe.html?id&#x3D;components-interaction-inputs-avperiodinput--end-date-disabled&amp;viewMode&#x3D;story" target="_blank" class="card-link">http:&#x2F;&#x2F;localhost:6006&#x2F;iframe.html?id&#x3D;components-interaction-inputs-avperiodinput--end-date-disabled&amp;viewMode&#x3D;story</a>
+                    <a href="http:&#x2F;&#x2F;localhost:6006&#x2F;iframe.html?id&#x3D;components-interaction-inputs-avperiodinput--prefilled&amp;viewMode&#x3D;story" target="_blank" class="card-link">http:&#x2F;&#x2F;localhost:6006&#x2F;iframe.html?id&#x3D;components-interaction-inputs-avperiodinput--prefilled&amp;viewMode&#x3D;story</a>
                     <br />
                 </div>
             </div>
-            <h2>axe-core found <span class="badge badge-warning">1</span> violation</h2>
+            <h2>axe-core found <span class="badge badge-warning">2</span> violations</h2>
             <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
@@ -122,7 +122,7 @@
                         <td>aria-hidden-focus</td>
                         <td>WCAG 2 Level A, WCAG 4.1.2</td>
                         <td>serious</td>
-                        <td>1</td>
+                        <td>2</td>
                     </tr>
                 </tbody>
             </table>
@@ -186,9 +186,26 @@
                                     <td>1</td>
                                     <td>
                                         <p><strong>Element location</strong></p>
-                                        <pre><code class="css text-wrap">#period-input-15fe742a-f90f-4677-a5db-5855dc2fc036__start-picker</code></pre>
+                                        <pre><code class="css text-wrap">#period-input-af0eb7dc-5cce-42d9-babb-12532def17ee__start-picker</code></pre>
                                         <p><strong>Element source</strong></p>
-                                        <pre><code class="html text-wrap">&lt;input data-v-e4b00836&#x3D;&quot;&quot; data-testid&#x3D;&quot;start-date-input&quot; type&#x3D;&quot;text&quot; placeholder&#x3D;&quot;dd&#x2F;mm&#x2F;yyyy&quot; max&#x3D;&quot;2026-01-20&quot; id&#x3D;&quot;period-input-15fe742a-f90f-4677-a5db-5855dc2fc036__start-picker&quot; class&#x3D;&quot;av-input__input av-col av-align-center av-w-full b2-light av-py-xs av-px-sm av-radius-lg&quot; readonly&#x3D;&quot;&quot; aria-hidden&#x3D;&quot;true&quot; value&#x3D;&quot;10&#x2F;01&#x2F;2026&quot;&gt;</code></pre>
+                                        <pre><code class="html text-wrap">&lt;input data-v-e4b00836&#x3D;&quot;&quot; data-testid&#x3D;&quot;start-date-input&quot; type&#x3D;&quot;text&quot; placeholder&#x3D;&quot;dd&#x2F;mm&#x2F;yyyy&quot; max&#x3D;&quot;2026-01-20&quot; id&#x3D;&quot;period-input-af0eb7dc-5cce-42d9-babb-12532def17ee__start-picker&quot; class&#x3D;&quot;av-input__input av-col av-align-center av-w-full b2-light av-py-xs av-px-sm av-radius-lg&quot; readonly&#x3D;&quot;&quot; aria-hidden&#x3D;&quot;true&quot; value&#x3D;&quot;10&#x2F;01&#x2F;2026&quot;&gt;</code></pre>
+                                    </td>
+                                    <td>
+                                        <div class="wrapBreakWord">
+                                            <p>Fix all of the following:</p>
+                                            <ul class="text-muted">
+                                                <li>  Focusable content should be disabled or be removed from the DOM</li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>
+                                        <p><strong>Element location</strong></p>
+                                        <pre><code class="css text-wrap">#period-input-af0eb7dc-5cce-42d9-babb-12532def17ee__end-picker</code></pre>
+                                        <p><strong>Element source</strong></p>
+                                        <pre><code class="html text-wrap">&lt;input data-v-e4b00836&#x3D;&quot;&quot; data-testid&#x3D;&quot;end-date-input&quot; type&#x3D;&quot;text&quot; placeholder&#x3D;&quot;dd&#x2F;mm&#x2F;yyyy&quot; min&#x3D;&quot;2026-01-10&quot; id&#x3D;&quot;period-input-af0eb7dc-5cce-42d9-babb-12532def17ee__end-picker&quot; class&#x3D;&quot;av-input__input av-col av-align-center av-w-full b2-light av-py-xs av-px-sm av-radius-lg&quot; readonly&#x3D;&quot;&quot; aria-hidden&#x3D;&quot;true&quot; value&#x3D;&quot;20&#x2F;01&#x2F;2026&quot;&gt;</code></pre>
                                     </td>
                                     <td>
                                         <div class="wrapBreakWord">
@@ -251,7 +268,7 @@
                                         <td>ARIA hidden element must not be focusable or contain focusable elements</td>
                                         <td>aria-hidden-focus</td>
                                         <td>WCAG 2 Level A, WCAG 4.1.2</td>
-                                        <td>4</td>
+                                        <td>3</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">3</th>
@@ -265,7 +282,7 @@
                                         <td>Elements must meet minimum color contrast ratio thresholds</td>
                                         <td>color-contrast</td>
                                         <td>WCAG 2 Level AA, WCAG 1.4.3</td>
-                                        <td>3</td>
+                                        <td>5</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">5</th>

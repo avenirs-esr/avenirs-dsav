@@ -118,10 +118,10 @@
                 <tbody>
                     <tr>
                         <th scope="row"><a href="#1" class="card-link">1</a></th>
-                        <td>Form elements must have labels</td>
-                        <td>label</td>
+                        <td>ARIA hidden element must not be focusable or contain focusable elements</td>
+                        <td>aria-hidden-focus</td>
                         <td>WCAG 2 Level A, WCAG 4.1.2</td>
-                        <td>critical</td>
+                        <td>serious</td>
                         <td>1</td>
                     </tr>
                 </tbody>
@@ -131,49 +131,43 @@
                 <div class="card-body">
                     <div class="violationCardLine">
                         <p class="card-title">
-                            <a id="1">1.</a> Form elements must have labels
+                            <a id="1">1.</a> ARIA hidden element must not be focusable or contain focusable elements
                         </p>
                         <a
-                            href="https:&#x2F;&#x2F;dequeuniversity.com&#x2F;rules&#x2F;axe&#x2F;4.10&#x2F;label?application&#x3D;playwright"
+                            href="https:&#x2F;&#x2F;dequeuniversity.com&#x2F;rules&#x2F;axe&#x2F;4.10&#x2F;aria-hidden-focus?application&#x3D;playwright"
                             target="_blank"
                             class="card-link violationCardTitleItem learnMore"
                             >Learn more</a
                         >
                     </div>
                     <div class="violationCardLine">
-                        <p class="card-subtitle mb-2 text-muted">label</p>
+                        <p class="card-subtitle mb-2 text-muted">aria-hidden-focus</p>
                         <p class="card-subtitle mb-2 text-muted violationCardTitleItem">
                             WCAG 2 Level A, WCAG 4.1.2
                         </p>
                     </div>
                     <div class="violationCardLine">
-                        <p class="card-text">Ensure every form element has a label</p>
+                        <p class="card-text">Ensure aria-hidden elements are not focusable nor contain focusable elements</p>
                         <p class="card-subtitle mb-2 text-muted violationCardTitleItem">
-                            critical
+                            serious
                         </p>
                     </div>
                     <div class="violationCardLine">
                         <p class="card-subtitle mb-2 text-muted violationCardTitleItem">
                             Issue Tags: 
-                            <span class="badge bg-light text-dark"> cat.forms </span>
+                            <span class="badge bg-light text-dark"> cat.name-role-value </span>
 
                             <span class="badge bg-light text-dark"> wcag2a </span>
 
                             <span class="badge bg-light text-dark"> wcag412 </span>
 
-                            <span class="badge bg-light text-dark"> section508 </span>
-
-                            <span class="badge bg-light text-dark"> section508.22.n </span>
-
                             <span class="badge bg-light text-dark"> TTv5 </span>
 
-                            <span class="badge bg-light text-dark"> TT5.c </span>
+                            <span class="badge bg-light text-dark"> TT6.a </span>
 
                             <span class="badge bg-light text-dark"> EN-301-549 </span>
 
                             <span class="badge bg-light text-dark"> EN-9.4.1.2 </span>
-
-                            <span class="badge bg-light text-dark"> ACT </span>
                         </p>
                     </div>
                     <div class="violationNode">
@@ -192,21 +186,15 @@
                                     <td>1</td>
                                     <td>
                                         <p><strong>Element location</strong></p>
-                                        <pre><code class="css text-wrap">#period-input-e3107716-7186-4ca0-94e8-35ca45889038__start-picker</code></pre>
+                                        <pre><code class="css text-wrap">#period-input-c70a758f-b888-4d1f-bb82-80a8b1fbcae3__end-picker</code></pre>
                                         <p><strong>Element source</strong></p>
-                                        <pre><code class="html text-wrap">&lt;input data-v-e4b00836&#x3D;&quot;&quot; data-testid&#x3D;&quot;start-date-input&quot; disabled&#x3D;&quot;&quot; type&#x3D;&quot;text&quot; placeholder&#x3D;&quot;&quot; max&#x3D;&quot;2026-01-20&quot; id&#x3D;&quot;period-input-e3107716-7186-4ca0-94e8-35ca45889038__start-picker&quot; class&#x3D;&quot;av-input__input av-col av-align-center av-w-full b2-light av-py-xs av-px-sm av-radius-lg&quot; readonly&#x3D;&quot;&quot; value&#x3D;&quot;10&#x2F;01&#x2F;2026&quot;&gt;</code></pre>
+                                        <pre><code class="html text-wrap">&lt;input data-v-e4b00836&#x3D;&quot;&quot; data-testid&#x3D;&quot;end-date-input&quot; type&#x3D;&quot;text&quot; placeholder&#x3D;&quot;dd&#x2F;mm&#x2F;yyyy&quot; min&#x3D;&quot;2026-01-10&quot; id&#x3D;&quot;period-input-c70a758f-b888-4d1f-bb82-80a8b1fbcae3__end-picker&quot; class&#x3D;&quot;av-input__input av-col av-align-center av-w-full b2-light av-py-xs av-px-sm av-radius-lg&quot; readonly&#x3D;&quot;&quot; aria-hidden&#x3D;&quot;true&quot; value&#x3D;&quot;20&#x2F;01&#x2F;2026&quot;&gt;</code></pre>
                                     </td>
                                     <td>
                                         <div class="wrapBreakWord">
-                                            <p>Fix any of the following:</p>
+                                            <p>Fix all of the following:</p>
                                             <ul class="text-muted">
-                                                <li>  Element does not have an implicit (wrapped) &lt;label&gt;</li>
-                                                <li>  Element does not have an explicit &lt;label&gt;</li>
-                                                <li>  aria-label attribute does not exist or is empty</li>
-                                                <li>  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty</li>
-                                                <li>  Element has no title attribute</li>
-                                                <li>  Element has an empty placeholder attribute</li>
-                                                <li>  Element&#39;s default semantics were not overridden with role&#x3D;&quot;none&quot; or role&#x3D;&quot;presentation&quot;</li>
+                                                <li>  Focusable content should be disabled or be removed from the DOM</li>
                                             </ul>
                                         </div>
                                     </td>
@@ -263,7 +251,7 @@
                                         <td>ARIA hidden element must not be focusable or contain focusable elements</td>
                                         <td>aria-hidden-focus</td>
                                         <td>WCAG 2 Level A, WCAG 4.1.2</td>
-                                        <td>3</td>
+                                        <td>4</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">3</th>
@@ -298,7 +286,7 @@
                                         <td>Form field must not have multiple label elements</td>
                                         <td>form-field-multiple-labels</td>
                                         <td>WCAG 2 Level A, WCAG 3.3.2</td>
-                                        <td>3</td>
+                                        <td>1</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">8</th>
@@ -319,14 +307,14 @@
                                         <td>Form elements should have a visible label</td>
                                         <td>label-title-only</td>
                                         <td>Best practice</td>
-                                        <td>4</td>
+                                        <td>2</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">11</th>
                                         <td>Form elements must have labels</td>
                                         <td>label</td>
                                         <td>WCAG 2 Level A, WCAG 4.1.2</td>
-                                        <td>3</td>
+                                        <td>2</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">12</th>
