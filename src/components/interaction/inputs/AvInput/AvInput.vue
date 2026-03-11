@@ -326,6 +326,7 @@ defineExpose({
           type="text"
           readonly
           aria-hidden="true"
+          tabindex="-1"
           :value="formatDisplayedDate(type, modelValue, formatDateStr)"
           @click="openPicker"
         />
