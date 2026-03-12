@@ -151,6 +151,15 @@ WithoutIcons.args = {
   ],
 }
 
+export const IconOnlyItems = Template.bind({})
+IconOnlyItems.args = {
+  items: [
+    { name: 'edit', label: 'Edit', icon: MDI_ICONS.PENCIL_OUTLINE, iconOnly: true },
+    { name: 'delete', label: 'Delete', icon: MDI_ICONS.TRASH_CAN_OUTLINE, iconOnly: true },
+    { name: 'share', label: 'Share', icon: MDI_ICONS.LINK, iconOnly: true }
+  ],
+}
+
 export const WithDisabledItem = Template.bind({})
 WithDisabledItem.args = {
   items: [

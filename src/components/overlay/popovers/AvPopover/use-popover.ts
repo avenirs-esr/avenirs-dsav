@@ -73,10 +73,10 @@ export function usePopover (triggerRef: Ref<HTMLElement | null>, popoverRef: Ref
   }
 
   const handleClickOutside = (event: MouseEvent) => {
-    if (
-      triggerRef.value
-      && !triggerRef.value.contains(event.target as Node)
-    ) {
+    const target = event.target as Node
+    const clickedOutsideTrigger = !triggerRef.value || !triggerRef.value.contains(target)
+    const clickedOutsidePopover = !popoverRef.value || !popoverRef.value.contains(target)
+    if (clickedOutsideTrigger && clickedOutsidePopover) {
       closePopover()
     }
   }

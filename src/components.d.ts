@@ -47,6 +47,7 @@ declare module 'vue' {
     AvRadioButton: typeof import('./components/interaction/radios/AvRadioButton/AvRadioButton.vue')['default']
     AvRadioButtonSet: typeof import('./components/interaction/radios/AvRadioButtonSet/AvRadioButtonSet.vue')['default']
     AvRichButton: typeof import('./components/interaction/buttons/AvRichButton/AvRichButton.vue')['default']
+    AvRichTextEditor: typeof import('./components/interaction/inputs/AvRichTextEditor/AvRichTextEditor.vue')['default']
     AvSearchBar: typeof import('./components/interaction/inputs/AvSearchBar/AvSearchBar.vue')['default']
     AvSelect: typeof import('./components/interaction/selects/AvSelect/AvSelect.vue')['default']
     AvSideMenu: typeof import('./components/navigation/AvSideMenu/AvSideMenu.vue')['default']
@@ -69,9 +70,13 @@ declare module 'vue' {
     NavigationMenuItem: typeof import('./components/navigation/AvNavigation/components/NavigationMenuItem/NavigationMenuItem.vue')['default']
     NavigationMenuLink: typeof import('./components/navigation/AvNavigation/components/NavigationMenuLink/NavigationMenuLink.vue')['default']
     RadioButton: typeof import('./components/interaction/radios/AvRadioButtonSet/components/RadioButton.vue')['default']
+    RichTextToolbar: typeof import('./components/interaction/inputs/AvRichTextEditor/components/RichTextToolbar/RichTextToolbar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TabContent: typeof import('./components/interaction/tabs/AvTabs/components/TabContent.vue')['default']
     TabItem: typeof import('./components/interaction/tabs/AvTabs/components/TabItem.vue')['default']
+    ToolbarImagePopover: typeof import('./components/interaction/inputs/AvRichTextEditor/components/ToolbarImagePopover/ToolbarImagePopover.vue')['default']
+    ToolbarLinkPopover: typeof import('./components/interaction/inputs/AvRichTextEditor/components/ToolbarLinkPopover/ToolbarLinkPopover.vue')['default']
+    ToolbarTableSettingsDropdown: typeof import('./components/interaction/inputs/AvRichTextEditor/components/ToolbarTableSettingsDropdown/ToolbarTableSettingsDropdown.vue')['default']
   }
 }

@@ -44,6 +44,8 @@ _Last updated: 2026-01-06_
 
 ### Inputs
 - [AvInput](interaction/inputs/AvInput/AvInput.md)
+- [AvPeriodInput](interaction/inputs/AvPeriodInput/AvPeriodInput.md)
+- [AvRichTextEditor](interaction/inputs/AvRichTextEditor/AvRichTextEditor.md)
 - [AvSearchBar](interaction/inputs/AvSearchBar/AvSearchBar.md)
 
 ### Lists

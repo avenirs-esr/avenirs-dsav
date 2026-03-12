@@ -228,8 +228,15 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
           color: map.get($style, color);
           border: 1px solid map.get($style, border);
 
+          // === ARIA pressed ===
+          &[aria-pressed="true"]:not(.av-button--disabled) {
+            background-color: map.get($colors, hover-bg);;
+            color: map.get($colors, text);
+          }
+
           // === Hover ===
-          &:hover:not(.av-button--disabled) {
+          &:hover:not(.av-button--disabled),
+          &:hover:not([aria-pressed="true"]) {
             @if $variant == default {
               background-color: map.get($colors, hover-bg);
               color: map.get($colors, text);
@@ -240,8 +247,14 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
             }
           }
 
+          &:hover[aria-pressed="true"] {
+            background-color: map.get($colors, hover-bg);
+            color: map.get($colors, text);
+          }
+
           // === Disabled ===
-          &.av-button--disabled {
+          &.av-button--disabled,
+          &.av-button--disabled:hover {
             @if $variant == default {
               border-color: transparent;
             } @else {

@@ -23,6 +23,11 @@ export interface AvDropdownItem {
   icon?: string
 
   /**
+   * If true, only the icon is displayed, without the label.
+   */
+  iconOnly?: boolean
+
+  /**
    * If true, the menu item is disabled.
    */
   disabled?: boolean
@@ -41,6 +46,12 @@ export interface AvDropdownProps {
    * Accessibility label for the trigger button.
    */
   triggerAriaLabel: string
+
+  /**
+   * Applies the active state style to the trigger button.
+   * @default false
+   */
+  triggerActive?: boolean
 
   /**
    * Icon for the trigger button.
@@ -109,6 +120,7 @@ const {
   triggerVariant = 'OUTLINED',
   triggerSmall = true,
   triggerNoSentenceCase = false,
+  triggerActive = false,
   width = '15rem',
   padding = 'var(--spacing-xs)',
   itemSmall = true,
@@ -148,6 +160,7 @@ function handleItemClick (itemName: string, close: () => void) {
         :small="triggerSmall"
         :no-sentence-case="triggerNoSentenceCase"
         :icon-only="!triggerLabel"
+        :active="triggerActive"
         @click="toggle"
       />
     </template>
@@ -164,6 +177,7 @@ function handleItemClick (itemName: string, close: () => void) {
           :theme="itemTheme"
           :icon-scale="itemIconScale"
           :disabled="item.disabled"
+          :icon-only="item.iconOnly"
           no-radius
           @click="handleItemClick(item.name, close)"
         />

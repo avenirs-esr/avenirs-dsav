@@ -22,6 +22,7 @@ The dropdown consists of:
 | --- | --- | --- | --- | --- |
 | `items` | `AvDropdownItem[]` | | ✅ | Array of menu items to display. Each item must have `name` and `label`, with optional `icon`. |
 | `triggerAriaLabel` | `string` | | ✅ | Accessibility label for the trigger button. |
+| `triggerActive` | `boolean` | `false` | | Applies the active state style to the trigger button. |
 | `triggerIcon` | `string` | `MDI_ICONS.DOTS_VERTICAL` | | Icon for the trigger button. |
 | `triggerLabel` | `string` | `undefined` | | Text label for the trigger button. If not provided, only the icon is shown. |
 | `triggerVariant` | `'DEFAULT' \| 'OUTLINED' \| 'FLAT'` | `'OUTLINED'` | | Variant of the trigger button. |
@@ -39,6 +40,7 @@ interface AvDropdownItem {
   name: string // Unique identifier for the item
   label: string // Display text for the item
   icon?: string // Optional icon (MDI icon name)
+  iconOnly?: boolean // If true, only the icon is displayed, without the label.
   disabled?: boolean // If true, the menu item is disabled.
 }
 ```
