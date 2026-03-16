@@ -44,7 +44,7 @@ export function useRichTextEditor ({ content, maxlength, onUpdate }: UseRichText
     content,
     onUpdate: ({ editor }) => onUpdate?.(editor),
     editorProps: {
-      attributes: { class: 'av-rich-text-editor' },
+      attributes: { class: 'av--mx-sm av-px-sm av-py-xxs' },
       handleClick: (view, pos, event) => {
         const { schema } = view.state
         const $pos = view.state.doc.resolve(pos)
