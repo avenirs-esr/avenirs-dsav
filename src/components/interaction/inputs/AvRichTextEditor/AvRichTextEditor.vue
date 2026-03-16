@@ -89,6 +89,11 @@ watch(
   overflow: hidden;
 
   :deep() {
+    .ProseMirror {
+      min-height: var(--dimension-7xl);
+      background-color: var(--other-background-base);
+    }
+
     a {
       color: var(--dark-background-primary1);
       text-decoration: underline;
