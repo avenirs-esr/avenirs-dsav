@@ -34,6 +34,16 @@ const editor = useRichTextEditor({
 })
 
 watch(
+  () => editor.value,
+  (editorInstance) => {
+    if (editorInstance && charCount.value === undefined) {
+      charCount.value = editorInstance.storage.characterCount.characters()
+    }
+  },
+  { immediate: true }
+)
+
+watch(
   () => model.value,
   (value) => {
     if (!editor.value) {
