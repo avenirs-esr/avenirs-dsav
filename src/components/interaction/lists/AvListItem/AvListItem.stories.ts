@@ -248,13 +248,7 @@ SubCustomColors.args = {
   onClick: () => alert('Custom colors subitem clicked!')
 }
 
-export const WithCustomContent = Template.bind({})
-WithCustomContent.args = {
-  title: 'Custom Content',
-  icon: MDI_ICONS.DOTS_VERTICAL,
-  onClick: () => alert('Custom content item clicked!')
-}
-WithCustomContent.render = args => ({
+const TemplateWithCustomContent: StoryFn<AvListItemProps> = args => ({
   components: { AvList, AvListItem },
   setup () {
     return { args, MDI_ICONS }
@@ -265,7 +259,7 @@ WithCustomContent.render = args => ({
         <AvListItem v-bind="args">
           <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
             <button style="padding: 0.25rem 0.5rem; border: 1px solid #ccc; border-radius: 0.25rem; background: white;">Edit</button>
-            <button style="padding: 0.25rem 0.5rem; border: 1px solid #dc2626; border-radius: 0.25rem; background: #fef2f2; color: #dc2626;">Delete</button>
+            <button style="padding: 0.25rem 0.5rem; border: 1px solid #dc2626; border-radius: 0.25rem; background: #fef2f2;">Delete</button>
           </div>
         </AvListItem>
       </AvList>
@@ -273,16 +267,19 @@ WithCustomContent.render = args => ({
   `
 })
 
-export const WithAccessibility = Template.bind({})
-WithAccessibility.args = {
-  title: 'Accessible Item',
-  description: 'Item with custom accessibility attributes',
-  icon: MDI_ICONS.INFORMATION_OUTLINE,
-  ariaLabel: 'Custom accessible label for screen readers',
-  ariaDescribedby: 'helper-text',
-  onClick: () => alert('Accessible item clicked!')
+export const WithCustomContent = TemplateWithCustomContent.bind({})
+WithCustomContent.args = {
+  title: 'Custom Content',
+  icon: MDI_ICONS.DOTS_VERTICAL,
 }
-WithAccessibility.render = args => ({
+WithCustomContent.render = args => ({
+  components: { AvList, AvListItem },
+  setup () {
+    return { args, MDI_ICONS }
+  },
+})
+
+const TemplateWithAccessibility: StoryFn<AvListItemProps> = args => ({
   components: { AvList, AvListItem },
   setup () {
     return { args, MDI_ICONS }
@@ -298,3 +295,13 @@ WithAccessibility.render = args => ({
     </div>
   `
 })
+
+export const WithAccessibility = TemplateWithAccessibility.bind({})
+WithAccessibility.args = {
+  title: 'Accessible Item',
+  description: 'Item with custom accessibility attributes',
+  icon: MDI_ICONS.INFORMATION_OUTLINE,
+  ariaLabel: 'Custom accessible label for screen readers',
+  ariaDescribedby: 'helper-text',
+  onClick: () => alert('Accessible item clicked!')
+}

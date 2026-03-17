@@ -1,4 +1,5 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
+import AvCheckboxListItem from '@/components/interaction/lists/AvCheckboxListItem/AvCheckboxListItem.vue'
 import AvList, { type AvListProps } from '@/components/interaction/lists/AvList/AvList.vue'
 import AvListItem from '@/components/interaction/lists/AvListItem/AvListItem.vue'
 import { MDI_ICONS } from '@/tokens'
@@ -184,4 +185,64 @@ MediumSize.args = {
 export const LargeSize = Template.bind({})
 LargeSize.args = {
   size: 'large'
+}
+
+const TemplateCheckboxList: StoryFn<AvListProps> = args => ({
+  components: { AvList, AvCheckboxListItem },
+  setup () {
+    const model = ref<(string | number)[]>([])
+
+    return {
+      args,
+      model,
+      MDI_ICONS
+    }
+  },
+  template: `
+    <AvList v-bind="args">
+      <AvCheckboxListItem v-model="model" list-id="checkbox-list" id="first-item" label="First Item" />
+      <AvCheckboxListItem v-model="model" list-id="checkbox-list" id="second-item" label="Second Item" :icon="MDI_ICONS.STAR" />
+      <AvCheckboxListItem v-model="model" list-id="checkbox-list" id="third-item" label="Third Item (disabled)" :disabled="true" />
+    </AvList>
+  `
+})
+
+export const CheckboxList = TemplateCheckboxList.bind({})
+CheckboxList.args = {
+  size: 'xsmall',
+  bordered: true,
+  borderRadius: 'var(--radius-md)',
+  backgroundColor: 'var(--surface-alt)'
+}
+
+const TemplateCheckboxListCustom: StoryFn<AvListProps> = args => ({
+  components: { AvList, AvCheckboxListItem },
+  setup () {
+    const model = ref<(string | number)[]>([])
+
+    return {
+      args,
+      model,
+      MDI_ICONS
+    }
+  },
+  template: `
+    <AvList v-bind="args">
+      <AvCheckboxListItem v-model="model" list-id="checkbox-list" id="first-item">
+        <span class="b2-bold">Custom item <span class="caption-light">with caption light description</span></span>
+      </AvCheckboxListItem>
+      <AvCheckboxListItem v-model="model" list-id="checkbox-list" id="second-item" label="Basic item with icon" :icon="MDI_ICONS.STAR" />
+      <AvCheckboxListItem v-model="model" list-id="checkbox-list" id="third-item" :icon="MDI_ICONS.STAR">
+        <div class="av-col"><span>Custom item on two lines</span><span>and with icon in props</span></div>
+      </AvCheckboxListItem>
+    </AvList>
+  `
+})
+
+export const CheckboxListCustomItems = TemplateCheckboxListCustom.bind({})
+CheckboxListCustomItems.args = {
+  size: 'xsmall',
+  bordered: true,
+  borderRadius: 'var(--radius-md)',
+  backgroundColor: 'var(--surface-alt)'
 }

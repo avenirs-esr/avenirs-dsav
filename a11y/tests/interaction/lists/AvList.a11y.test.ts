@@ -10,6 +10,8 @@ const stories = [
   'SmallSize',
   'MediumSize',
   'LargeSize',
+  'CheckboxList',
+  'CheckboxListCustomItems'
 ]
 
 testStories(component, title, stories)
