@@ -49,6 +49,7 @@ _Last updated: 2026-01-06_
 - [AvSearchBar](interaction/inputs/AvSearchBar/AvSearchBar.md)
 
 ### Lists
+- [AvCheckboxListItem](interaction/lists/AvCheckboxListItem/AvCheckboxListItem.md)
 - [AvList](interaction/lists/AvList/AvList.md)
 - [AvListItem](interaction/lists/AvListItem/AvListItem.md)
 

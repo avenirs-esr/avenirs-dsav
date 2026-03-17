@@ -11,6 +11,7 @@ import { AvCheckboxStub } from '@/components/interaction/checkboxes/AvCheckbox/A
 import { AvCheckboxesGroupStub } from '@/components/interaction/checkboxes/AvCheckboxesGroup/AvCheckboxesGroup.stub'
 import { AvInputStub } from '@/components/interaction/inputs/AvInput/AvInput.stub'
 import { AvPeriodInputStub } from '@/components/interaction/inputs/AvPeriodInput/AvPeriodInput.stub'
+import { AvCheckboxListItemStub } from '@/components/interaction/lists/AvCheckboxListItem/AvCheckboxListItem.stub'
 import { AvListStub } from '@/components/interaction/lists/AvList/AvList.stub'
 import { AvListItemStub } from '@/components/interaction/lists/AvListItem/AvListItem.stub'
 import { AvTagPickerStub } from '@/components/interaction/pickers/AvTagPicker/AvTagPicker.stub'
@@ -38,6 +39,7 @@ export {
   AvCancelConfirmButtonsStub,
   AvCardStub,
   AvCheckboxesGroupStub,
+  AvCheckboxListItemStub,
   AvCheckboxStub,
   AvDrawerStub,
   AvDropdownStub,

@@ -121,6 +121,7 @@ export default defineConfig({
                 {
                   text: 'Lists',
                   items: [
+                    { text: 'AvCheckboxListItem', link: '/components/interaction/lists/AvCheckboxListItem/AvCheckboxListItem.md' },
                     { text: 'AvList', link: '/components/interaction/lists/AvList/AvList.md' },
                     { text: 'AvListItem', link: '/components/interaction/lists/AvListItem/AvListItem.md' },
                   ],
