@@ -236,6 +236,7 @@ function handleMouseMove (event: MouseEvent) {
 
 <style lang="scss" scoped>
 .av-card {
+  box-sizing: border-box;
   border: 1px solid transparent;
   overflow: hidden;
 
