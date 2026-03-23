@@ -16,7 +16,7 @@ export const AvCheckboxListItemStub = defineComponent({
       <input
         type="checkbox"
         :id="id"
-        :name="name"
+        :name="label"
         :checked="modelValue.includes(id)"
         @change="$emit('update:modelValue', 
           modelValue.includes(id)
@@ -25,7 +25,7 @@ export const AvCheckboxListItemStub = defineComponent({
         )"
         :data-testid="'checkbox-' + id"
       />
-      <label :for="id"><slot name="label">{{ label }}</slot></label>
+      <label :for="id"><slot>{{ label }}</slot></label>
     </div>
   `
 })
