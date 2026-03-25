@@ -20,25 +20,34 @@ export interface AvSideNavigationProps {
    * List of items to display in the side navigation.
    */
   items: AvSideNavigationMenuItem[]
+
   /**
    * The currently selected item ID.
    */
   selectedItem?: AvSideNavigationSelectedItem
+
   /**
    * Whether the side menu is collapsed or not.
    */
   isSideMenuCollapsed?: boolean
+
+  /**
+   * Width of the side menu when expanded.
+   */
+  width?: string
+
   /**
    * Width of the side menu when collapsed.
    */
   collapsedWidth?: string
+
   /**
    * Color of selected item background and icon.
    */
   selectedItemColor?: string
 }
 
-const { items, collapsedWidth = '3.5rem', selectedItemColor } = defineProps<AvSideNavigationProps>()
+const { items, width = 'fit-content', collapsedWidth = '3.5rem', selectedItemColor } = defineProps<AvSideNavigationProps>()
 
 const selectedItem = defineModel<AvSideNavigationSelectedItem>('selectedItem', {
   default: () => ({ itemId: '' })
@@ -88,6 +97,7 @@ watchEffect(() => {
 <template>
   <AvSideMenu
     v-model:collapsed="isSideMenuCollapsed"
+    :width="width"
     :collapsed-width="collapsedWidth"
     :color="selectedItemColor"
   >

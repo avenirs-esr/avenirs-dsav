@@ -108,25 +108,25 @@ const meta: Meta<typeof AvSideNavigation> = {
   tags: ['autodocs'],
   argTypes: {
     items: {
-      description: 'Array of navigation items with id, label, and icon',
       control: { type: 'object' }
     },
+    width: {
+      control: { type: 'text' }
+    },
     collapsedWidth: {
-      description: 'Width of the side menu when collapsed',
       control: { type: 'text' }
     },
     selectedItem: {
-      description: 'Currently selected item ID (v-model)',
       control: { type: 'object' }
     },
     isSideMenuCollapsed: {
-      description: 'Whether the side menu is collapsed (v-model)',
       control: { type: 'boolean' }
     }
   },
   args: {
     items: mockItems,
-    collapsedWidth: '3.5rem'
+    collapsedWidth: '3.5rem',
+    width: 'fit-content'
   }
 }
 
@@ -211,7 +211,36 @@ export const Collapsed: Story = {
   })
 }
 
-export const CustomWidth: Story = {
+export const CustomdWidth: Story = {
+  render: args => ({
+    components: { AvSideNavigation },
+    setup () {
+      const selectedItem = ref({ itemId: 'experiences' })
+      const isSideMenuCollapsed = ref(false)
+      return { args, selectedItem, isSideMenuCollapsed }
+    },
+    template: `
+      <div style="height: 400px; display: flex;">
+        <AvSideNavigation 
+          v-bind="args"
+          v-model:selected-item="selectedItem"
+          v-model:is-side-menu-collapsed="isSideMenuCollapsed"
+        />
+        <div style="flex: 1; padding: 1rem; background: #f5f5f5;">
+          <p><strong>Selected item:</strong> {{ selectedItem.itemId }}</p>
+          <p><strong>Parent item:</strong> {{ selectedItem.parentId }}</p>
+          <p><strong>Menu collapsed:</strong> {{ isSideMenuCollapsed }}</p>
+          <p>This story demonstrates custom width (20rem instead of default fit-content).</p>
+        </div>
+      </div>
+    `
+  }),
+  args: {
+    width: '20rem'
+  }
+}
+
+export const CustomCollapsedWidth: Story = {
   render: args => ({
     components: { AvSideNavigation },
     setup () {
