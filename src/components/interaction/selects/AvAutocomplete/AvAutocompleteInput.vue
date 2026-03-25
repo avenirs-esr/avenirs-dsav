@@ -32,11 +32,17 @@ const displayValue = computed(() => {
   if (!props.multiSelect && selectedItems.value.length > 0) {
     return getDisplayLabel(selectedItems.value[0])
   }
-  if (props.multiSelect && selectedItems.value.length > 0) {
-    if (props.showSelectedSection) {
-      return `${selectedItems.value.length} element(s) selected`
+
+  if (props.multiSelect) {
+    if (!props.displaySelectionInInput) {
+      return searchQuery.value
     }
-    else {
+
+    if (selectedItems.value.length > 0) {
+      if (props.showSelectedSection) {
+        return `${selectedItems.value.length} element(s) selected`
+      }
+
       return selectedItems.value.map(getDisplayLabel).join(', ')
     }
   }

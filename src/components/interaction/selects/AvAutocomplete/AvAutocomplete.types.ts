@@ -80,6 +80,12 @@ export interface AvAutocompleteProps<T extends AvAutocompleteOption = AvAutocomp
    */
   showSelectedSection?: boolean
   /**
+   * Whether selected items should be displayed inside the input.
+   * When false in multi-select mode, the input only shows the current search query.
+   * @default true
+   */
+  displaySelectionInInput?: boolean
+  /**
    * Delay before closing dropdown when focus is lost (in milliseconds)
    * @default 150
    */

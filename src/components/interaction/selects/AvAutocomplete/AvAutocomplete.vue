@@ -21,6 +21,7 @@ const props = withDefaults(defineProps<AvAutocompleteProps<T>>(), {
   debounceDelay: 300,
   enableLoadMore: false,
   showSelectedSection: false,
+  displaySelectionInInput: true,
   blurCloseDelay: 150,
   loadMoreThrottleDelay: 200,
   serverSideFiltering: false
