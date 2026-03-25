@@ -287,4 +287,27 @@ BddTest().given('an autocomplete component', () => {
       expect(wrapper.props('modelValue')).toEqual([mockOptions[0]])
     })
   })
+
+  BddTest().when('component has displaySelectionInInput disabled', () => {
+    beforeEach(() => {
+      wrapper = mount<typeof AvAutocomplete>(AvAutocomplete, {
+        props: {
+          options: mockOptions,
+          modelValue: [mockOptions[0], mockOptions[1]],
+          multiSelect: true,
+          displaySelectionInInput: false
+        }
+      })
+    })
+
+    BddTest().then('it should render correctly with displaySelectionInInput disabled', () => {
+      const input = wrapper.findComponent({ name: 'AvAutocompleteInput' })
+      const dropdown = wrapper.findComponent({ name: 'AvAutocompleteDropdown' })
+      const selectedTags = wrapper.findComponent({ name: 'AvAutocompleteSelectedTags' })
+
+      expect(input.exists()).toBe(true)
+      expect(dropdown.exists()).toBe(true)
+      expect(selectedTags.exists()).toBe(true)
+    })
+  })
 })

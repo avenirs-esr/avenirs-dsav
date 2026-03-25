@@ -25,28 +25,29 @@ The component integrates:
 
 ## 🏷️ Props
 
-| Name | Type | Default | Mandatory | Description |
-| --- | --- | --- | --- | --- |
-| `id` | `string` | Auto-generated | | ID of the input element. |
-| `inputOptions` | `Omit<AvInputProps, 'id' \| 'modelValue'>` | `{}` | | Input-related options and configuration. |
-| `options` | `T[]` | `[]` | | Options available for selection. |
-| `multiSelect` | `boolean` | `false` | | Whether to allow multi-selection. |
-| `getOptionLabel` | `(option: T) => string` | | | Function to get display text from option. |
-| `getOptionKey` | `(option: T) => string \| number` | | | Function to get unique key from option. |
-| `filterOptions` | `(options: T[], query: string) => T[]` | | | Function to filter options based on query. |
-| `dropdownWidth` | `string` | `'100%'` | | Width of the dropdown. |
-| `maxDropdownHeight` | `string` | `'20rem'` | | Maximum height of the dropdown. |
+| Name | Type | Default                                                  | Mandatory | Description |
+| --- | --- |----------------------------------------------------------| --- | --- |
+| `id` | `string` | Auto-generated                                           | | ID of the input element. |
+| `inputOptions` | `Omit<AvInputProps, 'id' \| 'modelValue'>` | `{}`                                                     | | Input-related options and configuration. |
+| `options` | `T[]` | `[]`                                                     | | Options available for selection. |
+| `multiSelect` | `boolean` | `false`                                                  | | Whether to allow multi-selection. |
+| `getOptionLabel` | `(option: T) => string` |                                                          | | Function to get display text from option. |
+| `getOptionKey` | `(option: T) => string \| number` |                                                          | | Function to get unique key from option. |
+| `filterOptions` | `(options: T[], query: string) => T[]` |                                                          | | Function to filter options based on query. |
+| `dropdownWidth` | `string` | `'100%'`                                                 | | Width of the dropdown. |
+| `maxDropdownHeight` | `string` | `'20rem'`                                                | | Maximum height of the dropdown. |
 | `listOptions` | `AvListProps` | `{ size: 'small', ariaLabel: 'Available options list' }` | | Props to pass to the AvList component. |
-| `scrollbarClass` | `string` | `'av-autocomplete__scrollbar--default'` | | CSS class to apply to the scrollbar. |
-| `dropdownClass` | `string` | `'av-autocomplete__dropdown--default'` | | CSS class to apply to the dropdown. |
-| `loading` | `boolean` | `false` | | Whether the component is in loading state. |
-| `debounceDelay` | `number` | `300` | | Debounce delay for search input in milliseconds. |
-| `maxResults` | `number` | | | Maximum number of results to display. |
-| `enableLoadMore` | `boolean` | `false` | | Whether to enable pagination with scroll-to-bottom loading. |
-| `showSelectedSection` | `boolean` | `false` | | Whether to show the selected items section below the input. |
-| `blurCloseDelay` | `number` | `150` | | Delay before closing dropdown when focus is lost (in milliseconds). |
-| `loadMoreThrottleDelay` | `number` | `200` | | Throttle delay for scroll-to-bottom load more (in milliseconds). |
-| `serverSideFiltering` | `boolean` | `false` | | Whether filtering is handled server-side. When true, client-side filtering is bypassed. |
+| `scrollbarClass` | `string` | `'av-autocomplete__scrollbar--default'`                  | | CSS class to apply to the scrollbar. |
+| `dropdownClass` | `string` | `'av-autocomplete__dropdown--default'`                   | | CSS class to apply to the dropdown. |
+| `loading` | `boolean` | `false`                                                  | | Whether the component is in loading state. |
+| `debounceDelay` | `number` | `300`                                                    | | Debounce delay for search input in milliseconds. |
+| `maxResults` | `number` |                                                          | | Maximum number of results to display. |
+| `enableLoadMore` | `boolean` | `false`                                                  | | Whether to enable pagination with scroll-to-bottom loading. |
+| `showSelectedSection` | `boolean` | `false`                                                  | | Whether to show the selected items section below the input. |
+| `displaySelectionInInput` | `boolean` | `true`                                                   | | Whether selected items should be displayed inside the input. |
+| `blurCloseDelay` | `number` | `150`                                                    | | Delay before closing dropdown when focus is lost (in milliseconds). |
+| `loadMoreThrottleDelay` | `number` | `200`                                                    | | Throttle delay for scroll-to-bottom load more (in milliseconds). |
+| `serverSideFiltering` | `boolean` | `false`                                                  | | Whether filtering is handled server-side. When true, client-side filtering is bypassed. |
 
 ## 🔊 Events
 

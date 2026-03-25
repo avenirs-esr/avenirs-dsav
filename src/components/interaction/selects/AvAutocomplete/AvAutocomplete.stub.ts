@@ -10,6 +10,7 @@ export const AvAutocompleteStub = defineComponent({
     'multiSelect',
     'serverSideFiltering',
     'enableLoadMore',
+    'displaySelectionInInput',
     'maxDropdownHeight'
   ],
   emits: ['update:modelValue', 'search', 'clear', 'loadMore'],

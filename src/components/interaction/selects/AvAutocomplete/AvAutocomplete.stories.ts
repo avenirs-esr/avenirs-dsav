@@ -63,6 +63,10 @@ const meta = {
     maxResults: { control: 'number' },
     enableLoadMore: { control: 'boolean' },
     showSelectedSection: { control: 'boolean' },
+    displaySelectionInInput: {
+      control: 'boolean',
+      description: 'Whether selected items should be displayed inside the input in multi-select mode'
+    },
     blurCloseDelay: { control: 'number' },
     loadMoreThrottleDelay: { control: 'number' },
     serverSideFiltering: { control: 'boolean' },
@@ -106,6 +110,8 @@ const meta = {
       { label: 'Option 3', value: '3' },
       { label: 'Option 4', value: '4' },
       { label: 'Option 5', value: '5' },
+      { label: 'Test 1', value: '6' },
+      { label: 'Test 2', value: '7' },
     ],
     inputOptions: {
       label: 'Select options',
@@ -118,6 +124,7 @@ const meta = {
     debounceDelay: 300,
     enableLoadMore: false,
     showSelectedSection: false,
+    displaySelectionInInput: true,
     blurCloseDelay: 150,
     loadMoreThrottleDelay: 200,
     serverSideFiltering: false,
@@ -152,6 +159,17 @@ MultiSelect.args = {
   inputOptions: {
     label: 'Multi-select options',
     placeholder: 'Search and select multiple options...',
+  },
+}
+
+export const MultiSelectWithoutSelectionInInput = Template.bind({})
+MultiSelectWithoutSelectionInInput.args = {
+  multiSelect: true,
+  showSelectedSection: true,
+  displaySelectionInInput: false,
+  inputOptions: {
+    label: 'Multi-select without selection in input',
+    placeholder: 'Search and keep typing after selection...',
   },
 }
 
