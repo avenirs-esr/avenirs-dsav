@@ -25,5 +25,6 @@ $spacing: (
 }
 
 .indented-list {
-  padding-left: var(--spacing-md);
+  list-style-position: inside;
+  padding-left: var(--spacing-sm);
 }
