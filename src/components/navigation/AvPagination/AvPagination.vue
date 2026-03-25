@@ -236,14 +236,24 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
       pointer-events: none;
     }
 
-    &[aria-current="page"],
-    &:hover,
-    &:hover * {
+    &[aria-current="page"] {
       background-color: var(--dark-background-primary1) !important;
       color: var(--other-background-base) !important;
 
       :deep(.av-icon__icon) {
         background-color: var(--other-background-base) !important;
+      }
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover,
+      &:hover * {
+        background-color: var(--dark-background-primary1) !important;
+        color: var(--other-background-base) !important;
+
+        :deep(.av-icon__icon) {
+          background-color: var(--other-background-base) !important;
+        }
       }
     }
   }
