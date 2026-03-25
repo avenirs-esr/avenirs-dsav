@@ -40,7 +40,7 @@ const displayValue = computed(() => {
 
     if (selectedItems.value.length > 0) {
       if (props.showSelectedSection) {
-        return `${selectedItems.value.length} ${props.selectedItemsCountLabel}`
+        return props.selectedItemsCountLabel
       }
 
       return selectedItems.value.map(getDisplayLabel).join(', ')
