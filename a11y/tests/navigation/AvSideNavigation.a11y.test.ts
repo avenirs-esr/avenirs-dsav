@@ -7,6 +7,7 @@ const stories = [
   'MenuItems',
   'Collapsed',
   'CustomWidth',
+  'CustomCollapsedWidth',
 ]
 
 testStories(component, title, stories)
