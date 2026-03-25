@@ -101,6 +101,13 @@ export interface AvAutocompleteProps<T extends AvAutocompleteOption = AvAutocomp
    * @default false
    */
   serverSideFiltering?: boolean
+  /**
+   * Label displayed after the selected items count in multi-select mode.
+   * The count is handled internally by the component.
+   * @default "element(s) selected"
+   * @example "element(s) selected" → "3 element(s) selected"
+   */
+  selectedItemsCountLabel?: string
 }
 
 export enum DropdownState {

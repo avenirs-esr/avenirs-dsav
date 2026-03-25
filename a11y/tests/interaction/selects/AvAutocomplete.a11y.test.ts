@@ -5,6 +5,7 @@ const title = 'Components/Interaction/Selects/AvAutocomplete'
 const stories = [
   'Default',
   'MultiSelect',
+  'MultiSelectWithoutSelectionInInput',
   'WithCustomInput',
   'WithLoadMore',
   'CustomDropdownSize',
