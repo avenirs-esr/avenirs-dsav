@@ -8,6 +8,7 @@ export const AvAutocompleteStub = defineComponent({
     'getOptionLabel',
     'getOptionKey',
     'multiSelect',
+    'showSelectedSection',
     'serverSideFiltering',
     'enableLoadMore',
     'displaySelectionInInput',
