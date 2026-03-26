@@ -178,6 +178,7 @@ function handleItemClick (itemName: string, close: () => void) {
           :icon-scale="itemIconScale"
           :disabled="item.disabled"
           :icon-only="item.iconOnly"
+          :data-testid="item.name"
           no-radius
           @click="handleItemClick(item.name, close)"
         />
