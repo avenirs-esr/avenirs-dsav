@@ -169,7 +169,7 @@ onUnmounted(() => {
 .av-tabs {
   &__list {
     background: var(--surface-background);
-    overflow-x: auto;
+    box-sizing: border-box;
 
     &--compact {
       width: fit-content;
