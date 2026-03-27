@@ -2,7 +2,6 @@
 import type AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
 import type { AvMultiselectOption } from '@/components/interaction/selects/AvMultiselect/AvMultiselect.types'
 import MultiselectCollapse from '@/components/interaction/selects/AvMultiselect/components/MultiselectCollapse.vue'
-import { useCollapsable } from '@/composables/use-collapsable/use-collapsable'
 import { ICONS_DATA_URL } from '@/tokens'
 
 export interface AvMultiselectProps {
@@ -28,11 +27,6 @@ export interface AvMultiselectProps {
    * @default 'Utilisez la tabulation (ou les touches flèches) pour naviguer dans la liste des suggestions'
    */
   collapseHint?: string
-
-  /**
-   * Selected option(s) value(s).
-   */
-  modelValue: AvMultiselectOption[]
 
   /**
    * Select text label.
@@ -82,7 +76,7 @@ export interface AvMultiselectProps {
   /**
    * Displayed text when options are selected.
    */
-  selectedText?: string
+  selectedText: string
 
   /**
    * Displays the select all items button
@@ -102,13 +96,6 @@ export interface AvMultiselectProps {
   search?: boolean
 
   /**
-   * Label (legend) for the multiselect, rendered visually as a title.
-   * Helps screen readers understand the select context.
-   * @default ''
-   */
-  legend?: string
-
-  /**
    * Fixes the width of the multiselect
    */
   width?: string
@@ -117,6 +104,11 @@ export interface AvMultiselectProps {
    * Fixes the height of the multiselect
    */
   height?: string
+
+  /**
+   * Max height of the collapse list of options.
+   */
+  collapseMaxHeight?: string
 }
 
 const {
@@ -124,7 +116,6 @@ const {
   id,
   hint = '',
   collapseHint = 'Utilisez la tabulation (ou les touches flèches) pour naviguer dans la liste des suggestions',
-  modelValue,
   label,
   labelVisible = true,
   labelClass = '',
@@ -137,26 +128,16 @@ const {
   selectAll = false,
   selectAllLabel = ['Tout sélectionner', 'Tout désélectionner'],
   search = false,
-  legend = '',
   width,
-  height
+  height,
+  collapseMaxHeight,
 } = defineProps<AvMultiselectProps>()
 
-/**
- * Events emitted by the component.
- */
-const emit = defineEmits<{
-  /**
-   * Emitted when an option is selected or unselected.
-   * @param value Values (`AvMultiselectOption[]`) of the current selected options.
-   */
-  (e: 'update:modelValue', value: AvMultiselectOption[]): void
-}>()
+const modelValue = defineModel<AvMultiselectOption[]>({ default: [] })
 
 const realId = computed(() => id ?? `multi-select-${crypto.randomUUID()}`)
 
 const host = ref<InstanceType<typeof AvButton> | null>(null)
-const expanded = ref(false)
 
 const message = computed(() => {
   return errorMessage || successMessage
@@ -165,35 +146,14 @@ const messageType = computed(() => {
   return errorMessage ? 'error' : 'success'
 })
 
-const {
-  collapse,
-  collapsing,
-  cssExpanded,
-  doExpand,
-  onTransitionEnd,
-} = useCollapsable()
-
-const useCollapsableReturn = {
-  collapse,
-  collapsing,
-  cssExpanded,
-  doExpand,
-  onTransitionEnd,
-}
-
-const computedModelValue = computed(() => modelValue.map(selected => selected.value))
+const computedModelValue = computed(() => modelValue.value.map(selected => selected.value))
 
 const title = computed(() => {
-  if (!modelValue || modelValue.length === 0) {
+  if (modelValue.value.length === 0) {
     return placeholder
   }
 
-  if (selectedText) {
-    return selectedText
-  }
-
-  const pluralChoice = modelValue.length > 1 ? 's' : ''
-  return `${modelValue.length} option${pluralChoice} sélectionnée${pluralChoice}`
+  return selectedText
 })
 
 const isVisible = ref(false)
@@ -204,29 +164,13 @@ function handleKeyDownEscape (event: KeyboardEvent) {
   }
 }
 
-function handleClickOutside (event: MouseEvent) {
-  const element = event.target as HTMLElement
-  if (!host.value?.$el.contains(element) && !collapse.value?.contains(element)) {
-    close()
-  }
-}
-
 function open () {
-  expanded.value = true
   isVisible.value = true
-  document.addEventListener('click', handleClickOutside)
   document.addEventListener('keydown', handleKeyDownEscape)
-  setTimeout(() => {
-    doExpand(true)
-  }, 100)
 }
 
 function close () {
-  expanded.value = false
-  doExpand(false)
-  setTimeout(() => {
-    isVisible.value = false
-  }, 300)
+  isVisible.value = false
   clean()
 }
 
@@ -240,15 +184,7 @@ async function handleClick () {
 }
 
 function clean () {
-  document.removeEventListener('click', handleClickOutside)
   document.removeEventListener('keydown', handleKeyDownEscape)
-}
-
-function handleFocusPreviousElement (event: KeyboardEvent) {
-  const currentElement = document.activeElement as HTMLElement
-  if (event.shiftKey && currentElement === host.value?.$el) {
-    close()
-  }
 }
 
 function onUpdateModelValue (values: (string | number)[]) {
@@ -256,7 +192,7 @@ function onUpdateModelValue (values: (string | number)[]) {
     values.includes(option.value)
   ) ?? []
 
-  emit('update:modelValue', selectedOptions)
+  modelValue.value = selectedOptions
 }
 
 onUnmounted(() => {
@@ -307,10 +243,10 @@ const styleVars = computed(() => ({
       :label="title"
       class="av-multiselect"
       :disabled="disabled"
-      :aria-expanded="expanded"
+      :aria-expanded="isVisible"
       :aria-controls="`${realId}-collapse`"
       :class="{
-        'av-multiselect--is-open': expanded,
+        'av-multiselect--is-open': isVisible,
         'av-multiselect--dense': dense,
         'av-multiselect--unselected': modelValue.length === 0,
         'av-multiselect--selected': modelValue.length > 0,
@@ -318,20 +254,18 @@ const styleVars = computed(() => ({
       :small="dense"
       :style="styleVars"
       @click="handleClick"
-      @keydown.shift.tab="handleFocusPreviousElement"
     />
     <MultiselectCollapse
       :id="realId"
-      :legend="legend"
+      v-model="computedModelValue"
       :hint="collapseHint"
-      :model-value="computedModelValue"
       :is-visible="isVisible"
       :select-all="selectAll"
       :select-all-label="selectAllLabel"
       :search="search"
       :options="options"
       :selected="modelValue"
-      :use-collapsable-return="useCollapsableReturn"
+      :max-height="collapseMaxHeight"
       @close="close"
       @update:model-value="onUpdateModelValue"
     />

@@ -1,3 +1,4 @@
+import type { AvMultiselectOption } from '@/components/interaction/selects/AvMultiselect/AvMultiselect.types'
 import { flushPromises, mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 import { nextTick } from 'vue'
@@ -5,19 +6,6 @@ import { AvCheckboxStub } from '@/components/interaction/checkboxes/AvCheckbox/A
 import AvMultiselect, { type AvMultiselectProps } from '@/components/interaction/selects/AvMultiselect/AvMultiselect.vue'
 import { AvButtonStub } from '@/tests'
 import { BddTest } from '@/tests/utils'
-
-const doExpandSpy = vi.fn()
-const onTransitionEndSpy = vi.fn()
-
-vi.mock('@/composables/use-collapsable/use-collapsable', () => ({
-  useCollapsable: () => ({
-    collapse: ref(),
-    collapsing: ref(false),
-    cssExpanded: ref(false),
-    doExpand: doExpandSpy,
-    onTransitionEnd: onTransitionEndSpy,
-  }),
-}))
 
 interface VmType {
   handleKeyDownEscape: (e: KeyboardEvent) => void
@@ -34,10 +22,11 @@ const defaultProps = {
   label: 'Choisissez des options',
   placeholder: 'Sélectionnez une option',
   options: defaultOptions,
-  selectAll: false
+  selectAll: false,
+  selectedText: 'Options sélectionnées'
 }
 
-function mountWithProps (props: Partial<AvMultiselectProps> = {}, attrs: Record<string, unknown> = {}) {
+function mountWithProps (props: Partial<AvMultiselectProps & { modelValue: AvMultiselectOption[] }> = {}, attrs: Record<string, unknown> = {}) {
   return mount(AvMultiselect, {
     props: { ...defaultProps, ...props },
     attrs: { ...attrs },
@@ -80,7 +69,6 @@ BddTest().given('an AvMultiselect component', () => {
         })
 
         BddTest().then('it should call clean', () => {
-          expect(removeSpy).toHaveBeenCalledWith('click', expect.any(Function))
           expect(removeSpy).toHaveBeenCalledWith('keydown', expect.any(Function))
         })
       })
@@ -92,7 +80,6 @@ BddTest().given('an AvMultiselect component', () => {
       })
 
       BddTest().then('it should remove the event listeners', () => {
-        expect(removeSpy).toHaveBeenCalledWith('click', expect.any(Function))
         expect(removeSpy).toHaveBeenCalledWith('keydown', expect.any(Function))
       })
     })
@@ -104,7 +91,7 @@ BddTest().given('an AvMultiselect component', () => {
       })
 
       BddTest().then('the collapse should be visible', () => {
-        const collapse = wrapper.find('.av-collapse')
+        const collapse = wrapper.find('[data-testid="av-multiselect__collapse"]')
         expect(collapse.exists()).toBe(true)
         expect(collapse.isVisible()).toBe(true)
       })
@@ -135,7 +122,7 @@ BddTest().given('an AvMultiselect component', () => {
 
     BddTest().then('it should render in selected state with correct text', () => {
       const button = wrapper.find('button.av-multiselect')
-      expect(button.text()).toContain('1 option sélectionnée')
+      expect(button.text()).toBe(defaultProps.selectedText)
       expect(button.classes()).toContain('av-multiselect--selected')
     })
   })
@@ -149,7 +136,7 @@ BddTest().given('an AvMultiselect component', () => {
 
     BddTest().then('it should render in selected state with plural text', () => {
       const button = wrapper.find('button.av-multiselect')
-      expect(button.text()).toContain('2 options sélectionnées')
+      expect(button.text()).toBe(defaultProps.selectedText)
     })
   })
 

@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { AvListItem } from '@/components/interaction/lists'
 import AvCheckbox from '@/components/interaction/checkboxes/AvCheckbox/AvCheckbox.vue'
 
 export interface AvCheckboxListItemProps {
@@ -70,10 +71,21 @@ function handleFocusPreviousCheckbox (event: KeyboardEvent) {
     checkboxes[previousIndex].focus()
   }
 }
+
+const listItemRef = ref<InstanceType<typeof AvListItem> | null>(null)
+
+function handleCheckboxFocus () {
+  const el = listItemRef.value
+  if (el) {
+    const domEl = (el instanceof HTMLElement) ? el : (el as { $el: HTMLElement }).$el
+    domEl?.scrollIntoView?.({ block: 'nearest' })
+  }
+}
 </script>
 
 <template>
   <AvListItem
+    ref="listItemRef"
     :aria-label="ariaLabel"
     :aria-describedby="ariaDescribedby"
     data-testid="av-checkbox-list-item"
@@ -90,6 +102,7 @@ function handleFocusPreviousCheckbox (event: KeyboardEvent) {
       @keydown.right="handleFocusNextCheckbox"
       @keydown.up="handleFocusPreviousCheckbox"
       @keydown.left="handleFocusPreviousCheckbox"
+      @focus="handleCheckboxFocus"
     >
       <template #label>
         <slot />

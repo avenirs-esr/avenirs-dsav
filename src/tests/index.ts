@@ -16,6 +16,7 @@ import { AvListStub } from '@/components/interaction/lists/AvList/AvList.stub'
 import { AvListItemStub } from '@/components/interaction/lists/AvListItem/AvListItem.stub'
 import { AvTagPickerStub } from '@/components/interaction/pickers/AvTagPicker/AvTagPicker.stub'
 import { AvAutocompleteStub } from '@/components/interaction/selects/AvAutocomplete/AvAutocomplete.stub'
+import { AvMultiselectStub } from '@/components/interaction/selects/AvMultiselect/AvMultiselect.stub'
 import { AvSelectStub } from '@/components/interaction/selects/AvSelect/AvSelect.stub'
 import { AvTabStub } from '@/components/interaction/tabs/AvTab/AvTab.stub'
 import { AvTabsStub } from '@/components/interaction/tabs/AvTabs/AvTabs.stub'
@@ -50,6 +51,7 @@ export {
   AvListItemStub,
   AvListStub,
   AvModalStub,
+  AvMultiselectStub,
   AvPaginationStub,
   AvPeriodInputStub,
   AvPopoverStub,
