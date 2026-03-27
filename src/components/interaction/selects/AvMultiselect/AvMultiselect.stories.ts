@@ -88,6 +88,7 @@ const meta = {
     dense: false,
     selectAll: false,
     search: false,
+    selectedText: 'Option(s) sélectionnée(s)',
   },
   parameters: {
     docs: {
@@ -129,4 +130,22 @@ OptionsWithIcon.args = {
     { value: '5', label: 'Choice 5', icon: MDI_ICONS.IMAGE_OUTLINE },
   ],
   label: 'Options with icon',
+}
+
+export const CollapseMaxHeight = Template.bind({})
+CollapseMaxHeight.args = {
+  options: [
+    { value: '1', label: 'Choice 1', icon: MDI_ICONS.ATTACH_FILE },
+    { value: '2', label: 'Choice 2', icon: MDI_ICONS.CHAT_ALERT },
+    { value: '3', label: 'Choice 3', icon: MDI_ICONS.CONTENT_SAVE_OUTLINE },
+    { value: '4', label: 'Choice 4', icon: MDI_ICONS.ELECTRON_FRAMEWORK },
+    { value: '5', label: 'Choice 5', icon: MDI_ICONS.IMAGE_OUTLINE },
+    { value: '6', label: 'Choice 6', icon: MDI_ICONS.ATTACH_FILE },
+    { value: '7', label: 'Choice 7', icon: MDI_ICONS.CHAT_ALERT },
+    { value: '8', label: 'Choice 8', icon: MDI_ICONS.CONTENT_SAVE_OUTLINE },
+    { value: '9', label: 'Choice 9', icon: MDI_ICONS.ELECTRON_FRAMEWORK },
+    { value: '10', label: 'Choice 10', icon: MDI_ICONS.IMAGE_OUTLINE },
+  ],
+  label: 'Collapse max height',
+  collapseMaxHeight: '150px',
 }

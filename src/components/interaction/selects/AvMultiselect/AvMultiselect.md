@@ -25,7 +25,6 @@ Inside the list:
 
 | Name             | Type | Default | Mandatory | Description |
 |------------------| --- | --- | --- | --- |
-| `modelValue`     | `(string \| number)[]` | | ✅ | Selected option(s) value(s). |
 | `disabled`       | `boolean` | `false` | | Indicated if the select is disabled.|
 | `options`        | `{ value: string \| number, label: string, icon?: string})[]` | `[]` | | Selectable options. |
 | `label`          | `string` | | ✅ | Select text label.|
@@ -42,11 +41,17 @@ Inside the list:
 | `search`         | `boolean` | `false` | | Displays the search bar.|
 | `width`          | `string` | `undefined` | | Fixes the width of the multiselect.|
 | `height`         | `string` | `undefined` | | Fixes the height of the multiselect.|
+| `collapseMaxHeight` | `string` | `undefined` | | Fixes the max height of the options list.|
+
 ## 🔊 Events
 
-| Name | Data (*payload*) | Description |
+The component uses `defineModel` for selected options.
+
+### Model events
+
+| Model | Type | Description |
 | --- | --- | --- |
-| `'update:modelValue'` | `(string \| number)[]` | Emitted when an option is selected or unselected. |
+| `default` | `{ value: string \| number, label: string, icon?: string})[]` | Current selected options |
 
 ## 🎨 Slots
 

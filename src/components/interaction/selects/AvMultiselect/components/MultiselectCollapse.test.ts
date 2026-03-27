@@ -1,5 +1,6 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { nextTick } from 'vue'
 import { AvFieldsetStub } from '@/components/base/AvFieldset/AvFieldset.stub'
 import { AvCheckboxStub } from '@/components/interaction/checkboxes/AvCheckbox/AvCheckbox.stub'
 import MultiselectCollapse, { type MultiselectCollapseProps } from '@/components/interaction/selects/AvMultiselect/components/MultiselectCollapse.vue'
@@ -17,13 +18,6 @@ const defaultProps: MultiselectCollapseProps = {
   selected: [],
   options: defaultOptions,
   id: 'test-collapse',
-  useCollapsableReturn: {
-    collapse: ref(undefined),
-    collapsing: ref(false),
-    cssExpanded: ref(false),
-    doExpand: vi.fn(),
-    onTransitionEnd: vi.fn()
-  }
 }
 
 function mountWithProps (props: Partial<MultiselectCollapseProps> = {}):
@@ -44,6 +38,7 @@ VueWrapper<InstanceType<typeof MultiselectCollapse>> {
 
 BddTest().given('a MultiselectCollapse component', () => {
   let wrapper: VueWrapper<InstanceType<typeof MultiselectCollapse>>
+  const addSpy = vi.spyOn(document, 'addEventListener')
   const removeSpy = vi.spyOn(document, 'removeEventListener')
 
   BddTest().and('default props', () => {
@@ -89,17 +84,6 @@ BddTest().given('a MultiselectCollapse component', () => {
           expect(checkboxes[0].props('label')).toBe('Option 2')
         })
       })
-
-      BddTest().and('keyboard escape pressed', () => {
-        beforeEach(() => {
-          const vm = wrapper.vm as unknown as { handleKeyDownEscape: (e: KeyboardEvent) => void }
-          vm.handleKeyDownEscape({ key: 'Escape' } as KeyboardEvent)
-        })
-
-        BddTest().then('it should emit close', () => {
-          expect(wrapper.emitted('close')).toBeTruthy()
-        })
-      })
     })
 
     BddTest().when('no results for search', () => {
@@ -121,72 +105,6 @@ BddTest().given('a MultiselectCollapse component', () => {
 
       BddTest().then('it should call clean', () => {
         expect(removeSpy).toHaveBeenCalledWith('click', expect.any(Function))
-        expect(removeSpy).toHaveBeenCalledWith('keydown', expect.any(Function))
-      })
-    })
-
-    BddTest().when('focusing the first checkbox', () => {
-      beforeEach(() => {
-        const event = new KeyboardEvent('keydown')
-        const vm = wrapper.vm as unknown as { handleFocusFirstCheckbox: (e: KeyboardEvent) => void }
-        vm.handleFocusFirstCheckbox(event)
-      })
-
-      BddTest().then('the first checkbox should be focused', () => {
-        const checkboxes = wrapper.findAll('input[type="checkbox"]')
-        expect(document.activeElement).toStrictEqual(checkboxes[0].element)
-      })
-    })
-
-    BddTest().when('pressing arrow down to focus next checkbox', () => {
-      beforeEach(() => {
-        const checkboxes = wrapper.findAll('input[type="checkbox"]')
-        const checkboxEl = checkboxes[0].element as HTMLElement
-        checkboxEl.focus()
-        const event = new KeyboardEvent('keydown')
-        const vm = wrapper.vm as unknown as { handleFocusNextCheckbox: (e: KeyboardEvent) => void }
-        vm.handleFocusNextCheckbox(event)
-      })
-
-      BddTest().then('the second checkbox should be focused', () => {
-        const checkboxes = wrapper.findAll('input[type="checkbox"]')
-        expect(document.activeElement).toBe(checkboxes[1].element)
-      })
-    })
-
-    BddTest().when('pressing arrow up to focus previous checkbox', () => {
-      beforeEach(() => {
-        const checkboxes = wrapper.findAll('input[type="checkbox"]')
-        const checkboxEl = checkboxes[0].element as HTMLElement
-        checkboxEl.focus()
-        const event = new KeyboardEvent('keydown')
-        const vm = wrapper.vm as unknown as { handleFocusPreviousCheckbox: (e: KeyboardEvent) => void }
-        vm.handleFocusPreviousCheckbox(event)
-      })
-
-      BddTest().then('the last checkbox should be focused (wrap around)', () => {
-        const checkboxes = wrapper.findAll('input[type="checkbox"]')
-        expect(document.activeElement).toStrictEqual(checkboxes[checkboxes.length - 1].element)
-      })
-    })
-
-    BddTest().when('tab is pressed on the last checkbox', () => {
-      beforeEach(() => {
-        const vm = wrapper.vm as unknown as {
-          handleFocusNextElementUsingTab: (e: KeyboardEvent) => void
-          host: { value: unknown }
-        }
-        vm.host = { value: wrapper.element }
-
-        const checkboxes = wrapper.findAll('input[type="checkbox"]')
-        const checkboxEl = checkboxes[checkboxes.length - 1].element as HTMLElement
-        checkboxEl.focus()
-        const event = new KeyboardEvent('keydown', { key: 'Tab', shiftKey: false })
-        vm.handleFocusNextElementUsingTab(event)
-      })
-
-      BddTest().then('it should emit close', () => {
-        expect(wrapper.emitted('close')).toBeTruthy()
       })
     })
 
@@ -198,6 +116,120 @@ BddTest().given('a MultiselectCollapse component', () => {
       BddTest().then('isAllSelected should be true', () => {
         const vm = wrapper.vm as unknown as { isAllSelected: boolean }
         expect(vm.isAllSelected).toBe(true)
+      })
+    })
+  })
+
+  BddTest().and('isVisible is false', () => {
+    beforeEach(() => {
+      wrapper = mountWithProps({ isVisible: false })
+    })
+
+    BddTest().when('isVisible changes to true', () => {
+      beforeEach(async () => {
+        await wrapper.setProps({ isVisible: true })
+        await nextTick()
+      })
+
+      BddTest().then('it should add a click event listener on document', () => {
+        expect(addSpy).toHaveBeenCalledWith('click', expect.any(Function))
+      })
+    })
+
+    BddTest().when('isVisible changes from true to false', () => {
+      beforeEach(async () => {
+        await wrapper.setProps({ isVisible: true })
+        await nextTick()
+        await wrapper.setProps({ isVisible: false })
+      })
+
+      BddTest().then('it should remove the click event listener from document', () => {
+        expect(removeSpy).toHaveBeenCalledWith('click', expect.any(Function))
+      })
+    })
+  })
+
+  BddTest().when('the user clicks outside the component', () => {
+    let capturedHandler: ((e: MouseEvent) => void) | undefined
+
+    beforeEach(async () => {
+      vi.spyOn(document, 'addEventListener').mockImplementation((type, listener) => {
+        if (type === 'click') {
+          capturedHandler = listener as (e: MouseEvent) => void
+        }
+      })
+      wrapper = mountWithProps({ isVisible: false })
+      await wrapper.setProps({ isVisible: true })
+      await nextTick()
+    })
+
+    BddTest().then('it should emit close', () => {
+      const outsideEl = document.createElement('div')
+      document.body.appendChild(outsideEl)
+      capturedHandler!(new MouseEvent('click', { bubbles: true }) as MouseEvent)
+      Object.defineProperty(MouseEvent.prototype, 'target', { value: outsideEl, configurable: true })
+      const event = new MouseEvent('click', { bubbles: true })
+      capturedHandler!(event)
+      expect(wrapper.emitted('close')).toBeTruthy()
+      outsideEl.remove()
+    })
+
+    BddTest().when('the click target is inside the collapse element', () => {
+      BddTest().then('it should not emit close', () => {
+        const collapseEl = wrapper.find(`#test-collapse-collapse`)
+        const insideEl = document.createElement('span')
+        collapseEl.element.appendChild(insideEl)
+
+        const event = Object.assign(new MouseEvent('click', { bubbles: true }), {})
+        Object.defineProperty(event, 'target', { value: insideEl, configurable: true })
+        capturedHandler!(event)
+
+        expect(wrapper.emitted('close')).toBeFalsy()
+        insideEl.remove()
+      })
+    })
+  })
+
+  BddTest().when('the user clicks inside the component', () => {
+    let capturedHandler: ((e: MouseEvent) => void) | undefined
+
+    beforeEach(async () => {
+      vi.spyOn(document, 'addEventListener').mockImplementation((type, listener) => {
+        if (type === 'click') {
+          capturedHandler = listener as (e: MouseEvent) => void
+        }
+      })
+      wrapper = mountWithProps({ isVisible: false })
+      await wrapper.setProps({ isVisible: true })
+      await nextTick()
+    })
+
+    BddTest().then('it should not emit close', () => {
+      const collapseEl = wrapper.find(`#test-collapse-collapse`)
+      const insideEl = document.createElement('span')
+      collapseEl.element.appendChild(insideEl)
+
+      const event = Object.assign(new MouseEvent('click', { bubbles: true }), {})
+      Object.defineProperty(event, 'target', { value: insideEl, configurable: true })
+      capturedHandler!(event)
+
+      expect(wrapper.emitted('close')).toBeFalsy()
+      insideEl.remove()
+    })
+
+    BddTest().and('skipNextClickOutside is true (first click after becoming visible)', () => {
+      BddTest().then('it should not emit close and clear the flag', () => {
+        const outsideEl = document.createElement('div')
+        document.body.appendChild(outsideEl)
+        const event = Object.assign(new MouseEvent('click', { bubbles: true }), {})
+        Object.defineProperty(event, 'target', { value: outsideEl, configurable: true })
+
+        capturedHandler!(event)
+        expect(wrapper.emitted('close')).toBeFalsy()
+
+        capturedHandler!(event)
+        expect(wrapper.emitted('close')).toBeTruthy()
+        outsideEl.remove()
       })
     })
   })

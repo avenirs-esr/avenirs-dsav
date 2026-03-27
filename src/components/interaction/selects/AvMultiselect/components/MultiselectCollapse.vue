@@ -1,9 +1,7 @@
 <script lang="ts" setup>
 import type AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
 import type { AvMultiselectOption } from '@/components/interaction/selects/AvMultiselect/AvMultiselect.types'
-import type { UseCollapsableReturn } from '@/composables/use-collapsable/use-collapsable'
-import AvCheckbox from '@/components/interaction/checkboxes/AvCheckbox/AvCheckbox.vue'
-import AvCheckboxesGroup from '@/components/interaction/checkboxes/AvCheckboxesGroup/AvCheckboxesGroup.vue'
+import { nextTick } from 'vue'
 import { MDI_ICONS } from '@/tokens/icons'
 
 export interface MultiselectCollapseProps {
@@ -11,27 +9,25 @@ export interface MultiselectCollapseProps {
   selected: AvMultiselectOption[]
   options: AvMultiselectOption[]
   hint?: string
-  legend?: string
   id: string
   selectAll?: boolean
   search?: boolean
   selectAllLabel?: [string, string]
-  useCollapsableReturn: Omit<UseCollapsableReturn, 'adjust'>
   noResultLabel?: string
+  maxHeight?: string
 }
 
 const {
   isVisible,
   hint = 'Utilisez la tabulation (ou les touches flèches) pour naviguer dans la liste des suggestions',
-  legend = '',
   selectAll = false,
   selectAllLabel = ['Tout sélectionner', 'Tout désélectionner'],
   search = false,
   id,
   options,
   selected,
-  useCollapsableReturn,
-  noResultLabel = 'Pas de résultat'
+  noResultLabel = 'Pas de résultat',
+  maxHeight,
 } = defineProps<MultiselectCollapseProps>()
 
 /**
@@ -52,48 +48,45 @@ function generateId (option: AvMultiselectOption, id: string): string {
 }
 
 const host = ref<InstanceType<typeof AvButton> | null>(null)
-const expanded = ref(false)
+const collapse = ref<HTMLElement | null>(null)
+let skipNextClickOutside = false
 const model = defineModel<(string | number)[]>({ required: true })
 const hostWidth = ref(0)
 
-const observations: (() => void)[] = []
-
-const {
-  collapse,
-  collapsing,
-  cssExpanded,
-  onTransitionEnd,
-} = useCollapsableReturn
-
-function getAllCheckbox (): NodeListOf<HTMLElement> {
-  return document.querySelectorAll(`[id^="${id}-"][id$="-checkbox"]`)
-}
-
 const searchInput = ref('')
 
-function handleKeyDownEscape (event: KeyboardEvent) {
-  if (event.key === 'Escape') {
-    emit('close')
-  }
-}
-
 function handleClickOutside (event: MouseEvent) {
-  const element = event.target as HTMLElement
-  if (!host.value?.$el.contains(element) && !collapse.value?.contains(element)) {
-    emit('close')
+  if (skipNextClickOutside) {
+    skipNextClickOutside = false
+    return
   }
+  const element = event.target as HTMLElement
+  const hostEl = host.value && (host.value as any).$el ? (host.value as any).$el : null
+  const collapseEl = collapse.value
+  if (hostEl && hostEl.contains(element)) {
+    return
+  }
+  if (collapseEl && collapseEl.contains(element)) {
+    return
+  }
+  emit('close')
 }
 
 function clean () {
-  while (observations.length) {
-    const observation = observations.pop()
-    if (observation) {
-      observation()
-    }
-  }
   document.removeEventListener('click', handleClickOutside)
-  document.removeEventListener('keydown', handleKeyDownEscape)
 }
+
+watch(() => isVisible, (visible) => {
+  if (visible) {
+    nextTick(() => {
+      skipNextClickOutside = true
+      document.addEventListener('click', handleClickOutside)
+    })
+  }
+  else {
+    clean()
+  }
+})
 
 const filteredOptions = computed(() =>
   options.filter((option) => {
@@ -133,55 +126,6 @@ function handleClickSelectAllClick () {
   model.value = Array.from(modelSet)
 }
 
-function handleFocusFirstCheckbox (event: KeyboardEvent) {
-  const [firstCheckbox] = getAllCheckbox()
-  if (firstCheckbox) {
-    event.preventDefault()
-    firstCheckbox.focus()
-  }
-}
-
-function handleFocusNextCheckbox (event: KeyboardEvent) {
-  event.preventDefault()
-  const checkboxes = getAllCheckbox()
-  const activeElement = document.activeElement as HTMLElement
-  const currentIndex = Array.from(checkboxes).indexOf(activeElement)
-
-  if (currentIndex !== -1) {
-    const nextIndex = (currentIndex + 1) % checkboxes.length
-    checkboxes[nextIndex].focus()
-  }
-}
-
-function handleFocusPreviousCheckbox (event: KeyboardEvent) {
-  event.preventDefault()
-  const checkboxes = getAllCheckbox()
-  const activeElement = document.activeElement as HTMLElement
-  const currentIndex = Array.from(checkboxes).indexOf(activeElement)
-
-  if (currentIndex !== -1) {
-    const previousIndex
-      = (currentIndex - 1 + checkboxes.length) % checkboxes.length
-    checkboxes[previousIndex].focus()
-  }
-}
-
-function handleFocusNextElementUsingTab (event: KeyboardEvent) {
-  const checkboxes = getAllCheckbox()
-  const activeElement = document.activeElement as HTMLElement
-  const currentIndex = Array.from(checkboxes).indexOf(activeElement)
-  if (currentIndex + 1 === checkboxes.length && host.value && !event.shiftKey) {
-    emit('close')
-  }
-}
-
-function handleFocusPreviousElement (event: KeyboardEvent) {
-  const currentElement = document.activeElement as HTMLElement
-  if (event.shiftKey && currentElement === host.value?.$el) {
-    emit('close')
-  }
-}
-
 onUnmounted(() => {
   clean()
 })
@@ -195,9 +139,8 @@ onUnmounted(() => {
     :style="{
       '--width-host': `${hostWidth}px`,
     }"
-    class="av-multiselect__collapse av-collapse av-p-xs av-ml-xxs"
-    :class="{ 'av-collapse--expanded': cssExpanded, 'av-collapsing': collapsing }"
-    @transitionend="onTransitionEnd(expanded)"
+    class="av-multiselect__collapse"
+    data-testid="av-multiselect__collapse"
   >
     <p
       :id="`${id}-text-hint`"
@@ -217,7 +160,6 @@ onUnmounted(() => {
           :label="selectAllLabel[isAllSelected ? 1 : 0]"
           :icon="isAllSelected ? MDI_ICONS.CLOSE_CIRCLE_OUTLINE : MDI_ICONS.CHECK_CIRCLE_OUTLINE"
           @click="handleClickSelectAllClick"
-          @keydown.shift.tab="handleFocusPreviousElement"
         />
       </li>
     </ul>
@@ -230,33 +172,27 @@ onUnmounted(() => {
         aria-live="polite"
         placeholder="Rechercher"
         type="search"
-        @keydown.down="handleFocusFirstCheckbox"
-        @keydown.right="handleFocusFirstCheckbox"
-        @keydown.tab="handleFocusPreviousElement"
       />
     </div>
-    <AvCheckboxesGroup
-      :id="`${id}-checkboxes`"
-      class="av-multiselect__collapse__fieldset"
-      :legend="legend"
-      :legend-id="`${id}-checkboxes-legend`"
+    <AvList
+      background-color="var(--dialog)"
+      bordered
+      border-color="var(--stroke)"
+      border-radius="var(--radius-lg)"
+      size="xsmall"
+      class="multiselect-collapse-options-list"
     >
-      <AvCheckbox
+      <AvCheckboxListItem
         v-for="option in filteredOptions"
-        :id="`${generateId(option, id)}-checkbox`"
+        :id="option.value.toString()"
         :key="`${generateId(option, id)}-fieldset`"
         v-model="model"
-        :value="option.value"
+        list-id="multiselect-collapse-options-list"
+        :aria-label="option.label"
         :label="option.label"
         :icon="option.icon"
-        :name="`${generateId(option, id)}-checkbox`"
-        @keydown.down="handleFocusNextCheckbox"
-        @keydown.right="handleFocusNextCheckbox"
-        @keydown.up="handleFocusPreviousCheckbox"
-        @keydown.left="handleFocusPreviousCheckbox"
-        @keydown.tab="handleFocusNextElementUsingTab"
       />
-    </AvCheckboxesGroup>
+    </AvList>
     <div v-if="filteredOptions.length === 0">
       {{ noResultLabel }}
     </div>
@@ -274,6 +210,14 @@ onUnmounted(() => {
 
   &__fieldset {
     overflow: auto;
+    max-height: v-bind('maxHeight');
   }
+}
+
+.multiselect-collapse-options-list {
+  max-height: v-bind('maxHeight');
+  overflow-y: auto;
+  overflow-x: hidden;
+  border: none;
 }
 </style>

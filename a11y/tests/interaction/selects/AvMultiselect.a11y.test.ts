@@ -6,6 +6,7 @@ const stories = [
   'Default',
   'Dense',
   'OptionsWithIcon',
+  'CollapseMaxHeight',
 ]
 
 testStories(component, title, stories)
