@@ -221,10 +221,6 @@ const isInvalid = computed(() => {
 const __input: Ref<HTMLElement | null> = ref(null)
 const focus = () => __input.value?.focus()
 
-function openPicker () {
-  (__input.value as HTMLInputElement)?.showPicker()
-}
-
 const isComponent = computed(() => isTextarea ? 'textarea' : 'input')
 const finalLabelClass = computed(() => [
   'av-label',
@@ -303,32 +299,45 @@ defineExpose({
           </span>
         </label>
 
+        <template v-if="isDateInputType(type)">
+          <div class="av-input__date-wrapper">
+            <component
+              :is="isComponent"
+              v-bind="inputProps"
+              :id="realId"
+              ref="__input"
+              class="av-input__input--date-real"
+              :class="[commonInputClasses]"
+              :value="modelValue"
+              @input="emit('update:modelValue', $event.target.value)"
+              @change="emit('update:modelValue', $event.target.value)"
+            />
+            <component
+              :is="isComponent"
+              v-bind="inputProps"
+              :id="`${realId}-picker`"
+              class="av-input__input--date-picker"
+              :class="[commonInputClasses]"
+              :placeholder="!disabled ? getDateInputPlaceholder(type) : ''"
+              type="text"
+              readonly
+              aria-hidden="true"
+              tabindex="-1"
+              :value="formatDisplayedDate(type, modelValue, formatDateStr)"
+              @mousedown.prevent
+              @touchstart.prevent
+            />
+          </div>
+        </template>
         <component
           :is="isComponent"
+          v-else
           v-bind="inputProps"
           :id="realId"
           ref="__input"
-          :class="{
-            ...commonInputClasses,
-            'av-sr-only': isDateInputType(type),
-          }"
+          :class="commonInputClasses"
           :value="modelValue"
           @input="emit('update:modelValue', $event.target.value)"
-        />
-
-        <component
-          :is="isComponent"
-          v-bind="inputProps"
-          v-if="isDateInputType(type)"
-          :id="`${realId}-picker`"
-          :class="commonInputClasses"
-          :placeholder="!disabled ? getDateInputPlaceholder(type) : ''"
-          type="text"
-          readonly
-          aria-hidden="true"
-          tabindex="-1"
-          :value="formatDisplayedDate(type, modelValue, formatDateStr)"
-          @click="openPicker"
         />
       </div>
       <slot
@@ -368,6 +377,7 @@ defineExpose({
 </template>
 
 <style lang="scss" scoped>
+@use '@/styles/core/focus' as *;
 .av-input {
   width: v-bind('width');
 
@@ -433,15 +443,43 @@ defineExpose({
     }
   }
 
-  input {
-    &[type="date"] {
-      appearance: textfield;
+  &__date-wrapper {
+    position: relative;
+    width: 100%;
+
+    &:focus-within {
+      .av-input__input--date-picker {
+        @include focus-style;
+        outline-offset: -1px;
+      }
+    }
+  }
+
+  &__input--date-real {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    z-index: 1;
+    cursor: pointer;
+    appearance: auto;
+
+    &:focus {
+      outline: none;
     }
 
-    &[type="date"]::-webkit-calendar-picker-indicator {
-      cursor: pointer;
+    &:disabled {
+      opacity: 0;
+      background-color: transparent;
+      cursor: not-allowed;
+    }
+
+    &::-webkit-calendar-picker-indicator {
       position: absolute;
-      right: var(--spacing-sm);
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
     }
   }
 

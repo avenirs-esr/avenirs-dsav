@@ -204,10 +204,10 @@ BddTest().given('an AvInput', () => {
           expect(trueInput.attributes('type')).toBe(type)
         })
 
-        BddTest().then('the true input should be visually hidden', () => {
+        BddTest().then('the true input should be the date overlay', () => {
           const inputs = wrapper.findAll('input')
           const trueInput = inputs[0]
-          expect(trueInput.classes()).toContain('av-sr-only')
+          expect(trueInput.classes()).toContain('av-input__input--date-real')
         })
 
         BddTest().then('the displayed input should be of type text', () => {
