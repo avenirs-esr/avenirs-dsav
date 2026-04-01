@@ -464,6 +464,38 @@ BddTest().given('an AvInput', () => {
       expect(focusSpy).toHaveBeenCalledTimes(1)
     })
   })
+
+  BddTest().when('the component is mounted with a suffix slot', () => {
+    beforeEach(() => {
+      wrapper = mount<typeof AvInput>(AvInput, {
+        slots: {
+          suffix: '<button data-testid="suffix-button">Toggle</button>'
+        }
+      })
+    })
+
+    BddTest().then('it should render the suffix container', () => {
+      const suffix = wrapper.find('.av-input__suffix')
+      expect(suffix.exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the slot content', () => {
+      const button = wrapper.find('[data-testid="suffix-button"]')
+      expect(button.exists()).toBe(true)
+      expect(button.text()).toBe('Toggle')
+    })
+  })
+
+  BddTest().when('the component is mounted without a suffix slot', () => {
+    beforeEach(() => {
+      wrapper = mount<typeof AvInput>(AvInput)
+    })
+
+    BddTest().then('it should not render the suffix container', () => {
+      const suffix = wrapper.find('.av-input__suffix')
+      expect(suffix.exists()).toBe(false)
+    })
+  })
 })
 
 BddTest().given('multiple AvInput components', () => {

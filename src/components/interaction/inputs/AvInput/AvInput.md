@@ -60,6 +60,7 @@ The component integrates focus management, proper ARIA attributes, and responsiv
 | --- | --- | --- |
 | `requiredTip` | Slot for custom required field indicator | None |
 | `maxLengthCaption` | Slot for max length caption to display the current length / max length | `currentValue: string \| number \| null`, `maxlength: number \| undefined` |
+| `suffix` | Slot for suffix content inside the input control (e.g. action buttons) | None |
 
 ## 🚀 Storybook demos
 
@@ -139,6 +140,25 @@ You can find examples of use and demo of the component on its dedicated [Storybo
   placeholder="Search for items..."
   prefix-icon="mdi:magnify"
 />
+```
+
+### With Suffix Action
+
+```vue
+<AvInput
+  v-model="password"
+  type="password"
+  label="Password"
+>
+  <template #suffix>
+    <AvButton
+      icon-left="mdi:eye-outline"
+      variant="ghost"
+      size="sm"
+      @click="toggleVisibility"
+    />
+  </template>
+</AvInput>
 ```
 
 ### With Custom Captions
