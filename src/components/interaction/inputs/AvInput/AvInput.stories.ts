@@ -1,5 +1,7 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
+import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import AvInput, { type AvInputProps } from '@/components/interaction/inputs/AvInput/AvInput.vue'
+import { CUIDA_ICONS } from '@/tokens'
 
 /**
  * <h2 class="n2">✨ Introduction</h2>
@@ -266,4 +268,43 @@ UrlInput.args = {
   type: 'url',
   label: 'Website URL',
   placeholder: 'https://example.com'
+}
+
+export const WithSuffix: StoryFn<AvInputProps> = args => ({
+  components: { AvInput, AvIcon },
+  setup () {
+    const inputValue = ref('')
+    const isVisible = ref(false)
+    const inputType = computed(() => isVisible.value ? 'text' : 'password')
+
+    function toggle () {
+      isVisible.value = !isVisible.value
+    }
+
+    return { args, inputValue, inputType, toggle, CUIDA_ICONS }
+  },
+  template: `
+    <AvInput
+      v-bind="args"
+      v-model="inputValue"
+      :type="inputType"
+    >
+      <template #suffix>
+        <button
+          style="background: none; border: none; cursor: pointer; padding: 0; display: flex; align-items: center;"
+          :aria-label="isVisible ? 'Hide password' : 'Show password'"
+          @click="toggle"
+        >
+          <AvIcon :name="CUIDA_ICONS.VISIBILITY_ON_OUTLINE" :size="1.2" />
+        </button>
+      </template>
+    </AvInput>
+    <p style="margin-top: 1rem; color: var(--text2);">
+      Current value: {{ inputValue }}
+    </p>
+  `
+})
+WithSuffix.args = {
+  label: 'Password',
+  placeholder: 'Enter your password'
 }

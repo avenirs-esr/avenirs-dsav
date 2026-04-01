@@ -194,6 +194,11 @@ defineSlots<{
    * Slot for max length caption to display the current length / max length
    */
   maxLengthCaption?: Slot<{ currentValue?: string | number | null, maxlength?: number }>
+
+  /**
+   * Slot for suffix content inside the input control (e.g. action buttons)
+   */
+  suffix?: Slot
 }>()
 
 const attrs = useAttrs()
@@ -227,7 +232,7 @@ const finalLabelClass = computed(() => [
   { invisible: !labelVisible },
 ])
 
-const prefixIconTop = computed(() => labelVisible ? '69%' : '55%')
+const iconsTopPosition = computed(() => labelVisible && label ? '69%' : '60%')
 
 const commonInputClasses = computed(() => ({
   'av-input__input av-col av-align-center av-w-full b2-light av-py-xs av-px-sm': true,
@@ -339,6 +344,13 @@ defineExpose({
           :value="modelValue"
           @input="emit('update:modelValue', $event.target.value)"
         />
+
+        <div
+          v-if="$slots.suffix"
+          class="av-align-center av-col av-input__suffix"
+        >
+          <slot name="suffix" />
+        </div>
       </div>
       <slot
         v-if="!disabled"
@@ -394,12 +406,20 @@ defineExpose({
   &__prefix {
     position: absolute;
     left: var(--spacing-xs);
-    top: v-bind('prefixIconTop');
+    top: v-bind('iconsTopPosition');
     transform: translateY(-50%);
     z-index: 1;
     pointer-events: none;
     color: var(--text2);
     transition: color 0.2s ease;
+  }
+
+  &__suffix {
+    position: absolute;
+    right: var(--spacing-xs);
+    top: v-bind('iconsTopPosition');
+    z-index: 1;
+    transform: translateY(-50%);
   }
 
   &__input {

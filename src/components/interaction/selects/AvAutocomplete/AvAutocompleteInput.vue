@@ -102,46 +102,27 @@ defineExpose({
       >
         <component :is="slots.requiredTip" />
       </template>
-    </AvInput>
 
-    <div
-      v-if="selectedItems.length > 0"
-      class="av-autocomplete-input__suffix av-row av-align-center"
-    >
-      <AvButton
-        label="Clear selected items"
-        :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
-        icon-only
-        :icon-scale="1.25"
-        variant="DEFAULT"
-        theme="SECONDARY"
-        @click="handleClearSelection"
-      />
-    </div>
+      <template
+        v-if="selectedItems.length > 0"
+        #suffix
+      >
+        <AvButton
+          label="Clear selected items"
+          :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
+          icon-only
+          :icon-scale="1.25"
+          variant="DEFAULT"
+          theme="SECONDARY"
+          small
+          @click="handleClearSelection"
+        />
+      </template>
+    </AvInput>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.av-autocomplete-input {
-  position: relative;
-}
-
-.av-autocomplete-input__suffix {
-  position: absolute;
-  right: var(--spacing-xs);
-  top: 2.7rem;
-  z-index: 2;
-  transform: translateY(-50%);
-  pointer-events: none;
-
-  & :deep(.av-button) {
-    padding: 0 !important;
-    margin: 0 !important;
-    margin-top: var(--spacing-xs) !important;
-    pointer-events: all;
-  }
-}
-
 .av-autocomplete-input :deep(input) {
   padding-right: var(--spacing-xl);
 }
