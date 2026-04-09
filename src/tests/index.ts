@@ -4,6 +4,7 @@ import { AvFieldsetStub } from '@/components/base/AvFieldset/AvFieldset.stub'
 import { AvIconStub } from '@/components/base/AvIcon/AvIcon.stub'
 import { AvIconTextStub } from '@/components/base/AvIconText/AvIconText.stub'
 import { AvCardStub } from '@/components/cards/AvCard/AvCard.stub'
+import { AvHeaderStub } from '@/components/header/AvHeader/AvHeader.stub'
 import { AvAccordionStub } from '@/components/interaction/accordions/AvAccordion/AvAccordion.stub'
 import { AvButtonStub } from '@/components/interaction/buttons/AvButton/AvButton.stub'
 import { AvCancelConfirmButtonsStub } from '@/components/interaction/buttons/AvCancelConfirmButtons/AvCancelConfirmButtons.stub'
@@ -22,6 +23,7 @@ import { AvTabStub } from '@/components/interaction/tabs/AvTab/AvTab.stub'
 import { AvTabsStub } from '@/components/interaction/tabs/AvTabs/AvTabs.stub'
 import { AvToggleStub } from '@/components/interaction/toggles/AvToggle/AvToggle.stub'
 import { AvBreadcrumbStub } from '@/components/navigation/AvBreadcrumb/AvBreadcrumb.stub'
+import { AvNavigationStub } from '@/components/navigation/AvNavigation/AvNavigation.stub'
 import { AvPaginationStub } from '@/components/navigation/AvPagination/AvPagination.stub'
 import { AvSideNavigationStub } from '@/components/navigation/AvSideNavigation/AvSideNavigation.stub'
 import { AvStepperStub } from '@/components/navigation/AvStepper/AvStepper.stub'
@@ -45,6 +47,7 @@ export {
   AvDrawerStub,
   AvDropdownStub,
   AvFieldsetStub,
+  AvHeaderStub,
   AvIconStub,
   AvIconTextStub,
   AvInputStub,
@@ -52,6 +55,7 @@ export {
   AvListStub,
   AvModalStub,
   AvMultiselectStub,
+  AvNavigationStub,
   AvPaginationStub,
   AvPeriodInputStub,
   AvPopoverStub,
