@@ -29,9 +29,15 @@ export interface AvAccordionProps {
    * @default 'h3'
    */
   headingLevel?: 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+
+  /**
+   * Whether the overflow of the accordion content should be visible when expanded.
+   * @default false
+   */
+  overflowVisible?: boolean
 }
 
-const { id, title, icon, headingLevel = 'h3' } = defineProps<AvAccordionProps>()
+const { id, title, icon, headingLevel = 'h3', overflowVisible = false } = defineProps<AvAccordionProps>()
 /**
  * Slots available in the AvAccordion component.
  * The default slot contains the content of the accordion.
@@ -78,6 +84,8 @@ onMounted(() => {
     doExpand(true)
   }
 })
+
+const overflow = computed(() => overflowVisible ? 'visible' : 'hidden')
 
 watch(isActive, (newValue, oldValue) => {
   if (newValue !== oldValue) {
@@ -186,6 +194,10 @@ watch(isActive, (newValue, oldValue) => {
 
   .av-collapse {
     transition:visibility .3s, padding .3s;
+  }
+
+  .av-collapse--expanded:not(.av-collapsing) {
+    overflow: v-bind(overflow) !important;
   }
 }
 

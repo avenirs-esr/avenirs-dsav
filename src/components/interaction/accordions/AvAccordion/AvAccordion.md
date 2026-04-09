@@ -20,6 +20,7 @@ An accordion consists of the following elements:
 | `title` | `string` | | ✅ | Title of accordion displayed. |
 | `icon` | `string` | `undefined` | | Accordion icon. |
 | `headingLevel` | `'h2' \| 'h3' \| 'h4' \| 'h5' \| 'h6'` | `'h3'` | | Heading level for the accordion title. |
+| `overflowVisible` | `boolean` | `false` | | Whether the overflow of the accordion content should be visible when expanded. |
 
 ## 🔊 Events
 
@@ -49,6 +50,7 @@ You can find examples of use and demo of the component on its dedicated [Storybo
     <AvAccordion
       title="Accordion 2"
       icon="mdi:plus-circle-outline"
+      overflow-visible
     >
       <span>Second accordion content</span>
     </AvAccordion>
