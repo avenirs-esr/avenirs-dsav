@@ -9,7 +9,7 @@ The `AvHeader` component is an ultra-flexible header component. It integrates a 
 The header consists of:
 
 - the Cofolio brand block.
-- the service name.
+- an optional role context (i.e., user role or context-specific information).
 - a baseline (description) below the site name.
 - an optional functional section - offering quick access and/or a search bar and/or a language selector - adapted to the specific needs of each site.
 
@@ -18,7 +18,6 @@ The header consists of:
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
 | `searchbarId` | `string` | `'searchbar-header'` | | Value of the `id` attribute of the searchbar input. |
-| `serviceTitle` | `string` | `undefined` | | Title of the service displayed in the header. |
 | `homeTo` | `string \| RouteLocationRaw` | `'/'` | | Homepage link. |
 | `modelValue` | `string` | `''` | | Value for the search bar. |
 | `placeholder` | `string` | `'Rechercher...'` | | Placeholder for the search bar. |
@@ -47,7 +46,7 @@ The header consists of:
 | `before-quick-links` | Slot to add content before quick links. |
 | `after-quick-links` | Slot to add content after quick links. |
 | `mainnav` | Slot for the main navigation menu. |
-| `serviceDescription` | Slot for the description of the service. |
+| `roleContext` | Slot for the role context (i.e., user role or context-specific information). |
 | `default` | Default slot for additional content in the header. |
 
 ## 💡 Examples of use
@@ -61,7 +60,7 @@ const searchQuery = ref('')
 <template>
   <AvHeader
     v-model="searchQuery"
-    service-title="Student Cofolio"
+    home-label="Student Cofolio"
     home-to="/student"
     show-search
     :language-selector="languageSelector"
