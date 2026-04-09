@@ -30,6 +30,10 @@ const meta: Meta<AvAccordionProps> = {
   argTypes: {
     title: { control: 'text', required: true },
     icon: { control: 'text' },
+    headingLevel: {
+      control: { type: 'select', options: ['h2', 'h3', 'h4', 'h5', 'h6'] },
+    },
+    overflowVisible: { control: 'boolean' },
   },
   args: {
     title: 'Accordion 1',
