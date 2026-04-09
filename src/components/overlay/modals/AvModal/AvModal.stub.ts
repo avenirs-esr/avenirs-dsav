@@ -1,6 +1,13 @@
 export const AvModalStub = defineComponent({
   name: 'AvModal',
-  props: ['opened', 'closeButtonLabel', 'confirmButtonLabel', 'confirmButtonIcon'],
+  props: [
+    'opened',
+    'closeButtonLabel',
+    'confirmButtonLabel',
+    'confirmButtonIcon',
+    'isLoading',
+    'confirmButtonDisabled'
+  ],
   emits: ['close', 'confirm'],
   template: `
     <div class="av-modal">
