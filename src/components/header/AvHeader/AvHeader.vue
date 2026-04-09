@@ -15,11 +15,6 @@ import { registerNavigationLinkKey } from '@/components/header/AvHeader/injectio
  */
 export interface AvHeaderProps {
   /**
-   * Title of the service displayed in the header.
-   */
-  serviceTitle?: string
-
-  /**
    * Homepage link.
    * @default '/'
    */
@@ -85,15 +80,13 @@ export interface AvHeaderProps {
   closeDrawerLabel?: string
 
   /**
-   * Label of the link to the home page (present in the service title).
-   * @default 'Accueil'
+   * Label of the link to the home page.
    */
-  homeLabel?: string
+  homeLabel: string
 }
 
 const {
   languageSelector = undefined,
-  serviceTitle = undefined,
   homeTo = '/',
   modelValue = '',
   placeholder = 'Rechercher...',
@@ -103,7 +96,7 @@ const {
   showSearchLabel = 'Recherche',
   menuLabel = 'Menu',
   closeDrawerLabel = 'Fermer',
-  homeLabel = 'Accueil',
+  homeLabel,
   showSearch = false
 } = defineProps<AvHeaderProps>()
 
@@ -124,9 +117,9 @@ const slots = defineSlots<{
   'after-quick-links'?: Slot
 
   /**
-   * Slot for displaying content next to or under the service title.
+   * Slot for the role context (i.e., user role or context-specific information).
    */
-  'serviceDescription'?: Slot
+  'roleContext'?: Slot
 
   /**
    * Slot for the main navigation.
@@ -168,8 +161,6 @@ function showSearchDrawer () {
   drawerMode.value = 'search'
 }
 
-const title = computed(() => [homeLabel, serviceTitle].filter(x => x).join(' - '))
-
 const isWithSlotNav = computed(() => Boolean(slots.mainnav))
 provide(registerNavigationLinkKey, () => hideDrawer)
 </script>
@@ -184,8 +175,7 @@ provide(registerNavigationLinkKey, () => hideDrawer)
         <div class="av-row av-justify-start av-align-center av-py-sm">
           <HeaderBrand
             :home-to="homeTo"
-            :title="title"
-            :service-title="serviceTitle"
+            :title="homeLabel"
             :show-search-button="showSearch"
             :show-search-label="showSearchLabel"
             :show-menu-button="isWithSlotNav || quickLinks.length > 0"
@@ -193,8 +183,8 @@ provide(registerNavigationLinkKey, () => hideDrawer)
             @show-search-drawer="showSearchDrawer"
             @show-menu-drawer="showMenuDrawer"
           >
-            <template #serviceDescription>
-              <slot name="serviceDescription" />
+            <template #roleContext>
+              <slot name="roleContext" />
             </template>
           </HeaderBrand>
 

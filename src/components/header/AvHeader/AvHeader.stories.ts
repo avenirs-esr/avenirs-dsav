@@ -30,7 +30,6 @@ const meta: Meta<AvHeaderProps> = {
   component: AvHeader,
   tags: ['autodocs'],
   argTypes: {
-    serviceTitle: { control: false },
     homeTo: { control: false },
     modelValue: { control: false },
     placeholder: { control: false },
@@ -41,10 +40,9 @@ const meta: Meta<AvHeaderProps> = {
     showSearch: { control: false },
     showSearchLabel: { control: false },
     menuLabel: { control: false },
-    homeLabel: { control: false },
+    homeLabel: { control: 'text' },
   },
   args: {
-    serviceTitle: 'Student Cofolio',
     homeTo: '#',
     modelValue: '',
     placeholder: 'Rechercher...',
@@ -53,7 +51,7 @@ const meta: Meta<AvHeaderProps> = {
     quickLinksAriaLabel: 'Menu secondaire',
     showSearchLabel: 'Recherche',
     menuLabel: 'Menu',
-    homeLabel: 'Accueil',
+    homeLabel: 'Accueil - Cofolio Étudiant',
     showSearch: true,
     languageSelector: {
       id: 'language-selector',
@@ -99,12 +97,15 @@ const Template: StoryFn<AvHeaderProps> = args => ({
           </li>
         </ul>
       </template>
-      <template #serviceDescription>
-        <AvButton
-          label="Switch universe"
-          icon="mdi:swap-horizontal"
-        />
-      </template>
+          <template #roleContext>
+            <div class="av-col">
+              <span>CoFolio Étudiant</span>
+              <AvButton
+                label="Switch universe"
+                icon="mdi:swap-horizontal"
+              />
+            </div>
+          </template>
       <template #mainnav>
         <AvButton
           label="Navigation link 1"
@@ -123,7 +124,7 @@ Default.parameters = {
       code: `
         <AvHeader
           closeMenuModalLabel="Fermer"
-          homeLabel="Accueil"
+          homeLabel="Accueil - Cofolio étudiant"
           homeTo="#"
           menuLabel="Menu"
           menuModalLabel="Menu"
@@ -132,7 +133,6 @@ Default.parameters = {
           quickLinksAriaLabel="Menu secondaire"
           searchbarId="searchbar-header"
           searchLabel="Recherche"
-          serviceTitle="Student Cofolio"
           showSearch
           showSearchLabel="Recherche"
         >
@@ -158,11 +158,14 @@ Default.parameters = {
               </li>
             </ul>
           </template>
-          <template #serviceDescription>
-            <AvButton
-              label="Switch universe"
-              icon="mdi:swap-horizontal"
-            />
+          <template #roleContext>
+            <div class="av-col">
+              <span>CoFolio Étudiant</span>
+              <AvButton
+                label="Switch universe"
+                icon="mdi:swap-horizontal"
+              />
+            </div>
           </template>
         </AvHeader>
       `,

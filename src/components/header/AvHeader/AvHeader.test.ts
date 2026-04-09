@@ -21,7 +21,7 @@ BddTest().given('an AvHeader', () => {
     }
   }
 
-  const serviceTitle = 'Service title'
+  const homeLabel = 'Accueil - Cofolio étudiant'
   const quickLinks = [{ text: 'Lien', to: '/' }]
   const showSearch = true
   const modelValue = ''
@@ -44,25 +44,12 @@ BddTest().given('an AvHeader', () => {
     BddTest().then('it should display default logo and text', async () => {
       expect(wrapper.get('[data-testid="header-logo"]')).toBeTruthy()
     })
-
-    BddTest().and('service title is provided', () => {
-      beforeEach(async () => {
-        wrapper = await mountWithRouter(AvHeader, {
-          props: { serviceTitle },
-          global: { stubs }
-        })
-      })
-
-      BddTest().then('it should display service title', async () => {
-        expect(wrapper.text()).toContain(serviceTitle)
-      })
-    })
   })
 
   BddTest().when('the menu button is clicked', () => {
     beforeEach(async () => {
       wrapper = await mountWithRouter(AvHeader, {
-        props: { quickLinks },
+        props: { homeLabel, quickLinks },
         global: { stubs }
       })
     })
@@ -98,7 +85,7 @@ BddTest().given('an AvHeader', () => {
     BddTest().and('the search button is clicked', () => {
       beforeEach(async () => {
         wrapper = await mountWithRouter<typeof AvHeader>(AvHeader, {
-          props: { showSearch },
+          props: { homeLabel, showSearch },
           global: { stubs }
         })
 
@@ -123,7 +110,7 @@ BddTest().given('an AvHeader', () => {
     BddTest().and('the close button is clicked', () => {
       beforeEach(async () => {
         wrapper = await mountWithRouter(AvHeader, {
-          props: { serviceTitle, quickLinks },
+          props: { homeLabel, quickLinks },
           global: { stubs }
         })
       })
@@ -144,7 +131,7 @@ BddTest().given('an AvHeader', () => {
     BddTest().and('the escape key is pressed', () => {
       beforeEach(async () => {
         wrapper = await mountWithRouter(AvHeader, {
-          props: { serviceTitle, quickLinks },
+          props: { homeLabel, quickLinks },
           global: { stubs }
         })
       })
@@ -170,6 +157,7 @@ BddTest().given('an AvHeader', () => {
     beforeEach(async () => {
       wrapper = await mountWithRouter(AvHeader, {
         props: {
+          homeLabel,
           languageSelector: {
             currentLanguage,
             languages

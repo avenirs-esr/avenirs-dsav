@@ -8,7 +8,6 @@ import { MDI_ICONS } from '@/tokens'
 interface HeaderBrandProps {
   homeTo: string | RouteLocationRaw
   title: string
-  serviceTitle?: string
   showSearchButton?: boolean
   showSearchLabel: string
   showMenuButton?: boolean
@@ -23,7 +22,7 @@ const emit = defineEmits<{
 }>()
 
 defineSlots<{
-  serviceDescription: Slot
+  roleContext: Slot
 }>()
 </script>
 
@@ -66,15 +65,7 @@ defineSlots<{
         />
       </div>
     </div>
-    <div
-      v-if="serviceTitle"
-      class="av-col av-gap-xxs av-p-sm"
-    >
-      <span class="n6">
-        {{ serviceTitle }}
-      </span>
-      <slot name="serviceDescription" />
-    </div>
+    <slot name="roleContext" />
   </div>
 </template>
 
