@@ -28,6 +28,10 @@ BddTest().given('a file uploader', () => {
     },
   })
 
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
   BddTest().and('with default props', () => {
     beforeEach(() => {
       wrapper = mountComponent()
@@ -88,10 +92,10 @@ BddTest().given('a file uploader', () => {
     const file = new File(['hello'], 'hello.png', { type: 'image/png' })
 
     beforeEach(() => {
-      wrapper = mountComponent()
+      wrapper = mountComponent({ accept: ['.png'] })
     })
 
-    BddTest().when('a file is selected', () => {
+    BddTest().when('an accepted file is selected', () => {
       BddTest().then('it should emit update:modelValue and change events', async () => {
         const input = wrapper.find('input[type="file"]')
         const files = {
@@ -113,6 +117,30 @@ BddTest().given('a file uploader', () => {
 
         expect(wrapper.emitted('change')).toBeTruthy()
         expect(wrapper.emitted('change')?.[0][0]).toEqual(files)
+      })
+    })
+
+    BddTest().when('a non accepted file is selected', () => {
+      BddTest().then('it should emit acceptTypeError and not emit update:modelValue and change events', async () => {
+        const filePdf = new File(['hello'], 'hello.pdf', { type: 'application/pdf' })
+        const input = wrapper.find('input[type="file"]')
+        const files = {
+          0: filePdf,
+          length: 1,
+          item: () => filePdf,
+        } as unknown as FileList
+
+        const event = new Event('change')
+        Object.defineProperty(event, 'target', {
+          value: { value: 'C:\\fakepath\\hello.pdf', files },
+          writable: false,
+        })
+
+        await input.element.dispatchEvent(event)
+
+        expect(wrapper.emitted('update:modelValue')).toBeFalsy()
+        expect(wrapper.emitted('change')).toBeFalsy()
+        expect(wrapper.emitted('acceptTypeError')).toBeTruthy()
       })
     })
   })
@@ -193,7 +221,7 @@ BddTest().given('a file uploader', () => {
     })
 
     BddTest().when('an accepted file is dropped', () => {
-      BddTest().then('it should emit update:modelValue and change events and not emit onDropAcceptTypeError', async () => {
+      BddTest().then('it should emit update:modelValue and change events and not emit acceptTypeError', async () => {
         const label = wrapper.find('label')
         const dataTransfer = { files: [fileJpeg] } as unknown as DataTransfer
 
@@ -206,12 +234,12 @@ BddTest().given('a file uploader', () => {
         expect(wrapper.emitted('change')).toBeTruthy()
         expect(wrapper.emitted('change')?.[0][0]).toEqual(dataTransfer.files)
 
-        expect(wrapper.emitted('onDropAcceptTypeError')).toBeFalsy()
+        expect(wrapper.emitted('acceptTypeError')).toBeFalsy()
       })
     })
 
     BddTest().when('an accepted file is dropped for accepted type starting with "."', () => {
-      BddTest().then('it should emit update:modelValue and change events and not emit onDropAcceptTypeError', async () => {
+      BddTest().then('it should emit update:modelValue and change events and not emit acceptTypeError', async () => {
         const label = wrapper.find('label')
         const dataTransfer = { files: [filePng] } as unknown as DataTransfer
 
@@ -224,12 +252,12 @@ BddTest().given('a file uploader', () => {
         expect(wrapper.emitted('change')).toBeTruthy()
         expect(wrapper.emitted('change')?.[0][0]).toEqual(dataTransfer.files)
 
-        expect(wrapper.emitted('onDropAcceptTypeError')).toBeFalsy()
+        expect(wrapper.emitted('acceptTypeError')).toBeFalsy()
       })
     })
 
     BddTest().when('a non accepted file is dropped', () => {
-      BddTest().then('it should emit onDropAcceptTypeError and not emit update:modelValue and change events', async () => {
+      BddTest().then('it should emit acceptTypeError and not emit update:modelValue and change events', async () => {
         const label = wrapper.find('label')
         const dataTransfer = { files: [filePdf] } as unknown as DataTransfer
 
@@ -238,7 +266,7 @@ BddTest().given('a file uploader', () => {
 
         expect(wrapper.emitted('update:modelValue')).toBeFalsy()
         expect(wrapper.emitted('change')).toBeFalsy()
-        expect(wrapper.emitted('onDropAcceptTypeError')).toBeTruthy()
+        expect(wrapper.emitted('acceptTypeError')).toBeTruthy()
       })
     })
   })
@@ -262,7 +290,7 @@ BddTest().given('a file uploader', () => {
     })
 
     BddTest().when('a file is dropped', () => {
-      BddTest().then('it should emit onDropAcceptTypeError and not emit update:modelValue and change events', async () => {
+      BddTest().then('it should emit acceptTypeError and not emit update:modelValue and change events', async () => {
         const label = wrapper.find('label')
         const dataTransfer = { files: [filePdf] } as unknown as DataTransfer
 
@@ -271,7 +299,7 @@ BddTest().given('a file uploader', () => {
 
         expect(wrapper.emitted('update:modelValue')).toBeFalsy()
         expect(wrapper.emitted('change')).toBeFalsy()
-        expect(wrapper.emitted('onDropAcceptTypeError')).toBeTruthy()
+        expect(wrapper.emitted('acceptTypeError')).toBeTruthy()
       })
     })
   })
@@ -295,7 +323,7 @@ BddTest().given('a file uploader', () => {
     })
 
     BddTest().when('a file is dropped', () => {
-      BddTest().then('it should not emit onDropAcceptTypeError, update:modelValue and change events', async () => {
+      BddTest().then('it should not emit acceptTypeError, update:modelValue and change events', async () => {
         const label = wrapper.find('label')
         const dataTransfer = { files: [filePdf] } as unknown as DataTransfer
 
@@ -304,7 +332,7 @@ BddTest().given('a file uploader', () => {
 
         expect(wrapper.emitted('update:modelValue')).toBeFalsy()
         expect(wrapper.emitted('change')).toBeFalsy()
-        expect(wrapper.emitted('onDropAcceptTypeError')).toBeFalsy()
+        expect(wrapper.emitted('acceptTypeError')).toBeFalsy()
       })
     })
   })
