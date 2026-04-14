@@ -31,8 +31,7 @@ The `AvFileUpload` allows you to upload files by clicking on the file upload are
 | `'update:validMessage'` | The updated valide message (`string`) | Event emitted when the validMessage is updated. |
 | `'update:error'` | The updated error message (`string`) | Event emitted when the error is updated. |
 | `'change'` | The new list of selected files (`FileList \| File[]`) | Event emitted when the selected file is changed. |
-| `'onDropAcceptTypeError'` | | Event emitted when a file of wrong type is dropped. |
-| `'onDropAcceptTypeError'` | | Event emitted when a file of wrong type is dropped. |
+| `'acceptTypeError'` | | Event emitted when a file of wrong type is dropped or selected. |
 
 ## 🎨 Slots
 

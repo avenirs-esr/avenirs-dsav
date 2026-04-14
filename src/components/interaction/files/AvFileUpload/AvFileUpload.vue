@@ -152,9 +152,9 @@ const emit = defineEmits<{
   (e: 'change', payload: FileList | File[]): void
 
   /**
-   * Event emitted when a file of wrong type is dropped.
+   * Event emitted when a file of wrong type is dropped or selected.
    */
-  (e: 'onDropAcceptTypeError'): void
+  (e: 'acceptTypeError'): void
 }>()
 
 defineSlots<{
@@ -220,7 +220,7 @@ async function onDrop (event: DragEvent) {
     emit('update:modelValue', acceptedFiles[0] ?? null)
   }
   else {
-    emit('onDropAcceptTypeError')
+    emit('acceptTypeError')
   }
 }
 
@@ -237,6 +237,16 @@ function onDragLeave () {
 
 function onChange ($event: InputEvent) {
   const files = ($event.target as HTMLInputElement).files
+
+  if (files?.length) {
+    const acceptedFiles = Array.from(files).filter(isFileAccepted)
+
+    if (!acceptedFiles.length) {
+      emit('acceptTypeError')
+      return
+    }
+  }
+
   emit('change', files as FileList)
   emit('update:modelValue', files?.[0] ?? null)
 }
