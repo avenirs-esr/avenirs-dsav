@@ -70,6 +70,7 @@ function handleFocus () {
 function handleClearSelection () {
   selectedItems.value = []
   searchQuery.value = ''
+  debouncedSearch(searchQuery.value)
   emit('clear')
 }
 
