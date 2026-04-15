@@ -29,7 +29,7 @@ The component integrates:
 | --- |-------------------------------------------|-----------------------------------------------------| --- | --- |
 | `id` | `string`                                  | Auto-generated                                      | | ID of the input element. |
 | `inputOptions` | `Omit<AvInputProps, 'id' \| 'modelValue'>` | `{}`                                                | | Input-related options and configuration. |
-| `options` | `T[]`                                     | `[]`                                                | | Options available for selection. |
+| `options` | `T[]`                                     | `[]`                                                | | Options available for selection. Each option follows the `AvAutocompleteOption` interface: `label` (display text), `value` (unique key), `description` (optional subtitle shown below the label in the dropdown), `disabled` (optional, prevents selection when `true`). |
 | `multiSelect` | `boolean`                                 | `false`                                             | | Whether to allow multi-selection. |
 | `getOptionLabel` | `(option: T) => string`                   |                                                     | | Function to get display text from option. |
 | `getOptionKey` | `(option: T) => string \| number`         |                                                     | | Function to get unique key from option. |

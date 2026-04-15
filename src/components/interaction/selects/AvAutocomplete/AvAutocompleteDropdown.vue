@@ -79,6 +79,10 @@ function isSelected (option: T): boolean {
 }
 
 function toggleOption (option: T) {
+  if (option.disabled) {
+    return
+  }
+
   if (!props.multiSelect) {
     selectedItems.value = [option]
     isOpen.value = false
@@ -185,10 +189,18 @@ defineExpose({
           :title="getDisplayLabel(option)"
           :icon="isSelected(option) ? MDI_ICONS.CHECK : undefined"
           :selected="isSelected(option)"
+          :disabled="option.disabled"
           hover-background-color="var(--light-background-neutral)"
           color-on-hover="var(--base)"
           @click="() => toggleOption(option)"
-        />
+        >
+          <span
+            v-if="option.description"
+            class="caption-light"
+          >
+            {{ option.description }}
+          </span>
+        </AvListItem>
       </template>
     </AvList>
   </div>
