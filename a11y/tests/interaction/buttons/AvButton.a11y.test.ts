@@ -9,18 +9,21 @@ const stories = [
   'DefaultDisabled',
   'DefaultNoRadius',
   'DefaultSecondary',
+  'TertiaryOnDarkBackground',
   'Outlined',
   'OutlinedIconOnly',
   'OutlinedLoading',
   'OutlinedDisabled',
   'OutlinedNoRadius',
   'OutlinedSecondary',
+  'OutlinedTertiaryOnDarkBackground',
   'Flat',
   'FlatIconOnly',
   'FlatLoading',
   'FlatDisabled',
   'FlatNoRadius',
   'FlatSecondary',
+  'FlatTertiaryOnDarkBackground',
 ]
 
 testStories(component, title, stories)
