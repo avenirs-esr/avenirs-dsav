@@ -15,10 +15,10 @@ export interface AvButtonProps {
   variant?: 'DEFAULT' | 'OUTLINED' | 'FLAT'
 
   /**
-   * Button theme: blue (`PRIMARY`) or gray (`SECONDARY`).
+   * Button theme: blue (`PRIMARY`) or gray (`SECONDARY`) or white (`TERTIARY`).
    * @default 'PRIMARY'
    */
-  theme?: 'PRIMARY' | 'SECONDARY'
+  theme?: 'PRIMARY' | 'SECONDARY' | 'TERTIARY'
 
   /**
    * Indicates button loading status.
@@ -187,13 +187,19 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
       text: var(--dark-background-primary1),
       bg: transparent,
       hover-bg: var(--light-background-primary1),
-      hover-text: var(--other-background-base)
+      hover-text: var(--dark-background-primary1)
     ),
     secondary: (
       text: var(--text1),
       bg: transparent,
       hover-bg: var(--contrast-foreground),
       hover-text: var(--text1)
+    ),
+    tertiary: (
+      text: var(--other-background-base),
+      bg: transparent,
+      hover-bg: var(--light-background-primary1),
+      hover-text: var(--dark-background-primary1)
     )
   ) {
     &--theme-#{$theme} {
@@ -213,7 +219,7 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
           $theme == primary,
           (
             bg: map.get($colors, text),
-            color: map.get($colors, hover-text),
+            color: var(--other-background-base),
             border: map.get($colors, text)
           ),
           (
@@ -239,17 +245,17 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
           &:hover:not([aria-pressed="true"]) {
             @if $variant == default {
               background-color: map.get($colors, hover-bg);
-              color: map.get($colors, text);
+              color: map.get($colors, hover-text);
             } @else {
               background-color: map.get($colors, hover-bg);
-              color: map.get($colors, text);
+              color: map.get($colors, hover-text);
               border-color: map.get($colors, text);
             }
           }
 
           &:hover[aria-pressed="true"] {
             background-color: map.get($colors, hover-bg);
-            color: map.get($colors, text);
+            color: map.get($colors, hover-text);
           }
 
           // === Disabled ===

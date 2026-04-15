@@ -24,7 +24,7 @@ import { iconMapping, iconOptions } from '@/utils/storybook'
  * <p>
  *   <span class="b2-regular">
  *     The button only allow two variants (<code>DEFAULT</code> without border and <code>OUTLINED</code> with border)
- *     and two themes (<code>PRIMARY</code> blue and <code>SECONDARY</code> grey).
+ *     and two themes (<code>PRIMARY</code> blue, <code>SECONDARY</code> grey and <code>TERTIARY</code> white).
  *   </span>
  * </p>
  *
@@ -61,7 +61,7 @@ const meta: Meta<AvButtonProps> = {
     },
     theme: {
       control: { type: 'radio' },
-      options: ['PRIMARY', 'SECONDARY'],
+      options: ['PRIMARY', 'SECONDARY', 'TERTIARY'],
     },
     small: { control: 'boolean' },
     iconOnly: { control: 'boolean' },
@@ -70,7 +70,7 @@ const meta: Meta<AvButtonProps> = {
     disabled: { control: 'boolean' },
   },
   args: {
-    label: 'Ckick me',
+    label: 'Click me',
     icon: '',
     variant: 'DEFAULT',
     theme: 'PRIMARY',
@@ -122,6 +122,21 @@ DefaultSecondary.args = {
   theme: 'SECONDARY',
 }
 
+export const TertiaryOnDarkBackground = Template.bind({})
+TertiaryOnDarkBackground.args = {
+  theme: 'TERTIARY',
+}
+
+TertiaryOnDarkBackground.decorators = [
+  () => ({
+    template: `
+      <div style="background: var(--dark-background-primary1); padding: 24px; display: inline-block;">
+        <story />
+      </div>
+    `,
+  }),
+]
+
 export const Outlined = Template.bind({})
 Outlined.args = {
   variant: 'OUTLINED',
@@ -159,6 +174,22 @@ OutlinedSecondary.args = {
   theme: 'SECONDARY',
 }
 
+export const OutlinedTertiaryOnDarkBackground = Template.bind({})
+OutlinedTertiaryOnDarkBackground.args = {
+  variant: 'OUTLINED',
+  theme: 'TERTIARY',
+}
+
+OutlinedTertiaryOnDarkBackground.decorators = [
+  () => ({
+    template: `
+      <div style="background: var(--dark-background-primary1); padding: 24px; display: inline-block;">
+        <story />
+      </div>
+    `,
+  }),
+]
+
 export const Flat = Template.bind({})
 Flat.args = {
   variant: 'FLAT',
@@ -195,3 +226,19 @@ FlatSecondary.args = {
   variant: 'FLAT',
   theme: 'SECONDARY',
 }
+
+export const FlatTertiaryOnDarkBackground = Template.bind({})
+FlatTertiaryOnDarkBackground.args = {
+  variant: 'FLAT',
+  theme: 'TERTIARY',
+}
+
+FlatTertiaryOnDarkBackground.decorators = [
+  () => ({
+    template: `
+      <div style="background: var(--dark-background-primary1); padding: 24px; display: inline-block;">
+        <story />
+      </div>
+    `,
+  }),
+]

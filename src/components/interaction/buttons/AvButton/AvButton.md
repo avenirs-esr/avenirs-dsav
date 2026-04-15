@@ -20,7 +20,7 @@ Buttons consist of :
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
 | `variant` | `'DEFAULT' \| 'OUTLINED' \| 'FLAT'` | `'DEFAULT'` | | Button variant: without border (`DEFAULT`) or with border (`OUTLINED`) or with filled background and border (`FLAT`). |
-| `theme` | `'PRIMARY' \| 'SECONDARY'` | `'PRIMARY'` | | Button theme: blue (`PRIMARY`) or grey (`SECONDARY`). |
+| `theme` | `'PRIMARY' \| 'SECONDARY' \| 'TERTIARY'` | `'PRIMARY'` | | Button theme: blue (`PRIMARY`) or grey (`SECONDARY`) or white (`TERTIARY`). |
 | `isLoading` | `boolean` | `false` | | Indicates a loading status for the button. |
 | `iconScale` | `number` | `undefined` | | Allows you to manually change the icon size (it is automatically calculated otherwise). |
 | `noRadius` | `boolean` | `false` | | Allows you to remove radii from the button border. |
