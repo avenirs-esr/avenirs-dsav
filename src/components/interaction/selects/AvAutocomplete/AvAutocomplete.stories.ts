@@ -215,6 +215,21 @@ CustomDropdownSize.args = {
   },
 }
 
+export const WithDescriptionAndDisabled = Template.bind({})
+WithDescriptionAndDisabled.args = {
+  multiSelect: true,
+  serverSideFiltering: true,
+  inputOptions: {
+    label: 'Select an activity',
+    placeholder: 'Search for activities...',
+  },
+  options: [
+    { label: 'Définir ses valeurs', value: '1', description: 'Me connaître' },
+    { label: 'Explorer ses pistes', value: '2', description: 'Explorer mes futures' },
+    { label: 'Activité désactivée', value: '3', description: 'CV', disabled: true },
+  ],
+}
+
 export const WithCustomItemSlotExample = {
   render () {
     return {

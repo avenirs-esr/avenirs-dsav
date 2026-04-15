@@ -280,6 +280,34 @@ BddTest().given('an autocomplete component', () => {
     })
   })
 
+  BddTest().when('options with description are provided and the dropdown is opened', () => {
+    const optionsWithDescription: AvAutocompleteOption[] = [
+      { label: 'Option A', value: 'a', description: 'Description for A' },
+      { label: 'Option B', value: 'b' }
+    ]
+
+    beforeEach(async () => {
+      wrapper = mount<typeof AvAutocomplete>(AvAutocomplete, {
+        props: {
+          options: optionsWithDescription,
+          modelValue: [],
+          serverSideFiltering: true
+        },
+        attachTo: document.body
+      })
+      await wrapper.find('input').trigger('focus')
+      await wrapper.vm.$nextTick()
+    })
+
+    BddTest().then('it should render the description for options that have one', () => {
+      expect(wrapper.text()).toContain('Description for A')
+    })
+
+    BddTest().then('it should not render description for options without one', () => {
+      expect(wrapper.findAll('.caption-light')).toHaveLength(1)
+    })
+  })
+
   BddTest().when('modelValue is updated', () => {
     BddTest().then('it should emit update:modelValue event', async () => {
       await wrapper.setProps({ modelValue: [mockOptions[0]] })

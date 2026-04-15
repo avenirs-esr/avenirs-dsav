@@ -4,6 +4,8 @@ import type { AvListProps } from '@/components/interaction/lists/AvList/AvList.v
 export interface AvAutocompleteOption {
   label: string
   value: string | number
+  description?: string
+  disabled?: boolean
 }
 
 export interface AvAutocompleteProps<T extends AvAutocompleteOption = AvAutocompleteOption> {
