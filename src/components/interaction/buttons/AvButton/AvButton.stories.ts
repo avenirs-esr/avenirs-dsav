@@ -24,7 +24,7 @@ import { iconMapping, iconOptions } from '@/utils/storybook'
  * <p>
  *   <span class="b2-regular">
  *     The button only allow two variants (<code>DEFAULT</code> without border and <code>OUTLINED</code> with border)
- *     and two themes (<code>PRIMARY</code> blue, <code>SECONDARY</code> grey and <code>TERTIARY</code> white).
+ *     and three themes (<code>PRIMARY</code> blue, <code>SECONDARY</code> grey and <code>TERTIARY</code> white).
  *   </span>
  * </p>
  *

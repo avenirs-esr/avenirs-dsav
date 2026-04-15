@@ -187,7 +187,8 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
       text: var(--dark-background-primary1),
       bg: transparent,
       hover-bg: var(--light-background-primary1),
-      hover-text: var(--dark-background-primary1)
+      hover-text: var(--dark-background-primary1),
+      hover-text-flat: var(--other-background-base)
     ),
     secondary: (
       text: var(--text1),
@@ -219,7 +220,7 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
           $theme == primary,
           (
             bg: map.get($colors, text),
-            color: var(--other-background-base),
+            color: map.get($colors, hover-text-flat),
             border: map.get($colors, text)
           ),
           (
