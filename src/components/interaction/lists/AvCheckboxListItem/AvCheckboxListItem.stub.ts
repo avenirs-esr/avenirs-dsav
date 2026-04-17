@@ -18,6 +18,7 @@ export const AvCheckboxListItemStub = defineComponent({
         :id="id"
         :name="label"
         :checked="modelValue.includes(id)"
+        :disabled="disabled"
         @change="$emit('update:modelValue', 
           modelValue.includes(id)
             ? modelValue.filter(v => v !== id)
