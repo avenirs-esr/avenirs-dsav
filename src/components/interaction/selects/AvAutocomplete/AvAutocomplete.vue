@@ -15,7 +15,6 @@ const props = withDefaults(defineProps<AvAutocompleteProps<T>>(), {
     size: 'small',
     ariaLabel: 'Available options list'
   }),
-  scrollbarClass: 'av-autocomplete__scrollbar--default',
   dropdownClass: 'av-autocomplete__dropdown--default',
   loading: false,
   debounceDelay: 300,

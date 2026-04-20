@@ -222,24 +222,6 @@ defineExpose({
 .av-autocomplete-dropdown__options {
   max-height: inherit;
   overflow-y: auto;
-  scrollbar-width: thin;
-
-  &::-webkit-scrollbar {
-    width: 0.375rem;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: var(--divider);
-    border-radius: var(--radius-sm);
-  }
-
-  &::-webkit-scrollbar-thumb:hover {
-    background-color: var(--text2);
-  }
 }
 
 .av-autocomplete-dropdown__empty {
@@ -254,29 +236,5 @@ defineExpose({
 .av-autocomplete-dropdown__loading-text {
   font-size: 0.875rem;
   font-weight: 400;
-}
-</style>
-
-<style lang="scss">
-.av-autocomplete__scrollbar--default {
-  scrollbar-color: var(--light-foreground-primary1) var(--light-background-primary1);
-
-  &::-webkit-scrollbar {
-    width: 0.375rem;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: var(--light-background-primary1);
-    border-radius: var(--radius-sm);
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: var(--light-foreground-primary1);
-    border-radius: var(--radius-sm);
-  }
-
-  &::-webkit-scrollbar-thumb:hover {
-    background-color: var(--dark-background-primary1);
-  }
 }
 </style>
