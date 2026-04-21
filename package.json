@@ -15,20 +15,20 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.cjs.js"
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     },
     "./test-utils": {
       "types": "./dist/test-utils.d.ts",
-      "import": "./dist/test-utils.es.js",
-      "require": "./dist/test-utils.cjs.js"
+      "import": "./dist/test-utils.js",
+      "require": "./dist/test-utils.cjs"
     },
     "./style.css": "./dist/avenirs-dsav.css",
     "./src/styles/*": "./src/styles/*",
     "./mixins": "./src/styles/mixins.scss"
   },
-  "main": "dist/avenirs-dsav.umd.js",
-  "module": "dist/avenirs-dsav.es.js",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist",

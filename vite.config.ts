@@ -44,27 +44,25 @@ export default defineConfig({
       entry: {
         'index': 'src/index.ts',
         'test-utils': 'src/tests/index.ts',
-      },
-      name: 'DSAV',
-      fileName: format => `avenirs-dsav.${format}.js`
+      }
     },
     rollupOptions: {
       external: [
         'vue',
         'vue-router',
         'vitest',
-        '@vue/test-utils'
+        '@vue/test-utils',
+        /^@tiptap\/.*/,
+        '@vueuse/core',
+        'date-fns',
+        'focus-trap',
+        'focus-trap-vue',
+        'lodash-es',
       ],
       output: {
         exports: 'named',
         dir: 'dist',
-        globals: {
-          'vue': 'Vue',
-          'vue-router': 'VueRouter'
-        },
-        manualChunks: undefined,
-        entryFileNames: `[name].[format].js`,
-        chunkFileNames: `[name].[format].js`,
+        preserveModules: true
       },
     },
   },
