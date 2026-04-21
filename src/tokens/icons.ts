@@ -81,6 +81,7 @@ export const MDI_ICONS = {
   DIAMOND_STONE: 'mdi:diamond-stone',
   DOTS_HORIZONTAL_CIRCLE_OUTLINE: 'mdi:dots-horizontal-circle-outline',
   DOTS_VERTICAL: 'mdi:dots-vertical',
+  DOWNLOAD_OUTLINE: 'mdi:download-outline',
   ELECTRON_FRAMEWORK: 'mdi:electron-framework',
   EMAIL_OUTLINE: 'mdi:email-outline',
   FAMILY: 'mdi:family',
