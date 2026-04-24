@@ -55,12 +55,10 @@ const placeholderText = computed(() => {
 
 const debouncedSearch = debounce((query: string) => {
   searchQuery.value = query
-  emit('search', query)
 }, props.debounceDelay)
 
 function handleInput (value: string | number | null) {
-  searchQuery.value = String(value || '')
-  debouncedSearch(searchQuery.value)
+  debouncedSearch(String(value || ''))
 }
 
 function handleFocus () {

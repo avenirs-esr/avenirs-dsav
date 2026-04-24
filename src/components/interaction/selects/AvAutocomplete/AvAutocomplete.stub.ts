@@ -12,9 +12,10 @@ export const AvAutocompleteStub = defineComponent({
     'serverSideFiltering',
     'enableLoadMore',
     'displaySelectionInInput',
-    'maxDropdownHeight'
+    'maxDropdownHeight',
+    'search'
   ],
-  emits: ['update:modelValue', 'search', 'clear', 'loadMore'],
+  emits: ['update:modelValue', 'clear', 'loadMore', 'update:search'],
   template: `
     <div class="av-autocomplete-stub">
       <slot
