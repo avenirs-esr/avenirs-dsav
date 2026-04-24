@@ -49,12 +49,13 @@ The component integrates:
 | `loadMoreThrottleDelay` | `number`                                  | `200`                                               | | Throttle delay for scroll-to-bottom load more (in milliseconds). |
 | `serverSideFiltering` | `boolean`                                 | `false`                                             | | Whether filtering is handled server-side. When true, client-side filtering is bypassed. |
 | `selectedItemsCountLabel` | `string` | `'element(s) selected'` | | Label displayed after the selected items count in multi-select mode. |
+| `search` | `string` | `''` | | Two-way binding for the current search query (use `v-model:search`). |
 
 ## 🔊 Events
 
 | Event | Parameters | Description |
 | --- | --- | --- |
-| `search` | `query: string` | Emitted when user searches for options. |
+| `update:search` | `query: string` | Emitted when the search query changes (via `v-model:search`). |
 | `loadMore` | | Emitted when more options should be loaded (infinite scroll). |
 | `clear` | | Emitted when the selection is cleared. |
 
@@ -84,7 +85,6 @@ const users = ref([
 ])
 
 function handleSearch (query) {
-  // Fetch users based on query
   console.log('Searching for:', query)
 }
 </script>
@@ -99,7 +99,7 @@ function handleSearch (query) {
       required: true,
     }"
     :multi-select="true"
-    @search="handleSearch"
+    @update:search="handleSearch"
   />
 </template>
 ```
@@ -114,7 +114,7 @@ function handleSearch (query) {
       label: 'Select project',
       placeholder: 'Search projects...',
     }"
-    @search="handleProjectSearch"
+    @update:search="handleProjectSearch"
   >
     <template #item="{ option, isSelected, toggle }">
       <AvListItem
@@ -197,7 +197,7 @@ async function loadMoreItems () {
     :enable-load-more="true"
     :loading="loading"
     max-dropdown-height="15rem"
-    @search="handleSearch"
+    @update:search="handleSearch"
     @load-more="loadMoreItems"
   />
 </template>
@@ -275,7 +275,7 @@ async function handleSearch (query) {
     :loading="loading"
     :server-side-filtering="true"
     :multi-select="true"
-    @search="handleSearch"
+    @update:search="handleSearch"
   />
 </template>
 ```

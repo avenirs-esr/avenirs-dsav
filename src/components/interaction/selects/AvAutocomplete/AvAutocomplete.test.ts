@@ -55,8 +55,8 @@ BddTest().given('an autocomplete component', () => {
 
       await input.vm.$emit('search', 'test query')
 
-      expect(wrapper.emitted('search')).toBeTruthy()
-      expect(wrapper.emitted('search')![0]).toEqual(['test query'])
+      expect(wrapper.emitted('update:search')).toBeTruthy()
+      expect(wrapper.emitted('update:search')![0]).toEqual(['test query'])
     })
   })
 

@@ -29,12 +29,6 @@ const props = withDefaults(defineProps<AvAutocompleteProps<T>>(), {
 
 const emit = defineEmits<{
   /**
-   * Emitted when user searches for options.
-   * @param e emitted event name: search
-   * @param query Search query string entered by the user.
-   */
-  (e: 'search', query: string): void
-  /**
    * Emitted when more options should be loaded (infinite scroll).
    */
   (e: 'loadMore'): void
@@ -69,9 +63,9 @@ const slots = defineSlots<{
 }>()
 
 const selectedItems = defineModel<T[]>({ default: () => [] })
+const searchQuery = defineModel<string>('search', { default: '' })
 
 const isOpen = ref(false)
-const searchQuery = ref('')
 const wrapperRef = ref<HTMLElement>()
 const inputRef = ref<{ inputRef?: HTMLElement, dropdownRef?: HTMLElement }>()
 const dropdownRef = ref<{ dropdownRef?: HTMLElement }>()
@@ -79,7 +73,6 @@ const dropdownRef = ref<{ dropdownRef?: HTMLElement }>()
 const inputId = computed(() => props.id || `av-autocomplete-${crypto.randomUUID()}`)
 function handleSearch (query: string) {
   searchQuery.value = query
-  emit('search', query)
 }
 
 function handleBlur (event: FocusEvent) {
