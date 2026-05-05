@@ -58,6 +58,13 @@ export default defineConfig({
               collapsed: true
             },
             {
+              text: 'Data Display',
+              items: [
+                { text: 'AvTable', link: '/components/dataDisplay/AvTable/AvTable.md' },
+              ],
+              collapsed: true
+            },
+            {
               text: 'Feedback',
               items: [
                 { text: 'AvAlert', link: '/components/feedback/AvAlert/AvAlert.md' },
