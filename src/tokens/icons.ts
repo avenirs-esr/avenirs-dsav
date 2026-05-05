@@ -121,6 +121,7 @@ export const MDI_ICONS = {
   IMAGE_OUTLINE: 'mdi:image-outline',
   IMAGE_REMOVE_OUTLINE: 'mdi:image-remove-outline',
   IMAGE_REFRESH_OUTLINE: 'mdi:image-refresh-outline',
+  INBOX_OUTLINE: 'mdi:inbox-outline',
   INFORMATION_BOX: 'mdi:information-box',
   INFORMATION_BOX_OUTLINE: 'mdi:information-box-outline',
   INFORMATION_OUTLINE: 'mdi:information-outline',
