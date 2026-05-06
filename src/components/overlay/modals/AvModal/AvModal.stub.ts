@@ -8,7 +8,7 @@ export const AvModalStub = defineComponent({
     'isLoading',
     'confirmButtonDisabled'
   ],
-  emits: ['close', 'confirm'],
+  emits: ['close', 'confirm', 'clickOutside'],
   template: `
     <div class="av-modal">
       <slot name="header"></slot>

@@ -35,7 +35,8 @@ It consists of the following elements:
 | Name | Data (*payload*) | Description |
 | --- | --- | --- |
 | `‘close’` | | Event emitted when modal is closed. |
-| `‘close’` | | Event emitted when confirm button is clicked. |
+| `‘confirm’` | | Event emitted when confirm button is clicked. |
+| `‘clickOutside’` | | Event emitted when a click is detected outside the modal. |
 
 ## 🎨 Slots
 

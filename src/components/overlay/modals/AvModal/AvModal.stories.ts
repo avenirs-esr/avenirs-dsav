@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import type { Meta, StoryFn } from '@storybook/vue3'
 import AvIconText from '@/components/base/AvIconText/AvIconText.vue'
 import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
@@ -75,12 +76,13 @@ export default meta
 const Template: StoryFn<AvModalProps> = args => ({
   components: { AvModal, AvIconText, AvButton },
   setup () {
+    const onClickOutside = () => alert('Clicked outside!')
     const show = ref(args.opened)
-    return { args, show }
+    return { args, show, onClickOutside }
   },
   template: `
     <button @click="show = true">Open modal</button>
-    <AvModal v-bind="args" :opened="show" @close="show = false">
+    <AvModal v-bind="args" :opened="show" @close="show = false" @clickOutside="onClickOutside">
       <template #header>
         <AvIconText
           icon="mdi:swap-horizontal"
