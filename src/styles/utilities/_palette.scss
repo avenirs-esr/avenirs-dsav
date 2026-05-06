@@ -12,3 +12,7 @@
 @include ns("text-title") {
   color: var(--title);
 }
+
+@include ns("text-error") {
+  color: var(--dark-background-error);
+}

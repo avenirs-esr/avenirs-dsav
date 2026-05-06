@@ -42,6 +42,7 @@ The component integrates focus management, proper ARIA attributes, and responsiv
 | `minlength` | `number` | `undefined` |  | Minimum length of input |
 | `errorMessage` | `string \| string[]` | `undefined` |  | Error message(s) to display |
 | `validMessage` | `string \| string[]` | `undefined` |  | Valid message(s) to display |
+| `maxlengthExceededMessage` | `string` | `undefined` |  | Message to display when maxlength is exceeded |
 | `prefixIcon` | `string` | `undefined` |  | Prefix icon name (optional) |
 | `width` | `string` | `undefined` |  | Width of the input |
 | `noRadius` | `boolean` | `false` |  | Removes the radii from the input border |
@@ -53,6 +54,7 @@ The component integrates focus management, proper ARIA attributes, and responsiv
 | Name | Data (*payload*) | Description |
 | --- | --- | --- |
 | `update:modelValue` | `string \| number \| null` | Emitted when the input value changes |
+| `maxlengthExceeded` | `boolean` | Emitted when the maxlength is exceeded or no longer exceeded |
 
 ## 🎨 Slots
 

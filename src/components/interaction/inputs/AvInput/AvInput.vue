@@ -110,6 +110,11 @@ export interface AvInputProps {
   validMessage?: string | string[]
 
   /**
+   * Message to display when maxlength is exceeded
+   */
+  maxlengthExceededMessage?: string
+
+  /**
    * Prefix icon name (optional)
    */
   prefixIcon?: string
@@ -166,6 +171,7 @@ const {
   width,
   noRadius = false,
   formatDateStr,
+  maxlengthExceededMessage,
 } = defineProps<AvInputProps>()
 
 /**
@@ -177,6 +183,12 @@ const emit = defineEmits<{
    * @param value Value (`string | number | null`) The new value of the input
    */
   'update:modelValue': [value: string | number | null]
+
+  /**
+   * Emitted when the maxlength is exceeded or no longer exceeded
+   * @param exceeded Value (`boolean`) Whether the maxlength is currently exceeded
+   */
+  'maxlengthExceeded': [exceeded: boolean]
 }>()
 
 /**
@@ -223,6 +235,20 @@ const isInvalid = computed(() => {
   return !!errorMessage
 })
 
+const currentLength = computed(() => {
+  if (modelValue === null || modelValue === undefined) {
+    return 0
+  }
+  return modelValue.toString().length
+})
+
+const maxlengthExceeded = computed(() => {
+  if (!maxlength) {
+    return false
+  }
+  return currentLength.value > maxlength
+})
+
 const __input: Ref<HTMLElement | null> = ref(null)
 const focus = () => __input.value?.focus()
 
@@ -246,7 +272,6 @@ const commonInputClasses = computed(() => ({
 const inputProps = computed(() => ({
   ...attrs,
   disabled,
-  maxlength,
   minlength,
   required,
   type,
@@ -265,6 +290,10 @@ const icon = computed(() => {
 
 defineExpose({
   focus,
+})
+
+watch(() => maxlengthExceeded.value, (newValue) => {
+  emit('maxlengthExceeded', newValue)
 })
 </script>
 
@@ -361,10 +390,19 @@ defineExpose({
         <span
           v-if="maxlength"
           class="caption-light"
+          :class="{
+            'av-text-error': maxlengthExceeded,
+          }"
         >
-          {{ modelValue?.toString().length }} / {{ maxlength }}
+          {{ currentLength }} / {{ maxlength }}
         </span>
       </slot>
+
+      <AvMessage
+        v-if="maxlengthExceeded && maxlengthExceededMessage"
+        :message="maxlengthExceededMessage"
+        type="error"
+      />
     </div>
 
     <span
