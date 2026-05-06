@@ -154,24 +154,39 @@ BddTest().given('an AvInput', () => {
     })
   })
 
-  BddTest().when('the component is mounted with length constraints', () => {
+  BddTest().when('the component is mounted with minlength constraints', () => {
     beforeEach(() => {
       wrapper = mount<typeof AvInput>(AvInput, {
         props: {
-          maxlength: 50,
           minlength: 5
         }
       })
     })
 
-    BddTest().then('it should set the maxlength attribute', () => {
-      const input = wrapper.find('input')
-      expect(input.attributes('maxlength')).toBe('50')
-    })
-
     BddTest().then('it should set the minlength attribute', () => {
       const input = wrapper.find('input')
       expect(input.attributes('minlength')).toBe('5')
+    })
+  })
+
+  BddTest().when('the component is mounted with maxlength constraints and the user exceeds it', () => {
+    beforeEach(async () => {
+      wrapper = mount<typeof AvInput>(AvInput, {
+        props: {
+          maxlength: 8,
+          maxlengthExceededMessage: 'Max length exceeded'
+        }
+      })
+
+      const input = wrapper.find('input')
+      await input.setValue('new value')
+      await wrapper.setProps({ modelValue: 'new value' })
+    })
+
+    BddTest().then('it should display the maxlength exceeded message', () => {
+      const error = wrapper.find('.av-message--error')
+      expect(error.exists()).toBe(true)
+      expect(error.text()).toBe('Max length exceeded')
     })
   })
 

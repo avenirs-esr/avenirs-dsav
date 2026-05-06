@@ -63,6 +63,7 @@ const meta: Meta<AvInputProps> = {
     minlength: { control: 'number' },
     errorMessage: { control: 'text' },
     validMessage: { control: 'text' },
+    maxlengthExceededMessage: { control: 'text' },
     prefixIcon: {
       control: 'select',
       options: [
