@@ -87,10 +87,12 @@ const {
  *
  * @event close - Event emitted when the modal is closed.
  * @event confirm - Event emitted when the confirm button is clicked.
+ * @event clickOutside - Event emitted when the user clicks outside the modal content.
  */
 const emit = defineEmits<{
   (e: 'close'): void
   (e: 'confirm'): void
+  (e: 'clickOutside'): void
 }>()
 
 /**
@@ -158,6 +160,7 @@ onBeforeUnmount(() => {
         :class="{ 'av-modal--opened av-w-full av-h-full': opened }"
         :open="opened"
         @keydown.esc="emit('close')"
+        @click.self="emit('clickOutside')"
       >
         <div class="av-container av-container--md av-container--lg av-container-fluid av-w-full">
           <div class="av-modal__body av-pt-sm av-pt-none--md">
