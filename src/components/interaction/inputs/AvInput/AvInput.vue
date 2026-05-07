@@ -217,24 +217,6 @@ const attrs = useAttrs()
 
 const realId = id ?? `input-${crypto.randomUUID()}`
 
-const errorMessages = computed(() => {
-  if (!errorMessage) {
-    return []
-  }
-  return Array.isArray(errorMessage) ? errorMessage : [errorMessage]
-})
-
-const validMessages = computed(() => {
-  if (!validMessage) {
-    return []
-  }
-  return Array.isArray(validMessage) ? validMessage : [validMessage]
-})
-
-const isInvalid = computed(() => {
-  return !!errorMessage
-})
-
 const currentLength = computed(() => {
   if (modelValue === null || modelValue === undefined) {
     return 0
@@ -247,6 +229,28 @@ const maxlengthExceeded = computed(() => {
     return false
   }
   return currentLength.value > maxlength
+})
+
+const errorMessages = computed(() => {
+  const errors = []
+  if (maxlengthExceeded.value && maxlengthExceededMessage) {
+    errors.push(maxlengthExceededMessage)
+  }
+  if (!errorMessage) {
+    return errors
+  }
+  return errors.concat(Array.isArray(errorMessage) ? errorMessage : [errorMessage])
+})
+
+const validMessages = computed(() => {
+  if (!validMessage) {
+    return []
+  }
+  return Array.isArray(validMessage) ? validMessage : [validMessage]
+})
+
+const isInvalid = computed(() => {
+  return errorMessages.value.length > 0
 })
 
 const __input: Ref<HTMLElement | null> = ref(null)
@@ -397,12 +401,6 @@ watch(() => maxlengthExceeded.value, (newValue) => {
           {{ currentLength }} / {{ maxlength }}
         </span>
       </slot>
-
-      <AvMessage
-        v-if="maxlengthExceeded && maxlengthExceededMessage"
-        :message="maxlengthExceededMessage"
-        type="error"
-      />
     </div>
 
     <span
