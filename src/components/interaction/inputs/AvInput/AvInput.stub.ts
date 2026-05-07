@@ -28,6 +28,6 @@ export const AvInputStub = defineComponent({
     textareaMinHeight: String,
     formatDateStr: String,
   },
-  emits: ['update:modelValue', 'maxlengthExceeded'],
+  emits: ['update:modelValue'],
   template: '<input @input="$emit(\'update:modelValue\', $event.target.value)" data-testid="av-input-stub" :value="modelValue" :placeholder="placeholder" :disabled="disabled" :required="required" :maxlength="maxlength" /><slot name="requiredTip" /><slot name="maxLengthCaption" :current-value="modelValue" /><slot name="suffix" />'
 })

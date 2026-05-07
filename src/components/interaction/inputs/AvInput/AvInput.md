@@ -54,7 +54,6 @@ The component integrates focus management, proper ARIA attributes, and responsiv
 | Name | Data (*payload*) | Description |
 | --- | --- | --- |
 | `update:modelValue` | `string \| number \| null` | Emitted when the input value changes |
-| `maxlengthExceeded` | `boolean` | Emitted when the maxlength is exceeded or no longer exceeded |
 
 ## 🎨 Slots
 

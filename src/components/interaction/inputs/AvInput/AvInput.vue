@@ -183,12 +183,6 @@ const emit = defineEmits<{
    * @param value Value (`string | number | null`) The new value of the input
    */
   'update:modelValue': [value: string | number | null]
-
-  /**
-   * Emitted when the maxlength is exceeded or no longer exceeded
-   * @param exceeded Value (`boolean`) Whether the maxlength is currently exceeded
-   */
-  'maxlengthExceeded': [exceeded: boolean]
 }>()
 
 /**
@@ -294,10 +288,6 @@ const icon = computed(() => {
 
 defineExpose({
   focus,
-})
-
-watch(() => maxlengthExceeded.value, (newValue) => {
-  emit('maxlengthExceeded', newValue)
 })
 </script>
 
