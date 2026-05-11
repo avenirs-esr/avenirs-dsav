@@ -40,7 +40,7 @@ export const AvTableStub = defineComponent({
               class="av-table__cell av-table__cell--body"
               @click.stop="$emit('cellClick', row, col, index)"
             >
-              <slot :name="'cell(' + col.key + ')'">{{ row[col.key] }}</slot>
+              <slot :name="'cell(' + col.key + ')'" :row="row" :value="row[col.key]" :row-index="index">{{ row[col.key] }}</slot>
             </td>
           </tr>
         </tbody>
