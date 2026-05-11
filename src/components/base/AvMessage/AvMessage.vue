@@ -85,6 +85,7 @@ const role = computed(() => (type === 'error' || type === 'warning' ? 'alert' : 
       :class="`av-message--${type}`"
       v-bind="avIconTextProps"
       :text="msg"
+      inline
     />
   </div>
 </template>
