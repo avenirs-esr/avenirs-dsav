@@ -233,3 +233,11 @@ WithEachInputLabelAndErrors.args = {
   endErrorMessage: 'The end date cannot be before the start date.',
   width: '14.875rem',
 }
+
+export const InProgress = Template.bind({})
+InProgress.args = {
+  startModelValue: '2026-01-10',
+  inProgressLabel: 'In progress',
+  width: '14.875rem',
+  endDateDisabled: true,
+}

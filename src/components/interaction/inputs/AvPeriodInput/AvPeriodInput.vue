@@ -105,6 +105,11 @@ interface AvPeriodInputBaseProps {
    * Error message for end input
    */
   endErrorMessage?: string
+
+  /**
+   * Label for the "in progress" state when the end date is disabled and empty
+   */
+  inProgressLabel?: string
 }
 
 export type AvPeriodInputProps = AvPeriodInputBaseProps & (
@@ -156,6 +161,7 @@ const {
   startErrorMessage,
   endErrorMessage,
   showEachInputLabel = false,
+  inProgressLabel,
 } = defineProps<AvPeriodInputProps>()
 
 /**
@@ -261,7 +267,25 @@ function onEndUpdate (value: string | number | null) {
         @update:model-value="onStartUpdate($event)"
       />
 
+      <AvRadioButtonSet
+        v-if="!endModelValue && endDateDisabled && !!inProgressLabel"
+        model-value="in-progress"
+        name="in-progress"
+        inline
+        small
+      >
+        <AvRadioButton
+          value="in-progress"
+          disabled
+        >
+          <div>
+            <span class="b2-regular">{{ inProgressLabel }}</span>
+          </div>
+        </AvRadioButton>
+      </AvRadioButtonSet>
+
       <AvInput
+        v-else
         :id="endId"
         :type="type"
         :model-value="endModelValue"
@@ -292,5 +316,10 @@ function onEndUpdate (value: string | number | null) {
   &__separator {
     flex: 0 0 auto;
   }
+
+  :deep(.av-fieldset__element--disabled:has(.av-radio-group)) {
+    opacity: 1 !important;
+  }
+
 }
 </style>

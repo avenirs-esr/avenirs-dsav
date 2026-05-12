@@ -37,6 +37,7 @@ This component uses a **discriminated union** based on `showEachInputLabel`:
 | `endErrorMessage`   | `string` | `''` |  | Error message for end input.                                                          |
 | `startDateDisabled` | `boolean` | `false` |  | If `true`, disable only the start date input.                                         |
 | `endDateDisabled`   | `boolean` | `false` |  | If `true`, disable only the end date input.                                           |
+| `inProgressLabel`  | `string` | `'In progress'` |  | Label for the "in progress" state when the end date is disabled and empty.                      |
 | `width`             | `string` |  |  | Optional width for both inputs (CSS value).                                           |
 | `startMinDate`      | `Date` |  |  | Minimum selectable date for the start input.                                          |
 | `startMaxDate`      | `Date` |  |  | Maximum selectable date for the start input. Also impacted by the selected end date.  |

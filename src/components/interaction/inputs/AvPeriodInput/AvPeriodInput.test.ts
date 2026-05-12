@@ -2,6 +2,8 @@ import { mount, type VueWrapper } from '@vue/test-utils'
 import { parseISO } from 'date-fns'
 import { beforeEach } from 'vitest'
 import AvPeriodInput, { type AvPeriodInputProps } from '@/components/interaction/inputs/AvPeriodInput/AvPeriodInput.vue'
+import { AvRadioButtonStub } from '@/components/interaction/radios/AvRadioButton/AvRadioButton.stub'
+import { AvRadioButtonSetStub } from '@/components/interaction/radios/AvRadioButtonSet/AvRadioButtonSet.stub'
 import { AvInputStub, BddTest } from '@/tests'
 
 BddTest().given('a period input', () => {
@@ -9,6 +11,8 @@ BddTest().given('a period input', () => {
 
   const stubs = {
     AvInput: AvInputStub,
+    AvRadioButtonSet: AvRadioButtonSetStub,
+    AvRadioButton: AvRadioButtonStub,
   }
 
   const requiredProps: AvPeriodInputProps = {
@@ -256,6 +260,24 @@ BddTest().given('a period input', () => {
 
       expect(startInput.props('disabled')).toBe(false)
       expect(endInput.props('disabled')).toBe(true)
+    })
+  })
+
+  BddTest().and('given endDateDisabled is true and inProgressLabel is provided', () => {
+    const props: AvPeriodInputProps = {
+      ...requiredProps,
+      endDateDisabled: true,
+      inProgressLabel: 'In progress',
+    }
+
+    beforeEach(() => {
+      wrapper = mount(AvPeriodInput, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should render the radio button set instead of the end date input', () => {
+      expect(wrapper.find('[data-testid="av-radio-button-set-stub"]').exists()).toBe(true)
+      expect(wrapper.find('[data-testid="end-date-input"]').exists()).toBe(false)
+      expect(wrapper.find('.b2-regular').text()).toBe('In progress')
     })
   })
 
