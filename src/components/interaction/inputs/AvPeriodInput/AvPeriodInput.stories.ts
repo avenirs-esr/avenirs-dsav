@@ -234,10 +234,10 @@ WithEachInputLabelAndErrors.args = {
   width: '14.875rem',
 }
 
-export const InProgress = Template.bind({})
-InProgress.args = {
+export const Ongoing = Template.bind({})
+Ongoing.args = {
   startModelValue: '2026-01-10',
-  inProgressLabel: 'In progress',
+  ongoingLabel: 'Ongoing',
   width: '14.875rem',
   endDateDisabled: true,
 }

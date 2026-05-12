@@ -263,11 +263,11 @@ BddTest().given('a period input', () => {
     })
   })
 
-  BddTest().and('given endDateDisabled is true and inProgressLabel is provided', () => {
+  BddTest().and('given endDateDisabled is true and ongoingLabel is provided', () => {
     const props: AvPeriodInputProps = {
       ...requiredProps,
       endDateDisabled: true,
-      inProgressLabel: 'In progress',
+      ongoingLabel: 'Ongoing',
     }
 
     beforeEach(() => {
@@ -277,7 +277,7 @@ BddTest().given('a period input', () => {
     BddTest().then('it should render the radio button set instead of the end date input', () => {
       expect(wrapper.find('[data-testid="av-radio-button-set-stub"]').exists()).toBe(true)
       expect(wrapper.find('[data-testid="end-date-input"]').exists()).toBe(false)
-      expect(wrapper.find('.b2-regular').text()).toBe('In progress')
+      expect(wrapper.find('.b2-regular').text()).toBe('Ongoing')
     })
   })
 
