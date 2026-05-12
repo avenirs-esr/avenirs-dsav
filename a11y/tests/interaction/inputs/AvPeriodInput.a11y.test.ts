@@ -16,6 +16,7 @@ const stories = [
   'MonthType',
   'DateTimeLocalType',
   'HiddenLabel',
+  'InProgress'
 ]
 
 testStories(component, title, stories)

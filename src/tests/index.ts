@@ -17,6 +17,8 @@ import { AvCheckboxListItemStub } from '@/components/interaction/lists/AvCheckbo
 import { AvListStub } from '@/components/interaction/lists/AvList/AvList.stub'
 import { AvListItemStub } from '@/components/interaction/lists/AvListItem/AvListItem.stub'
 import { AvTagPickerStub } from '@/components/interaction/pickers/AvTagPicker/AvTagPicker.stub'
+import { AvRadioButtonStub } from '@/components/interaction/radios/AvRadioButton/AvRadioButton.stub'
+import { AvRadioButtonSetStub } from '@/components/interaction/radios/AvRadioButtonSet/AvRadioButtonSet.stub'
 import { AvAutocompleteStub } from '@/components/interaction/selects/AvAutocomplete/AvAutocomplete.stub'
 import { AvMultiselectStub } from '@/components/interaction/selects/AvMultiselect/AvMultiselect.stub'
 import { AvSelectStub } from '@/components/interaction/selects/AvSelect/AvSelect.stub'
@@ -60,6 +62,8 @@ export {
   AvPaginationStub,
   AvPeriodInputStub,
   AvPopoverStub,
+  AvRadioButtonSetStub,
+  AvRadioButtonStub,
   AvSelectStub,
   AvSideNavigationStub,
   AvStepperStub,
