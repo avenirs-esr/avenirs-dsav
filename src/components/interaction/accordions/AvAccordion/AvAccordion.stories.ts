@@ -34,10 +34,12 @@ const meta: Meta<AvAccordionProps> = {
       control: { type: 'select', options: ['h2', 'h3', 'h4', 'h5', 'h6'] },
     },
     overflowVisible: { control: 'boolean' },
+    triggerBorderColor: { control: 'color' },
   },
   args: {
     title: 'Accordion 1',
     icon: 'mdi:home-variant-outline',
+    triggerBorderColor: 'transparent',
   },
 }
 

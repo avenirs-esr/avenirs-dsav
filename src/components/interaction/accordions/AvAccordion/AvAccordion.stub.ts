@@ -2,7 +2,7 @@ import { registerAccordionKey } from '@/components/interaction/accordions/inject
 
 export const AvAccordionStub = defineComponent({
   name: 'AvAccordion',
-  props: ['title', 'icon'],
+  props: ['title', 'icon', 'triggerBorderColor'],
   template: `
     <div class="av-accordion">
       <button
