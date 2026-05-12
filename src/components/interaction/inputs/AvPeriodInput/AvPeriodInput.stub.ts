@@ -21,7 +21,7 @@ export const AvPeriodInputStub = defineComponent({
     labelVisible: Boolean,
     startErrorMessage: String,
     endErrorMessage: String,
-    inProgressLabel: String,
+    ongoingLabel: String,
   },
   emits: ['update:startModelValue', 'update:endModelValue', 'change'],
   template: `<div class="av-period-input-stub" data-testid="av-period-input-stub" />`,
