@@ -21,6 +21,7 @@ An accordion consists of the following elements:
 | `icon` | `string` | `undefined` | | Accordion icon. |
 | `headingLevel` | `'h2' \| 'h3' \| 'h4' \| 'h5' \| 'h6'` | `'h3'` | | Heading level for the accordion title. |
 | `overflowVisible` | `boolean` | `false` | | Whether the overflow of the accordion content should be visible when expanded. |
+| `triggerBorderColor` | `string` | `'transparent'` | | Border color of the accordion trigger. If set to 'transparent', the trigger will have no border and the arrow will inherit the text color. |
 
 ## 🔊 Events
 
@@ -51,6 +52,7 @@ You can find examples of use and demo of the component on its dedicated [Storybo
       title="Accordion 2"
       icon="mdi:plus-circle-outline"
       overflow-visible
+      trigger-border-color="var(--dark-background-error)"
     >
       <span>Second accordion content</span>
     </AvAccordion>

@@ -35,9 +35,16 @@ export interface AvAccordionProps {
    * @default false
    */
   overflowVisible?: boolean
+
+  /**
+   * Border color of the accordion trigger. If set to 'transparent', the trigger will have no border and the arrow will inherit the text color.
+   * @default 'transparent'
+   */
+  triggerBorderColor?: string
 }
 
-const { id, title, icon, headingLevel = 'h3', overflowVisible = false } = defineProps<AvAccordionProps>()
+const { id, title, icon, headingLevel = 'h3', overflowVisible = false, triggerBorderColor = 'transparent' } = defineProps<AvAccordionProps>()
+
 /**
  * Slots available in the AvAccordion component.
  * The default slot contains the content of the accordion.
@@ -59,6 +66,7 @@ const {
 
 const accordionHeaderId = id ?? `accordion-${crypto.randomUUID()}`
 const accordionPanelId = computed(() => `${accordionHeaderId}-panel`)
+const triggerColor = computed(() => triggerBorderColor === 'transparent' ? 'currentColor' : triggerBorderColor)
 
 const isStandaloneActive = ref()
 const triggerRef = ref<HTMLElement | null>(null)
@@ -157,6 +165,9 @@ watch(isActive, (newValue, oldValue) => {
     max-height: none;
     min-height: var(--dimension-2xl);
     overflow: initial;
+
+    border: 1px solid v-bind(triggerBorderColor);
+    color: v-bind(triggerColor);
 
     &::after, &::before {
       display: block;
