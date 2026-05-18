@@ -37,7 +37,8 @@ const mockItemsWithChildren = [
     icon: MDI_ICONS.SCHOOL_OUTLINE,
     children: [
       { id: 'subitem-1-1', label: 'Subitem 1-1', icon: MDI_ICONS.CHEVRON_RIGHT },
-      { id: 'subitem-1-2', label: 'Subitem 1-2', icon: MDI_ICONS.CHEVRON_RIGHT }
+      { id: 'subitem-1-2', label: 'Subitem 1-2' },
+      { id: 'subitem-1-3', label: 'Subitem 1-3', icon: MDI_ICONS.CHEVRON_RIGHT },
     ],
     expanded: true
   },

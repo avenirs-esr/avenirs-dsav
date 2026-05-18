@@ -5,7 +5,7 @@ import AvSideMenu from '@/components/navigation/AvSideMenu/AvSideMenu.vue'
 export interface AvSideNavigationItem {
   id: string
   label: string
-  icon: string
+  icon?: string
 }
 
 export interface AvSideNavigationSelectedItem {

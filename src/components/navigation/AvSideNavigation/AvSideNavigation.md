@@ -34,7 +34,7 @@ The component integrates:
 interface AvSideNavigationItem {
   id: string // Unique identifier for the item
   label: string // Display text for the item
-  icon: string // Icon identifier (from MDI_ICONS or RI_ICONS)
+  icon?: string // Icon identifier (from MDI_ICONS or RI_ICONS for example)
 }
 ```
 
