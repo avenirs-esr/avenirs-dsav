@@ -7,6 +7,7 @@ export const AvSideNavigationStub = defineComponent({
       required: true
     },
     isSideMenuCollapsed: Boolean,
+    hideContentWhenCollapsed: Boolean,
     collapsedWidth: String
   },
   emits: ['update:selectedItem', 'update:isSideMenuCollapsed'],

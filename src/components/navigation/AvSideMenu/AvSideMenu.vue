@@ -30,6 +30,12 @@ export interface AvSideMenuProps {
    * Custom padding for the side-menu content
    */
   padding?: string
+
+  /**
+   * Whether to hide the content when the menu is collapsed
+   * @default false
+   */
+  hideContentWhenCollapsed?: boolean
 }
 
 const props = withDefaults(defineProps<AvSideMenuProps>(), {
@@ -37,7 +43,8 @@ const props = withDefaults(defineProps<AvSideMenuProps>(), {
   collapsed: false,
   width: '16rem',
   collapsedWidth: '5rem',
-  padding: '0'
+  padding: '0',
+  hideContentWhenCollapsed: false
 })
 
 /**
@@ -119,7 +126,10 @@ function toggleCollapse () {
       />
     </div>
 
-    <div class="av-side-menu__content av-row av-flex-fill av-py-sm">
+    <div
+      v-if="!(hideContentWhenCollapsed && collapsed)"
+      class="av-side-menu__content av-row av-flex-fill av-py-sm"
+    >
       <slot />
     </div>
   </nav>

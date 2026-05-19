@@ -334,4 +334,33 @@ BddTest().given('an AvSideMenu component', () => {
       })
     })
   })
+
+  BddTest().and('with hide content when collapsed', () => {
+    let wrapper: ReturnType<typeof mount<typeof AvSideMenu>>
+
+    beforeEach(() => {
+      wrapper = mount<typeof AvSideMenu>(AvSideMenu, {
+        props: {
+          hideContentWhenCollapsed: true
+        }
+      })
+    })
+
+    BddTest().when('the component is not collapsed', () => {
+      BddTest().then('it should show the content', () => {
+        const content = wrapper.find('.av-side-menu__content')
+        expect(content.exists()).toBe(true)
+      })
+    })
+
+    BddTest().when('the component is collapsed', () => {
+      BddTest().then('it should hide the content', async () => {
+        await wrapper.setProps({ collapsed: true })
+        const sideMenu = wrapper.find('.av-side-menu')
+        expect(sideMenu.exists()).toBe(true)
+        expect(wrapper.find('.av-side-menu--collapsed').exists()).toBe(true)
+        expect(wrapper.find('.av-side-menu__content').exists()).toBe(false)
+      })
+    })
+  })
 })

@@ -198,11 +198,11 @@ BddTest().given('an AvSideNavigation component', () => {
       })
     })
 
-    BddTest().then('it should not show titles for list items', () => {
+    BddTest().then('it should still show titles for list items', () => {
       const listItems = wrapper.findAllComponents({ name: 'AvListItem' })
 
       listItems.forEach((item) => {
-        expect(item.props('title')).toBeUndefined()
+        expect(item.props('title')).toBeDefined()
       })
     })
 

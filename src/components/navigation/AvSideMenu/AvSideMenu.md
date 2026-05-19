@@ -23,6 +23,7 @@ The component integrates focus management, proper ARIA attributes, and responsiv
 | `collapsible` | `boolean` | `true` |  | Whether the collapsing feature is enabled |
 | `width` | `string` | `'16rem'` |  | Width of the side-menu when expanded |
 | `collapsedWidth` | `string` | `'5rem'` |  | Width of the side-menu when collapsed |
+| `hideContentWhenCollapsed` | `boolean` | `false` |  | Whether to hide the content when the menu is collapsed |
 
 ### v-model
 
