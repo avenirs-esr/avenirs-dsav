@@ -10,6 +10,7 @@ const stories = [
   'CustomWidth',
   'CustomCollapsedWidth',
   'CustomColor',
+  'Sticky'
 ]
 
 testStories(component, title, stories)

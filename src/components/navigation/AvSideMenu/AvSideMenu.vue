@@ -36,6 +36,21 @@ export interface AvSideMenuProps {
    * @default false
    */
   hideContentWhenCollapsed?: boolean
+
+  /**
+   * Whether the side-menu should be sticky (fixed position)
+   * If true, the side-menu will remain visible while scrolling the page.
+   * The `stickyOffset` prop can be used to adjust the distance from the top of the viewport when the menu becomes sticky.
+   * @default false
+   */
+  sticky?: boolean
+
+  /**
+   * Offset from the top of the viewport when the menu becomes sticky (e.g., '0', '1rem', '50px', var(--spacing-lg), etc.).
+   * This prop is only applicable if `sticky` is set to true.
+   * @default '0'
+   */
+  stickyOffset?: string
 }
 
 const props = withDefaults(defineProps<AvSideMenuProps>(), {
@@ -44,7 +59,9 @@ const props = withDefaults(defineProps<AvSideMenuProps>(), {
   width: '16rem',
   collapsedWidth: '5rem',
   padding: '0',
-  hideContentWhenCollapsed: false
+  hideContentWhenCollapsed: false,
+  sticky: false,
+  stickyOffset: '0',
 })
 
 /**
@@ -73,7 +90,7 @@ defineSlots<{
 
 const collapsed = defineModel<boolean>('collapsed', { default: false })
 
-const { width, collapsedWidth } = toRefs(props)
+const { width, collapsedWidth, stickyOffset } = toRefs(props)
 
 const menuId = props.id ?? crypto.randomUUID()
 const ariaLabel = computed(() => `${menuId} navigation`)
@@ -108,11 +125,12 @@ function toggleCollapse () {
   <nav
     :id="menuId"
     class="av-side-menu av-col av-h-full"
-    :class="{ 'av-side-menu--collapsed': isCollapsed }"
+    :class="{ 'av-side-menu--collapsed': isCollapsed,
+              'av-side-menu--sticky': sticky }"
     :aria-label="ariaLabel"
   >
     <div
-      v-if="props.collapsible"
+      v-if="collapsible"
       class="av-side-menu__header av-row av-align-center av-justify-end"
     >
       <AvButton
@@ -154,5 +172,12 @@ function toggleCollapse () {
 
 .av-side-menu__collapse-button {
   min-height: var(--dimension-lg);
+}
+
+.av-side-menu--sticky {
+  position: sticky;
+  top: v-bind('stickyOffset');
+  align-self: flex-start;
+  flex-shrink: 0;
 }
 </style>

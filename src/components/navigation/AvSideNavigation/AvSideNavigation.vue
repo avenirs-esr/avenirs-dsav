@@ -51,9 +51,24 @@ export interface AvSideNavigationProps {
    * @default false
    */
   hideContentWhenCollapsed?: boolean
+
+  /**
+   * Whether the side-menu should be sticky (fixed position)
+   * If true, the side-menu will remain visible while scrolling the page.
+   * The `stickyOffset` prop can be used to adjust the distance from the top of the viewport when the menu becomes sticky.
+   * @default false
+   */
+  sticky?: boolean
+
+  /**
+   * Offset from the top of the viewport when the menu becomes sticky (e.g., '0', '1rem', '50px', var(--spacing-lg), etc.).
+   * This prop is only applicable if `sticky` is set to true.
+   * @default '0'
+   */
+  stickyOffset?: string
 }
 
-const { items, width = 'fit-content', collapsedWidth = '3.5rem', selectedItemColor, hideContentWhenCollapsed = false } = defineProps<AvSideNavigationProps>()
+const { items, width = 'fit-content', collapsedWidth = '3.5rem', selectedItemColor, hideContentWhenCollapsed = false, sticky = false, stickyOffset = '0' } = defineProps<AvSideNavigationProps>()
 
 const selectedItem = defineModel<AvSideNavigationSelectedItem>('selectedItem', {
   default: () => ({ itemId: '' })
@@ -107,6 +122,8 @@ watchEffect(() => {
     :collapsed-width="collapsedWidth"
     :color="selectedItemColor"
     :hide-content-when-collapsed="hideContentWhenCollapsed"
+    :sticky="sticky"
+    :sticky-offset="stickyOffset"
   >
     <AvList
       size="small"

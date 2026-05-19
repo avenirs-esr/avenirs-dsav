@@ -122,6 +122,12 @@ const meta: Meta<typeof AvSideNavigation> = {
     },
     isSideMenuCollapsed: {
       control: { type: 'boolean' }
+    },
+    sticky: {
+      control: { type: 'boolean' }
+    },
+    stickyOffset: {
+      control: { type: 'text' }
     }
   },
   args: {
@@ -323,5 +329,35 @@ export const CustomColor: Story = {
   }),
   args: {
     selectedItemColor: 'var(--dark-background-warn)'
+  }
+}
+
+export const Sticky: Story = {
+  render: args => ({
+    components: { AvSideNavigation },
+    setup () {
+      const selectedItem = ref({ itemId: 'careers' })
+      const isSideMenuCollapsed = ref(false)
+      return { args, selectedItem, isSideMenuCollapsed }
+    },
+    template: `
+      <div style="height: 500px; display: flex; overflow-y: auto; border: 1px solid var(--divider); border-radius: var(--radius-md);">
+        <AvSideNavigation 
+          v-bind="args"
+          v-model:selected-item="selectedItem"
+          v-model:is-side-menu-collapsed="isSideMenuCollapsed"
+        />
+        <div style="flex: 1; padding: 1rem; min-height: 1200px; background: #f5f5f5;">
+          <p><strong>Selected item:</strong> {{ selectedItem.itemId }}</p>
+          <p><strong>Parent item:</strong> {{ selectedItem.parentId }}</p>
+          <p><strong>Menu collapsed:</strong> {{ isSideMenuCollapsed }}</p>
+          <p>This story demonstrates the sticky behavior of the side menu. Scroll this container to see that the menu remains visible.</p>
+        </div>
+      </div>
+    `
+  }),
+  args: {
+    sticky: true,
+    stickyOffset: '0'
   }
 }

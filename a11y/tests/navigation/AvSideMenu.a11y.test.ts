@@ -10,6 +10,7 @@ const stories = [
   'CustomWidth',
   'StudentNavigation',
   'Minimal',
+  'Sticky',
 ]
 
 testStories(component, title, stories)
