@@ -212,6 +212,33 @@ export const Collapsed: Story = {
   })
 }
 
+export const HiddenContentCollapsed: Story = {
+  render: args => ({
+    components: { AvSideNavigation },
+    setup () {
+      const selectedItem = ref({ itemId: 'educations' })
+      const isSideMenuCollapsed = ref(true)
+      return { args, selectedItem, isSideMenuCollapsed }
+    },
+    template: `
+      <div style="height: 400px; display: flex;">
+        <AvSideNavigation 
+          v-bind="args"
+          hide-content-when-collapsed
+          v-model:selected-item="selectedItem"
+          v-model:is-side-menu-collapsed="isSideMenuCollapsed"
+        />
+        <div style="flex: 1; padding: 1rem; background: #f5f5f5;">
+          <p><strong>Selected item:</strong> {{ selectedItem.itemId }}</p>
+          <p><strong>Parent item:</strong> {{ selectedItem.parentId }}</p>
+          <p><strong>Menu collapsed:</strong> {{ isSideMenuCollapsed }}</p>
+          <p>This story demonstrates the collapsed state where only collapse button is visible.</p>
+        </div>
+      </div>
+    `
+  })
+}
+
 export const CustomdWidth: Story = {
   render: args => ({
     components: { AvSideNavigation },
@@ -295,6 +322,6 @@ export const CustomColor: Story = {
     `
   }),
   args: {
-    selectedItemColor: '#4caf50'
+    selectedItemColor: 'var(--dark-background-warn)'
   }
 }

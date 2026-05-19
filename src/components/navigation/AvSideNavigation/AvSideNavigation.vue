@@ -45,9 +45,15 @@ export interface AvSideNavigationProps {
    * Color of selected item background and icon.
    */
   selectedItemColor?: string
+
+  /**
+   * Whether to hide the content when the menu is collapsed
+   * @default false
+   */
+  hideContentWhenCollapsed?: boolean
 }
 
-const { items, width = 'fit-content', collapsedWidth = '3.5rem', selectedItemColor } = defineProps<AvSideNavigationProps>()
+const { items, width = 'fit-content', collapsedWidth = '3.5rem', selectedItemColor, hideContentWhenCollapsed = false } = defineProps<AvSideNavigationProps>()
 
 const selectedItem = defineModel<AvSideNavigationSelectedItem>('selectedItem', {
   default: () => ({ itemId: '' })
@@ -100,6 +106,7 @@ watchEffect(() => {
     :width="width"
     :collapsed-width="collapsedWidth"
     :color="selectedItemColor"
+    :hide-content-when-collapsed="hideContentWhenCollapsed"
   >
     <AvList
       size="small"
@@ -110,7 +117,7 @@ watchEffect(() => {
         :key="item.id"
       >
         <AvListItem
-          :title="isSideMenuCollapsed ? undefined : item.label"
+          :title="item.label"
           :icon="item.icon"
           :icon-size="1.8"
           :selected="isItemSelected(item)"
@@ -136,7 +143,7 @@ watchEffect(() => {
               <AvListItem
                 v-for="subitem in item.children"
                 :key="subitem.id"
-                :title="isSideMenuCollapsed ? undefined : subitem.label"
+                :title="subitem.label"
                 :icon="subitem.icon"
                 :icon-size="1.8"
                 :selected="isSubItemSelected(item, subitem)"

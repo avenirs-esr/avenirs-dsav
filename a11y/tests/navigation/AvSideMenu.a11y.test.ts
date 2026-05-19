@@ -4,6 +4,8 @@ const component = 'AvSideMenu'
 const title = 'Components/Navigation/AvSideMenu'
 const stories = [
   'Default',
+  'Collapsed',
+  'HiddenContentCollapsed',
   'NonCollapsible',
   'CustomWidth',
   'StudentNavigation',

@@ -212,6 +212,7 @@ function handleKeyDown (event: KeyboardEvent) {
   >
     <component
       :is="componentTag"
+      :title="title"
       :aria-label="clickable ? computedAriaLabel : undefined"
       :aria-describedby="ariaDescribedby"
       :aria-disabled="disabled && isButton ? 'true' : undefined"
