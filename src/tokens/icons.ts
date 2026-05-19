@@ -179,6 +179,7 @@ export const MDI_ICONS = {
   TARGET_ARROW: 'mdi:target-arrow',
   TEST_TUBE_EMPTY: 'mdi:test-tube-empty',
   TEXT_BOX_CHECK_OUTLINE: 'mdi:text-box-check-outline',
+  TEXT_BOX_EDIT_OUTLINE: 'mdi:text-box-edit-outline',
   TRANSLATE: 'mdi:translate',
   TRASH_CAN_OUTLINE: 'mdi:trash-can-outline',
   TRAY_UPLOAD: 'mdi:tray-upload',
