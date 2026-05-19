@@ -55,7 +55,9 @@ const meta: Meta<AvSideMenuProps> = {
   argTypes: {
     collapsible: { control: 'boolean' },
     width: { control: 'text' },
-    collapsedWidth: { control: 'text' }
+    collapsedWidth: { control: 'text' },
+    sticky: { control: 'boolean' },
+    stickyOffset: { control: 'text' }
   },
   args: {
     collapsible: true,
@@ -292,3 +294,47 @@ const MinimalTemplate: StoryFn<AvSideMenuProps> = args => ({
 
 export const Minimal = MinimalTemplate.bind({})
 Minimal.args = { }
+
+const StickyTemplate: StoryFn<AvSideMenuProps> = args => ({
+  components: { AvSideMenu },
+  setup () {
+    const isCollapsed = ref(args.collapsed ?? false)
+
+    watch(
+      () => args.collapsed,
+      (value) => {
+        isCollapsed.value = value ?? false
+      }
+    )
+
+    return {
+      args,
+      isCollapsed
+    }
+  },
+  template: `
+    <div style="height: 500px; display: flex; overflow-y: auto; border: 1px solid var(--divider); border-radius: var(--radius-md);">
+      <AvSideMenu
+        v-bind="args"
+        v-model:collapsed="isCollapsed"
+      >
+        <div style="padding: 1rem;">
+          <p style="margin: 0; color: var(--text2); font-size: 0.875rem;">
+            This side-menu is sticky and will remain visible while scrolling.
+          </p>
+        </div>
+      </AvSideMenu>
+      
+      <div style="flex: 1; padding: 2rem; min-height: 1200px; background-color: var(--surface-background);">
+        <h3>Sticky Side Menu</h3>
+        <p>Scroll this container to see the sticky behavior in action.</p>
+      </div>
+    </div>
+  `
+})
+
+export const Sticky = StickyTemplate.bind({})
+Sticky.args = {
+  sticky: true,
+  stickyOffset: '0'
+}

@@ -24,6 +24,8 @@ The component integrates focus management, proper ARIA attributes, and responsiv
 | `width` | `string` | `'16rem'` |  | Width of the side-menu when expanded |
 | `collapsedWidth` | `string` | `'5rem'` |  | Width of the side-menu when collapsed |
 | `hideContentWhenCollapsed` | `boolean` | `false` |  | Whether to hide the content when the menu is collapsed |
+| `sticky` | `boolean` | `false` |  | Whether the side-menu should be sticky (fixed position on scroll) |
+| `stickyOffset` | `string` | `'0'` |  | Offset from the top when `sticky` is true (e.g., '0', '1rem', '10px', var(--spacing-lg), etc.) |
 
 ### v-model
 
