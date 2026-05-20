@@ -1,13 +1,5 @@
 @use '../core/namespace' as *;
 
-// === Ellipsis ===
-@include ns("ellipsis") {
-  display: inline !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  white-space: nowrap !important;
-}
-
 .ellipsis {
   overflow: hidden;
   text-overflow: ellipsis;

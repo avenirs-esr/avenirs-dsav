@@ -278,7 +278,7 @@ const styleVars = computed(() => ({
 </template>
 
 <style lang="scss" scoped>
-@use '@/styles/components/_texts.scss';
+@use '@/styles/utilities/_text.scss';
 
 .av-multiselect {
   text-align: left;

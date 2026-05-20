@@ -1,0 +1,22 @@
+@use '../core/namespace' as *;
+
+:root {
+  --max-lines: 2;
+}
+
+// === Max lines ===
+@include ns("max-lines") {
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  line-clamp: var(--max-lines) !important;
+  -webkit-line-clamp: var(--max-lines) !important;
+}
+
+// === Ellipsis ===
+@include ns("ellipsis") {
+  display: inline !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}

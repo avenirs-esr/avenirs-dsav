@@ -235,7 +235,8 @@ export default defineConfig({
             { text: 'Border', link: '/styles/utilities/_border.md' },
             { text: 'Layout', link: '/styles/utilities/_layout.md' },
             { text: 'Palette', link: '/styles/utilities/_palette.md' },
-            { text: 'Spacing', link: '/styles/utilities/_spacing.md' }
+            { text: 'Spacing', link: '/styles/utilities/_spacing.md' },
+            { text: 'Text', link: '/styles/utilities/_text.md' }
           ],
           collapsed: true
         },
