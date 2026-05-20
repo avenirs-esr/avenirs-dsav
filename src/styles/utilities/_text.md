@@ -25,6 +25,10 @@ This `text` utility generates text-related classes for all defined styles.
   display: -webkit-box !important;
   -webkit-box-orient: vertical !important;
   overflow: hidden !important;
+  white-space: normal !important;
+  text-overflow: ellipsis !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
   line-clamp: var(--max-lines) !important;
   -webkit-line-clamp: var(--max-lines) !important;
 }
