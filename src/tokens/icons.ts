@@ -160,6 +160,7 @@ export const MDI_ICONS = {
   RESTORE: 'mdi:restore',
   SCHOOL_OUTLINE: 'mdi:school-outline',
   SETTINGS: 'mdi:settings',
+  SETTINGS_OUTLINE: 'mdi:settings-outline',
   SHARE_VARIANT_OUTLINE: 'mdi:share-variant-outline',
   STAR: 'mdi:star',
   STAR_CHECK_OUTLINE: 'mdi:star-check-outline',
