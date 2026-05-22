@@ -274,8 +274,8 @@ const inputProps = computed(() => ({
   required,
   type,
   placeholder: !disabled ? placeholder : '',
-  max: formatDateForInputType(type, maxDate),
-  min: formatDateForInputType(type, minDate),
+  max: formatDateForInputType(type, maxDate) ?? attrs.max,
+  min: formatDateForInputType(type, minDate) ?? attrs.min,
   ariaDescribedBy: descriptionId || undefined,
 }))
 
