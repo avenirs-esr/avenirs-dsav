@@ -169,6 +169,26 @@ BddTest().given('an AvInput', () => {
     })
   })
 
+  BddTest().when('the component is mounted with number type and min/max attrs', () => {
+    beforeEach(() => {
+      wrapper = mount<typeof AvInput>(AvInput, {
+        props: {
+          type: 'number'
+        },
+        attrs: {
+          min: '0',
+          max: '10'
+        }
+      })
+    })
+
+    BddTest().then('it should set min and max attributes', () => {
+      const input = wrapper.find('input')
+      expect(input.attributes('min')).toBe('0')
+      expect(input.attributes('max')).toBe('10')
+    })
+  })
+
   BddTest().when('the component is mounted with maxlength constraints and the user exceeds it', () => {
     beforeEach(async () => {
       wrapper = mount<typeof AvInput>(AvInput, {
