@@ -71,6 +71,18 @@ const labelId = computed(() => {
 </script>
 
 <template>
+  <input
+    :id="inputId"
+    class="av-toggle-input"
+    :disabled="disabled"
+    :aria-disabled="disabled"
+    type="checkbox"
+    :checked="modelValue"
+    :data-testid="inputId"
+    :aria-describedby="labelId"
+    :name="name"
+    @input="$emit('update:modelValue', ($event.target as HTMLInputElement).checked)"
+  >
   <label
     :id="labelId"
     :for="inputId"
@@ -110,21 +122,28 @@ const labelId = computed(() => {
     </div>
     <span class="caption-regular">{{ description }}</span>
   </label>
-  <input
-    :id="inputId"
-    :style="{ display: 'none' }"
-    :disabled="disabled"
-    :aria-disabled="disabled"
-    type="checkbox"
-    :checked="modelValue"
-    :data-testid="inputId"
-    :aria-describedby="labelId"
-    :name="name"
-    @input="$emit('update:modelValue', ($event.target as HTMLInputElement).checked)"
-  >
 </template>
 
 <style lang="scss" scoped>
+.av-toggle-input {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.av-toggle-input:focus-visible + .av-toggle {
+  outline: 2px solid #005fcc;
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
 .av-toggle, .toggle {
   cursor: pointer;
   width: fit-content;
