@@ -113,7 +113,7 @@ function toggleCollapsed () {
 }
 
 function isInteractiveElement (element: HTMLElement): boolean {
-  const interactiveTags = ['A', 'BUTTON', 'INPUT', 'SELECT', 'TEXTAREA']
+  const interactiveTags = ['A', 'BUTTON', 'INPUT', 'SELECT', 'TEXTAREA', 'LABEL']
   const interactiveRoles = ['button', 'link', 'checkbox', 'radio', 'textbox', 'tab', 'menuitem']
 
   if (interactiveTags.includes(element.tagName)) {
