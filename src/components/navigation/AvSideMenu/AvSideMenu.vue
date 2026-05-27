@@ -128,10 +128,13 @@ function toggleCollapse () {
     :class="{ 'av-side-menu--collapsed': isCollapsed,
               'av-side-menu--sticky': sticky }"
     :aria-label="ariaLabel"
+    data-testid="av-side-menu"
+    :data-collapsed="isCollapsed"
   >
     <div
       v-if="collapsible"
       class="av-side-menu__header av-row av-align-center av-justify-end"
+      data-testid="av-side-menu-header"
     >
       <AvButton
         :aria-expanded="!isCollapsed"
@@ -140,6 +143,7 @@ function toggleCollapse () {
         class="av-side-menu__collapse-button av-p-xs av-m-xs av-gap-none"
         :label="isCollapsed ? 'Expand button' : 'Collapse button'"
         icon-only
+        data-testid="side-menu-collapse-button"
         @click="toggleCollapse"
       />
     </div>
@@ -147,6 +151,7 @@ function toggleCollapse () {
     <div
       v-if="!(hideContentWhenCollapsed && collapsed)"
       class="av-side-menu__content av-row av-flex-fill av-py-sm"
+      data-testid="av-side-menu-content"
     >
       <slot />
     </div>
