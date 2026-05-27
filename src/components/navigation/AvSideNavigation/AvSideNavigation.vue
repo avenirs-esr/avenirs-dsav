@@ -145,6 +145,7 @@ watchEffect(() => {
             'av-side-navigation__menu-item--collapsed': isSideMenuCollapsed,
           }"
           :data-testid="expandedMenus.includes(item.id) ? `expanded-menu-${item.id}` : `collapsed-menu-${item.id}`"
+          :data-selected="isItemSelected(item)"
           @click="item.children ? handleMenuItemClick(item.id) : handleSelectItem(item.id)"
         />
 
@@ -172,6 +173,7 @@ watchEffect(() => {
                   'av-side-navigation__menu-item--collapsed': isSideMenuCollapsed,
                 }"
                 :data-testid="`menu-${item.id}-${subitem.id}`"
+                :data-selected="isSubItemSelected(item, subitem)"
                 @click="handleSelectItem(subitem.id, item.id)"
               />
             </AvList>
