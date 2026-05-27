@@ -223,6 +223,8 @@ function handleKeyDown (event: KeyboardEvent) {
       :href="isLink ? href : undefined"
       :target="isLink ? target : undefined"
       :rel="isLink ? rel : undefined"
+      data-testid="av-list-item"
+      :data-tag="componentTag"
       @click="handleClick"
       @keydown="handleKeyDown"
     >
