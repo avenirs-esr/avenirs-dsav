@@ -77,6 +77,7 @@ const icon = computed(() => {
     color: var(--dark-background-error);
   }
 
+  span,
   .b2-bold,
   .b2-regular {
     color: inherit;
