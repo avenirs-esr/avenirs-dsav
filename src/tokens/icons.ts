@@ -196,6 +196,7 @@ export const MDI_ICONS = {
 
 export const MS_ICONS = {
   BOOKMARK_STAR_OUTLINE: 'material-symbols:bookmark-star-outline',
+  CHAT_OUTLINE_ROUNDED: 'material-symbols:chat-outline-rounded',
   CLOCK_LOADER_20: 'material-symbols:clock-loader-20',
   CLOCK_LOADER_40: 'material-symbols:clock-loader-40',
   CLOCK_LOADER_60: 'material-symbols:clock-loader-60',
