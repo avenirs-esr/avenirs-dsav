@@ -1,6 +1,14 @@
 @use '../core/namespace' as *;
 
 // === Usual text color classes ===
+@include ns("text-error") {
+  color: var(--dark-background-error);
+}
+
+@include ns("text-primary1") {
+  color: var(--dark-background-primary1);
+}
+
 @include ns("text-text1") {
   color: var(--text1);
 }
@@ -11,8 +19,4 @@
 
 @include ns("text-title") {
   color: var(--title);
-}
-
-@include ns("text-error") {
-  color: var(--dark-background-error);
 }

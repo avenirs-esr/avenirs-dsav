@@ -188,6 +188,9 @@ function handleMouseMove (event: MouseEvent) {
       'av-card--hovering-interactive': isHoveringInteractive,
     }"
     :style="{ borderColor, background: backgroundColor }"
+    data-testid="av-card"
+    :data-collapsible="collapsible"
+    :data-collapsed="collapsed"
     @click="handleCardClick"
     @mousemove="handleMouseMove"
   >

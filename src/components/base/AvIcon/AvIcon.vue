@@ -321,5 +321,9 @@ const flipTransform = computed(() => {
       }
     }
   }
+
+  span {
+    color: inherit;
+  }
 }
 </style>
