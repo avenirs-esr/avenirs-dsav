@@ -166,4 +166,8 @@ onMounted(() => {
     border-radius: var(--radius-none);
   }
 }
+
+span {
+  color: inherit;
+}
 </style>
