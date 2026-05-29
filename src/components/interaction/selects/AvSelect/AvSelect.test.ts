@@ -158,6 +158,22 @@ BddTest().given('a select component', () => {
     })
   })
 
+  BddTest().and('labelVisible is set to false', () => {
+    beforeEach(() => {
+      wrapper = mountWithProps({ label: 'Visible label', labelVisible: false })
+    })
+
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should hide the label visually', () => {
+        expect(wrapper.find('label').classes()).toContain('av-sr-only')
+      })
+
+      BddTest().then('it should still keep the label text in the DOM', () => {
+        expect(wrapper.find('label').text()).toContain('Visible label')
+      })
+    })
+  })
+
   BddTest().and('with disabled prop set to true', () => {
     beforeEach(() => {
       wrapper = mountWithProps({ disabled: true })

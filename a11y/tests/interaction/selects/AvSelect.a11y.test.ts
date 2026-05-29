@@ -12,6 +12,7 @@ const stories = [
   'WithError',
   'WithSuccess',
   'WithPrefixIcon',
+  'LabelInvisible',
   'WithOptGroups',
   'WithOptGroupsAndSelectedItem',
 ]

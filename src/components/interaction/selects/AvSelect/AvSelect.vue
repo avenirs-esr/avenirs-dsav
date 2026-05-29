@@ -88,6 +88,12 @@ export interface AvSelectProps {
    * Prefix icon name (optional)
    */
   prefixIcon?: string
+
+  /**
+   * Whether the label is visible
+   * @default true
+   */
+  labelVisible?: boolean
 }
 
 defineOptions({
@@ -107,6 +113,7 @@ const {
   placeholder,
   dense = false,
   prefixIcon,
+  labelVisible = true
 } = defineProps<AvSelectProps>()
 
 const selectedItem = defineModel<AvSelectSelectedOption>('selectedItem', {
@@ -137,6 +144,11 @@ const message = computed(() => {
 const messageType = computed(() => {
   return errorMessage ? 'error' : 'success'
 })
+const finalLabelClass = computed(() => [
+  'av-label b2-regular',
+  { 'av-sr-only': !labelVisible },
+])
+const iconsTopPosition = computed(() => labelVisible && label ? '69%' : '50%')
 
 function isOptionGroup (option: AvSelectOption): option is AvSelectOption {
   return Array.isArray(option.children)
@@ -203,7 +215,7 @@ function handleSelectChange (event: Event) {
         </div>
 
         <label
-          class="av-label b2-light"
+          :class="finalLabelClass"
           :for="realId"
         >
           <span>{{ label }}</span>
@@ -304,7 +316,7 @@ function handleSelectChange (event: Event) {
 .av-select-prefix {
   position: absolute;
   left: var(--spacing-xs);
-  top: 69%;
+  top: v-bind(iconsTopPosition);
   transform: translateY(-50%);
   z-index: 1;
   pointer-events: none;

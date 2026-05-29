@@ -27,6 +27,7 @@ The `AvSelect` consists of a set of `<option>` within a `<select>`. If an option
 | `id` | `string` | `select-${crypto.randomUUID()}` | | Unique id for the select. Used for the accessibility. |
 | `dense` | `boolean` | `false` | | Dense mode for reduced padding.|
 | `prefixIcon` | `string` | | | Prefix icon name (optional).|
+| `labelVisible` | `boolean` | `true` | | Whether the label is visible. |
 
 N.B. The `options` prop is an array of objects with the following structure:
 

@@ -51,6 +51,7 @@ const meta = {
     errorMessage: { control: 'text' },
     placeholder: { control: 'text', required: true },
     prefixIcon: { control: 'text' },
+    labelVisible: { control: 'boolean' },
   },
   args: {
     options: [
@@ -71,6 +72,7 @@ const meta = {
     errorMessage: '',
     dense: false,
     prefixIcon: '',
+    labelVisible: true,
   },
 }
 
@@ -148,6 +150,21 @@ WithPrefixIcon.args = {
   name: 'with-prefix-icon-select',
   prefixIcon: MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE,
   label: 'With prefix icon Select',
+}
+
+export const LabelInvisible = Template.bind({})
+LabelInvisible.args = {
+  name: 'label-invisible-select',
+  label: 'Invisible label Select',
+  labelVisible: false,
+}
+
+export const LabelInvisibleWithPrefixIcon = Template.bind({})
+LabelInvisibleWithPrefixIcon.args = {
+  name: 'label-invisible-with-prefix-icon-select',
+  label: 'Invisible label with prefix icon Select',
+  labelVisible: false,
+  prefixIcon: MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE,
 }
 
 export const WithOptGroups = Template.bind({})
