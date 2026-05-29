@@ -90,6 +90,10 @@ export interface AvSelectProps {
   prefixIcon?: string
 }
 
+defineOptions({
+  inheritAttrs: false
+})
+
 const {
   required = false,
   disabled = false,
