@@ -86,6 +86,7 @@ const labelId = computed(() => {
   <label
     :id="labelId"
     :for="inputId"
+    :data-testid="`${inputId}-label`"
     class="av-toggle av-row av-justify-center av-gap-xs av-align-start"
     :class="{
       'av-toggle--disabled': disabled,
