@@ -4,7 +4,7 @@
   "version": "0.1.218",
   "repository": {
     "type": "git",
-    "url": "https://github.com/avenirs-esr/avenirs-dsav"
+    "url": "git+https://github.com/avenirs-esr/avenirs-dsav.git"
   },
   "sideEffects": [
     "*.css",
