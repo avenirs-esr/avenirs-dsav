@@ -101,7 +101,10 @@ watch(
   :deep() {
     .ProseMirror {
       min-height: var(--dimension-7xl);
+      height: var(--dimension-7xl);
+      overflow: auto;
       background-color: var(--other-background-base);
+      resize: vertical;
     }
 
     a {
