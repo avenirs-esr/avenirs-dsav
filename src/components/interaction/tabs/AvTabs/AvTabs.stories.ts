@@ -50,10 +50,12 @@ const meta: Meta<AvTabsProps> = {
   argTypes: {
     ariaLabel: { control: 'text' },
     compact: { control: 'boolean' },
+    lazyRender: { control: 'boolean' },
   },
   args: {
     ariaLabel: 'Tabs switcher',
     compact: false,
+    lazyRender: true,
   },
 }
 

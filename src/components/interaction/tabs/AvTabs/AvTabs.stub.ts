@@ -9,6 +9,10 @@ export const AvTabsStub = defineComponent({
     },
     ariaLabel: String,
     compact: Boolean,
+    lazyRender: {
+      type: Boolean,
+      default: true,
+    },
   },
   emits: ['update:modelValue'],
   setup (props, { slots }) {
@@ -17,7 +21,11 @@ export const AvTabsStub = defineComponent({
     const activeTab = computed(() => props.modelValue ?? 0)
 
     return () => {
-      return h('div', { class: 'av-tabs' }, tabItems.value[activeTab.value] ?? null)
+      if (props.lazyRender) {
+        return h('div', { class: 'av-tabs' }, tabItems.value[activeTab.value] ?? null)
+      }
+
+      return h('div', { class: 'av-tabs' }, tabItems.value)
     }
   },
 })
