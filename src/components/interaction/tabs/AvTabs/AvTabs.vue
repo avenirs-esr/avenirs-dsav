@@ -18,12 +18,18 @@ export interface AvTabsProps {
   /**
    * Allows compact display:
    * Underline without central pipe.
-   * @default 'false'
+   * @default false
    */
   compact?: boolean
+
+  /**
+   * If false, all tab contents are rendered in the DOM regardless of their active state.
+   * @default true
+   */
+  lazyRender?: boolean
 }
 
-const { ariaLabel, compact = false } = defineProps<AvTabsProps>()
+const { ariaLabel, compact = false, lazyRender = true } = defineProps<AvTabsProps>()
 
 /**
  * Slots available in AvTabs component.
@@ -159,7 +165,7 @@ onUnmounted(() => {
     >
       <component
         :is="(tab.children as Slots).default"
-        v-if="activeTab === index"
+        v-if="!lazyRender || activeTab === index"
       />
     </TabContent>
   </div>
