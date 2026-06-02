@@ -11,7 +11,7 @@ export const AvCardStub = defineComponent({
   },
   template: `
     <div class="av-card">
-      <slot name="title" />
+      <slot name="title" :collapsed="collapsed" />
       <slot />
       <slot name="body" />
       <slot name="footer" />
