@@ -92,5 +92,8 @@ _Last updated: 2026-01-06_
 ### Modals
 - [AvModal](overlay/modals/AvModal/AvModal.md)
 
+### Panels
+- [AvFloatingPanel](overlay/panels/AvFloatingPanel/AvFloatingPanel.md)
+
 ### Popovers
 - [AvPopover](overlay/popovers/AvPopover/AvPopover.md)

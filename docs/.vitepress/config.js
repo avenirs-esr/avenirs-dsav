@@ -214,6 +214,13 @@ export default defineConfig({
                   collapsed: true
                 },
                 {
+                  text: 'Panels',
+                  items: [
+                    { text: 'AvFloatingPanel', link: '/components/overlay/panels/AvFloatingPanel/AvFloatingPanel.md' },
+                  ],
+                  collapsed: true
+                },
+                {
                   text: 'Popovers',
                   items: [
                     { text: 'AvPopover', link: '/components/overlay/popovers/AvPopover/AvPopover.md' },
