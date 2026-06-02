@@ -1,5 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
+import { h } from 'vue'
 import AvCard from '@/components/cards/AvCard/AvCard.vue'
 import { AvButtonStub } from '@/tests'
 import { BddTest, mountWithRouter } from '@/tests/utils'
@@ -42,6 +43,30 @@ BddTest().given('an AvCard', () => {
         const title = wrapper.get('.av-card__title')
         expect(title.text()).toContain('Titre')
         expect(title.attributes('style')).toContain('background: red')
+      })
+    })
+
+    BddTest().and('with a title scoped slot using collapsed state', () => {
+      BddTest().then('it should pass collapsed state to title slot and update after toggle', async () => {
+        wrapper = await mountWithRouter<typeof AvCard>(AvCard, {
+          props: {
+            collapsible: true,
+            collapsed: false,
+          },
+          slots: {
+            title: ({ collapsed }) => h('h2', collapsed ? 'Collapsed' : 'Expanded'),
+            default: '<p>Contenu principal</p>',
+          },
+          global: {
+            stubs,
+          },
+        })
+
+        expect(wrapper.text()).toContain('Expanded')
+
+        await wrapper.find('.av-card__title').trigger('click')
+
+        expect(wrapper.text()).toContain('Collapsed')
       })
     })
 
@@ -146,14 +171,25 @@ BddTest().given('an AvCard', () => {
         expect(toggleButton.props('icon')).toBe(MDI_ICONS.CHEVRON_LEFT)
       })
 
-      BddTest().and('the card is clicked', () => {
+      BddTest().and('the card title is clicked', () => {
         beforeEach(async () => {
-          await wrapper.find('.av-card').trigger('click')
+          await wrapper.find('.av-card__title').trigger('click')
         })
 
         BddTest().then('it should render the collapsed icon', () => {
           const toggleButton = wrapper.findComponent(AvButtonStub)
           expect(toggleButton.props('icon')).toBe(MDI_ICONS.CHEVRON_DOWN)
+        })
+      })
+
+      BddTest().and('the card body container is clicked', () => {
+        beforeEach(async () => {
+          await wrapper.find('.av-card').trigger('click')
+        })
+
+        BddTest().then('it should still render the non collapsed icon', () => {
+          const toggleButton = wrapper.findComponent(AvButtonStub)
+          expect(toggleButton.props('icon')).toBe(MDI_ICONS.CHEVRON_LEFT)
         })
       })
 
@@ -245,9 +281,9 @@ BddTest().given('an AvCard', () => {
         })
       })
 
-      BddTest().and('the cursor is moved into the card', () => {
+      BddTest().and('the cursor is moved into the card title', () => {
         beforeEach(async () => {
-          await wrapper.find('.av-card').trigger('mousemove')
+          await wrapper.find('.av-card__title').trigger('mousemove')
         })
 
         BddTest().then('it should not render hovering-interactive class', () => {

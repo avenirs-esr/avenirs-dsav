@@ -7,6 +7,7 @@ const stories = [
   'WithCustomColors',
   'WithOnlyDefaultSlot',
   'TitleOnly',
+  'CollapsibleWithDynamicTitle'
 ]
 
 testStories(component, title, stories)

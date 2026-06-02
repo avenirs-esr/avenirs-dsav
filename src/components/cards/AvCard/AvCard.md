@@ -36,7 +36,7 @@ None.
 
 | Name | Description |
 | --- | --- |
-| `title` | Slot to add a title to the card. |
+| `title` | Slot to add a title to the card. Exposes a scoped prop `collapsed` (`boolean`) when used with a collapsible card. |
 | `body` | Slot to add a body to the card. |
 | `footer` | Slot to add a footer to the card. |
 | `default` | Default slot for additional card content. |
@@ -56,6 +56,27 @@ You can find examples of use and demo of the component on its dedicated [Storybo
   >
     <template #title>
       <span>Some content in title</span>
+    </template>
+    <template #body>
+      <span>Some content in body</span>
+    </template>
+    <template #footer>
+      <span>Some content in footer</span>
+    </template>
+  </AvCard>
+</template>
+```
+
+```vue
+<template>
+  <AvCard
+    collapsible
+    background-color="var(--other-background-base)"
+    title-background="var(--other-background-base)"
+    title-height="6rem"
+  >
+    <template #title="{ collapsed }">
+      <span>{{ collapsed ? 'Collapsed title' : 'Expanded title' }}</span>
     </template>
     <template #body>
       <span>Some content in body</span>

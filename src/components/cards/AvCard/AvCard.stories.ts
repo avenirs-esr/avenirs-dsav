@@ -131,3 +131,26 @@ export const TitleOnly = Template.bind({})
 TitleOnly.args = {
   titleOnly: true,
 }
+
+const TemplateDynamicTitle: StoryFn<AvCardProps> = args => ({
+  components: { AvCard },
+  setup () {
+    return { args }
+  },
+  template: `
+    <AvCard v-bind="args">
+      <template #title="{ collapsed }">
+        <h3 class="n3" style="margin: 0;">{{ collapsed ? 'Collapsed state' : 'Expanded state' }}</h3>
+      </template>
+      <template #body>
+        <p class="b2-regular">Click the card title area or the toggle button to see the title text update.</p>
+      </template>
+    </AvCard>
+  `,
+})
+
+export const CollapsibleWithDynamicTitle = TemplateDynamicTitle.bind({})
+CollapsibleWithDynamicTitle.args = {
+  collapsible: true,
+  collapsed: false,
+}

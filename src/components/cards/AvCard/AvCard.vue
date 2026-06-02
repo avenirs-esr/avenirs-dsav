@@ -71,8 +71,12 @@ const {
 const slots = defineSlots<{
   /**
    * Slot for the card title.
+   * Receives a `collapsed` boolean prop indicating whether the card is currently collapsed.
+   * This prop can be used to adjust the title content based on the collapsed state.
+   * For example, you might want to show an icon or change the text when the card is collapsed.
+   * Note: The title slot is required if the `collapsible` prop is true, as the collapse button is integrated into the title area.
    */
-  title?: Slot
+  title?: Slot<{ collapsed: boolean }>
 
   /**
    * Slot for the card body.
@@ -153,7 +157,7 @@ function findInteractiveAncestor (target: HTMLElement, currentTarget: EventTarge
   return null
 }
 
-function handleCardClick (event: MouseEvent) {
+function handleHeaderClick (event: MouseEvent) {
   const target = event.target as HTMLElement
   const interactiveElement = findInteractiveAncestor(target, event.currentTarget)
 
@@ -191,16 +195,19 @@ function handleMouseMove (event: MouseEvent) {
     data-testid="av-card"
     :data-collapsible="collapsible"
     :data-collapsed="collapsed"
-    @click="handleCardClick"
-    @mousemove="handleMouseMove"
   >
     <header
       v-if="slots.title"
       class="av-card__title av-row av-align-center av-justify-between av-p-sm av-gap-sm"
       :class="titleClasses"
       :style="{ background: titleBackground, minHeight: titleHeight, maxHeight: titleHeight }"
+      @click="handleHeaderClick"
+      @mousemove="handleMouseMove"
     >
-      <slot name="title" />
+      <slot
+        name="title"
+        :collapsed="collapsed"
+      />
       <AvButton
         v-if="collapsible"
         ref="buttonRef"
@@ -247,19 +254,17 @@ function handleMouseMove (event: MouseEvent) {
     box-sizing: border-box;
   }
 
-  &--collapsible:hover {
-    &:not(.av-card--hovering-interactive) {
-      cursor: pointer;
-      outline: 1px solid v-bind('borderColor');
+  &--collapsible:not(.av-card--hovering-interactive) .av-card__title:hover {
+    cursor: pointer;
+    outline: 1px solid v-bind('borderColor');
 
-      .av-button {
-        background-color: var(--dark-background-primary2);
-        color: var(--other-background-base);
-      }
+    .av-button {
+      background-color: var(--dark-background-primary2);
+      color: var(--other-background-base);
     }
   }
 
-  &--hovering-interactive {
+  &--hovering-interactive .av-card__title:hover {
     cursor: default;
   }
 
