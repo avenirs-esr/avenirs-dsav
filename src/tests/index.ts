@@ -33,6 +33,7 @@ import { AvStepperStub } from '@/components/navigation/AvStepper/AvStepper.stub'
 import { AvDrawerStub } from '@/components/overlay/drawers/AvDrawer/AvDrawer.stub'
 import { AvDropdownStub } from '@/components/overlay/dropdowns/AvDropdown/AvDropdown.stub'
 import { AvModalStub } from '@/components/overlay/modals/AvModal/AvModal.stub'
+import { AvFloatingPanelStub } from '@/components/overlay/panels/AvFloatingPanel/AvFloatingPanel.stub'
 import { AvPopoverStub } from '@/components/overlay/popovers/AvPopover/AvPopover.stub'
 import { BddTest } from '@/tests/utils'
 
@@ -50,6 +51,7 @@ export {
   AvDrawerStub,
   AvDropdownStub,
   AvFieldsetStub,
+  AvFloatingPanelStub,
   AvHeaderStub,
   AvIconStub,
   AvIconTextStub,
