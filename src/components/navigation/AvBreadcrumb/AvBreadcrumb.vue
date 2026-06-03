@@ -18,10 +18,10 @@ export interface AvBreadcrumbProps {
    * A table of objects representing the links in the breadcrumb. Each object can
    * have a ‘text’ property and, optionally, a ‘to’ property for routes.
    */
-  links?: {
+  links: {
     to?: string | RouteLocationAsRelativeGeneric | RouteLocationAsPathGeneric | undefined
     text: string
-  }[] | undefined
+  }[]
 
   /**
    * Displayed label on the breadcrumb `nav` tag.
@@ -76,10 +76,11 @@ onMounted(() => {
 
 <template>
   <nav
-    v-if="links && links.length"
+    v-if="links.length"
     role="navigation"
     :aria-label="navigationLabel"
     class="av-breadcrumb"
+    data-testid="av-breadcrumb"
   >
     <AvButton
       v-if="!expanded"
@@ -108,6 +109,7 @@ onMounted(() => {
           v-for="(link, index) in links"
           :key="index"
           class="av-breadcrumb__item"
+          data-testid="av-breadcrumb-item"
           :style="styleVars"
         >
           <RouterLink
