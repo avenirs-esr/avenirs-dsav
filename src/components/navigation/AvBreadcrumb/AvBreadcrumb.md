@@ -19,7 +19,7 @@ It consists of the following elements:
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
 | `id` | `string` | `breadcrumb-${crypto.randomUUID()}` | | The unique identifier for the breadcrumb element. |
-| `links` | `{ to?: string \| RouteLocationAsRelativeGeneric \| RouteLocationAsPathGeneric \| undefined; text: string }[] \| undefined` | `undefined` | | A table of objects representing the links in the breadcrumb. Each object can have a ‘text’ property and, optionally, a ‘to’ property for routes. |
+| `links` | `{ to?: string \| RouteLocationAsRelativeGeneric \| RouteLocationAsPathGeneric \| undefined; text: string }[]` | | ✅ | A table of objects representing the links in the breadcrumb. Each object can have a ‘text’ property and, optionally, a ‘to’ property for routes. |
 | `navigationLabel` | `string` | `'Fil d\'Ariane'` | | Displayed label on the breadcrumb `nav` tag. |
 | `showBreadcrumbLabel` | `string` | `'Voir le fil d\'Ariane'` | | Displayed breadcrumb button label. |
 
