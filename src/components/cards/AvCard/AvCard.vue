@@ -256,7 +256,6 @@ function handleMouseMove (event: MouseEvent) {
 
   &--collapsible:not(.av-card--hovering-interactive) .av-card__title:hover {
     cursor: pointer;
-    outline: 1px solid v-bind('borderColor');
 
     .av-button {
       background-color: var(--dark-background-primary2);
