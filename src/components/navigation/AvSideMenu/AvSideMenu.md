@@ -22,7 +22,6 @@ The component integrates focus management, proper ARIA attributes, and responsiv
 | `id` | `string` | `undefined` |  | Unique identifier for the side-menu |
 | `collapsible` | `boolean` | `true` |  | Whether the collapsing feature is enabled |
 | `width` | `string` | `'16rem'` |  | Width of the side-menu when expanded |
-| `maxWidth` | `string` | `undefined` |  | Maximum width of the side-menu when expanded |
 | `collapsedWidth` | `string` | `'5rem'` |  | Width of the side-menu when collapsed |
 | `hideContentWhenCollapsed` | `boolean` | `false` |  | Whether to hide the content when the menu is collapsed |
 | `sticky` | `boolean` | `false` |  | Whether the side-menu should be sticky (fixed position on scroll) |
