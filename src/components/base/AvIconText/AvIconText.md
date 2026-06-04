@@ -21,6 +21,7 @@ The `AvIconText` is a component that allows you to display text with an icon on 
 | `typographyClass` | `string` | `'b2-regular'` | | The typography class to use for the text. |
 | `gap` | `string` | `'0.25rem'` | | The gap between the icon and the text. |
 | `inline` | `boolean` | `false` | | If `false`, text that is too long will be truncated. |
+| `wrapAnywhere` | `boolean` | `false` | | If `true`, text that is too long will be wrapped anywhere. |
 
 ## 🔊 Events
 

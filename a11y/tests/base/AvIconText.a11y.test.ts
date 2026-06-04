@@ -6,6 +6,7 @@ const stories = [
   'Default',
   'InlineNoEllipsis',
   'CustomColors',
+  'WrapAnywhere',
 ]
 
 testStories(component, title, stories)
