@@ -242,7 +242,7 @@ function handleKeyDown (event: KeyboardEvent) {
       <div class="av-list-item__content av-col av-gap-xs">
         <span
           v-if="title"
-          class="av-list-item__title"
+          class="av-list-item__title av-wrap-anywhere"
           :class="type === 'main' ? 'b2-bold' : 'b2-regular'"
         >
           {{ title }}
@@ -250,7 +250,7 @@ function handleKeyDown (event: KeyboardEvent) {
 
         <span
           v-if="description"
-          class="av-list-item__description"
+          class="av-list-item__description av-wrap-anywhere"
           :class="type === 'main' ? 'b1-bold' : 'b1-regular'"
         >
           {{ description }}
