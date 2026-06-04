@@ -37,11 +37,6 @@ export interface AvSideNavigationProps {
   width?: string
 
   /**
-   * Maximum width of the side menu when expanded.
-   */
-  maxWidth?: string
-
-  /**
    * Width of the side menu when collapsed.
    */
   collapsedWidth?: string
@@ -73,16 +68,7 @@ export interface AvSideNavigationProps {
   stickyOffset?: string
 }
 
-const {
-  items,
-  width = 'fit-content',
-  maxWidth = undefined,
-  collapsedWidth = '3.5rem',
-  selectedItemColor,
-  hideContentWhenCollapsed = false,
-  sticky = false,
-  stickyOffset = '0'
-} = defineProps<AvSideNavigationProps>()
+const { items, width = 'fit-content', collapsedWidth = '3.5rem', selectedItemColor, hideContentWhenCollapsed = false, sticky = false, stickyOffset = '0' } = defineProps<AvSideNavigationProps>()
 
 const selectedItem = defineModel<AvSideNavigationSelectedItem>('selectedItem', {
   default: () => ({ itemId: '' })
@@ -133,7 +119,6 @@ watchEffect(() => {
   <AvSideMenu
     v-model:collapsed="isSideMenuCollapsed"
     :width="width"
-    :max-width="maxWidth"
     :collapsed-width="collapsedWidth"
     :color="selectedItemColor"
     :hide-content-when-collapsed="hideContentWhenCollapsed"

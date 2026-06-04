@@ -25,7 +25,6 @@ The component integrates:
 | --- | --- | --- | --- | --- |
 | `items` | `AvSideNavigationItem[]` | | ✅ | Array of navigation items, each containing id, label, and icon |
 | `width` | `string` | `'fit-content'` | | Width of the side menu when expanded |
-| `maxWidth` | `string` | `undefined` |  | Maximum width of the side menu when expanded |
 | `collapsedWidth` | `string` | `'3.5rem'` | | Width of the side menu when collapsed |
 | `selectedItemColor` | `string` | `'var(--dark-background-primary1)'` | | Color of selected item background and icon. |
 | `hideContentWhenCollapsed` | `boolean` | `false` |  | Whether to hide the content when the menu is collapsed |
