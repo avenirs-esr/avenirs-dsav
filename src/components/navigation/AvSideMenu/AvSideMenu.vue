@@ -22,6 +22,10 @@ export interface AvSideMenuProps {
    */
   width?: string
   /**
+   * Maximum width of the side-menu when expanded
+   */
+  maxWidth?: string
+  /**
    * Width of the side-menu when collapsed
    */
   collapsedWidth?: string
@@ -90,7 +94,7 @@ defineSlots<{
 
 const collapsed = defineModel<boolean>('collapsed', { default: false })
 
-const { width, collapsedWidth, stickyOffset } = toRefs(props)
+const { width, maxWidth = undefined, collapsedWidth, stickyOffset } = toRefs(props)
 
 const menuId = props.id ?? crypto.randomUUID()
 const ariaLabel = computed(() => `${menuId} navigation`)
@@ -161,6 +165,7 @@ function toggleCollapse () {
 <style lang="scss" scoped>
 .av-side-menu {
   width: v-bind('currentWidth');
+  max-width: v-bind('maxWidth');
   background-color: var(--other-background-base);
   transition: width 0.3s ease;
   border-right: 1px solid var(--stroke);
