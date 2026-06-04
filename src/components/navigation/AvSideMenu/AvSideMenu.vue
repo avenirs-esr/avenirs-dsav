@@ -161,6 +161,8 @@ function toggleCollapse () {
 <style lang="scss" scoped>
 .av-side-menu {
   width: v-bind('currentWidth');
+  min-width: v-bind('currentWidth');
+  max-width: v-bind('currentWidth');
   background-color: var(--other-background-base);
   transition: width 0.3s ease;
   border-right: 1px solid var(--stroke);
