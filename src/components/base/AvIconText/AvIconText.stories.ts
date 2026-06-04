@@ -74,6 +74,7 @@ const meta: Meta<AvIconTextProps> = {
     },
     gap: { control: 'text' },
     inline: { control: 'boolean' },
+    wrapAnywhere: { control: 'boolean' },
   },
   args: {
     textColor: 'var(--text1)',
@@ -83,6 +84,7 @@ const meta: Meta<AvIconTextProps> = {
     typographyClass: 'b2-regular',
     gap: 'var(--spacing-xs)',
     inline: false,
+    wrapAnywhere: false,
   },
 }
 
@@ -117,4 +119,11 @@ CustomColors.args = {
   textColor: 'var(--dark-background-primary2)',
   typographyClass: 'b1-bold',
   gap: 'var(--spacing-xs)',
+}
+
+export const WrapAnywhere = Template.bind({})
+WrapAnywhere.args = {
+  text: 'thisisaverylongwordthatshouldbreakanywhereifwrapanywhereistrue',
+  inline: true,
+  wrapAnywhere: true,
 }

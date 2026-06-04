@@ -1,6 +1,6 @@
 # Text
 
-_Last updated: 2026-05-20_
+_Last updated: 2026-06-04_
 
 ## ✨ Introduction
 
@@ -11,6 +11,7 @@ This `text` utility generates text-related classes for all defined styles.
 | Class pattern | Description |
 |---------------|-------------|
 | `.av-max-lines` | Applies maximum lines with ellipsis |
+| `.av-wrap-anywhere` | Applies wrapping anywhere with hyphens |
 | `.av-ellipsis` | Applies ellipsis for single-line text |
 
 📝 Notes:
@@ -31,6 +32,18 @@ This `text` utility generates text-related classes for all defined styles.
   word-break: break-word !important;
   line-clamp: var(--max-lines) !important;
   -webkit-line-clamp: var(--max-lines) !important;
+}
+```
+
+### Wrap anywhere with hyphens classes
+
+```css
+.av-wrap-anywhere {
+  min-width: 0 !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+  hyphens: auto !important;
 }
 ```
 
@@ -98,6 +111,12 @@ This `text` utility generates text-related classes for all defined styles.
   --max-lines: 3;
 }
 </style>
+```
+
+```html
+<span class="av-wrap-anywhere">
+  <!-- av-wrap-anywhere: wrap anywhere with hyphens on all screens -->
+</span>
 ```
 
 ```html

@@ -81,6 +81,20 @@ BddTest().given('an AvIconText', () => {
       })
     })
 
+    BddTest().and('given wrapAnywhere as true', () => {
+      beforeEach(() => {
+        wrapper = mount(AvIconText, { props: { ...baseProps, wrapAnywhere: true }, global: { stubs } })
+      })
+
+      BddTest().then('it should render wrapping class and disable ellipsis classes', async () => {
+        expect(wrapper.classes()).not.toContain('ellipsis-container')
+
+        const text = wrapper.find('.icon-text--text')
+        expect(text.classes()).toContain('av-wrap-anywhere')
+        expect(text.classes()).not.toContain('ellipsis')
+      })
+    })
+
     BddTest().and('given a specific line height', () => {
       const expectedIconSize = 3
 

@@ -46,6 +46,13 @@ export interface AvIconTextProps {
    * @default false
    */
   inline?: boolean
+
+  /**
+   * If `true`, text can break anywhere to avoid layout overflow on long unbroken strings.
+   * Takes precedence over ellipsis behavior.
+   * @default false
+   */
+  wrapAnywhere?: boolean
 }
 
 const {
@@ -55,7 +62,8 @@ const {
   text,
   typographyClass = 'b2-regular',
   gap = 'var(--spacing-xs)',
-  inline = false
+  inline = false,
+  wrapAnywhere = false
 } = defineProps<AvIconTextProps>()
 
 const textElementRef = ref<HTMLElement | null>(null)
@@ -105,8 +113,9 @@ onBeforeUnmount(() => {
   window.removeEventListener('resize', updateIconSize)
 })
 
-const ellipsisContainerClass = computed(() => !inline ? 'ellipsis-container' : undefined)
-const ellipsisClass = computed(() => !inline ? 'ellipsis' : undefined)
+const ellipsisContainerClass = computed(() => !inline && !wrapAnywhere ? 'ellipsis-container' : undefined)
+const ellipsisClass = computed(() => !inline && !wrapAnywhere ? 'ellipsis' : undefined)
+const wrapAnywhereClass = computed(() => wrapAnywhere ? 'av-wrap-anywhere' : undefined)
 </script>
 
 <template>
@@ -123,7 +132,7 @@ const ellipsisClass = computed(() => !inline ? 'ellipsis' : undefined)
     <span
       ref="textElementRef"
       class="icon-text--text"
-      :class="[ellipsisClass, typographyClass]"
+      :class="[ellipsisClass, wrapAnywhereClass, typographyClass]"
     >
       {{ text }}
     </span>
