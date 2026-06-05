@@ -4,6 +4,7 @@ const component = 'AvNvigation'
 const title = 'Components/Navigation/AvNavigation'
 const stories = [
   'Default',
+  'WithHighlight',
 ]
 
 testStories(component, title, stories)

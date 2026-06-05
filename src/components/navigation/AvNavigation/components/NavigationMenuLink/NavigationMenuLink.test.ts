@@ -54,8 +54,8 @@ BddTest().given('a navigation menu link', () => {
 
     BddTest().and('the link is clicked', () => {
       beforeEach(async () => {
-        const routerLink = wrapper.getComponent(RouterLinkStub)
-        await routerLink.trigger('click')
+        const link = wrapper.get('[data-testid="nav-router-link"]')
+        await link.trigger('click')
         await nextTick()
       })
 
@@ -115,6 +115,51 @@ BddTest().given('a navigation menu link', () => {
       const icon = wrapper.findComponent({ name: 'AvIcon' })
       expect(icon.exists()).toBe(true)
       expect(icon.props('name')).toBe('mdi:home-variant-outline')
+    })
+  })
+
+  BddTest().when('the component is mounted with a highlight override', () => {
+    const linkWithHighlight: NavigationMenuLinkProps = {
+      id: 'activities-link',
+      text: 'Mes activités',
+      to: { name: 'student-project-activities' },
+      highlight: true,
+      onClick,
+    }
+
+    beforeEach(async () => {
+      vi.clearAllMocks()
+
+      wrapper = await mountWithRouter(NavigationMenuLink, {
+        props: linkWithHighlight,
+        global: { provide },
+      })
+    })
+
+    BddTest().then('it should render a RouterLink pointing to to', () => {
+      const link = wrapper.find('[data-testid="nav-router-link"]')
+      expect(link.exists()).toBe(true)
+    })
+
+    BddTest().then('it should set aria-current="page" on the rendered anchor', () => {
+      const link = wrapper.find('[data-testid="nav-router-link"]')
+      expect(link.attributes('aria-current')).toBe('page')
+    })
+
+    BddTest().and('the link is clicked', () => {
+      beforeEach(async () => {
+        const link = wrapper.get('[data-testid="nav-router-link"]')
+        await link.trigger('click')
+        await nextTick()
+      })
+
+      BddTest().then('it should call the onClick handler', () => {
+        expect(onClick).toHaveBeenCalled()
+      })
+
+      BddTest().then('it should emit toggleId with the link id', () => {
+        expect(wrapper.emitted('toggleId')?.[0][0]).toBe('activities-link')
+      })
     })
   })
 })
