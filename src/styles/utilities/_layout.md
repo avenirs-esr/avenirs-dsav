@@ -1,5 +1,7 @@
 # Layout
 
+_Last updated: 2026-06-05_
+
 ## ✨ Introduction
 
 This file contains layout-related utility classes for managing the overall structure and alignment of elements within the application. These utilities help in creating responsive designs and ensuring consistent spacing and alignment across different components.
@@ -25,11 +27,13 @@ This file contains layout-related utility classes for managing the overall struc
 | `.av-h-unset` | `height: unset` | `--sm`, `--md`, `--lg`, `--xl` |
 | `.av-align-{alignment}` | Sets `align-items`: `start` (`flex-start`), `center`, `end` (`flex-end`), `stretch`, `baseline` | `--sm`, `--md`, `--lg`, `--xl` |
 | `.av-justify-{justification}` | Sets `justify-content`: `start` (`flex-start`), `center`, `end` (`flex-end`), `between` (`space-between`), `around` (`space-around`), `evenly` (`space-evenly`) | `--sm`, `--md`, `--lg`, `--xl` |
+| `.av-floating-{position}` | `position: fixed` with specified position (`left` or `right`) and spacing | None |
 
 📝 Notes:
 - `{spacing}` corresponds to the spacing scale defined in the core: `none`, `xxxs`, `xxs`, `xs`, `sm`, `md`, `lg`, `xl`, `2xl`, `4xl`, `5xl`.
 - `{alignment}` options include: `start`, `center`, `end`, `stretch`, `baseline`.
 - `{justification}` options include: `start`, `center`, `end`, `between`, `around`, `evenly`.
+- `{position}` options include: `left`, `right`.
 
 ## 🎨 Some CSS results
 
@@ -319,6 +323,24 @@ This file contains layout-related utility classes for managing the overall struc
 }
 ```
 
+### Floating layout
+
+```css
+.av-floating-left {
+  position: fixed !important;
+  left: var(--spacing-lg) !important;
+  bottom: var(--spacing-lg) !important;
+  z-index: 1000 !important;
+}
+
+.av-floating-right {
+  position: fixed !important;
+  right: var(--spacing-lg) !important;
+  bottom: var(--spacing-lg) !important;
+  z-index: 1000 !important;
+}
+```
+
 ## 💡 Examples of use
 
 ```html
@@ -338,6 +360,8 @@ This file contains layout-related utility classes for managing the overall struc
       <div class="av-w-full av-h-full">Item 3</div>
     </div>
 
+    <!-- Floating button on the right -->
+    <button class="av-floating-right">Floating Button</button>
   </div>
 </div>
 ```

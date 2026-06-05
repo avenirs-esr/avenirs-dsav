@@ -31,6 +31,12 @@ $justifications: (
   evenly: space-evenly
 );
 
+// === Float positions ===
+$float-positions: (
+  left: left,
+  right: right
+);
+
 // === BASE CLASSES ===
 
 // === Base container ===
@@ -141,6 +147,17 @@ $justifications: (
 @each $justification, $value in $justifications {
   @include utility-base("justify-#{$justification}", (
     justify-content: $value
+  ));
+}
+
+// === Floating layout classes ===
+// Ex: .av-floating-left / .av-floating-right
+@each $float-position, $value in $float-positions {
+  @include utility-base("floating-#{$float-position}", (
+    position: fixed !important,
+    #{$float-position}: var(--spacing-lg) !important,
+    bottom: var(--spacing-lg) !important,
+    z-index: 1000 !important
   ));
 }
 

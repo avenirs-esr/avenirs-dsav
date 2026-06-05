@@ -57,7 +57,7 @@ defineSlots<{
 
 <template>
   <div
-    class="av-floating-panel"
+    class="av-floating-panel av-floating-right"
     data-testid="av-floating-panel"
   >
     <AvCard
@@ -103,10 +103,6 @@ defineSlots<{
 
 <style lang="scss" scoped>
 .av-floating-panel {
-  position: fixed;
-  right: var(--spacing-lg);
-  bottom: var(--spacing-lg);
-  z-index: 1000;
   width: v-bind('width');
 }
 </style>
