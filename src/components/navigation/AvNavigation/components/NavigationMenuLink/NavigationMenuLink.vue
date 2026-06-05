@@ -25,6 +25,12 @@ export interface NavigationMenuLinkProps {
   to?: string | RouteLocationRaw
 
   /**
+   * Forces the link to appear active (aria-current="page") regardless of route matching.
+   * Useful when the link should highlight on a sub-route but `to` always points to a base route.
+   */
+  highlight?: boolean
+
+  /**
    * The text displayed for the navigation menu link.
    * @default `''`
    */
@@ -44,6 +50,7 @@ export interface NavigationMenuLinkProps {
 const {
   id,
   to = '#',
+  highlight,
   text = '',
   icon,
   onClick = () => undefined,
@@ -79,6 +86,27 @@ const closeModal = useHeader?.()
   >
     <span class="b1-regular">{{ text }}</span>
   </a>
+  <RouterLink
+    v-else-if="highlight"
+    v-slot="{ href, navigate, isExactActive }"
+    :to="to"
+    custom
+  >
+    <a
+      class="av-nav__link av-row av-justify-start av-gap-xs"
+      data-testid="nav-router-link"
+      :href="href"
+      :aria-current="(highlight || isExactActive) ? 'page' : undefined"
+      @click="navigate($event); closeModal?.(); $emit('toggleId', realId); onClick($event)"
+    >
+      <AvIcon
+        v-if="icon"
+        :name="icon"
+        :size="1.5"
+      />
+      <span class="b1-regular">{{ text }}</span>
+    </a>
+  </RouterLink>
   <RouterLink
     v-else
     class="av-nav__link av-row av-justify-start av-gap-xs"

@@ -77,3 +77,42 @@ Default.parameters = {
     },
   },
 }
+
+export const WithHighlight = Template.bind({})
+WithHighlight.args = {
+  navItems: [
+    {
+      text: 'Direct link',
+      to: '#home',
+      icon: 'mdi:home-variant-outline',
+    },
+    {
+      title: 'Menu 1',
+      active: true,
+      links: [
+        { text: 'Link 1', to: '#menu-link1' },
+        { text: 'Link 2', to: '#menu-link2', highlight: true },
+        { text: 'Link 3', to: '#menu-link3' },
+        { text: 'Link 4', to: '#menu-link4' },
+        { text: 'Link 5', to: '#menu-link5' },
+      ]
+    },
+    {
+      title: 'Menu 2',
+      links: [
+        { text: 'Link 1', to: '#menu-link1' },
+        { text: 'Link 2', to: '#menu-link2' },
+        { text: 'Link 3', to: '#menu-link3' },
+        { text: 'Link 4', to: '#menu-link4' },
+        { text: 'Link 5', to: '#menu-link5' },
+      ]
+    },
+  ],
+}
+WithHighlight.parameters = {
+  docs: {
+    story: {
+      height: '420px',
+    },
+  },
+}

@@ -18,6 +18,18 @@ The navigation component can be used to create a navigation bar with different t
 | `label` | `string` | `'Menu principal'` | | The aria-label for the navigation element. |
 | `navItems` | `(NavigationMenuLinkProps \| NavigationMenuProps)[]` | | ✅ | List of navigation items. Each item can be:<br>• A direct navigation link (`NavigationMenuLinkProps`) with the `to` and `text` props.<br>• A navigation submenu (`NavigationMenuProps`) with the `title`, `links` and `active` props. |
 
+### `NavigationMenuLinkProps`
+
+| Name | Type | Default | Mandatory | Description |
+| --- | --- | --- | --- | --- |
+| `id` | `string` | `menu-link-${crypto.randomUUID()}` | | The unique identifier for the navigation menu link. |
+| `activeId` | `string` | | | The active identifier for the navigation menu link (used for external links). |
+| `to` | `string \| RouteLocationRaw` | `'#'` | | The target route or URL. |
+| `highlight` | `boolean` | | | Forces the link to appear active (`aria-current="page"`) regardless of route matching. Useful when the link should highlight on a sub-route but `to` always points to a base route. |
+| `text` | `string` | `''` | | The text displayed for the link. |
+| `icon` | `string` | | | The icon name (Iconify convention). |
+| `onClick` | `($event: MouseEvent) => void` | | | Optional click event handler. |
+
 ## 🔊 Events
 
 None.
