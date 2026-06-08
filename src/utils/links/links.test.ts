@@ -44,4 +44,40 @@ BddTest().given('a valid link check', () => {
       expect(isValidLink('/my-page')).toBe(false)
     })
   })
+
+  BddTest().when('providing a hostname without TLD', () => {
+    BddTest().then('it should return false', () => {
+      expect(isValidLink('http://w')).toBe(false)
+    })
+  })
+
+  BddTest().when('providing a URL with a one-letter TLD', () => {
+    BddTest().then('it should return false', () => {
+      expect(isValidLink('http://w.e')).toBe(false)
+    })
+  })
+
+  BddTest().when('providing a URL with www and only two labels', () => {
+    BddTest().then('it should return false', () => {
+      expect(isValidLink('http://www.example')).toBe(false)
+    })
+  })
+
+  BddTest().when('providing a URL with www but without final suffix', () => {
+    BddTest().then('it should return false', () => {
+      expect(isValidLink('http://www.something')).toBe(false)
+    })
+  })
+
+  BddTest().when('providing a URL with www and three labels', () => {
+    BddTest().then('it should return true', () => {
+      expect(isValidLink('http://www.example.com')).toBe(true)
+    })
+  })
+
+  BddTest().when('providing an URL containing surrounding spaces', () => {
+    BddTest().then('it should return false', () => {
+      expect(isValidLink(' https://example.com ')).toBe(false)
+    })
+  })
 })
