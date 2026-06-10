@@ -2,6 +2,7 @@
 import { nextTick } from 'vue'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import { DEFAULT_ICON_SIZE_REM, MAX_ICON_SIZE_REM, MIN_ICON_SIZE_REM } from '@/components/base/AvIconText/utils'
+import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
 
 /**
  * AvIconText component props.
@@ -114,33 +115,40 @@ onBeforeUnmount(() => {
 })
 
 const ellipsisContainerClass = computed(() => !inline && !wrapAnywhere ? 'ellipsis-container' : undefined)
-const ellipsisClass = computed(() => !inline && !wrapAnywhere ? 'ellipsis' : undefined)
+const ellipsisClass = computed(() => !inline && !wrapAnywhere ? 'av-max-lines' : undefined)
 const wrapAnywhereClass = computed(() => wrapAnywhere ? 'av-wrap-anywhere' : undefined)
 </script>
 
 <template>
-  <div
-    class="icon-text--container av-row av-align-start"
-    :class="[ellipsisContainerClass]"
+  <AvTooltip
+    :content="text"
+    :disabled="inline || wrapAnywhere"
+    :force-focusable="!inline && !wrapAnywhere"
   >
-    <AvIcon
-      class="icon-text--icon"
-      :name="icon"
-      :color="iconColor"
-      :size="iconSize"
-    />
-    <span
-      ref="textElementRef"
-      class="icon-text--text"
-      :class="[ellipsisClass, wrapAnywhereClass, typographyClass]"
+    <div
+      class="icon-text--container av-row av-align-start"
+      :class="[ellipsisContainerClass]"
     >
-      {{ text }}
-    </span>
-  </div>
+      <AvIcon
+        class="icon-text--icon"
+        :name="icon"
+        :color="iconColor"
+        :size="iconSize"
+      />
+      <span
+        ref="textElementRef"
+        class="icon-text--text"
+        :class="[ellipsisClass, wrapAnywhereClass, typographyClass]"
+      >
+        {{ text }}
+      </span>
+    </div>
+  </AvTooltip>
 </template>
 
 <style lang="scss" scoped>
 .icon-text--container {
+  --max-lines: 1;
   gap: v-bind('gap');
   max-height: fit-content;
 }

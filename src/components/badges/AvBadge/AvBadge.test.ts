@@ -1,5 +1,6 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
 import AvBadge, { type AvBadgeProps } from '@/components/badges/AvBadge/AvBadge.vue'
+import { AvTooltipStub } from '@/tests'
 import { BddTest } from '@/tests/utils'
 import { ICONS_DATA_URL, MDI_ICONS } from '@/tokens'
 
@@ -12,9 +13,11 @@ BddTest().given('an AvBadge', () => {
     label: 'MyBadge'
   }
 
+  const stubs = { AvTooltip: AvTooltipStub }
+
   BddTest().when('the component is mounted', () => {
     beforeEach(() => {
-      wrapper = mount(AvBadge, { props })
+      wrapper = mount(AvBadge, { props, global: { stubs } })
     })
 
     BddTest().then('it should render with given properties', () => {
@@ -29,7 +32,7 @@ BddTest().given('an AvBadge', () => {
       const newProps: AvBadgeProps = { ...props, icon: ICONS_DATA_URL.MDI_CHECK_CIRCLE }
 
       beforeEach(() => {
-        wrapper = mount(AvBadge, { props: newProps })
+        wrapper = mount(AvBadge, { props: newProps, global: { stubs } })
       })
 
       BddTest().then('it should add custom icon class', () => {
@@ -42,7 +45,7 @@ BddTest().given('an AvBadge', () => {
       const newProps: AvBadgeProps = { ...props, icon: MDI_ICONS.STAR }
 
       beforeEach(() => {
-        wrapper = mount(AvBadge, { props: newProps })
+        wrapper = mount(AvBadge, { props: newProps, global: { stubs } })
       })
 
       BddTest().then('it should add custom icon class', () => {
@@ -55,7 +58,7 @@ BddTest().given('an AvBadge', () => {
       const newProps: AvBadgeProps = { ...props, small: true }
 
       beforeEach(() => {
-        wrapper = mount(AvBadge, { props: newProps })
+        wrapper = mount(AvBadge, { props: newProps, global: { stubs } })
       })
 
       BddTest().then('it should add small class', () => {
@@ -68,12 +71,12 @@ BddTest().given('an AvBadge', () => {
       const newProps: AvBadgeProps = { ...props, ellipsis: true }
 
       beforeEach(() => {
-        wrapper = mount(AvBadge, { props: newProps })
+        wrapper = mount(AvBadge, { props: newProps, global: { stubs } })
       })
 
       BddTest().then('it should add an ellipsis class', () => {
         const badge = wrapper.find('.av-badge')
-        expect(badge.find('.av-ellipsis').exists()).toBe(true)
+        expect(badge.find('.av-max-lines').exists()).toBe(true)
       })
     })
   })

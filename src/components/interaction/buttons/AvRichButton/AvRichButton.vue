@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
+import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
 
 /**
  * AvRichButton component props.
@@ -58,30 +59,34 @@ defineSlots<{
 </script>
 
 <template>
-  <button
-    :title="label"
-    :aria-label="label"
-    class="av-rich-button av-row av-w-full av-align-center av-justify-between"
-    @click="$emit('click', $event)"
+  <AvTooltip
+    class="av-rich-button__tooltip"
+    :content="label"
   >
-    <div class="av-rich-button__line av-row av-align-center av-w-full">
-      <div class="av-rich-button__left av-row av-align-center av-w-full av-gap-sm av-pr-sm">
+    <button
+      :aria-label="label"
+      class="av-rich-button av-row av-w-full av-align-center av-justify-between"
+      @click="$emit('click', $event)"
+    >
+      <div class="av-rich-button__line av-row av-align-center av-w-full">
+        <div class="av-rich-button__left av-row av-align-center av-w-full av-gap-sm av-pr-sm">
+          <AvIcon
+            v-if="iconLeft"
+            :name="iconLeft"
+            color="var(--dark-background-primary1)"
+            :size="1.5"
+          />
+          <slot />
+        </div>
         <AvIcon
-          v-if="iconLeft"
-          :name="iconLeft"
+          v-if="iconRight"
+          :name="iconRight"
           color="var(--dark-background-primary1)"
           :size="1.5"
         />
-        <slot />
       </div>
-      <AvIcon
-        v-if="iconRight"
-        :name="iconRight"
-        color="var(--dark-background-primary1)"
-        :size="1.5"
-      />
-    </div>
-  </button>
+    </button>
+  </AvTooltip>
 </template>
 
 <style lang="scss" scoped>
@@ -104,5 +109,11 @@ defineSlots<{
 
 .av-rich-button__left {
   overflow: hidden;
+}
+
+:global(.av-rich-button__tooltip),
+:global(.av-rich-button__tooltip .av-tooltip-trigger) {
+  display: flex;
+  width: 100%;
 }
 </style>

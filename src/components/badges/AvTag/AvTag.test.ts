@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import AvTag, { type AvTagProps } from '@/components/badges/AvTag/AvTag.vue'
-import { AvIconStub, BddTest } from '@/tests'
+import { AvIconStub, AvTooltipStub, BddTest } from '@/tests'
 
 BddTest().given('an AvTag component', () => {
   let wrapper: ReturnType<typeof mount<typeof AvTag>>
@@ -9,12 +9,12 @@ BddTest().given('an AvTag component', () => {
     label: 'A super tag'
   }
 
-  const stubs = { AvIcon: AvIconStub }
+  const stubs = { AvIcon: AvIconStub, AvTooltip: AvTooltipStub }
 
   BddTest().when('the component is mounted with default props', () => {
     BddTest().and('given default props', () => {
       beforeEach(() => {
-        wrapper = mount(AvTag, { props })
+        wrapper = mount(AvTag, { props, global: { stubs } })
       })
 
       BddTest().then('it should render the tag with default props', () => {
@@ -31,7 +31,7 @@ BddTest().given('an AvTag component', () => {
       const newProps: AvTagProps = { ...props, tagName: 'button' }
 
       beforeEach(() => {
-        wrapper = mount(AvTag, { props: newProps })
+        wrapper = mount(AvTag, { props: newProps, global: { stubs } })
       })
 
       BddTest().then('it should render the tag as a button', () => {
@@ -80,7 +80,7 @@ BddTest().given('an AvTag component', () => {
       const newProps: AvTagProps = { ...props, disabled: true }
 
       beforeEach(() => {
-        wrapper = mount(AvTag, { props: newProps })
+        wrapper = mount(AvTag, { props: newProps, global: { stubs } })
       })
 
       BddTest().then('it should render the tag as a button in disabled state', () => {
@@ -112,7 +112,7 @@ BddTest().given('an AvTag component', () => {
       const newProps: AvTagProps = { ...props, selectable: true }
 
       beforeEach(() => {
-        wrapper = mount(AvTag, { props: newProps })
+        wrapper = mount(AvTag, { props: newProps, global: { stubs } })
       })
 
       BddTest().then('it should render the tag as a button', () => {
@@ -128,7 +128,7 @@ BddTest().given('an AvTag component', () => {
       const newProps: AvTagProps = { ...props, selectable: true, selected: true }
 
       beforeEach(() => {
-        wrapper = mount(AvTag, { props: newProps })
+        wrapper = mount(AvTag, { props: newProps, global: { stubs } })
       })
 
       BddTest().then('it should render the tag as a button with aria-pressed', () => {
@@ -145,7 +145,7 @@ BddTest().given('an AvTag component', () => {
       const newProps: AvTagProps = { ...props, selectable: true, selected: undefined, value: '1' }
 
       beforeEach(() => {
-        wrapper = mount(AvTag, { props: newProps })
+        wrapper = mount(AvTag, { props: newProps, global: { stubs } })
       })
 
       BddTest().then('it should emit select', async () => {
@@ -159,7 +159,7 @@ BddTest().given('an AvTag component', () => {
       const newProps: AvTagProps = { ...props, selectable: true, selected: true, value: '1' }
 
       beforeEach(() => {
-        wrapper = mount(AvTag, { props: newProps })
+        wrapper = mount(AvTag, { props: newProps, global: { stubs } })
       })
 
       BddTest().then('it should emit select', async () => {

@@ -1,14 +1,14 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, describe, expect, type MockInstance, vi } from 'vitest'
 import AvButton, { type AvButtonProps } from '@/components/interaction/buttons/AvButton/AvButton.vue'
-import { AvIconStub } from '@/tests'
+import { AvIconStub, AvTooltipStub } from '@/tests'
 import { BddTest } from '@/tests/utils'
 import { MDI_ICONS } from '@/tokens'
 
 BddTest().given('an AvButton', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvButton>>
 
-  const stubs = { AvIcon: AvIconStub }
+  const stubs = { AvIcon: AvIconStub, AvTooltip: AvTooltipStub }
 
   BddTest().and('default props', () => {
     beforeEach(() => {

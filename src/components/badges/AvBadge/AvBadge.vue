@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
 import { getIconPath } from '@/utils/icon-path/icon-path'
 
 /**
@@ -58,32 +59,38 @@ const iconPathStyleVars = computed(() => getIconPath(icon))
 </script>
 
 <template>
-  <span
-    role="status"
-    class="av-badge av-row av-align-center av-py-none av-m-none av-radius-sm"
-    :class="{
-      'av-badge--sm av-px-xxs': small,
-      'av-px-xs': !small,
-      'av-badge--custom-icon': icon,
-      'av-badge--no-icon': !icon,
-    }"
-    :title="label"
-    :style="iconPathStyleVars"
+  <AvTooltip
+    :content="label"
+    :disabled="!ellipsis"
+    :force-focusable="ellipsis"
   >
     <span
+      role="status"
+      class="av-badge av-row av-align-center av-py-none av-m-none av-radius-sm"
       :class="{
-        'av-ellipsis': ellipsis,
-        'caption-regular': small,
-        'b2-regular': !small,
+        'av-badge--sm av-px-xxs': small,
+        'av-px-xs': !small,
+        'av-badge--custom-icon': icon,
+        'av-badge--no-icon': !icon,
       }"
+      :style="iconPathStyleVars"
     >
-      {{ label }}
+      <span
+        :class="{
+          'av-max-lines': ellipsis,
+          'caption-regular': small,
+          'b2-regular': !small,
+        }"
+      >
+        {{ label }}
+      </span>
     </span>
-  </span>
+  </AvTooltip>
 </template>
 
 <style lang="scss" scoped>
 .av-badge {
+  --max-lines: 1;
   color: v-bind('color');
   background-color: v-bind('backgroundColor');
   border: 1px solid v-bind('borderColor');

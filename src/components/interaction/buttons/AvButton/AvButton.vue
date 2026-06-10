@@ -136,42 +136,46 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
 </script>
 
 <template>
-  <button
-    ref="btn"
-    v-bind="attrs"
-    :title="iconOnly ? labelToRender : undefined"
-    :aria-label="labelToRender"
-    :aria-disabled="buttonDisabled"
-    class="av-button av-row av-align-center av-gap-xs"
-    :class="[
-      {
-        'av-button--disabled': buttonDisabled,
-        'av-button--sm': small,
-        'av-px-xs av-py-xxs': small && !iconOnly,
-        'av-px-sm av-py-xs': !small && !iconOnly,
-        'av-px-xxs av-py-xxs': small && iconOnly,
-        'av-px-xs av-py-xs': !small && iconOnly,
-        'av-radius-md': !noRadius && small,
-        'av-radius-lg': !noRadius && !small,
-        'av-radius-none': noRadius,
-      },
-      variantClass,
-      themeClass,
-    ]"
-    :disabled="buttonDisabled"
-    @click="$emit('click', $event)"
+  <AvTooltip
+    :content="labelToRender"
+    :disabled="!iconOnly || buttonDisabled"
   >
-    <AvIcon
-      v-if="iconToRender"
-      v-bind="iconToRender"
-    />
-    <span
-      v-if="!iconOnly"
-      :class="small ? 'b2-regular' : 'b1-regular'"
+    <button
+      ref="btn"
+      v-bind="attrs"
+      :aria-label="labelToRender"
+      :aria-disabled="buttonDisabled"
+      class="av-button av-row av-align-center av-gap-xs"
+      :class="[
+        {
+          'av-button--disabled': buttonDisabled,
+          'av-button--sm': small,
+          'av-px-xs av-py-xxs': small && !iconOnly,
+          'av-px-sm av-py-xs': !small && !iconOnly,
+          'av-px-xxs av-py-xxs': small && iconOnly,
+          'av-px-xs av-py-xs': !small && iconOnly,
+          'av-radius-md': !noRadius && small,
+          'av-radius-lg': !noRadius && !small,
+          'av-radius-none': noRadius,
+        },
+        variantClass,
+        themeClass,
+      ]"
+      :disabled="buttonDisabled"
+      @click="$emit('click', $event)"
     >
-      {{ labelToRender }}
-    </span>
-  </button>
+      <AvIcon
+        v-if="iconToRender"
+        v-bind="iconToRender"
+      />
+      <span
+        v-if="!iconOnly"
+        :class="small ? 'b2-regular' : 'b1-regular'"
+      >
+        {{ labelToRender }}
+      </span>
+    </button>
+  </AvTooltip>
 </template>
 
 <style lang="scss" scoped>

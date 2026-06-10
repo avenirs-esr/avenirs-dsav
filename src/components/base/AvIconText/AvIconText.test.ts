@@ -2,13 +2,13 @@ import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import AvIconText from '@/components/base/AvIconText/AvIconText.vue'
 import { DEFAULT_ICON_SIZE_REM } from '@/components/base/AvIconText/utils'
-import { AvIconStub } from '@/tests'
+import { AvIconStub, AvTooltipStub } from '@/tests'
 import { BddTest } from '@/tests/utils'
 import { MDI_ICONS } from '@/tokens'
 
 BddTest().given('an AvIconText', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvIconText>>
-  const stubs = { AvIcon: AvIconStub }
+  const stubs = { AvIcon: AvIconStub, AvTooltip: AvTooltipStub }
 
   const baseProps = {
     icon: MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE,
@@ -65,7 +65,7 @@ BddTest().given('an AvIconText', () => {
       BddTest().then('it should not render the ellipsis classes', async () => {
         expect(wrapper.classes()).not.toContain('ellipsis-container')
         const text = wrapper.find('.icon-text--text')
-        expect(text.classes()).not.toContain('ellipsis')
+        expect(text.classes()).not.toContain('av-max-lines')
       })
     })
 
@@ -77,7 +77,7 @@ BddTest().given('an AvIconText', () => {
       BddTest().then('it should render the ellipsis classes', async () => {
         expect(wrapper.classes()).toContain('ellipsis-container')
         const text = wrapper.find('.icon-text--text')
-        expect(text.classes()).toContain('ellipsis')
+        expect(text.classes()).toContain('av-max-lines')
       })
     })
 
@@ -91,7 +91,7 @@ BddTest().given('an AvIconText', () => {
 
         const text = wrapper.find('.icon-text--text')
         expect(text.classes()).toContain('av-wrap-anywhere')
-        expect(text.classes()).not.toContain('ellipsis')
+        expect(text.classes()).not.toContain('av-max-lines')
       })
     })
 
