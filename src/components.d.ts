@@ -62,6 +62,7 @@ declare module 'vue' {
     AvTagPicker: typeof import('./components/interaction/pickers/AvTagPicker/AvTagPicker.vue')['default']
     AvToaster: typeof import('./components/feedback/AvToaster/AvToaster.vue')['default']
     AvToggle: typeof import('./components/interaction/toggles/AvToggle/AvToggle.vue')['default']
+    AvTooltip: typeof import('./components/overlay/tooltips/AvTooltip/AvTooltip.vue')['default']
     EsupLogo: typeof import('./components/header/EsupLogo.vue')['default']
     HeaderBrand: typeof import('./components/header/AvHeader/components/HeaderBrand/HeaderBrand.vue')['default']
     HeaderMenuDrawer: typeof import('./components/header/AvHeader/components/HeaderMenuDrawer/HeaderMenuDrawer.vue')['default']

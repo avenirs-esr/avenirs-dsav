@@ -3,3 +3,4 @@ export { default as AvDropdown, type AvDropdownItem, type AvDropdownProps } from
 export { default as AvModal, type AvModalProps } from './modals/AvModal/AvModal.vue'
 export { default as AvFloatingPanel, type AvFloatingPanelProps } from './panels/AvFloatingPanel/AvFloatingPanel.vue'
 export { default as AvPopover } from './popovers/AvPopover/AvPopover.vue'
+export { default as AvTooltip, type AvTooltipProps } from './tooltips/AvTooltip/AvTooltip.vue'

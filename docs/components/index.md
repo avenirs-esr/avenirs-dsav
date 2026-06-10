@@ -97,3 +97,6 @@ _Last updated: 2026-01-06_
 
 ### Popovers
 - [AvPopover](overlay/popovers/AvPopover/AvPopover.md)
+
+### Tooltips
+- [AvTooltip](overlay/tooltips/AvTooltip/AvTooltip.md)
