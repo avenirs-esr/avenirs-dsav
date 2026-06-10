@@ -227,6 +227,13 @@ export default defineConfig({
                   ],
                   collapsed: true
                 },
+                {
+                  text: 'Tooltips',
+                  items: [
+                    { text: 'AvTooltip', link: '/components/overlay/tooltips/AvTooltip/AvTooltip.md' },
+                  ],
+                  collapsed: true
+                },
               ],
               collapsed: true
             },

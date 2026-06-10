@@ -35,6 +35,7 @@ import { AvDropdownStub } from '@/components/overlay/dropdowns/AvDropdown/AvDrop
 import { AvModalStub } from '@/components/overlay/modals/AvModal/AvModal.stub'
 import { AvFloatingPanelStub } from '@/components/overlay/panels/AvFloatingPanel/AvFloatingPanel.stub'
 import { AvPopoverStub } from '@/components/overlay/popovers/AvPopover/AvPopover.stub'
+import { AvTooltipStub } from '@/components/overlay/tooltips/AvTooltip/AvTooltip.stub'
 import { BddTest } from '@/tests/utils'
 
 export {
@@ -75,5 +76,6 @@ export {
   AvTagPickerStub,
   AvTagStub,
   AvToggleStub,
+  AvTooltipStub,
   BddTest,
 }
