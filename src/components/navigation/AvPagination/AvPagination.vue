@@ -119,99 +119,119 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
         </span>
       </li>
       <li>
-        <a
+        <AvTooltip
           v-if="!compact"
-          :href="pages[0]?.href"
-          class="av-pagination__link av-row av-align-center av-justify-center av-py-xxs av-px-xs av-radius-lg av-gap-xxs"
-          :title="firstPageLabel"
-          :aria-disabled="currentPage === 0 ? true : undefined"
-          data-testid="first-page-link"
-          @click.prevent="toFirstPage()"
+          :content="firstPageLabel ?? ''"
+          :disabled="currentPage === 0"
         >
-          <AvIcon
-            :name="MDI_ICONS.PAGE_FIRST"
-            :size="1.5"
-          />
-          <span class="av-sr-only">{{ firstPageLabel }}</span>
-        </a>
+          <a
+            :href="pages[0]?.href"
+            class="av-pagination__link av-row av-align-center av-justify-center av-py-xxs av-px-xs av-radius-lg av-gap-xxs"
+            :title="firstPageLabel"
+            :aria-disabled="currentPage === 0 ? true : undefined"
+            data-testid="first-page-link"
+            @click.prevent="toFirstPage()"
+          >
+            <AvIcon
+              :name="MDI_ICONS.PAGE_FIRST"
+              :size="1.5"
+            />
+            <span class="av-sr-only">{{ firstPageLabel }}</span>
+          </a>
+        </AvTooltip>
       </li>
       <li>
-        <a
-          :href="pages[Math.max(currentPage - 1, 0)]?.href"
-          class="av-pagination__link av-row av-align-center av-justify-center av-py-xxs av-px-xs av-radius-lg av-gap-xxs"
-          :title="prevPageLabel"
-          :aria-disabled="currentPage === 0 ? true : undefined"
-          data-testid="previous-page-link"
-          @click.prevent="toPreviousPage()"
+        <AvTooltip
+          :content="prevPageLabel ?? ''"
+          :disabled="currentPage === 0"
         >
-          <AvIcon
-            :name="MDI_ICONS.NAVIGATE_BEFORE"
-            :size="1.5"
-          />
-          <span
-            v-if="!compact"
-            class="caption-regular av-hidden av-unhidden-md"
+          <a
+            :href="pages[Math.max(currentPage - 1, 0)]?.href"
+            class="av-pagination__link av-row av-align-center av-justify-center av-py-xxs av-px-xs av-radius-lg av-gap-xxs"
+            :title="prevPageLabel"
+            :aria-disabled="currentPage === 0 ? true : undefined"
+            data-testid="previous-page-link"
+            @click.prevent="toPreviousPage()"
           >
-            {{ prevPageLabel }}
-          </span>
-        </a>
+            <AvIcon
+              :name="MDI_ICONS.NAVIGATE_BEFORE"
+              :size="1.5"
+            />
+            <span
+              v-if="!compact"
+              class="caption-regular av-hidden av-unhidden-md"
+            >
+              {{ prevPageLabel }}
+            </span>
+          </a>
+        </AvTooltip>
       </li>
       <template v-if="!compact">
         <li
           v-for="(page, idx) in displayedPages"
           :key="idx"
         >
-          <a
-            :href="page?.href"
-            class="av-pagination__link av-row av-align-center av-justify-center av-py-xxs av-px-xs av-radius-lg av-gap-xxs"
-            :title="page.title"
-            :aria-current="isCurrentPage(page) ? 'page' : undefined"
-            :data-testid="`page-link-${pages.indexOf(page)}`"
-            @click.prevent="toPage(pages.indexOf(page))"
-          >
-            <span v-if="displayedPages.indexOf(page) === 0 && startIndex > 0">...</span>
-            {{ page.label }}
-            <span v-if="displayedPages.indexOf(page) === displayedPages.length - 1 && endIndex < pages.length - 1">...</span>
-          </a>
+          <AvTooltip :content="page.title">
+            <a
+              :href="page?.href"
+              class="av-pagination__link av-row av-align-center av-justify-center av-py-xxs av-px-xs av-radius-lg av-gap-xxs"
+              :aria-current="isCurrentPage(page) ? 'page' : undefined"
+              :data-testid="`page-link-${pages.indexOf(page)}`"
+              @click.prevent="toPage(pages.indexOf(page))"
+            >
+              <span v-if="displayedPages.indexOf(page) === 0 && startIndex > 0">...</span>
+              {{ page.label }}
+              <span v-if="displayedPages.indexOf(page) === displayedPages.length - 1 && endIndex < pages.length - 1">...</span>
+            </a>
+          </AvTooltip>
         </li>
       </template>
       <li>
-        <a
-          :href="pages[Math.min(currentPage + 1, pages.length - 1)]?.href"
-          class="av-pagination__link av-row av-align-center av-justify-center av-py-xxs av-px-xs av-radius-lg av-gap-xxs"
-          :title="nextPageLabel"
-          :aria-disabled="currentPage === pages.length - 1 ? true : undefined"
-          data-testid="next-page-link"
-          @click.prevent="toNextPage()"
+        <AvTooltip
+          :content="nextPageLabel ?? ''"
+          :disabled="currentPage === pages.length - 1"
         >
-          <span
-            v-if="!compact"
-            class="caption-regular av-hidden av-unhidden-md"
+          <a
+            :href="pages[Math.min(currentPage + 1, pages.length - 1)]?.href"
+            class="av-pagination__link av-row av-align-center av-justify-center av-py-xxs av-px-xs av-radius-lg av-gap-xxs"
+            :aria-disabled="currentPage === pages.length - 1 ? true : undefined"
+            data-testid="next-page-link"
+            @click.prevent="toNextPage()"
           >
-            {{ nextPageLabel }}
-          </span>
-          <AvIcon
-            :name="MDI_ICONS.NAVIGATE_NEXT"
-            :size="1.5"
-          />
-        </a>
+            <span
+              v-if="!compact"
+              class="caption-regular av-hidden av-unhidden-md"
+            >
+              {{ nextPageLabel }}
+            </span>
+            <AvIcon
+              :name="MDI_ICONS.NAVIGATE_NEXT"
+              :size="1.5"
+            />
+          </a>
+        </AvTooltip>
       </li>
       <li>
-        <a
+        <AvTooltip
           v-if="!compact"
-          class="av-pagination__link av-row av-align-center av-justify-center av-py-xxs av-px-xs av-radius-lg av-gap-xxs"
-          :href="pages[pages.length - 1]?.href"
-          :title="lastPageLabel"
-          :aria-disabled="currentPage === pages.length - 1 ? true : undefined"
-          data-testid="last-page-link"
-          @click.prevent="toLastPage()"
+          :content="lastPageLabel ?? ''"
+          :disabled="currentPage === pages.length - 1"
         >
-          <span class="av-sr-only">{{ lastPageLabel }}</span>
-          <AvIcon
-            :name="MDI_ICONS.PAGE_LAST"
-            :size="1.5"
-          />
-        </a>
+          <a
+            class="av-pagination__link av-row av-align-center av-justify-center av-py-xxs av-px-xs av-radius-lg av-gap-xxs"
+            :href="pages[pages.length - 1]?.href"
+            :title="lastPageLabel"
+            :aria-disabled="currentPage === pages.length - 1 ? true : undefined"
+            data-testid="last-page-link"
+            @click.prevent="toLastPage()"
+          >
+            <span class="av-sr-only">{{ lastPageLabel }}</span>
+            <AvIcon
+              :name="MDI_ICONS.PAGE_LAST"
+              :size="1.5"
+            />
+          </a>
+        </AvTooltip>
       </li>
     </ul>
   </nav>

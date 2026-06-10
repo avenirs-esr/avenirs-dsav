@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
 import { useAvBreakpoints } from '@/composables'
 import { MDI_ICONS } from '@/tokens/icons'
 
@@ -87,21 +88,22 @@ function handleItemSelected (itemName: string) {
 </script>
 
 <template>
-  <nav
-    role="navigation"
-    class="av-translate av-nav"
-  >
-    <AvDropdown
-      :id="realId"
-      :items="menuItems"
-      :title="title"
-      :trigger-aria-label="label"
-      :trigger-label="label"
-      :trigger-icon="MDI_ICONS.TRANSLATE"
-      trigger-small
-      width="max-content"
-      trigger-no-sentence-case
-      @item-selected="handleItemSelected"
-    />
-  </nav>
+  <AvTooltip :content="title">
+    <nav
+      role="navigation"
+      class="av-translate av-nav"
+    >
+      <AvDropdown
+        :id="realId"
+        :items="menuItems"
+        :trigger-aria-label="label"
+        :trigger-label="label"
+        :trigger-icon="MDI_ICONS.TRANSLATE"
+        trigger-small
+        width="max-content"
+        trigger-no-sentence-case
+        @item-selected="handleItemSelected"
+      />
+    </nav>
+  </AvTooltip>
 </template>

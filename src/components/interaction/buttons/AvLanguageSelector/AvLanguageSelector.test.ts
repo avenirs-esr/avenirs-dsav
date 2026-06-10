@@ -1,7 +1,7 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach } from 'vitest'
 import AvLanguageSelector, { type AvLanguageSelectorProps } from '@/components/interaction/buttons/AvLanguageSelector/AvLanguageSelector.vue'
-import { AvDropdownStub, BddTest } from '@/tests'
+import { AvDropdownStub, AvTooltipStub, BddTest } from '@/tests'
 
 vi.mock('@/composables', () => ({
   useAvBreakpoints: () => ({ isBelowLg: false }),
@@ -15,7 +15,7 @@ BddTest().given('a language selector', () => {
     title: 'Sélectionner une langue',
   }
 
-  const stubs = { AvDropdown: AvDropdownStub }
+  const stubs = { AvDropdown: AvDropdownStub, AvTooltip: AvTooltipStub }
 
   BddTest().when('the component is mounted', () => {
     beforeEach(() => {

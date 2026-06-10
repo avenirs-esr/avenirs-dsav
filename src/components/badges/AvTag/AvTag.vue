@@ -1,5 +1,6 @@
 <script setup lang="ts" generic="T = string">
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
+import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
 import { ICONS_DATA_URL } from '@/tokens/icons'
 
 /**
@@ -95,36 +96,50 @@ function handleClick () {
 </script>
 
 <template>
-  <component
-    :is="is"
-    :aria-pressed="rest.selectable ? rest.selected : undefined"
-    class="av-tag av-row av-gap-xxs av-align-center"
-    :disabled="disabled"
-    :class="{
-      'av-tag--sm av-py-xxxs av-px-xs av-radius-lg': small,
-      'av-py-xxs av-px-sm av-radius-xl': !small,
-    }"
-    v-bind="$attrs"
-    :style="styleVars"
-    @click="handleClick"
+  <AvTooltip
+    :content="label"
+    :disabled="!iconOnly || disabled"
+    :force-focusable="iconOnly && !disabled && tagName !== 'button'"
   >
-    <AvIcon
-      v-if="icon"
-      :title="iconOnly ? label : undefined"
-      :size="small ? 0.875 : 1"
-      :name="icon"
-    />
-    <template v-if="!iconOnly">
-      <span :class="small ? 'caption-regular' : 'b2-regular'">{{ label }}</span>
-    </template>
-  </component>
+    <component
+      :is="is"
+      :aria-label="label"
+      :aria-pressed="rest.selectable ? rest.selected : undefined"
+      class="av-tag av-row av-gap-xxs av-align-center"
+      :disabled="disabled"
+      :class="{
+        'av-tag--sm av-py-xxxs av-px-xs av-radius-lg': small,
+        'av-py-xxs av-px-sm av-radius-xl': !small,
+      }"
+      v-bind="$attrs"
+      :style="styleVars"
+      @click="handleClick"
+    >
+      <AvIcon
+        v-if="icon"
+        :size="small ? 0.875 : 1"
+        :name="icon"
+        :title="iconOnly ? label : undefined"
+      />
+      <template v-if="!iconOnly">
+        <span :class="small ? 'caption-regular' : 'b2-regular'">{{ label }}</span>
+      </template>
+    </component>
+  </AvTooltip>
 </template>
 
 <style lang="scss" scoped>
 .av-tag {
+  display: inline-flex;
   color: var(--text1);
   background-color: var(--light-background-neutral);
   width: fit-content;
+  margin: 0;
+
+  &.av-flex-fill {
+    display: flex;
+    width: 100%;
+  }
 
   &:after {
     display: block;

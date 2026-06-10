@@ -1,10 +1,13 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 import AvPagination from '@/components/navigation/AvPagination/AvPagination.vue'
+import { AvTooltipStub } from '@/components/overlay/tooltips/AvTooltip/AvTooltip.stub'
 import { BddTest } from '@/tests/utils'
 
 BddTest().given('an AvPagination', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvPagination>>
+
+  const stubs = { AvTooltip: AvTooltipStub }
 
   const labelProps = {
     ariaLabel: 'Pagination',
@@ -30,7 +33,8 @@ BddTest().given('an AvPagination', () => {
           pages: pagesMock,
           compact: false,
           ...labelProps
-        }
+        },
+        global: { stubs }
       })
     })
 
@@ -53,7 +57,8 @@ BddTest().given('an AvPagination', () => {
             pages: pagesMock,
             compact: true,
             ...labelProps
-          }
+          },
+          global: { stubs }
         })
       })
 
@@ -95,7 +100,8 @@ BddTest().given('an AvPagination', () => {
           currentPage: 0,
           pages: pagesMock,
           ...labelProps
-        }
+        },
+        global: { stubs }
       })
     })
 
@@ -112,7 +118,8 @@ BddTest().given('an AvPagination', () => {
           currentPage: pagesMock.length - 1,
           pages: pagesMock,
           ...labelProps
-        }
+        },
+        global: { stubs }
       })
     })
 
@@ -129,7 +136,8 @@ BddTest().given('an AvPagination', () => {
           currentPage: 0,
           pages: [],
           ...labelProps
-        }
+        },
+        global: { stubs }
       })
     })
 
