@@ -205,6 +205,7 @@ export const MS_ICONS = {
   LINK_OFF_ROUNDED: 'material-symbols:link-off-rounded',
   LINK_ROUNDED: 'material-symbols:link-rounded',
   REDO: 'material-symbols:redo',
+  SEND_OUTLINE_ROUNDED: 'material-symbols:send-outline-rounded',
   UNDO: 'material-symbols:undo',
 }
 
