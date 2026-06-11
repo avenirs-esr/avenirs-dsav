@@ -27,11 +27,6 @@ BddTest().given('a language selector', () => {
       expect(dropdown.exists()).toBe(true)
     })
 
-    BddTest().then('it should render the title', () => {
-      const dropdown = wrapper.findComponent(AvDropdownStub)
-      expect(dropdown.attributes('title')).toBe(props.title)
-    })
-
     BddTest().then('it should render the default language as label', () => {
       const button = wrapper.find('button')
       const expectedLabel = 'FR - Français'

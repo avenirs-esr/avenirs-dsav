@@ -48,6 +48,18 @@ export interface AvCardProps {
    * @default false
    */
   collapsed?: boolean
+
+  /**
+   * ARIA label for the collapse button when the card is expanded.
+   * @default 'Collapse card'
+   */
+  collapseLabel?: string
+
+  /**
+   * ARIA label for the expand button when the card is collapsed.
+   * @default 'Expand card'
+   */
+  expandLabel?: string
 }
 
 const {
@@ -57,7 +69,10 @@ const {
   titleBackground = 'var(--surface-background)',
   titleHeight,
   collapsible = false,
-  collapsed: defaultCollapsed = false
+  collapsed: defaultCollapsed = false,
+  collapseLabel = 'Collapse card',
+  expandLabel = 'Expand card'
+
 } = defineProps<AvCardProps>()
 
 /**
@@ -215,7 +230,7 @@ function handleMouseMove (event: MouseEvent) {
         :aria-expanded="!collapsed"
         :icon="collapsed ? MDI_ICONS.CHEVRON_DOWN : MDI_ICONS.CHEVRON_LEFT"
         icon-only
-        label="Details"
+        :label="collapsed ? expandLabel : collapseLabel"
         @click.stop="toggleCollapsed"
       />
     </header>

@@ -1,16 +1,21 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, type MockInstance } from 'vitest'
+import { AvMessageStub } from '@/components/base/AvMessage/AvMessage.stub'
 import AvInput from '@/components/interaction/inputs/AvInput/AvInput.vue'
 import { isDateInputType, SUPPORTED_DATE_INPUT_TYPES } from '@/components/interaction/inputs/AvInput/utils'
 import { BddTest } from '@/tests/utils'
 import { MDI_ICONS } from '@/tokens'
+
+const stubs = { AvMessage: AvMessageStub }
 
 BddTest().given('an AvInput', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvInput>>
 
   BddTest().when('the component is mountedwith default props', () => {
     beforeEach(() => {
-      wrapper = mount<typeof AvInput>(AvInput)
+      wrapper = mount<typeof AvInput>(AvInput, {
+        global: { stubs }
+      })
     })
 
     BddTest().then('it should render an input element', () => {
@@ -37,7 +42,8 @@ BddTest().given('an AvInput', () => {
       wrapper = mount<typeof AvInput>(AvInput, {
         props: {
           label: 'Test Label'
-        }
+        },
+        global: { stubs }
       })
     })
 
@@ -60,7 +66,8 @@ BddTest().given('an AvInput', () => {
         props: {
           id: 'custom-id',
           label: 'Test Label'
-        }
+        },
+        global: { stubs }
       })
     })
 
@@ -80,7 +87,8 @@ BddTest().given('an AvInput', () => {
       wrapper = mount<typeof AvInput>(AvInput, {
         props: {
           hint: 'Test hint'
-        }
+        },
+        global: { stubs }
       })
     })
 
@@ -96,7 +104,8 @@ BddTest().given('an AvInput', () => {
       wrapper = mount<typeof AvInput>(AvInput, {
         props: {
           isTextarea: true
-        }
+        },
+        global: { stubs }
       })
     })
 
@@ -114,7 +123,8 @@ BddTest().given('an AvInput', () => {
       wrapper = mount<typeof AvInput>(AvInput, {
         props: {
           placeholder: 'Test placeholder'
-        }
+        },
+        global: { stubs }
       })
     })
 
@@ -129,7 +139,8 @@ BddTest().given('an AvInput', () => {
       wrapper = mount<typeof AvInput>(AvInput, {
         props: {
           disabled: true
-        }
+        },
+        global: { stubs }
       })
     })
 
@@ -144,7 +155,8 @@ BddTest().given('an AvInput', () => {
       wrapper = mount<typeof AvInput>(AvInput, {
         props: {
           required: true
-        }
+        },
+        global: { stubs }
       })
     })
 
@@ -159,7 +171,8 @@ BddTest().given('an AvInput', () => {
       wrapper = mount<typeof AvInput>(AvInput, {
         props: {
           minlength: 5
-        }
+        },
+        global: { stubs }
       })
     })
 
@@ -178,7 +191,8 @@ BddTest().given('an AvInput', () => {
         attrs: {
           min: '0',
           max: '10'
-        }
+        },
+        global: { stubs }
       })
     })
 
@@ -195,7 +209,8 @@ BddTest().given('an AvInput', () => {
         props: {
           maxlength: 8,
           maxlengthExceededMessage: 'Max length exceeded'
-        }
+        },
+        global: { stubs }
       })
 
       const input = wrapper.find('input')
@@ -218,7 +233,8 @@ BddTest().given('an AvInput', () => {
         wrapper = mount<typeof AvInput>(AvInput, {
           props: {
             type
-          }
+          },
+          global: { stubs }
         })
       })
 
@@ -265,7 +281,8 @@ BddTest().given('an AvInput', () => {
       wrapper = mount<typeof AvInput>(AvInput, {
         props: {
           errorMessage: 'Test error message'
-        }
+        },
+        global: { stubs }
       })
     })
 
@@ -288,7 +305,8 @@ BddTest().given('an AvInput', () => {
       wrapper = mount<typeof AvInput>(AvInput, {
         props: {
           errorMessage: errorMessages
-        }
+        },
+        global: { stubs }
       })
     })
 
@@ -306,7 +324,8 @@ BddTest().given('an AvInput', () => {
       wrapper = mount<typeof AvInput>(AvInput, {
         props: {
           validMessage: 'Test valid message'
-        }
+        },
+        global: { stubs }
       })
     })
 
@@ -324,7 +343,8 @@ BddTest().given('an AvInput', () => {
       wrapper = mount<typeof AvInput>(AvInput, {
         props: {
           validMessage: validMessages
-        }
+        },
+        global: { stubs }
       })
     })
 
@@ -341,7 +361,8 @@ BddTest().given('an AvInput', () => {
       wrapper = mount<typeof AvInput>(AvInput, {
         props: {
           prefixIcon: 'mdi:magnify'
-        }
+        },
+        global: { stubs }
       })
     })
 
@@ -360,7 +381,7 @@ BddTest().given('an AvInput', () => {
 
   BddTest().when('the component is mounted without prefix icon', () => {
     beforeEach(() => {
-      wrapper = mount<typeof AvInput>(AvInput)
+      wrapper = mount<typeof AvInput>(AvInput, { global: { stubs } })
     })
 
     BddTest().then('it should not render the prefix icon container', () => {
@@ -375,7 +396,8 @@ BddTest().given('an AvInput', () => {
         props: {
           prefixIcon: 'mdi:email-outline',
           errorMessage: 'Invalid email'
-        }
+        },
+        global: { stubs }
       })
     })
 
@@ -395,7 +417,8 @@ BddTest().given('an AvInput', () => {
         props: {
           label: 'Test Label',
           labelClass: 'custom-label'
-        }
+        },
+        global: { stubs }
       })
     })
 
@@ -410,7 +433,8 @@ BddTest().given('an AvInput', () => {
       wrapper = mount<typeof AvInput>(AvInput, {
         props: {
           modelValue: 'initial value'
-        }
+        },
+        global: { stubs }
       })
     })
 
@@ -433,7 +457,8 @@ BddTest().given('an AvInput', () => {
         props: {
           prefixIcon: MDI_ICONS.CHAT_BUBBLE_OUTLINE,
           isTextarea: true
-        }
+        },
+        global: { stubs }
       })
     })
 
@@ -452,7 +477,8 @@ BddTest().given('an AvInput', () => {
         props: {
           prefixIcon: MDI_ICONS.MAGNIFY,
           disabled: true
-        }
+        },
+        global: { stubs }
       })
     })
 
@@ -467,11 +493,14 @@ BddTest().given('an AvInput', () => {
 
   BddTest().when('the component is mounted with a date type, a defined minDate and an undefined maxDate', () => {
     beforeEach(() => {
-      wrapper = mount(AvInput, { props: {
-        type: 'date',
-        minDate: new Date(),
-        maxDate: undefined
-      } })
+      wrapper = mount(AvInput, {
+        props: {
+          type: 'date',
+          minDate: new Date(),
+          maxDate: undefined
+        },
+        global: { stubs }
+      })
     })
 
     BddTest().then('it should pass min to input', () => {
@@ -489,7 +518,7 @@ BddTest().given('an AvInput', () => {
     let focusSpy: MockInstance
 
     beforeEach(() => {
-      wrapper = mount(AvInput)
+      wrapper = mount(AvInput, { global: { stubs } })
       const inputEl = wrapper.find('input').element
       focusSpy = vi.spyOn(inputEl, 'focus')
       wrapper.vm.focus()
@@ -503,6 +532,7 @@ BddTest().given('an AvInput', () => {
   BddTest().when('the component is mounted with a suffix slot', () => {
     beforeEach(() => {
       wrapper = mount<typeof AvInput>(AvInput, {
+        global: { stubs },
         slots: {
           suffix: '<button data-testid="suffix-button">Toggle</button>'
         }
@@ -523,7 +553,7 @@ BddTest().given('an AvInput', () => {
 
   BddTest().when('the component is mounted without a suffix slot', () => {
     beforeEach(() => {
-      wrapper = mount<typeof AvInput>(AvInput)
+      wrapper = mount<typeof AvInput>(AvInput, { global: { stubs } })
     })
 
     BddTest().then('it should not render the suffix container', () => {
@@ -539,8 +569,8 @@ BddTest().given('multiple AvInput components', () => {
 
   BddTest().when('both components are mounted', () => {
     beforeEach(() => {
-      wrapper1 = mount<typeof AvInput>(AvInput)
-      wrapper2 = mount<typeof AvInput>(AvInput)
+      wrapper1 = mount<typeof AvInput>(AvInput, { global: { stubs } })
+      wrapper2 = mount<typeof AvInput>(AvInput, { global: { stubs } })
     })
 
     BddTest().then('they should have unique ids', () => {

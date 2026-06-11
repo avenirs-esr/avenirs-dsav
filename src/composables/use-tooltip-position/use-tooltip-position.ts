@@ -1,4 +1,5 @@
 import { nextTick } from 'vue'
+import { remToPx } from '@/utils/units/units'
 
 type Placement = 'top' | 'bottom'
 
@@ -26,7 +27,7 @@ export function useTooltipPosition () {
     return Math.min(Math.max(value, min), max)
   }
 
-  function computePlacement (triggerRect: DOMRect, tooltipRect: DOMRect, padding = 8): Placement {
+  function computePlacement (triggerRect: DOMRect, tooltipRect: DOMRect, padding: number): Placement {
     const spaceTop = triggerRect.top
     const spaceBottom = getViewportHeight() - triggerRect.bottom
 
@@ -46,8 +47,9 @@ export function useTooltipPosition () {
   async function update (
     trigger: HTMLElement,
     tooltip: HTMLElement,
-    padding = 12
+    paddingRem: number
   ) {
+    const padding = remToPx(paddingRem)
     await nextTick()
 
     const triggerRect = trigger.getBoundingClientRect()
@@ -88,7 +90,7 @@ export function useTooltipPosition () {
       'position': 'fixed',
       'left': `${left}px`,
       'top': `${top}px`,
-      '--arrow-left': arrowLeft.value,
+      '--arrow-left': arrowLeft.value
     }
   }
 

@@ -1,7 +1,7 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 import AvSelect, { type AvSelectProps, type AvSelectSelectedOption } from '@/components/interaction/selects/AvSelect/AvSelect.vue'
-import { AvIconStub, BddTest } from '@/tests'
+import { AvIconStub, AvMessageStub, AvTooltipStub, BddTest } from '@/tests'
 import { MDI_ICONS } from '@/tokens/icons'
 
 const options = [
@@ -15,9 +15,12 @@ const defaultProps: AvSelectProps = {
   options
 }
 
+const stubs = { AvIcon: AvIconStub, AvMessage: AvMessageStub, AvTooltip: AvTooltipStub }
+
 function mountWithProps (props: Partial<AvSelectProps> = {}) {
   return mount(AvSelect, {
     props: { ...defaultProps, ...props },
+    global: { stubs }
   })
 }
 
@@ -30,8 +33,8 @@ BddTest().given('a select component', () => {
     })
 
     BddTest().when('the component is mounted', () => {
-      BddTest().then('it should render the default title', () => {
-        expect(wrapper.find('select').attributes('title')).toBe('Select an option')
+      BddTest().then('it should render the default title in tooltip', () => {
+        expect(wrapper.findComponent(AvTooltipStub).props('content')).toBe('Select an option')
       })
 
       BddTest().then('it should display all available options', () => {
@@ -46,9 +49,10 @@ BddTest().given('a select component', () => {
             ...defaultProps,
             selectedItem: {} as AvSelectSelectedOption
           },
+          global: { stubs }
         })
 
-        expect(wrapperWithUndefinedItemId.find('select').attributes('title')).toBe('Select an option')
+        expect(wrapperWithUndefinedItemId.findComponent(AvTooltipStub).props('content')).toBe('Select an option')
       })
 
       BddTest().then('it should fallback to placeholder when selectedItem.itemId does not match any option', () => {
@@ -57,9 +61,10 @@ BddTest().given('a select component', () => {
             ...defaultProps,
             selectedItem: { itemId: 'unknown-id' }
           },
+          global: { stubs }
         })
 
-        expect(wrapperWithUnknownItemId.find('select').attributes('title')).toBe('Select an option')
+        expect(wrapperWithUnknownItemId.findComponent(AvTooltipStub).props('content')).toBe('Select an option')
       })
     })
 
@@ -110,8 +115,8 @@ BddTest().given('a select component', () => {
     })
 
     BddTest().when('the component is mounted', () => {
-      BddTest().then('it should use the custom text in title', () => {
-        expect(wrapper.find('select').attributes('title')).toBe(customText)
+      BddTest().then('it should use the custom text in tooltip', () => {
+        expect(wrapper.findComponent(AvTooltipStub).props('content')).toBe(customText)
       })
     })
   })
@@ -310,11 +315,7 @@ BddTest().given('a select component', () => {
     beforeEach(() => {
       wrapper = mount(AvSelect, {
         props: { ...defaultProps, prefixIcon: MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE },
-        global: {
-          stubs: {
-            AvIcon: AvIconStub,
-          },
-        },
+        global: { stubs }
       })
     })
 
@@ -379,16 +380,17 @@ BddTest().given('a select component', () => {
         expect(options[3].text()).toBe('Option 3')
       })
 
-      BddTest().then('it should use selected child label as title when selectedItem points to an optgroup child', () => {
+      BddTest().then('it should use selected child label as tooltip content when selectedItem points to an optgroup child', () => {
         const wrapperWithSelectedChild = mount(AvSelect, {
           props: {
             ...defaultProps,
             options: optgroupOptions,
             selectedItem: { itemId: '2' }
           },
+          global: { stubs }
         })
 
-        expect(wrapperWithSelectedChild.find('select').attributes('title')).toBe('Option 2')
+        expect(wrapperWithSelectedChild.findComponent(AvTooltipStub).props('content')).toBe('Option 2')
       })
     })
 

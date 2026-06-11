@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
+import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
 import { ICONS_DATA_URL } from '@/tokens'
 
 export interface AvSelectOptionBase {
@@ -232,66 +233,67 @@ function handleSelectChange (event: Event) {
           </span>
         </label>
 
-        <select
-          :id="realId"
-          :value="selectedId"
-          :class="{ [`av-select--${messageType}`]: message,
-                    'av-select--with-prefix av-pl-xl': prefixIcon,
-                    'av-py-xxs': dense,
-                    'av-py-xs': !dense,
-          }"
-          class="av-select b2-light av-w-full av-pr-xl av-pl-sm av-text-text2 av-radius-lg"
-          :name="name || realId"
-          :disabled="disabled"
-          :aria-disabled="disabled"
-          :required="required"
-          :aria-required="required"
-          :aria-describedby="message ? `${realId}-${messageType}` : undefined"
-          :title="title"
-          v-bind="$attrs"
-          :style="styleVars"
-          @change="handleSelectChange"
-        >
-          <option
-            disabled
-            value=""
-            hidden=""
+        <AvTooltip :content="title">
+          <select
+            :id="realId"
+            :value="selectedId"
+            :class="{ [`av-select--${messageType}`]: message,
+                      'av-select--with-prefix av-pl-xl': prefixIcon,
+                      'av-py-xxs': dense,
+                      'av-py-xs': !dense,
+            }"
+            class="av-select b2-light av-w-full av-pr-xl av-pl-sm av-text-text2 av-radius-lg"
+            :name="name || realId"
+            :disabled="disabled"
+            :aria-disabled="disabled"
+            :required="required"
+            :aria-required="required"
+            :aria-describedby="message ? `${realId}-${messageType}` : undefined"
+            v-bind="$attrs"
+            :style="styleVars"
+            @change="handleSelectChange"
           >
-            {{ placeholder }}
-          </option>
-
-          <template
-            v-for="(option, index) in options"
-            :key="index"
-          >
-            <template v-if="isOptionGroup(option) && option.children">
-              <optgroup
-                v-if="option.children.length > 0"
-                :label="option.label"
-                :data-testid="`select-optgroup-${option.id}`"
-              >
-                <option
-                  v-for="(childOption, childIndex) in option.children"
-                  :key="`${index}-${childIndex}`"
-                  :value="childOption.id"
-                  :disabled="childOption.disabled"
-                  :aria-disabled="childOption.disabled"
-                >
-                  {{ childOption.label }}
-                </option>
-              </optgroup>
-            </template>
-
             <option
-              v-else
-              :value="option.id"
-              :disabled="option.disabled"
-              :aria-disabled="option.disabled"
+              disabled
+              value=""
+              hidden=""
             >
-              {{ option.label }}
+              {{ placeholder }}
             </option>
-          </template>
-        </select>
+
+            <template
+              v-for="(option, index) in options"
+              :key="index"
+            >
+              <template v-if="isOptionGroup(option) && option.children">
+                <optgroup
+                  v-if="option.children.length > 0"
+                  :label="option.label"
+                  :data-testid="`select-optgroup-${option.id}`"
+                >
+                  <option
+                    v-for="(childOption, childIndex) in option.children"
+                    :key="`${index}-${childIndex}`"
+                    :value="childOption.id"
+                    :disabled="childOption.disabled"
+                    :aria-disabled="childOption.disabled"
+                  >
+                    {{ childOption.label }}
+                  </option>
+                </optgroup>
+              </template>
+
+              <option
+                v-else
+                :value="option.id"
+                :disabled="option.disabled"
+                :aria-disabled="option.disabled"
+              >
+                {{ option.label }}
+              </option>
+            </template>
+          </select>
+        </AvTooltip>
       </div>
       <AvMessage
         :message-id="`${realId}-${messageType}`"

@@ -3,6 +3,7 @@ import { AvTagStub } from '@/components/badges/AvTag/AvTag.stub'
 import { AvFieldsetStub } from '@/components/base/AvFieldset/AvFieldset.stub'
 import { AvIconStub } from '@/components/base/AvIcon/AvIcon.stub'
 import { AvIconTextStub } from '@/components/base/AvIconText/AvIconText.stub'
+import { AvMessageStub } from '@/components/base/AvMessage/AvMessage.stub'
 import { AvCardStub } from '@/components/cards/AvCard/AvCard.stub'
 import { AvTableStub } from '@/components/dataDisplay/AvTable/AvTable.stub'
 import { AvHeaderStub } from '@/components/header/AvHeader/AvHeader.stub'
@@ -59,6 +60,7 @@ export {
   AvInputStub,
   AvListItemStub,
   AvListStub,
+  AvMessageStub,
   AvModalStub,
   AvMultiselectStub,
   AvNavigationStub,

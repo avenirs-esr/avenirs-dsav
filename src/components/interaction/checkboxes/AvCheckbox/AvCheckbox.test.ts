@@ -1,5 +1,6 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
+import { AvMessageStub } from '@/components/base/AvMessage/AvMessage.stub'
 import AvCheckbox, { type AvCheckboxProps } from '@/components/interaction/checkboxes/AvCheckbox/AvCheckbox.vue'
 import { BddTest } from '@/tests/utils'
 
@@ -10,9 +11,11 @@ const defaultProps: AvCheckboxProps & { modelValue: (string | number | boolean |
   modelValue: []
 }
 
+const stubs = { AvMessage: AvMessageStub }
+
 function mountWithProps (props: Partial<AvCheckboxProps
   & { modelValue: (string | number | boolean | undefined)[] }> = {}, slots = {}) {
-  return mount(AvCheckbox, { props: { ...defaultProps, ...props }, slots })
+  return mount(AvCheckbox, { props: { ...defaultProps, ...props }, slots, global: { stubs } })
 }
 
 BddTest().given('an AvCheckbox component', () => {

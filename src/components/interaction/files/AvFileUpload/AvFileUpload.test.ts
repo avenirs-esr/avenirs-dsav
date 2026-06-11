@@ -1,5 +1,7 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
+import { AvIconTextStub } from '@/components/base/AvIconText/AvIconText.stub'
+import { AvMessageStub } from '@/components/base/AvMessage/AvMessage.stub'
 import AvFileUpload, { type AvFileUploadProps } from '@/components/interaction/files/AvFileUpload/AvFileUpload.vue'
 import { BddTest } from '@/tests/utils'
 
@@ -7,11 +9,8 @@ BddTest().given('a file uploader', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvFileUpload>>
 
   const stubs = {
-    AvIconText: {
-      name: 'AvIconText',
-      template: `<div class="av-icon-text" />`,
-      props: ['icon', 'text']
-    },
+    AvIconText: AvIconTextStub,
+    AvMessage: AvMessageStub
   }
 
   const mountComponent = (props?: Partial<AvFileUploadProps>) => mount<typeof AvFileUpload>(AvFileUpload, {

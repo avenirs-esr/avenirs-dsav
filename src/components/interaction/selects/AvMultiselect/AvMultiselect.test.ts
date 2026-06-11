@@ -4,7 +4,7 @@ import { beforeEach, expect } from 'vitest'
 import { nextTick } from 'vue'
 import { AvCheckboxStub } from '@/components/interaction/checkboxes/AvCheckbox/AvCheckbox.stub'
 import AvMultiselect, { type AvMultiselectProps } from '@/components/interaction/selects/AvMultiselect/AvMultiselect.vue'
-import { AvButtonStub } from '@/tests'
+import { AvButtonStub, AvMessageStub } from '@/tests'
 import { BddTest } from '@/tests/utils'
 
 interface VmType {
@@ -34,6 +34,7 @@ function mountWithProps (props: Partial<AvMultiselectProps & { modelValue: AvMul
       stubs: {
         AvButton: AvButtonStub,
         AvCheckbox: AvCheckboxStub,
+        AvMessage: AvMessageStub,
         transition: false
       }
     }

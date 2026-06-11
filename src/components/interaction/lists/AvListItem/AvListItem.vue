@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
+import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
 
 /**
  * AvListItem component props.
@@ -121,6 +122,12 @@ export interface AvListItemProps {
    * @default 'main'
    */
   type?: 'main' | 'sub'
+
+  /**
+   * Enables the tooltip on the button. The tooltip will display the content of the `label` prop.
+   * @default false
+   */
+  enableTooltip?: boolean
 }
 
 const {
@@ -141,7 +148,8 @@ const {
   target,
   rel,
   role = 'listitem',
-  type = 'main'
+  type = 'main',
+  enableTooltip = false,
 } = defineProps<AvListItemProps>()
 
 /**
@@ -210,56 +218,61 @@ function handleKeyDown (event: KeyboardEvent) {
     :role="role"
     :class="itemClass"
   >
-    <component
-      :is="componentTag"
-      :title="title"
-      :aria-label="clickable ? computedAriaLabel : undefined"
-      :aria-describedby="ariaDescribedby"
-      :aria-disabled="disabled && isButton ? 'true' : undefined"
-      :tabindex="clickable && !disabled ? 0 : undefined"
-      class="av-list-item av-row av-align-center av-gap-xs av-w-full"
-      :class="[clickableClass, disabledClass, selectedClass]"
-      :disabled="disabled && isButton ? true : undefined"
-      :href="isLink ? href : undefined"
-      :target="isLink ? target : undefined"
-      :rel="isLink ? rel : undefined"
-      data-testid="av-list-item"
-      :data-tag="componentTag"
-      @click="handleClick"
-      @keydown="handleKeyDown"
+    <AvTooltip
+      :content="computedAriaLabel ?? ''"
+      :disabled="!enableTooltip || !computedAriaLabel"
+      trigger-class="av-w-full"
     >
-      <div
-        v-if="icon"
-        class="av-list-item__icon av-col av-align-center av-justify-center"
+      <component
+        :is="componentTag"
+        :aria-label="clickable ? computedAriaLabel : undefined"
+        :aria-describedby="ariaDescribedby"
+        :aria-disabled="disabled && isButton ? 'true' : undefined"
+        :tabindex="clickable && !disabled ? 0 : undefined"
+        class="av-list-item av-row av-align-center av-gap-xs av-w-full"
+        :class="[clickableClass, disabledClass, selectedClass]"
+        :disabled="disabled && isButton ? true : undefined"
+        :href="isLink ? href : undefined"
+        :target="isLink ? target : undefined"
+        :rel="isLink ? rel : undefined"
+        data-testid="av-list-item"
+        :data-tag="componentTag"
+        @click="handleClick"
+        @keydown="handleKeyDown"
       >
-        <AvIcon
-          :name="icon"
-          :color="iconColor ?? color"
-          :size="iconSize"
-        />
-      </div>
-
-      <div class="av-list-item__content av-col av-gap-xs">
-        <span
-          v-if="title"
-          class="av-list-item__title av-wrap-anywhere"
-          :class="type === 'main' ? 'b2-bold' : 'b2-regular'"
+        <div
+          v-if="icon"
+          class="av-list-item__icon av-col av-align-center av-justify-center"
         >
-          {{ title }}
-        </span>
-
-        <span
-          v-if="description"
-          class="av-list-item__description av-wrap-anywhere"
-          :class="type === 'main' ? 'b1-bold' : 'b1-regular'"
-        >
-          {{ description }}
-        </span>
-        <div v-if="slots.default">
-          <slot />
+          <AvIcon
+            :name="icon"
+            :color="iconColor ?? color"
+            :size="iconSize"
+          />
         </div>
-      </div>
-    </component>
+
+        <div class="av-list-item__content av-col av-gap-xs">
+          <span
+            v-if="title"
+            class="av-list-item__title av-wrap-anywhere"
+            :class="type === 'main' ? 'b2-bold' : 'b2-regular'"
+          >
+            {{ title }}
+          </span>
+
+          <span
+            v-if="description"
+            class="av-list-item__description av-wrap-anywhere"
+            :class="type === 'main' ? 'b1-bold' : 'b1-regular'"
+          >
+            {{ description }}
+          </span>
+          <div v-if="slots.default">
+            <slot />
+          </div>
+        </div>
+      </component>
+    </AvTooltip>
   </div>
 </template>
 

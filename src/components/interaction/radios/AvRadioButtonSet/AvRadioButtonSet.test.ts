@@ -1,12 +1,15 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 import { h } from 'vue'
+import { AvFieldsetStub } from '@/components/base/AvFieldset/AvFieldset.stub'
 import AvRadioButton from '@/components/interaction/radios/AvRadioButton/AvRadioButton.vue'
 import AvRadioButtonSet, { type AvRadioButtonSetProps } from '@/components/interaction/radios/AvRadioButtonSet/AvRadioButtonSet.vue'
 import { BddTest } from '@/tests/utils'
 
 BddTest().given('an AvRadioButtonSet component', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvRadioButtonSet>>
+
+  const stubs = { AvFieldset: AvFieldsetStub }
 
   const props: AvRadioButtonSetProps = {
     name: 'test-radio-set',
@@ -23,7 +26,7 @@ BddTest().given('an AvRadioButtonSet component', () => {
 
   BddTest().and('provided with multiple radio buttons', () => {
     beforeEach(() => {
-      wrapper = mount(AvRadioButtonSet, { props, slots })
+      wrapper = mount(AvRadioButtonSet, { props, slots, global: { stubs } })
     })
 
     BddTest().when('the radio button set is mounted', () => {
@@ -79,7 +82,7 @@ BddTest().given('an AvRadioButtonSet component', () => {
 
   BddTest().and('mounted with no slot provided', () => {
     beforeEach(() => {
-      wrapper = mount(AvRadioButtonSet, { props })
+      wrapper = mount(AvRadioButtonSet, { props, global: { stubs } })
     })
 
     BddTest().when('it is mounted', () => {

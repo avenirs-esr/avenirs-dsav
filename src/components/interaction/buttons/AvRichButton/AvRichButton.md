@@ -21,8 +21,9 @@ Rich buttons consist of a button composed of :
 | --- | --- | --- | --- | --- |
 | `label` | `string` | | ✅ | Aria label and title for accessibility. |
 | `iconLeft` | `string` | `undefined` | | Icon to be displayed on the left of the button. Must be an icon name. |
-| `iconRight` | `string` | `undefined` | Icon to be displayed on the right of the button. Must be an icon name. |
+| `iconRight` | `string` | `undefined` | | Icon to be displayed on the right of the button. Must be an icon name. |
 | `customPadding` | `string` | `'1rem'` | | Allows you to modify button padding. |
+| `enableTooltip` | `boolean` | `false` | | Enables the tooltip on the button. The tooltip will display the content of the `label` prop. |
 
 ## 🔊 Events
 

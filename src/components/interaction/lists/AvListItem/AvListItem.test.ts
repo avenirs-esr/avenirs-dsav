@@ -1,6 +1,7 @@
 import { type DOMWrapper, mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import AvListItem from '@/components/interaction/lists/AvListItem/AvListItem.vue'
+import { AvTooltipStub } from '@/components/overlay/tooltips/AvTooltip/AvTooltip.stub'
 import { BddTest } from '@/tests/utils'
 
 BddTest().given('an AvListItem component', () => {
@@ -12,7 +13,8 @@ BddTest().given('an AvListItem component', () => {
       name: 'AvIcon',
       props: ['name', 'color', 'size'],
       template: '<div class="av-vicon-stub" />'
-    }
+    },
+    AvTooltip: AvTooltipStub,
   }
 
   beforeEach(() => {

@@ -27,6 +27,8 @@ When the `collapsible` prop is enabled, the card displays only the `title` slot 
 | `titleHeight` | `string` | `undefined` | | The height of the card title. |
 | `collapsible` | `boolean` | `false` | | Whether the card is collapsible. When collapsed, the title is still shown. This requires a title slot to be provided. |
 | `collapsed` | `boolean` | `false` | | Whether the card is collapsed by default (only if collapsible is true). |
+| `collapseLabel` | `string` | `'Collapse card'` | | ARIA label for the collapse button when the card is expanded. |
+| `expandLabel` | `string` | `'Expand card'` | | ARIA label for the expand button when the card is collapsed. |
 
 ## 🔊 Events
 

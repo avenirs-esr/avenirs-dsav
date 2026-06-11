@@ -1,6 +1,7 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 import AvFieldset, { type AvFieldsetProps } from '@/components/base/AvFieldset/AvFieldset.vue'
+import { AvMessageStub } from '@/components/base/AvMessage/AvMessage.stub'
 import { BddTest } from '@/tests/utils'
 
 const defaultProps: AvFieldsetProps = {
@@ -14,6 +15,7 @@ const defaultProps: AvFieldsetProps = {
 function mountWithProps (props: Partial<AvFieldsetProps> = {}, slots = {}) {
   return mount(AvFieldset, {
     props: { ...defaultProps, ...props },
+    global: { stubs: { AvMessage: AvMessageStub } },
     slots
   })
 }

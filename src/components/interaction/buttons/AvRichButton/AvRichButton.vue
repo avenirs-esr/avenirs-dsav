@@ -29,6 +29,12 @@ export interface AvRichButtonProps {
    * @default '1rem'
    */
   customPadding?: string
+
+  /**
+   * Enables the tooltip on the button. The tooltip will display the content of the `label` prop.
+   * @default false
+   */
+  enableTooltip?: boolean
 }
 
 const {
@@ -36,6 +42,7 @@ const {
   iconLeft = undefined,
   iconRight = undefined,
   customPadding = 'var(--spacing-sm)',
+  enableTooltip = false,
 } = defineProps<AvRichButtonProps>()
 
 defineEmits<{
@@ -62,6 +69,8 @@ defineSlots<{
   <AvTooltip
     class="av-rich-button__tooltip"
     :content="label"
+    trigger-class="av-w-full"
+    :disabled="!enableTooltip"
   >
     <button
       :aria-label="label"
@@ -109,11 +118,5 @@ defineSlots<{
 
 .av-rich-button__left {
   overflow: hidden;
-}
-
-:global(.av-rich-button__tooltip),
-:global(.av-rich-button__tooltip .av-tooltip-trigger) {
-  display: flex;
-  width: 100%;
 }
 </style>

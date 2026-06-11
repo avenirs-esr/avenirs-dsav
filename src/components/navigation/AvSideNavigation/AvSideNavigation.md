@@ -30,6 +30,8 @@ The component integrates:
 | `hideContentWhenCollapsed` | `boolean` | `false` |  | Whether to hide the content when the menu is collapsed |
 | `sticky` | `boolean` | `false` |  | Whether the side-menu should be sticky (fixed position on scroll) |
 | `stickyOffset` | `string` | `'0'` |  | Offset from the top when `sticky` is true (e.g., '0', '1rem', '10px', var(--spacing-lg), etc.) |
+| `collapseButtonAriaLabel` | `string` | `'Collapse button'` |  | ARIA label for the collapse button (for accessibility) |
+| `expandButtonAriaLabel` | `string` | `'Expand button'` | |  | ARIA label for the expand button (for accessibility) |
 
 ### AvSideNavigationItem Interface
 

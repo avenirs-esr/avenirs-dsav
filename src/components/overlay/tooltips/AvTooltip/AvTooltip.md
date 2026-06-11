@@ -17,6 +17,8 @@ The `AvTooltip` component consists of a trigger element (provided via the defaul
 | `content` | `string` | | ✅ | Tooltip text. |
 | `disabled` | `boolean` | `false` | | Disable the tooltip. |
 | `forceFocusable` | `boolean` | `false` | | Make the tooltip trigger focusable even if the default slot content is not. |
+| `triggerClass` | `string` | `undefined` | | Custom class to apply on the tooltip trigger wrapper. |
+| `paddingRem` | `number` | `0.75` | | Custom padding for the tooltip content in rem. |
 
 ## 🎨 Slots
 

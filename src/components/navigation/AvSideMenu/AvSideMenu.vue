@@ -51,6 +51,18 @@ export interface AvSideMenuProps {
    * @default '0'
    */
   stickyOffset?: string
+
+  /**
+   * Aria label for the collapse button.
+   * @default 'Collapse button'
+   */
+  collapseButtonAriaLabel?: string
+
+  /**
+   * Aria label for the expand button.
+   * @default 'Expand button'
+   */
+  expandButtonAriaLabel?: string
 }
 
 const props = withDefaults(defineProps<AvSideMenuProps>(), {
@@ -62,6 +74,8 @@ const props = withDefaults(defineProps<AvSideMenuProps>(), {
   hideContentWhenCollapsed: false,
   sticky: false,
   stickyOffset: '0',
+  collapseButtonAriaLabel: 'Collapse button',
+  expandButtonAriaLabel: 'Expand button'
 })
 
 /**
@@ -141,7 +155,7 @@ function toggleCollapse () {
         :aria-controls="menuId"
         :icon="isCollapsed ? MDI_ICONS.CHEVRON_DOUBLE_RIGHT : MDI_ICONS.CHEVRON_DOUBLE_LEFT"
         class="av-side-menu__collapse-button av-p-xs av-m-xs av-gap-none"
-        :label="isCollapsed ? 'Expand button' : 'Collapse button'"
+        :label="isCollapsed ? expandButtonAriaLabel : collapseButtonAriaLabel"
         icon-only
         data-testid="side-menu-collapse-button"
         @click="toggleCollapse"

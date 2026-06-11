@@ -67,7 +67,7 @@ const Template: StoryFn<AvRichButtonProps> = args => ({
   template: `
     <AvRichButton v-bind="args">
       <div class="ellipsis-container" style="display: flex; flex-direction: column; align-items: start;">
-        <span class="ellipsis b1-regular">{{ args.label }}</span>
+        <span class="ellipsis b1-regular">Custom label defined in slot</span>
         <span class="ellipsis caption-light">
           Last update on 02/02/2025
         </span>
