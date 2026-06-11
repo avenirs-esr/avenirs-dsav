@@ -32,7 +32,10 @@ defineSlots<{
     <div class="av-header__brand-top av-row av-justify-start av-align-center av-w-full">
       <AvTooltip :content="title">
         <div class="av-header__logo av-enlarge-link">
-          <RouterLink :to="homeTo">
+          <RouterLink
+            :to="homeTo"
+            :aria-label="title"
+          >
             <AvLogo data-testid="header-logo" />
           </RouterLink>
         </div>
