@@ -128,8 +128,8 @@ BddTest().given('an AvButton', () => {
       expect(wrapper.text()).not.toContain(props.label)
     })
 
-    BddTest().then('it should the label as icon title', () => {
-      expect(wrapper.find('.av-button').attributes('title')).toBe(props.label)
+    BddTest().then('it should set the label as AvTooltip content', () => {
+      expect(wrapper.findComponent(AvTooltipStub).props('content')).toBe(props.label)
     })
   })
 
@@ -143,7 +143,7 @@ BddTest().given('an AvButton', () => {
 
     BddTest().when('component is mounted', () => {
       BddTest().then('the button should have av-radius-none class', () => {
-        expect(wrapper.classes()).toContain('av-radius-none')
+        expect(wrapper.find('button').classes()).toContain('av-radius-none')
       })
     })
   })

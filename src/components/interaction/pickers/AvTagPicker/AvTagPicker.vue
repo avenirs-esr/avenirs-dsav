@@ -195,32 +195,34 @@ watch(() => props.selected, (newSelected) => {
   color: v-bind('labelColor');
 }
 
-.av-tag {
-  border-color: var(--divider);
-  color: var(--text2) !important;
-  background: var(--other-background-base) !important;
-  text-align: center !important;
-
-  &:hover {
-    border-color: var(--dark-background-primary1);
-    color: var(--other-background-base) !important;
-    background: var(--dark-background-primary1) !important;
-  }
-
-  &--selected {
-    border-color: var(--dark-background-primary1);
-    color: var(--dark-background-primary1) !important;
+:deep() {
+  .av-tag {
+    border-color: var(--divider);
+    color: var(--text2) !important;
     background: var(--other-background-base) !important;
+    text-align: center !important;
 
     &:hover {
       border-color: var(--dark-background-primary1);
+      color: var(--other-background-base) !important;
+      background: var(--dark-background-primary1) !important;
+    }
+
+    &--selected {
+      border-color: var(--dark-background-primary1);
       color: var(--dark-background-primary1) !important;
       background: var(--other-background-base) !important;
-    }
-  }
 
-  &--disabled {
-    pointer-events: none;
+      &:hover {
+        border-color: var(--dark-background-primary1);
+        color: var(--dark-background-primary1) !important;
+        background: var(--other-background-base) !important;
+      }
+    }
+
+    &--disabled {
+      pointer-events: none;
+    }
   }
 }
 </style>

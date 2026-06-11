@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import AvHeader from '@/components/header/AvHeader/AvHeader.vue'
-import { AvCancelConfirmButtonsStub, AvDrawerStub } from '@/tests'
+import { AvCancelConfirmButtonsStub, AvDrawerStub, AvTooltipStub } from '@/tests'
 import { BddTest, mountWithRouter } from '@/tests/utils'
 
 vi.mock('@/composables', () => ({
@@ -14,6 +14,7 @@ BddTest().given('an AvHeader', () => {
   const stubs = {
     AvDrawer: AvDrawerStub,
     AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
+    AvTooltip: AvTooltipStub,
     AvLanguageSelector: {
       name: 'AvLanguageSelector',
       template: '<div></div>',

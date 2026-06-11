@@ -127,7 +127,7 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
           <a
             :href="pages[0]?.href"
             class="av-pagination__link av-row av-align-center av-justify-center av-py-xxs av-px-xs av-radius-lg av-gap-xxs"
-            :title="firstPageLabel"
+            :aria-label="firstPageLabel"
             :aria-disabled="currentPage === 0 ? true : undefined"
             data-testid="first-page-link"
             @click.prevent="toFirstPage()"
@@ -148,7 +148,7 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
           <a
             :href="pages[Math.max(currentPage - 1, 0)]?.href"
             class="av-pagination__link av-row av-align-center av-justify-center av-py-xxs av-px-xs av-radius-lg av-gap-xxs"
-            :title="prevPageLabel"
+            :aria-label="prevPageLabel"
             :aria-disabled="currentPage === 0 ? true : undefined"
             data-testid="previous-page-link"
             @click.prevent="toPreviousPage()"
@@ -171,19 +171,18 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
           v-for="(page, idx) in displayedPages"
           :key="idx"
         >
-          <AvTooltip :content="page.title">
-            <a
-              :href="page?.href"
-              class="av-pagination__link av-row av-align-center av-justify-center av-py-xxs av-px-xs av-radius-lg av-gap-xxs"
-              :aria-current="isCurrentPage(page) ? 'page' : undefined"
-              :data-testid="`page-link-${pages.indexOf(page)}`"
-              @click.prevent="toPage(pages.indexOf(page))"
-            >
-              <span v-if="displayedPages.indexOf(page) === 0 && startIndex > 0">...</span>
-              {{ page.label }}
-              <span v-if="displayedPages.indexOf(page) === displayedPages.length - 1 && endIndex < pages.length - 1">...</span>
-            </a>
-          </AvTooltip>
+          <a
+            :href="page?.href"
+            class="av-pagination__link av-row av-align-center av-justify-center av-py-xxs av-px-xs av-radius-lg av-gap-xxs"
+            :aria-current="isCurrentPage(page) ? 'page' : undefined"
+            :aria-label="page.label"
+            :data-testid="`page-link-${pages.indexOf(page)}`"
+            @click.prevent="toPage(pages.indexOf(page))"
+          >
+            <span v-if="displayedPages.indexOf(page) === 0 && startIndex > 0">...</span>
+            {{ page.label }}
+            <span v-if="displayedPages.indexOf(page) === displayedPages.length - 1 && endIndex < pages.length - 1">...</span>
+          </a>
         </li>
       </template>
       <li>
@@ -194,6 +193,7 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
           <a
             :href="pages[Math.min(currentPage + 1, pages.length - 1)]?.href"
             class="av-pagination__link av-row av-align-center av-justify-center av-py-xxs av-px-xs av-radius-lg av-gap-xxs"
+            :aria-label="nextPageLabel"
             :aria-disabled="currentPage === pages.length - 1 ? true : undefined"
             data-testid="next-page-link"
             @click.prevent="toNextPage()"
@@ -220,7 +220,7 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
           <a
             class="av-pagination__link av-row av-align-center av-justify-center av-py-xxs av-px-xs av-radius-lg av-gap-xxs"
             :href="pages[pages.length - 1]?.href"
-            :title="lastPageLabel"
+            :aria-label="lastPageLabel"
             :aria-disabled="currentPage === pages.length - 1 ? true : undefined"
             data-testid="last-page-link"
             @click.prevent="toLastPage()"

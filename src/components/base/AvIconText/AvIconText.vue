@@ -128,6 +128,7 @@ const wrapAnywhereClass = computed(() => wrapAnywhere ? 'av-wrap-anywhere' : und
     <div
       class="icon-text--container av-row av-align-start"
       :class="[ellipsisContainerClass]"
+      data-testid="av-icon-text-container"
     >
       <AvIcon
         class="icon-text--icon"
@@ -139,6 +140,7 @@ const wrapAnywhereClass = computed(() => wrapAnywhere ? 'av-wrap-anywhere' : und
         ref="textElementRef"
         class="icon-text--text"
         :class="[ellipsisClass, wrapAnywhereClass, typographyClass]"
+        data-testid="av-icon-text-text"
       >
         {{ text }}
       </span>

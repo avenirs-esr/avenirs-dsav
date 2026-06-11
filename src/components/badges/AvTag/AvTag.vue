@@ -103,7 +103,6 @@ function handleClick () {
   >
     <component
       :is="is"
-      :aria-label="label"
       :aria-pressed="rest.selectable ? rest.selected : undefined"
       class="av-tag av-row av-gap-xxs av-align-center"
       :disabled="disabled"
@@ -135,11 +134,6 @@ function handleClick () {
   background-color: var(--light-background-neutral);
   width: fit-content;
   margin: 0;
-
-  &.av-flex-fill {
-    display: flex;
-    width: 100%;
-  }
 
   &:after {
     display: block;

@@ -108,7 +108,7 @@ const realId = id ?? `search-bar-${crypto.randomUUID()}`
     height: var(--dimension-xl);
   }
 
-  .av-button {
+  :deep(.av-button) {
     border-radius: var(--radius-none) var(--radius-sm) var(--radius-sm) var(--radius-none);
     flex: 1 0 auto;
     min-height: var(--dimension-xl);

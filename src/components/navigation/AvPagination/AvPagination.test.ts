@@ -71,17 +71,21 @@ BddTest().given('an AvPagination', () => {
 
     BddTest().and('clicking on navigation', () => {
       BddTest().then('it should emit update:current-page', async () => {
-        await wrapper.find('a[title="Page suivante"]').trigger('click')
+        expect(wrapper.find('[aria-current="page"]').exists()).toBe(true)
+        await wrapper.find('[data-testid="next-page-link"]').trigger('click')
         expect(wrapper.emitted('update:current-page')).toBeTruthy()
         expect(wrapper.emitted('update:current-page')![0]).toEqual([2])
 
-        await wrapper.find('a[title="Page précédente"]').trigger('click')
+        expect(wrapper.find('[data-testid="previous-page-link"]').exists()).toBe(true)
+        await wrapper.find('[data-testid="previous-page-link"]').trigger('click')
         expect(wrapper.emitted('update:current-page')![1]).toEqual([0])
 
-        await wrapper.find('a[title="Première page"]').trigger('click')
+        expect(wrapper.find('[data-testid="first-page-link"]').exists()).toBe(true)
+        await wrapper.find('[data-testid="first-page-link"]').trigger('click')
         expect(wrapper.emitted('update:current-page')![2]).toEqual([0])
 
-        await wrapper.find('a[title="Dernière page"]').trigger('click')
+        expect(wrapper.find('[data-testid="last-page-link"]').exists()).toBe(true)
+        await wrapper.find('[data-testid="last-page-link"]').trigger('click')
         expect(wrapper.emitted('update:current-page')![3]).toEqual([pagesMock.length - 1])
 
         const pageLinks = wrapper.findAll('a.av-pagination__link:not(.av-unhidden-md)')
@@ -106,8 +110,10 @@ BddTest().given('an AvPagination', () => {
     })
 
     BddTest().then('it should disable previous navigation buttons', () => {
-      expect(wrapper.find('a[title="Page précédente"]').attributes('aria-disabled')).toBe('true')
-      expect(wrapper.find('a[title="Première page"]').attributes('aria-disabled')).toBe('true')
+      expect(wrapper.find('[data-testid="previous-page-link"]').exists()).toBe(true)
+      expect(wrapper.find('[data-testid="previous-page-link"]').attributes('aria-disabled')).toBe('true')
+      expect(wrapper.find('[data-testid="first-page-link"]').exists()).toBe(true)
+      expect(wrapper.find('[data-testid="first-page-link"]').attributes('aria-disabled')).toBe('true')
     })
   })
 
@@ -124,8 +130,10 @@ BddTest().given('an AvPagination', () => {
     })
 
     BddTest().then('it should disable next navigation buttons', () => {
-      expect(wrapper.find('a[title="Page suivante"]').attributes('aria-disabled')).toBe('true')
-      expect(wrapper.find('a[title="Dernière page"]').attributes('aria-disabled')).toBe('true')
+      expect(wrapper.find('[data-testid="next-page-link"]').exists()).toBe(true)
+      expect(wrapper.find('[data-testid="next-page-link"]').attributes('aria-disabled')).toBe('true')
+      expect(wrapper.find('[data-testid="last-page-link"]').exists()).toBe(true)
+      expect(wrapper.find('[data-testid="last-page-link"]').attributes('aria-disabled')).toBe('true')
     })
   })
 

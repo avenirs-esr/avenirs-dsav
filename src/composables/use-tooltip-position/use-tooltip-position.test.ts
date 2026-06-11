@@ -17,7 +17,7 @@ function createRect (partial: Partial<DOMRect>): DOMRect {
 }
 
 BddTest().given('a useTooltipPosition composable', () => {
-  const defaultPadding = 8
+  const defaultPadding = 0.5
   let trigger: HTMLElement
   let tooltip: HTMLElement
   let composable: ReturnType<typeof useTooltipPosition>
@@ -39,6 +39,8 @@ BddTest().given('a useTooltipPosition composable', () => {
       configurable: true,
       value: 800,
     })
+
+    document.documentElement.style.fontSize = '16px'
 
     trigger = document.createElement('button')
     tooltip = document.createElement('div')
@@ -77,9 +79,9 @@ BddTest().given('a useTooltipPosition composable', () => {
     BddTest().then('it should place the tooltip on top and center arrow', () => {
       expect(composable.placement.value).toBe('top')
       expect(composable.tooltipStyle.value).toEqual({
-        position: 'fixed',
-        left: '20px',
-        top: '312px',
+        'position': 'fixed',
+        'left': '20px',
+        'top': '312px',
         '--arrow-left': '100px',
       })
     })

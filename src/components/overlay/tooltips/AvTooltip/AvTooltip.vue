@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { nextTick, type Slot, useAttrs } from 'vue'
-import { useTooltipPosition } from '@/composables'
+import { useTooltipPosition } from '@/composables/use-tooltip-position/use-tooltip-position'
 
 /**
  * AvTooltip component props
@@ -22,9 +22,20 @@ export interface AvTooltipProps {
    * @default false
    */
   forceFocusable?: boolean
+
+  /**
+   * Custom class to apply on the tooltip trigger wrapper.
+   */
+  triggerClass?: string
+
+  /**
+   * Custom padding for the tooltip content in rem.
+   * @default 0.75
+   */
+  paddingRem?: number
 }
 
-const { content, disabled = false, forceFocusable = false } = defineProps<AvTooltipProps>()
+const { content, disabled = false, forceFocusable = false, paddingRem = 0.75 } = defineProps<AvTooltipProps>()
 
 defineSlots<{
   /**
@@ -47,6 +58,21 @@ const isVisible = ref(false)
 const triggerRef = ref<HTMLElement>()
 const tooltipRef = ref<HTMLElement>()
 
+function isFocusVisible (event: FocusEvent): boolean {
+  const target = event.target
+
+  if (!(target instanceof HTMLElement)) {
+    return false
+  }
+
+  try {
+    return target.matches(':focus-visible')
+  }
+  catch {
+    return true
+  }
+}
+
 async function showTooltip () {
   if (disabled) {
     return
@@ -60,12 +86,18 @@ async function showTooltip () {
     return
   }
 
-  await update(triggerRef.value, tooltipRef.value)
+  await update(triggerRef.value, tooltipRef.value, paddingRem)
 }
 
 function hideTooltip () {
   isVisible.value = false
   reset()
+}
+
+function handleFocusIn (event: FocusEvent) {
+  if (isFocusVisible(event)) {
+    void showTooltip()
+  }
 }
 
 function handleScroll () {
@@ -93,7 +125,7 @@ onUnmounted(() => {
       v-bind="attrs"
       class="av-tooltip-wrapper"
       data-testid="av-tooltip-wrapper"
-      @focusin="showTooltip"
+      @focusin="handleFocusIn"
       @focusout="hideTooltip"
       @mouseenter="showTooltip"
       @mouseleave="hideTooltip"
@@ -101,6 +133,7 @@ onUnmounted(() => {
       <span
         ref="triggerRef"
         class="av-tooltip-trigger"
+        :class="triggerClass"
         :tabindex="forceFocusable ? 0 : undefined"
       >
         <slot />

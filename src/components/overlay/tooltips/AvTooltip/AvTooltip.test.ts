@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import { beforeEach, expect } from 'vitest'
+import { beforeEach, expect, vi } from 'vitest'
 import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
 import { BddTest } from '@/tests/utils'
 
@@ -78,7 +78,9 @@ BddTest().given('an AvTooltip component', () => {
 
     BddTest().and('the trigger receives focus', () => {
       beforeEach(async () => {
-        await wrapper.find('.av-tooltip-wrapper').trigger('focusin')
+        const trigger = wrapper.find('.av-tooltip-trigger').element as HTMLElement
+        vi.spyOn(trigger, 'matches').mockImplementation((selector: string) => selector === ':focus-visible')
+        await wrapper.find('.av-tooltip-trigger').trigger('focusin')
       })
 
       BddTest().then('it should display the tooltip', () => {

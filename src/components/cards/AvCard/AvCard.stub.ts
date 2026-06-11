@@ -8,6 +8,8 @@ export const AvCardStub = defineComponent({
     titleHeight: { type: String },
     collapsible: { type: Boolean, default: false },
     collapsed: { type: Boolean, default: false },
+    collapseLabel: { type: String, default: 'Collapse card' },
+    expandLabel: { type: String, default: 'Expand card' },
   },
   template: `
     <div class="av-card">

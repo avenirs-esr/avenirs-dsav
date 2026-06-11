@@ -3,6 +3,7 @@ import type { Slot } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 import AvLogo from '@/components/header/AvLogo.vue'
 import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
+import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
 import { MDI_ICONS } from '@/tokens'
 
 interface HeaderBrandProps {
@@ -29,14 +30,13 @@ defineSlots<{
 <template>
   <div class="av-header__brand av-row av-justify-start av-align-center av-wrap av-px-xxs av-w-full av-nowrap--lg av--my-sm--lg av-px-none--lg">
     <div class="av-header__brand-top av-row av-justify-start av-align-center av-w-full">
-      <div class="av-header__logo av-enlarge-link">
-        <RouterLink
-          :to="homeTo"
-          :title="title"
-        >
-          <AvLogo data-testid="header-logo" />
-        </RouterLink>
-      </div>
+      <AvTooltip :content="title">
+        <div class="av-header__logo av-enlarge-link">
+          <RouterLink :to="homeTo">
+            <AvLogo data-testid="header-logo" />
+          </RouterLink>
+        </div>
+      </AvTooltip>
       <div
         v-if="showSearchButton || showMenuButton"
         class="av-header__navbar av-row av-flex-fill av-align-start av-justify-end av-mt-xxs av-p-xxs av-gap-sm av-unhidden av-hidden--lg"

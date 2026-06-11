@@ -66,9 +66,31 @@ export interface AvSideNavigationProps {
    * @default '0'
    */
   stickyOffset?: string
+
+  /**
+   * Aria label for the collapse button.
+   * @default 'Collapse button'
+   */
+  collapseButtonAriaLabel?: string
+
+  /**
+   * Aria label for the expand button.
+   * @default 'Expand button'
+   */
+  expandButtonAriaLabel?: string
 }
 
-const { items, width = 'fit-content', collapsedWidth = '3.5rem', selectedItemColor, hideContentWhenCollapsed = false, sticky = false, stickyOffset = '0' } = defineProps<AvSideNavigationProps>()
+const {
+  items,
+  width = 'fit-content',
+  collapsedWidth = '3.5rem',
+  selectedItemColor,
+  hideContentWhenCollapsed = false,
+  sticky = false,
+  stickyOffset = '0',
+  collapseButtonAriaLabel = 'Collapse button',
+  expandButtonAriaLabel = 'Expand button'
+} = defineProps<AvSideNavigationProps>()
 
 const selectedItem = defineModel<AvSideNavigationSelectedItem>('selectedItem', {
   default: () => ({ itemId: '' })
@@ -124,6 +146,8 @@ watchEffect(() => {
     :hide-content-when-collapsed="hideContentWhenCollapsed"
     :sticky="sticky"
     :sticky-offset="stickyOffset"
+    :collapse-button-aria-label="collapseButtonAriaLabel"
+    :expand-button-aria-label="expandButtonAriaLabel"
   >
     <AvList
       size="small"
@@ -139,6 +163,7 @@ watchEffect(() => {
           :icon-size="1.8"
           :selected="isItemSelected(item)"
           :hover-background-color="selectedItemColor"
+          :enable-tooltip="isSideMenuCollapsed"
           role="menuitem"
           class="av-side-navigation__menu-item"
           :class="{
@@ -174,6 +199,7 @@ watchEffect(() => {
                 }"
                 :data-testid="`menu-${item.id}-${subitem.id}`"
                 :data-selected="isSubItemSelected(item, subitem)"
+                :enable-tooltip="isSideMenuCollapsed"
                 @click="handleSelectItem(subitem.id, item.id)"
               />
             </AvList>

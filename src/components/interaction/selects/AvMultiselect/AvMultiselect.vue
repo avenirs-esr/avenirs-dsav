@@ -214,7 +214,6 @@ const styleVars = computed(() => ({
   <div
     class="av-select-group"
     :class="{ [`av-select-group--${messageType}`]: message }"
-    :title="title"
   >
     <label
       :class="finalLabelClass"
@@ -280,47 +279,49 @@ const styleVars = computed(() => ({
 <style lang="scss" scoped>
 @use '@/styles/utilities/_text.scss';
 
-.av-multiselect {
-  text-align: left;
-  background-image: none;
-  width: v-bind('width');
-  height: v-bind('height');
+:deep() {
+  .av-multiselect {
+    text-align: left;
+    background-image: none;
+    width: v-bind('width');
+    height: v-bind('height');
 
-  &::after {
-    background-color: currentColor;
-    content: "";
-    display: inline-block;
-    flex: 0 0 auto;
-    height: var(--dimension-sm);
-    height: var(--dimension-sm);
-    -webkit-mask-image: var(--icon-path);
-    mask-image: var(--icon-path);
-    -webkit-mask-size: 100% 100%;
-    mask-size: 100% 100%;
-    transition: transform 0.3s;
-    vertical-align: calc(0.375em - 0.5rem);
-    vertical-align: calc((0.75em - var(--dimension-sm)) * 0.5);
-    width: var(--dimension-sm);
-    margin-top: auto;
-    margin-bottom: auto;
-  }
+    &::after {
+      background-color: currentColor;
+      content: "";
+      display: inline-block;
+      flex: 0 0 auto;
+      height: var(--dimension-sm);
+      height: var(--dimension-sm);
+      -webkit-mask-image: var(--icon-path);
+      mask-image: var(--icon-path);
+      -webkit-mask-size: 100% 100%;
+      mask-size: 100% 100%;
+      transition: transform 0.3s;
+      vertical-align: calc(0.375em - 0.5rem);
+      vertical-align: calc((0.75em - var(--dimension-sm)) * 0.5);
+      width: var(--dimension-sm);
+      margin-top: auto;
+      margin-bottom: auto;
+    }
 
-  &--is-open::after {
-    transform: rotate(-180deg);
-  }
+    &--is-open::after {
+      transform: rotate(-180deg);
+    }
 
-  &--dense {
-    padding-top: .1rem !important;
-    padding-bottom: .1rem !important;
-  }
+    &--dense {
+      padding-top: .1rem !important;
+      padding-bottom: .1rem !important;
+    }
 
-  &:not([aria-disabled=true]):hover {
-    background-color: var(--dark-background-primary1);
-    color: var(--other-background-base);
-  }
+    &:not([aria-disabled=true]):hover {
+      background-color: var(--dark-background-primary1);
+      color: var(--other-background-base);
+    }
 
-  &--unselected {
-    font-style: italic;
+    &--unselected {
+      font-style: italic;
+    }
   }
 }
 
