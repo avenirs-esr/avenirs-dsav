@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { isValid, max, min, parseISO } from 'date-fns'
 import AvInput, { type AvInputProps } from '@/components/interaction/inputs/AvInput/AvInput.vue'
+import { isDateInputType } from '@/components/interaction/inputs/AvInput/utils'
 
 /**
  * AvPeriodInput component.
@@ -179,6 +180,9 @@ const emit = defineEmits<{
 const realId = computed(() => id ?? `period-input-${crypto.randomUUID()}`)
 const startId = computed(() => `${realId.value}__start`)
 const endId = computed(() => `${realId.value}__end`)
+const startAriaLabel = computed(() => startLabel ?? label)
+const endAriaLabel = computed(() => endLabel ?? label)
+const commonLabelFor = computed(() => isDateInputType(type) ? `${startId.value}-picker` : startId.value)
 
 function toValidDate (value?: string): Date | undefined {
   if (!value) {
@@ -238,7 +242,7 @@ function onEndUpdate (value: string | number | null) {
     <label
       v-if="!showEachInputLabel"
       :class="finalLabelClass"
-      :for="startId"
+      :for="commonLabelFor"
       data-testid="common-label"
     >
       {{ label }}
@@ -256,7 +260,7 @@ function onEndUpdate (value: string | number | null) {
         :type="type"
         :model-value="startModelValue"
         :label="startLabel"
-        :aria-label="startLabel"
+        :aria-label="startAriaLabel"
         :label-visible="showEachInputLabel"
         :disabled="startDateDisabled"
         :width="width"
@@ -290,7 +294,7 @@ function onEndUpdate (value: string | number | null) {
         :type="type"
         :model-value="endModelValue"
         :label="endLabel"
-        :aria-label="endLabel"
+        :aria-label="endAriaLabel"
         :label-visible="showEachInputLabel"
         :disabled="endDateDisabled"
         :width="width"

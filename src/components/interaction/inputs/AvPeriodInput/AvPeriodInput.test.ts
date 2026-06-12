@@ -54,6 +54,7 @@ BddTest().given('a period input', () => {
         expect(label.exists()).toBe(true)
         expect(label.text()).toBe('Period')
         expect(label.classes()).contain('b2-light')
+        expect(label.attributes('for')).toMatch(/__start-picker$/)
 
         const inputs = wrapper.findAllComponents({ name: 'AvInput' })
         expect(inputs).toHaveLength(2)
@@ -72,6 +73,8 @@ BddTest().given('a period input', () => {
 
         expect(startInput.props('labelVisible')).toBe(false)
         expect(endInput.props('labelVisible')).toBe(false)
+        expect(startInput.props('ariaLabel')).toBe('Period')
+        expect(endInput.props('ariaLabel')).toBe('Period')
       })
 
       BddTest().and('a start date is typed', () => {
@@ -369,6 +372,8 @@ BddTest().given('a period input', () => {
 
       expect(startInput.props('labelVisible')).toBe(true)
       expect(endInput.props('labelVisible')).toBe(true)
+      expect(startInput.props('ariaLabel')).toBe('Start')
+      expect(endInput.props('ariaLabel')).toBe('End')
     })
   })
 

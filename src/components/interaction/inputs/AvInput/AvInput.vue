@@ -247,8 +247,27 @@ const isInvalid = computed(() => {
   return errorMessages.value.length > 0
 })
 
-const __input: Ref<HTMLElement | null> = ref(null)
+const __input: Ref<HTMLInputElement | null> = ref(null)
 const focus = () => __input.value?.focus()
+
+function openDatePicker () {
+  if (disabled) {
+    return
+  }
+  try {
+    __input.value?.showPicker()
+  }
+  catch {
+    __input.value?.focus()
+  }
+}
+
+function onDatePickerKeyDown (event: KeyboardEvent) {
+  if (event.key === ' ' || event.key === 'Enter') {
+    event.preventDefault()
+    openDatePicker()
+  }
+}
 
 const isComponent = computed(() => isTextarea ? 'textarea' : 'input')
 const finalLabelClass = computed(() => [
@@ -313,7 +332,7 @@ defineExpose({
 
         <label
           :class="finalLabelClass"
-          :for="realId"
+          :for="isDateInputType(type) ? `${realId}-picker` : realId"
         >
           <span :class="labelClass">
             {{ label }}
@@ -328,7 +347,10 @@ defineExpose({
         </label>
 
         <template v-if="isDateInputType(type)">
-          <div class="av-input__date-wrapper">
+          <div
+            class="av-input__date-wrapper"
+            @click.stop="openDatePicker"
+          >
             <component
               :is="isComponent"
               v-bind="inputProps"
@@ -336,6 +358,7 @@ defineExpose({
               ref="__input"
               class="av-input__input--date-real"
               :class="[commonInputClasses]"
+              tabindex="-1"
               :value="modelValue"
               @input="emit('update:modelValue', $event.target.value)"
               @change="emit('update:modelValue', $event.target.value)"
@@ -349,11 +372,10 @@ defineExpose({
               :placeholder="!disabled ? getDateInputPlaceholder(type) : ''"
               type="text"
               readonly
-              aria-hidden="true"
-              tabindex="-1"
+              :aria-label="label || placeholder"
+              :tabindex="disabled ? -1 : 0"
               :value="formatDisplayedDate(type, modelValue, formatDateStr)"
-              @mousedown.prevent
-              @touchstart.prevent
+              @keydown="onDatePickerKeyDown"
             />
           </div>
         </template>
@@ -506,6 +528,7 @@ defineExpose({
     inset: 0;
     opacity: 0;
     z-index: 1;
+    pointer-events: auto;
     cursor: pointer;
     appearance: auto;
 
@@ -517,6 +540,7 @@ defineExpose({
       opacity: 0;
       background-color: transparent;
       cursor: not-allowed;
+      pointer-events: none;
     }
 
     &::-webkit-calendar-picker-indicator {
@@ -527,6 +551,10 @@ defineExpose({
       opacity: 0;
       cursor: pointer;
     }
+  }
+
+  &__input--date-picker {
+    pointer-events: none;
   }
 
   textarea {
