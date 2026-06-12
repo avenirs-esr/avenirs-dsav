@@ -61,3 +61,49 @@ You can find examples of use and demo of the component on its dedicated [Storybo
   </AvTabs>
 </template>
 ```
+
+```vue
+<template>
+  <AvTabs
+    v-model="activeTab"
+    compact
+  >
+    <AvTab
+      title="My RPA list"
+      icon="mdi:format-list-bulleted"
+    >
+      <AmsListContainer />
+    </AvTab>
+    <AvTab
+      title="RPA Planning"
+      icon="mdi:calendar-month-outline"
+      is-loading
+    >
+      <AmsPlanningContainer />
+    </AvTab>
+  </AvTabs>
+</template>
+```
+
+```vue
+<template>
+  <AvTabs
+    v-model="activeTab"
+    compact
+  >
+    <AvTab
+      title="My RPA list"
+      icon="mdi:format-list-bulleted"
+      disabled
+    >
+      <AmsListContainer />
+    </AvTab>
+    <AvTab
+      title="RPA Planning"
+      icon="mdi:calendar-month-outline"
+    >
+      <AmsPlanningContainer />
+    </AvTab>
+  </AvTabs>
+</template>
+```

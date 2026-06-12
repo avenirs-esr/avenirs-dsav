@@ -4,7 +4,13 @@ const component = 'Avtabs'
 const title = 'Components/Interaction/Tabs/AvTabs'
 const stories = [
   'Default',
-  'Compact'
+  'Compact',
+  'WithFirstTabDisabled',
+  'WithSecondTabDisabled',
+  'WithLastTabDisabled',
+  'WithLoadingTab',
+  'CompactWithDisabledTab',
+  'CompactWithLoadingTab'
 ]
 
 testStories(component, title, stories)

@@ -37,10 +37,14 @@ const meta: Meta<AvTabProps> = {
   argTypes: {
     title: { control: 'text' },
     icon: { control: 'text' },
+    disabled: { control: 'boolean' },
+    isLoading: { control: 'boolean' }
   },
   args: {
     title: 'Tab 1',
-    icon: ''
+    icon: '',
+    disabled: false,
+    isLoading: false
   },
 }
 

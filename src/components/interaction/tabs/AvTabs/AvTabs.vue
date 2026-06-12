@@ -68,9 +68,41 @@ function getIdFromIndex (index: number) {
   return id
 }
 
+function findFirstEnabledTabIndex (): number {
+  for (let i = 0; i < tabItems.value.length; i++) {
+    if (!isTabUnavailable(tabItems.value[i])) {
+      return i
+    }
+  }
+  return 0
+}
+
+function findLastEnabledTabIndex (): number {
+  for (let i = tabItems.value.length - 1; i >= 0; i--) {
+    if (!isTabUnavailable(tabItems.value[i])) {
+      return i
+    }
+  }
+  return tabItems.value.length - 1
+}
+
+function isTabUnavailable (tab: (typeof tabItems.value)[number]) {
+  const disabled = tab?.props?.disabled
+  const loading = tab?.props?.['is-loading'] ?? tab?.props?.isLoading
+  return disabled === true || disabled === '' || loading === true || loading === ''
+}
+
 function selectTab (offset: number) {
   const totalTabs = tabItems.value.length
-  activeTab.value = (activeTab.value + offset + totalTabs) % totalTabs
+  let newIndex = (activeTab.value + offset + totalTabs) % totalTabs
+  const startIndex = activeTab.value
+  while (isTabUnavailable(tabItems.value[newIndex])) {
+    newIndex = (newIndex + offset + totalTabs) % totalTabs
+    if (newIndex === startIndex) {
+      break
+    }
+  }
+  activeTab.value = newIndex
 }
 
 function selectPrevious () {
@@ -82,11 +114,11 @@ function selectNext () {
 }
 
 function selectFirst () {
-  activeTab.value = 0
+  activeTab.value = findFirstEnabledTabIndex()
 }
 
 function selectLast () {
-  activeTab.value = tabItems.value.length - 1
+  activeTab.value = findLastEnabledTabIndex()
 }
 
 const resizeObserver = ref<ResizeObserver | null>(null)
@@ -107,6 +139,10 @@ onMounted(() => {
       resizeObserver.value?.observe(element)
     }
   })
+
+  if (isTabUnavailable(tabItems.value[activeTab.value])) {
+    activeTab.value = findFirstEnabledTabIndex()
+  }
 })
 
 onUnmounted(() => {
@@ -145,6 +181,8 @@ onUnmounted(() => {
         :panel-id="`${getIdFromIndex(index)}-panel`"
         :title="tab.props?.title"
         :icon="tab.props?.icon"
+        :disabled="tab.props?.disabled"
+        :is-loading="tab.props?.['is-loading']"
         :data-testid="tab.props?.['data-testid']"
         :compact="compact"
         :is-selected="activeTab === index"

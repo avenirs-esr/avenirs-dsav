@@ -136,3 +136,119 @@ Compact.parameters = {
     }
   }
 }
+
+const TemplateWithDisabled: StoryFn<AvTabsProps & { disabledTab?: number }> = args => ({
+  components: { AvTabs, AvTab, TabContent, TabItem },
+  setup () {
+    const activeTab = ref(0)
+    return { args, activeTab }
+  },
+  template: `
+    <AvTabs v-bind="args" v-model="activeTab">
+      <AvTab
+        title="Tab 1"
+        icon="mdi:format-list-bulleted"
+        :disabled="args.disabledTab === 0"
+      >
+        <span>First tab content</span>
+      </AvTab>
+      <AvTab
+        title="Tab 2"
+        icon="mdi:calendar-month-outline"
+        :disabled="args.disabledTab === 1"
+      >
+        <span>Second tab content</span>
+      </AvTab>
+      <AvTab
+        title="Tab 3"
+        icon="mdi:bell-notification"
+        :disabled="args.disabledTab === 2"
+      >
+        <span>Third tab content</span>
+      </AvTab>
+    </AvTabs>
+  `,
+})
+
+export const WithFirstTabDisabled = TemplateWithDisabled.bind({})
+WithFirstTabDisabled.args = { disabledTab: 0 }
+
+export const WithSecondTabDisabled = TemplateWithDisabled.bind({})
+WithSecondTabDisabled.args = { disabledTab: 1 }
+
+export const WithLastTabDisabled = TemplateWithDisabled.bind({})
+WithLastTabDisabled.args = { disabledTab: 2 }
+
+const TemplateWithLoading: StoryFn<AvTabsProps> = args => ({
+  components: { AvTabs, AvTab, TabContent, TabItem },
+  setup () {
+    const activeTab = ref(0)
+    return { args, activeTab }
+  },
+  template: `
+    <AvTabs v-bind="args" v-model="activeTab">
+      <AvTab
+        title="Tab 1"
+        icon="mdi:format-list-bulleted"
+      >
+        <span>First tab content</span>
+      </AvTab>
+      <AvTab
+        title="Tab 2"
+        icon="mdi:calendar-month-outline"
+        is-loading
+      >
+        <span>Second tab content</span>
+      </AvTab>
+      <AvTab
+        title="Tab 3"
+        icon="mdi:bell-notification"
+      >
+        <span>Third tab content</span>
+      </AvTab>
+    </AvTabs>
+  `,
+})
+
+export const WithLoadingTab = TemplateWithLoading.bind({})
+WithLoadingTab.args = {}
+WithLoadingTab.parameters = {
+  docs: {
+    source: {
+      code: `
+        <AvTabs v-model="activeTab">
+          <AvTab
+            title="Tab 1"
+            icon="mdi:format-list-bulleted"
+          >
+            <span>First tab content</span>
+          </AvTab>
+          <AvTab
+            title="Tab 2"
+            icon="mdi:calendar-month-outline"
+            is-loading
+          >
+            <span>Second tab content</span>
+          </AvTab>
+          <AvTab
+            title="Tab 3"
+            icon="mdi:bell-notification"
+          >
+            <span>Third tab content</span>
+          </AvTab>
+        </AvTabs>
+      `
+    }
+  }
+}
+
+export const CompactWithDisabledTab = TemplateWithDisabled.bind({})
+CompactWithDisabledTab.args = {
+  compact: true,
+  disabledTab: 1,
+}
+
+export const CompactWithLoadingTab = TemplateWithLoading.bind({})
+CompactWithLoadingTab.args = {
+  compact: true,
+}
