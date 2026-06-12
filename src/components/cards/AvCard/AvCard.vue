@@ -157,7 +157,9 @@ function isInteractiveElement (element: HTMLElement): boolean {
  * Treats the collapse button as an interactive element.
  */
 function findInteractiveAncestor (target: HTMLElement, currentTarget: EventTarget | null): HTMLElement | null {
-  if (buttonRef.value && (target === buttonRef.value.$el || buttonRef.value.$el.contains(target))) {
+  const buttonRoot = (buttonRef.value as { $el?: unknown } | null)?.$el
+
+  if (buttonRoot instanceof HTMLElement && (target === buttonRoot || buttonRoot.contains(target))) {
     return null
   }
 
@@ -182,7 +184,16 @@ function handleHeaderClick (event: MouseEvent) {
 
   if (collapsible) {
     toggleCollapsed()
-    buttonRef.value?.$el.focus()
+
+    const buttonComponent = buttonRef.value as { focus?: () => void, $el?: unknown } | null
+    if (typeof buttonComponent?.focus === 'function') {
+      buttonComponent.focus()
+      return
+    }
+
+    if (buttonComponent?.$el instanceof HTMLElement) {
+      buttonComponent.$el.focus()
+    }
   }
 }
 
