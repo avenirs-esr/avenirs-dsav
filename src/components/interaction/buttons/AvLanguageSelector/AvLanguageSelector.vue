@@ -40,6 +40,10 @@ export interface AvLanguageSelectorProps {
   title?: string
 }
 
+defineOptions({
+  inheritAttrs: false,
+})
+
 const {
   id,
   languages,
@@ -90,6 +94,7 @@ function handleItemSelected (itemName: string) {
 <template>
   <AvTooltip :content="title">
     <nav
+      v-bind="$attrs"
       role="navigation"
       class="av-translate av-nav"
     >

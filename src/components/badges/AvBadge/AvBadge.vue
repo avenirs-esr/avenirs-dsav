@@ -45,6 +45,10 @@ export interface AvBadgeProps {
   ellipsis?: boolean | undefined
 }
 
+defineOptions({
+  inheritAttrs: false,
+})
+
 const {
   color,
   backgroundColor,
@@ -65,6 +69,7 @@ const iconPathStyleVars = computed(() => getIconPath(icon))
     :force-focusable="ellipsis"
   >
     <span
+      v-bind="$attrs"
       role="status"
       class="av-badge av-row av-align-center av-py-none av-m-none av-radius-sm"
       :class="{

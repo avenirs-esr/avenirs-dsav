@@ -56,6 +56,10 @@ export interface AvIconTextProps {
   wrapAnywhere?: boolean
 }
 
+defineOptions({
+  inheritAttrs: false,
+})
+
 const {
   textColor = 'var(--text1)',
   iconColor = 'var(--text1)',
@@ -126,6 +130,7 @@ const wrapAnywhereClass = computed(() => wrapAnywhere ? 'av-wrap-anywhere' : und
     :force-focusable="!inline && !wrapAnywhere"
   >
     <div
+      v-bind="$attrs"
       class="icon-text--container av-row av-align-start"
       :class="[ellipsisContainerClass]"
       data-testid="av-icon-text-container"
