@@ -514,6 +514,79 @@ BddTest().given('an AvInput', () => {
     })
   })
 
+  BddTest().when('the component is mounted with date type', () => {
+    beforeEach(() => {
+      wrapper = mount<typeof AvInput>(AvInput, {
+        props: {
+          type: 'date',
+          label: 'Birth date'
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should remove the real date input from tab order', () => {
+      const realInput = wrapper.find('.av-input__input--date-real')
+      expect(realInput.attributes('tabindex')).toBe('-1')
+    })
+
+    BddTest().then('it should make the displayed date input keyboard focusable', () => {
+      const displayedInput = wrapper.find('.av-input__input--date-picker')
+      expect(displayedInput.attributes('tabindex')).toBe('0')
+    })
+
+    BddTest().then('it should bind label to the displayed date input', () => {
+      const label = wrapper.find('label')
+      const displayedInput = wrapper.find('.av-input__input--date-picker')
+      expect(label.attributes('for')).toBe(displayedInput.attributes('id'))
+    })
+
+    BddTest().and('the displayed input receives Enter keydown', () => {
+      let focusSpy: MockInstance
+
+      beforeEach(async () => {
+        const realInputEl = wrapper.find('.av-input__input--date-real').element as HTMLInputElement
+        focusSpy = vi.spyOn(realInputEl, 'focus')
+        await wrapper.find('.av-input__input--date-picker').trigger('keydown', { key: 'Enter' })
+      })
+
+      BddTest().then('it should fallback to focusing the real date input', () => {
+        expect(focusSpy).toHaveBeenCalledTimes(1)
+      })
+    })
+
+    BddTest().and('the displayed input receives Space keydown', () => {
+      let focusSpy: MockInstance
+
+      beforeEach(async () => {
+        const realInputEl = wrapper.find('.av-input__input--date-real').element as HTMLInputElement
+        focusSpy = vi.spyOn(realInputEl, 'focus')
+        await wrapper.find('.av-input__input--date-picker').trigger('keydown', { key: ' ' })
+      })
+
+      BddTest().then('it should fallback to focusing the real date input', () => {
+        expect(focusSpy).toHaveBeenCalledTimes(1)
+      })
+    })
+  })
+
+  BddTest().when('the component is mounted with date type and disabled state', () => {
+    beforeEach(() => {
+      wrapper = mount<typeof AvInput>(AvInput, {
+        props: {
+          type: 'date',
+          disabled: true
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should remove the displayed date input from tab order', () => {
+      const displayedInput = wrapper.find('.av-input__input--date-picker')
+      expect(displayedInput.attributes('tabindex')).toBe('-1')
+    })
+  })
+
   BddTest().when('exposed focus is called', () => {
     let focusSpy: MockInstance
 
