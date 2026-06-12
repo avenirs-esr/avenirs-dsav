@@ -133,7 +133,6 @@ const wrapAnywhereClass = computed(() => wrapAnywhere ? 'av-wrap-anywhere' : und
       v-bind="$attrs"
       class="icon-text--container av-row av-align-start"
       :class="[ellipsisContainerClass]"
-      data-testid="av-icon-text-container"
     >
       <AvIcon
         class="icon-text--icon"

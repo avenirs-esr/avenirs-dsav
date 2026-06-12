@@ -1,6 +1,6 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import AvIconText from '@/components/base/AvIconText/AvIconText.vue'
+import AvIconText, { type AvIconTextProps } from '@/components/base/AvIconText/AvIconText.vue'
 import { DEFAULT_ICON_SIZE_REM } from '@/components/base/AvIconText/utils'
 import { AvIconStub, AvTooltipStub } from '@/tests'
 import { BddTest } from '@/tests/utils'
@@ -22,9 +22,17 @@ BddTest().given('an AvIconText', () => {
     typographyClass: 'typography'
   }
 
+  const mountAvIconText = (props: AvIconTextProps = baseProps) => {
+    wrapper = mount(AvIconText, {
+      props,
+      attrs: { 'data-testid': 'av-icon-text' },
+      global: { stubs }
+    })
+  }
+
   BddTest().when('the component is mounted', () => {
     beforeEach(() => {
-      wrapper = mount(AvIconText, { props: baseProps, global: { stubs } })
+      mountAvIconText()
     })
 
     BddTest().then('it should render properly', async () => {
@@ -41,7 +49,7 @@ BddTest().given('an AvIconText', () => {
 
     BddTest().and('given props', () => {
       beforeEach(() => {
-        wrapper = mount(AvIconText, { props: allProps, global: { stubs } })
+        mountAvIconText(allProps)
       })
 
       BddTest().then('it should render properly', async () => {
@@ -59,11 +67,11 @@ BddTest().given('an AvIconText', () => {
 
     BddTest().and('given the inline prop', () => {
       beforeEach(() => {
-        wrapper = mount(AvIconText, { props: { ...baseProps, inline: true }, global: { stubs } })
+        mountAvIconText({ ...baseProps, inline: true })
       })
 
       BddTest().then('it should not render the ellipsis classes', async () => {
-        expect(wrapper.find('[data-testid="av-icon-text-container"]').classes()).not.toContain('ellipsis-container')
+        expect(wrapper.find('[data-testid="av-icon-text"]').classes()).not.toContain('ellipsis-container')
         const text = wrapper.find('[data-testid="av-icon-text-text"]')
         expect(text.classes()).not.toContain('av-max-lines')
       })
@@ -71,11 +79,11 @@ BddTest().given('an AvIconText', () => {
 
     BddTest().and('not given the inline prop', () => {
       beforeEach(() => {
-        wrapper = mount(AvIconText, { props: { ...baseProps, inline: false }, global: { stubs } })
+        mountAvIconText({ ...baseProps, inline: false })
       })
 
       BddTest().then('it should render the ellipsis classes', async () => {
-        expect(wrapper.find('[data-testid="av-icon-text-container"]').classes()).toContain('ellipsis-container')
+        expect(wrapper.find('[data-testid="av-icon-text"]').classes()).toContain('ellipsis-container')
         const text = wrapper.find('[data-testid="av-icon-text-text"]')
         expect(text.classes()).toContain('av-max-lines')
       })
@@ -83,11 +91,11 @@ BddTest().given('an AvIconText', () => {
 
     BddTest().and('given wrapAnywhere as true', () => {
       beforeEach(() => {
-        wrapper = mount(AvIconText, { props: { ...baseProps, wrapAnywhere: true }, global: { stubs } })
+        mountAvIconText({ ...baseProps, wrapAnywhere: true })
       })
 
       BddTest().then('it should render wrapping class and disable ellipsis classes', async () => {
-        expect(wrapper.find('[data-testid="av-icon-text-container"]').classes()).not.toContain('ellipsis-container')
+        expect(wrapper.find('[data-testid="av-icon-text"]').classes()).not.toContain('ellipsis-container')
 
         const text = wrapper.find('[data-testid="av-icon-text-text"]')
         expect(text.classes()).toContain('av-wrap-anywhere')
@@ -104,7 +112,7 @@ BddTest().given('an AvIconText', () => {
           fontSize: '1rem',
         } as CSSStyleDeclaration)
 
-        wrapper = mount(AvIconText, { props: { ...baseProps }, global: { stubs } })
+        mountAvIconText()
       })
 
       BddTest().then('it should update the icon size accordingly', async () => {
@@ -123,7 +131,7 @@ BddTest().given('an AvIconText', () => {
           fontSize: '0',
         } as CSSStyleDeclaration)
 
-        wrapper = mount(AvIconText, { props: { ...baseProps }, global: { stubs } })
+        mountAvIconText()
       })
 
       BddTest().then('it should fallback the icon size to default icon size', async () => {
