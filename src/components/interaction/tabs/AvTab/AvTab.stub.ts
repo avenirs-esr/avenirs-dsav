@@ -8,6 +8,16 @@ export const AvTabStub = defineComponent({
     icon: {
       type: String,
       required: false
+    },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    isLoading: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   template: '<div class="av-tab"><slot /></div>'

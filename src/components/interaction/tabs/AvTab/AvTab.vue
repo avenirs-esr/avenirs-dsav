@@ -14,6 +14,16 @@ export interface AvTabProps {
    * Tab icon
    */
   icon?: string
+
+  /**
+   * Whether the tab is disabled.
+   */
+  disabled?: boolean
+
+  /**
+   * Whether the tab is in loading state.
+   */
+  isLoading?: boolean
 }
 
 defineProps<AvTabProps>()

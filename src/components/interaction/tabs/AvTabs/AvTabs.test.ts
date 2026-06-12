@@ -377,4 +377,89 @@ BddTest().given('a tab switcher ', () => {
       })
     })
   })
+
+  BddTest().and('with disabled and loading tabs', () => {
+    const unavailableSlots = {
+      default: [
+        '<AvTab title="Tab 1">Content 1</AvTab>',
+        '<AvTab title="Tab 2" disabled>Content 2</AvTab>',
+        '<AvTab title="Tab 3" :is-loading="true">Content 3</AvTab>',
+        '<AvTab title="Tab 4">Content 4</AvTab>',
+      ].join('')
+    }
+
+    BddTest().when('the first tab is active and ArrowRight is pressed', () => {
+      beforeEach(async () => {
+        wrapper = mount(AvTabs, {
+          props: { modelValue: 0 },
+          slots: unavailableSlots,
+          global: { stubs }
+        })
+        await wrapper.findAll('.av-tab-item__tab')[0].trigger('keydown', { key: 'ArrowRight' })
+      })
+
+      BddTest().then('it should skip disabled and loading tabs and select the fourth tab', () => {
+        expect(getLastEmittedUpdate(wrapper)).toBe(3)
+      })
+    })
+
+    BddTest().when('the first tab is active and ArrowLeft is pressed', () => {
+      beforeEach(async () => {
+        wrapper = mount(AvTabs, {
+          props: { modelValue: 0 },
+          slots: unavailableSlots,
+          global: { stubs }
+        })
+        await wrapper.findAll('.av-tab-item__tab')[0].trigger('keydown', { key: 'ArrowLeft' })
+      })
+
+      BddTest().then('it should wrap around and skip unavailable tabs', () => {
+        expect(getLastEmittedUpdate(wrapper)).toBe(3)
+      })
+    })
+
+    BddTest().when('the fourth tab is active and Home is pressed', () => {
+      beforeEach(async () => {
+        wrapper = mount(AvTabs, {
+          props: { modelValue: 3 },
+          slots: unavailableSlots,
+          global: { stubs }
+        })
+        await wrapper.findAll('.av-tab-item__tab')[3].trigger('keydown', { key: 'Home' })
+      })
+
+      BddTest().then('it should select the first enabled tab', () => {
+        expect(getLastEmittedUpdate(wrapper)).toBe(0)
+      })
+    })
+
+    BddTest().when('the first tab is active and End is pressed', () => {
+      beforeEach(async () => {
+        wrapper = mount(AvTabs, {
+          props: { modelValue: 0 },
+          slots: unavailableSlots,
+          global: { stubs }
+        })
+        await wrapper.findAll('.av-tab-item__tab')[0].trigger('keydown', { key: 'End' })
+      })
+
+      BddTest().then('it should select the last enabled tab', () => {
+        expect(getLastEmittedUpdate(wrapper)).toBe(3)
+      })
+    })
+
+    BddTest().when('the initial modelValue points to a disabled tab', () => {
+      beforeEach(() => {
+        wrapper = mount(AvTabs, {
+          props: { modelValue: 1 },
+          slots: unavailableSlots,
+          global: { stubs }
+        })
+      })
+
+      BddTest().then('it should fallback to the first enabled tab on mount', () => {
+        expect(getLastEmittedUpdate(wrapper)).toBe(0)
+      })
+    })
+  })
 })

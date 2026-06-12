@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+import type { AvIcon } from '@/components/base'
+import { nextTick } from 'vue'
+import { MDI_ICONS } from '@/tokens'
+
 /**
  * TabItem component props.
  */
@@ -33,6 +37,18 @@ export interface TabItemProps {
    * @default false
    */
   compact?: boolean
+
+  /**
+   * Whether the tab item is disabled.
+   * @default false
+   */
+  disabled?: boolean
+
+  /**
+   * Whether the tab item is in loading state.
+   * @default false
+   */
+  isLoading?: boolean
 }
 
 defineOptions({
@@ -45,7 +61,9 @@ const {
   isSelected,
   title,
   icon,
-  compact = false
+  compact = false,
+  disabled = false,
+  isLoading = false,
 } = defineProps<TabItemProps>()
 
 /**
@@ -85,9 +103,22 @@ const emit = defineEmits<{
 }>()
 
 const buttonEl = useTemplateRef('button')
+const canFocusSelectedTab = ref(false)
 
 const labelClass = computed(() => {
   return isSelected ? 's2-bold' : 's2-regular'
+})
+
+const loadingIcon: InstanceType<typeof AvIcon>['$props'] = { name: MDI_ICONS.LOADING, animation: 'spin' }
+
+const iconToRender = computed(() => {
+  if (isLoading) {
+    return { ...loadingIcon, size: 2 }
+  }
+  if (icon) {
+    return { name: icon, size: 2 }
+  }
+  return undefined
 })
 
 const keyToEventDict = {
@@ -118,11 +149,31 @@ function onKeyDown (event: KeyboardEvent) {
   }
 }
 
-watch(() => isSelected, () => {
-  if (isSelected) {
-    buttonEl.value?.focus()
+function onClick () {
+  if (isSelected || disabled || isLoading) {
+    return
   }
+  emit('click', tabId)
+}
+
+onMounted(() => {
+  nextTick(() => {
+    canFocusSelectedTab.value = true
+  })
 })
+
+watch(
+  () => isSelected,
+  async (selected) => {
+    if (!canFocusSelectedTab.value || !selected || disabled || isLoading) {
+      return
+    }
+
+    await nextTick()
+    buttonEl.value?.focus()
+  },
+  { flush: 'post' }
+)
 </script>
 
 <template>
@@ -146,13 +197,13 @@ watch(() => isSelected, () => {
       type="button"
       :aria-selected="isSelected"
       :aria-controls="panelId"
-      @click.prevent="emit('click', tabId)"
+      :disabled="disabled || isLoading"
+      @click.prevent="onClick"
       @keydown="onKeyDown($event)"
     >
       <AvIcon
-        v-if="icon"
-        :name="icon"
-        :size="2"
+        v-if="iconToRender"
+        v-bind="iconToRender"
       />
       <span :class="labelClass">
         {{ title }}
@@ -201,5 +252,14 @@ watch(() => isSelected, () => {
       }
     }
   }
+}
+
+.av-tab-item__tab[disabled],
+.av-tab-item__tab[disabled] > *,
+.av-tab-item__tab[disabled]:hover,
+.av-tab-item__tab[disabled]:hover > * {
+  cursor: not-allowed;
+  color: var(--text1) !important;
+  opacity: 0.5;
 }
 </style>
