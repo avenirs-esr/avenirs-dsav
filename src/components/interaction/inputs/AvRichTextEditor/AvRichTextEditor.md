@@ -57,6 +57,8 @@ The component integrates focus management, proper ARIA attributes, and responsiv
 | `increaseIndentLabel` | `string` | | ✅ | Label for the button to increase indent in the toolbar. @example "Increase indent (CTRL + ])" |
 | `popoversCancelLabel` | `string` | | ✅ | Label for the cancel button in the popovers. @example "Cancel" |
 | `popoversConfirmLabel` | `string` | | ✅ | Label for the confirm button in the popovers. @example "Confirm" |
+| `maxlength` | `number` | | | Maximum number of characters allowed in the rich text editor. If not provided, there is no character limit. |
+| `allowExceedMaxlength` | `boolean` | | | Whether to allow exceeding the maximum number of characters. If not provided, the default is `false`. |
 
 ## 🔊 Events
 

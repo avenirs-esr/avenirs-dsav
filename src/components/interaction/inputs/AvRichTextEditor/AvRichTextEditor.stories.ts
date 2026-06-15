@@ -98,7 +98,8 @@ const meta: Meta<AvRichTextEditorProps> = {
     decreaseIndentLabel: { control: 'text' },
     increaseIndentLabel: { control: 'text' },
     popoversCancelLabel: { control: 'text' },
-    popoversConfirmLabel: { control: 'text' }
+    popoversConfirmLabel: { control: 'text' },
+    allowExceedMaxlength: { control: 'boolean', required: false }
   },
   args: {
     editorLabel: 'Rich Text Editor',
@@ -138,7 +139,8 @@ const meta: Meta<AvRichTextEditorProps> = {
     decreaseIndentLabel: 'Decrease indent (CTRL + [)',
     increaseIndentLabel: 'Increase indent (CTRL + ])',
     popoversCancelLabel: 'Cancel',
-    popoversConfirmLabel: 'Confirm'
+    popoversConfirmLabel: 'Confirm',
+    allowExceedMaxlength: true
   }
 }
 
@@ -176,7 +178,14 @@ Default.args = {}
 
 export const MaxLength = Template.bind({})
 MaxLength.args = {
-  maxlength: 4000
+  maxlength: 8,
+  allowExceedMaxlength: false
+}
+
+export const ExceedableMaxLength = Template.bind({})
+ExceedableMaxLength.args = {
+  maxlength: 8,
+  allowExceedMaxlength: true
 }
 
 const TemplateWithMaxLengthCaptionSlot: StoryFn<AvRichTextEditorProps> = args => ({

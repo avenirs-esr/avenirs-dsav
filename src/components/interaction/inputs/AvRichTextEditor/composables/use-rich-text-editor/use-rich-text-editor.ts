@@ -10,6 +10,7 @@ import { useEditor } from '@tiptap/vue-3'
 interface UseRichTextEditorOptions {
   content?: string
   maxlength?: number
+  allowExceedMaxlength?: boolean
   onUpdate?: (editor: Editor) => void
 }
 
@@ -23,11 +24,11 @@ export const ResizableImage = Image.extend({
   },
 })
 
-export function useRichTextEditor ({ content, maxlength, onUpdate }: UseRichTextEditorOptions) {
+export function useRichTextEditor ({ content, maxlength, allowExceedMaxlength = true, onUpdate }: UseRichTextEditorOptions) {
   return useEditor({
     extensions: [
       StarterKit.configure({ link: false }),
-      CharacterCount.configure({ limit: maxlength }),
+      CharacterCount.configure({ limit: allowExceedMaxlength ? undefined : maxlength }),
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
       Link.configure({
         openOnClick: false,
@@ -59,7 +60,8 @@ export function useRichTextEditor ({ content, maxlength, onUpdate }: UseRichText
       },
       handleKeyDown: (view, event) => {
         if (
-          maxlength
+          !allowExceedMaxlength
+          && maxlength
           && view.state.doc.textContent.length >= maxlength
           && (event.key === 'Enter' || event.key === 'Return')
         ) {
