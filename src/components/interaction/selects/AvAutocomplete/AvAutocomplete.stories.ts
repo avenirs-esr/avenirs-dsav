@@ -101,9 +101,14 @@ const meta = {
         category: 'slots',
         type: { summary: 'VNode' }
       }
+    },
+    clearLabel: {
+      control: 'text',
+      description: 'Label for the clear selection button'
     }
   },
   args: {
+    clearLabel: 'Clear selection',
     options: [
       { label: 'Option 1', value: '1' },
       { label: 'Option 2', value: '2' },

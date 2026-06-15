@@ -50,6 +50,7 @@ The component integrates:
 | `serverSideFiltering` | `boolean`                                 | `false`                                             | | Whether filtering is handled server-side. When true, client-side filtering is bypassed. |
 | `selectedItemsCountLabel` | `string` | `'element(s) selected'` | | Label displayed after the selected items count in multi-select mode. |
 | `search` | `string` | `''` | | Two-way binding for the current search query (use `v-model:search`). |
+| `clearLabel` | `string` | `'Clear selection'` | | Label for the clear selection button. |
 
 ## 🔊 Events
 
