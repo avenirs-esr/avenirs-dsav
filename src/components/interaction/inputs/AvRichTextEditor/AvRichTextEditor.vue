@@ -10,9 +10,15 @@ export interface AvRichTextEditorProps extends AvRichTextEditorLabels {
    * Maximum length of input
    */
   maxlength?: number
+
+  /**
+   * Whether to allow exceeding the maxlength or not
+   * @default true
+   */
+  allowExceedMaxlength?: boolean
 }
 
-const { editorLabel, maxlength, ...labels } = defineProps<AvRichTextEditorProps>()
+const { editorLabel, maxlength, allowExceedMaxlength = true, ...labels } = defineProps<AvRichTextEditorProps>()
 
 defineSlots<{
   /**
@@ -31,6 +37,7 @@ const editor = useRichTextEditor({
     charCount.value = editorInstance.storage.characterCount.characters()
   },
   maxlength,
+  allowExceedMaxlength
 })
 
 watch(
@@ -84,6 +91,10 @@ watch(
       <span
         v-if="maxlength"
         class="caption-light"
+        :class="{
+          'av-text-text1': (charCount ?? 0) <= (maxlength ?? 0),
+          'av-text-error': (charCount ?? 0) > (maxlength ?? 0),
+        }"
         data-testid="maxlength-caption"
       >
         {{ charCount }} / {{ maxlength }}
