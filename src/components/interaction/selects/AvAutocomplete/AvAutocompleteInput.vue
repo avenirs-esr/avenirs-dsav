@@ -107,7 +107,7 @@ defineExpose({
         #suffix
       >
         <AvButton
-          label="Clear selected items"
+          :label="props.clearLabel ?? 'Clear selection'"
           :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
           icon-only
           :icon-scale="1.25"

@@ -25,6 +25,7 @@ const props = withDefaults(defineProps<AvAutocompleteProps<T>>(), {
   loadMoreThrottleDelay: 200,
   serverSideFiltering: false,
   selectedItemsCountLabel: 'element(s) selected',
+  clearLabel: 'Clear selection'
 })
 
 const emit = defineEmits<{

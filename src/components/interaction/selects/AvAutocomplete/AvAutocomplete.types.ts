@@ -110,6 +110,12 @@ export interface AvAutocompleteProps<T extends AvAutocompleteOption = AvAutocomp
    * @example "element(s) selected" → "3 element(s) selected"
    */
   selectedItemsCountLabel?: string
+
+  /**
+   * Label for the clear selection button
+   * @default "Clear selection"
+   */
+  clearLabel?: string
 }
 
 export enum DropdownState {
