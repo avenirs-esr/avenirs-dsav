@@ -1,8 +1,19 @@
 @use '../core/namespace' as *;
+@use '../mixins/responsive-utility' as *;
 
 :root {
   --max-lines: 2;
 }
+
+// === Text alignments ===
+$text-alignments: (
+  left: left,
+  center: center,
+  right: right,
+  justify: justify
+);
+
+// === BASE CLASSES ===
 
 // === Max lines ===
 @include ns("max-lines") {
@@ -32,4 +43,22 @@
   overflow: hidden !important;
   text-overflow: ellipsis !important;
   white-space: nowrap !important;
+}
+
+// === Text alignment ===
+// Ex: .av-text-left / .av-text-center
+@each $alignment, $value in $text-alignments {
+  @include utility-base("text-#{$alignment}", (
+    text-align: #{$value} !important
+  ));
+}
+
+// === RESPONSIVE CLASSES ===
+
+// === Responsive text alignment ===
+// Ex: .av-text-left--md / .av-text-center--lg
+@each $alignment, $value in $text-alignments {
+  @include utility-responsive("text-#{$alignment}", (
+    text-align: #{$value} !important
+  ));
 }

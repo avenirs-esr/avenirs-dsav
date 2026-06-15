@@ -1,6 +1,6 @@
 # Text
 
-_Last updated: 2026-06-04_
+_Last updated: 2026-06-15_
 
 ## ✨ Introduction
 
@@ -13,9 +13,12 @@ This `text` utility generates text-related classes for all defined styles.
 | `.av-max-lines` | Applies maximum lines with ellipsis |
 | `.av-wrap-anywhere` | Applies wrapping anywhere with hyphens |
 | `.av-ellipsis` | Applies ellipsis for single-line text |
+| `.av-text-{left\|center\|right\|justify}` | Applies text alignment |
+| `.av-text-{left\|center\|right\|justify}--{sm\|md\|lg\|xl}` | Applies text alignment from a breakpoint and up |
 
 📝 Notes:
 - for `.av-max-lines`, the number of lines is determined by the CSS variable `--max-lines` (default: 2), which can be set on the element or inherited from a parent element.
+- text alignment classes are generated from the available alignment values and also expose responsive variants.
 
 ## 🎨 Some CSS results
 
@@ -55,6 +58,36 @@ This `text` utility generates text-related classes for all defined styles.
   overflow: hidden !important;
   text-overflow: ellipsis !important;
   white-space: nowrap !important;
+}
+```
+
+### Text alignment classes
+
+```css
+.av-text-left {
+  text-align: left !important;
+}
+
+.av-text-center {
+  text-align: center !important;
+}
+
+.av-text-right {
+  text-align: right !important;
+}
+
+.av-text-justify {
+  text-align: justify !important;
+}
+```
+
+### Responsive text alignment classes
+
+```css
+@media (min-width: <breakpoint>) {
+  .av-text-center--md {
+    text-align: center !important;
+  }
 }
 ```
 
@@ -123,4 +156,17 @@ This `text` utility generates text-related classes for all defined styles.
 <span class="av-ellipsis">
   <!-- av-ellipsis: ellipsis for single-line text on all screens -->
 </span>
+```
+
+```html
+<p class="av-text-center">
+  <!-- av-text-center: centered text on all screens -->
+</p>
+```
+
+```html
+<p class="av-text-left av-text-right--lg">
+  <!-- av-text-left: left-aligned text by default -->
+  <!-- av-text-right--lg: right-aligned text from the lg breakpoint and up -->
+</p>
 ```
