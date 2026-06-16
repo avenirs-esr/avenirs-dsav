@@ -67,7 +67,6 @@ function handleFocus () {
 
 function handleClearSearch () {
   searchQuery.value = ''
-  debouncedSearch(searchQuery.value)
   emit('clear')
 }
 
