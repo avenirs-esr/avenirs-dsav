@@ -102,7 +102,7 @@ defineExpose({
       </template>
 
       <template
-        v-if="selectedItems.length > 0"
+        v-if="searchQuery && searchQuery.length > 0"
         #suffix
       >
         <AvButton

@@ -128,6 +128,12 @@ export interface AvAutocompleteProps<T extends AvAutocompleteOption = AvAutocomp
    * @default "Clear selection"
    */
   clearSelectionLabel?: string
+
+  /**
+   * Label displayed when no results are found for the current search query
+   * @default "No results found"
+   */
+  noResultsLabel?: string
 }
 
 export enum DropdownState {

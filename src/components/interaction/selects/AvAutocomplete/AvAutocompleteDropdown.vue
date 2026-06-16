@@ -182,7 +182,7 @@ defineExpose({
         v-else
         class="av-autocomplete-dropdown__empty-text av-text-text2"
       >
-        No results found
+        {{ props.noResultsLabel ?? 'No results found' }}
       </div>
     </div>
 
