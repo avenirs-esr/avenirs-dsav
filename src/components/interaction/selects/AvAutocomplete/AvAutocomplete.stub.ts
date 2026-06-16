@@ -16,7 +16,8 @@ export const AvAutocompleteStub = defineComponent({
     'search',
     'clearLabel',
     'clearSelectionLabel',
-    'withClearSelectionButton'
+    'withClearSelectionButton',
+    'noResultsLabel'
   ],
   emits: ['update:modelValue', 'clear', 'clearSelection', 'loadMore', 'update:search'],
   template: `

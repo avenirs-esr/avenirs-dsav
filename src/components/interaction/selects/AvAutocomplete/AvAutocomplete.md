@@ -53,6 +53,7 @@ The component integrates:
 | `clearLabel` | `string` | `'Clear search'` | | Label for the clear search button. |
 | `clearSelectionLabel` | `string` | `'Clear selection'` | | Label for the clear selection button. |
 | `withClearSelectionButton` | `boolean` | `false` | | Whether to show a button to clear the selection. |
+| `noResultsLabel` | `string` | `'No results found'` | | Label displayed when no results are found for the current search query. |
 
 ## 🔊 Events
 
