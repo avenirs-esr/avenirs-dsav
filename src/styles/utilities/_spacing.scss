@@ -1,8 +1,5 @@
 @use '../core/spacing' as sp;
-@use '../core/namespace' as *;
 @use '../mixins/responsive-utility' as *;
-@use '../settings/breakpoints' as bp;
-@use "sass:meta";
 @use "sass:map";
 
 // === Properties and directions ===
@@ -12,100 +9,141 @@ $properties: (
 );
 
 $directions: (
-  t: top,
-  r: right,
-  b: bottom,
-  l: left,
+  t: (top),
+  r: (right),
+  b: (bottom),
+  l: (left),
   x: (left, right),
   y: (top, bottom),
 );
 
-// === BASE CLASSES ===
+$insets: (
+  top,
+  right,
+  bottom,
+  left,
+  inset,
+);
 
-// === Global classes ===
-// Ex : .av-m-sm / .av-p-md / .av--m-lg / .av--p-xl
-@each $type, $property-value in $properties {
-  @each $size, $value in sp.$spacing {
-    @include utility-base("#{$type}-#{$size}", (
-      #{$property-value}: var(--spacing-#{$size}) !important
-    ));
-    @include utility-base("-#{$type}-#{$size}", (
-      #{$property-value}: calc(-1 * var(--spacing-#{$size})) !important
-    ));
+/**
+  * Emit spacing classes for a given class name and rules.
+  *
+  * @param {String} $class-name - The class name to emit.
+  * @param {Map} $rules - The CSS rules to apply.
+  * @param {Boolean} $responsive - Whether to emit responsive classes.
+  */
+@mixin emit-spacing-class($class-name, $rules, $responsive: false) {
+  @if $responsive {
+    @include utility-responsive($class-name, $rules);
+  } @else {
+    @include utility-base($class-name, $rules);
   }
 }
 
-// === Directional classes ===
-// Ex : .av-mt-sm / .av-px-md / .av--mb-lg
-@each $type, $property-value in $properties {
-  @each $direction-key, $direction-value in $directions {
+/**
+  * Emit spacing classes for a given class name and rules, including negative variants if allowed.
+  *
+  * @param {String} $class-name - The class name to emit.
+  * @param {Map} $rules - The CSS rules to apply.
+  * @param {Map} $negative-rules - The CSS rules to apply for negative variants.
+  * @param {Boolean} $allow-negative - Whether to emit negative variants.
+  * @param {Boolean} $responsive - Whether to emit responsive classes.
+  */
+@mixin emit-spacing-classes($class-name, $rules, $negative-rules: null, $allow-negative: false, $responsive: false) {
+  @include emit-spacing-class($class-name, $rules, $responsive);
+
+  @if $allow-negative {
+    @include emit-spacing-class("-#{$class-name}", $negative-rules, $responsive);
+  }
+}
+
+/**
+  * Generate spacing rules for a given property and targets.
+  *
+  * @param {String} $property-value - The CSS property to apply.
+  * @param {List} $targets - The list of targets (e.g., top, right, bottom, left).
+  * @param {String} $size - The size key from the spacing map.
+  * @param {Boolean} $negative - Whether to generate negative rules.
+  * @return {Map} - The generated CSS rules.
+  */
+@function spacing-rules-for-targets($property-value, $targets, $size, $negative: false) {
+  $rules: ();
+  $spacing-value: var(--spacing-#{$size}) !important;
+
+  @if $negative {
+    $spacing-value: calc(-1 * var(--spacing-#{$size})) !important;
+  }
+
+  @each $target in $targets {
+    $rules: map.merge($rules, (
+      #{$property-value}-#{$target}: $spacing-value
+    ));
+  }
+
+  @return $rules;
+}
+
+/**
+  * Generate spacing utility classes.
+  *
+  * @param {Boolean} $responsive - Whether to generate responsive classes.
+  */
+@mixin generate-spacing-utilities($responsive: false) {
+  // === Global classes ===
+  // Ex : .av-m-sm / .av-p-md / .av--m-lg / .av-m-xs--sm / .av-p-md--lg
+  @each $type, $property-value in $properties {
     @each $size, $value in sp.$spacing {
-      @if meta.type-of($direction-value) == 'list' {
-        $props: ();
-        $negative-props: ();
-        @each $d in $direction-value {
-          $props: map.merge($props, (
-            #{$property-value}-#{$d}: var(--spacing-#{$size}) !important
-          ));
-          $negative-props: map.merge($negative-props, (
-            #{$property-value}-#{$d}: calc(-1 * var(--spacing-#{$size})) !important
-          ));
-        }
-        @include utility-base("#{$type}#{$direction-key}-#{$size}", $props);
-        @include utility-base("-#{$type}#{$direction-key}-#{$size}", $negative-props);
-      } @else {
-        @include utility-base("#{$type}#{$direction-key}-#{$size}", (
-          #{$property-value}-#{$direction-value}: var(--spacing-#{$size}) !important
-        ));
-        @include utility-base("-#{$type}#{$direction-key}-#{$size}", (
-          #{$property-value}-#{$direction-value}: calc(-1 * var(--spacing-#{$size})) !important
-        ));
+      @include emit-spacing-classes(
+        "#{$type}-#{$size}",
+        (
+          #{$property-value}: var(--spacing-#{$size}) !important
+        ),
+        (
+          #{$property-value}: calc(-1 * var(--spacing-#{$size})) !important
+        ),
+        $property-value == margin,
+        $responsive
+      );
+    }
+  }
+
+  // === Directional classes ===
+  // Ex : .av-mt-sm / .av-px-md / .av--mb-lg / .av-mt-xs--sm / .av-px-md--lg
+  @each $type, $property-value in $properties {
+    @each $direction-key, $direction-targets in $directions {
+      @each $size, $value in sp.$spacing {
+        @include emit-spacing-classes(
+          "#{$type}#{$direction-key}-#{$size}",
+          spacing-rules-for-targets($property-value, $direction-targets, $size),
+          spacing-rules-for-targets($property-value, $direction-targets, $size, true),
+          $property-value == margin,
+          $responsive
+        );
       }
     }
   }
+
+  // === Inset classes ===
+  // Ex : .av-top-sm / .av--bottom-md / .av-inset-lg / .av-top-xs--sm / .av-inset-md--lg
+  @each $inset in $insets {
+    @each $size, $value in sp.$spacing {
+      @include emit-spacing-classes(
+        "#{$inset}-#{$size}",
+        (
+          #{$inset}: var(--spacing-#{$size}) !important
+        ),
+        (
+          #{$inset}: calc(-1 * var(--spacing-#{$size})) !important
+        ),
+        true,
+        $responsive
+      );
+    }
+  }
 }
+
+// === BASE CLASSES ===
+@include generate-spacing-utilities();
 
 // === RESPONSIVE CLASSES ===
-
-// === Global classes ===
-// Ex : .av-m-none--lg / .av-p-md--xl / .av--m-lg--md / .av--p-xl--sm
-@each $type, $property-value in $properties {
-  @each $size, $value in sp.$spacing {
-    @include utility-responsive("#{$type}-#{$size}", (
-      #{$property-value}: var(--spacing-#{$size}) !important
-    ));
-    @include utility-responsive("-#{$type}-#{$size}", (
-      #{$property-value}: calc(-1 * var(--spacing-#{$size})) !important
-    ));
-  }
-}
-
-// === Directional classes ===
-// Ex : .av-mb-none--lg / .av-pt-md--xl / .av--mr-lg--md / .av--px-xl--sm
-@each $type, $property-value in $properties {
-  @each $direction-key, $direction-value in $directions {
-    @each $size, $value in sp.$spacing {
-      @if meta.type-of($direction-value) == 'list' {
-        $props: ();
-        $negative-props: ();
-        @each $d in $direction-value {
-          $props: map.merge($props, (
-            #{$property-value}-#{$d}: var(--spacing-#{$size}) !important
-          ));
-          $negative-props: map.merge($negative-props, (
-            #{$property-value}-#{$d}: calc(-1 * var(--spacing-#{$size})) !important
-          ));
-        }
-        @include utility-responsive("#{$type}#{$direction-key}-#{$size}", $props);
-        @include utility-responsive("-#{$type}#{$direction-key}-#{$size}", $negative-props);
-      } @else {
-        @include utility-responsive("#{$type}#{$direction-key}-#{$size}", (
-          #{$property-value}-#{$direction-value}: var(--spacing-#{$size}) !important
-        ));
-        @include utility-responsive("-#{$type}#{$direction-key}-#{$size}", (
-          #{$property-value}-#{$direction-value}: calc(-1 * var(--spacing-#{$size})) !important
-        ));
-      }
-    }
-  }
-}
+@include generate-spacing-utilities(true);

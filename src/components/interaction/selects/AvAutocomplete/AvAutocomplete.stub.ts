@@ -13,9 +13,12 @@ export const AvAutocompleteStub = defineComponent({
     'enableLoadMore',
     'displaySelectionInInput',
     'maxDropdownHeight',
-    'search'
+    'search',
+    'clearLabel',
+    'clearSelectionLabel',
+    'withClearSelectionButton'
   ],
-  emits: ['update:modelValue', 'clear', 'loadMore', 'update:search'],
+  emits: ['update:modelValue', 'clear', 'clearSelection', 'loadMore', 'update:search'],
   template: `
     <div class="av-autocomplete-stub">
       <slot

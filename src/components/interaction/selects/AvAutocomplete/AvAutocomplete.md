@@ -50,7 +50,9 @@ The component integrates:
 | `serverSideFiltering` | `boolean`                                 | `false`                                             | | Whether filtering is handled server-side. When true, client-side filtering is bypassed. |
 | `selectedItemsCountLabel` | `string` | `'element(s) selected'` | | Label displayed after the selected items count in multi-select mode. |
 | `search` | `string` | `''` | | Two-way binding for the current search query (use `v-model:search`). |
-| `clearLabel` | `string` | `'Clear selection'` | | Label for the clear selection button. |
+| `clearLabel` | `string` | `'Clear search'` | | Label for the clear search button. |
+| `clearSelectionLabel` | `string` | `'Clear selection'` | | Label for the clear selection button. |
+| `withClearSelectionButton` | `boolean` | `false` | | Whether to show a button to clear the selection. |
 
 ## 🔊 Events
 
@@ -58,7 +60,8 @@ The component integrates:
 | --- | --- | --- |
 | `update:search` | `query: string` | Emitted when the search query changes (via `v-model:search`). |
 | `loadMore` | | Emitted when more options should be loaded (infinite scroll). |
-| `clear` | | Emitted when the selection is cleared. |
+| `clear` | | Emitted when the search query is cleared. |
+| `clearSelection` | | Emitted when the selection is cleared. |
 
 ## 🎨 Slots
 

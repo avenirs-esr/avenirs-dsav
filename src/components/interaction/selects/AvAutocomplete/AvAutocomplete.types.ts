@@ -112,10 +112,22 @@ export interface AvAutocompleteProps<T extends AvAutocompleteOption = AvAutocomp
   selectedItemsCountLabel?: string
 
   /**
-   * Label for the clear selection button
-   * @default "Clear selection"
+   * Label for the clear search query button
+   * @default "Clear search"
    */
   clearLabel?: string
+
+  /**
+   * Whether to show a button to clear the selection
+   * @default false
+   */
+  showClearSelectionButton?: boolean
+
+  /**
+   * Label for the clear selection button when no items are selected
+   * @default "Clear selection"
+   */
+  clearSelectionLabel?: string
 }
 
 export enum DropdownState {
