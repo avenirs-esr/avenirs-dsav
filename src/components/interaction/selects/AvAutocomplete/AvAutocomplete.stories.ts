@@ -105,10 +105,20 @@ const meta = {
     clearLabel: {
       control: 'text',
       description: 'Label for the clear selection button'
+    },
+    showClearSelectionButton: {
+      control: 'boolean',
+      description: 'Whether to show a button to clear the selection'
+    },
+    clearSelectionLabel: {
+      control: 'text',
+      description: 'Label for the clear selection button when no items are selected'
     }
   },
   args: {
-    clearLabel: 'Clear selection',
+    clearLabel: 'Clear search',
+    clearSelectionLabel: 'Clear selection',
+    showClearSelectionButton: false,
     options: [
       { label: 'Option 1', value: '1' },
       { label: 'Option 2', value: '2' },
@@ -193,6 +203,17 @@ Loading.args = {
   inputOptions: {
     label: 'Loading state',
     placeholder: 'Loading options...',
+  },
+}
+
+export const WithClearSelectionButton = Template.bind({})
+WithClearSelectionButton.args = {
+  multiSelect: true,
+  showSelectedSection: true,
+  showClearSelectionButton: true,
+  inputOptions: {
+    label: 'Multi-select with clear button',
+    placeholder: 'Search and select multiple options...',
   },
 }
 

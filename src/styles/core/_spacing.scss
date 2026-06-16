@@ -17,6 +17,7 @@ $spacing: (
 :root {
   @each $key, $value in $spacing {
     --spacing-#{$key}: #{$value};
+    --spacing-#{$key}-neg: -#{$value};
   }
 }
 

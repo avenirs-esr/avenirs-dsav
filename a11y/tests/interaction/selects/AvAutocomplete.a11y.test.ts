@@ -7,8 +7,11 @@ const stories = [
   'MultiSelect',
   'MultiSelectWithoutSelectionInInput',
   'WithCustomInput',
+  'Loading',
+  'WithClearSelectionButton',
   'WithLoadMore',
   'CustomDropdownSize',
+  'WithDescriptionAndDisabled',
   'WithCustomItemSlotExample',
 ]
 

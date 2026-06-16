@@ -25,7 +25,9 @@ const props = withDefaults(defineProps<AvAutocompleteProps<T>>(), {
   loadMoreThrottleDelay: 200,
   serverSideFiltering: false,
   selectedItemsCountLabel: 'element(s) selected',
-  clearLabel: 'Clear selection'
+  clearLabel: 'Clear search',
+  showClearSelectionButton: false,
+  clearSelectionLabel: 'Clear selection'
 })
 
 const emit = defineEmits<{
@@ -33,10 +35,16 @@ const emit = defineEmits<{
    * Emitted when more options should be loaded (infinite scroll).
    */
   (e: 'loadMore'): void
+
+  /**
+   * Emitted when the search query is cleared.
+   */
+  (e: 'clear'): void
+
   /**
    * Emitted when the selection is cleared.
    */
-  (e: 'clear'): void
+  (e: 'clearSelection'): void
 }>()
 
 const slots = defineSlots<{
@@ -150,6 +158,8 @@ onUnmounted(() => {
 
       <AvAutocompleteDropdown
         ref="dropdownRef"
+        :show-clear-selection-button="showClearSelectionButton"
+        @clear-selection="emit('clearSelection')"
         @load-more="emit('loadMore')"
       >
         <template

@@ -11,6 +11,7 @@ import { MDI_ICONS } from '@/tokens'
 
 const emit = defineEmits<{
   loadMore: []
+  clearSelection: []
 }>()
 
 const slots = defineSlots<{
@@ -106,6 +107,11 @@ function toggleOption (option: T) {
   }
 }
 
+function clearSelection () {
+  selectedItems.value = []
+  emit('clearSelection')
+}
+
 const { arrivedState } = useScroll(listRef, {
   throttle: 100
 })
@@ -137,6 +143,20 @@ defineExpose({
     :class="props.dropdownClass"
     :style="{ width: props.dropdownWidth, maxHeight: props.maxDropdownHeight }"
   >
+    <div
+      v-if="props.showClearSelectionButton"
+      class="av-p-xs"
+    >
+      <AvButton
+        :label="props.clearSelectionLabel ?? 'Clear selection'"
+        :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
+        variant="DEFAULT"
+        theme="SECONDARY"
+        small
+        :disabled="selectedItems.length === 0"
+        @click="clearSelection"
+      />
+    </div>
     <div
       v-if="dropdownState === DropdownState.LOADING"
       class="av-row av-align-center av-justify-center av-gap-xs av-p-md av-text-text2"

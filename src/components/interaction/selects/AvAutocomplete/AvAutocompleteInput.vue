@@ -65,8 +65,7 @@ function handleFocus () {
   isOpen.value = true
 }
 
-function handleClearSelection () {
-  selectedItems.value = []
+function handleClearSearch () {
   searchQuery.value = ''
   debouncedSearch(searchQuery.value)
   emit('clear')
@@ -107,14 +106,14 @@ defineExpose({
         #suffix
       >
         <AvButton
-          :label="props.clearLabel ?? 'Clear selection'"
+          :label="props.clearLabel ?? 'Clear search'"
           :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
           icon-only
           :icon-scale="1.25"
           variant="DEFAULT"
           theme="SECONDARY"
           small
-          @click="handleClearSelection"
+          @click="handleClearSearch"
         />
       </template>
     </AvInput>
