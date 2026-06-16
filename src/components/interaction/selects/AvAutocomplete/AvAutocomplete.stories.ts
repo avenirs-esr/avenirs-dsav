@@ -161,7 +161,14 @@ const Template: StoryFn = args => ({
     const modelValue = ref([])
     return { args, modelValue, MDI_ICONS }
   },
-  template: `<AvAutocomplete v-bind="args" v-model="modelValue" @search="(query) => console.log('Search:', query)" @load-more="() => console.log('Load more')" />`,
+  template: `
+    <AvAutocomplete
+      v-bind="args"
+      v-model="modelValue"
+      @search="(query) => console.log('Search:', query)"
+      @load-more="() => console.log('Load more')"
+    />
+  `,
 })
 
 export const Default = Template.bind({})
