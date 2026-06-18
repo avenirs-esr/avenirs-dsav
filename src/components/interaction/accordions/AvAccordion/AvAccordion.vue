@@ -116,6 +116,7 @@ watch(isActive, (newValue, oldValue) => {
         :aria-controls="accordionPanelId"
         class="av-accordion__trigger av-row av-align-center av-p-sm av-w-full"
         :style="styleVars"
+        data-testid="av-accordion-trigger"
         @click="expand"
         @keydown="onKeydown"
       >
