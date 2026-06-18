@@ -39,6 +39,10 @@ export interface RadioButtonProps {
   name?: string
 }
 
+defineOptions({
+  inheritAttrs: false,
+})
+
 const {
   value,
   modelValue,

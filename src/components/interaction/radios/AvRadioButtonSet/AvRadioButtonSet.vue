@@ -159,6 +159,13 @@ function flattenRadioButtonNodes (
   })
 }
 
+function getRadioDataTestId (radio: AvRadioButtonNode): string | undefined {
+  const radioProps = radio.props as Record<string, unknown> | null | undefined
+  const radioDataTestId = radioProps?.['data-testid']
+
+  return typeof radioDataTestId === 'string' ? radioDataTestId : undefined
+}
+
 const radios = computed((): AvRadioButtonNode[] => {
   return flattenRadioButtonNodes(slots.default?.())
 })
@@ -201,6 +208,7 @@ defineExpose({ selected })
       :small="small"
       :inline="inline"
       :name="name"
+      :data-testid="getRadioDataTestId(radio)"
       @update:model-value="onChange($event as string)"
     >
       <component :is="(radio.children as Record<string, unknown>)?.default" />
