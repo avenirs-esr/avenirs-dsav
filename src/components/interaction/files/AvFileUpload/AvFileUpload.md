@@ -11,6 +11,7 @@ The `AvFileUpload` allows you to upload files by clicking on the file upload are
 | `id` | `Function` | `file-upload-${crypto.randomUUID()}` | | Unique identifier for the file download component. If not specified, a random ID is generated. |
 | `ariaLabel` | `string` | `''` | | ARIA label for file download button. |
 | `accept` | `string \| string[]` | `undefined` | | Accepted file types, specified as a string (like HTML `accept` attribute) or an array of strings (which will be transformed into a string). |
+| `maxFileSizeMb` | `number` | `undefined` | | Maximum allowed file size in megabytes. |
 | `validMessage` | `string` | `''` | | Message indicating that the downloaded file is valid. |
 | `error` | `string` | `''` | | Error message to be displayed in case of download problem. |
 | `modelValue` | `File \| null` | `''` | | Value linked to file upload input template. |
@@ -20,8 +21,6 @@ The `AvFileUpload` allows you to upload files by clicking on the file upload are
 | `description` | `string` | | ✅ | Description of the file upload section. |
 | `deleteButtonLabel` | `string` | `Remove` | | Delete button label. Hidden when component is disabled. |
 | `disabled` | `boolean` | `false` | | Whether the file upload input is disabled. |
-| `onDeleteFile` | `Function` | `'none'` | | Method executed on delete file button click.|
-| `enableMultiple` | `boolean` | `'none'` | | Whether the file upload input enable multiple file selection or not. |
 
 ## 🔊 Events
 
@@ -31,7 +30,9 @@ The `AvFileUpload` allows you to upload files by clicking on the file upload are
 | `'update:validMessage'` | The updated valide message (`string`) | Event emitted when the validMessage is updated. |
 | `'update:error'` | The updated error message (`string`) | Event emitted when the error is updated. |
 | `'change'` | The new list of selected files (`FileList \| File[]`) | Event emitted when the selected file is changed. |
+| `'delete-file'` | | Event emitted when the delete button is clicked. |
 | `'acceptTypeError'` | | Event emitted when a file of wrong type is dropped or selected. |
+| `'fileSizeError'` | | Event emitted when a file exceeds the configured max size. |
 
 ## 🎨 Slots
 

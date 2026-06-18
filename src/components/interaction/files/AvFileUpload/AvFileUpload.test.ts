@@ -142,6 +142,36 @@ BddTest().given('a file uploader', () => {
         expect(wrapper.emitted('acceptTypeError')).toBeTruthy()
       })
     })
+
+    BddTest().when('an oversized file is selected', () => {
+      BddTest().then('it should emit fileSizeError and not emit update:modelValue and change events', async () => {
+        const oversizedFile = new File(['hello'], 'hello.png', { type: 'image/png' })
+        Object.defineProperty(oversizedFile, 'size', {
+          value: 2 * 1024 * 1024,
+          configurable: true,
+        })
+
+        wrapper = mountComponent({ accept: ['.png'], maxFileSizeMb: 1 })
+        const input = wrapper.find('input[type="file"]')
+        const files = {
+          0: oversizedFile,
+          length: 1,
+          item: () => oversizedFile,
+        } as unknown as FileList
+
+        const event = new Event('change')
+        Object.defineProperty(event, 'target', {
+          value: { value: 'C:\\fakepath\\hello.png', files },
+          writable: false,
+        })
+
+        await input.element.dispatchEvent(event)
+
+        expect(wrapper.emitted('update:modelValue')).toBeFalsy()
+        expect(wrapper.emitted('change')).toBeFalsy()
+        expect(wrapper.emitted('fileSizeError')).toBeTruthy()
+      })
+    })
   })
 
   BddTest().and('with drag & drop', () => {
@@ -268,6 +298,24 @@ BddTest().given('a file uploader', () => {
         expect(wrapper.emitted('acceptTypeError')).toBeTruthy()
       })
     })
+
+    BddTest().when('an oversized accepted file is dropped', () => {
+      BddTest().then('it should emit fileSizeError and not emit update:modelValue and change events', async () => {
+        const oversizedJpeg = new File([new Uint8Array(2 * 1024 * 1024)], 'dragged.jpeg', { type: 'image/jpeg' })
+
+        wrapper = mountComponent({ accept: ['image/jpeg'], maxFileSizeMb: 1 })
+        const label = wrapper.find('label')
+        const dataTransfer = { files: [oversizedJpeg] } as unknown as DataTransfer
+
+        const dropEvent = new DragEvent('drop', { dataTransfer })
+        await label.element.dispatchEvent(dropEvent)
+        await wrapper.vm.$nextTick()
+
+        expect(wrapper.emitted('update:modelValue')).toBeFalsy()
+        expect(wrapper.emitted('change')).toBeFalsy()
+        expect(wrapper.emitted('fileSizeError')).toBeTruthy()
+      })
+    })
   })
 
   BddTest().and('with drag & drop with wrong accept type', () => {
@@ -361,73 +409,58 @@ BddTest().given('a file uploader', () => {
   })
 
   BddTest().given('a fileUpload rendering', () => {
-    BddTest().when('enableMultiple = false', () => {
-      BddTest().and('fileName is set', () => {
-        beforeEach(() => {
-          wrapper = mountComponent({ fileName: 'file.txt', modelValue: null, enableMultiple: false, deleteButtonLabel: 'delete', title: 'click here', description: 'or drag and drop' })
-        })
-
-        BddTest().then('it should render file info template', () => {
-          expect(wrapper.html()).toContain('file.txt')
-        })
+    BddTest().when('fileName is set', () => {
+      beforeEach(() => {
+        wrapper = mountComponent({ fileName: 'file.txt', modelValue: null, deleteButtonLabel: 'delete', title: 'click here', description: 'or drag and drop' })
       })
 
-      BddTest().and('modelValue is set (fileName not provided)', () => {
-        let file: File
-
-        beforeEach(() => {
-          file = new File(['content'], 'file.txt')
-          wrapper = mountComponent({ modelValue: file, enableMultiple: false, fileName: undefined })
-        })
-
-        BddTest().then('it should render file info template', () => {
-          expect(wrapper.html()).toContain('file.txt')
-        })
-
-        BddTest().then('it should render the delete button', () => {
-          const deleteBtn = wrapper.find('.av-button')
-          expect(deleteBtn.exists()).toBe(true)
-        })
-      })
-
-      BddTest().and('modelValue is set and component is disabled', () => {
-        let file: File
-
-        beforeEach(() => {
-          file = new File(['content'], 'file.txt')
-          wrapper = mountComponent({ modelValue: file, enableMultiple: false, disabled: true })
-        })
-
-        BddTest().then('it should render file info template', () => {
-          expect(wrapper.html()).toContain('file.txt')
-        })
-
-        BddTest().then('it should not render the delete button', () => {
-          const deleteBtn = wrapper.find('.av-button')
-          expect(deleteBtn.exists()).toBe(false)
-        })
-      })
-
-      BddTest().and('neither fileName nor modelValue is set', () => {
-        beforeEach(() => {
-          wrapper = mountComponent({ modelValue: null, fileName: undefined, enableMultiple: false })
-        })
-
-        BddTest().then('it should render upload input template', () => {
-          expect(wrapper.find('input[type="file"]').exists()).toBe(true)
-        })
+      BddTest().then('it should render file info template', () => {
+        expect(wrapper.html()).toContain('file.txt')
       })
     })
 
-    BddTest().when('enableMultiple = true', () => {
+    BddTest().when('modelValue is set (fileName not provided)', () => {
       let file: File
 
       beforeEach(() => {
         file = new File(['content'], 'file.txt')
-        wrapper = mountComponent({ modelValue: file, enableMultiple: true })
+        wrapper = mountComponent({ modelValue: file, fileName: undefined })
       })
 
-      BddTest().then('it should render upload input template even if modelValue is set', () => {
+      BddTest().then('it should render file info template', () => {
+        expect(wrapper.html()).toContain('file.txt')
+      })
+
+      BddTest().then('it should render the delete button', () => {
+        const deleteBtn = wrapper.find('.av-button')
+        expect(deleteBtn.exists()).toBe(true)
+      })
+    })
+
+    BddTest().when('modelValue is set and component is disabled', () => {
+      let file: File
+
+      beforeEach(() => {
+        file = new File(['content'], 'file.txt')
+        wrapper = mountComponent({ modelValue: file, disabled: true })
+      })
+
+      BddTest().then('it should render file info template', () => {
+        expect(wrapper.html()).toContain('file.txt')
+      })
+
+      BddTest().then('it should not render the delete button', () => {
+        const deleteBtn = wrapper.find('.av-button')
+        expect(deleteBtn.exists()).toBe(false)
+      })
+    })
+
+    BddTest().when('neither fileName nor modelValue is set', () => {
+      beforeEach(() => {
+        wrapper = mountComponent({ modelValue: null, fileName: undefined })
+      })
+
+      BddTest().then('it should render upload input template', () => {
         expect(wrapper.find('input[type="file"]').exists()).toBe(true)
       })
     })

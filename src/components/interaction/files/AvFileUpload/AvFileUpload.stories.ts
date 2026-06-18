@@ -22,6 +22,7 @@ const meta: Meta<AvFileUploadProps> = {
   argTypes: {
     ariaLabel: { control: 'text' },
     accept: { control: 'text' },
+    maxFileSizeMb: { control: 'number' },
     error: { control: 'text' },
     validMessage: { control: 'text' },
     disabled: { control: 'boolean' },
@@ -31,12 +32,11 @@ const meta: Meta<AvFileUploadProps> = {
     title: { control: 'text' },
     description: { control: 'text' },
     deleteButtonLabel: { control: 'text' },
-    onDeleteFile: { type: { name: 'function' }, control: false, },
-    enableMultiple: { control: 'boolean' },
   },
   args: {
     ariaLabel: '',
     accept: '',
+    maxFileSizeMb: undefined,
     error: '',
     validMessage: '',
     disabled: false,
@@ -46,8 +46,6 @@ const meta: Meta<AvFileUploadProps> = {
     title: 'Add a new',
     description: 'or drag and drop here',
     deleteButtonLabel: 'Delete',
-    onDeleteFile: undefined,
-    enableMultiple: false
   },
 }
 
