@@ -32,6 +32,13 @@ export interface AvFileUploadProps {
   accept?: string | string[]
 
   /**
+   * Maximum allowed file size in megabytes.
+   *
+   * @default undefined
+   */
+  maxFileSizeMb?: number
+
+  /**
    * Error message to be displayed in case of download problem.
    *
    * @default ''
@@ -73,7 +80,6 @@ export interface AvFileUploadProps {
 
   /**
    * Description of the file upload section.
-   * @default undefined
    */
   description: string
 
@@ -89,20 +95,6 @@ export interface AvFileUploadProps {
    * @default undefined
    */
   fileName?: string
-
-  /**
-   * Method executed on delete file button click.
-   *
-   * @default undefined
-   */
-  onDeleteFile?: () => void
-
-  /**
-   * Whether the file upload input enable multiple file selection or not.
-   *
-   * @default false
-   */
-  enableMultiple?: boolean
 }
 
 defineOptions({
@@ -113,17 +105,16 @@ const {
   id,
   ariaLabel = '',
   accept = undefined,
+  maxFileSizeMb = undefined,
   validMessage = '',
   error = '',
   modelValue = null,
   maxWidth = 'none',
   disabled = false,
-  enableMultiple = false,
   deleteButtonLabel = 'Remove',
   title,
   description,
   fileName,
-  onDeleteFile,
 } = defineProps<AvFileUploadProps>()
 
 const emit = defineEmits<{
@@ -152,9 +143,19 @@ const emit = defineEmits<{
   (e: 'change', payload: FileList | File[]): void
 
   /**
+   * Event emitted when the delete button is clicked.
+   */
+  (e: 'deleteFile'): void
+
+  /**
    * Event emitted when a file of wrong type is dropped or selected.
    */
   (e: 'acceptTypeError'): void
+
+  /**
+   * Event emitted when a dropped or selected file exceeds the configured size limit.
+   */
+  (e: 'fileSizeError'): void
 }>()
 
 defineSlots<{
@@ -204,6 +205,14 @@ function isFileAccepted (file: File): boolean {
   })
 }
 
+function isFileSizeAccepted (file: File): boolean {
+  if (maxFileSizeMb === undefined || maxFileSizeMb <= 0) {
+    return true
+  }
+
+  return file.size <= maxFileSizeMb * 1024 * 1024
+}
+
 async function onDrop (event: DragEvent) {
   event.preventDefault()
   isDragging.value = false
@@ -212,12 +221,16 @@ async function onDrop (event: DragEvent) {
     return
   }
 
-  const acceptedFiles = Array.from(event.dataTransfer.files).filter(isFileAccepted)
+  const acceptedTypeFiles = Array.from(event.dataTransfer.files).filter(isFileAccepted)
+  const acceptedFiles = acceptedTypeFiles.filter(isFileSizeAccepted)
   await nextTick()
 
   if (acceptedFiles.length) {
     emit('change', acceptedFiles)
     emit('update:modelValue', acceptedFiles[0] ?? null)
+  }
+  else if (acceptedTypeFiles.length) {
+    emit('fileSizeError')
   }
   else {
     emit('acceptTypeError')
@@ -237,21 +250,23 @@ function onDragLeave () {
 
 function onChange ($event: InputEvent) {
   const files = ($event.target as HTMLInputElement).files
+  const selectedFile = files?.[0]
 
-  if (files?.length) {
-    const acceptedFiles = Array.from(files).filter(isFileAccepted)
+  if (selectedFile && !isFileAccepted(selectedFile)) {
+    emit('acceptTypeError')
+    return
+  }
 
-    if (!acceptedFiles.length) {
-      emit('acceptTypeError')
-      return
-    }
+  if (selectedFile && !isFileSizeAccepted(selectedFile)) {
+    emit('fileSizeError')
+    return
   }
 
   emit('change', files as FileList)
   emit('update:modelValue', files?.[0] ?? null)
 }
 
-const isPreview = computed(() => fileName || (modelValue && !enableMultiple))
+const isPreview = computed(() => fileName || modelValue)
 
 const uploadLabelAttrs = computed(() => {
   return {
@@ -286,7 +301,7 @@ function onClear (value: File | null) {
     emit('change', [] as unknown as FileList)
   }
   else {
-    onDeleteFile?.()
+    emit('deleteFile')
   }
 }
 </script>
