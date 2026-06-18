@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import type AvTab from '@/components/interaction/tabs/AvTab/AvTab.vue'
-import { type Slots, useSlots, type VNode } from 'vue'
+import { useSlots, type VNode } from 'vue'
 import TabContent from '@/components/interaction/tabs/AvTabs/components/TabContent.vue'
 import TabItem from '@/components/interaction/tabs/AvTabs/components/TabItem.vue'
+import TabPanelContent from '@/components/interaction/tabs/AvTabs/components/TabPanelContent'
 import { useTabsStyle } from '@/components/interaction/tabs/AvTabs/composables/use-tabs-style'
 
 /**
@@ -201,9 +202,9 @@ onUnmounted(() => {
       :tab-id="getIdFromIndex(index)"
       :is-visible="activeTab === index"
     >
-      <component
-        :is="(tab.children as Slots).default"
+      <TabPanelContent
         v-if="!lazyRender || activeTab === index"
+        :tab="tab"
       />
     </TabContent>
   </div>

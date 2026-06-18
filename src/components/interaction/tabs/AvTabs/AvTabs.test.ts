@@ -1,5 +1,6 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
+import AvTab from '@/components/interaction/tabs/AvTab/AvTab.vue'
 import AvTabs from '@/components/interaction/tabs/AvTabs/AvTabs.vue'
 import { AvIconStub } from '@/tests'
 import { BddTest } from '@/tests/utils'
@@ -459,6 +460,68 @@ BddTest().given('a tab switcher ', () => {
 
       BddTest().then('it should fallback to the first enabled tab on mount', () => {
         expect(getLastEmittedUpdate(wrapper)).toBe(0)
+      })
+    })
+  })
+
+  BddTest().and('when a non-active tab header toggles loading', () => {
+    let wrapperFocus: VueWrapper
+
+    const FocusHarness = {
+      components: { AvTabs, AvTab },
+      data () {
+        return {
+          activeTab: 0,
+          isSecondTabLoading: false,
+        }
+      },
+      template: `
+        <div>
+          <button data-test="toggle-loading" @click="isSecondTabLoading = !isSecondTabLoading">
+            Toggle loading
+          </button>
+          <AvTabs v-model="activeTab">
+            <AvTab title="Tab 1">
+              <input data-test="focused-input" type="text" />
+            </AvTab>
+            <AvTab title="Tab 2" :is-loading="isSecondTabLoading">
+              Content 2
+            </AvTab>
+          </AvTabs>
+        </div>
+      `
+    }
+
+    beforeEach(() => {
+      wrapperFocus = mount(FocusHarness, {
+        attachTo: document.body,
+        global: {
+          stubs: {
+            AvIcon: AvIconStub,
+          }
+        }
+      })
+    })
+
+    BddTest().when('an input inside the active tab has focus', () => {
+      beforeEach(async () => {
+        const input = wrapperFocus.find('[data-test="focused-input"]')
+        await input.setValue('kept value')
+        ;(input.element as HTMLInputElement).focus()
+        await wrapperFocus.vm.$nextTick()
+      })
+
+      BddTest().and('another tab header enters loading state', () => {
+        beforeEach(async () => {
+          await wrapperFocus.find('[data-test="toggle-loading"]').trigger('click')
+          await wrapperFocus.vm.$nextTick()
+        })
+
+        BddTest().then('it should keep input focus and value', () => {
+          const input = wrapperFocus.find('[data-test="focused-input"]').element as HTMLInputElement
+          expect(document.activeElement).toBe(input)
+          expect(input.value).toBe('kept value')
+        })
       })
     })
   })
