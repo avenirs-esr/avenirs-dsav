@@ -118,7 +118,7 @@ const iconSize = computed(() => {
   return 1.5
 })
 const iconToRender = computed(() => {
-  if (isLoading) {
+  if (isLoading && !disabled) {
     return { ...loadingIcon, size: iconSize.value }
   }
   if (typeof icon === 'string' && !!icon.trim()) {
