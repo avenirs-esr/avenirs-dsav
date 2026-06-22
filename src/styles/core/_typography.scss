@@ -51,7 +51,7 @@
 
 .b1-light {
   font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-regular);
+  font-weight: var(--font-weight-light);
   font-size: var(--font-size-md);
   line-height: var(--line-height-md);
   letter-spacing: var(--letter-spacing-md);
@@ -61,7 +61,7 @@
 p,
 .b1-regular {
   font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-semi-bold);
+  font-weight: var(--font-weight-regular);
   font-size: var(--font-size-md);
   line-height: var(--line-height-md);
   letter-spacing: var(--letter-spacing-md);
@@ -79,7 +79,7 @@ p,
 
 .b2-light {
   font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-regular);
+  font-weight: var(--font-weight-light);
   font-size: var(--font-size-sm);
   line-height: var(--line-height-sm);
   letter-spacing: var(--letter-spacing-sm);
@@ -89,7 +89,7 @@ p,
 span,
 .b2-regular {
   font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-semi-bold);
+  font-weight: var(--font-weight-regular);
   font-size: var(--font-size-sm);
   line-height: var(--line-height-sm);
   letter-spacing: var(--letter-spacing-sm);
@@ -107,7 +107,7 @@ span,
 
 .caption-light {
   font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-regular);
+  font-weight: var(--font-weight-light);
   font-size: var(--font-size-xs);
   line-height: var(--line-height-xs);
   letter-spacing: var(--letter-spacing-caption);
@@ -116,7 +116,7 @@ span,
 
 .caption-regular {
   font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-semi-bold);
+  font-weight: var(--font-weight-regular);
   font-size: var(--font-size-xs);
   line-height: var(--line-height-xs);
   letter-spacing: var(--letter-spacing-caption);
@@ -144,7 +144,7 @@ h2,
 h3,
 .n3 {
   font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-semi-bold);
+  font-weight: var(--font-weight-regular);
   font-size: var(--font-size-n3);
   line-height: var(--line-height-n3);
   color: var(--title);
@@ -171,7 +171,7 @@ h5,
 h6,
 .n6 {
   font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-semi-bold);
   font-size: var(--font-size-n6);
   line-height: var(--line-height-n6);
   color: var(--title);
@@ -188,7 +188,7 @@ h6,
 
 .s1-light {
   font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-regular);
+  font-weight: var(--font-weight-light);
   font-size: var(--font-size-s1);
   line-height: var(--line-height-s1);
   letter-spacing: var(--letter-spacing-s1);
@@ -197,7 +197,7 @@ h6,
 
 .s1-regular {
   font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-semi-bold);
+  font-weight: var(--font-weight-regular);
   font-size: var(--font-size-s1);
   line-height: var(--line-height-s1);
   letter-spacing: var(--letter-spacing-s1);
@@ -215,7 +215,7 @@ h6,
 
 .s2-light {
   font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-regular);
+  font-weight: var(--font-weight-light);
   font-size: var(--font-size-s2);
   line-height: var(--line-height-s2);
   letter-spacing: var(--letter-spacing-s2);
