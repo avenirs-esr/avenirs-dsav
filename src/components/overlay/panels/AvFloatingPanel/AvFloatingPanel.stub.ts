@@ -6,6 +6,8 @@ export const AvFloatingPanelStub = defineComponent({
     icon: { type: String, required: false },
     defaultCollapsed: { type: Boolean, default: true },
     width: { type: String, default: 'var(--dimension-8xl)' },
+    collapseLabel: { type: String, default: 'Collapse panel' },
+    expandLabel: { type: String, default: 'Expand panel' },
   },
   template: `
     <div
