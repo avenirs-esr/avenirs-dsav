@@ -144,7 +144,7 @@ onUnmounted(() => {
       <span
         v-if="isVisible"
         ref="tooltipRef"
-        class="caption-regular av-tooltip av-radius-md"
+        class="caption-bold av-tooltip av-radius-md"
         :style="tooltipStyle"
         role="tooltip"
         :data-placement="placement"
