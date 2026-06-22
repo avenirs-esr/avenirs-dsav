@@ -60,6 +60,8 @@ const meta: Meta<AvFloatingPanelProps> = {
     icon: { control: 'text' },
     defaultCollapsed: { control: 'boolean' },
     width: { control: 'text' },
+    collapseLabel: { control: 'text' },
+    expandLabel: { control: 'text' },
   },
   args: {
     title: 'Contextual help',
@@ -67,6 +69,8 @@ const meta: Meta<AvFloatingPanelProps> = {
     icon: MDI_ICONS.INFORMATION_OUTLINE,
     defaultCollapsed: true,
     width: 'var(--dimension-8xl)',
+    collapseLabel: 'Collapse panel',
+    expandLabel: 'Expand panel',
   },
   parameters: {
     docs: {

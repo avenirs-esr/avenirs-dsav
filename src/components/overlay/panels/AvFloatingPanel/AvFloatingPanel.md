@@ -23,6 +23,8 @@ The floating panel consists of the following elements:
 | `icon` | `string` | `MDI_ICONS.CHAT_BUBBLE_OUTLINE` | | Icon displayed next to the title. Accepts MDI or any iconify icon name. |
 | `defaultCollapsed` | `boolean` | `true` | | Controls the initial collapsed state of the panel. |
 | `width` | `string` | `'var(--dimension-8xl)'` | | Width of the panel. |
+| `collapseLabel` | `string` | `'Collapse panel'` | | Label for the collapse button, used for accessibility. |
+| `expandLabel` | `string` | `'Expand panel'` | | Label for the expand button, used for accessibility. |
 
 ## 🔊 Events
 
