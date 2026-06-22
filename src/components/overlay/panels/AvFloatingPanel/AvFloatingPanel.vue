@@ -128,7 +128,20 @@ defineSlots<{
 </template>
 
 <style lang="scss" scoped>
-.av-floating-panel {
-  width: v-bind('width');
+@use '@/styles/settings/breakpoints' as *;
+
+@include max-width(md) {
+  .av-floating-panel {
+    width: 100%;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+  }
+}
+
+@include min-width(md) {
+  .av-floating-panel {
+    width: v-bind('width');
+  }
 }
 </style>
