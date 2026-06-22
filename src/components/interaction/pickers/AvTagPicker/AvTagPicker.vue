@@ -172,6 +172,8 @@ watch(() => props.selected, (newSelected) => {
       v-for="option in renderedOptions"
       :key="option.value"
       class="tag-wrapper av-row av-flex-fill"
+      data-testid="av-tag-picker"
+      :data-option="option.value"
     >
       <AvTag
         class="av-row av-align-center av-justify-center av-flex-fill av-py-xxs av-px-xs av-radius-md av-no-before av-no-after av-border-width-sm av-border-style-solid"
