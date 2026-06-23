@@ -68,6 +68,16 @@ defineSlots<{
    */
   default?: Slot
 }>()
+
+const cardRef = ref<InstanceType<typeof AvCard> | null>(null)
+
+function toggleCollapsed () {
+  cardRef.value?.toggleCollapsed()
+}
+
+defineExpose({
+  toggleCollapsed
+})
 </script>
 
 <template>
@@ -76,6 +86,7 @@ defineSlots<{
     data-testid="av-floating-panel"
   >
     <AvCard
+      ref="cardRef"
       collapsible
       :collapsed="defaultCollapsed"
       role="region"

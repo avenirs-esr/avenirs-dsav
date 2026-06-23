@@ -11,9 +11,30 @@ export const AvCardStub = defineComponent({
     collapseLabel: { type: String, default: 'Collapse card' },
     expandLabel: { type: String, default: 'Expand card' },
   },
+  setup (props, { expose }) {
+    const internalCollapsed = ref(props.collapsed)
+
+    watch(() => props.collapsed, (value) => {
+      internalCollapsed.value = value
+    })
+
+    function toggleCollapsed () {
+      if (!props.collapsible) {
+        return
+      }
+
+      internalCollapsed.value = !internalCollapsed.value
+    }
+
+    expose({ toggleCollapsed })
+
+    return {
+      internalCollapsed,
+    }
+  },
   template: `
     <div class="av-card">
-      <slot name="title" :collapsed="collapsed" />
+      <slot name="title" :collapsed="internalCollapsed" />
       <slot />
       <slot name="body" />
       <slot name="footer" />

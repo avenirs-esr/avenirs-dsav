@@ -86,5 +86,29 @@ BddTest().given('an AvFloatingPanel', () => {
         expect(card.props('collapsed')).toBe(false)
       })
     })
+
+    BddTest().and('called from parent through exposed api', () => {
+      beforeEach(() => {
+        wrapper = mount(AvFloatingPanel, {
+          props: baseProps,
+          slots: {
+            default: '<p>Panel content</p>',
+          },
+          global: { stubs },
+        })
+      })
+
+      BddTest().then('it should delegate toggleCollapsed to AvCard', async () => {
+        const card = wrapper.findComponent(AvCardStub)
+        const cardVm = card.vm as unknown as { internalCollapsed: boolean }
+
+        expect(cardVm.internalCollapsed).toBe(true)
+
+        wrapper.vm.toggleCollapsed()
+        await wrapper.vm.$nextTick()
+
+        expect(cardVm.internalCollapsed).toBe(false)
+      })
+    })
   })
 })
