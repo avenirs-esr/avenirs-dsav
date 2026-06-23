@@ -66,7 +66,7 @@ watch(
 
 <template>
   <div
-    class="av-rich-text-editor av-col av-gap-xxs"
+    class="av-rich-text-editor av-col av-gap-xxs av-w-full"
     data-testid="av-rich-text-editor"
   >
     <div class="av-rich-text-editor-wrapper">
@@ -104,7 +104,13 @@ watch(
 </template>
 
 <style lang="scss" scoped>
+.av-rich-text-editor {
+  min-width: 0;
+}
+
 .av-rich-text-editor-wrapper {
+  min-width: 0;
+  max-width: 100%;
   border: 1px solid var(--stroke);
   border-radius: var(--radius-2xl) var(--radius-2xl) var(--radius-lg) var(--radius-lg);
   overflow: hidden;
@@ -116,6 +122,8 @@ watch(
       overflow: auto;
       background-color: var(--other-background-base);
       resize: vertical;
+      overflow-wrap: anywhere;
+      word-break: break-word;
     }
 
     a {
