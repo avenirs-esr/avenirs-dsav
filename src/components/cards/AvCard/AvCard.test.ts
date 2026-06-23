@@ -329,6 +329,18 @@ BddTest().given('an AvCard', () => {
           expect(toggleButton.props('icon')).toBe(MDI_ICONS.CHEVRON_DOWN)
         })
       })
+
+      BddTest().and('toggleCollapsed is called from component ref', () => {
+        beforeEach(async () => {
+          wrapper.vm.toggleCollapsed()
+          await wrapper.vm.$nextTick()
+        })
+
+        BddTest().then('it should render the collapsed icon', () => {
+          const toggleButton = wrapper.findComponent(AvButtonStub)
+          expect(toggleButton.props('icon')).toBe(MDI_ICONS.CHEVRON_DOWN)
+        })
+      })
     })
 
     BddTest().and('is collapsible and collapsed', () => {

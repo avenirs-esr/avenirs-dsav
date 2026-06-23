@@ -30,6 +30,12 @@ The floating panel consists of the following elements:
 
 None.
 
+## 🔓 Exposed API
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `toggleCollapsed` | `() => void` | Toggles the collapsed state by delegating to the inner `AvCard.toggleCollapsed()`. |
+
 ## 🎨 Slots
 
 | Name | Description |
@@ -65,6 +71,36 @@ You can find examples of use and demo of the component on its dedicated [Storybo
       <li>CV submitted on 01/06/2026</li>
       <li>Interview scheduled on 10/06/2026</li>
     </ul>
+  </AvFloatingPanel>
+</template>
+```
+
+```vue
+<script lang="ts" setup>
+import { ref } from 'vue'
+import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
+import AvFloatingPanel from '@/components/overlay/panels/AvFloatingPanel/AvFloatingPanel.vue'
+
+const panelRef = ref<InstanceType<typeof AvFloatingPanel> | null>(null)
+
+function togglePanelFromParent () {
+  panelRef.value?.toggleCollapsed()
+}
+</script>
+
+<template>
+  <AvButton
+    label="Toggle panel"
+    @click="togglePanelFromParent"
+  />
+
+  <AvFloatingPanel
+    ref="panelRef"
+    title="Contextual help"
+  >
+    <p class="b3-regular">
+      Panel content.
+    </p>
   </AvFloatingPanel>
 </template>
 ```

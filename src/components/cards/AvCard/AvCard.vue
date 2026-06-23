@@ -128,6 +128,10 @@ const titleClasses = computed(() => {
 })
 
 function toggleCollapsed () {
+  if (!collapsible) {
+    return
+  }
+
   collapsed.value = !collapsed.value
 }
 
@@ -182,18 +186,20 @@ function handleHeaderClick (event: MouseEvent) {
     return
   }
 
-  if (collapsible) {
-    toggleCollapsed()
+  if (!collapsible) {
+    return
+  }
 
-    const buttonComponent = buttonRef.value as { focus?: () => void, $el?: unknown } | null
-    if (typeof buttonComponent?.focus === 'function') {
-      buttonComponent.focus()
-      return
-    }
+  toggleCollapsed()
 
-    if (buttonComponent?.$el instanceof HTMLElement) {
-      buttonComponent.$el.focus()
-    }
+  const buttonComponent = buttonRef.value as { focus?: () => void, $el?: unknown } | null
+  if (typeof buttonComponent?.focus === 'function') {
+    buttonComponent.focus()
+    return
+  }
+
+  if (buttonComponent?.$el instanceof HTMLElement) {
+    buttonComponent.$el.focus()
   }
 }
 
@@ -208,6 +214,10 @@ function handleMouseMove (event: MouseEvent) {
 
   isHoveringInteractive.value = !!interactiveElement
 }
+
+defineExpose({
+  toggleCollapsed
+})
 </script>
 
 <template>

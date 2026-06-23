@@ -34,6 +34,12 @@ When the `collapsible` prop is enabled, the card displays only the `title` slot 
 
 None.
 
+## 🔓 Exposed API
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `toggleCollapsed` | `() => void` | Toggles the collapsed state when `collapsible` is `true`. No effect when `collapsible` is `false`. |
+
 ## 🎨 Slots
 
 | Name | Description |
@@ -85,6 +91,39 @@ You can find examples of use and demo of the component on its dedicated [Storybo
     </template>
     <template #footer>
       <span>Some content in footer</span>
+    </template>
+  </AvCard>
+</template>
+```
+
+```vue
+<script lang="ts" setup>
+import { ref } from 'vue'
+import AvCard from '@/components/cards/AvCard/AvCard.vue'
+import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
+
+const cardRef = ref<InstanceType<typeof AvCard> | null>(null)
+
+function toggleCardFromParent () {
+  cardRef.value?.toggleCollapsed()
+}
+</script>
+
+<template>
+  <AvButton
+    label="Toggle card"
+    @click="toggleCardFromParent"
+  />
+
+  <AvCard
+    ref="cardRef"
+    collapsible
+  >
+    <template #title>
+      <span>Card title</span>
+    </template>
+    <template #default>
+      <span>Card content</span>
     </template>
   </AvCard>
 </template>

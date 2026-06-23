@@ -9,11 +9,28 @@ export const AvFloatingPanelStub = defineComponent({
     collapseLabel: { type: String, default: 'Collapse panel' },
     expandLabel: { type: String, default: 'Expand panel' },
   },
+  setup (props, { expose }) {
+    const internalCollapsed = ref(props.defaultCollapsed)
+
+    watch(() => props.defaultCollapsed, (value) => {
+      internalCollapsed.value = value
+    })
+
+    function toggleCollapsed () {
+      internalCollapsed.value = !internalCollapsed.value
+    }
+
+    expose({ toggleCollapsed })
+
+    return {
+      internalCollapsed,
+    }
+  },
   template: `
     <div
       class="av-floating-panel-stub"
       :style="{ width }"
-      :data-collapsed="defaultCollapsed"
+      :data-collapsed="internalCollapsed"
     >
       <div class="av-floating-panel-stub__header">
         <span class="av-floating-panel-stub__icon">
