@@ -62,3 +62,9 @@ $text-alignments: (
     text-align: #{$value} !important
   ));
 }
+
+// === Text weight ===
+// Ex: .av-text-regular
+@include ns("text-regular") {
+  font-weight: var(--font-weight-regular) !important;
+}
