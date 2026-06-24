@@ -307,6 +307,7 @@ function handleSelectChange (event: Event) {
 <style lang="scss" scoped>
 .av-select-control {
   position: relative;
+  width: fit-content;
 
   &:not(.av-select-control--disabled):hover {
     .av-select-prefix {
