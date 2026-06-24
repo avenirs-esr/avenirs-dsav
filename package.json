@@ -1,7 +1,7 @@
 {
   "name": "@avenirs-esr/avenirs-dsav",
   "type": "module",
-  "version": "0.1.254",
+  "version": "0.1.255",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/avenirs-esr/avenirs-dsav.git"
