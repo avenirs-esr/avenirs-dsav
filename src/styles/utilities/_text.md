@@ -1,6 +1,6 @@
 # Text
 
-_Last updated: 2026-06-15_
+_Last updated: 2026-06-24_
 
 ## ✨ Introduction
 
@@ -15,6 +15,7 @@ This `text` utility generates text-related classes for all defined styles.
 | `.av-ellipsis` | Applies ellipsis for single-line text |
 | `.av-text-{left\|center\|right\|justify}` | Applies text alignment |
 | `.av-text-{left\|center\|right\|justify}--{sm\|md\|lg\|xl}` | Applies text alignment from a breakpoint and up |
+| `.av-text-{bold\|light\|regular}` | Applies text weight |
 
 📝 Notes:
 - for `.av-max-lines`, the number of lines is determined by the CSS variable `--max-lines` (default: 2), which can be set on the element or inherited from a parent element.
@@ -78,6 +79,22 @@ This `text` utility generates text-related classes for all defined styles.
 
 .av-text-justify {
   text-align: justify !important;
+}
+```
+
+### Text weight classes
+
+```css
+.av-text-bold {
+  font-weight: var(--font-weight-bold) !important;
+}
+
+.av-text-light {
+  font-weight: var(--font-weight-light) !important;
+}
+
+.av-text-regular {
+  font-weight: var(--font-weight-regular) !important;
 }
 ```
 

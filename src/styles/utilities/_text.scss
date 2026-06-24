@@ -64,7 +64,15 @@ $text-alignments: (
 }
 
 // === Text weight ===
-// Ex: .av-text-regular
+// Ex: .av-text-bold / .av-text-light / .av-text-regular
+@include ns("text-bold") {
+  font-weight: var(--font-weight-bold) !important;
+}
+
+@include ns("text-light") {
+  font-weight: var(--font-weight-light) !important;
+}
+
 @include ns("text-regular") {
   font-weight: var(--font-weight-regular) !important;
 }
