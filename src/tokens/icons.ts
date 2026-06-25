@@ -202,6 +202,7 @@ export const MS_ICONS = {
   CLOCK_LOADER_60: 'material-symbols:clock-loader-60',
   CLOCK_LOADER_90: 'material-symbols:clock-loader-90',
   FEATURED_PLAY_LIST_OUTLINE: 'material-symbols:featured-play-list-outline',
+  FEEDBACK: 'material-symbols:feedback',
   LINK_OFF_ROUNDED: 'material-symbols:link-off-rounded',
   LINK_ROUNDED: 'material-symbols:link-rounded',
   REDO: 'material-symbols:redo',
@@ -215,6 +216,7 @@ export const PH_ICONS = {
 
 export const RI_ICONS = {
   BOOK_SHELF_LINE: 'ri:book-shelf-line',
+  DASHBOARD_2_LINE: 'ri:dashboard-2-line',
   DIAMOND_FILL: 'ri:diamond-fill',
   DICE_1_LINE: 'ri:dice-1-line',
   DICE_4_LINE: 'ri:dice-4-line',
