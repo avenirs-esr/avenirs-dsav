@@ -30,6 +30,7 @@ Buttons consist of :
 | `small` | `boolean` | `false` | | Display the button in small size (`true`) or default size (`false`). |
 | `icon` | `string \| InstanceType<typeof AvIcon>['$props']` | `undefined` | | Icon to be displayed in button. Can be a name or icon configuration. |
 | `noSentenceCase` | `boolean` | `false` | | Disable sentence case transformation on the label. You should only use this on very specific cases. |
+| `to` | `string \| RouteLocationRaw` | `undefined` | | If provided, the button will be rendered as a `RouterLink` with `'DEFAULT'` variant and will navigate to the specified route when clicked. |
 
 ## 🔊 Events
 

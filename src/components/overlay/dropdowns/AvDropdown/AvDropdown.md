@@ -42,6 +42,7 @@ interface AvDropdownItem {
   icon?: string // Optional icon (MDI icon name)
   iconOnly?: boolean // If true, only the icon is displayed, without the label.
   disabled?: boolean // If true, the menu item is disabled.
+  to?: AvButtonProps['to'] // Optional route to navigate to when the item is clicked.
 }
 ```
 
