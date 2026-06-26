@@ -28,7 +28,8 @@ const stories = [
   'ExternalLinkButton',
   'LinkButtonOutlined',
   'LinkButtonSecondary',
-  'LinkButtonIconOnly'
+  'LinkButtonIconOnly',
+  'ExternalLinkButtonIconOnly',
 ]
 
 testStories(component, title, stories)

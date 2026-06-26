@@ -288,3 +288,13 @@ LinkButtonIconOnly.args = {
   variant: 'DEFAULT',
   theme: 'PRIMARY',
 }
+
+export const ExternalLinkButtonIconOnly = Template.bind({})
+ExternalLinkButtonIconOnly.args = {
+  href: 'https://example.com',
+  iconOnly: true,
+  icon: 'mdi:home-variant-outline',
+  label: 'Go to external site',
+  variant: 'DEFAULT',
+  theme: 'PRIMARY',
+}
