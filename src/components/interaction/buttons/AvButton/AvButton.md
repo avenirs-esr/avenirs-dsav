@@ -30,7 +30,13 @@ Buttons consist of :
 | `small` | `boolean` | `false` | | Display the button in small size (`true`) or default size (`false`). |
 | `icon` | `string \| InstanceType<typeof AvIcon>['$props']` | `undefined` | | Icon to be displayed in button. Can be a name or icon configuration. |
 | `noSentenceCase` | `boolean` | `false` | | Disable sentence case transformation on the label. You should only use this on very specific cases. |
+| `href` | `string` | `undefined` | | If provided, the button will be rendered as an anchor tag (`<a>`) with `'DEFAULT'` variant and will navigate to the specified URL when clicked. |
 | `to` | `string \| RouteLocationRaw` | `undefined` | | If provided, the button will be rendered as a `RouterLink` with `'DEFAULT'` variant and will navigate to the specified route when clicked. |
+
+📝 Notes:
+- The `href` and `to` props are mutually exclusive. If both are provided, the button will prioritize the `href` prop and render as an anchor tag (`<a>`). If only the `to` prop is provided, the button will render as a `RouterLink`.
+- When the button is rendered as an anchor tag (`<a>`), it will open the link in a new tab and use `rel="noopener noreferrer"` for security reasons.
+- When the button is rendered as an anchor tag (`<a>`), the icon display will be automatically set to `mdi:external-link`.
 
 ## 🔊 Events
 

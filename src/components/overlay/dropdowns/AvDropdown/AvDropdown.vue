@@ -33,6 +33,11 @@ export interface AvDropdownItem {
   disabled?: boolean
 
   /**
+   * Optional URL to navigate to when the item is clicked.
+   */
+  href?: AvButtonProps['href']
+
+  /**
    * Optional route to navigate to when the item is clicked.
    */
   to?: AvButtonProps['to']
@@ -185,6 +190,7 @@ function handleItemClick (itemName: string, close: () => void) {
           :icon-only="item.iconOnly"
           :data-testid="item.name"
           :to="item.to"
+          :href="item.href"
           no-radius
           @click="handleItemClick(item.name, close)"
         />

@@ -68,6 +68,7 @@ const meta: Meta<AvButtonProps> = {
     isLoading: { control: 'boolean' },
     noRadius: { control: 'boolean' },
     disabled: { control: 'boolean' },
+    href: { control: 'text' },
     to: { control: 'text' }
   },
   args: {
@@ -80,6 +81,7 @@ const meta: Meta<AvButtonProps> = {
     isLoading: false,
     noRadius: false,
     disabled: false,
+    href: undefined,
     to: undefined
   },
 }
@@ -244,6 +246,14 @@ FlatTertiaryOnDarkBackground.decorators = [
     `,
   }),
 ]
+
+export const ExternalLinkButton = Template.bind({})
+ExternalLinkButton.args = {
+  href: 'https://example.com',
+  label: 'Go to external site',
+  variant: 'DEFAULT',
+  theme: 'PRIMARY',
+}
 
 export const LinkButton = Template.bind({})
 LinkButton.args = {

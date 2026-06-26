@@ -25,6 +25,7 @@ const stories = [
   'FlatSecondary',
   'FlatTertiaryOnDarkBackground',
   'LinkButton',
+  'ExternalLinkButton',
   'LinkButtonOutlined',
   'LinkButtonSecondary',
   'LinkButtonIconOnly'

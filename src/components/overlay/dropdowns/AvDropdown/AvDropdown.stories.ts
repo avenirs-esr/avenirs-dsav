@@ -79,8 +79,9 @@ const meta: Meta<AvDropdownProps> = {
     items: [
       { name: 'edit', label: 'Edit', icon: MDI_ICONS.PENCIL_OUTLINE },
       { name: 'delete', label: 'Delete', icon: MDI_ICONS.TRASH_CAN_OUTLINE },
-      { name: 'share', label: 'Share', icon: MDI_ICONS.LINK },
+      { name: 'share', label: 'Share', icon: MDI_ICONS.SHARE_VARIANT_OUTLINE },
       { name: 'details', label: 'Details', to: '/details', icon: CUIDA_ICONS.VISIBILITY_ON_OUTLINE },
+      { name: 'external', label: 'External', href: 'https://example.com', icon: MDI_ICONS.LINK },
     ],
     triggerAriaLabel: 'Actions menu',
     triggerIcon: MDI_ICONS.DOTS_VERTICAL,
@@ -148,7 +149,9 @@ WithoutIcons.args = {
   items: [
     { name: 'edit', label: 'Edit' },
     { name: 'delete', label: 'Delete' },
-    { name: 'share', label: 'Share' }
+    { name: 'share', label: 'Share' },
+    { name: 'details', label: 'Details', to: '/details' },
+    { name: 'external', label: 'External', href: 'https://example.com' },
   ],
 }
 
@@ -157,16 +160,20 @@ IconOnlyItems.args = {
   items: [
     { name: 'edit', label: 'Edit', icon: MDI_ICONS.PENCIL_OUTLINE, iconOnly: true },
     { name: 'delete', label: 'Delete', icon: MDI_ICONS.TRASH_CAN_OUTLINE, iconOnly: true },
-    { name: 'share', label: 'Share', icon: MDI_ICONS.LINK, iconOnly: true }
+    { name: 'share', label: 'Share', icon: MDI_ICONS.SHARE_VARIANT_OUTLINE, iconOnly: true },
+    { name: 'details', label: 'Details', to: '/details', icon: CUIDA_ICONS.VISIBILITY_ON_OUTLINE, iconOnly: true },
+    { name: 'external', label: 'External', href: 'https://example.com', icon: MDI_ICONS.LINK, iconOnly: true },
   ],
 }
 
 export const WithDisabledItem = Template.bind({})
 WithDisabledItem.args = {
   items: [
-    { name: 'edit', label: 'Edit' },
-    { name: 'delete', label: 'Delete' },
-    { name: 'share', label: 'Share', disabled: true }
+    { name: 'edit', label: 'Edit', icon: MDI_ICONS.PENCIL_OUTLINE },
+    { name: 'delete', label: 'Delete', icon: MDI_ICONS.TRASH_CAN_OUTLINE },
+    { name: 'share', label: 'Share', icon: MDI_ICONS.SHARE_VARIANT_OUTLINE, disabled: true },
+    { name: 'details', label: 'Details', to: '/details', icon: CUIDA_ICONS.VISIBILITY_ON_OUTLINE },
+    { name: 'external', label: 'External', href: 'https://example.com', icon: MDI_ICONS.LINK, disabled: true },
   ],
 }
 
