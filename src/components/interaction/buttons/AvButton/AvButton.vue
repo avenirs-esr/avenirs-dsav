@@ -167,6 +167,16 @@ const componentToRender = computed(() => {
 })
 const variantClass = computed(() => `av-button--variant-${asLink.value ? 'default' : variant.toLowerCase()}`)
 const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
+
+const linkProps = computed(() => {
+  if (hasHref.value && !buttonDisabled.value) {
+    return { href, target: '_blank', rel: 'noopener noreferrer' }
+  }
+  if (hasTo.value && !buttonDisabled.value) {
+    return { to }
+  }
+  return {}
+})
 </script>
 
 <template>
@@ -177,12 +187,8 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
     <component
       :is="componentToRender"
       ref="btn"
-      v-bind="attrs"
-      :href="hasHref ? href : undefined"
-      :target="hasHref ? '_blank' : undefined"
-      :rel="hasHref ? 'noopener noreferrer' : undefined"
-      :to="!hasHref ? to : undefined"
-      :aria-label="!hasTo ? labelToRender : undefined"
+      v-bind="{ ...attrs, ...linkProps }"
+      :aria-label="!hasTo || (hasTo && iconOnly) ? labelToRender : undefined"
       :aria-disabled="buttonDisabled"
       class="av-button av-row av-align-center av-gap-xs"
       :class="[
