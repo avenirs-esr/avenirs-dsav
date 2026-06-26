@@ -24,6 +24,10 @@ const stories = [
   'FlatNoRadius',
   'FlatSecondary',
   'FlatTertiaryOnDarkBackground',
+  'LinkButton',
+  'LinkButtonOutlined',
+  'LinkButtonSecondary',
+  'LinkButtonIconOnly'
 ]
 
 testStories(component, title, stories)

@@ -31,6 +31,11 @@ export interface AvDropdownItem {
    * If true, the menu item is disabled.
    */
   disabled?: boolean
+
+  /**
+   * Optional route to navigate to when the item is clicked.
+   */
+  to?: AvButtonProps['to']
 }
 
 /**
@@ -179,6 +184,7 @@ function handleItemClick (itemName: string, close: () => void) {
           :disabled="item.disabled"
           :icon-only="item.iconOnly"
           :data-testid="item.name"
+          :to="item.to"
           no-radius
           @click="handleItemClick(item.name, close)"
         />

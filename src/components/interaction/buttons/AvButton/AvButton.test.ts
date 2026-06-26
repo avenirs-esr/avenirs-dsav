@@ -1,4 +1,4 @@
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, describe, expect, type MockInstance, vi } from 'vitest'
 import AvButton, { type AvButtonProps } from '@/components/interaction/buttons/AvButton/AvButton.vue'
 import { AvIconStub, AvTooltipStub } from '@/tests'
@@ -8,7 +8,7 @@ import { MDI_ICONS } from '@/tokens'
 BddTest().given('an AvButton', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvButton>>
 
-  const stubs = { AvIcon: AvIconStub, AvTooltip: AvTooltipStub }
+  const stubs = { AvIcon: AvIconStub, AvTooltip: AvTooltipStub, RouterLink: RouterLinkStub }
 
   BddTest().and('default props', () => {
     beforeEach(() => {
@@ -160,6 +160,63 @@ BddTest().given('an AvButton', () => {
     BddTest().then('it should emit a click event', () => {
       expect(wrapper.emitted('click')).toBeDefined()
       expect(wrapper.emitted('click')!.length).toBe(1)
+    })
+  })
+
+  BddTest().and('a to prop is provided', () => {
+    const props: AvButtonProps = {
+      label: 'Go to profile',
+      to: '/profile',
+      variant: 'OUTLINED',
+    }
+
+    beforeEach(() => {
+      wrapper = mount(AvButton, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should render a RouterLink with the expected target', () => {
+      const link = wrapper.findComponent(RouterLinkStub)
+      expect(link.exists()).toBe(true)
+      expect(link.props('to')).toBe('/profile')
+      expect(wrapper.find('button').exists()).toBe(false)
+    })
+
+    BddTest().then('it should force the default variant class when rendered as a link', () => {
+      const link = wrapper.findComponent(RouterLinkStub)
+      expect(link.classes()).toContain('av-button--variant-default')
+      expect(link.classes()).not.toContain('av-button--variant-outlined')
+      expect(link.attributes('data-tag')).toBe('routerlink')
+    })
+
+    BddTest().when('the RouterLink is clicked', () => {
+      beforeEach(async () => {
+        await wrapper.findComponent(RouterLinkStub).trigger('click')
+      })
+
+      BddTest().then('it should not emit a click event (navigation is handled by RouterLink)', () => {
+        expect(wrapper.emitted('click')).toBeUndefined()
+      })
+    })
+  })
+
+  BddTest().and('a to prop is provided but disabled is true', () => {
+    beforeEach(() => {
+      wrapper = mount(AvButton, {
+        props: {
+          label: 'Disabled link',
+          to: '/profile',
+          disabled: true,
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render a disabled button instead of a RouterLink', () => {
+      const button = wrapper.find('button')
+      expect(button.exists()).toBe(true)
+      expect(button.attributes('disabled')).toBeDefined()
+      expect(button.attributes('data-tag')).toBe('button')
+      expect(wrapper.findComponent(RouterLinkStub).exists()).toBe(false)
     })
   })
 

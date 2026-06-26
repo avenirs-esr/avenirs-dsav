@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { RouteLocationRaw } from 'vue-router'
 import type AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import { useAttrs } from 'vue'
 import { MDI_ICONS } from '@/tokens'
@@ -11,6 +12,7 @@ export interface AvButtonProps {
   /**
    * Button variant: borderless (`DEFAULT`) or with border (`OUTLINED`).
    * @default 'DEFAULT'
+   * @warning If to is defined, the button will always be `DEFAULT` variant.
    */
   variant?: 'DEFAULT' | 'OUTLINED' | 'FLAT'
 
@@ -72,6 +74,11 @@ export interface AvButtonProps {
    * @default false
    */
   noSentenceCase?: boolean
+
+  /**
+   * Route location to navigate to when the button is clicked.
+   */
+  to?: string | RouteLocationRaw
 }
 
 defineOptions({
@@ -90,6 +97,7 @@ const {
   iconScale,
   noSentenceCase = false,
   label,
+  to = undefined,
 } = defineProps<AvButtonProps>()
 
 defineEmits<{
@@ -131,7 +139,7 @@ const iconToRender = computed(() => {
 })
 const labelToRender = computed(() => noSentenceCase ? label : toSentenceCase(label))
 const buttonDisabled = computed(() => disabled || isLoading)
-const variantClass = computed(() => `av-button--variant-${variant.toLowerCase()}`)
+const variantClass = computed(() => `av-button--variant-${to ? 'default' : variant.toLowerCase()}`)
 const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
 </script>
 
@@ -140,9 +148,11 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
     :content="labelToRender"
     :disabled="!iconOnly || buttonDisabled"
   >
-    <button
+    <component
+      :is="to && !buttonDisabled ? 'RouterLink' : 'button'"
       ref="btn"
       v-bind="attrs"
+      :to="to"
       :aria-label="labelToRender"
       :aria-disabled="buttonDisabled"
       class="av-button av-row av-align-center av-gap-xs"
@@ -162,7 +172,8 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
         themeClass,
       ]"
       :disabled="buttonDisabled"
-      @click="$emit('click', $event)"
+      :data-tag="to && !buttonDisabled ? 'routerlink' : 'button'"
+      @click="!to ? $emit('click', $event) : undefined"
     >
       <AvIcon
         v-if="iconToRender"
@@ -174,7 +185,7 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
       >
         {{ labelToRender }}
       </span>
-    </button>
+    </component>
   </AvTooltip>
 </template>
 

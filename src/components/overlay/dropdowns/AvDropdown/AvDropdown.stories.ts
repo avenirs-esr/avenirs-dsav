@@ -1,6 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
 import AvDropdown, { type AvDropdownProps } from '@/components/overlay/dropdowns/AvDropdown/AvDropdown.vue'
-import { MDI_ICONS } from '@/tokens/icons'
+import { CUIDA_ICONS, MDI_ICONS } from '@/tokens/icons'
 
 /**
  * <h1 class="n1">Dropdowns - <code>AvDropdown</code></h1>
@@ -79,7 +79,8 @@ const meta: Meta<AvDropdownProps> = {
     items: [
       { name: 'edit', label: 'Edit', icon: MDI_ICONS.PENCIL_OUTLINE },
       { name: 'delete', label: 'Delete', icon: MDI_ICONS.TRASH_CAN_OUTLINE },
-      { name: 'share', label: 'Share', icon: MDI_ICONS.LINK }
+      { name: 'share', label: 'Share', icon: MDI_ICONS.LINK },
+      { name: 'details', label: 'Details', to: '/details', icon: CUIDA_ICONS.VISIBILITY_ON_OUTLINE },
     ],
     triggerAriaLabel: 'Actions menu',
     triggerIcon: MDI_ICONS.DOTS_VERTICAL,

@@ -68,6 +68,7 @@ const meta: Meta<AvButtonProps> = {
     isLoading: { control: 'boolean' },
     noRadius: { control: 'boolean' },
     disabled: { control: 'boolean' },
+    to: { control: 'text' }
   },
   args: {
     label: 'Click me',
@@ -79,6 +80,7 @@ const meta: Meta<AvButtonProps> = {
     isLoading: false,
     noRadius: false,
     disabled: false,
+    to: undefined
   },
 }
 
@@ -242,3 +244,37 @@ FlatTertiaryOnDarkBackground.decorators = [
     `,
   }),
 ]
+
+export const LinkButton = Template.bind({})
+LinkButton.args = {
+  to: '/some-route',
+  label: 'Go to some route',
+  variant: 'DEFAULT',
+  theme: 'PRIMARY',
+}
+
+export const LinkButtonOutlined = Template.bind({})
+LinkButtonOutlined.args = {
+  to: '/some-route',
+  label: 'Go to some route',
+  variant: 'OUTLINED',
+  theme: 'PRIMARY',
+}
+
+export const LinkButtonSecondary = Template.bind({})
+LinkButtonSecondary.args = {
+  to: '/some-route',
+  label: 'Go to some route',
+  variant: 'DEFAULT',
+  theme: 'SECONDARY',
+}
+
+export const LinkButtonIconOnly = Template.bind({})
+LinkButtonIconOnly.args = {
+  to: '/some-route',
+  iconOnly: true,
+  icon: 'mdi:home-variant-outline',
+  label: 'Go to some route',
+  variant: 'DEFAULT',
+  theme: 'PRIMARY',
+}
