@@ -24,7 +24,9 @@ export const AvButtonStub = defineComponent({
       data-testid="av-button-stub"
       data-tag="router-link"
       :href="to"
-    />
+    >
+      {{ label }}
+    </a>
     <button
       v-else
       data-testid="av-button-stub"
