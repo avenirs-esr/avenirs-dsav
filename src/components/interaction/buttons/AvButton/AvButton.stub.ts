@@ -15,12 +15,21 @@ export const AvButtonStub = defineComponent({
     small: { type: Boolean, default: false },
     icon: { type: [String, Object] },
     noSentenceCase: { type: Boolean, default: false },
+    href: { type: String, default: undefined },
     to: { type: [String, Object] as PropType<string | RouteLocationRaw> | undefined, default: undefined },
   },
   emits: ['click'],
   template: `
     <a
-      v-if="to"
+      v-if="href"
+      data-testid="av-button-stub"
+      data-tag="link"
+      :href="href"
+    >
+      {{ label }}
+    </a>
+    <a
+      v-else-if="to"
       data-testid="av-button-stub"
       data-tag="router-link"
       :href="to"

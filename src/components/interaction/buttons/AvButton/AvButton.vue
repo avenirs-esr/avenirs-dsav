@@ -79,6 +79,12 @@ export interface AvButtonProps {
    * Route location to navigate to when the button is clicked.
    */
   to?: string | RouteLocationRaw
+
+  /**
+   * External URL to navigate to when the button is clicked.
+   * When provided, the button is rendered as an anchor (`a`).
+   */
+  href?: string
 }
 
 defineOptions({
@@ -98,6 +104,7 @@ const {
   noSentenceCase = false,
   label,
   to = undefined,
+  href = undefined,
 } = defineProps<AvButtonProps>()
 
 defineEmits<{
@@ -116,6 +123,11 @@ defineExpose({ focus })
 
 const loadingIcon: InstanceType<typeof AvIcon>['$props'] = { name: MDI_ICONS.LOADING, animation: 'spin' }
 
+const buttonDisabled = computed(() => disabled || isLoading)
+const hasHref = computed(() => typeof href === 'string' && !!href.trim())
+const hasTo = computed(() => !!to)
+const asLink = computed(() => (hasHref.value || hasTo.value) && !buttonDisabled.value)
+
 const iconSize = computed(() => {
   if (iconScale && !Number.isNaN(iconScale)) {
     return iconScale
@@ -125,9 +137,13 @@ const iconSize = computed(() => {
   }
   return 1.5
 })
+
 const iconToRender = computed(() => {
   if (isLoading && !disabled) {
     return { ...loadingIcon, size: iconSize.value }
+  }
+  if (hasHref.value && !disabled) {
+    return { name: MDI_ICONS.EXTERNAL_LINK, size: iconSize.value }
   }
   if (typeof icon === 'string' && !!icon.trim()) {
     return { name: icon, size: iconSize.value }
@@ -137,9 +153,19 @@ const iconToRender = computed(() => {
   }
   return undefined
 })
+
 const labelToRender = computed(() => noSentenceCase ? label : toSentenceCase(label))
-const buttonDisabled = computed(() => disabled || isLoading)
-const variantClass = computed(() => `av-button--variant-${to ? 'default' : variant.toLowerCase()}`)
+
+const componentToRender = computed(() => {
+  if (hasHref.value && !buttonDisabled.value) {
+    return 'a'
+  }
+  if (hasTo.value && !buttonDisabled.value) {
+    return 'RouterLink'
+  }
+  return 'button'
+})
+const variantClass = computed(() => `av-button--variant-${asLink.value ? 'default' : variant.toLowerCase()}`)
 const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
 </script>
 
@@ -149,11 +175,14 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
     :disabled="!iconOnly || buttonDisabled"
   >
     <component
-      :is="to && !buttonDisabled ? 'RouterLink' : 'button'"
+      :is="componentToRender"
       ref="btn"
       v-bind="attrs"
-      :to="to"
-      :aria-label="labelToRender"
+      :href="hasHref ? href : undefined"
+      :target="hasHref ? '_blank' : undefined"
+      :rel="hasHref ? 'noopener noreferrer' : undefined"
+      :to="!hasHref ? to : undefined"
+      :aria-label="!hasTo ? labelToRender : undefined"
       :aria-disabled="buttonDisabled"
       class="av-button av-row av-align-center av-gap-xs"
       :class="[
@@ -172,8 +201,8 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
         themeClass,
       ]"
       :disabled="buttonDisabled"
-      :data-tag="to && !buttonDisabled ? 'routerlink' : 'button'"
-      @click="!to ? $emit('click', $event) : undefined"
+      :data-tag="hasHref && !buttonDisabled ? 'link' : hasTo && !buttonDisabled ? 'routerlink' : 'button'"
+      @click="!hasTo && !hasHref ? $emit('click', $event) : undefined"
     >
       <AvIcon
         v-if="iconToRender"

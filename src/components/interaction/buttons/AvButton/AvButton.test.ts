@@ -220,6 +220,64 @@ BddTest().given('an AvButton', () => {
     })
   })
 
+  BddTest().and('an href prop is provided', () => {
+    const props: AvButtonProps = {
+      label: 'Open docs',
+      href: 'https://example.com/docs',
+      variant: 'OUTLINED',
+    }
+
+    beforeEach(() => {
+      wrapper = mount(AvButton, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should render an anchor with the expected href', () => {
+      const anchor = wrapper.find('a')
+      expect(anchor.exists()).toBe(true)
+      expect(anchor.attributes('href')).toBe('https://example.com/docs')
+      expect(anchor.attributes('data-tag')).toBe('link')
+      expect(wrapper.find('button').exists()).toBe(false)
+      expect(wrapper.findComponent(RouterLinkStub).exists()).toBe(false)
+    })
+
+    BddTest().then('it should force the default variant class when rendered as an anchor', () => {
+      const anchor = wrapper.find('a')
+      expect(anchor.classes()).toContain('av-button--variant-default')
+      expect(anchor.classes()).not.toContain('av-button--variant-outlined')
+    })
+
+    BddTest().when('the anchor is clicked', () => {
+      beforeEach(async () => {
+        await wrapper.find('a').trigger('click')
+      })
+
+      BddTest().then('it should not emit a click event (navigation is handled by the anchor)', () => {
+        expect(wrapper.emitted('click')).toBeUndefined()
+      })
+    })
+  })
+
+  BddTest().and('an href prop is provided but disabled is true', () => {
+    beforeEach(() => {
+      wrapper = mount(AvButton, {
+        props: {
+          label: 'Disabled external link',
+          href: 'https://example.com',
+          disabled: true,
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render a disabled button instead of an anchor', () => {
+      const button = wrapper.find('button')
+      expect(button.exists()).toBe(true)
+      expect(button.attributes('disabled')).toBeDefined()
+      expect(button.attributes('data-tag')).toBe('button')
+      expect(wrapper.find('a').exists()).toBe(false)
+    })
+  })
+
   BddTest().and('svg size calculation', () => {
     describe.each([
       [true, 1],
