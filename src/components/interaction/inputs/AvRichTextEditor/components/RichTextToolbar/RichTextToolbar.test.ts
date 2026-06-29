@@ -1,4 +1,5 @@
 import type { Editor } from '@tiptap/vue-3'
+import type { AvRichTextEditorHeaderLevels } from '@/components/interaction/inputs/AvRichTextEditor/AvRichTextEditor.types'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import RichTextToolbar, { type RichTextToolbarProps } from '@/components/interaction/inputs/AvRichTextEditor/components/RichTextToolbar/RichTextToolbar.vue'
@@ -90,6 +91,7 @@ BddTest().given('a rich text toolbar', () => {
 
   const props: RichTextToolbarProps = {
     editor: EditorStub as unknown as Editor,
+    allowedHeadersLevels: [1, 2, 3] as AvRichTextEditorHeaderLevels[],
     toolbarLabel: 'Rich text editor toolbar',
     paragraphLabel: 'Paragraph',
     headingLabel: 'Heading',

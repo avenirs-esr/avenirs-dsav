@@ -99,7 +99,11 @@ const meta: Meta<AvRichTextEditorProps> = {
     increaseIndentLabel: { control: 'text' },
     popoversCancelLabel: { control: 'text' },
     popoversConfirmLabel: { control: 'text' },
-    allowExceedMaxlength: { control: 'boolean', required: false }
+    allowExceedMaxlength: { control: 'boolean', required: false },
+    allowedHeadersLevels: {
+      control: { type: 'multi-select' },
+      options: [1, 2, 3, 4, 5, 6],
+    },
   },
   args: {
     editorLabel: 'Rich Text Editor',
@@ -140,7 +144,8 @@ const meta: Meta<AvRichTextEditorProps> = {
     increaseIndentLabel: 'Increase indent (CTRL + ])',
     popoversCancelLabel: 'Cancel',
     popoversConfirmLabel: 'Confirm',
-    allowExceedMaxlength: true
+    allowExceedMaxlength: true,
+    allowedHeadersLevels: [1, 2, 3]
   }
 }
 
@@ -222,4 +227,9 @@ const TemplateWithMaxLengthCaptionSlot: StoryFn<AvRichTextEditorProps> = args =>
 export const MaxLengthCaptionSlot = TemplateWithMaxLengthCaptionSlot.bind({})
 MaxLengthCaptionSlot.args = {
   maxlength: 4000
+}
+
+export const AllAllowedHeadersLevels = Template.bind({})
+AllAllowedHeadersLevels.args = {
+  allowedHeadersLevels: [1, 2, 3, 4, 5, 6]
 }

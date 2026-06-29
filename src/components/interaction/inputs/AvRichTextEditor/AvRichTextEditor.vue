@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
-import type { AvRichTextEditorLabels } from '@/components/interaction/inputs/AvRichTextEditor/AvRichTextEditor.types'
+import type { AvRichTextEditorHeaderLevels, AvRichTextEditorLabels } from '@/components/interaction/inputs/AvRichTextEditor/AvRichTextEditor.types'
 import { EditorContent } from '@tiptap/vue-3'
 import RichTextToolbar from '@/components/interaction/inputs/AvRichTextEditor/components/RichTextToolbar/RichTextToolbar.vue'
 import { useRichTextEditor } from '@/components/interaction/inputs/AvRichTextEditor/composables/use-rich-text-editor/use-rich-text-editor'
@@ -16,9 +16,21 @@ export interface AvRichTextEditorProps extends AvRichTextEditorLabels {
    * @default true
    */
   allowExceedMaxlength?: boolean
+
+  /**
+   * The allowed header levels for the toolbar.
+   * @default [1, 2, 3]
+   */
+  allowedHeadersLevels?: AvRichTextEditorHeaderLevels[]
 }
 
-const { editorLabel, maxlength, allowExceedMaxlength = true, ...labels } = defineProps<AvRichTextEditorProps>()
+const {
+  editorLabel,
+  maxlength,
+  allowExceedMaxlength = true,
+  allowedHeadersLevels = [1, 2, 3],
+  ...labels
+} = defineProps<AvRichTextEditorProps>()
 
 defineSlots<{
   /**
@@ -73,6 +85,7 @@ watch(
       <RichTextToolbar
         v-bind="labels"
         :editor="editor"
+        :allowed-headers-levels="allowedHeadersLevels"
       />
       <div class="av-px-sm">
         <EditorContent
