@@ -228,3 +228,5 @@ export interface AvRichTextEditorLabels {
    */
   popoversConfirmLabel: string
 }
+
+export type AvRichTextEditorHeaderLevels = 1 | 2 | 3 | 4 | 5 | 6

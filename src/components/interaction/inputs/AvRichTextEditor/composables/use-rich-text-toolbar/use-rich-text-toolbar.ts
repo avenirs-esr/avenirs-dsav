@@ -1,5 +1,6 @@
 import type { Editor } from '@tiptap/vue-3'
 import type { Ref } from 'vue'
+import type { AvRichTextEditorHeaderLevels } from '@/components/interaction/inputs/AvRichTextEditor/AvRichTextEditor.types'
 
 export function useRichTextToolbar (editor: Ref<Editor | null | undefined>) {
   const undo = () => editor.value?.chain().focus().undo().run()
@@ -54,7 +55,7 @@ export function useRichTextToolbar (editor: Ref<Editor | null | undefined>) {
 
   const setParagraph = () => editor.value?.chain().focus().setParagraph().run()
 
-  const setHeading = (level: 1 | 2 | 3) => editor.value?.chain().focus().toggleHeading({ level }).run()
+  const setHeading = (level: AvRichTextEditorHeaderLevels) => editor.value?.chain().focus().toggleHeading({ level }).run()
 
   return {
     undo,

@@ -1,6 +1,6 @@
 export const AvRichTextEditorStub = defineComponent({
   name: 'AvRichTextEditor',
-  props: ['modelValue', 'charCount', 'maxlength', 'allowExceedMaxlength'],
+  props: ['modelValue', 'charCount', 'maxlength', 'allowExceedMaxlength', 'allowedHeadersLevels'],
   template: `<div class="av-rich-text-editor">
     <input
       :value="modelValue"

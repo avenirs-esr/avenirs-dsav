@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Editor } from '@tiptap/vue-3'
-import type { AvRichTextEditorLabels } from '@/components/interaction/inputs/AvRichTextEditor/AvRichTextEditor.types'
+import type { AvRichTextEditorHeaderLevels, AvRichTextEditorLabels } from '@/components/interaction/inputs/AvRichTextEditor/AvRichTextEditor.types'
 import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
 import ToolbarImagePopover from '@/components/interaction/inputs/AvRichTextEditor/components/ToolbarImagePopover/ToolbarImagePopover.vue'
 import ToolbarLinkPopover from '@/components/interaction/inputs/AvRichTextEditor/components/ToolbarLinkPopover/ToolbarLinkPopover.vue'
@@ -13,10 +13,15 @@ export interface RichTextToolbarProps extends Omit<AvRichTextEditorLabels, 'edit
    * The Tiptap editor instance to control with the toolbar.
    */
   editor: Editor | null | undefined
+
+  /**
+   * The allowed header levels for the toolbar.
+   */
+  allowedHeadersLevels: AvRichTextEditorHeaderLevels[]
 }
 
 const props = defineProps<RichTextToolbarProps>()
-const { editor } = toRefs(props)
+const { editor, allowedHeadersLevels } = toRefs(props)
 
 const {
   undo,
@@ -55,8 +60,8 @@ const selectedText = computed(() => {
 })
 
 const headings = computed(() => {
-  return [1, 2, 3].map(level => ({
-    level: level as 1 | 2 | 3,
+  return allowedHeadersLevels.value.map(level => ({
+    level: level as AvRichTextEditorHeaderLevels,
     label: `${props.headingLabel} ${level}`,
     icon: MDI_ICONS[`FORMAT_HEADING_${level}` as keyof typeof MDI_ICONS]
   }))

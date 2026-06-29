@@ -59,6 +59,7 @@ The component integrates focus management, proper ARIA attributes, and responsiv
 | `popoversConfirmLabel` | `string` | | ✅ | Label for the confirm button in the popovers. @example "Confirm" |
 | `maxlength` | `number` | | | Maximum number of characters allowed in the rich text editor. If not provided, there is no character limit. |
 | `allowExceedMaxlength` | `boolean` | | | Whether to allow exceeding the maximum number of characters. If not provided, the default is `false`. |
+| `allowedHeadersLevels` | `(1 \| 2 \| 3 \| 4 \| 5 \| 6)[]` | `[1, 2, 3]` | | Array of allowed header levels for the rich text editor. The default is `[1, 2, 3]`, which allows H1, H2, and H3 headers. |
 
 ## 🔊 Events
 

@@ -6,7 +6,8 @@ const stories = [
   'Default',
   'MaxLength',
   'ExceedableMaxLength',
-  'MaxLengthCaptionSlot'
+  'MaxLengthCaptionSlot',
+  'AllAllowedHeadersLevels'
 ]
 
 testStories(component, title, stories)
