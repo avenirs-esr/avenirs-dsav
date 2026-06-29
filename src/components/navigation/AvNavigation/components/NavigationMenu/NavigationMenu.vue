@@ -91,7 +91,7 @@ onMounted(() => {
     :style="styleVars"
     @click="$emit('toggleId', realId)"
   >
-    <span>{{ title }}</span>
+    <span class="b1-regular">{{ title }}</span>
   </button>
   <div
     :id="realId"
