@@ -206,6 +206,7 @@ export const MS_ICONS = {
   CLOCK_LOADER_40: 'material-symbols:clock-loader-40',
   CLOCK_LOADER_60: 'material-symbols:clock-loader-60',
   CLOCK_LOADER_90: 'material-symbols:clock-loader-90',
+  CYCLE_ROUNDED: 'material-symbols:cycle-rounded',
   FEATURED_PLAY_LIST_OUTLINE: 'material-symbols:featured-play-list-outline',
   FEEDBACK: 'material-symbols:feedback',
   LINK_OFF_ROUNDED: 'material-symbols:link-off-rounded',
