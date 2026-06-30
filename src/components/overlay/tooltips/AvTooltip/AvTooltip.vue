@@ -159,6 +159,7 @@ onUnmounted(() => {
 <style scoped>
 .av-tooltip-wrapper {
   position: relative;
+  width: fit-content;
 }
 
 .av-tooltip-trigger {

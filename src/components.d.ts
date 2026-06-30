@@ -29,7 +29,6 @@ declare module 'vue' {
     AvFileUpload: typeof import('./components/interaction/files/AvFileUpload/AvFileUpload.vue')['default']
     AvFloatingPanel: typeof import('./components/overlay/panels/AvFloatingPanel/AvFloatingPanel.vue')['default']
     AvHeader: typeof import('./components/header/AvHeader/AvHeader.vue')['default']
-    AvHeaderMenuLinks: typeof import('./components/header/AvHeaderMenuLinks/AvHeaderMenuLinks.vue')['default']
     AvIcon: typeof import('./components/base/AvIcon/AvIcon.vue')['default']
     AvIconText: typeof import('./components/base/AvIconText/AvIconText.vue')['default']
     AvInput: typeof import('./components/interaction/inputs/AvInput/AvInput.vue')['default']

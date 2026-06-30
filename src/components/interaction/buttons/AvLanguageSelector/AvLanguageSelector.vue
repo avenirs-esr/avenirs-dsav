@@ -112,3 +112,9 @@ function handleItemSelected (itemName: string) {
     </nav>
   </AvTooltip>
 </template>
+
+<style lang="scss" scoped>
+.av-translate {
+  width: fit-content;
+}
+</style>

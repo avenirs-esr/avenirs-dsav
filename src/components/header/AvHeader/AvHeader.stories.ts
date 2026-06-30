@@ -33,10 +33,8 @@ const meta: Meta<AvHeaderProps> = {
     homeTo: { control: false },
     modelValue: { control: false },
     placeholder: { control: false },
-    quickLinks: { control: false },
     languageSelector: { control: false },
     searchLabel: { control: false },
-    quickLinksAriaLabel: { control: false },
     showSearch: { control: false },
     showSearchLabel: { control: false },
     menuLabel: { control: false },
@@ -46,9 +44,7 @@ const meta: Meta<AvHeaderProps> = {
     homeTo: '#',
     modelValue: '',
     placeholder: 'Rechercher...',
-    quickLinks: [],
     searchLabel: 'Recherche',
-    quickLinksAriaLabel: 'Menu secondaire',
     showSearchLabel: 'Recherche',
     menuLabel: 'Menu',
     homeLabel: 'Accueil - Cofolio Étudiant',
@@ -81,7 +77,7 @@ const Template: StoryFn<AvHeaderProps> = args => ({
   },
   template: `
     <AvHeader v-bind="args">
-      <template #before-quick-links>
+      <template #quickLinks>
         <ul class="av-btns-group av-list-reset">
           <li class="demo-display-none">
             <AvButton

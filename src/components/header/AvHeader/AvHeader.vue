@@ -2,7 +2,6 @@
 import type { Slot } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 import type { AvHeaderEmits, DrawerMode } from '@/components/header/AvHeader/AvHeader.types'
-import type { AvHeaderMenuLinksProps } from '@/components/header/AvHeaderMenuLinks/AvHeaderMenuLinks.vue'
 import type { AvLanguageSelectorProps } from '@/components/interaction/buttons/AvLanguageSelector/AvLanguageSelector.vue'
 import HeaderBrand from '@/components/header/AvHeader/components/HeaderBrand/HeaderBrand.vue'
 import HeaderMenuDrawer from '@/components/header/AvHeader/components/HeaderMenuDrawer/HeaderMenuDrawer.vue'
@@ -33,12 +32,6 @@ export interface AvHeaderProps {
   placeholder?: string
 
   /**
-   * Quick links to display in the header.
-   * @default () => []
-   */
-  quickLinks?: AvHeaderMenuLinksProps['links']
-
-  /**
    * Language selector properties.
    */
   languageSelector?: AvLanguageSelectorProps
@@ -48,12 +41,6 @@ export interface AvHeaderProps {
    * @default 'Recherche'
    */
   searchLabel?: string
-
-  /**
-   * ARIA label for quick links.
-   * @default 'Menu secondaire'
-   */
-  quickLinksAriaLabel?: string
 
   /**
    * Whether to display the search bar.
@@ -90,9 +77,7 @@ const {
   homeTo = '/',
   modelValue = '',
   placeholder = 'Rechercher...',
-  quickLinks = [],
   searchLabel = 'Recherche',
-  quickLinksAriaLabel = 'Menu secondaire',
   showSearchLabel = 'Recherche',
   menuLabel = 'Menu',
   closeDrawerLabel = 'Fermer',
@@ -109,27 +94,22 @@ const slots = defineSlots<{
   /**
    * Slot for adding content before quicklinks.
    */
-  'before-quick-links'?: Slot
-
-  /**
-   * Slot for adding content after quicklinks.
-   */
-  'after-quick-links'?: Slot
+  quickLinks?: Slot
 
   /**
    * Slot for the role context (i.e., user role or context-specific information).
    */
-  'roleContext'?: Slot
+  roleContext?: Slot
 
   /**
    * Slot for the main navigation.
    */
-  'mainnav'?: Slot
+  mainnav?: Slot
 
   /**
    * Slot by default for the header additional content.
    */
-  'default'?: Slot
+  default?: Slot
 }>()
 
 const languageSelectorRef = toRef(() => languageSelector)
@@ -172,13 +152,13 @@ provide(registerNavigationLinkKey, () => hideDrawer)
   >
     <div class="av-header__body">
       <div class="av-container">
-        <div class="av-row av-justify-start av-align-center av-py-sm">
+        <div class="av-row av-justify-start av-align-center av-pt-sm av-pb-xxs">
           <HeaderBrand
             :home-to="homeTo"
             :title="homeLabel"
             :show-search-button="showSearch"
             :show-search-label="showSearchLabel"
-            :show-menu-button="isWithSlotNav || quickLinks.length > 0"
+            :show-menu-button="isWithSlotNav"
             :show-menu-label="menuLabel"
             @show-search-drawer="showSearchDrawer"
             @show-menu-drawer="showMenuDrawer"
@@ -191,21 +171,14 @@ provide(registerNavigationLinkKey, () => hideDrawer)
           <HeaderToolbar
             :model-value="modelValue"
             :placeholder="placeholder"
-            :quick-links="quickLinks"
             :language-selector-ref="languageSelectorRef"
             :search-label="searchLabel"
-            :quick-links-aria-label="quickLinksAriaLabel"
             :show-search="showSearch"
             @update:model-value="emit('update:modelValue', $event)"
             @search="emit('search', $event)"
             @language-select="emit('languageSelect', $event)"
           >
-            <template #before-quick-links>
-              <slot name="before-quick-links" />
-            </template>
-            <template #after-quick-links>
-              <slot name="after-quick-links" />
-            </template>
+            <slot name="quickLinks" />
           </HeaderToolbar>
         </div>
         <slot />
@@ -234,20 +207,15 @@ provide(registerNavigationLinkKey, () => hideDrawer)
 
     <HeaderMenuDrawer
       :show-drawer="drawerMode === 'menu'"
-      :quick-links="quickLinks"
       :language-selector-ref="languageSelectorRef"
       :close-label="closeDrawerLabel"
-      :quick-links-aria-label="quickLinksAriaLabel"
       data-testid="header-menu-drawer"
       @close="hideDrawer"
       @quick-link-click="hideDrawer"
       @language-select="emit('languageSelect', $event)"
     >
-      <template #before-quick-links>
-        <slot name="before-quick-links" />
-      </template>
-      <template #after-quick-links>
-        <slot name="after-quick-links" />
+      <template #quickLinks>
+        <slot name="quickLinks" />
       </template>
       <template #mainnav>
         <slot name="mainnav" />
@@ -263,7 +231,7 @@ provide(registerNavigationLinkKey, () => hideDrawer)
   background-color: var(--other-background-base);
 
   &__menu {
-    box-shadow:inset 0 1px 0 0 var(--stroke);
+    box-shadow: inset 0 1px 0 0 var(--stroke);
   }
 }
 </style>

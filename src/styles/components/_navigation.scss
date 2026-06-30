@@ -52,10 +52,9 @@
     height: 100%;
     width: auto;
     margin: var(--spacing-none);
-    padding: .75rem var(--spacing-sm);
+    padding: var(--spacing-sm);
     text-align: left;
     color: var(--text1);
-    min-height: var(--dimension-2xl);
 
     &:hover {
       background-color: var(--dark-background-primary1) !important;

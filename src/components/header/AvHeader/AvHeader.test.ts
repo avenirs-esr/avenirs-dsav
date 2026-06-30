@@ -23,7 +23,6 @@ BddTest().given('an AvHeader', () => {
   }
 
   const homeLabel = 'Accueil - Cofolio étudiant'
-  const quickLinks = [{ text: 'Lien', to: '/' }]
   const showSearch = true
   const modelValue = ''
   const currentLanguage = 'fr'
@@ -39,7 +38,7 @@ BddTest().given('an AvHeader', () => {
 
   BddTest().when('the component is mounted', () => {
     beforeEach(async () => {
-      wrapper = await mountWithRouter(AvHeader, { global: { stubs } })
+      wrapper = await mountWithRouter(AvHeader, { props: { homeLabel }, global: { stubs } })
     })
 
     BddTest().then('it should display default logo and text', async () => {
@@ -50,7 +49,10 @@ BddTest().given('an AvHeader', () => {
   BddTest().when('the menu button is clicked', () => {
     beforeEach(async () => {
       wrapper = await mountWithRouter(AvHeader, {
-        props: { homeLabel, quickLinks },
+        props: { homeLabel },
+        slots: {
+          mainnav: '<div>Navigation</div>'
+        },
         global: { stubs }
       })
     })
@@ -68,7 +70,7 @@ BddTest().given('an AvHeader', () => {
   BddTest().when('using the search bar', () => {
     beforeEach(async () => {
       wrapper = await mountWithRouter(AvHeader, {
-        props: { showSearch, modelValue },
+        props: { homeLabel, showSearch, modelValue },
         global: { stubs }
       })
     })
@@ -111,7 +113,10 @@ BddTest().given('an AvHeader', () => {
     BddTest().and('the close button is clicked', () => {
       beforeEach(async () => {
         wrapper = await mountWithRouter(AvHeader, {
-          props: { homeLabel, quickLinks },
+          props: { homeLabel },
+          slots: {
+            mainnav: '<div>Navigation</div>'
+          },
           global: { stubs }
         })
       })
@@ -132,7 +137,10 @@ BddTest().given('an AvHeader', () => {
     BddTest().and('the escape key is pressed', () => {
       beforeEach(async () => {
         wrapper = await mountWithRouter(AvHeader, {
-          props: { homeLabel, quickLinks },
+          props: { homeLabel },
+          slots: {
+            mainnav: '<div>Navigation</div>'
+          },
           global: { stubs }
         })
       })
@@ -183,7 +191,7 @@ BddTest().given('an AvHeader', () => {
   BddTest().when('the component is unmounted', () => {
     beforeEach(async () => {
       vi.clearAllMocks()
-      wrapper = await mountWithRouter(AvHeader, { global: { stubs } })
+      wrapper = await mountWithRouter(AvHeader, { props: { homeLabel }, global: { stubs } })
     })
 
     BddTest().then('it should remove keydown event listener', () => {
