@@ -21,7 +21,6 @@ _Last updated: 2026-01-06_
 
 ## Headder
 - [AvHeader](header/AvHeader/AvHeader.md)
-- [AvHeaderMenuLinks](header/AvHeaderMenuLinks/AvHeaderMenuLinks.md)
 
 ## Interaction
 

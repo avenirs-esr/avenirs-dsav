@@ -1,14 +1,12 @@
 <script lang="ts" setup>
+import type { Slot } from 'vue'
 import type { AvHeaderMenuDrawerEmits } from '@/components/header/AvHeader/AvHeader.types'
-import type { AvHeaderMenuLinksProps } from '@/components/header/AvHeaderMenuLinks/AvHeaderMenuLinks.vue'
 import type { AvLanguageSelectorProps } from '@/components/interaction/buttons/AvLanguageSelector/AvLanguageSelector.vue'
 import { MDI_ICONS } from '@/tokens/icons'
 
 interface HeaderMenuDrawerProps {
   showDrawer: boolean
-  quickLinks?: AvHeaderMenuLinksProps['links']
   languageSelectorRef?: AvLanguageSelectorProps
-  quickLinksAriaLabel?: string
   closeLabel?: string
 }
 
@@ -16,7 +14,11 @@ defineProps<HeaderMenuDrawerProps>()
 
 defineEmits<AvHeaderMenuDrawerEmits & {
   (e: 'close'): void
-  (e: 'quickLinkClick'): void
+}>()
+
+defineSlots<{
+  quickLinks: Slot
+  mainnav: Slot
 }>()
 </script>
 
@@ -45,15 +47,7 @@ defineEmits<AvHeaderMenuDrawerEmits & {
             @select="$emit('languageSelect', $event)"
           />
         </template>
-        <slot name="before-quick-links" />
-        <AvHeaderMenuLinks
-          role="navigation"
-          :links="quickLinks"
-          :nav-aria-label="quickLinksAriaLabel"
-          data-testid="header-menu-drawer-links"
-          @link-click="$emit('quickLinkClick')"
-        />
-        <slot name="after-quick-links" />
+        <slot name="quickLinks" />
       </div>
 
       <slot name="mainnav" />

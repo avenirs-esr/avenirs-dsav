@@ -76,7 +76,6 @@ export default defineConfig({
               text: 'Header',
               items: [
                 { text: 'AvHeader', link: '/components/header/AvHeader/AvHeader.md' },
-                { text: 'AvHeaderMenuLinks', link: '/components/header/AvHeaderMenuLinks/AvHeaderMenuLinks.md' },
               ],
               collapsed: true
             },

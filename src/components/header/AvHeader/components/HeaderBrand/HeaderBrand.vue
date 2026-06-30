@@ -89,7 +89,6 @@ defineSlots<{
 
   &__logo {
     flex: 0 0 auto;
-    padding: calc(var(--spacing-md) / 2);
   }
 
   &__navbar {

@@ -2,7 +2,7 @@
 
 ## ✨ Introduction
 
-The `AvHeader` component is an ultra-flexible header component. It integrates a search bar and quick links. It also allows the addition of a main navigation in the `mainnav` slot and a language selector via the `language-selector` prop.
+The `AvHeader` component is an ultra-flexible header component. It integrates a search bar and quick links (via the `quickLinks` slot). It also allows the addition of a main navigation in the `mainnav` slot and a language selector via the `language-selector` prop.
 
 ## 🏗️ Structure
 
@@ -21,10 +21,8 @@ The header consists of:
 | `homeTo` | `string \| RouteLocationRaw` | `'/'` | | Homepage link. |
 | `modelValue` | `string` | `''` | | Value for the search bar. |
 | `placeholder` | `string` | `'Rechercher...'` | | Placeholder for the search bar. |
-| `quickLinks` | `AvHeaderMenuLinksProps['links']` | `[]` | | Quick links to display in the header. |
-| `languageSelector` | `AvLanguageSelectorProps` | `undefined` | | Quick links to display in the header. |
+| `languageSelector` | `AvLanguageSelectorProps` | `undefined` | | Language selector configuration. |
 | `searchLabel` | `string` | `'Recherche'` | | Label for the search bar. |
-| `quickLinksAriaLabel` | `string` | `'Menu secondaire'` | | ARIA label for quick links. |
 | `showSearch` | `boolean` | `false` | | Shows or hides the search bar. |
 | `showSearchLabel` | `string` | `'Recherche'` | | Label for the button to display the search. |
 | `menuLabel` | `string` | `'Menu'` | | Menu label. |
@@ -43,8 +41,7 @@ The header consists of:
 ## 🎨 Slots
 
 | Name | Description |
-| `before-quick-links` | Slot to add content before quick links. |
-| `after-quick-links` | Slot to add content after quick links. |
+| `quickLinks` | Slot to add quick links. |
 | `mainnav` | Slot for the main navigation menu. |
 | `roleContext` | Slot for the role context (i.e., user role or context-specific information). |
 | `default` | Default slot for additional content in the header. |
@@ -66,7 +63,7 @@ const searchQuery = ref('')
     :language-selector="languageSelector"
     @language-select="selectLanguage($event)"
   >
-    <template #before-quick-links>
+    <template #quickLinks>
       <ul class="av-btns-group">
         <li>
           <StudentMailboxPopover />
