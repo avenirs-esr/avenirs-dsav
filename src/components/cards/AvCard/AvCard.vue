@@ -252,6 +252,7 @@ defineExpose({
         :icon="collapsed ? MDI_ICONS.CHEVRON_DOWN : MDI_ICONS.CHEVRON_LEFT"
         icon-only
         :label="collapsed ? expandLabel : collapseLabel"
+        :data-testid="collapsed ? 'expand-button' : 'collapse-button'"
         @click.stop="toggleCollapsed"
       />
     </header>
