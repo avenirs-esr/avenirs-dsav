@@ -42,6 +42,7 @@ export const MDI_ICONS = {
   ATTACH_FILE: 'mdi:attach-file',
   ATTACHMENT_PLUS: 'mdi:attachment-plus',
   BACKUP_RESTORE: 'mdi:backup-restore',
+  BADGE_ACCOUNT_HORIZONTAL_OUTLINE: 'mdi:badge-account-horizontal-outline',
   BELL_NOTIFICATION: 'mdi:bell-notification',
   BOOK_LOCATION_OUTLINE: 'mdi:book-location-outline',
   BOOK_OPEN_VARIANT: 'mdi:book-open-variant',
