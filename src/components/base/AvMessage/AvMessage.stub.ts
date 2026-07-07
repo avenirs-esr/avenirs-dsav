@@ -8,7 +8,7 @@ export const AvMessageStub = defineComponent({
       required: true
     },
     message: {
-      type: Object as PropType<string | string[]>,
+      type: [String, Array] as PropType<string | string[]>,
       required: true
     }
   },
