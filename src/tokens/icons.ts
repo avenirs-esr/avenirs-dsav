@@ -57,6 +57,7 @@ export const MDI_ICONS = {
   CALENDAR_TIME: 'mdi:calendar-time',
   CALENDAR_RANGE_OUTLINE: 'mdi:calendar-range-outline',
   CALENDAR_WEEK_OUTLINE: 'mdi:calendar-week-outline',
+  CATEGORY_OUTLINE: 'mdi:category-outline',
   CHART_TIMELINE_VARIANT_SHIMMER: 'mdi:chart-timeline-variant-shimmer',
   CHAT_ALERT: 'mdi:chat-alert',
   CHAT_BUBBLE_OUTLINE: 'mdi:chat-bubble-outline',

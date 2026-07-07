@@ -20,3 +20,24 @@
 @include ns("text-title") {
   color: var(--title);
 }
+
+// === Usual background color classes ===
+@include ns("background-base") {
+  background-color: var(--other-background-base);
+}
+
+@include ns("background-card") {
+  background-color: var(--card);
+}
+
+@include ns("background-card2") {
+  background-color: var(--card2);
+}
+
+@include ns("background-primary1") {
+  background-color: var(--dark-background-primary1);
+}
+// === Usual border color classes ===
+@include ns("border-stroke") {
+  border-color: var(--stroke);
+}
