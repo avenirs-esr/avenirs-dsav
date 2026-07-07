@@ -1,5 +1,7 @@
 <script lang="ts" setup>
+import toggleActiveDisabledSvg from '@/components/interaction/toggles/AvToggle/assets/toggle-active-disabled.svg?url'
 import toggleActiveSvg from '@/components/interaction/toggles/AvToggle/assets/toggle-active.svg?url'
+import toggleInactiveDisabledSvg from '@/components/interaction/toggles/AvToggle/assets/toggle-inactive-disabled.svg?url'
 import toggleInactiveSvg from '@/components/interaction/toggles/AvToggle/assets/toggle-inactive.svg?url'
 
 /**
@@ -50,24 +52,34 @@ const {
   id,
   activeText = 'On',
   inactiveText = 'Off',
-  name
+  name,
+  disabled = false,
 } = defineProps<AvToggleProps>()
 
-/**
- * Events emitted by the component.
- */
-defineEmits<{
-  /**
-   * Emitted when the toggle is clicked.
-   * @param payload New state (`boolean`) of the toggle.
-   */
-  (e: 'update:modelValue', payload: boolean): void
-}>()
+const modelValue = defineModel<boolean>({
+  default: false,
+})
 
 const inputId = computed(() => id ?? `toggle-${crypto.randomUUID()}`)
 const labelId = computed(() => {
   return `${inputId.value}-label`
 })
+
+function getImageHref () {
+  if (disabled) {
+    return modelValue.value
+      ? toggleActiveDisabledSvg
+      : toggleInactiveDisabledSvg
+  }
+
+  return modelValue.value
+    ? toggleActiveSvg
+    : toggleInactiveSvg
+}
+
+function updateModelValue (event: Event) {
+  modelValue.value = (event.target as HTMLInputElement).checked
+}
 </script>
 
 <template>
@@ -81,7 +93,7 @@ const labelId = computed(() => {
     :data-testid="inputId"
     :aria-describedby="labelId"
     :name="name"
-    @input="$emit('update:modelValue', ($event.target as HTMLInputElement).checked)"
+    @input="updateModelValue"
   >
   <label
     :id="labelId"
@@ -103,7 +115,7 @@ const labelId = computed(() => {
         height="14"
       >
         <image
-          :href="modelValue ? toggleActiveSvg : toggleInactiveSvg"
+          :href="getImageHref()"
           width="34"
           height="14"
         />
@@ -154,8 +166,17 @@ const labelId = computed(() => {
   width: 3.625rem;
 }
 
-.av-toggle--disabled, .toggle--disabled {
-  cursor: default;
+.av-toggle--disabled {
+  cursor: not-allowed;
+
+  .toggle {
+    cursor: not-allowed;
+  }
+
+  .caption-bold,
+  .caption-regular {
+    color: var(--text2);
+  }
 }
 
 .caption-bold {
