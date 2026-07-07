@@ -1,7 +1,23 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect } from 'vitest'
+import { beforeEach, expect, vi } from 'vitest'
 import AvToggle from '@/components/interaction/toggles/AvToggle/AvToggle.vue'
 import { BddTest } from '@/tests/utils'
+
+vi.mock('@/components/interaction/toggles/AvToggle/assets/toggle-active.svg?url', () => ({
+  default: 'toggle-active.svg',
+}))
+
+vi.mock('@/components/interaction/toggles/AvToggle/assets/toggle-inactive.svg?url', () => ({
+  default: 'toggle-inactive.svg',
+}))
+
+vi.mock('@/components/interaction/toggles/AvToggle/assets/toggle-active-disabled.svg?url', () => ({
+  default: 'toggle-active-disabled.svg',
+}))
+
+vi.mock('@/components/interaction/toggles/AvToggle/assets/toggle-inactive-disabled.svg?url', () => ({
+  default: 'toggle-inactive-disabled.svg',
+}))
 
 BddTest().given('an AvToggle', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvToggle>>
@@ -38,6 +54,10 @@ BddTest().given('an AvToggle', () => {
       BddTest().then('it should render the description text', () => {
         expect(wrapper.text()).toContain('test description')
       })
+
+      BddTest().then('it should render the inactive svg', () => {
+        expect(wrapper.find('image').attributes('href')).toBe('toggle-inactive.svg')
+      })
     })
 
     BddTest().when('the toggle is clicked', () => {
@@ -67,10 +87,14 @@ BddTest().given('an AvToggle', () => {
         const input = wrapper.find('input[type="checkbox"]')
         expect((input.element as HTMLInputElement).checked).toBe(true)
       })
+
+      BddTest().then('it should render the active svg', () => {
+        expect(wrapper.find('image').attributes('href')).toBe('toggle-active.svg')
+      })
     })
   })
 
-  BddTest().and('disabled', () => {
+  BddTest().and('disabled and inactive', () => {
     beforeEach(() => {
       wrapper = mount(AvToggle, {
         props: { ...defaultProps, disabled: true },
@@ -85,6 +109,24 @@ BddTest().given('an AvToggle', () => {
         const input = wrapper.find('input')
         expect(input.attributes('disabled')).toBeDefined()
         expect(input.attributes('aria-disabled')).toBe('true')
+      })
+
+      BddTest().then('it should render the inactive disabled svg', () => {
+        expect(wrapper.find('image').attributes('href')).toBe('toggle-inactive-disabled.svg')
+      })
+    })
+  })
+
+  BddTest().and('disabled and active', () => {
+    beforeEach(() => {
+      wrapper = mount(AvToggle, {
+        props: { ...defaultProps, modelValue: true, disabled: true },
+      })
+    })
+
+    BddTest().when('the toggle is mounted', () => {
+      BddTest().then('it should render the active disabled svg', () => {
+        expect(wrapper.find('image').attributes('href')).toBe('toggle-active-disabled.svg')
       })
     })
   })
