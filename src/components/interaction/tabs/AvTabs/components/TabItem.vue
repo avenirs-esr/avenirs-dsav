@@ -180,7 +180,7 @@ watch(
   <li
     class="av-tab-item av-py-xs"
     :class="{ 'av-tab-item--compact av-no-before': compact,
-              'av-flex-fill av-w-full': !compact,
+              'av-flex-fill--md av-w-full': !compact,
     }"
     role="presentation"
   >
@@ -213,6 +213,8 @@ watch(
 </template>
 
 <style lang="scss" scoped>
+@use '@/styles/settings/breakpoints' as *;
+
 .av-tab-item {
   &__tab {
     text-align: center;
@@ -240,6 +242,14 @@ watch(
       bottom: var(--spacing-xs);
       width: 0.0625rem;
       background-color: var(--text1);
+    }
+
+    @include max-width(md) {
+      &::before {
+        content: none;
+      }
+
+      border-top: 1px solid var(--stroke);
     }
   }
 
