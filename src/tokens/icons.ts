@@ -171,6 +171,7 @@ export const MDI_ICONS = {
   SHARE_VARIANT_OUTLINE: 'mdi:share-variant-outline',
   STAR: 'mdi:star',
   STAR_CHECK_OUTLINE: 'mdi:star-check-outline',
+  STAR_OUTLINE: 'mdi:star-outline',
   STAR_SHOOTING_OUTLINE: 'mdi:star-shooting-outline',
   STARS: 'mdi:stars',
   STOREFRONT_OUTLINE: 'mdi:storefront-outline',
