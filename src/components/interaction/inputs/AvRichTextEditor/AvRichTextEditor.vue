@@ -39,8 +39,8 @@ defineSlots<{
   maxLengthCaption?: Slot<{ currentValue?: number, maxlength?: number }>
 }>()
 
-const model = defineModel<string>()
 const charCount = defineModel<number>('charCount')
+const model = defineModel<string>()
 
 const editor = useRichTextEditor({
   content: model.value,
