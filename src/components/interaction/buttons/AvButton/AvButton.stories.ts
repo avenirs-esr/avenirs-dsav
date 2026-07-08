@@ -57,7 +57,7 @@ const meta: Meta<AvButtonProps> = {
     icon: { control: 'select', options: iconOptions, mapping: iconMapping },
     variant: {
       control: { type: 'radio' },
-      options: ['DEFAULT', 'OUTLINED'],
+      options: ['DEFAULT', 'OUTLINED', 'FLAT'],
     },
     theme: {
       control: { type: 'radio' },
