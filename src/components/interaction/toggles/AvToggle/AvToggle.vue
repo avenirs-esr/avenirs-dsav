@@ -51,7 +51,7 @@ export interface AvToggleProps {
 
   /**
    * Width of the active/inactive texts
-   * @default '1.5rem'
+   * @default '1.8rem'
    */
   activeInactiveTextWidth?: string
 }
@@ -66,7 +66,7 @@ const {
   inactiveText = 'Off',
   name,
   disabled = false,
-  activeInactiveTextWidth = '1.5rem',
+  activeInactiveTextWidth = '1.8rem',
 } = defineProps<AvToggleProps>()
 
 const modelValue = defineModel<boolean>({
