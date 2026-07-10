@@ -1,6 +1,6 @@
 export const AvToggleStub = defineComponent({
   name: 'AvToggle',
-  props: ['id', 'name', 'modelValue', 'description', 'activeText', 'inactiveText', 'disabled'],
+  props: ['id', 'name', 'modelValue', 'description', 'activeText', 'inactiveText', 'disabled', 'activeInactiveTextWidth'],
   emits: ['update:modelValue'],
   template: `
     <div class="av-toggle">

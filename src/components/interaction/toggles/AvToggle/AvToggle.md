@@ -13,12 +13,13 @@ None.
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
 | `modelValue` | `boolean` | `undefined` | | Boolean value linked to the input. |
-| `description` | `string` | | ✅ | Indicates the purpose of the toggle. |
+| `description` | `string` | `undefined` | | Indicates the purpose of the toggle. |
 | `id` | `string` | `toggle-${crypto.randomUUID()}` | | Unique id for the toggle. Used for accessibility. |
 | `disabled` | `boolean` | `undefined` | | Indicates if the toggle is disabled. |
 | `activeText` | `string` | `'On'` | | Text to display next to the toggle (right) when it is active. |
 | `inactiveText` | `string` | `'Off'` | | Text to display next to the toggle (right) when it is inactive. |
 | `name` | `string` | `undefined` | | `name` attribute of the input. |
+| `activeInactiveTextWidth` | `string` | `'1.5rem'` | | Width of the active/inactive texts. |
 
 ## 🔊 Events
 
