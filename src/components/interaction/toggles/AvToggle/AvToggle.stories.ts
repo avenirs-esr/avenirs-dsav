@@ -37,7 +37,7 @@ const meta: Meta<AvToggleProps> = {
     activeText: 'On',
     inactiveText: 'Off',
     name: undefined,
-    activeInactiveTextWidth: '1.5rem'
+    activeInactiveTextWidth: '1.8rem'
   },
 }
 

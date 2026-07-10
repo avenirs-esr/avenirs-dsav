@@ -9,6 +9,7 @@ export const AvToggleStub = defineComponent({
         :id="id"
         :name="name"
         :checked="modelValue"
+        data-testid="av-toggle"
         @change="$emit(\'update:modelValue\', $event.target.checked)"
       />
       <span class="description">
