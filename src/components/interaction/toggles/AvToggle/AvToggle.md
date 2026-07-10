@@ -19,7 +19,7 @@ None.
 | `activeText` | `string` | `'On'` | | Text to display next to the toggle (right) when it is active. |
 | `inactiveText` | `string` | `'Off'` | | Text to display next to the toggle (right) when it is inactive. |
 | `name` | `string` | `undefined` | | `name` attribute of the input. |
-| `activeInactiveTextWidth` | `string` | `'1.5rem'` | | Width of the active/inactive texts. |
+| `activeInactiveTextWidth` | `string` | `'1.8rem'` | | Width of the active/inactive texts. |
 
 ## 🔊 Events
 

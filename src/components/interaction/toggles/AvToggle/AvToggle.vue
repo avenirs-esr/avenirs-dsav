@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { useAttrs } from 'vue'
 import toggleActiveDisabledSvg from '@/components/interaction/toggles/AvToggle/assets/toggle-active-disabled.svg?url'
 import toggleActiveSvg from '@/components/interaction/toggles/AvToggle/assets/toggle-active.svg?url'
 import toggleInactiveDisabledSvg from '@/components/interaction/toggles/AvToggle/assets/toggle-inactive-disabled.svg?url'
@@ -72,6 +73,8 @@ const modelValue = defineModel<boolean>({
   default: false,
 })
 
+const attrs = useAttrs()
+
 const inputId = computed(() => id ?? `toggle-${crypto.randomUUID()}`)
 const labelId = computed(() => {
   return `${inputId.value}-label`
@@ -92,6 +95,16 @@ function getImageHref () {
 function updateModelValue (event: Event) {
   modelValue.value = (event.target as HTMLInputElement).checked
 }
+
+const dataTestId = computed(() => {
+  return attrs['data-testid'] ?? (id || 'av-toggle')
+})
+const inputDataTestId = computed(() => {
+  return `${dataTestId.value}-input`
+})
+const labelDataTestId = computed(() => {
+  return `${dataTestId.value}-label`
+})
 </script>
 
 <template>
@@ -104,18 +117,17 @@ function updateModelValue (event: Event) {
     :checked="modelValue"
     :aria-describedby="labelId"
     :name="name"
-    data-testid="av-toggle"
-    v-bind="$attrs"
+    :data-testid="inputDataTestId"
     @input="updateModelValue"
   >
   <label
     :id="labelId"
     :for="inputId"
-    :data-testid="`${inputId}-label`"
     class="av-toggle av-row av-justify-center av-gap-xs av-align-start"
     :class="{
       'av-toggle--disabled': disabled,
     }"
+    :data-testid="labelDataTestId"
   >
     <div
       class="toggle av-row av-justify-start av-align-start av-gap-xxs"
