@@ -15,8 +15,9 @@ export interface AvToggleProps {
 
   /**
    * Indicates the purpose of the toggle.
+   * @default undefined
    */
-  description: string
+  description?: string
 
   /**
    * Unique id for the toggle. Used for accessibility.
@@ -46,7 +47,17 @@ export interface AvToggleProps {
    * @default undefined
    */
   name?: string
+
+  /**
+   * Width of the active/inactive texts
+   * @default '1.5rem'
+   */
+  activeInactiveTextWidth?: string
 }
+
+defineOptions({
+  inheritAttrs: false,
+})
 
 const {
   id,
@@ -54,6 +65,7 @@ const {
   inactiveText = 'Off',
   name,
   disabled = false,
+  activeInactiveTextWidth = '1.5rem',
 } = defineProps<AvToggleProps>()
 
 const modelValue = defineModel<boolean>({
@@ -90,9 +102,10 @@ function updateModelValue (event: Event) {
     :aria-disabled="disabled"
     type="checkbox"
     :checked="modelValue"
-    :data-testid="inputId"
     :aria-describedby="labelId"
     :name="name"
+    data-testid="av-toggle"
+    v-bind="$attrs"
     @input="updateModelValue"
   >
   <label
@@ -105,35 +118,42 @@ function updateModelValue (event: Event) {
     }"
   >
     <div
-      class="toggle av-row av-justify-center av-align-center av-gap-xxs"
+      class="toggle av-row av-justify-start av-align-start av-gap-xxs"
       :class="{
         'toggle--disabled': disabled,
       }"
     >
-      <svg
-        width="34"
-        height="14"
-      >
-        <image
-          :href="getImageHref()"
+      <div class="av-col">
+        <svg
           width="34"
           height="14"
-        />
-      </svg>
-      <span
-        v-if="modelValue"
-        class="caption-bold no-select"
-      >
-        {{ activeText }}
-      </span>
-      <span
-        v-else
-        class="caption-regular no-select"
-      >
-        {{ inactiveText }}
-      </span>
+        >
+          <image
+            :href="getImageHref()"
+            width="34"
+            height="14"
+          />
+        </svg>
+      </div>
+      <div class="av-col toggle-text">
+        <span
+          v-if="modelValue"
+          class="caption-bold no-select"
+        >
+          {{ activeText }}
+        </span>
+        <span
+          v-else
+          class="caption-regular no-select"
+        >
+          {{ inactiveText }}
+        </span>
+      </div>
     </div>
-    <span class="caption-regular">{{ description }}</span>
+    <span
+      v-if="description"
+      class="caption-regular"
+    >{{ description }}</span>
   </label>
 </template>
 
@@ -163,7 +183,16 @@ function updateModelValue (event: Event) {
 }
 
 .toggle {
-  width: 3.625rem;
+  width: calc(2.125rem + v-bind(activeInactiveTextWidth));
+}
+
+.toggle-text {
+  .caption-bold,
+  .caption-regular {
+    white-space: normal;
+    word-break: break-word;
+    display: block;
+  }
 }
 
 .av-toggle--disabled {

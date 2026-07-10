@@ -28,6 +28,7 @@ const meta: Meta<AvToggleProps> = {
     activeText: { control: 'text' },
     inactiveText: { control: 'text' },
     name: { control: 'text' },
+    activeInactiveTextWidth: { control: 'text' }
   },
   args: {
     modelValue: false,
@@ -35,7 +36,8 @@ const meta: Meta<AvToggleProps> = {
     disabled: false,
     activeText: 'On',
     inactiveText: 'Off',
-    name: undefined
+    name: undefined,
+    activeInactiveTextWidth: '1.5rem'
   },
 }
 
@@ -62,7 +64,7 @@ const WidthRestrictTemplate: StoryFn<AvToggleProps> = args => ({
   setup () {
     return { args }
   },
-  template: `<div :style="{width: '100px'}"><AvToggle v-bind="args" v-model="args.modelValue" /></div>`,
+  template: `<div :style="{width: '10px'}"><AvToggle v-bind="args" v-model="args.modelValue" /></div>`,
 })
 
 export const WidthRestrict = WidthRestrictTemplate.bind({})
