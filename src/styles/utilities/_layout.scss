@@ -70,6 +70,20 @@ $float-positions: (
   flex-direction: column
 ));
 
+// === Grid ===
+// Ex: .av-grid
+@include utility-base("grid", (
+  display: grid
+));
+
+// === Grid columns ===
+// Ex: .av-grid-cols-2 / .av-grid-cols-4
+@for $n from 1 through 6 {
+  @include utility-base("grid-cols-#{$n}", (
+    grid-template-columns: repeat(#{$n}, 1fr)
+  ));
+}
+
 // === Flex wrap ===
 // Ex: .av-wrap / .av-nowrap
 @include utility-base("wrap", (
@@ -191,6 +205,20 @@ $float-positions: (
   display: flex,
   flex-direction: column
 ));
+
+// === Grid ===
+// Ex: .av-grid--md / .av-grid--lg
+@include utility-responsive("grid", (
+  display: grid
+));
+
+// === Grid columns ===
+// Ex: .av-grid-cols-3--md / .av-grid-cols-6--xl
+@for $n from 1 through 6 {
+  @include utility-responsive("grid-cols-#{$n}", (
+    grid-template-columns: repeat(#{$n}, 1fr)
+  ));
+}
 
 // === Flex wrap ===
 // Ex: .av-wrap--md / .av-nowrap--lg

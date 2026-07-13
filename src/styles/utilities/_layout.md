@@ -14,6 +14,8 @@ This file contains layout-related utility classes for managing the overall struc
 | `.av-container-fluid` | Full-width container, no horizontal padding | None |
 | `.av-row` | `display: flex; flex-direction: row` | `--sm`, `--md`, `--lg`, `--xl` |
 | `.av-col` | `display: flex; flex-direction: column` | `--sm`, `--md`, `--lg`, `--xl` |
+| `.av-grid` | `display: grid` | `--sm`, `--md`, `--lg`, `--xl` |
+| `.av-grid-cols-{n}` | Sets `grid-template-columns: repeat(n, 1fr)` | `--sm`, `--md`, `--lg`, `--xl` |
 | `.av-wrap` | `flex-wrap: wrap` | `--sm`, `--md`, `--lg`, `--xl` |
 | `.av-nowrap` | `flex-wrap: nowrap` | `--sm`, `--md`, `--lg`, `--xl` |
 | `.av-sr-only` | Hides element visually but keeps it accessible to screen readers | `--sm`, `--md`, `--lg`, `--xl` |
