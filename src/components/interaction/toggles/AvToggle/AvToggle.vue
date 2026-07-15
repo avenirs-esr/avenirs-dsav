@@ -53,7 +53,7 @@ export interface AvToggleProps {
    * Width of the active/inactive texts
    * @default '1.8rem'
    */
-  activeInactiveTextWidth?: string
+  statusTextWidth?: string
 }
 
 defineOptions({
@@ -66,7 +66,7 @@ const {
   inactiveText = 'Off',
   name,
   disabled = false,
-  activeInactiveTextWidth = '1.8rem',
+  statusTextWidth = '1.8rem',
 } = defineProps<AvToggleProps>()
 
 const modelValue = defineModel<boolean>({
@@ -195,7 +195,7 @@ const labelDataTestId = computed(() => {
 }
 
 .toggle {
-  width: calc(2.125rem + v-bind(activeInactiveTextWidth));
+  width: calc(2.125rem + v-bind(statusTextWidth));
 }
 
 .toggle-text {
