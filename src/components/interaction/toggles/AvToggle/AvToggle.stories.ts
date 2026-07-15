@@ -28,7 +28,7 @@ const meta: Meta<AvToggleProps> = {
     activeText: { control: 'text' },
     inactiveText: { control: 'text' },
     name: { control: 'text' },
-    activeInactiveTextWidth: { control: 'text' }
+    statusTextWidth: { control: 'text' }
   },
   args: {
     modelValue: false,
@@ -37,7 +37,7 @@ const meta: Meta<AvToggleProps> = {
     activeText: 'On',
     inactiveText: 'Off',
     name: undefined,
-    activeInactiveTextWidth: '1.8rem'
+    statusTextWidth: '1.8rem'
   },
 }
 
