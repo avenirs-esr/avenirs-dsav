@@ -45,8 +45,8 @@ const model = defineModel<string>()
 const editor = useRichTextEditor({
   content: model.value,
   onUpdate: (editorInstance) => {
-    model.value = editorInstance.getHTML()
     charCount.value = editorInstance.storage.characterCount.characters()
+    model.value = editorInstance.getHTML()
   },
   maxlength,
   allowExceedMaxlength
