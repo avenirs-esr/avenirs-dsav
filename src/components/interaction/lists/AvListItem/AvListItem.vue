@@ -232,6 +232,7 @@ function handleKeyDown (event: KeyboardEvent) {
         class="av-list-item av-row av-align-center av-gap-xs av-w-full"
         :class="[clickableClass, disabledClass, selectedClass]"
         :disabled="disabled && isButton ? true : undefined"
+        :type="isButton ? 'button' : undefined"
         :href="isLink ? href : undefined"
         :target="isLink ? target : undefined"
         :rel="isLink ? rel : undefined"
