@@ -4,7 +4,7 @@ import type { Slot } from 'vue'
 /**
  * AvFieldsetElement component props.
  */
-export interface AvFieldsetProps {
+export interface AvFieldsetElementProps {
   /**
    * Simulates a disabled state to make the fieldset element as disabled
    * @default false
@@ -14,7 +14,7 @@ export interface AvFieldsetProps {
 
 const {
   disabled = false
-} = defineProps<AvFieldsetProps>()
+} = defineProps<AvFieldsetElementProps>()
 
 /**
  * Slots available in the AvFieldsetElement component.
