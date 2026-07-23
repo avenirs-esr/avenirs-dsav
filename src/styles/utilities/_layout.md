@@ -28,7 +28,7 @@ This file contains layout-related utility classes for managing the overall struc
 | `.av-align-{alignment}` | Sets `align-items`: `start` (`flex-start`), `center`, `end` (`flex-end`), `stretch`, `baseline` | `--sm`, `--md`, `--lg`, `--xl` |
 | `.av-justify-{justification}` | Sets `justify-content`: `start` (`flex-start`), `center`, `end` (`flex-end`), `between` (`space-between`), `around` (`space-around`), `evenly` (`space-evenly`) | `--sm`, `--md`, `--lg`, `--xl` |
 | `.av-floating-{position}` | `position: fixed` with specified position (`left` or `right`) and spacing | None |
-| `.av-sticky` | `position: sticky` with `z-index: 1000` | `--sm`, `--md`, `--lg`, `--xl` |
+| `.av-sticky` | `position: sticky` | `--sm`, `--md`, `--lg`, `--xl` |
 
 📝 Notes:
 - `{spacing}` corresponds to the spacing scale defined in the core: `none`, `xxxs`, `xxs`, `xs`, `sm`, `md`, `lg`, `xl`, `2xl`, `4xl`, `5xl`.
@@ -347,13 +347,11 @@ This file contains layout-related utility classes for managing the overall struc
 ```css
 .av-sticky {
   position: sticky !important;
-  z-index: 1000 !important;
 }
 
 @media (min-width: 36rem) {
   .av-sticky--sm {
     position: sticky !important;
-    z-index: 1000 !important;
   }
 }
 ```

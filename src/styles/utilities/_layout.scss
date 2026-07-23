@@ -164,8 +164,7 @@ $float-positions: (
 // === Sticky layout class ===
 // Ex: .av-sticky
 @include utility-base("sticky", (
-  position: sticky !important,
-  z-index: 1000 !important
+  position: sticky !important
 ));
 
 // === RESPONSIVE CLASSES ===
@@ -282,6 +281,5 @@ $float-positions: (
 // === Sticky layout class ===
 // Ex: .av-sticky--md
 @include utility-responsive("sticky", (
-  position: sticky !important,
-  z-index: 1000 !important
+  position: sticky !important
 ));
