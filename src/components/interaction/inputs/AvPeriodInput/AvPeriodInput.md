@@ -51,7 +51,7 @@ This component uses a **discriminated union** based on `showEachInputLabel`:
 
 | Name         | Type     | Default | Mandatory | Description                              |
 |--------------|----------|---------|-----------|------------------------------------------|
-| `label`      | `string` |         | ✅         | Label displayed above the two inputs.    |
+| `label`      | `string` |         |           | Label displayed above the two inputs.    |
 | `startLabel` | `string` |         |           | Accessible label for the start input.    |
 | `endLabel`   | `string` |         |           | Accessible label for the end input.      |
 

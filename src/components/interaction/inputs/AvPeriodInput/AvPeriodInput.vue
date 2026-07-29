@@ -134,7 +134,7 @@ export type AvPeriodInputProps = AvPeriodInputBaseProps & (
     /**
      * Label displayed above the two inputs. Required when `showEachInputLabel` is `false` or not set.
      */
-    label: string
+    label?: string
     startLabel?: string
     endLabel?: string
   }
