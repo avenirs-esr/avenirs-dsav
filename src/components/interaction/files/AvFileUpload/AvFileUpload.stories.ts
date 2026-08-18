@@ -11,7 +11,7 @@ import AvFileUpload, { type AvFileUploadProps } from '@/components/interaction/f
  * <p>
  *   <span class="b2-regular">
  *     The <code>AvFileUpload</code> component allows you to upload files by clicking on the file upload area
- *     or by dragging and dropping a file in the area.
+ *     or by dragging and dropping a file in the area. Supports both single and multiple file uploads with two display variants.
  *   </span>
  * </p>
  */
@@ -32,6 +32,8 @@ const meta: Meta<AvFileUploadProps> = {
     title: { control: 'text' },
     description: { control: 'text' },
     deleteButtonLabel: { control: 'text' },
+    compact: { control: 'boolean' },
+    enableMultiple: { control: 'boolean' },
   },
   args: {
     ariaLabel: '',
@@ -43,9 +45,11 @@ const meta: Meta<AvFileUploadProps> = {
     modelValue: null,
     maxWidth: 'none',
     fileName: undefined,
-    title: 'Add a new',
+    title: 'Upload file',
     description: 'or drag and drop here',
     deleteButtonLabel: 'Delete',
+    compact: false,
+    enableMultiple: false,
   },
 }
 
@@ -58,16 +62,16 @@ const Template: StoryFn<AvFileUploadProps> = args => ({
   },
   template: `
     <AvFileUpload v-bind="args">
-      <span class="b2-regular">Add a new</span>
-      <span class="b2-bold">trace of type pdf file</span>
+      <span class="b2-regular">Upload file</span>
+      <span class="b2-bold">PDF format</span>
       <span class="caption-regular">or drag and drop here</span>
 
       <template #hint>
-        Text: <span class="caption-bold">5Mo • </span>
-        Images: <span class="caption-bold">5Mo • </span>
-        Audio: <span class="caption-bold">5Mo • </span>
-        Vidéo: <span class="caption-bold">50Mo • </span>
-        Application: <span class="caption-bold">10Mo</span>
+        Text: <span class="caption-bold">5MB • </span>
+        Images: <span class="caption-bold">5MB • </span>
+        Audio: <span class="caption-bold">5MB • </span>
+        Video: <span class="caption-bold">50MB • </span>
+        Application: <span class="caption-bold">10MB</span>
       </template>
     </AvFileUpload>
   `,
@@ -83,7 +87,7 @@ Error.args = {
 
 export const Success = Template.bind({})
 Success.args = {
-  validMessage: 'This is a success message'
+  validMessage: 'File uploaded successfully'
 }
 
 const LeftSlotTemplate: StoryFn<AvFileUploadProps & { leftImageSrc: string }> = args => ({
@@ -101,16 +105,16 @@ const LeftSlotTemplate: StoryFn<AvFileUploadProps & { leftImageSrc: string }> = 
         >
       </template>
 
-      <span class="b2-regular">Add a new</span>
-      <span class="b2-bold">trace of type pdf file</span>
+      <span class="b2-regular">Upload file</span>
+      <span class="b2-bold">PDF format</span>
       <span class="caption-regular">or drag and drop here</span>
 
       <template #hint>
-        Text: <span class="caption-bold">5Mo • </span>
-        Images: <span class="caption-bold">5Mo • </span>
-        Audio: <span class="caption-bold">5Mo • </span>
-        Vidéo: <span class="caption-bold">50Mo • </span>
-        Application: <span class="caption-bold">10Mo</span>
+        Text: <span class="caption-bold">5MB • </span>
+        Images: <span class="caption-bold">5MB • </span>
+        Audio: <span class="caption-bold">5MB • </span>
+        Video: <span class="caption-bold">50MB • </span>
+        Application: <span class="caption-bold">10MB</span>
       </template>
     </AvFileUpload>
   `,
@@ -119,4 +123,28 @@ const LeftSlotTemplate: StoryFn<AvFileUploadProps & { leftImageSrc: string }> = 
 export const LeftSlot = LeftSlotTemplate.bind({})
 LeftSlot.args = {
   leftImageSrc: profile_banner_placeholder
+}
+
+export const Compact = Template.bind({})
+Compact.args = {
+  compact: true,
+  title: 'Attach documents',
+  description: '',
+}
+
+export const CompactWithFiles = Template.bind({})
+CompactWithFiles.args = {
+  compact: true,
+  title: 'Attach documents',
+  description: '',
+  fileName: 'Document.pdf',
+}
+
+export const MultipleFiles = Template.bind({})
+MultipleFiles.args = {
+  compact: true,
+  enableMultiple: true,
+  title: 'Attach documents',
+  description: '',
+  fileName: 'Document1.pdf',
 }
