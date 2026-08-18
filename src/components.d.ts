@@ -27,6 +27,8 @@ declare module 'vue' {
     AvFieldset: typeof import('./components/base/AvFieldset/AvFieldset.vue')['default']
     AvFieldsetElement: typeof import('./components/base/AvFieldsetElement/AvFieldsetElement.vue')['default']
     AvFileUpload: typeof import('./components/interaction/files/AvFileUpload/AvFileUpload.vue')['default']
+    AvFileUploadCompact: typeof import('./components/interaction/files/AvFileUpload/AvFileUploadCompact.vue')['default']
+    AvFileUploadDefault: typeof import('./components/interaction/files/AvFileUpload/AvFileUploadDefault.vue')['default']
     AvFloatingPanel: typeof import('./components/overlay/panels/AvFloatingPanel/AvFloatingPanel.vue')['default']
     AvHeader: typeof import('./components/header/AvHeader/AvHeader.vue')['default']
     AvIcon: typeof import('./components/base/AvIcon/AvIcon.vue')['default']

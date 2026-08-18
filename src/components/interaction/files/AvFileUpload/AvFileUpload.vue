@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { nextTick, type Slot } from 'vue'
-import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
-import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
-import { MDI_ICONS } from '@/tokens'
+import AvFileUploadCompact from '@/components/interaction/files/AvFileUpload/AvFileUploadCompact.vue'
+import { type AvFileUploadContext, AvFileUploadContextKey } from '@/components/interaction/files/AvFileUpload/AvFileUploadContext'
+import AvFileUploadDefault from '@/components/interaction/files/AvFileUpload/AvFileUploadDefault.vue'
 
 /**
  * AvFileUpload component props.
@@ -116,22 +116,20 @@ defineOptions({
   inheritAttrs: false,
 })
 
-const {
-  id,
-  ariaLabel = '',
-  accept = undefined,
-  maxFileSizeMb = undefined,
-  validMessage = '',
-  error = '',
-  maxWidth = 'none',
-  disabled = false,
-  deleteButtonLabel = 'Remove',
-  title,
-  description,
-  fileName,
-  compact = false,
-  enableMultiple = false,
-} = defineProps<AvFileUploadProps>()
+const props = withDefaults(defineProps<AvFileUploadProps>(), {
+  id: undefined,
+  ariaLabel: '',
+  accept: undefined,
+  maxFileSizeMb: undefined,
+  validMessage: '',
+  error: '',
+  maxWidth: 'none',
+  disabled: false,
+  deleteButtonLabel: 'Remove',
+  fileName: undefined,
+  compact: false,
+  enableMultiple: false,
+})
 
 const emit = defineEmits<{
   /**
@@ -193,13 +191,14 @@ defineSlots<{
 
 const modelValue = defineModel<File[] | null>()
 
-const realId = id ?? `file-upload-${crypto.randomUUID()}`
+const { id, accept, maxFileSizeMb, ariaLabel, disabled, validMessage, error } = toRefs(props)
+const realId = computed(() => id.value ?? `file-upload-${crypto.randomUUID()}`)
 
 const acceptTypes = computed(() => {
-  if (Array.isArray(accept)) {
-    return accept.join(',')
+  if (Array.isArray(accept.value)) {
+    return accept.value.join(',')
   }
-  return accept
+  return accept.value
 })
 
 const isDragging = ref(false)
@@ -224,18 +223,18 @@ function isFileAccepted (file: File): boolean {
 }
 
 function isFileSizeAccepted (file: File): boolean {
-  if (maxFileSizeMb === undefined || maxFileSizeMb <= 0) {
+  if (maxFileSizeMb.value === undefined || maxFileSizeMb.value <= 0) {
     return true
   }
 
-  return file.size <= maxFileSizeMb * 1024 * 1024
+  return file.size <= maxFileSizeMb.value * 1024 * 1024
 }
 
 async function onDrop (event: DragEvent) {
   event.preventDefault()
   isDragging.value = false
 
-  if (disabled || !event.dataTransfer?.files?.length) {
+  if (disabled.value || !event.dataTransfer?.files?.length) {
     return
   }
 
@@ -244,7 +243,7 @@ async function onDrop (event: DragEvent) {
   await nextTick()
 
   if (acceptedFiles.length) {
-    if (enableMultiple) {
+    if (props.enableMultiple) {
       modelValue.value = [...(modelValue.value ?? []), ...acceptedFiles]
     }
     else {
@@ -262,7 +261,7 @@ async function onDrop (event: DragEvent) {
 
 function onDragOver (event: DragEvent) {
   event.preventDefault()
-  if (!disabled) {
+  if (!disabled.value) {
     isDragging.value = true
   }
 }
@@ -289,7 +288,7 @@ function onChange ($event: InputEvent) {
     return
   }
 
-  if (enableMultiple) {
+  if (props.enableMultiple) {
     modelValue.value = [...(modelValue.value ?? []), ...Array.from(fileList)]
   }
   else {
@@ -298,30 +297,22 @@ function onChange ($event: InputEvent) {
   emit('change', fileList)
 }
 
-const isPreview = computed(() => !!fileName || (modelValue.value && modelValue.value.length > 0))
-
 const uploadLabelAttrs = computed(() => {
   return {
-    'for':
-    realId,
-    'class':
-    [
+    'for': realId.value,
+    'class': [
       'av-upload-group',
       {
-        'av-upload-group--error': error,
-        'av-upload-group--valid': validMessage,
-        'av-upload-group--disabled': disabled,
+        'av-upload-group--error': error.value,
+        'av-upload-group--valid': validMessage.value,
+        'av-upload-group--disabled': disabled.value,
         'drag-over': isDragging.value,
       },
     ],
-    'aria-label':
-    ariaLabel,
-    'onDragover':
-    onDragOver,
-    'onDragleave':
-    onDragLeave,
-    'onDrop':
-    onDrop,
+    'aria-label': ariaLabel.value,
+    'onDragover': onDragOver,
+    'onDragleave': onDragLeave,
+    'onDrop': onDrop,
   }
 })
 
@@ -352,150 +343,38 @@ function onClear (file?: File | number) {
   emit('update:error', null)
   emit('change', [] as unknown as FileList)
 }
+
+const context: AvFileUploadContext = {
+  props,
+  modelValue,
+  realId: realId.value,
+  acceptTypes,
+  uploadLabelAttrs,
+  onChange,
+  onClear,
+}
+
+provide(AvFileUploadContextKey, context)
 </script>
 
 <template>
-  <div
-    v-if="compact"
-    class="av-compact-upload"
-  >
-    <div
-      v-if="(modelValue && modelValue.length > 0) || fileName"
-      class="av-compact-files-list av-col av-gap-xxs av-mb-xs"
-    >
-      <div
-        v-for="(name, idx) in modelValue && modelValue.length > 0 ? modelValue.map((f: File) => f.name) : [fileName]"
-        :key="`${name}-${idx}`"
-        class="av-compact-file-pill av-row av-align-center av-gap-xs av-p-xs av-radius-md av-border-width-sm av-border-style-solid av-border-stroke av-background-card"
-      >
-        <AvIcon
-          :size="1.5"
-          :name="MDI_ICONS.ATTACH_FILE"
-          color="var(--icon)"
-        />
-        <span class="b2-regular av-ellipsis av-compact-file-name">{{ name }}</span>
-        <AvButton
-          v-if="!disabled"
-          :label="`Delete ${name}`"
-          :icon="MDI_ICONS.TRASH_CAN_OUTLINE"
-          icon-only
-          small
-          @click="() => onClear(modelValue && modelValue.length > 0 ? modelValue[idx] : idx)"
-        />
-      </div>
-    </div>
-
-    <label
-      v-bind="uploadLabelAttrs"
-      class="av-compact-add-pill av-row av-align-center av-gap-xs av-p-xs av-radius-md av-border-width-sm av-border-style-dashed av-border-stroke"
-    >
-      <AvIcon
-        :size="1.5"
-        :name="MDI_ICONS.ATTACHMENT_PLUS"
-        color="var(--dark-background-primary1)"
-      />
-      <span class="b2-regular">{{ title }}</span>
-      <input
-        :id="realId"
-        class="av-upload"
-        type="file"
-        :aria-describedby="error || validMessage ? `${realId}-desc` : undefined"
-        v-bind="$attrs"
-        :disabled="disabled"
-        :aria-disabled="disabled"
-        :accept="acceptTypes"
-        :multiple="enableMultiple"
-        @change="onChange($event as InputEvent)"
-      >
-    </label>
-
-    <AvMessage
-      :type="error ? 'error' : 'success'"
-      :message="error ? error : validMessage"
-    />
-    <span class="caption-light">
+  <AvFileUploadCompact v-if="compact">
+    <template #hint>
       <slot name="hint" />
-    </span>
-  </div>
-
-  <div
-    v-else
-    class="av-default-upload"
-  >
-    <component
-      :is="isPreview ? 'div' : 'label'"
-      v-bind="isPreview ? {} : uploadLabelAttrs"
-      :class="isPreview ? 'file-preview-container av-radius-lg av-p-xs av-border-width-sm av-border-style-solid av-border-stroke' : ''"
-    >
-      <div :class="isPreview ? '' : 'file-upload-container av-radius-lg av-p-xs av-border-width-sm av-border-style-dashed av-border-stroke'">
-        <div class="av-row av-align-center av-gap-xs">
-          <div class="left-content-container av-row av-align-center av-justify-center av-radius-md">
-            <slot name="left">
-              <AvIcon
-                :size="2.5"
-                :name="MDI_ICONS.ATTACHMENT_PLUS"
-                color="var(--icon)"
-              />
-            </slot>
-          </div>
-          <div class="content-container av-col">
-            <div v-if="isPreview">
-              <span class="b2-bold">{{ fileName || modelValue?.[0]?.name }}</span>
-            </div>
-            <div
-              v-else
-              class="av-col av-gap-xxs"
-            >
-              <span class="b2-regular">{{ title }}</span>
-              <span class="caption-light">{{ description }}</span>
-            </div>
-
-            <AvMessage
-              :type="error ? 'error' : 'success'"
-              :message="error ? error : validMessage"
-            />
-          </div>
-
-          <div
-            v-if="!disabled"
-            class="av-px-xs"
-          >
-            <AvButton
-              v-if="isPreview"
-              :label="deleteButtonLabel"
-              theme="SECONDARY"
-              @click="() => onClear()"
-            />
-            <AvIcon
-              v-else
-              :size="1.5"
-              :name="MDI_ICONS.TRAY_UPLOAD"
-              color="var(--dark-background-primary1)"
-            />
-          </div>
-          <input
-            v-if="!isPreview"
-            :id="realId"
-            class="av-upload"
-            type="file"
-            :aria-describedby="error || validMessage ? `${realId}-desc` : undefined"
-            v-bind="$attrs"
-            :disabled="disabled"
-            :aria-disabled="disabled"
-            :accept="acceptTypes"
-            @change="onChange($event as InputEvent)"
-          >
-        </div>
-      </div>
-    </component>
-    <span class="caption-light">
+    </template>
+  </AvFileUploadCompact>
+  <AvFileUploadDefault v-else>
+    <template #left>
+      <slot name="left" />
+    </template>
+    <template #hint>
       <slot name="hint" />
-    </span>
-  </div>
+    </template>
+  </AvFileUploadDefault>
 </template>
 
 <style lang="scss" scoped>
-.av-upload {
+:deep(.av-upload) {
   position: absolute;
   width: 0;
   height: 0;
@@ -506,75 +385,11 @@ function onClear (file?: File | number) {
   border: 0;
 }
 
-.av-upload-group {
+:deep(.av-upload-group) {
   cursor: pointer;
-  max-width: v-bind('maxWidth');
-
-  &--disabled {
-    cursor: not-allowed;
-  }
 }
 
-.file-preview-container {
-  &:focus-within {
-    outline: 2px solid #005fcc;
-    outline-offset: 2px;
-  }
-}
-
-.file-upload-container {
-  &:focus-within {
-    outline: 2px solid #005fcc;
-    outline-offset: 2px;
-  }
-}
-
-.drag-over .file-upload-container {
-  background-color: var(--light-background-primary1);
-  border-color: var(--dark-background-primary1);
-}
-
-.left-content-container {
-  height: var(--dimension-4xl);
-  width: var(--dimension-4xl);
-  overflow: hidden;
-}
-
-.content-container {
-  flex: 1 1 auto;
-  min-width: 0;
-}
-
-.left-content-container, .right-icon-container {
-  flex: 0 0 auto;
-}
-
-.av-compact-upload {
-  max-width: v-bind('maxWidth');
-}
-
-.av-compact-file-pill {
-  position: relative;
-}
-
-.av-compact-file-name {
-  flex: 1 1 auto;
-  min-width: 0;
-}
-
-.av-compact-add-pill {
-  background-color: var(--surface-background);
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-
-  &.av-upload-group--disabled {
-    cursor: not-allowed;
-    opacity: 0.6;
-  }
-
-  &.drag-over {
-    background-color: var(--light-background-primary1);
-    border-color: var(--dark-background-primary1);
-  }
+:deep(.av-upload-group--disabled) {
+  cursor: not-allowed;
 }
 </style>
