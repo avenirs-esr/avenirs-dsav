@@ -9,7 +9,7 @@ import { MDI_ICONS } from '@/tokens'
  */
 export interface AvFileUploadProps {
   /**
-   * Unique identifier for the file download component.
+   * Unique identifier for the file upload component.
    * If not specified, a random ID is generated.
    *
    * @default `file-upload-${crypto.randomUUID()}`
@@ -17,7 +17,7 @@ export interface AvFileUploadProps {
   id?: string
 
   /**
-   * ARIA label for file download button.
+   * ARIA label for file upload button.
    *
    * @default ''
    */
@@ -39,14 +39,14 @@ export interface AvFileUploadProps {
   maxFileSizeMb?: number
 
   /**
-   * Error message to be displayed in case of download problem.
+   * Error message to be displayed in case of upload problem.
    *
    * @default ''
    */
   error?: string
 
   /**
-   * Message indicating that the downloaded file is valid.
+   * Message indicating that the uploaded file is valid.
    *
    * @default ''
    */
@@ -60,11 +60,11 @@ export interface AvFileUploadProps {
   disabled?: boolean
 
   /**
-   * Value linked to file upload input template.
+   * Array of selected files.
    *
    * @default null
    */
-  modelValue?: File | null
+  modelValue?: File[] | null
 
   /**
    * Max width of the component.
@@ -84,17 +84,32 @@ export interface AvFileUploadProps {
   description: string
 
   /**
-   * delete button label
+   * Delete button label.
    *
+   * @default 'Remove'
    */
   deleteButtonLabel?: string
 
   /**
-   * Name of actual file.
+   * Name of the file to display as default (e.g., for server-persisted uploads).
    *
    * @default undefined
    */
   fileName?: string
+
+  /**
+   * Display in compact mode with file pills.
+   *
+   * @default false
+   */
+  compact?: boolean
+
+  /**
+   * Enable multiple file uploads.
+   *
+   * @default false
+   */
+  enableMultiple?: boolean
 }
 
 defineOptions({
@@ -108,44 +123,46 @@ const {
   maxFileSizeMb = undefined,
   validMessage = '',
   error = '',
-  modelValue = null,
   maxWidth = 'none',
   disabled = false,
   deleteButtonLabel = 'Remove',
   title,
   description,
   fileName,
+  compact = false,
+  enableMultiple = false,
 } = defineProps<AvFileUploadProps>()
 
 const emit = defineEmits<{
   /**
-   * Event emitted when the model value linked to the file is updated.
-   * @param payload The updated model value (File or null).
+   * Event emitted when the model value is updated.
+   * @param payload The updated files array (File[] or null).
    */
-  (e: 'update:modelValue', payload: File | null): void
+  (e: 'update:modelValue', payload: File[] | null): void
 
   /**
    * Event emitted when the validMessage is updated.
-   * @param payload The updated model value (string or null).
+   * @param payload The updated message (string or null).
    */
   (e: 'update:validMessage', payload: string | null): void
 
   /**
    * Event emitted when the error is updated.
-   * @param payload The updated model value (string or null).
+   * @param payload The updated error message (string or null).
    */
   (e: 'update:error', payload: string | null): void
 
   /**
-   * Event emitted when the selected file is changed.
+   * Event emitted when the selected file(s) change.
    * @param payload The new list of selected files (FileList or File[]).
    */
   (e: 'change', payload: FileList | File[]): void
 
   /**
-   * Event emitted when the delete button is clicked.
+   * Event emitted when a file is deleted.
+   * @param payload Optional: the File object or index that was deleted.
    */
-  (e: 'deleteFile'): void
+  (e: 'deleteFile', payload?: File | number): void
 
   /**
    * Event emitted when a file of wrong type is dropped or selected.
@@ -157,7 +174,6 @@ const emit = defineEmits<{
    */
   (e: 'fileSizeError'): void
 }>()
-
 defineSlots<{
   /**
    * Slot for the hint description.
@@ -174,6 +190,8 @@ defineSlots<{
    */
   default?: Slot
 }>()
+
+const modelValue = defineModel<File[] | null>()
 
 const realId = id ?? `file-upload-${crypto.randomUUID()}`
 
@@ -226,8 +244,13 @@ async function onDrop (event: DragEvent) {
   await nextTick()
 
   if (acceptedFiles.length) {
+    if (enableMultiple) {
+      modelValue.value = [...(modelValue.value ?? []), ...acceptedFiles]
+    }
+    else {
+      modelValue.value = [acceptedFiles[0]!]
+    }
     emit('change', acceptedFiles)
-    emit('update:modelValue', acceptedFiles[0] ?? null)
   }
   else if (acceptedTypeFiles.length) {
     emit('fileSizeError')
@@ -249,8 +272,8 @@ function onDragLeave () {
 }
 
 function onChange ($event: InputEvent) {
-  const files = ($event.target as HTMLInputElement).files
-  const selectedFile = files?.[0]
+  const fileList = ($event.target as HTMLInputElement).files
+  const selectedFile = fileList?.[0]
 
   if (selectedFile && !isFileAccepted(selectedFile)) {
     emit('acceptTypeError')
@@ -262,11 +285,20 @@ function onChange ($event: InputEvent) {
     return
   }
 
-  emit('change', files as FileList)
-  emit('update:modelValue', files?.[0] ?? null)
+  if (!fileList || !fileList.length) {
+    return
+  }
+
+  if (enableMultiple) {
+    modelValue.value = [...(modelValue.value ?? []), ...Array.from(fileList)]
+  }
+  else {
+    modelValue.value = [fileList[0]!]
+  }
+  emit('change', fileList)
 }
 
-const isPreview = computed(() => fileName || modelValue)
+const isPreview = computed(() => !!fileName || (modelValue.value && modelValue.value.length > 0))
 
 const uploadLabelAttrs = computed(() => {
   return {
@@ -293,97 +325,176 @@ const uploadLabelAttrs = computed(() => {
   }
 })
 
-function onClear (value: File | null) {
-  if (value) {
-    emit('update:modelValue', null)
-    emit('update:validMessage', null)
-    emit('update:error', null)
-    emit('change', [] as unknown as FileList)
+function clearFile (file: File) {
+  const newFiles = (modelValue.value ?? []).filter(f => f !== file)
+  modelValue.value = newFiles.length > 0 ? newFiles : null
+}
+
+function clearFileByIndex (index: number) {
+  const newFiles = (modelValue.value ?? []).filter((_, i) => i !== index)
+  modelValue.value = newFiles.length > 0 ? newFiles : null
+}
+
+function onClear (file?: File | number) {
+  if (file !== undefined) {
+    if (typeof file === 'number') {
+      clearFileByIndex(file)
+    }
+    else {
+      clearFile(file)
+    }
   }
   else {
-    emit('deleteFile')
+    modelValue.value = null
   }
+  emit('deleteFile', file)
+  emit('update:validMessage', null)
+  emit('update:error', null)
+  emit('change', [] as unknown as FileList)
 }
 </script>
 
 <template>
-  <component
-    :is="isPreview ? 'div' : 'label'"
-    v-bind="isPreview ? {} : uploadLabelAttrs"
-    :class="isPreview ? 'file-preview-container av-radius-lg av-p-xs' : ''"
+  <div
+    v-if="compact"
+    class="av-compact-upload"
   >
-    <div :class="isPreview ? '' : 'file-upload-container av-radius-lg av-p-xs'">
-      <div class="av-row av-align-center av-gap-xs">
-        <div class="left-content-container av-row av-align-center av-justify-center av-radius-md">
-          <slot name="left">
-            <AvIcon
-              :size="2.5"
-              :name="MDI_ICONS.ATTACHMENT_PLUS"
-              color="var(--icon)"
-            />
-          </slot>
-        </div>
-        <div class="content-container av-col">
-          <div v-if="isPreview">
-            <span class="b2-bold">{{ fileName || modelValue!.name }}</span>
-          </div>
-          <div
-            v-else
-            class="av-col av-gap-xxs"
-          >
-            <span class="b2-regular">{{ title }}</span>
-            <span class="caption-light">{{ description }}</span>
-          </div>
-
-          <AvMessage
-            :type="error ? 'error' : 'success'"
-            :message="error ? error : validMessage"
-          />
-        </div>
-
-        <div
+    <div
+      v-if="(modelValue && modelValue.length > 0) || fileName"
+      class="av-compact-files-list av-col av-gap-xxs av-mb-xs"
+    >
+      <div
+        v-for="(name, idx) in modelValue && modelValue.length > 0 ? modelValue.map((f: File) => f.name) : [fileName]"
+        :key="`${name}-${idx}`"
+        class="av-compact-file-pill av-row av-align-center av-gap-xs av-p-xs av-radius-md av-border-width-sm av-border-style-solid av-border-stroke av-background-card"
+      >
+        <AvIcon
+          :size="1.5"
+          :name="MDI_ICONS.ATTACH_FILE"
+          color="var(--icon)"
+        />
+        <span class="b2-regular av-ellipsis av-compact-file-name">{{ name }}</span>
+        <AvButton
           v-if="!disabled"
-          class="av-px-xs"
-        >
-          <AvButton
-            v-if="isPreview"
-            :label="deleteButtonLabel"
-            theme="SECONDARY"
-            @click="() => onClear(modelValue)"
-          />
-          <AvIcon
-            v-else
-            :size="1.5"
-            :name="MDI_ICONS.TRAY_UPLOAD"
-            color="var(--dark-background-primary1)"
-          />
-        </div>
-        <input
-          v-if="!isPreview"
-          :id="realId"
-          class="av-upload"
-          type="file"
-          :aria-describedby="error || validMessage ? `${realId}-desc` : undefined"
-          v-bind="$attrs"
-          :disabled="disabled"
-          :aria-disabled="disabled"
-          :accept="acceptTypes"
-          @change="onChange($event as InputEvent)"
-        >
+          :label="`Delete ${name}`"
+          :icon="MDI_ICONS.TRASH_CAN_OUTLINE"
+          icon-only
+          small
+          @click="() => onClear(modelValue && modelValue.length > 0 ? modelValue[idx] : idx)"
+        />
       </div>
     </div>
-  </component>
-  <span class="caption-light">
-    <slot name="hint" />
-  </span>
+
+    <label
+      v-bind="uploadLabelAttrs"
+      class="av-compact-add-pill av-row av-align-center av-gap-xs av-p-xs av-radius-md av-border-width-sm av-border-style-dashed av-border-stroke"
+    >
+      <AvIcon
+        :size="1.5"
+        :name="MDI_ICONS.ATTACHMENT_PLUS"
+        color="var(--dark-background-primary1)"
+      />
+      <span class="b2-regular">{{ title }}</span>
+      <input
+        :id="realId"
+        class="av-upload"
+        type="file"
+        :aria-describedby="error || validMessage ? `${realId}-desc` : undefined"
+        v-bind="$attrs"
+        :disabled="disabled"
+        :aria-disabled="disabled"
+        :accept="acceptTypes"
+        :multiple="enableMultiple"
+        @change="onChange($event as InputEvent)"
+      >
+    </label>
+
+    <AvMessage
+      :type="error ? 'error' : 'success'"
+      :message="error ? error : validMessage"
+    />
+    <span class="caption-light">
+      <slot name="hint" />
+    </span>
+  </div>
+
+  <div
+    v-else
+    class="av-default-upload"
+  >
+    <component
+      :is="isPreview ? 'div' : 'label'"
+      v-bind="isPreview ? {} : uploadLabelAttrs"
+      :class="isPreview ? 'file-preview-container av-radius-lg av-p-xs av-border-width-sm av-border-style-solid av-border-stroke' : ''"
+    >
+      <div :class="isPreview ? '' : 'file-upload-container av-radius-lg av-p-xs av-border-width-sm av-border-style-dashed av-border-stroke'">
+        <div class="av-row av-align-center av-gap-xs">
+          <div class="left-content-container av-row av-align-center av-justify-center av-radius-md">
+            <slot name="left">
+              <AvIcon
+                :size="2.5"
+                :name="MDI_ICONS.ATTACHMENT_PLUS"
+                color="var(--icon)"
+              />
+            </slot>
+          </div>
+          <div class="content-container av-col">
+            <div v-if="isPreview">
+              <span class="b2-bold">{{ fileName || modelValue?.[0]?.name }}</span>
+            </div>
+            <div
+              v-else
+              class="av-col av-gap-xxs"
+            >
+              <span class="b2-regular">{{ title }}</span>
+              <span class="caption-light">{{ description }}</span>
+            </div>
+
+            <AvMessage
+              :type="error ? 'error' : 'success'"
+              :message="error ? error : validMessage"
+            />
+          </div>
+
+          <div
+            v-if="!disabled"
+            class="av-px-xs"
+          >
+            <AvButton
+              v-if="isPreview"
+              :label="deleteButtonLabel"
+              theme="SECONDARY"
+              @click="() => onClear()"
+            />
+            <AvIcon
+              v-else
+              :size="1.5"
+              :name="MDI_ICONS.TRAY_UPLOAD"
+              color="var(--dark-background-primary1)"
+            />
+          </div>
+          <input
+            v-if="!isPreview"
+            :id="realId"
+            class="av-upload"
+            type="file"
+            :aria-describedby="error || validMessage ? `${realId}-desc` : undefined"
+            v-bind="$attrs"
+            :disabled="disabled"
+            :aria-disabled="disabled"
+            :accept="acceptTypes"
+            @change="onChange($event as InputEvent)"
+          >
+        </div>
+      </div>
+    </component>
+    <span class="caption-light">
+      <slot name="hint" />
+    </span>
+  </div>
 </template>
 
 <style lang="scss" scoped>
-.file-upload-container:focus-within {
-  outline: 2px solid #005fcc;
-  outline-offset: 2px;
-}
-
 .av-upload {
   position: absolute;
   width: 0;
@@ -405,11 +516,17 @@ function onClear (value: File | null) {
 }
 
 .file-preview-container {
-  border: 1px solid var(--divider);
+  &:focus-within {
+    outline: 2px solid #005fcc;
+    outline-offset: 2px;
+  }
 }
 
 .file-upload-container {
-  border: 1px dashed var(--divider);
+  &:focus-within {
+    outline: 2px solid #005fcc;
+    outline-offset: 2px;
+  }
 }
 
 .drag-over .file-upload-container {
@@ -430,5 +547,34 @@ function onClear (value: File | null) {
 
 .left-content-container, .right-icon-container {
   flex: 0 0 auto;
+}
+
+.av-compact-upload {
+  max-width: v-bind('maxWidth');
+}
+
+.av-compact-file-pill {
+  position: relative;
+}
+
+.av-compact-file-name {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.av-compact-add-pill {
+  background-color: var(--surface-background);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &.av-upload-group--disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  &.drag-over {
+    background-color: var(--light-background-primary1);
+    border-color: var(--dark-background-primary1);
+  }
 }
 </style>

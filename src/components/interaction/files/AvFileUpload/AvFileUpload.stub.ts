@@ -32,7 +32,7 @@ export const AvFileUploadStub = defineComponent({
       required: false
     },
     modelValue: {
-      type: File as PropType<File | null>,
+      type: Array as PropType<File[] | null>,
       required: false
     },
     maxWidth: {
@@ -55,6 +55,14 @@ export const AvFileUploadStub = defineComponent({
       type: String,
       required: false
     },
+    compact: {
+      type: Boolean,
+      required: false
+    },
+    enableMultiple: {
+      type: Boolean,
+      required: false
+    },
   },
   emits: [
     'update:modelValue',
@@ -71,6 +79,7 @@ export const AvFileUploadStub = defineComponent({
       <input
         class="file-input"
         type="file"
+        :multiple="enableMultiple"
         @change="e => $emit('change', e.target.files)"
       />
       <button

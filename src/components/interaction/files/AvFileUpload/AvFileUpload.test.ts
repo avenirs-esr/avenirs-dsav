@@ -1,6 +1,5 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect } from 'vitest'
-import { AvIconTextStub } from '@/components/base/AvIconText/AvIconText.stub'
+import { beforeEach, expect, vi } from 'vitest'
 import { AvMessageStub } from '@/components/base/AvMessage/AvMessage.stub'
 import AvFileUpload, { type AvFileUploadProps } from '@/components/interaction/files/AvFileUpload/AvFileUpload.vue'
 import { BddTest } from '@/tests/utils'
@@ -9,7 +8,6 @@ BddTest().given('a file uploader', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvFileUpload>>
 
   const stubs = {
-    AvIconText: AvIconTextStub,
     AvMessage: AvMessageStub
   }
 
@@ -19,8 +17,8 @@ BddTest().given('a file uploader', () => {
       description: 'ou glisser et déposer ici',
       deleteButtonLabel: 'delete',
       ...props,
-      global: { stubs }
     },
+    global: { stubs },
     slots: {
       default: '<span>Upload a file</span>',
       hint: '<span>Accepted files: .pdf, .jpg</span>',
@@ -51,10 +49,10 @@ BddTest().given('a file uploader', () => {
 
     BddTest().when('the component is mounted', () => {
       BddTest().then('it should render only the error message', () => {
-        const avIconText = wrapper.findComponent({ name: 'AvIconText' })
-        expect(avIconText.exists()).toBe(true)
-        expect(avIconText.props('icon')).toBe('mdi:close-octagon')
-        expect(avIconText.props('text')).toBe('Error')
+        const avMessage = wrapper.findComponent({ name: 'AvMessage' })
+        expect(avMessage.exists()).toBe(true)
+        expect(avMessage.props('type')).toBe('error')
+        expect(avMessage.props('message')).toBe('Error')
       })
     })
   })
@@ -66,10 +64,10 @@ BddTest().given('a file uploader', () => {
 
     BddTest().when('the component is mounted', () => {
       BddTest().then('it should render the valid message', () => {
-        const avIconText = wrapper.findComponent({ name: 'AvIconText' })
-        expect(avIconText.exists()).toBe(true)
-        expect(avIconText.props('icon')).toBe('mdi:success-circle-outline')
-        expect(avIconText.props('text')).toBe('Valid message')
+        const avMessage = wrapper.findComponent({ name: 'AvMessage' })
+        expect(avMessage.exists()).toBe(true)
+        expect(avMessage.props('type')).toBe('success')
+        expect(avMessage.props('message')).toBe('Valid message')
       })
     })
   })
@@ -112,7 +110,8 @@ BddTest().given('a file uploader', () => {
         await input.element.dispatchEvent(event)
 
         expect(wrapper.emitted('update:modelValue')).toBeTruthy()
-        expect((wrapper.emitted('update:modelValue')?.[0][0] as File).name).toBe('hello.png')
+        const emittedFiles = wrapper.emitted('update:modelValue')?.[0][0] as File[]
+        expect(emittedFiles[0].name).toBe('hello.png')
 
         expect(wrapper.emitted('change')).toBeTruthy()
         expect(wrapper.emitted('change')?.[0][0]).toEqual(files)
@@ -201,7 +200,8 @@ BddTest().given('a file uploader', () => {
         await label.element.dispatchEvent(dropEvent)
 
         expect(wrapper.emitted('update:modelValue')).toBeTruthy()
-        expect((wrapper.emitted('update:modelValue')?.[0][0] as File).name).toBe('dragged.pdf')
+        const emittedFiles = wrapper.emitted('update:modelValue')?.[0][0] as File[]
+        expect(emittedFiles[0].name).toBe('dragged.pdf')
 
         expect(wrapper.emitted('change')).toBeTruthy()
         expect(wrapper.emitted('change')?.[0][0]).toEqual(dataTransfer.files)
@@ -258,7 +258,8 @@ BddTest().given('a file uploader', () => {
         await label.element.dispatchEvent(dropEvent)
 
         expect(wrapper.emitted('update:modelValue')).toBeTruthy()
-        expect((wrapper.emitted('update:modelValue')?.[0][0] as File).name).toBe('dragged.jpeg')
+        const emittedFiles = wrapper.emitted('update:modelValue')?.[0][0] as File[]
+        expect(emittedFiles[0].name).toBe('dragged.jpeg')
 
         expect(wrapper.emitted('change')).toBeTruthy()
         expect(wrapper.emitted('change')?.[0][0]).toEqual(dataTransfer.files)
@@ -276,7 +277,8 @@ BddTest().given('a file uploader', () => {
         await label.element.dispatchEvent(dropEvent)
 
         expect(wrapper.emitted('update:modelValue')).toBeTruthy()
-        expect((wrapper.emitted('update:modelValue')?.[0][0] as File).name).toBe('dragged.png')
+        const emittedFiles = wrapper.emitted('update:modelValue')?.[0][0] as File[]
+        expect(emittedFiles[0].name).toBe('dragged.png')
 
         expect(wrapper.emitted('change')).toBeTruthy()
         expect(wrapper.emitted('change')?.[0][0]).toEqual(dataTransfer.files)
@@ -386,7 +388,7 @@ BddTest().given('a file uploader', () => {
 
   BddTest().and('with onClear button', () => {
     beforeEach(() => {
-      wrapper = mountComponent({ modelValue: new File(['test'], 'test.txt') })
+      wrapper = mountComponent({ modelValue: [new File(['test'], 'test.txt')] })
     })
 
     BddTest().when('clicking on onClear button', () => {
@@ -424,7 +426,7 @@ BddTest().given('a file uploader', () => {
 
       beforeEach(() => {
         file = new File(['content'], 'file.txt')
-        wrapper = mountComponent({ modelValue: file, fileName: undefined })
+        wrapper = mountComponent({ modelValue: [file], fileName: undefined })
       })
 
       BddTest().then('it should render file info template', () => {
@@ -442,7 +444,7 @@ BddTest().given('a file uploader', () => {
 
       beforeEach(() => {
         file = new File(['content'], 'file.txt')
-        wrapper = mountComponent({ modelValue: file, disabled: true })
+        wrapper = mountComponent({ modelValue: [file], disabled: true })
       })
 
       BddTest().then('it should render file info template', () => {
@@ -462,6 +464,135 @@ BddTest().given('a file uploader', () => {
 
       BddTest().then('it should render upload input template', () => {
         expect(wrapper.find('input[type="file"]').exists()).toBe(true)
+      })
+    })
+  })
+
+  BddTest().and('with compact variant', () => {
+    beforeEach(() => {
+      wrapper = mountComponent({ compact: true, title: 'Joindre un/des document(s)', description: '' })
+    })
+
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should render compact layout', () => {
+        expect(wrapper.find('.av-compact-upload').exists()).toBe(true)
+        expect(wrapper.find('.av-compact-add-pill').exists()).toBe(true)
+      })
+    })
+
+    BddTest().when('files are provided', () => {
+      beforeEach(() => {
+        const file1 = new File(['content1'], 'document1.pdf')
+        const file2 = new File(['content2'], 'document2.pdf')
+        wrapper = mount<typeof AvFileUpload>(AvFileUpload, {
+          props: {
+            title: 'Ajouter un document',
+            description: 'ou glisser et déposer ici',
+            deleteButtonLabel: 'delete',
+            compact: true,
+            enableMultiple: true,
+            modelValue: [file1, file2],
+            fileName: undefined,
+          },
+          global: { stubs },
+          slots: {
+            default: '<span>Upload a file</span>',
+            hint: '<span>Accepted files: .pdf, .jpg</span>',
+          },
+        })
+      })
+
+      BddTest().then('it should render file pills', () => {
+        expect(wrapper.findAll('.av-compact-file-pill')).toHaveLength(2)
+        expect(wrapper.html()).toContain('document1.pdf')
+        expect(wrapper.html()).toContain('document2.pdf')
+      })
+
+      BddTest().then('each pill should have a delete button', () => {
+        const pills = wrapper.findAll('.av-compact-file-pill')
+        const deleteButtons = pills.map(p => p.findComponent({ name: 'AvButton' }))
+        expect(deleteButtons.every(b => b.exists())).toBe(true)
+      })
+    })
+  })
+
+  BddTest().and('with enableMultiple prop', () => {
+    const file1 = new File(['content1'], 'file1.txt')
+
+    beforeEach(() => {
+      wrapper = mount<typeof AvFileUpload>(AvFileUpload, {
+        props: {
+          title: 'Ajouter un document',
+          description: 'ou glisser et déposer ici',
+          deleteButtonLabel: 'delete',
+          enableMultiple: true,
+          modelValue: [file1],
+        },
+        global: { stubs },
+        slots: {
+          default: '<span>Upload a file</span>',
+          hint: '<span>Accepted files: .pdf, .jpg</span>',
+        },
+      })
+    })
+
+    BddTest().when('a single file is in modelValue', () => {
+      BddTest().then('it should render the file in preview', () => {
+        expect(wrapper.html()).toContain('file1.txt')
+      })
+    })
+
+    BddTest().when('enableMultiple is true but no files yet', () => {
+      beforeEach(() => {
+        wrapper = mountComponent({ enableMultiple: true, modelValue: null })
+      })
+
+      BddTest().then('it should have the file input visible', () => {
+        expect(wrapper.find('input[type="file"]').exists()).toBe(true)
+      })
+
+      BddTest().then('adding a file then another should append files to the array', async () => {
+        const file1 = new File(['content1'], 'file1.txt')
+        const input = wrapper.find('input[type="file"]')
+        const files1 = {
+          0: file1,
+          length: 1,
+          item: () => file1,
+        } as unknown as FileList
+
+        const event1 = new Event('change')
+        Object.defineProperty(event1, 'target', {
+          value: { value: 'C:\\fakepath\\file1.txt', files: files1 },
+          writable: false,
+        })
+
+        await input.element.dispatchEvent(event1)
+
+        let emittedValue = wrapper.emitted('update:modelValue')?.[0][0] as File[]
+        expect(emittedValue).toHaveLength(1)
+        expect(emittedValue[0].name).toBe('file1.txt')
+
+        await wrapper.setProps({ modelValue: emittedValue })
+
+        const file2 = new File(['content2'], 'file2.txt')
+        const files2 = {
+          0: file2,
+          length: 1,
+          item: () => file2,
+        } as unknown as FileList
+
+        const event2 = new Event('change')
+        Object.defineProperty(event2, 'target', {
+          value: { value: 'C:\\fakepath\\file2.txt', files: files2 },
+          writable: false,
+        })
+
+        await input.element.dispatchEvent(event2)
+
+        emittedValue = wrapper.emitted('update:modelValue')?.[1][0] as File[]
+        expect(emittedValue).toHaveLength(2)
+        expect(emittedValue[0].name).toBe('file1.txt')
+        expect(emittedValue[1].name).toBe('file2.txt')
       })
     })
   })

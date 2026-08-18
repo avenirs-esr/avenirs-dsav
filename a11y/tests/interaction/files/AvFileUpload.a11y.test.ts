@@ -7,6 +7,9 @@ const stories = [
   'Error',
   'Success',
   'LeftSlot',
+  'Compact',
+  'CompactWithFiles',
+  'MultipleFiles',
 ]
 
 testStories(component, title, stories)
