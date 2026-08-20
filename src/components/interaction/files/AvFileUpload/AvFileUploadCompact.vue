@@ -1,43 +1,44 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
-import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
+import AvFilePill from '@/components/interaction/files/AvFilePill/AvFilePill.vue'
 import { useFileUploadContext } from '@/components/interaction/files/AvFileUpload/AvFileUploadContext'
 import { MDI_ICONS } from '@/tokens'
+import { getFileExtension } from '@/utils'
 
 defineSlots<{
   hint?: Slot
 }>()
 
 const { props, modelValue, realId, acceptTypes, uploadLabelAttrs, onChange, onClear } = useFileUploadContext()
+
+const files = computed(() => {
+  if (modelValue.value?.length) {
+    return modelValue.value.map(file => ({
+      name: file.name,
+      size: file.size,
+      type: getFileExtension(file.name),
+    }))
+  }
+  return props.fileName ? [{ name: props.fileName, size: undefined, type: undefined }] : []
+})
 </script>
 
 <template>
   <div class="av-compact-upload">
     <div
-      v-if="(modelValue && modelValue.length > 0) || props.fileName"
+      v-if="files.length > 0"
       class="av-compact-files-list av-col av-gap-xxs av-mb-xs"
     >
-      <div
-        v-for="(name, idx) in modelValue && modelValue.length > 0 ? modelValue.map((f: File) => f.name) : [props.fileName]"
-        :key="`${name}-${idx}`"
-        class="av-compact-file-pill av-row av-align-center av-gap-xs av-p-xs av-radius-md av-border-width-sm av-border-style-solid av-border-stroke av-background-card"
-      >
-        <AvIcon
-          :size="1.5"
-          :name="MDI_ICONS.ATTACH_FILE"
-          color="var(--icon)"
-        />
-        <span class="b2-regular av-ellipsis av-compact-file-name">{{ name }}</span>
-        <AvButton
-          v-if="!props.disabled"
-          :label="`Delete ${name}`"
-          :icon="MDI_ICONS.TRASH_CAN_OUTLINE"
-          icon-only
-          small
-          @click="() => onClear(modelValue && modelValue.length > 0 ? modelValue[idx] : idx)"
-        />
-      </div>
+      <AvFilePill
+        v-for="(file, idx) in files"
+        :key="`${file.name}-${idx}`"
+        :name="file.name"
+        :size="file.size"
+        :type="file.type"
+        :deletable="!props.disabled"
+        @delete="() => onClear(modelValue?.length ? modelValue[idx] : idx)"
+      />
     </div>
 
     <label
@@ -76,15 +77,6 @@ const { props, modelValue, realId, acceptTypes, uploadLabelAttrs, onChange, onCl
 <style lang="scss" scoped>
 .av-compact-upload {
   max-width: v-bind('props.maxWidth');
-}
-
-.av-compact-file-pill {
-  position: relative;
-}
-
-.av-compact-file-name {
-  flex: 1 1 auto;
-  min-width: 0;
 }
 
 .av-compact-add-pill {

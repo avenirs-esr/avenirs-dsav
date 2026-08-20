@@ -503,13 +503,13 @@ BddTest().given('a file uploader', () => {
       })
 
       BddTest().then('it should render file pills', () => {
-        expect(wrapper.findAll('.av-compact-file-pill')).toHaveLength(2)
+        expect(wrapper.findAll('.av-file-pill')).toHaveLength(2)
         expect(wrapper.html()).toContain('document1.pdf')
         expect(wrapper.html()).toContain('document2.pdf')
       })
 
       BddTest().then('each pill should have a delete button', () => {
-        const pills = wrapper.findAll('.av-compact-file-pill')
+        const pills = wrapper.findAll('.av-file-pill')
         const deleteButtons = pills.map(p => p.findComponent({ name: 'AvButton' }))
         expect(deleteButtons.every(b => b.exists())).toBe(true)
       })

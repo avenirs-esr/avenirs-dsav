@@ -12,6 +12,7 @@ import { AvButtonStub } from '@/components/interaction/buttons/AvButton/AvButton
 import { AvCancelConfirmButtonsStub } from '@/components/interaction/buttons/AvCancelConfirmButtons/AvCancelConfirmButtons.stub'
 import { AvCheckboxStub } from '@/components/interaction/checkboxes/AvCheckbox/AvCheckbox.stub'
 import { AvCheckboxesGroupStub } from '@/components/interaction/checkboxes/AvCheckboxesGroup/AvCheckboxesGroup.stub'
+import { AvFilePillStub } from '@/components/interaction/files/AvFilePill/AvFilePill.stub'
 import { AvFileUploadStub } from '@/components/interaction/files/AvFileUpload/AvFileUpload.stub'
 import { AvInputStub } from '@/components/interaction/inputs/AvInput/AvInput.stub'
 import { AvPeriodInputStub } from '@/components/interaction/inputs/AvPeriodInput/AvPeriodInput.stub'
@@ -55,6 +56,7 @@ export {
   AvDrawerStub,
   AvDropdownStub,
   AvFieldsetStub,
+  AvFilePillStub,
   AvFileUploadStub,
   AvFloatingPanelStub,
   AvHeaderStub,
