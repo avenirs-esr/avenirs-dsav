@@ -110,6 +110,18 @@ export interface AvFileUploadProps {
    * @default false
    */
   enableMultiple?: boolean
+
+  /**
+   * Prefix for the download button label in AvFilePill. If not provided, the default label will be "Download {name}".
+   * @default 'Download'
+   */
+  filePillDownloadPrefixLabel?: string
+
+  /**
+   * Prefix for the delete button label in AvFilePill. If not provided, the default label will be "Delete {name}".
+   * @default 'Delete'
+   */
+  filePillDeletePrefixLabel?: string
 }
 
 defineOptions({
@@ -129,6 +141,8 @@ const props = withDefaults(defineProps<AvFileUploadProps>(), {
   fileName: undefined,
   compact: false,
   enableMultiple: false,
+  filePillDownloadPrefixLabel: 'Download',
+  filePillDeletePrefixLabel: 'Delete',
 })
 
 const emit = defineEmits<{

@@ -23,6 +23,8 @@ The `AvFileUpload` component allows you to upload files by clicking on the file 
 | `disabled` | `boolean` | `false` | | Whether the file upload input is disabled. |
 | `compact` | `boolean` | `false` | | Display in compact mode with file pills. |
 | `enableMultiple` | `boolean` | `false` | | Enable multiple file uploads. |
+| `filePillDownloadPrefixLabel` | `string` | `'Download'` | | Prefix label for the download button in file pills. |
+| `filePillDeletePrefixLabel` | `string` | `'Delete'` | | | Prefix label for the delete button in file pills. |
 
 ## 🔊 Events
 

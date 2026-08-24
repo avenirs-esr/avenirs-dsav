@@ -37,6 +37,8 @@ const files = computed(() => {
         :size="file.size"
         :type="file.type"
         :deletable="!props.disabled"
+        :download-prefix-label="props.filePillDownloadPrefixLabel"
+        :delete-prefix-label="props.filePillDeletePrefixLabel"
         @delete="() => onClear(modelValue?.length ? modelValue[idx] : idx)"
       />
     </div>

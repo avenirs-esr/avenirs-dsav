@@ -19,6 +19,8 @@ The component is composed of a file attachment icon, a content area containing t
 | `downloadable` | `boolean` | `false` | | Displays a download action button when enabled. |
 | `deletable` | `boolean` | `true` | | Displays a delete action button when enabled. |
 | `showDetails` | `boolean` | `false` | | Displays the file extension and formatted size below the file name when available. |
+| `downloadPrefixLabel` | `string` | `'Download'` | | Prefix label for the download button. |
+| `deletePrefixLabel` | `string` | `'Delete'` | | Prefix label for the delete button. |
 
 ## 🔊 Events
 
