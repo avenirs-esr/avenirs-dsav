@@ -44,6 +44,9 @@ The list item integrates:
 | `target` | `string` | | | Target attribute when tag is 'a'. |
 | `rel` | `string` | | | Rel attribute when tag is 'a'. |
 | `role` | `string` | | | ARIA role for the list item. If not provided, defaults based on context. |
+| `type` | `'main'` \| `'secondary'` | `'main'` | | Defines the visual style of the list item. 'main' for primary items, 'secondary' for less prominent items. |
+| `enableTooltip` | `boolean` | `false` | | Whether to enable a tooltip for the title when it is truncated. |
+| `titleMaxLines` | `number` | `undefined` | | Maximum number of lines to display for the title. If the title exceeds this number of lines, it will be truncated with an ellipsis. If undefined, no truncation occurs. |
 
 ## 🔊 Events
 
