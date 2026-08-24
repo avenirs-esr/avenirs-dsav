@@ -55,6 +55,18 @@ export interface AvFilePillProps {
    * @default false
    */
   showDetails?: boolean
+
+  /**
+   * Prefix for the download button label. If not provided, the default label will be "Download {name}".
+   * @default 'Download'
+   */
+  downloadPrefixLabel?: string
+
+  /**
+   * Prefix for the delete button label. If not provided, the default label will be "Delete {name}".
+   * @default 'Delete'
+   */
+  deletePrefixLabel?: string
 }
 
 const {
@@ -65,6 +77,8 @@ const {
   downloadable = false,
   deletable = true,
   showDetails = false,
+  downloadPrefixLabel = 'Download',
+  deletePrefixLabel = 'Delete',
 } = defineProps<AvFilePillProps>()
 
 /**
@@ -111,7 +125,7 @@ const hasDetails = computed(() => showDetails && details.value.length > 0)
     </div>
     <AvButton
       v-if="downloadable"
-      :label="`Download ${name}`"
+      :label="`${downloadPrefixLabel} ${name}`"
       :icon="MDI_ICONS.DOWNLOAD_OUTLINE"
       icon-only
       small
@@ -119,7 +133,7 @@ const hasDetails = computed(() => showDetails && details.value.length > 0)
     />
     <AvButton
       v-if="deletable"
-      :label="`Delete ${name}`"
+      :label="`${deletePrefixLabel} ${name}`"
       :icon="MDI_ICONS.TRASH_CAN_OUTLINE"
       icon-only
       small
