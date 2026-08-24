@@ -128,6 +128,15 @@ export interface AvListItemProps {
    * @default false
    */
   enableTooltip?: boolean
+
+  /**
+   * Maximum number of lines to display for the title of the list item. If the title exceeds this number of lines, it will be truncated with an ellipsis.
+   * @default undefined
+   * @example 2 → "This is a long title that will be truncated..." (if it exceeds 2 lines)
+   * @example 3 → "This is a long title that will be truncated..." (if it exceeds 3 lines)
+   * @example undefined → No truncation, the title will take as many lines as needed
+   */
+  titleMaxLines?: number
 }
 
 const {
@@ -150,6 +159,7 @@ const {
   role = 'listitem',
   type = 'main',
   enableTooltip = false,
+  titleMaxLines = undefined,
 } = defineProps<AvListItemProps>()
 
 /**
@@ -256,7 +266,11 @@ function handleKeyDown (event: KeyboardEvent) {
           <span
             v-if="title"
             class="av-list-item__title av-wrap-anywhere"
-            :class="type === 'main' ? 'b2-bold' : 'b2-regular'"
+            :class="{
+              'b2-bold': type === 'main',
+              'b2-regular': type !== 'main',
+              'av-max-lines': titleMaxLines !== undefined,
+            }"
           >
             {{ title }}
           </span>
@@ -301,6 +315,8 @@ function handleKeyDown (event: KeyboardEvent) {
 }
 
 .av-list-item {
+  --max-lines: v-bind('titleMaxLines');
+
   text-align: left;
   cursor: default;
   transition: all 0.2s ease-in-out;
