@@ -27,7 +27,8 @@ const props = withDefaults(defineProps<AvAutocompleteProps<T>>(), {
   selectedItemsCountLabel: 'element(s) selected',
   clearLabel: 'Clear search',
   showClearSelectionButton: false,
-  clearSelectionLabel: 'Clear selection'
+  clearSelectionLabel: 'Clear selection',
+  itemsTitleMaxLines: undefined,
 })
 
 const emit = defineEmits<{

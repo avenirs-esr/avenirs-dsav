@@ -134,6 +134,16 @@ export interface AvAutocompleteProps<T extends AvAutocompleteOption = AvAutocomp
    * @default "No results found"
    */
   noResultsLabel?: string
+
+  /**
+   * Maximum number of lines to display for the title of each item in the dropdown.
+   * If the title exceeds this number of lines, it will be truncated with an ellipsis.
+   * @default undefined
+   * @example 2 → "This is a long title that will be truncated..." (if it exceeds 2 lines)
+   * @example 3 → "This is a long title that will be truncated..." (if it exceeds 3 lines)
+   * @example undefined → No truncation, the title will take as many lines as needed
+   */
+  itemsTitleMaxLines?: number
 }
 
 export enum DropdownState {

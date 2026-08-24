@@ -60,6 +60,8 @@ const filteredOptions = computed(() => {
   return props.maxResults ? filtered.slice(0, props.maxResults) : filtered
 })
 
+const maxLines = computed(() => props.itemsTitleMaxLines)
+
 const dropdownState = computed(() => {
   if (props.loading) {
     return DropdownState.LOADING
@@ -207,6 +209,8 @@ defineExpose({
         <AvListItem
           v-else
           :title="getDisplayLabel(option)"
+          :title-max-lines="maxLines"
+          :enable-tooltip="!!maxLines"
           :icon="isSelected(option) ? MDI_ICONS.CHECK : undefined"
           :selected="isSelected(option)"
           :disabled="option.disabled"
