@@ -22,7 +22,7 @@ import AvSkipLinks, { type AvSkipLinksProps } from '@/components/navigation/AvSk
  *   </li>
  *   <li>
  *     <span class="b2-regular">
- *       Props allow you to define the skip links with their labels and target IDs.
+ *       Props allow you to define the skip links with their labels (`label` prop) and target IDs (`id` prop).
  *     </span>
  *   </li>
  * </ul>
@@ -34,13 +34,12 @@ const meta: Meta<AvSkipLinksProps> = {
   argTypes: {
     skipLinks: {
       control: 'object',
-      description: 'Array of skip links with label and targetId.',
     },
   },
   args: {
     skipLinks: [
-      { label: 'Go to main content', targetId: 'main' },
-      { label: 'Go to footer', targetId: 'footer' },
+      { label: 'Go to main content', id: 'main' },
+      { label: 'Go to footer', id: 'footer' },
     ],
   },
 }
