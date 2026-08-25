@@ -79,6 +79,7 @@ _Last updated: 2026-01-06_
 - [AvSideMenu](navigation/AvSideMenu/AvSideMenu.md)
 - [AvSideNavigation](navigation/AvSideNavigation/AvSideNavigation.md)
 - [AvStepper](navigation/AvStepper/AvStepper.md)
+- [AvSkipLinks](navigation/AvSkipLinks/AvSkipLinks.md)
 
 ## Overlay
 

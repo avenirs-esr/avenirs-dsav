@@ -185,6 +185,7 @@ export default defineConfig({
                 { text: 'AvSideMenu', link: '/components/navigation/AvSideMenu/AvSideMenu.md' },
                 { text: 'AvSideNavigation', link: '/components/navigation/AvSideNavigation/AvSideNavigation.md' },
                 { text: 'AvStepper', link: '/components/navigation/AvStepper/AvStepper.md' },
+                { text: 'AvSkipLinks', link: '/components/navigation/AvSkipLinks/AvSkipLinks.md' },
               ],
               collapsed: true
             },
