@@ -56,6 +56,7 @@ declare module 'vue' {
     AvSelect: typeof import('./components/interaction/selects/AvSelect/AvSelect.vue')['default']
     AvSideMenu: typeof import('./components/navigation/AvSideMenu/AvSideMenu.vue')['default']
     AvSideNavigation: typeof import('./components/navigation/AvSideNavigation/AvSideNavigation.vue')['default']
+    AvSkipLinks: typeof import('./components/navigation/AvSkipLinks/AvSkipLinks.vue')['default']
     AvStepper: typeof import('./components/navigation/AvStepper/AvStepper.vue')['default']
     AvTab: typeof import('./components/interaction/tabs/AvTab/AvTab.vue')['default']
     AvTable: typeof import('./components/dataDisplay/AvTable/AvTable.vue')['default']
