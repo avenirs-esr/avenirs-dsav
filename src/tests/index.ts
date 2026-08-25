@@ -33,6 +33,7 @@ import { AvBreadcrumbStub } from '@/components/navigation/AvBreadcrumb/AvBreadcr
 import { AvNavigationStub } from '@/components/navigation/AvNavigation/AvNavigation.stub'
 import { AvPaginationStub } from '@/components/navigation/AvPagination/AvPagination.stub'
 import { AvSideNavigationStub } from '@/components/navigation/AvSideNavigation/AvSideNavigation.stub'
+import { AvSkipLinksStub } from '@/components/navigation/AvSkipLinks/AvSkipLinks.stub'
 import { AvStepperStub } from '@/components/navigation/AvStepper/AvStepper.stub'
 import { AvDrawerStub } from '@/components/overlay/drawers/AvDrawer/AvDrawer.stub'
 import { AvDropdownStub } from '@/components/overlay/dropdowns/AvDropdown/AvDropdown.stub'
@@ -77,6 +78,7 @@ export {
   AvRichTextEditorStub,
   AvSelectStub,
   AvSideNavigationStub,
+  AvSkipLinksStub,
   AvStepperStub,
   AvTableStub,
   AvTabsStub,

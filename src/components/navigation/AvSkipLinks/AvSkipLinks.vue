@@ -1,10 +1,23 @@
 <script setup lang="ts">
-import type { SkipLink } from '@/components/navigation/AvSkipLinks/AvSkipLinks.types'
+import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
+
+export interface SkipLink {
+  /**
+   * The ID of the target element to skip to.
+   */
+  id: string
+
+  /**
+   * The label for the skip link.
+   */
+  label: string
+}
 
 export interface AvSkipLinksProps {
   /**
    * Skip links configuration for accessibility.
-   * @default []
+   * - @type {Array<{ id: string; label: string }>}
+   * - @default []
    */
   skipLinks?: SkipLink[]
 }
@@ -21,14 +34,12 @@ const { skipLinks = [] } = defineProps<AvSkipLinksProps>()
     <ul class="av-list-reset av-row av-gap-sm av-px-sm av-py-xs">
       <li
         v-for="link in skipLinks"
-        :key="link.targetId"
+        :key="link.id"
       >
-        <a
-          :href="`#${link.targetId}`"
-          class="av-button av-button--primary av-button--sm"
-        >
-          {{ link.label }}
-        </a>
+        <AvButton
+          :label="link.label"
+          :to="`#${link.id}`"
+        />
       </li>
     </ul>
   </nav>
