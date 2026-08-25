@@ -38,7 +38,8 @@ const { skipLinks = [] } = defineProps<AvSkipLinksProps>()
       >
         <AvButton
           :label="link.label"
-          :to="`#${link.id}`"
+          :href="`#${link.id}`"
+          small
         />
       </li>
     </ul>

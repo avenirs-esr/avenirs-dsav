@@ -125,6 +125,7 @@ const loadingIcon: InstanceType<typeof AvIcon>['$props'] = { name: MDI_ICONS.LOA
 
 const buttonDisabled = computed(() => disabled || isLoading)
 const hasHref = computed(() => typeof href === 'string' && !!href.trim())
+const isInternalAnchor = computed(() => href?.startsWith('#') ?? false)
 const hasTo = computed(() => !!to)
 const asLink = computed(() => (hasHref.value || hasTo.value) && !buttonDisabled.value)
 
@@ -142,7 +143,7 @@ const iconToRender = computed(() => {
   if (isLoading && !disabled) {
     return { ...loadingIcon, size: iconSize.value }
   }
-  if (hasHref.value && !disabled) {
+  if (hasHref.value && !disabled && !isInternalAnchor.value) {
     return { name: MDI_ICONS.EXTERNAL_LINK, size: iconSize.value }
   }
   if (typeof icon === 'string' && !!icon.trim()) {
@@ -170,6 +171,9 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
 
 const linkProps = computed(() => {
   if (hasHref.value && !buttonDisabled.value) {
+    if (isInternalAnchor.value) {
+      return { href }
+    }
     return { href, target: '_blank', rel: 'noopener noreferrer' }
   }
   if (hasTo.value && !buttonDisabled.value) {

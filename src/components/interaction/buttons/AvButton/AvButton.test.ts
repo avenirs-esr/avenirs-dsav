@@ -257,6 +257,43 @@ BddTest().given('an AvButton', () => {
     })
   })
 
+  BddTest().and('an href prop is provided with an internal anchor', () => {
+    const props: AvButtonProps = {
+      label: 'Go to section',
+      href: '#section1',
+      variant: 'OUTLINED',
+    }
+
+    beforeEach(() => {
+      wrapper = mount(AvButton, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should render an anchor with the expected href', () => {
+      const anchor = wrapper.find('a')
+      expect(anchor.exists()).toBe(true)
+      expect(anchor.attributes('href')).toBe('#section1')
+      expect(anchor.attributes('data-tag')).toBe('link')
+      expect(wrapper.find('button').exists()).toBe(false)
+      expect(wrapper.findComponent(RouterLinkStub).exists()).toBe(false)
+    })
+
+    BddTest().then('it should force the default variant class when rendered as an anchor', () => {
+      const anchor = wrapper.find('a')
+      expect(anchor.classes()).toContain('av-button--variant-default')
+      expect(anchor.classes()).not.toContain('av-button--variant-outlined')
+    })
+
+    BddTest().when('the anchor is clicked', () => {
+      beforeEach(async () => {
+        await wrapper.find('a').trigger('click')
+      })
+
+      BddTest().then('it should not emit a click event (navigation is handled by the anchor)', () => {
+        expect(wrapper.emitted('click')).toBeUndefined()
+      })
+    })
+  })
+
   BddTest().and('an href prop is provided but disabled is true', () => {
     beforeEach(() => {
       wrapper = mount(AvButton, {
