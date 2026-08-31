@@ -18,6 +18,7 @@ BddTest().given('a drawer component', () => {
   let wrapper: ReturnType<typeof mount<typeof AvDrawer>>
 
   const stubs = {
+    Teleport: true,
     FocusTrap: {
       name: 'FocusTrap',
       emits: ['deactivate'],

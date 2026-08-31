@@ -78,36 +78,38 @@ watch(show, (newValue) => {
 </script>
 
 <template>
-  <div v-if="show">
-    <div
-      v-if="backdrop"
-      class="av-drawer-backdrop"
-    />
-    <FocusTrap
-      @deactivate="emit('escapePressed')"
-    >
+  <Teleport to="body">
+    <div v-if="show">
       <div
-        ref="drawerRef"
-        class="av-drawer av-col"
-        :class="`av-drawer--${position}`"
-        role="dialog"
-        aria-modal="true"
-        :aria-label="ariaLabel"
+        v-if="backdrop"
+        class="av-drawer-backdrop"
+      />
+      <FocusTrap
+        @deactivate="emit('escapePressed')"
       >
-        <div class="av-drawer__content-wrapper av-col">
-          <div class="av-drawer__content">
-            <slot />
-          </div>
-          <div
-            v-if="slots.footer"
-            class="footer-container av-p-md"
-          >
-            <slot name="footer" />
+        <div
+          ref="drawerRef"
+          class="av-drawer av-col"
+          :class="`av-drawer--${position}`"
+          role="dialog"
+          aria-modal="true"
+          :aria-label="ariaLabel"
+        >
+          <div class="av-drawer__content-wrapper av-col">
+            <div class="av-drawer__content">
+              <slot />
+            </div>
+            <div
+              v-if="slots.footer"
+              class="footer-container av-p-md"
+            >
+              <slot name="footer" />
+            </div>
           </div>
         </div>
-      </div>
-    </FocusTrap>
-  </div>
+      </FocusTrap>
+    </div>
+  </Teleport>
 </template>
 
 <style lang="scss" scoped>
