@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { Slot } from 'vue'
 import { useScrollLock } from '@vueuse/core'
 import { FocusTrap } from 'focus-trap-vue'
+import { type Slot, useAttrs } from 'vue'
 
 export interface AvDrawerProps {
   /**
@@ -30,6 +30,10 @@ export interface AvDrawerProps {
    */
   ariaLabel?: string
 }
+
+defineOptions({
+  inheritAttrs: false,
+})
 
 const props = withDefaults(defineProps<AvDrawerProps>(), {
   position: 'right',
@@ -67,6 +71,8 @@ const slots = defineSlots<{
   footer?: Slot
 }>()
 
+const attrs = useAttrs()
+
 const { position, width, padding, show } = toRefs(props)
 
 const drawerRef = ref<HTMLElement | null>(null)
@@ -79,7 +85,10 @@ watch(show, (newValue) => {
 
 <template>
   <Teleport to="body">
-    <div v-if="show">
+    <div
+      v-if="show"
+      v-bind="attrs"
+    >
       <div
         v-if="backdrop"
         class="av-drawer-backdrop"
