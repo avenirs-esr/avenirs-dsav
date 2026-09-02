@@ -2,6 +2,7 @@ import type { AvAutocompleteOption } from '@/components/interaction/selects/AvAu
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 import AvAutocomplete from '@/components/interaction/selects/AvAutocomplete/AvAutocomplete.vue'
+import { AvListItemStub } from '@/tests'
 import { BddTest } from '@/tests/utils'
 
 const scrollState = reactive({ bottom: false })
@@ -36,6 +37,7 @@ function mountAutocomplete (props: Record<string, unknown> = {}, slots: Record<s
       modelValue: [],
       ...props
     },
+    global: { stubs: { AvListItem: AvListItemStub } },
     slots
   })
 }
@@ -154,7 +156,7 @@ BddTest().given('an autocomplete component', () => {
 
       await wrapper.find('input').trigger('focus')
 
-      const listItems = wrapper.findAll('[data-testid="av-list-item"]')
+      const listItems = wrapper.findAllComponents(AvListItemStub)
       expect(listItems).toHaveLength(2)
       expect(wrapper.text()).toContain('Option 1')
       expect(wrapper.text()).toContain('Option 2')
@@ -172,7 +174,7 @@ BddTest().given('an autocomplete component', () => {
       vi.runAllTimers()
       await wrapper.vm.$nextTick()
 
-      const visibleOption = wrapper.findAll('[data-testid="av-list-item"]')[0]
+      const visibleOption = wrapper.findAllComponents(AvListItemStub)[0]
       await visibleOption.trigger('click')
 
       expect(wrapper.emitted('update:modelValue')).toBeTruthy()
@@ -188,7 +190,7 @@ BddTest().given('an autocomplete component', () => {
 
       await wrapper.find('input').trigger('focus')
 
-      const firstOption = wrapper.findAll('[data-testid="av-list-item"]')[0]
+      const firstOption = wrapper.findAllComponents(AvListItemStub)[0]
       await firstOption.trigger('click')
 
       expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual([[mockOptions[0]]])
@@ -209,7 +211,7 @@ BddTest().given('an autocomplete component', () => {
       wrapper = mountAutocomplete({ options: optionsWithDisabled, multiSelect: true })
       await wrapper.find('input').trigger('focus')
 
-      const firstOption = wrapper.findAll('[data-testid="av-list-item"]')[0]
+      const firstOption = wrapper.findAllComponents(AvListItemStub)[0]
       await firstOption.trigger('click')
 
       expect(wrapper.emitted('update:modelValue')).toBeFalsy()
@@ -226,7 +228,7 @@ BddTest().given('an autocomplete component', () => {
       await wrapper.find('input').trigger('focus')
       expect(wrapper.text()).toContain('First Option')
 
-      const firstOption = wrapper.findAll('[data-testid="av-list-item"]')[0]
+      const firstOption = wrapper.findAllComponents(AvListItemStub)[0]
       await firstOption.trigger('click')
 
       expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual([[mockOptions[0]]])

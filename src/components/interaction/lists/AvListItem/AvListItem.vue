@@ -2,6 +2,7 @@
 import type { Slot } from 'vue'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
+import { useTextTruncation } from '@/composables'
 
 /**
  * AvListItem component props.
@@ -172,6 +173,12 @@ const slots = defineSlots<{
   default?: Slot
 }>()
 
+const titleRef = ref<HTMLElement | null>(null)
+const descriptionRef = ref<HTMLElement | null>(null)
+
+const { isTruncated: isTitleTruncated } = useTextTruncation(titleRef)
+const { isTruncated: isDescriptionTruncated } = useTextTruncation(descriptionRef)
+
 const componentTag = computed(() => {
   if (!!href || !!target || !!rel) {
     return 'a'
@@ -230,7 +237,7 @@ function handleKeyDown (event: KeyboardEvent) {
   >
     <AvTooltip
       :content="computedAriaLabel ?? ''"
-      :disabled="!enableTooltip || !computedAriaLabel"
+      :disabled="!enableTooltip || !computedAriaLabel || !(isTitleTruncated || isDescriptionTruncated)"
       trigger-class="av-w-full"
     >
       <component
@@ -265,6 +272,7 @@ function handleKeyDown (event: KeyboardEvent) {
         <div class="av-list-item__content av-col av-gap-xs">
           <span
             v-if="title"
+            ref="titleRef"
             class="av-list-item__title av-wrap-anywhere"
             :class="{
               'b2-bold': type === 'main',
@@ -277,6 +285,7 @@ function handleKeyDown (event: KeyboardEvent) {
 
           <span
             v-if="description"
+            ref="descriptionRef"
             class="av-list-item__description av-wrap-anywhere"
             :class="type === 'main' ? 'b1-bold' : 'b1-regular'"
           >

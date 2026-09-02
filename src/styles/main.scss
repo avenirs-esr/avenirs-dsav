@@ -60,3 +60,12 @@ h1, h2, h3, h4, h5, h6 {
 ::after {
   font-family: var(--font-family-primary);
 }
+
+// Class used for useTextTruncation measures
+.av-text-truncation-measure {
+  display: block !important;
+  overflow: visible !important;
+  -webkit-line-clamp: unset !important;
+  line-clamp: unset !important;
+  max-height: none !important;
+}

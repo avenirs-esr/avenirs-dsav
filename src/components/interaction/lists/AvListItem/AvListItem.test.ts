@@ -4,6 +4,12 @@ import AvListItem from '@/components/interaction/lists/AvListItem/AvListItem.vue
 import { AvTooltipStub } from '@/components/overlay/tooltips/AvTooltip/AvTooltip.stub'
 import { BddTest } from '@/tests/utils'
 
+const mockIsTruncated = ref(false)
+
+vi.mock('@/composables/use-text-truncation/use-text-truncation', () => ({
+  useTextTruncation: () => ({ isTruncated: mockIsTruncated }),
+}))
+
 BddTest().given('an AvListItem component', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvListItem>>
   let avListItem: DOMWrapper<Element>
@@ -332,6 +338,39 @@ BddTest().given('an AvListItem component', () => {
     BddTest().then('it should pass custom size to icon', () => {
       const iconComponent = avListItem.findComponent({ name: 'AvIcon' })
       expect(iconComponent.props('size')).toBe(2.5)
+    })
+
+    BddTest().then('it should disable the tooltip', () => {
+      const tooltip = wrapper.findComponent(AvTooltipStub)
+      expect(tooltip.props('disabled')).toBe(true)
+    })
+  })
+
+  BddTest().when('enableTooltip is true', () => {
+    const props = { title: 'Test Title', enableTooltip: true }
+
+    BddTest().and('isTruncated is true', () => {
+      beforeEach(async () => {
+        mockIsTruncated.value = true
+        wrapper = mount(AvListItem, { props, global: { stubs } })
+      })
+
+      BddTest().then('it should enable the tooltip', () => {
+        const tooltip = wrapper.findComponent(AvTooltipStub)
+        expect(tooltip.props('disabled')).toBe(false)
+      })
+    })
+
+    BddTest().and('isTruncated is false', () => {
+      beforeEach(async () => {
+        mockIsTruncated.value = false
+        wrapper = mount(AvListItem, { props, global: { stubs } })
+      })
+
+      BddTest().then('it should disabled the tooltip', () => {
+        const tooltip = wrapper.findComponent(AvTooltipStub)
+        expect(tooltip.props('disabled')).toBe(true)
+      })
     })
   })
 })

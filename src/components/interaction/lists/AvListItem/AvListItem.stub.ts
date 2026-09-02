@@ -7,7 +7,9 @@ export const AvListItemStub = defineComponent({
     'iconSize',
     'iconColor',
     'colorOnHover',
-    'enableTooltip'
+    'enableTooltip',
+    'title',
+    'description'
   ],
   emits: ['click'],
   template: `
@@ -15,6 +17,8 @@ export const AvListItemStub = defineComponent({
       class="av-list-item-stub"
       @click="$emit(\'click\')"
     >
+      {{ title }}
+      {{ description }}
       <slot />
     </div>`
 })

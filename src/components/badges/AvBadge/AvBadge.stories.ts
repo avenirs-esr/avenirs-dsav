@@ -101,6 +101,13 @@ SmallEllipsis.args = {
   small: true,
 }
 
+export const EllipsisNotTruncated = Template.bind({})
+EllipsisNotTruncated.args = {
+  label: 'Label not truncated',
+  ellipsis: true,
+  small: true,
+}
+
 export const StatusNotStarted = Template.bind({})
 StatusNotStarted.args = {
   label: 'Not started',
