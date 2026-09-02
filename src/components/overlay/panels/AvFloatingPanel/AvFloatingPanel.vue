@@ -3,6 +3,7 @@ import type { Slot } from 'vue'
 import AvIconText from '@/components/base/AvIconText/AvIconText.vue'
 import AvCard from '@/components/cards/AvCard/AvCard.vue'
 import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
+import { useTextTruncation } from '@/composables/use-text-truncation/use-text-truncation'
 import { MDI_ICONS } from '@/tokens'
 
 /**
@@ -71,6 +72,9 @@ defineSlots<{
 
 const cardRef = ref<InstanceType<typeof AvCard> | null>(null)
 
+const subtitleRef = ref<HTMLElement | null>(null)
+const { isTruncated } = useTextTruncation(subtitleRef)
+
 function toggleCollapsed () {
   cardRef.value?.toggleCollapsed()
 }
@@ -116,10 +120,12 @@ defineExpose({
             class="av-flex-fill av-wrap-anywhere"
           >
             <AvTooltip
+              :disabled="!isTruncated"
               :content="subtitle"
               force-focusable
             >
               <span
+                ref="subtitleRef"
                 class="av-max-lines av-text-primary1 s2-light"
                 style="--max-lines: 1;"
                 data-testid="av-floating-panel-subtitle"

@@ -20,6 +20,9 @@ const stories = [
   'SubCustomColors',
   'WithCustomContent',
   'WithAccessibility',
+  'WithTitleMaxLines',
+  'WithTitleMaxLinesAndTooltip',
+  'WithTitleMaxLinesAndTooltipAndShortTitle'
 ]
 
 testStories(component, title, stories)

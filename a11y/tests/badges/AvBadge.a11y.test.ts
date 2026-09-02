@@ -6,6 +6,7 @@ const stories = [
   'Default',
   'WithoutIcon',
   'SmallEllipsis',
+  'EllipsisNotTruncated',
   'StatusNotStarted',
   'StatusInProgress',
   'StatusSubmitted',

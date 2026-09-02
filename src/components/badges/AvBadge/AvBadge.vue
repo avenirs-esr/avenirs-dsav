@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
+import { useTextTruncation } from '@/composables/use-text-truncation/use-text-truncation'
 import { getIconPath } from '@/utils/icon-path/icon-path'
 
 /**
@@ -60,13 +61,17 @@ const {
 } = defineProps<AvBadgeProps>()
 
 const iconPathStyleVars = computed(() => getIconPath(icon))
+
+const labelRef = ref<HTMLElement>()
+
+const { isTruncated } = useTextTruncation(labelRef)
 </script>
 
 <template>
   <AvTooltip
     :content="label"
-    :disabled="!ellipsis"
-    :force-focusable="ellipsis"
+    :disabled="!isTruncated"
+    :force-focusable="isTruncated"
   >
     <span
       v-bind="$attrs"
@@ -81,6 +86,7 @@ const iconPathStyleVars = computed(() => getIconPath(icon))
       :style="iconPathStyleVars"
     >
       <span
+        ref="labelRef"
         :class="{
           'av-max-lines': ellipsis,
           'caption-regular': small,

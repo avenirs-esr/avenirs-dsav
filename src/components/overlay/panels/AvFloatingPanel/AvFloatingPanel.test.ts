@@ -4,6 +4,12 @@ import AvFloatingPanel, { type AvFloatingPanelProps } from '@/components/overlay
 import { AvCardStub, AvIconTextStub } from '@/tests'
 import { BddTest } from '@/tests/utils'
 
+const mockIsTruncated = ref(false)
+
+vi.mock('@/composables/use-text-truncation/use-text-truncation', () => ({
+  useTextTruncation: () => ({ isTruncated: mockIsTruncated }),
+}))
+
 BddTest().given('an AvFloatingPanel', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvFloatingPanel>>
 

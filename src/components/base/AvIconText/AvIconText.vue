@@ -3,6 +3,7 @@ import { nextTick } from 'vue'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import { DEFAULT_ICON_SIZE_REM, MAX_ICON_SIZE_REM, MIN_ICON_SIZE_REM } from '@/components/base/AvIconText/utils'
 import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
+import { useTextTruncation } from '@/composables/use-text-truncation/use-text-truncation'
 
 /**
  * AvIconText component props.
@@ -74,6 +75,8 @@ const {
 const textElementRef = ref<HTMLElement | null>(null)
 const iconSize = ref(DEFAULT_ICON_SIZE_REM)
 
+const { isTruncated } = useTextTruncation(textElementRef)
+
 function updateIconSize () {
   if (!textElementRef.value) {
     iconSize.value = DEFAULT_ICON_SIZE_REM
@@ -126,8 +129,8 @@ const wrapAnywhereClass = computed(() => wrapAnywhere ? 'av-wrap-anywhere' : und
 <template>
   <AvTooltip
     :content="text"
-    :disabled="inline || wrapAnywhere"
-    :force-focusable="!inline && !wrapAnywhere"
+    :disabled="!isTruncated"
+    :force-focusable="isTruncated"
   >
     <div
       v-bind="$attrs"

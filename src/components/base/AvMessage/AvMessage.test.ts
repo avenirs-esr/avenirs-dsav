@@ -13,7 +13,7 @@ BddTest().given('an AvMessage', () => {
 
     BddTest().when('the component is mounted', () => {
       beforeEach(() => {
-        wrapper = mount(AvMessage, { props, stubs })
+        wrapper = mount(AvMessage, { props, global: { stubs } })
       })
 
       BddTest().then('it should render the AvIconText with info icon and message', () => {
@@ -30,7 +30,7 @@ BddTest().given('an AvMessage', () => {
 
     BddTest().when('the component is mounted', () => {
       beforeEach(() => {
-        wrapper = mount(AvMessage, { props, stubs })
+        wrapper = mount(AvMessage, { props, global: { stubs } })
       })
 
       BddTest().then('it should render the AvIconText with success icon and message', () => {
@@ -47,7 +47,7 @@ BddTest().given('an AvMessage', () => {
 
     BddTest().when('the component is mounted', () => {
       beforeEach(() => {
-        wrapper = mount(AvMessage, { props, stubs })
+        wrapper = mount(AvMessage, { props, global: { stubs } })
       })
 
       BddTest().then('it should render the AvIconText with warning icon and message', () => {
@@ -64,7 +64,7 @@ BddTest().given('an AvMessage', () => {
 
     BddTest().when('the component is mounted', () => {
       beforeEach(() => {
-        wrapper = mount(AvMessage, { props, stubs })
+        wrapper = mount(AvMessage, { props, global: { stubs } })
       })
 
       BddTest().then('it should render the AvIconText with error icon and message', () => {
@@ -81,7 +81,7 @@ BddTest().given('an AvMessage', () => {
 
     BddTest().when('the component is mounted', () => {
       beforeEach(() => {
-        wrapper = mount(AvMessage, { props, stubs })
+        wrapper = mount(AvMessage, { props, global: { stubs } })
       })
 
       BddTest().then('it should not render the AvIconText', () => {
@@ -99,7 +99,7 @@ BddTest().given('an AvMessage', () => {
 
     BddTest().when('the component is mounted', () => {
       beforeEach(() => {
-        wrapper = mount(AvMessage, { props, stubs })
+        wrapper = mount(AvMessage, { props, global: { stubs } })
       })
 
       BddTest().then('it should render multiple AvIconText components with error icon and messages', () => {

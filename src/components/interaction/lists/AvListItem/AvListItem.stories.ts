@@ -78,7 +78,8 @@ const meta: Meta<AvListItemProps> = {
     target: { control: 'text' },
     rel: { control: 'text' },
     ariaLabel: { control: 'text' },
-    ariaDescribedby: { control: 'text' }
+    ariaDescribedby: { control: 'text' },
+    titleMaxLines: { control: 'number' }
   },
   args: {
     color: 'var(--text1)',
@@ -88,6 +89,7 @@ const meta: Meta<AvListItemProps> = {
     descriptionColor: 'var(--text2)',
     disabled: false,
     selected: false,
+    titleMaxLines: undefined,
   }
 }
 
@@ -304,4 +306,33 @@ WithAccessibility.args = {
   ariaLabel: 'Custom accessible label for screen readers',
   ariaDescribedby: 'helper-text',
   onClick: () => alert('Accessible item clicked!')
+}
+
+export const WithTitleMaxLines = Template.bind({})
+WithTitleMaxLines.args = {
+  title: 'Item with Title Max Lines 1 and a very long title to show how the truncation works',
+  description: 'Item demonstrating the titleMaxLines prop',
+  icon: MDI_ICONS.STARS,
+  titleMaxLines: 1,
+  onClick: () => alert('Item with title max lines clicked!')
+}
+
+export const WithTitleMaxLinesAndTooltip = Template.bind({})
+WithTitleMaxLinesAndTooltip.args = {
+  title: 'Item with Title Max Lines 1 and a very long title to show how the truncation works',
+  description: 'Item demonstrating the titleMaxLines prop',
+  icon: MDI_ICONS.STARS,
+  titleMaxLines: 1,
+  enableTooltip: true,
+  onClick: () => alert('Item with title max lines clicked!')
+}
+
+export const WithTitleMaxLinesAndTooltipAndShortTitle = Template.bind({})
+WithTitleMaxLinesAndTooltipAndShortTitle.args = {
+  title: 'Item with short title',
+  description: 'Item demonstrating the titleMaxLines prop',
+  icon: MDI_ICONS.STARS,
+  titleMaxLines: 1,
+  enableTooltip: true,
+  onClick: () => alert('Item with short title clicked!')
 }

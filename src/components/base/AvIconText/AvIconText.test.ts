@@ -6,6 +6,12 @@ import { AvIconStub, AvTooltipStub } from '@/tests'
 import { BddTest } from '@/tests/utils'
 import { MDI_ICONS } from '@/tokens'
 
+const mockIsTruncated = ref(false)
+
+vi.mock('@/composables/use-text-truncation/use-text-truncation', () => ({
+  useTextTruncation: () => ({ isTruncated: mockIsTruncated }),
+}))
+
 BddTest().given('an AvIconText', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvIconText>>
   const stubs = { AvIcon: AvIconStub, AvTooltip: AvTooltipStub }
