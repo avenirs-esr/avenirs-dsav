@@ -4,6 +4,7 @@ export const AvTagPickerStub = defineComponent({
     'label',
     'options',
     'selected',
+    'multiple',
     'handleSelectChange'
   ],
   template: `

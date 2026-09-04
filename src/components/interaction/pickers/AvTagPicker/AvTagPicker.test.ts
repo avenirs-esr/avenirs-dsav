@@ -234,7 +234,7 @@ BddTest().given('an AvTagPicker', () => {
 
     BddTest().and('with single selected option', () => {
       beforeEach(() => {
-        const selectedOption: AvTagPickerOption = mockOptions[0]
+        const selectedOption: string = mockOptions[0].value
         const handleSelectChange = vi.fn()
         const props = {
           options: mockOptions,
@@ -259,7 +259,7 @@ BddTest().given('an AvTagPicker', () => {
 
     BddTest().and('with array of selected options', () => {
       beforeEach(() => {
-        const selectedOptions: AvTagPickerOption[] = [mockOptions[0], mockOptions[2]]
+        const selectedOptions: string[] = [mockOptions[0].value, mockOptions[2].value]
         const handleSelectChange = vi.fn()
         const props = {
           options: mockOptions,

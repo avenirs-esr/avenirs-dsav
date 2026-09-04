@@ -98,7 +98,7 @@ Default.args = {
     { label: 'Option B', value: 'b' },
     { label: 'Option C', value: 'c' },
   ],
-  selected: { label: 'Option B', value: 'b' },
+  selected: 'b',
 }
 
 export const Multiple = Template.bind({})
@@ -112,8 +112,5 @@ Multiple.args = {
     { label: 'Option B', value: 'b' },
     { label: 'Option C', value: 'c' },
   ],
-  selected: [
-    { label: 'Option A', value: 'a' },
-    { label: 'Option C', value: 'c' },
-  ],
+  selected: ['a', 'c'],
 }

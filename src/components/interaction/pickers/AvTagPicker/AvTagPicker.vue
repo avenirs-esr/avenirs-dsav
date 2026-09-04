@@ -59,7 +59,7 @@ interface AvTagPickerSingleProps extends AvTagPickerBaseProps {
   /**
    * Option selected.
    */
-  selected?: AvTagPickerOption
+  selected?: string
 
   /**
    * Method called when changing selection.
@@ -80,7 +80,7 @@ interface AvTagPickerMultipleProps extends AvTagPickerBaseProps {
   /**
    * Options selected.
    */
-  selected?: AvTagPickerOption[]
+  selected?: string[]
 
   /**
    * Method called when changing selection.
@@ -103,16 +103,15 @@ const {
   label,
   labelColor,
   labelTypographyClass,
-  selected,
   multiple,
   handleSelectChange
 } = props
 
 const renderedOptions: ComputedRef<AvTagPickerOption[]> = computed(() => removeDuplicates<AvTagPickerOption>(props.options))
 
-function getSelectedOptions (selected?: AvTagPickerOption | AvTagPickerOption[]): AvTagPickerOption[] {
+function getSelectedOptions (selected?: string | string[]): string[] {
   if (!selected) {
-    return []
+    return !multiple && props.options.length > 0 ? [props.options[0].value] : []
   }
   if (Array.isArray(selected)) {
     return selected
@@ -120,27 +119,25 @@ function getSelectedOptions (selected?: AvTagPickerOption | AvTagPickerOption[])
   return [selected]
 }
 
-const selectedOptions = ref<AvTagPickerOption[]>(getSelectedOptions(selected))
+const selectedOptions = ref<string[]>([])
 
 function isOptionSelected (option: AvTagPickerOption): boolean {
-  return selectedOptions.value.some(selectedOption => selectedOption.value === option.value)
+  return selectedOptions.value.includes(option.value)
 }
 
 function toggleOption (option: AvTagPickerOption): void {
   if (multiple) {
     const isSelected = isOptionSelected(option)
     if (isSelected) {
-      selectedOptions.value = selectedOptions.value.filter(
-        selectedOption => selectedOption.value !== option.value
-      )
+      selectedOptions.value = selectedOptions.value.filter(selectedOption => selectedOption !== option.value)
     }
     else {
-      selectedOptions.value.push(option)
+      selectedOptions.value.push(option.value)
     }
-    handleSelectChange([...selectedOptions.value])
+    handleSelectChange(props.options.filter(option => selectedOptions.value.includes(option.value)))
   }
   else {
-    selectedOptions.value = [option]
+    selectedOptions.value = [option.value]
     handleSelectChange(option)
   }
 }
