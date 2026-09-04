@@ -34,10 +34,7 @@ const options: ComputedRef<AvTagPickerOption[]> = computed(() => Object.values(P
     value: pageNumber.toString()
   })))
 
-const selectedOption: ComputedRef<AvTagPickerOption> = computed(() => ({
-  label: pageSizeSelected.toString(),
-  value: pageSizeSelected.toString()
-}))
+const selectedOption: ComputedRef<string> = computed(() => pageSizeSelected.toString())
 </script>
 
 <template>

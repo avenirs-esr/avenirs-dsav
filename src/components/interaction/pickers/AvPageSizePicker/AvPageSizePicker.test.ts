@@ -44,10 +44,7 @@ BddTest().given('a page size picker', () => {
 
     BddTest().then('it should pass the correct selected option', () => {
       const avTagPicker = wrapper.findComponent({ name: 'AvTagPicker' })
-      expect(avTagPicker.props('selected')).toEqual({
-        label: PageSizes.TWELVE.toString(),
-        value: PageSizes.TWELVE.toString()
-      })
+      expect(avTagPicker.props('selected')).toBe(PageSizes.TWELVE.toString())
     })
   })
 
