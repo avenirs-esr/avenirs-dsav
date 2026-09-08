@@ -106,17 +106,17 @@ const message = computed(() => errorMessage || successMessage)
 
 <template>
   <fieldset
-    class="av-fieldset av-col av-pl-xs"
+    class="av-fieldset av-col av-pl-none av-m-none"
     :class="{
-      'av-fieldset--error': errorMessage,
-      'av-fieldset--success': successMessage && !errorMessage,
+      'av-pl-xs av-fieldset--error': errorMessage,
+      'av-pl-xs av-fieldset--success': successMessage && !errorMessage,
     }"
   >
     <div>
       <legend
         v-if="legend || slots.legend"
         :id="legendId"
-        class="av-fieldset__legend av-w-full av-pb-xs"
+        class="av-fieldset__legend av-w-full av-px-none av-pb-xs"
         :class="legendClass"
       >
         {{ legend }}
