@@ -87,6 +87,7 @@ export const MDI_ICONS = {
   DOWNLOAD_OUTLINE: 'mdi:download-outline',
   ELECTRON_FRAMEWORK: 'mdi:electron-framework',
   EMAIL_OUTLINE: 'mdi:email-outline',
+  EXIT_TO_APP: 'mdi:exit-to-app',
   EXTERNAL_LINK: 'mdi:external-link',
   FAMILY: 'mdi:family',
   FILE: 'mdi:file',
