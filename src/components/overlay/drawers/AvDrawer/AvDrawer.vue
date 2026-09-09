@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useScrollLock } from '@vueuse/core'
+import { onClickOutside, useScrollLock } from '@vueuse/core'
 import { FocusTrap } from 'focus-trap-vue'
 import { type Slot, useAttrs } from 'vue'
 
@@ -40,7 +40,7 @@ const props = withDefaults(defineProps<AvDrawerProps>(), {
   width: '35rem',
   backdrop: true,
   padding: 'var(--spacing-md)',
-  ariaLabel: 'Menu latéral'
+  ariaLabel: 'Menu latéral',
 })
 
 /**
@@ -52,6 +52,11 @@ const emit = defineEmits<{
    * @event escapePressed
    */
   (e: 'escapePressed'): void
+  /**
+   * Event triggered when the user clicks outside the drawer panel (including the backdrop).
+   * @event clickOutside
+   */
+  (e: 'clickOutside'): void
 }>()
 
 /**
@@ -81,6 +86,10 @@ const isLocked = useScrollLock(document.body)
 watch(show, (newValue) => {
   isLocked.value = newValue
 })
+
+onClickOutside(drawerRef, () => {
+  emit('clickOutside')
+})
 </script>
 
 <template>
@@ -93,30 +102,31 @@ watch(show, (newValue) => {
         v-if="backdrop"
         class="av-drawer-backdrop"
       />
-      <FocusTrap
-        @deactivate="emit('escapePressed')"
-      >
-        <div
-          ref="drawerRef"
-          class="av-drawer av-col"
-          :class="`av-drawer--${position}`"
-          role="dialog"
-          aria-modal="true"
-          :aria-label="ariaLabel"
+      <div ref="drawerRef">
+        <FocusTrap
+          @deactivate="emit('escapePressed')"
         >
-          <div class="av-drawer__content-wrapper av-col">
-            <div class="av-drawer__content">
-              <slot />
-            </div>
-            <div
-              v-if="slots.footer"
-              class="footer-container av-p-md"
-            >
-              <slot name="footer" />
+          <div
+            class="av-drawer av-col"
+            :class="`av-drawer--${position}`"
+            role="dialog"
+            aria-modal="true"
+            :aria-label="ariaLabel"
+          >
+            <div class="av-drawer__content-wrapper av-col">
+              <div class="av-drawer__content">
+                <slot />
+              </div>
+              <div
+                v-if="slots.footer"
+                class="footer-container av-p-md"
+              >
+                <slot name="footer" />
+              </div>
             </div>
           </div>
-        </div>
-      </FocusTrap>
+        </FocusTrap>
+      </div>
     </div>
   </Teleport>
 </template>

@@ -105,13 +105,14 @@ const Template: StoryFn<AvDrawerProps> = args => ({
         @click="toggleDrawer"
       />
       
-      <AvDrawer 
+      <AvDrawer
         :show="isDrawerOpen"
         :position="args.position"
         :width="args.width"
         :backdrop="args.backdrop"
         :padding="args.padding"
         @escape-pressed="closeDrawer"
+        @click-outside="closeDrawer"
       >
         <div style="display: flex; flex-direction: column; gap: 1rem;">
           <h3 style="margin: 0; color: var(--title);">Drawer Content</h3>
@@ -195,13 +196,14 @@ const TemplateWithFooter: StoryFn<AvDrawerProps> = args => ({
         @click="toggleDrawer"
       />
       
-      <AvDrawer 
+      <AvDrawer
         :show="isDrawerOpen"
         :position="args.position"
         :width="args.width"
         :backdrop="args.backdrop"
         :padding="args.padding"
         @escape-pressed="closeDrawer"
+        @click-outside="closeDrawer"
       >
         <div style="display: flex; flex-direction: column; gap: 1rem;">
           <h3 style="margin: 0; color: var(--title);">Drawer Content</h3>
