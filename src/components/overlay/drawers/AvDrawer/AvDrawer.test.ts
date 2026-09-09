@@ -1,16 +1,21 @@
 import { mount } from '@vue/test-utils'
+import { onClickOutside } from '@vueuse/core'
 import { beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 import AvDrawer from '@/components/overlay/drawers/AvDrawer/AvDrawer.vue'
 import { BddTest } from '@/tests/utils'
 
 const mockIsLocked = ref(false)
+let clickOutsideHandler: (() => void) | undefined
 
 vi.mock('@vueuse/core', async () => {
   const actual = await vi.importActual('@vueuse/core')
   return {
     ...actual,
     useScrollLock: vi.fn(() => mockIsLocked),
+    onClickOutside: vi.fn((_target, handler) => {
+      clickOutsideHandler = handler
+    }),
   }
 })
 
@@ -268,6 +273,23 @@ BddTest().given('a drawer component', () => {
 
     BddTest().then('it should unlock the body scroll', () => {
       expect(mockIsLocked.value).toBe(false)
+    })
+  })
+
+  BddTest().when('the drawer is visible', () => {
+    beforeEach(() => {
+      clickOutsideHandler = undefined
+      wrapper = mount(AvDrawer, { props: { show: true }, global: { stubs } })
+    })
+
+    BddTest().then('it should register the click-outside handler on the drawer panel', () => {
+      expect(onClickOutside).toHaveBeenCalledWith(expect.anything(), expect.any(Function))
+    })
+
+    BddTest().then('it should emit clickOutside when a click outside the drawer panel is detected', () => {
+      clickOutsideHandler?.()
+      expect(wrapper.emitted('clickOutside')).toBeTruthy()
+      expect(wrapper.emitted('clickOutside')?.length).toBe(1)
     })
   })
 })

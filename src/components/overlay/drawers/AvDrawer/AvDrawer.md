@@ -37,6 +37,7 @@ The drawer integrates:
 | Name | Data (*payload*) | Description |
 | --- | --- | --- |
 | `'escapePressed'` | | Event triggered when escape is pressed. |
+| `'clickOutside'` | | Event triggered when the user clicks outside the drawer panel (including the backdrop). |
 
 ## 🎨 Slots
 
@@ -106,6 +107,22 @@ const isDrawerOpen = ref(false)
     <div class="sidebar">
       <h3>Sidebar Content</h3>
       <p>This drawer appears without dimming the background.</p>
+    </div>
+  </AvDrawer>
+</template>
+```
+
+### Closing on Click Outside
+
+```vue
+<template>
+  <AvDrawer
+    :show="isDrawerOpen"
+    @click-outside="isDrawerOpen = false"
+  >
+    <div class="content">
+      <h3>Content</h3>
+      <p>Clicking outside this drawer (including the backdrop) will close it.</p>
     </div>
   </AvDrawer>
 </template>
