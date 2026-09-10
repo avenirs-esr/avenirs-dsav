@@ -8,6 +8,7 @@ import { AvCardStub } from '@/components/cards/AvCard/AvCard.stub'
 import { AvTableStub } from '@/components/dataDisplay/AvTable/AvTable.stub'
 import { AvHeaderStub } from '@/components/header/AvHeader/AvHeader.stub'
 import { AvAccordionStub } from '@/components/interaction/accordions/AvAccordion/AvAccordion.stub'
+import { AvAccordionsGroupStub } from '@/components/interaction/accordions/AvAccordionsGroup/AvAccordionsGroup.stub'
 import { AvButtonStub } from '@/components/interaction/buttons/AvButton/AvButton.stub'
 import { AvCancelConfirmButtonsStub } from '@/components/interaction/buttons/AvCancelConfirmButtons/AvCancelConfirmButtons.stub'
 import { AvCheckboxStub } from '@/components/interaction/checkboxes/AvCheckbox/AvCheckbox.stub'
@@ -20,6 +21,7 @@ import { AvRichTextEditorStub } from '@/components/interaction/inputs/AvRichText
 import { AvCheckboxListItemStub } from '@/components/interaction/lists/AvCheckboxListItem/AvCheckboxListItem.stub'
 import { AvListStub } from '@/components/interaction/lists/AvList/AvList.stub'
 import { AvListItemStub } from '@/components/interaction/lists/AvListItem/AvListItem.stub'
+import { AvPageSizePickerStub } from '@/components/interaction/pickers/AvPageSizePicker/AvPageSizePicker.stub'
 import { AvTagPickerStub } from '@/components/interaction/pickers/AvTagPicker/AvTagPicker.stub'
 import { AvRadioButtonStub } from '@/components/interaction/radios/AvRadioButton/AvRadioButton.stub'
 import { AvRadioButtonSetStub } from '@/components/interaction/radios/AvRadioButtonSet/AvRadioButtonSet.stub'
@@ -44,6 +46,7 @@ import { AvTooltipStub } from '@/components/overlay/tooltips/AvTooltip/AvTooltip
 import { BddTest } from '@/tests/utils'
 
 export {
+  AvAccordionsGroupStub,
   AvAccordionStub,
   AvAutocompleteStub,
   AvBadgeStub,
@@ -70,6 +73,7 @@ export {
   AvModalStub,
   AvMultiselectStub,
   AvNavigationStub,
+  AvPageSizePickerStub,
   AvPaginationStub,
   AvPeriodInputStub,
   AvPopoverStub,
