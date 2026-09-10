@@ -4,6 +4,7 @@ import type { Page } from '@/components/navigation/AvPagination/AvPagination.typ
 export const AvPaginationStub = defineComponent({
   name: 'AvPagination',
   props: {
+    id: String,
     ariaLabel: String,
     compact: Boolean,
     compactCurrentPageLabel: String,
