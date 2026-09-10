@@ -22,5 +22,9 @@ export const AvPaginationStub = defineComponent({
     truncLimit: Number,
   },
   emits: ['update:current-page'],
-  template: '<div class="av-pagination-stub" />'
+  template: `
+    <div class="av-pagination-stub">
+      <button class="av-pagination" @click="$emit('update:current-page', 2)">Page 2</button>
+    </div>
+  `
 })
