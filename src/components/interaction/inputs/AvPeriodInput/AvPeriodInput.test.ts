@@ -4,13 +4,13 @@ import { beforeEach } from 'vitest'
 import AvPeriodInput, { type AvPeriodInputProps } from '@/components/interaction/inputs/AvPeriodInput/AvPeriodInput.vue'
 import { AvRadioButtonStub } from '@/components/interaction/radios/AvRadioButton/AvRadioButton.stub'
 import { AvRadioButtonSetStub } from '@/components/interaction/radios/AvRadioButtonSet/AvRadioButtonSet.stub'
-import { AvInputStub, BddTest } from '@/tests'
+import { AvDatePickerStub, BddTest } from '@/tests'
 
 BddTest().given('a period input', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvPeriodInput>>
 
   const stubs = {
-    AvInput: AvInputStub,
+    AvDatePicker: AvDatePickerStub,
     AvRadioButtonSet: AvRadioButtonSetStub,
     AvRadioButton: AvRadioButtonStub,
   }
@@ -19,8 +19,8 @@ BddTest().given('a period input', () => {
     label: 'Period'
   }
 
-  function toLocalDateOnly (date?: Date) {
-    if (!date) {
+  function toLocalDateOnly (date?: unknown) {
+    if (!(date instanceof Date)) {
       return undefined
     }
     const year = date.getFullYear()
@@ -30,12 +30,12 @@ BddTest().given('a period input', () => {
   }
 
   function findStartInput () {
-    const inputs = wrapper.findAllComponents({ name: 'AvInput' })
+    const inputs = wrapper.findAllComponents(AvDatePickerStub)
     return inputs.find(input => input.attributes('data-testid') === 'start-date-input') ?? inputs[0]
   }
 
   function findEndInput () {
-    const inputs = wrapper.findAllComponents({ name: 'AvInput' })
+    const inputs = wrapper.findAllComponents(AvDatePickerStub)
     return inputs.find(input => input.attributes('data-testid') === 'end-date-input') ?? inputs[1]
   }
 
@@ -54,9 +54,9 @@ BddTest().given('a period input', () => {
         expect(label.exists()).toBe(true)
         expect(label.text()).toBe('Period')
         expect(label.classes()).contain('b2-light')
-        expect(label.attributes('for')).toMatch(/__start-picker$/)
+        expect(label.attributes('for')).toMatch(/__start$/)
 
-        const inputs = wrapper.findAllComponents({ name: 'AvInput' })
+        const inputs = wrapper.findAllComponents(AvDatePickerStub)
         expect(inputs).toHaveLength(2)
 
         const startInput = inputs[0]
@@ -65,8 +65,8 @@ BddTest().given('a period input', () => {
         expect(startInput.props('type')).toBe('date')
         expect(endInput.props('type')).toBe('date')
 
-        expect(startInput.props('modelValue')).toBe('')
-        expect(endInput.props('modelValue')).toBe('')
+        expect(startInput.props('modelValue')).toBeNull()
+        expect(endInput.props('modelValue')).toBeNull()
 
         expect(startInput.props('disabled')).toBe(false)
         expect(endInput.props('disabled')).toBe(false)
@@ -81,7 +81,7 @@ BddTest().given('a period input', () => {
         const newStartValue = '2026-01-10'
 
         beforeEach(async () => {
-          await findStartInput().setValue(newStartValue)
+          findStartInput().vm.$emit('update:modelValue', parseISO(newStartValue))
         })
 
         BddTest().then('it should emit update:startModelValue', () => {
@@ -99,7 +99,7 @@ BddTest().given('a period input', () => {
         const newEndValue = '2026-02-01'
 
         beforeEach(async () => {
-          await findEndInput().setValue(newEndValue)
+          findEndInput().vm.$emit('update:modelValue', parseISO(newEndValue))
         })
 
         BddTest().then('it should emit update:endModelValue', () => {
@@ -114,10 +114,8 @@ BddTest().given('a period input', () => {
       })
 
       BddTest().and('a start date update is undefined', () => {
-        const newStartValue = undefined
-
         beforeEach(async () => {
-          await findStartInput().setValue(newStartValue)
+          findStartInput().vm.$emit('update:modelValue', null)
         })
 
         BddTest().then('it should emit update:startModelValue with an empty string', () => {
@@ -127,10 +125,8 @@ BddTest().given('a period input', () => {
       })
 
       BddTest().and('an end date update is undefined', () => {
-        const newEndValue = undefined
-
         beforeEach(async () => {
-          await findEndInput().setValue(newEndValue)
+          findEndInput().vm.$emit('update:modelValue', null)
         })
 
         BddTest().then('it should emit update:endModelValue with an empty string', () => {
@@ -168,7 +164,7 @@ BddTest().given('a period input', () => {
       expect(label.exists()).toBe(true)
       expect(label.text()).toBe(props.label)
 
-      const inputs = wrapper.findAllComponents({ name: 'AvInput' })
+      const inputs = wrapper.findAllComponents({ name: 'AvDatePicker' })
       expect(inputs).toHaveLength(2)
 
       const startInput = findStartInput()
@@ -180,8 +176,8 @@ BddTest().given('a period input', () => {
       expect(startInput.props('type')).toBe('date')
       expect(endInput.props('type')).toBe('date')
 
-      expect(startInput.props('modelValue')).toBe(props.startModelValue)
-      expect(endInput.props('modelValue')).toBe(props.endModelValue)
+      expect(toLocalDateOnly(startInput.props('modelValue'))).toBe(props.startModelValue)
+      expect(toLocalDateOnly(endInput.props('modelValue'))).toBe(props.endModelValue)
 
       expect(startInput.props('disabled')).toBe(true)
       expect(endInput.props('disabled')).toBe(true)

@@ -1,13 +1,15 @@
 <script lang="ts" setup>
-import { isValid, max, min, parseISO } from 'date-fns'
-import AvInput, { type AvInputProps } from '@/components/interaction/inputs/AvInput/AvInput.vue'
-import { isDateInputType } from '@/components/interaction/inputs/AvInput/utils'
+import { format, isValid, max, min, parseISO } from 'date-fns'
+import AvDatePicker, { type AvDatePickerProps } from '@/components/interaction/inputs/AvDatePicker/AvDatePicker.vue'
+import { isDate, isMonthModel, toDate } from '@/utils/dates/date-picker'
 
 /**
  * AvPeriodInput component.
  *
  * This component renders two date inputs (start/end) under a single label.
  * It is designed to be used for period/range selection.
+ *
+ * @deprecated Use `AvDatePicker` with `type="range"` instead.
  */
 interface AvPeriodInputBaseProps {
   /**
@@ -89,7 +91,7 @@ interface AvPeriodInputBaseProps {
    * Input type for both date inputs
    * @default 'date'
    */
-  type?: Extract<AvInputProps['type'], 'date' | 'datetime-local' | 'month' | 'time' | 'week'>
+  type?: Extract<NonNullable<AvDatePickerProps['type']>, 'date' | 'datetime-local' | 'month'>
 
   /**
    * Whether the label is visible
@@ -113,6 +115,9 @@ interface AvPeriodInputBaseProps {
   ongoingLabel?: string
 }
 
+/**
+ * @deprecated Use `AvDatePickerProps` with `type: 'range'` instead.
+ */
 export type AvPeriodInputProps = AvPeriodInputBaseProps & (
   | {
     /**
@@ -182,7 +187,7 @@ const startId = computed(() => `${realId.value}__start`)
 const endId = computed(() => `${realId.value}__end`)
 const startAriaLabel = computed(() => startLabel ?? label)
 const endAriaLabel = computed(() => endLabel ?? label)
-const commonLabelFor = computed(() => isDateInputType(type) ? `${startId.value}-picker` : startId.value)
+const commonLabelFor = computed(() => startId.value)
 
 function toValidDate (value?: string): Date | undefined {
   if (!value) {
@@ -203,6 +208,18 @@ function minOfDates (first?: Date, second?: Date): Date | undefined {
 const startSelectedDate = computed(() => toValidDate(startModelValue))
 const endSelectedDate = computed(() => toValidDate(endModelValue))
 
+function toPickerModelValue (value?: string) {
+  const date = toValidDate(value)
+
+  if (!date) {
+    return null
+  }
+
+  return type === 'month'
+    ? { month: date.getMonth(), year: date.getFullYear() }
+    : date
+}
+
 const computedStartMinDate = computed(() => startMinDate)
 
 const computedStartMaxDate = computed(() => {
@@ -221,14 +238,31 @@ const finalLabelClass = computed(() => [
   labelClass
 ])
 
-function onStartUpdate (value: string | number | null) {
-  const next = value?.toString() ?? ''
+function formatModelValue (value: AvDatePickerProps['modelValue']): string {
+  switch (type) {
+    case 'month':
+      if (isMonthModel(value)) {
+        const date = toDate(value)
+        return date ? format(date, 'yyyy-MM') : ''
+      }
+      return ''
+    case 'date':
+      return isDate(value) ? format(value, 'yyyy-MM-dd') : ''
+    case 'datetime-local':
+      return isDate(value) ? format(value, 'yyyy-MM-dd\'T\'HH:mm') : ''
+    default:
+      return ''
+  }
+}
+
+function onStartUpdate (value: AvDatePickerProps['modelValue']) {
+  const next = formatModelValue(value)
   emit('update:startModelValue', next)
   emit('change', { start: next, end: endModelValue })
 }
 
-function onEndUpdate (value: string | number | null) {
-  const next = value?.toString() ?? ''
+function onEndUpdate (value: AvDatePickerProps['modelValue']) {
+  const next = formatModelValue(value)
   emit('update:endModelValue', next)
   emit('change', { start: startModelValue, end: next })
 }
@@ -255,12 +289,12 @@ function onEndUpdate (value: string | number | null) {
         'av-col av-align-stretch': stacked,
       }"
     >
-      <AvInput
+      <AvDatePicker
         :id="startId"
-        :type="type"
-        :model-value="startModelValue"
-        :label="startLabel"
         :aria-label="startAriaLabel"
+        :type="type"
+        :model-value="toPickerModelValue(startModelValue)"
+        :label="startLabel"
         :label-visible="showEachInputLabel"
         :disabled="startDateDisabled"
         :width="width"
@@ -288,13 +322,13 @@ function onEndUpdate (value: string | number | null) {
         </AvRadioButton>
       </AvRadioButtonSet>
 
-      <AvInput
+      <AvDatePicker
         v-else
         :id="endId"
-        :type="type"
-        :model-value="endModelValue"
-        :label="endLabel"
         :aria-label="endAriaLabel"
+        :type="type"
+        :model-value="toPickerModelValue(endModelValue)"
+        :label="endLabel"
         :label-visible="showEachInputLabel"
         :disabled="endDateDisabled"
         :width="width"

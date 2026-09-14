@@ -2,6 +2,12 @@ import type { Meta, StoryFn } from '@storybook/vue3'
 import AvPeriodInput, { type AvPeriodInputProps } from '@/components/interaction/inputs/AvPeriodInput/AvPeriodInput.vue'
 
 /**
+ * <p>
+ *   <span class="b2-regular">
+ *     ⚠️ <strong>Deprecated</strong>: use <code>AvDatePicker</code> with <code>type="range"</code> instead.
+ *   </span>
+ * </p>
+ *
  * <h2 class="n2">✨ Introduction</h2>
  *
  * <p>

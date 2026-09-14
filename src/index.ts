@@ -1,4 +1,5 @@
 import '@/styles/main.scss'
+import '@vuepic/vue-datepicker/dist/main.css'
 
 export * from './components/index'
 export * from './composables'

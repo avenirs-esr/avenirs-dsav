@@ -1,5 +1,6 @@
 import { type Preview, setup } from '@storybook/vue3-vite'
 import '@/styles/main.scss'
+import '@vuepic/vue-datepicker/dist/main.css'
 // eslint-disable-next-line no-restricted-imports
 import './preview.scss'
 
