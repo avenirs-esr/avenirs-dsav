@@ -1,5 +1,7 @@
 # Period input - `AvPeriodInput`
 
+> ⚠️ **Deprecated**: use [`AvDatePicker`](../AvDatePicker/AvDatePicker.md) with `type="range"` instead.
+
 ## ✨ Introduction
 
 The `AvPeriodInput` component allows users to select a period by choosing a start date and an end date.

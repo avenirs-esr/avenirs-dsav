@@ -1,4 +1,5 @@
 export * from './array/array'
+export * from './dates/date-picker'
 export * from './files/files'
 export * from './forms/forms'
 export * from './links/links'
