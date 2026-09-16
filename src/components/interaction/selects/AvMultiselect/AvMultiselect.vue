@@ -240,7 +240,7 @@ const styleVars = computed(() => ({
       variant="OUTLINED"
       v-bind="$attrs"
       :label="title"
-      class="av-multiselect"
+      class="av-multiselect av-justify-between"
       :disabled="disabled"
       :aria-expanded="isVisible"
       :aria-controls="`${realId}-collapse`"
@@ -278,6 +278,10 @@ const styleVars = computed(() => ({
 
 <style lang="scss" scoped>
 @use '@/styles/utilities/_text.scss';
+
+.av-select-group {
+  width: fit-content;
+}
 
 :deep() {
   .av-multiselect {
