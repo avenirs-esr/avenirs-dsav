@@ -229,7 +229,7 @@ export const PH_ICONS = {
 export const RI_ICONS = {
   BOOK_SHELF_LINE: 'ri:book-shelf-line',
   DASHBOARD_2_LINE: 'ri:dashboard-2-line',
-  DIAMOND_FILL: 'ri:diamond-fill',
+  DIAMOND_LINE: 'ri:diamond-line',
   DICE_1_LINE: 'ri:dice-1-line',
   DICE_4_LINE: 'ri:dice-4-line',
   DRAW_LINE: 'ri:draw-line',
@@ -240,6 +240,7 @@ export const RI_ICONS = {
   LOADER_LINE: 'ri:loader-line',
   SEND_PLANE_LINE: 'ri:send-plane-line',
   TIMER_LINE: 'ri:timer-line',
+  VIP_DIAMOND_LINE: 'ri:vip-diamond-line',
 }
 
 /**
