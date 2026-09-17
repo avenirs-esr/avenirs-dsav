@@ -54,7 +54,7 @@ export default defineConfig({
         '@vue/test-utils',
         /^@tiptap\/.*/,
         '@vueuse/core',
-        'date-fns',
+        /^date-fns(?:\/.*)?$/,
         'focus-trap',
         'focus-trap-vue',
         'lodash-es',
