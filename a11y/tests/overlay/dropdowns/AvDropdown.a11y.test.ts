@@ -14,6 +14,7 @@ const stories = [
   'WithoutIcons',
   'IconOnlyItems',
   'WithDisabledItem',
+  'WithDisabledTooltip',
   'SettingsMenu',
 ]
 

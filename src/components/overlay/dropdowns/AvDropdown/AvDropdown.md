@@ -42,6 +42,7 @@ interface AvDropdownItem {
   icon?: string // Optional icon (MDI icon name)
   iconOnly?: boolean // If true, only the icon is displayed, without the label.
   disabled?: boolean // If true, the menu item is disabled.
+  disabledTooltip?: AvButtonProps['disabledTooltip'] // Tooltip text to display when the menu item is disabled.
   href?: AvButtonProps['href'] // Optional URL to navigate to when the item is clicked.
   to?: AvButtonProps['to'] // Optional route to navigate to when the item is clicked.
 }
@@ -74,6 +75,13 @@ const menuItems = [
     name: 'edit',
     icon: MDI_ICONS.PENCIL_OUTLINE,
     label: 'Edit'
+  },
+  {
+    name: 'share',
+    icon: MDI_ICONS.SHARE_VARIANT_OUTLINE,
+    label: 'Share',
+    disabled: true,
+    disabledTooltip: 'This action is not available yet'
   },
   {
     name: 'delete',
