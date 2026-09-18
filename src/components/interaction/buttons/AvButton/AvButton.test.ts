@@ -133,6 +133,51 @@ BddTest().given('an AvButton', () => {
     })
   })
 
+  BddTest().and('disabledTooltip is provided on a disabled button', () => {
+    const props: AvButtonProps = {
+      label: 'Save',
+      disabled: true,
+      disabledTooltip: 'You cannot save yet',
+    }
+
+    beforeEach(() => {
+      wrapper = mount(AvButton, {
+        props,
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should set the disabled tooltip label as AvTooltip content', () => {
+      expect(wrapper.findComponent(AvTooltipStub).props('content')).toBe(props.disabledTooltip)
+    })
+
+    BddTest().then('it should enable the tooltip', () => {
+      expect(wrapper.findComponent(AvTooltipStub).props('disabled')).toBe(false)
+    })
+  })
+
+  BddTest().and('disabledTooltip is provided on an enabled button', () => {
+    const props: AvButtonProps = {
+      label: 'Save',
+      disabledTooltip: 'You cannot save yet',
+    }
+
+    beforeEach(() => {
+      wrapper = mount(AvButton, {
+        props,
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should keep the regular label as AvTooltip content', () => {
+      expect(wrapper.findComponent(AvTooltipStub).props('content')).toBe(props.label)
+    })
+
+    BddTest().then('it should keep the tooltip disabled for a non icon-only button', () => {
+      expect(wrapper.findComponent(AvTooltipStub).props('disabled')).toBe(true)
+    })
+  })
+
   BddTest().and('noRadius prop is true', () => {
     beforeEach(() => {
       wrapper = mount(AvButton, {
