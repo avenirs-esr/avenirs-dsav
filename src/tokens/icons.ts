@@ -122,6 +122,7 @@ export const MDI_ICONS = {
   FORMAT_PARAGRAPH: 'mdi:format-paragraph',
   FORMAT_UNDERLINE: 'mdi:format-underline',
   HAMBURGER_MENU: 'mdi:hamburger-menu',
+  HEAD_COG_OUTLINE: 'mdi:head-cog-outline',
   HISTORY: 'mdi:history',
   HOME_VARIANT_OUTLINE: 'mdi:home-variant-outline',
   HOURGLASS: 'mdi:hourglass',
