@@ -33,6 +33,11 @@ export interface AvDropdownItem {
   disabled?: boolean
 
   /**
+   * Tooltip text to display when the menu item is disabled.
+   */
+  disabledTooltip?: AvButtonProps['disabledTooltip']
+
+  /**
    * Optional URL to navigate to when the item is clicked.
    */
   href?: AvButtonProps['href']
@@ -178,19 +183,14 @@ function handleItemClick (itemName: string, close: () => void) {
       <div class="av-dropdown av-col">
         <AvButton
           v-for="item in items"
+          v-bind="item"
           :key="item.name"
           class="av-dropdown__menu-item"
-          :icon="item.icon"
-          :label="item.label"
           :aria-label="item.label"
           :small="itemSmall"
           :theme="itemTheme"
           :icon-scale="itemIconScale"
-          :disabled="item.disabled"
-          :icon-only="item.iconOnly"
           :data-testid="item.name"
-          :to="item.to"
-          :href="item.href"
           no-radius
           @click="handleItemClick(item.name, close)"
         />

@@ -10,6 +10,7 @@ export const AvButtonStub = defineComponent({
     iconScale: { type: Number },
     noRadius: { type: Boolean, default: false },
     disabled: { type: Boolean, default: false },
+    disabledTooltip: { type: String },
     label: { type: String, required: true },
     iconOnly: { type: Boolean, default: false },
     small: { type: Boolean, default: false },
