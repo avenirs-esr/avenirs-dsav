@@ -7,6 +7,7 @@ const stories = [
   'DefaultIconOnly',
   'DefaultLoading',
   'DefaultDisabled',
+  'DefaultDisabledWithTooltip',
   'DefaultNoRadius',
   'DefaultSecondary',
   'TertiaryOnDarkBackground',

@@ -25,6 +25,7 @@ Buttons consist of :
 | `iconScale` | `number` | `undefined` | | Allows you to manually change the icon size (it is automatically calculated otherwise). |
 | `noRadius` | `boolean` | `false` | | Allows you to remove radii from the button border. |
 | `disabled` | `boolean` | `false` | | Indicates the disabled state of the button. |
+| `disabledTooltip` | `string` | `undefined` | | Tooltip text to display when the button is disabled. |
 | `label` | `string` | | ✅ | Text label for the button. |
 | `iconOnly` | `boolean` | `false` | | Hide label text (`true`) or show it (`false`). |
 | `small` | `boolean` | `false` | | Display the button in small size (`true`) or default size (`false`). |

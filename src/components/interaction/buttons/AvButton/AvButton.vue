@@ -47,6 +47,11 @@ export interface AvButtonProps {
   disabled?: boolean
 
   /**
+   * Tooltip text to display when the button is disabled.
+   */
+  disabledTooltip?: string
+
+  /**
    * Button text label.
    */
   label: string
@@ -97,6 +102,7 @@ const {
   small = false,
   iconOnly = false,
   disabled = false,
+  disabledTooltip,
   isLoading = false,
   noRadius = false,
   icon,
@@ -168,6 +174,9 @@ const componentToRender = computed(() => {
 })
 const variantClass = computed(() => `av-button--variant-${asLink.value ? 'default' : variant.toLowerCase()}`)
 const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
+const showDisabledTooltip = computed(() => disabled && !!disabledTooltip?.trim())
+const tooltipContent = computed(() => showDisabledTooltip.value ? disabledTooltip ?? labelToRender.value : labelToRender.value)
+const tooltipDisabled = computed(() => showDisabledTooltip.value ? false : !iconOnly || buttonDisabled.value)
 
 const linkProps = computed(() => {
   if (hasHref.value && !buttonDisabled.value) {
@@ -185,8 +194,8 @@ const linkProps = computed(() => {
 
 <template>
   <AvTooltip
-    :content="labelToRender"
-    :disabled="!iconOnly || buttonDisabled"
+    :content="tooltipContent"
+    :disabled="tooltipDisabled"
   >
     <component
       :is="componentToRender"

@@ -68,6 +68,7 @@ const meta: Meta<AvButtonProps> = {
     isLoading: { control: 'boolean' },
     noRadius: { control: 'boolean' },
     disabled: { control: 'boolean' },
+    disabledTooltip: { control: 'text' },
     href: { control: 'text' },
     to: { control: 'text' }
   },
@@ -81,6 +82,7 @@ const meta: Meta<AvButtonProps> = {
     isLoading: false,
     noRadius: false,
     disabled: false,
+    disabledTooltip: undefined,
     href: undefined,
     to: undefined
   },
@@ -114,6 +116,12 @@ DefaultLoading.args = {
 export const DefaultDisabled = Template.bind({})
 DefaultDisabled.args = {
   disabled: true
+}
+
+export const DefaultDisabledWithTooltip = Template.bind({})
+DefaultDisabledWithTooltip.args = {
+  disabled: true,
+  disabledTooltip: 'This action is not available yet',
 }
 
 export const DefaultNoRadius = Template.bind({})
