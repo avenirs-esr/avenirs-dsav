@@ -123,6 +123,26 @@ $insets: (
     }
   }
 
+  // === Auto margin classes ===
+  // Ex : .av-m-auto / .av-mt-auto / .av-mb-auto / .av-ml-auto
+  @include emit-spacing-class('m-auto', (margin: auto !important), $responsive);
+
+  @each $direction-key, $direction-targets in $directions {
+    $rules: ();
+
+    @each $target in $direction-targets {
+      $rules: map.merge($rules, (
+        margin-#{$target}: auto !important
+      ));
+    }
+
+    @include emit-spacing-class(
+      "m#{$direction-key}-auto",
+      $rules,
+      $responsive
+    );
+  }
+
   // === Inset classes ===
   // Ex : .av-top-sm / .av--bottom-md / .av-inset-lg / .av-top-xs--sm / .av-inset-md--lg
   @each $inset in $insets {

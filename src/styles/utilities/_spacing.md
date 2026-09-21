@@ -1,5 +1,7 @@
 # Spacing
 
+_Last updated: 2026-09-21_
+
 ## ✨ Introduction
 
 This `spacing` utility generates margin and padding classes for all defined spacing sizes, both globally and directionally, with responsive variants.
@@ -8,7 +10,7 @@ This `spacing` utility generates margin and padding classes for all defined spac
 
 | Class pattern | Description | Responsive variants |
 |---------------|-------------|---------------------|
-| `.av-m{t\|r\|b\|l\|x\|y}?-{none\|xxxs\|xxs\|xs\|sm\|md\|lg\|xl\|2xl\|4xl\|5xl}` | Applies `margin`; optional direction: `t` (`top`), `r` (`right`), `b` (`bottom`), `l` (`left`), `x` (`horizontal`), `y` (`vertical`) | `--sm`, `--md`, `--lg`, `--xl` |
+| `.av-m{t\|r\|b\|l\|x\|y}?-{none\|xxxs\|xxs\|xs\|sm\|md\|lg\|xl\|2xl\|4xl\|5xl\|auto}` | Applies `margin`; optional direction: `t` (`top`), `r` (`right`), `b` (`bottom`), `l` (`left`), `x` (`horizontal`), `y` (`vertical`) | `--sm`, `--md`, `--lg`, `--xl` |
 | `.av--m{t\|r\|b\|l\|x\|y}?-{none\|xxxs\|xxs\|xs\|sm\|md\|lg\|xl\|2xl\|4xl\|5xl}` | Applies negative `margin`; optional direction: `t` (`top`), `r` (`right`), `b` (`bottom`), `l` (`left`), `x` (`horizontal`), `y` (`vertical`) | `--sm`, `--md`, `--lg`, `--xl` |
 | `.av-p{t\|r\|b\|l\|x\|y}?-{none\|xxxs\|xxs\|xs\|sm\|md\|lg\|xl\|2xl\|4xl\|5xl}` | Applies `padding`; optional direction: `t` (`top`), `r` (`right`), `b` (`bottom`), `l` (`left`), `x` (`horizontal`), `y` (`vertical`) | `--sm`, `--md`, `--lg`, `--xl` |
 | `.av-{top\|right\|bottom\|left\|inset}-{none\|xxxs\|xxs\|xs\|sm\|md\|lg\|xl\|2xl\|4xl\|5xl}` | Applies `inset` (positioning); direction: `top`, `right`, `bottom`, `left`, `inset` | `--sm`, `--md`, `--lg`, `--xl` |
@@ -24,6 +26,10 @@ This `spacing` utility generates margin and padding classes for all defined spac
 
 .av--m-md {
   margin: calc(-1 * var(--spacing-md)) !important;
+}
+
+.av-m-auto {
+  margin: auto !important;
 }
 
 @media (min-width: 36rem) {
@@ -42,6 +48,10 @@ This `spacing` utility generates margin and padding classes for all defined spac
 
 .av--mb-lg {
   margin-bottom: calc(-1 * var(--spacing-lg)) !important;
+}
+
+.av-ml-auto {
+  margin-left: auto !important;
 }
 
 @media (min-width: 48rem) {

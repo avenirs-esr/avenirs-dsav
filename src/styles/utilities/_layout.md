@@ -1,6 +1,6 @@
 # Layout
 
-_Last updated: 2026-06-05_
+_Last updated: 2026-09-21_
 
 ## ✨ Introduction
 
@@ -19,22 +19,16 @@ This file contains layout-related utility classes for managing the overall struc
 | `.av-sr-only` | Hides element visually but keeps it accessible to screen readers | `--sm`, `--md`, `--lg`, `--xl` |
 | `.av-hidden` | `display: none !important` | `--sm`, `--md`, `--lg`, `--xl` |
 | `.av-unhidden` | `display: inherit !important` | `--sm`, `--md`, `--lg`, `--xl` |
-| `.av-gap-{spacing}` | Sets `gap` between flex items | `--sm`, `--md`, `--lg`, `--xl` |
+| `.av-gap{-x\|-y}?-{none\|xxxs\|xxs\|xs\|sm\|md\|lg\|xl\|2xl\|4xl\|5xl}` | Sets `gap` between flex items (use `-x` for horizontal gap, `-y` for vertical gap) | `--sm`, `--md`, `--lg`, `--xl` |
 | `.av-flex-fill` | `flex: 1 1 0%` (grow and fill available space) | `--sm`, `--md`, `--lg`, `--xl` |
 | `.av-w-full` | `width: 100%` | `--sm`, `--md`, `--lg`, `--xl` |
 | `.av-h-full` | `height: 100%` | `--sm`, `--md`, `--lg`, `--xl` |
 | `.av-w-unset` | `width: unset` | `--sm`, `--md`, `--lg`, `--xl` |
 | `.av-h-unset` | `height: unset` | `--sm`, `--md`, `--lg`, `--xl` |
-| `.av-align-{alignment}` | Sets `align-items`: `start` (`flex-start`), `center`, `end` (`flex-end`), `stretch`, `baseline` | `--sm`, `--md`, `--lg`, `--xl` |
-| `.av-justify-{justification}` | Sets `justify-content`: `start` (`flex-start`), `center`, `end` (`flex-end`), `between` (`space-between`), `around` (`space-around`), `evenly` (`space-evenly`) | `--sm`, `--md`, `--lg`, `--xl` |
-| `.av-floating-{position}` | `position: fixed` with specified position (`left` or `right`) and spacing | None |
+| `.av-align-{start\|center\|end\|stretch\|baseline}` | Sets `align-items`: `start` (`flex-start`), `center`, `end` (`flex-end`), `stretch`, `baseline` | `--sm`, `--md`, `--lg`, `--xl` |
+| `.av-justify-{start\|center\|end\|between\|around\|evenly}` | Sets `justify-content`: `start` (`flex-start`), `center`, `end` (`flex-end`), `between` (`space-between`), `around` (`space-around`), `evenly` (`space-evenly`) | `--sm`, `--md`, `--lg`, `--xl` |
+| `.av-floating-{left\|right}` | `position: fixed` with specified position (`left` or `right`) and spacing | None |
 | `.av-sticky` | `position: sticky` | `--sm`, `--md`, `--lg`, `--xl` |
-
-📝 Notes:
-- `{spacing}` corresponds to the spacing scale defined in the core: `none`, `xxxs`, `xxs`, `xs`, `sm`, `md`, `lg`, `xl`, `2xl`, `4xl`, `5xl`.
-- `{alignment}` options include: `start`, `center`, `end`, `stretch`, `baseline`.
-- `{justification}` options include: `start`, `center`, `end`, `between`, `around`, `evenly`.
-- `{position}` options include: `left`, `right`.
 
 ## 🎨 Some CSS results
 
@@ -189,6 +183,14 @@ This file contains layout-related utility classes for managing the overall struc
 ```css
 .av-gap-sm {
   gap: var(--spacing-sm);
+}
+
+.av-gap-x-sm {
+  column-gap: var(--spacing-sm);
+}
+
+.av-gap-y-md {
+  row-gap: var(--spacing-md);
 }
 
 @media (min-width: 48rem) {
