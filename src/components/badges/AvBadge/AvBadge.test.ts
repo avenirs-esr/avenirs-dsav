@@ -16,7 +16,8 @@ BddTest().given('an AvBadge', () => {
   const props: AvBadgeProps = {
     color: 'var(--color)',
     backgroundColor: 'var(--background-color)',
-    label: 'MyBadge'
+    label: 'MYBADGE',
+    noSentenceCase: true
   }
 
   const stubs = { AvTooltip: AvTooltipStub }
@@ -83,6 +84,16 @@ BddTest().given('an AvBadge', () => {
       BddTest().then('it should add an ellipsis class', () => {
         const badge = wrapper.find('.av-badge')
         expect(badge.find('.av-max-lines').exists()).toBe(true)
+      })
+    })
+    BddTest().and('given noSentenceCase prop', () => {
+      const newProps: AvBadgeProps = { ...props, noSentenceCase: false }
+      beforeEach(() => {
+        wrapper = mount(AvBadge, { props: newProps, global: { stubs } })
+      })
+      BddTest().then('it should render the label in sentence case', () => {
+        const badge = wrapper.find('.av-badge')
+        expect(badge.text()).toBe('Mybadge')
       })
     })
   })

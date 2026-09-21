@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
 import { useTextTruncation } from '@/composables/use-text-truncation/use-text-truncation'
+import { toSentenceCase } from '@/utils'
 import { getIconPath } from '@/utils/icon-path/icon-path'
 
 /**
  * AvBadge component props.
  */
 export interface AvBadgeProps {
-/**
- * The color of the text to display in the badge.
- */
+  /**
+   * The color of the text to display in the badge.
+   */
   color: string
 
   /**
@@ -44,6 +45,13 @@ export interface AvBadgeProps {
    * @default false
    */
   ellipsis?: boolean | undefined
+
+  /**
+   * Disable sentence case transformation on the label.
+   * You should only use this on very specific cases.
+   * @default false
+   */
+  noSentenceCase?: boolean
 }
 
 defineOptions({
@@ -58,12 +66,13 @@ const {
   label,
   small = false,
   ellipsis = false,
+  noSentenceCase = false
 } = defineProps<AvBadgeProps>()
 
 const iconPathStyleVars = computed(() => getIconPath(icon))
 
 const labelRef = ref<HTMLElement>()
-
+const labelToRender = computed(() => noSentenceCase ? label : toSentenceCase(label))
 const { isTruncated } = useTextTruncation(labelRef)
 </script>
 
@@ -93,7 +102,7 @@ const { isTruncated } = useTextTruncation(labelRef)
           'b2-regular': !small,
         }"
       >
-        {{ label }}
+        {{ labelToRender }}
       </span>
     </span>
   </AvTooltip>
