@@ -10,7 +10,9 @@ const stories = [
   'StatusNotStarted',
   'StatusInProgress',
   'StatusSubmitted',
-  'StatusCompleted'
+  'StatusCompleted',
+  'NoSentenceCase',
+  'WithSentenceCase'
 ]
 
 testStories(component, title, stories)

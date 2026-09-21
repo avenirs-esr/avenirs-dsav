@@ -17,9 +17,11 @@ export const AvBadgeStub = defineComponent({
       type: Boolean,
       default: false
     },
+    noSentenceCase: { type: Boolean, default: false },
     color: String,
     backgroundColor: String,
     borderColor: String,
-    icon: String
+    icon: String,
+
   }
 })

@@ -12,15 +12,17 @@ The `AvBadge` is ideal for displaying short, important information, such as cate
 
 ## 🏷️ Props
 
-| Name | Type | Default | Mandatory | Description |
-| --- | --- | --- | --- | --- |
-| `color` | `string` | | ✅ | The color of the text to display in the badge. |
-| `backgroundColor` | `string` | | ✅ | The background color of the badge. |
-| `borderColor` | `string` | `'transparent'` | | The color of the badge border. |
-| `icon` | `string` | | | The name of the icon or the base64 icon to be displayed. You can use the `XXX_ICONS` and `ICONS_DATA_URL` constants from DSAV. |
-| `label` | `string` | | ✅ | The text to display in the badge. |
-| `small` | `boolean` | `false` | | If `true`, displays a reduced-size badge. |
-| `ellipsis` | `boolean` | `false` | | If `true`, the text is truncated with an ellipsis if it is too long. |
+| Name                                             | Type      | Default         | Mandatory | Description                                                                                                                    |
+| ------------------------------------------------ | --------- | --------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `color`                                          | `string`  |                 | ✅        | The color of the text to display in the badge.                                                                                 |
+| `backgroundColor`                                | `string`  |                 | ✅        | The background color of the badge.                                                                                             |
+| `borderColor`                                    | `string`  | `'transparent'` |           | The color of the badge border.                                                                                                 |
+| `icon`                                           | `string`  |                 |           | The name of the icon or the base64 icon to be displayed. You can use the `XXX_ICONS` and `ICONS_DATA_URL` constants from DSAV. |
+| `label`                                          | `string`  |                 | ✅        | The text to display in the badge.                                                                                              |
+| `small`                                          | `boolean` | `false`         |           | If `true`, displays a reduced-size badge.                                                                                      |
+| `ellipsis`                                       | `boolean` | `false`         |           | If `true`, the text is truncated with an ellipsis if it is too long.                                                           |
+| `noSentenceCase`                                 | `boolean` | `false`         |           | Disable sentence case transformation on the label.                                                                             |
+| You should only use this on very specific cases. |
 
 ## 🔊 Events
 

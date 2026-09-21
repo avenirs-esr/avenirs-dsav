@@ -50,6 +50,7 @@ const meta: Meta<AvBadgeProps> = {
     },
     small: { control: 'boolean' },
     ellipsis: { control: 'boolean' },
+    noSentenceCase: { control: 'boolean' }
   },
   args: {
     label: 'A super badge',
@@ -59,6 +60,7 @@ const meta: Meta<AvBadgeProps> = {
     icon: iconOptionsWithDataUrl[0],
     small: false,
     ellipsis: false,
+    noSentenceCase: false
   },
 }
 
@@ -139,4 +141,15 @@ StatusCompleted.args = {
   color: 'var(--light-foreground-neutral)',
   backgroundColor: 'var(--light-background-neutral)',
   icon: ICONS_DATA_URL.MDI_CALENDAR_CHECK_OUTLINE
+}
+
+export const NoSentenceCase = Template.bind({})
+NoSentenceCase.args = {
+  label: 'NO SENTENCE CASE',
+  noSentenceCase: true
+}
+export const WithSentenceCase = Template.bind({})
+WithSentenceCase.args = {
+  label: 'NO SENTENCE CASE',
+  noSentenceCase: false
 }
