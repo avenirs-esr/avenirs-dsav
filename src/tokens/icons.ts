@@ -161,6 +161,7 @@ export const MDI_ICONS = {
   PLUS_CIRCLE_OUTLINE: 'mdi:plus-circle-outline',
   POST_IT_NOTES_OUTLINE: 'mdi:post-it-notes-outline',
   PRINTER_OUTLINE: 'mdi:printer-outline',
+  QUESTION_MARK_CIRCLE_OUTLINE: 'mdi:question-mark-circle-outline',
   RATE_REVIEW: 'mdi:rate-review',
   RECORD_CIRCLE_OUTLINE: 'mdi:record-circle-outline',
   REDO: 'mdi:redo',
