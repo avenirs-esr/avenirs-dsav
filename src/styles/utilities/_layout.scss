@@ -103,10 +103,16 @@ $float-positions: (
 ));
 
 // === Gapped layouts ===
-// Ex: .av-gap-sm / .av-gap-lg
+// Ex: .av-gap-sm / .av-gap-lg / .av-gap-x-sm / .av-gap-y-lg
 @each $size, $value in sp.$spacing {
   @include utility-base("gap-#{$size}", (
     gap: var(--spacing-#{$size})
+  ));
+  @include utility-base("gap-x-#{$size}", (
+    column-gap: var(--spacing-#{$size})
+  ));
+  @include utility-base("gap-y-#{$size}", (
+    row-gap: var(--spacing-#{$size})
   ));
 }
 
@@ -235,6 +241,12 @@ $float-positions: (
 @each $size, $value in sp.$spacing {
   @include utility-responsive("gap-#{$size}", (
     gap: var(--spacing-#{$size})
+  ));
+  @include utility-responsive("gap-x-#{$size}", (
+    column-gap: var(--spacing-#{$size})
+  ));
+  @include utility-responsive("gap-y-#{$size}", (
+    row-gap: var(--spacing-#{$size})
   ));
 }
 
