@@ -3,14 +3,22 @@ export const AvCancelConfirmButtonsStub = defineComponent({
   props: [
     'cancelLabel',
     'cancelIcon',
-    'confirmLabel',
     'cancelDisabled',
+    'cancelDisabledTooltip',
     'cancelIsLoading',
+    'confirmLabel',
     'confirmIcon',
     'confirmDisabled',
-    'confirmIsLoading'
+    'confirmDisabledTooltip',
+    'confirmIsLoading',
+    'iconOnly',
+    'form'
   ],
   emits: ['cancel', 'confirm'],
+  methods: {
+    focusCancel () {},
+    focusConfirm () {},
+  },
   template: `
     <div class="av-cancel-confirmation-buttons-stub" >
       <button

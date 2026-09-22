@@ -24,6 +24,11 @@ export interface AvCancelConfirmButtonsProps {
   cancelDisabled?: boolean
 
   /**
+   * Adds a tooltip text to display when the cancel button is disabled.
+   */
+  cancelDisabledTooltip?: string
+
+  /**
    * Adds a loading state on the cancel button.
    */
   cancelIsLoading?: boolean
@@ -43,6 +48,11 @@ export interface AvCancelConfirmButtonsProps {
    * Adds a disabled state on the confirm button.
    */
   confirmDisabled?: boolean
+
+  /**
+   * Adds a tooltip text to display when the confirm button is disabled.
+   */
+  confirmDisabledTooltip?: string
 
   /**
    * Adds a loading state on the confirm button.
@@ -69,10 +79,12 @@ const {
   cancelLabel,
   cancelIcon = MDI_ICONS.CLOSE_CIRCLE_OUTLINE,
   cancelDisabled,
+  cancelDisabledTooltip,
   cancelIsLoading,
   confirmLabel,
   confirmIcon = MDI_ICONS.CHECK_CIRCLE_OUTLINE,
   confirmDisabled,
+  confirmDisabledTooltip,
   confirmIsLoading,
   iconOnly = false,
   form,
@@ -90,6 +102,14 @@ const emit = defineEmits<{
 }>()
 
 const attrs = useAttrs()
+
+const cancelBtn = ref<InstanceType<typeof AvButton> | null>(null)
+const confirmBtn = ref<InstanceType<typeof AvButton> | null>(null)
+
+defineExpose({
+  focusCancel: () => cancelBtn.value?.focus(),
+  focusConfirm: () => confirmBtn.value?.focus(),
+})
 </script>
 
 <template>
@@ -99,11 +119,13 @@ const attrs = useAttrs()
   >
     <AvButton
       v-if="cancelLabel"
+      ref="cancelBtn"
       :icon="cancelIcon"
       :label="cancelLabel"
       variant="OUTLINED"
       :is-loading="cancelIsLoading"
       :disabled="cancelDisabled"
+      :disabled-tooltip="cancelDisabledTooltip"
       :icon-only="iconOnly"
       small
       data-testid="cancel-button"
@@ -111,11 +133,13 @@ const attrs = useAttrs()
     />
     <AvButton
       v-if="confirmLabel"
+      ref="confirmBtn"
       :icon="confirmIcon"
       :label="confirmLabel"
       variant="FLAT"
       :is-loading="confirmIsLoading"
       :disabled="confirmDisabled"
+      :disabled-tooltip="confirmDisabledTooltip"
       :type="form ? 'submit' : undefined"
       :form="form"
       :icon-only="iconOnly"

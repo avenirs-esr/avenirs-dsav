@@ -40,10 +40,12 @@ const meta: Meta<AvCancelConfirmButtonsProps> = {
     cancelLabel: { control: 'text' },
     cancelIcon: { control: 'select', options: iconOptions, mapping: iconMapping },
     cancelDisabled: { control: 'boolean' },
+    cancelDisabledTooltip: { control: 'text' },
     cancelIsLoading: { control: 'boolean' },
     confirmLabel: { control: 'text' },
     confirmIcon: { control: 'select', options: iconOptions, mapping: iconMapping },
     confirmDisabled: { control: 'boolean' },
+    confirmDisabledTooltip: { control: 'text' },
     confirmIsLoading: { control: 'boolean' },
   },
   args: {
@@ -93,6 +95,26 @@ export const BothDisabled = Template.bind({})
 BothDisabled.args = {
   cancelDisabled: true,
   confirmDisabled: true,
+}
+
+export const CancelDisabledWithTooltip = Template.bind({})
+CancelDisabledWithTooltip.args = {
+  cancelDisabled: true,
+  cancelDisabledTooltip: 'You cannot cancel right now',
+}
+
+export const ConfirmDisabledWithTooltip = Template.bind({})
+ConfirmDisabledWithTooltip.args = {
+  confirmDisabled: true,
+  confirmDisabledTooltip: 'Please fill in all required fields',
+}
+
+export const BothDisabledWithTooltips = Template.bind({})
+BothDisabledWithTooltips.args = {
+  cancelDisabled: true,
+  cancelDisabledTooltip: 'You cannot cancel right now',
+  confirmDisabled: true,
+  confirmDisabledTooltip: 'Please fill in all required fields',
 }
 
 export const CancelLoading = Template.bind({})

@@ -46,9 +46,11 @@ const meta: Meta<AvModalProps> = {
     closeButtonLabel: { control: 'text', required: true },
     closeButtonIcon: { control: 'text' },
     closeButtonDisabled: { control: 'boolean' },
+    closeButtonDisabledTooltip: { control: 'text' },
     confirmButtonLabel: { control: 'text' },
     confirmButtonIcon: { control: 'text' },
     confirmButtonDisabled: { control: 'boolean' },
+    confirmButtonDisabledTooltip: { control: 'text' },
     isLoading: { control: 'boolean' },
   },
   args: {
@@ -57,9 +59,11 @@ const meta: Meta<AvModalProps> = {
     closeButtonLabel: 'Close',
     closeButtonIcon: MDI_ICONS.CLOSE_CIRCLE_OUTLINE,
     closeButtonDisabled: false,
+    closeButtonDisabledTooltip: undefined,
     confirmButtonLabel: 'Confirm',
     confirmButtonIcon: MDI_ICONS.CHECK_CIRCLE_OUTLINE,
     confirmButtonDisabled: false,
+    confirmButtonDisabledTooltip: undefined,
     isLoading: false,
   },
   parameters: {
@@ -78,7 +82,15 @@ const Template: StoryFn<AvModalProps> = args => ({
   setup () {
     const onClickOutside = () => alert('Clicked outside!')
     const show = ref(args.opened)
-    return { args, show, onClickOutside }
+    const onTeacherButtonClick = () => {
+      alert('Enseignant selected!')
+      show.value = false
+    }
+    const onStudentButtonClick = () => {
+      alert('Étudiant selected!')
+      show.value = false
+    }
+    return { args, show, onClickOutside, onTeacherButtonClick, onStudentButtonClick }
   },
   template: `
     <button @click="show = true">Open modal</button>
@@ -97,13 +109,13 @@ const Template: StoryFn<AvModalProps> = args => ({
         <AvButton
           label="Enseignant"
           theme="SECONDARY"
-          size="sm"
+          small
           @click="onTeacherButtonClick"
         />
         <AvButton
           label="Étudiant"
           theme="SECONDARY"
-          size="sm"
+          small
           @click="onStudentButtonClick"
         />
       </div>

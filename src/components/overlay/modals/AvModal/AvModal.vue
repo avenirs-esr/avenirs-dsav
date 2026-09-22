@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { FocusTrap } from 'focus-trap-vue'
 import { type Slot, useAttrs } from 'vue'
+import AvCancelConfirmButtons from '@/components/interaction/buttons/AvCancelConfirmButtons/AvCancelConfirmButtons.vue'
 import { MDI_ICONS } from '@/tokens'
 
 /**
@@ -31,7 +32,7 @@ export interface AvModalProps {
   closeButtonLabel: string
 
   /**
-   * Icon name of the confirm button.
+   * Icon name of the close button.
    * @default 'mdi:close-circle-outline'
    */
   closeButtonIcon?: string
@@ -41,6 +42,11 @@ export interface AvModalProps {
    * @default false
    */
   closeButtonDisabled?: boolean
+
+  /**
+   * Adds a tooltip text to display when the close button is disabled.
+   */
+  closeButtonDisabledTooltip?: string
 
   /**
    * Label and title (for accessibility) of the confirm button.
@@ -60,7 +66,12 @@ export interface AvModalProps {
   confirmButtonDisabled?: boolean
 
   /**
-   * Adds a loading state on the close button.
+   * Adds a tooltip text to display when the confirm button is disabled.
+   */
+  confirmButtonDisabledTooltip?: string
+
+  /**
+   * Adds a loading state on the close and confirm buttons.
    */
   isLoading?: boolean
 }
@@ -76,9 +87,11 @@ const {
   closeButtonLabel,
   closeButtonIcon = MDI_ICONS.CLOSE_CIRCLE_OUTLINE,
   closeButtonDisabled = false,
+  closeButtonDisabledTooltip,
   confirmButtonLabel,
   confirmButtonIcon = MDI_ICONS.CHECK_CIRCLE_OUTLINE,
   confirmButtonDisabled = false,
+  confirmButtonDisabledTooltip,
   isLoading,
 } = defineProps<AvModalProps>()
 
@@ -116,18 +129,18 @@ const role = computed(() => {
   return isAlert ? 'alertdialog' : 'dialog'
 })
 
-const closeBtn = ref<HTMLButtonElement | null>(null)
+const closeBtn = ref<InstanceType<typeof AvCancelConfirmButtons> | null>(null)
 const modal = ref()
 watch(() => opened, (newValue) => {
   if (newValue) {
     modal.value?.showModal()
-    closeBtn.value?.focus()
+    closeBtn.value?.focusCancel()
   }
   else {
     modal.value?.close()
   }
   setAppropriateClassOnBody(newValue)
-})
+}, { flush: 'post' })
 
 function setAppropriateClassOnBody (on: boolean) {
   if (typeof window !== 'undefined') {
@@ -137,6 +150,10 @@ function setAppropriateClassOnBody (on: boolean) {
 
 onMounted(() => {
   setAppropriateClassOnBody(opened)
+  if (opened) {
+    modal.value?.showModal()
+    closeBtn.value?.focusCancel()
+  }
 })
 
 onBeforeUnmount(() => {
@@ -180,10 +197,12 @@ onBeforeUnmount(() => {
                 :cancel-label="closeButtonLabel"
                 :cancel-icon="closeButtonIcon"
                 :cancel-disabled="closeButtonDisabled"
+                :cancel-disabled-tooltip="closeButtonDisabledTooltip"
                 :cancel-is-loading="isLoading"
                 :confirm-label="confirmButtonLabel"
                 :confirm-icon="confirmButtonIcon"
                 :confirm-disabled="confirmButtonDisabled"
+                :confirm-disabled-tooltip="confirmButtonDisabledTooltip"
                 :confirm-is-loading="isLoading"
                 @cancel="() => emit('close')"
                 @confirm="() => emit('confirm')"

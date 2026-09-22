@@ -242,6 +242,20 @@ BddTest().given('an AvButton', () => {
         expect(wrapper.emitted('click')).toBeUndefined()
       })
     })
+
+    BddTest().when('calling the exposed focus method', () => {
+      let focusSpy: MockInstance
+
+      beforeEach(() => {
+        const link = wrapper.findComponent(RouterLinkStub)
+        focusSpy = vi.spyOn(link.element as HTMLElement, 'focus')
+        wrapper.vm.focus()
+      })
+
+      BddTest().then('it should call focus on the underlying RouterLink element', () => {
+        expect(focusSpy).toHaveBeenCalled()
+      })
+    })
   })
 
   BddTest().and('a to prop is provided but disabled is true', () => {

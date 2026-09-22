@@ -1,5 +1,5 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect } from 'vitest'
+import { beforeEach, expect, vi } from 'vitest'
 import { AvButtonStub } from '@/components/interaction/buttons/AvButton/AvButton.stub'
 import AvCancelConfirmButtons from '@/components/interaction/buttons/AvCancelConfirmButtons/AvCancelConfirmButtons.vue'
 import { BddTest } from '@/tests/utils'
@@ -102,6 +102,28 @@ BddTest().given('an AvCancelConfirmButtons component', () => {
           expect(wrapper.emitted('confirm')).toBeDefined()
         })
       })
+
+      BddTest().and('focusCancel is called on the exposed instance', () => {
+        BddTest().then('it should focus the cancel button only', () => {
+          const buttons = wrapper.findAllComponents({ name: 'AvButton' })
+          const cancelFocusSpy = vi.spyOn(buttons[0].vm, 'focus')
+          const confirmFocusSpy = vi.spyOn(buttons[1].vm, 'focus')
+          wrapper.vm.focusCancel()
+          expect(cancelFocusSpy).toHaveBeenCalledOnce()
+          expect(confirmFocusSpy).not.toHaveBeenCalled()
+        })
+      })
+
+      BddTest().and('focusConfirm is called on the exposed instance', () => {
+        BddTest().then('it should focus the confirm button only', () => {
+          const buttons = wrapper.findAllComponents({ name: 'AvButton' })
+          const cancelFocusSpy = vi.spyOn(buttons[0].vm, 'focus')
+          const confirmFocusSpy = vi.spyOn(buttons[1].vm, 'focus')
+          wrapper.vm.focusConfirm()
+          expect(confirmFocusSpy).toHaveBeenCalledOnce()
+          expect(cancelFocusSpy).not.toHaveBeenCalled()
+        })
+      })
     })
   })
 
@@ -126,6 +148,31 @@ BddTest().given('an AvCancelConfirmButtons component', () => {
         expect(buttons[1].text()).toContain('Confirm')
         expect(buttons[0].props('disabled')).toBe(true)
         expect(buttons[1].props('disabled')).toBe(true)
+      })
+    })
+  })
+
+  BddTest().and('cancel and confirm labels are passed with disabled tooltip props', () => {
+    beforeEach(() => {
+      wrapper = mount(AvCancelConfirmButtons, {
+        props: {
+          cancelLabel: 'Cancel',
+          confirmLabel: 'Confirm',
+          cancelDisabled: true,
+          confirmDisabled: true,
+          cancelDisabledTooltip: 'Cancel disabled tooltip',
+          confirmDisabledTooltip: 'Confirm disabled tooltip'
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should forward the disabled tooltips to the cancel and the confirm buttons', () => {
+        const buttons = wrapper.findAllComponents({ name: 'AvButton' })
+        expect(buttons).toHaveLength(2)
+        expect(buttons[0].props('disabledTooltip')).toBe('Cancel disabled tooltip')
+        expect(buttons[1].props('disabledTooltip')).toBe('Confirm disabled tooltip')
       })
     })
   })
