@@ -4,7 +4,7 @@ import AvPeriodInput, { type AvPeriodInputProps } from '@/components/interaction
 /**
  * <p>
  *   <span class="b2-regular">
- *     ⚠️ <strong>Deprecated</strong>: use <code>AvDatePicker</code> with <code>type="range"</code> instead.
+ *     ⚠️ <strong>Deprecated</strong>: use <code>AvDatePicker</code> with the <code>range</code> prop instead.
  *   </span>
  * </p>
  *

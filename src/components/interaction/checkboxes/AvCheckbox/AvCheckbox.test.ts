@@ -1,5 +1,6 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
+import { AvIconStub } from '@/components/base/AvIcon/AvIcon.stub'
 import { AvMessageStub } from '@/components/base/AvMessage/AvMessage.stub'
 import AvCheckbox, { type AvCheckboxProps } from '@/components/interaction/checkboxes/AvCheckbox/AvCheckbox.vue'
 import { BddTest } from '@/tests/utils'
@@ -11,7 +12,7 @@ const defaultProps: AvCheckboxProps & { modelValue: (string | number | boolean |
   modelValue: []
 }
 
-const stubs = { AvMessage: AvMessageStub }
+const stubs = { AvIcon: AvIconStub, AvMessage: AvMessageStub }
 
 function mountWithProps (props: Partial<AvCheckboxProps
   & { modelValue: (string | number | boolean | undefined)[] }> = {}, slots = {}) {
@@ -109,6 +110,22 @@ BddTest().given('an AvCheckbox component', () => {
     BddTest().then('input should have tabindex -1', () => {
       const input = wrapper.find('input[type="checkbox"]')
       expect(input.attributes('tabindex')).toBe('-1')
+    })
+
+    BddTest().then('icon should use the unselected disabled foreground color', () => {
+      const icon = wrapper.findComponent({ name: 'AvIcon' })
+      expect(icon.props('color')).toBe('var(--unselected-disabled-foreground)')
+    })
+  })
+
+  BddTest().when('a checked checkbox is disabled', () => {
+    beforeEach(() => {
+      wrapper = mountWithProps({ disabled: true, modelValue: [defaultProps.value] })
+    })
+
+    BddTest().then('icon should use the selected disabled foreground color', () => {
+      const icon = wrapper.findComponent({ name: 'AvIcon' })
+      expect(icon.props('color')).toBe('var(--selected-disabled-foreground)')
     })
   })
 

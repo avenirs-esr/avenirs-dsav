@@ -9,7 +9,7 @@ import { isDate, isMonthModel, toDate } from '@/utils/dates/date-picker'
  * This component renders two date inputs (start/end) under a single label.
  * It is designed to be used for period/range selection.
  *
- * @deprecated Use `AvDatePicker` with `type="range"` instead.
+ * @deprecated Use `AvDatePicker` with `range` prop instead.
  */
 interface AvPeriodInputBaseProps {
   /**
@@ -116,7 +116,7 @@ interface AvPeriodInputBaseProps {
 }
 
 /**
- * @deprecated Use `AvDatePickerProps` with `type: 'range'` instead.
+ * @deprecated Use `AvDatePickerProps` with `range: true` instead.
  */
 export type AvPeriodInputProps = AvPeriodInputBaseProps & (
   | {

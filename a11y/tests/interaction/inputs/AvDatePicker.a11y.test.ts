@@ -14,7 +14,9 @@ const stories = [
   'TimeType',
   'WeekType',
   'RangeType',
+  'MonthRangeType',
   'DateTimeLocalType',
+  'WithLabelSuffix',
 ]
 
 testStories(component, title, stories)

@@ -121,6 +121,9 @@ const checkboxIconName = computed(() => {
 })
 
 const iconColor = computed(() => {
+  if (disabled) {
+    return isChecked.value ? 'var(--selected-disabled-foreground)' : 'var(--unselected-disabled-foreground)'
+  }
   return isChecked.value ? 'var(--dark-background-primary1)' : 'var(--icon)'
 })
 

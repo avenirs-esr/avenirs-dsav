@@ -15,6 +15,7 @@ export const AvDatePickerStub = defineComponent({
     maxDate: [Date, String, Number],
     disabled: Boolean,
     placeholder: String,
+    range: Boolean,
     locale: [String, Object],
     autoApply: Boolean,
     inputAttrs: Object,
@@ -22,5 +23,5 @@ export const AvDatePickerStub = defineComponent({
     timeConfig: Object,
   },
   emits: ['update:modelValue', 'change'],
-  template: `<div class="av-date-picker-stub" data-testid="av-date-picker-stub" />`,
+  template: `<div class="av-date-picker-stub" data-testid="av-date-picker-stub"><slot name="labelSuffix" /></div>`,
 })
