@@ -171,6 +171,11 @@ const slots = defineSlots<{
    * Default slot for custom content.
    */
   default?: Slot
+
+  /**
+   * Slot for content displayed above the list item, outside its clickable area.
+   */
+  header?: Slot
 }>()
 
 const titleRef = ref<HTMLElement | null>(null)
@@ -235,6 +240,10 @@ function handleKeyDown (event: KeyboardEvent) {
     :role="role"
     :class="itemClass"
   >
+    <div v-if="slots.header" class="av-list-item__header">
+      <slot name="header" />
+    </div>
+
     <AvTooltip
       :content="computedAriaLabel ?? ''"
       :disabled="!enableTooltip || !computedAriaLabel || !(isTitleTruncated || isDescriptionTruncated)"
