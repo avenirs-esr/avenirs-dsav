@@ -196,6 +196,7 @@ const linkProps = computed(() => {
   <AvTooltip
     :content="tooltipContent"
     :disabled="tooltipDisabled"
+    :force-focusable="!!disabledTooltip && disabled"
   >
     <component
       :is="componentToRender"
