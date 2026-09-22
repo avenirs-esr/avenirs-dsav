@@ -29,11 +29,6 @@ export interface AvTooltipProps {
   triggerClass?: string
 
   /**
-   * Aria label for the tooltip trigger element.
-   */
-  triggerAriaLabel?: string
-
-  /**
    * Custom padding for the tooltip content in rem.
    * @default 0.75
    */
@@ -139,7 +134,6 @@ onUnmounted(() => {
         ref="triggerRef"
         class="av-tooltip-trigger"
         :class="triggerClass"
-        :aria-label="triggerAriaLabel"
         :tabindex="forceFocusable ? 0 : undefined"
       >
         <slot />
