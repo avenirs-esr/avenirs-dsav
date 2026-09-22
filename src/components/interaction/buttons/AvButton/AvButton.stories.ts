@@ -23,8 +23,9 @@ import { iconMapping, iconOptions } from '@/utils/storybook'
  *
  * <p>
  *   <span class="b2-regular">
- *     The button only allow two variants (<code>DEFAULT</code> without border and <code>OUTLINED</code> with border)
- *     and three themes (<code>PRIMARY</code> blue, <code>SECONDARY</code> grey and <code>TERTIARY</code> white).
+ *     The button allows three variants (<code>DEFAULT</code> without border, <code>OUTLINED</code> with border
+ *     and <code>FLAT</code> with filled background) and three themes
+ *     (<code>PRIMARY</code> blue, <code>SECONDARY</code> grey and <code>TERTIARY</code> white).
  *   </span>
  * </p>
  *
@@ -66,9 +67,11 @@ const meta: Meta<AvButtonProps> = {
     small: { control: 'boolean' },
     iconOnly: { control: 'boolean' },
     isLoading: { control: 'boolean' },
+    iconScale: { control: 'number' },
     noRadius: { control: 'boolean' },
     disabled: { control: 'boolean' },
     disabledTooltip: { control: 'text' },
+    noSentenceCase: { control: 'boolean' },
     href: { control: 'text' },
     to: { control: 'text' }
   },
@@ -80,9 +83,11 @@ const meta: Meta<AvButtonProps> = {
     small: false,
     iconOnly: false,
     isLoading: false,
+    iconScale: undefined,
     noRadius: false,
     disabled: false,
     disabledTooltip: undefined,
+    noSentenceCase: false,
     href: undefined,
     to: undefined
   },

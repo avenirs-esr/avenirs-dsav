@@ -1,9 +1,14 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect } from 'vitest'
+import { beforeEach, expect, type MockInstance, vi } from 'vitest'
 import { nextTick } from 'vue'
 import { AvCancelConfirmButtonsStub } from '@/components/interaction/buttons/AvCancelConfirmButtons/AvCancelConfirmButtons.stub'
 import AvModal, { type AvModalProps } from '@/components/overlay/modals/AvModal/AvModal.vue'
 import { BddTest } from '@/tests/utils'
+
+Object.defineProperty(HTMLDialogElement.prototype, 'showModal', {
+  configurable: true,
+  value: vi.fn(),
+})
 
 BddTest().given('an AvModal', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvModal>>
@@ -19,13 +24,13 @@ BddTest().given('an AvModal', () => {
 
   const props: AvModalProps = {
     opened: true,
-    closeButtonLabel: 'Close'
+    closeButtonLabel: 'Close',
   }
 
   const propsWithConfirm: AvModalProps = {
     opened: true,
     closeButtonLabel: 'Close',
-    confirmButtonLabel: 'Confirm'
+    confirmButtonLabel: 'Confirm',
   }
 
   BddTest().and('a confirm label is passed', () => {
@@ -36,14 +41,15 @@ BddTest().given('an AvModal', () => {
           slots: {
             default: '<div class="content">Hello</div>',
             header: '<div class="header-slot">Header</div>',
-            footer: '<div class="footer-slot">Footer</div>'
+            footer: '<div class="footer-slot">Footer</div>',
           },
-          global: { stubs }
+          global: { stubs },
         })
       })
 
       BddTest().then('it should render the confirm button', () => {
         const buttons = wrapper.findComponent({ name: 'AvCancelConfirmButtons' })
+
         expect(buttons.exists()).toBe(true)
         expect(buttons.text()).toContain(propsWithConfirm.confirmButtonLabel)
       })
@@ -57,9 +63,9 @@ BddTest().given('an AvModal', () => {
         slots: {
           default: '<div class="content">Hello</div>',
           header: '<div class="header-slot">Header</div>',
-          footer: '<div class="footer-slot">Footer</div>'
+          footer: '<div class="footer-slot">Footer</div>',
         },
-        global: { stubs }
+        global: { stubs },
       })
     })
 
@@ -71,36 +77,60 @@ BddTest().given('an AvModal', () => {
 
     BddTest().then('it should render the close button with correct props', () => {
       const buttons = wrapper.findComponent({ name: 'AvCancelConfirmButtons' })
+
       expect(buttons.exists()).toBe(true)
       expect(buttons.text()).toBe(props.closeButtonLabel)
     })
 
     BddTest().then('it should emit "close" when the close button is clicked', async () => {
       const buttons = wrapper.findComponent({ name: 'AvCancelConfirmButtons' })
+
       expect(buttons.exists()).toBe(true)
+
       await buttons.find('.cancel').trigger('click')
+
       expect(wrapper.emitted('close')).toHaveLength(1)
     })
 
     BddTest().then('it should emit "close" when Escape is pressed', async () => {
       const modal = wrapper.find('dialog')
+
       await modal.trigger('keydown.esc')
+
       expect(wrapper.emitted('close')).toHaveLength(1)
     })
 
     BddTest().then('it should emit "confirm" when the confirm button is clicked', async () => {
       const buttons = wrapper.findComponent({ name: 'AvCancelConfirmButtons' })
+
       expect(buttons.exists()).toBe(true)
+
       await buttons.find('.confirm').trigger('click')
+
       expect(wrapper.emitted('confirm')).toHaveLength(1)
     })
 
     BddTest().then('it should pass isLoading to the button', async () => {
-      wrapper.setProps({ isLoading: true })
+      await wrapper.setProps({ isLoading: true })
       await nextTick()
+
       const btn = wrapper.findComponent({ name: 'AvCancelConfirmButtons' })
+
       expect(btn.props('cancelIsLoading')).toBe(true)
       expect(btn.props('confirmIsLoading')).toBe(true)
+    })
+
+    BddTest().then('it should pass the disabled tooltips to the button', async () => {
+      await wrapper.setProps({
+        closeButtonDisabledTooltip: 'Close disabled tooltip',
+        confirmButtonDisabledTooltip: 'Confirm disabled tooltip',
+      })
+      await nextTick()
+
+      const btn = wrapper.findComponent({ name: 'AvCancelConfirmButtons' })
+
+      expect(btn.props('cancelDisabledTooltip')).toBe('Close disabled tooltip')
+      expect(btn.props('confirmDisabledTooltip')).toBe('Confirm disabled tooltip')
     })
   })
 
@@ -109,12 +139,13 @@ BddTest().given('an AvModal', () => {
       beforeEach(() => {
         wrapper = mount(AvModal, {
           props: { ...props, isAlert: true },
-          global: { stubs }
+          global: { stubs },
         })
       })
 
       BddTest().then('it should have role alertdialog', () => {
         const modal = wrapper.find('dialog')
+
         expect(modal.attributes('role')).toBe('alertdialog')
       })
     })
@@ -125,12 +156,13 @@ BddTest().given('an AvModal', () => {
       beforeEach(() => {
         wrapper = mount(AvModal, {
           props: { ...props, isAlert: false },
-          global: { stubs }
+          global: { stubs },
         })
       })
 
       BddTest().then('it should have role dialog', () => {
         const modal = wrapper.find('dialog')
+
         expect(modal.attributes('role')).toBe('dialog')
       })
     })
@@ -141,7 +173,7 @@ BddTest().given('an AvModal', () => {
       beforeEach(() => {
         wrapper = mount(AvModal, {
           props,
-          global: { stubs }
+          global: { stubs },
         })
       })
 
@@ -172,7 +204,7 @@ BddTest().given('an AvModal', () => {
       beforeEach(() => {
         wrapper = mount(AvModal, {
           props: { ...props, opened: false },
-          global: { stubs }
+          global: { stubs },
         })
       })
 
@@ -185,7 +217,16 @@ BddTest().given('an AvModal', () => {
       })
 
       BddTest().and('the modal is opened by prop change', () => {
+        let focusCancelSpy: MockInstance
+
         beforeEach(async () => {
+          focusCancelSpy = vi.spyOn(
+            AvCancelConfirmButtonsStub.methods as {
+              focusCancel: () => void
+            },
+            'focusCancel',
+          )
+
           await wrapper.setProps({ opened: true })
         })
 
@@ -195,6 +236,10 @@ BddTest().given('an AvModal', () => {
 
         BddTest().then('it should have the body class', () => {
           expect(document.body.classList.contains('modal-open')).toBe(true)
+        })
+
+        BddTest().then('it should focus the close button', () => {
+          expect(focusCancelSpy).toHaveBeenCalledOnce()
         })
       })
     })

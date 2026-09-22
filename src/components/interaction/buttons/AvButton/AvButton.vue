@@ -10,9 +10,9 @@ import { toSentenceCase } from '@/utils'
  */
 export interface AvButtonProps {
   /**
-   * Button variant: borderless (`DEFAULT`) or with border (`OUTLINED`).
+   * Button variant: borderless (`DEFAULT`), with border (`OUTLINED`), or filled (`FLAT`).
    * @default 'DEFAULT'
-   * @warning If to is defined, the button will always be `DEFAULT` variant.
+   * @warning If to or href is defined, the button will always be `DEFAULT` variant.
    */
   variant?: 'DEFAULT' | 'OUTLINED' | 'FLAT'
 
@@ -120,10 +120,19 @@ defineEmits<{
   (e: 'click', event: MouseEvent): void
 }>()
 
-const btn = ref<{ focus: () => void } | null>(null)
+const btn = ref<HTMLElement | { $el: HTMLElement } | null>(null)
 const attrs = useAttrs()
 function focus () {
-  btn.value?.focus()
+  const el = btn.value
+  if (!el) {
+    return
+  }
+  if (el instanceof HTMLElement) {
+    el.focus()
+  }
+  else {
+    el.$el?.focus?.()
+  }
 }
 defineExpose({ focus })
 
@@ -301,7 +310,7 @@ const linkProps = computed(() => {
 
           // === ARIA pressed ===
           &[aria-pressed="true"]:not(.av-button--disabled) {
-            background-color: map.get($colors, hover-bg);;
+            background-color: map.get($colors, hover-bg);
             color: map.get($colors, text);
           }
 

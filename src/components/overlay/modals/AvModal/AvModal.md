@@ -2,7 +2,7 @@
 
 ## ✨ Introduction
 
-The `AvModal` allows the user attention to be focused exclusively on a task or piece of information, without losing the context of the current page. This component requires a user action in order to be opened or closed.
+The `AvModal` allows the user's attention to be focused exclusively on a task or piece of information, without losing the context of the current page. This component requires a user action in order to be opened or closed.
 
 The `AvModal` component is a configurable modal window, offering advanced features such as focus trapping, escape key listening for closure, and action button management. This component is designed to display dialogs and alerts in an accessible and ergonomic way.
 
@@ -23,20 +23,22 @@ It consists of the following elements:
 | `opened` | `boolean` | `false` | | Indicates whether the modal is open. |
 | `isAlert` | `boolean` | `false` | | Specifies whether the modal is an alert (role `"alertdialog"` if `true`) or not (role will then be `"dialog"`). |
 | `closeButtonLabel` | `string` | | ✅ | Label and title (for accessibility) of close button. |
-| `closeButtonIcon` | `string` | `mdi:close-circle-outline` | | Icon name of the close button. |
-| `closeButtonDisabled` | `boolean` | `false` | | Add a disabled state on the close button. |
+| `closeButtonIcon` | `string` | `'mdi:close-circle-outline'` | | Icon name of the close button. |
+| `closeButtonDisabled` | `boolean` | `false` | | Adds a disabled state on the close button. |
+| `closeButtonDisabledTooltip` | `string` | `undefined` | | Adds a tooltip text to display when the close button is disabled. |
 | `confirmButtonLabel` | `string` | `undefined` | | Label and title (for accessibility) of confirm button. |
-| `confirmButtonIcon` | `string` | `mdi:check-circle-outline` | | Icon name of the confirm button. |
-| `confirmButtonDisabled` | `boolean` | `false` | | Add a disabled state on the confirm button. |
-| `isLoading` | `boolean` | `false` | | Add a loading state to the close button. |
+| `confirmButtonIcon` | `string` | `'mdi:check-circle-outline'` | | Icon name of the confirm button. |
+| `confirmButtonDisabled` | `boolean` | `false` | | Adds a disabled state on the confirm button. |
+| `confirmButtonDisabledTooltip` | `string` | `undefined` | | Adds a tooltip text to display when the confirm button is disabled. |
+| `isLoading` | `boolean` | `false` | | Adds a loading state on the close and confirm buttons. |
 
 ## 🔊 Events
 
 | Name | Data (*payload*) | Description |
 | --- | --- | --- |
-| `‘close’` | | Event emitted when modal is closed. |
-| `‘confirm’` | | Event emitted when confirm button is clicked. |
-| `‘clickOutside’` | | Event emitted when a click is detected outside the modal. |
+| `'close'` | | Event emitted when modal is closed. |
+| `'confirm'` | | Event emitted when confirm button is clicked. |
+| `'clickOutside'` | | Event emitted when a click is detected outside the modal. |
 
 ## 🎨 Slots
 
@@ -68,8 +70,37 @@ const { showModal, displayModal, hideModal } = useModal()
     </template>
     <span class="b2-regular">An awesome content</span>
     <template #footer>
-      <AvButton label="A button to the right of the ‘Close’ button" />
+      <AvButton label="A button to the right of the 'Close' button" />
     </template>
+  </AvModal>
+</template>
+```
+
+```vue
+<script lang="ts" setup>
+const { showModal, displayModal, hideModal } = useModal()
+const isFormValid = ref(false)
+
+function submitForm () {
+  hideModal()
+}
+</script>
+
+<template>
+  <AvButton
+    label="Open modal"
+    @click="displayModal"
+  />
+  <AvModal
+    :opened="showModal"
+    close-button-label="Cancel"
+    confirm-button-label="Submit"
+    :confirm-button-disabled="!isFormValid"
+    confirm-button-disabled-tooltip="Please complete all required fields"
+    @close="hideModal"
+    @confirm="submitForm"
+  >
+    <span class="b2-regular">Form content</span>
   </AvModal>
 </template>
 ```

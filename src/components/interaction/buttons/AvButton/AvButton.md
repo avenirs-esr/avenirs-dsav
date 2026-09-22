@@ -6,13 +6,13 @@ The `AvButton` is an interaction element with an interface enabling the user to 
 
 The `AvButton` is an elegant, reusable Vue component designed to simplify the creation of custom buttons. It features adjustable sizes (small and default), an optional icon and a click manager. It's easy to use, with the flexibility to adapt to different contexts.
 
-The button only allow three variants (`DEFAULT` without border, `OUTLINED` with border and `FLAT` with filled background and border) and two themes (`PRIMARY` blue and `SECONDARY` grey).
+The button allows three variants (`DEFAULT` without border, `OUTLINED` with border and `FLAT` with filled background and border) and three themes (`PRIMARY` blue, `SECONDARY` grey and `TERTIARY` white).
 
 ## 🏗️ Structure
 
-Buttons consist of :
+Buttons consist of:
 
-- A label - mandatory, using the `label` prop, enables label display when `iconOnly` is `false`, also enables connection to `title` and `aria-label` ;
+- A label - mandatory, using the `label` prop, enables label display when `iconOnly` is `false`, also enables connection to `title` and `aria-label`;
 - An icon, which can be modified (see available icons) - optional.
 
 ## 🏷️ Props
@@ -20,7 +20,7 @@ Buttons consist of :
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
 | `variant` | `'DEFAULT' \| 'OUTLINED' \| 'FLAT'` | `'DEFAULT'` | | Button variant: without border (`DEFAULT`) or with border (`OUTLINED`) or with filled background and border (`FLAT`). |
-| `theme` | `'PRIMARY' \| 'SECONDARY' \| 'TERTIARY'` | `'PRIMARY'` | | Button theme: blue (`PRIMARY`), (`SECONDARY`) or white (`TERTIARY`). |
+| `theme` | `'PRIMARY' \| 'SECONDARY' \| 'TERTIARY'` | `'PRIMARY'` | | Button theme: blue (`PRIMARY`), gray (`SECONDARY`) or white (`TERTIARY`). |
 | `isLoading` | `boolean` | `false` | | Indicates a loading status for the button. |
 | `iconScale` | `number` | `undefined` | | Allows you to manually change the icon size (it is automatically calculated otherwise). |
 | `noRadius` | `boolean` | `false` | | Allows you to remove radii from the button border. |
@@ -36,18 +36,25 @@ Buttons consist of :
 
 📝 Notes:
 - The `href` and `to` props are mutually exclusive. If both are provided, the button will prioritize the `href` prop and render as an anchor tag (`<a>`). If only the `to` prop is provided, the button will render as a `RouterLink`.
-- When the button is rendered as an anchor tag (`<a>`), it will open the link in a new tab and use `rel="noopener noreferrer"` for security reasons.
-- When the button is rendered as an anchor tag (`<a>`), the icon display will be automatically set to `mdi:external-link`.
+- When the button is rendered as an anchor tag (`<a>`) for an **external** URL (any `href` not starting with `#`), it will open the link in a new tab, use `rel="noopener noreferrer"` for security reasons, and automatically set the icon to `mdi:external-link`.
+- When `href` is an internal anchor (starting with `#`, e.g. `#section1`), none of the above applies: the link behaves as a normal same-page anchor (no new tab, no `rel` attribute, no automatic icon).
+- When the button is rendered as an anchor tag or a `RouterLink` (i.e. `href` or `to` is set and the button isn't disabled), the `click` event is **not** emitted — navigation is handled natively by the anchor/`RouterLink` instead.
 
 ## 🔊 Events
 
-| Name | Description |
-| --- | --- |
-| `click` | Emitted when the button is clicked. |
+| Name | Data (*payload*) | Description |
+| --- | --- | --- |
+| `'click'` | `MouseEvent` | Emitted when the button is clicked (not emitted when rendered as a link or `RouterLink`, see notes above). |
 
 ## 🎨 Slots
 
 None.
+
+## 🛠️ Exposed methods
+
+| Name | Parameters | Description |
+| --- | --- | --- |
+| `focus` | | Moves focus to the button (or to the underlying anchor/`RouterLink` element). |
 
 ## 🚀 Storybook demos
 
@@ -73,7 +80,7 @@ You can find examples of use and demo of the component on its dedicated [Storybo
     icon-only
     variant="OUTLINED"
     small
-    label="Paramètres de la trace"
+    label="Settings"
     @click="toggleSettingsMenu"
   />
 </template>
@@ -88,6 +95,42 @@ You can find examples of use and demo of the component on its dedicated [Storybo
     theme="SECONDARY"
     small
     no-radius
+  />
+</template>
+```
+
+```vue
+<template>
+  <AvButton
+    label="Save"
+    icon="mdi:content-save"
+    variant="FLAT"
+    @click="saveData"
+  />
+</template>
+```
+
+```vue
+<template>
+  <AvButton
+    label="View profile"
+    to="/profile"
+  />
+</template>
+```
+
+```vue
+<script lang="ts" setup>
+const saveButtonRef = ref<InstanceType<typeof AvButton> | null>(null)
+
+onMounted(() => saveButtonRef.value?.focus())
+</script>
+
+<template>
+  <AvButton
+    ref="saveButtonRef"
+    label="Save"
+    @click="saveData"
   />
 </template>
 ```

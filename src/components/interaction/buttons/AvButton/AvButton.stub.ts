@@ -20,6 +20,9 @@ export const AvButtonStub = defineComponent({
     to: { type: [String, Object] as PropType<string | RouteLocationRaw> | undefined, default: undefined },
   },
   emits: ['click'],
+  methods: {
+    focus () {},
+  },
   template: `
     <a
       v-if="href"
@@ -32,7 +35,7 @@ export const AvButtonStub = defineComponent({
     <a
       v-else-if="to"
       data-testid="av-button-stub"
-      data-tag="router-link"
+      data-tag="routerlink"
       :href="to"
     >
       {{ label }}
