@@ -98,6 +98,13 @@ export interface AvDatePickerProps {
   placeholder?: string
 
   /**
+   * Whether the date input allows selecting a range, forwarded to VueDatePicker.
+   * Can be combined with any `type` (e.g. a month range or a week range).
+   * @default false
+   */
+  range?: RootProps['range']
+
+  /**
    * Time picker configuration, forwarded to VueDatePicker
    */
   timeConfig?: RootProps['timeConfig']
@@ -134,6 +141,7 @@ const {
   minDate,
   modelValue,
   placeholder,
+  range = false,
   timeConfig,
   type = 'date',
   width,
@@ -205,17 +213,21 @@ function onUpdate (value: AvDatePickerProps['modelValue']) {
     :class="{ 'av-date-picker--error': isInvalid }"
     :style="{ width }"
   >
-    <label
-      class="av-label"
-      data-testid="av-date-picker-label"
-      :class="[
-        { 'av-sr-only': !labelVisible },
-        labelClass,
-      ]"
-      :for="realId"
-    >
-      {{ label }}
-    </label>
+    <div class="av-row av-justify-between">
+      <label
+        class="av-label"
+        data-testid="av-date-picker-label"
+        :class="[
+          { 'av-sr-only': !labelVisible },
+          labelClass,
+        ]"
+        :for="realId"
+      >
+        {{ label }}
+      </label>
+
+      <slot name="labelSuffix" />
+    </div>
 
     <VueDatePicker
       :auto-apply="autoApply"
@@ -228,7 +240,7 @@ function onUpdate (value: AvDatePickerProps['modelValue']) {
       :model-value="modelValue"
       :month-picker="type === 'month'"
       :placeholder="placeholder"
-      :range="type === 'range'"
+      :range="range"
       :time-config="datePickerTimeConfig"
       :time-picker="type === 'time'"
       :ui="{

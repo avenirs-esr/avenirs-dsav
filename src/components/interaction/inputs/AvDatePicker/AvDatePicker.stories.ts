@@ -52,10 +52,11 @@ const meta: Meta<AvDatePickerProps> = {
     maxDate: { control: 'object' },
     minDate: { control: 'object' },
     placeholder: { control: 'text' },
+    range: { control: 'boolean' },
     timeConfig: { control: 'object' },
     type: {
       control: 'select',
-      options: ['date', 'datetime-local', 'month', 'time', 'week', 'range'],
+      options: ['date', 'datetime-local', 'month', 'time', 'week'],
     },
     width: { control: 'text' },
   },
@@ -152,7 +153,14 @@ WeekType.args = {
 
 export const RangeType = Template.bind({})
 RangeType.args = {
-  type: 'range',
+  range: true,
+  modelValue: null,
+}
+
+export const MonthRangeType = Template.bind({})
+MonthRangeType.args = {
+  type: 'month',
+  range: true,
   modelValue: null,
 }
 
@@ -160,4 +168,28 @@ export const DateTimeLocalType = Template.bind({})
 DateTimeLocalType.args = {
   type: 'datetime-local',
   modelValue: new Date('2026-01-10T09:00'),
+}
+
+export const WithLabelSuffix: StoryFn<AvDatePickerProps> = args => ({
+  components: { AvDatePicker },
+  setup () {
+    const onUpdate = (value: AvDatePickerProps['modelValue']) => {
+      args.modelValue = value
+    }
+
+    return { args, onUpdate }
+  },
+  template: `
+    <AvDatePicker
+      v-bind="args"
+      @update:model-value="onUpdate"
+    >
+      <template #labelSuffix>
+        <span class="b2-light">Optional</span>
+      </template>
+    </AvDatePicker>
+  `,
+})
+WithLabelSuffix.args = {
+  modelValue: null,
 }

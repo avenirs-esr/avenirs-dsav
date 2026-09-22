@@ -220,13 +220,6 @@ BddTest().given('an AvDatePicker', () => {
       expectedFormats: undefined,
       type: 'week',
     },
-    {
-      expectedFormats: {
-        input: 'P',
-        preview: 'P',
-      },
-      type: 'range',
-    },
   ] as const
 
   formatScenariosData.forEach(({ expectedFormats, type }) => {
@@ -243,11 +236,37 @@ BddTest().given('an AvDatePicker', () => {
         expect(datePicker.props('monthPicker')).toBe(type === 'month')
         expect(datePicker.props('timePicker')).toBe(type === 'time')
         expect(datePicker.props('weekPicker')).toBe(type === 'week')
-        expect(datePicker.props('range')).toBe(type === 'range')
+        expect(datePicker.props('range')).toBe(false)
         expect(datePicker.props('formats')).toEqual(expectedFormats)
         expect(datePicker.props('timeConfig')).toEqual({
           enableTimePicker: type === 'time',
         })
+      })
+    })
+  })
+
+  const rangeScenariosData = [
+    { type: 'date' },
+    { type: 'month' },
+    { type: 'time' },
+    { type: 'week' },
+  ] as const
+
+  rangeScenariosData.forEach(({ type }) => {
+    BddTest().when(`the component is mounted with ${type} type and range enabled`, () => {
+      beforeEach(() => {
+        wrapper = mount(AvDatePicker, {
+          global: { stubs },
+          props: { modelValue: null, range: true, type },
+        })
+      })
+
+      BddTest().then('it should forward range alongside the matching picker mode', () => {
+        const datePicker = findDatePicker()
+        expect(datePicker.props('range')).toBe(true)
+        expect(datePicker.props('monthPicker')).toBe(type === 'month')
+        expect(datePicker.props('timePicker')).toBe(type === 'time')
+        expect(datePicker.props('weekPicker')).toBe(type === 'week')
       })
     })
   })
@@ -267,6 +286,39 @@ BddTest().given('an AvDatePicker', () => {
     BddTest().then('it should emit update:modelValue and change', () => {
       expect(wrapper.emitted('update:modelValue')).toEqual([[selectedDate]])
       expect(wrapper.emitted('change')).toEqual([[selectedDate]])
+    })
+  })
+
+  BddTest().when('the component is mounted with a labelSuffix slot', () => {
+    beforeEach(() => {
+      wrapper = mount(AvDatePicker, {
+        global: { stubs },
+        props: { modelValue: null },
+        slots: {
+          labelSuffix: '<button data-testid="label-suffix-button">Suffix</button>',
+        },
+      })
+    })
+
+    BddTest().then('it should render the slot content in the label row', () => {
+      const row = wrapper.find('.av-row')
+      expect(row.exists()).toBe(true)
+      expect(row.find('[data-testid="label-suffix-button"]').exists()).toBe(true)
+    })
+  })
+
+  BddTest().when('the component is mounted without a labelSuffix slot', () => {
+    beforeEach(() => {
+      wrapper = mount(AvDatePicker, {
+        global: { stubs },
+        props: { modelValue: null },
+      })
+    })
+
+    BddTest().then('it should render the label row without extra content', () => {
+      const row = wrapper.find('.av-row')
+      expect(row.exists()).toBe(true)
+      expect(row.element.children.length).toBe(1)
     })
   })
 
