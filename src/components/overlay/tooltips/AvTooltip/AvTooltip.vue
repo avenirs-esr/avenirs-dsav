@@ -141,6 +141,7 @@ onUnmounted(() => {
         :class="triggerClass"
         :aria-label="triggerAriaLabel"
         :tabindex="forceFocusable ? 0 : undefined"
+        :role="triggerAriaLabel ? 'img' : undefined"
       >
         <slot />
       </span>

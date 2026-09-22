@@ -90,6 +90,28 @@ BddTest().given('an AvTooltip component', () => {
     })
   })
 
+  BddTest().when('a trigger aria label is provided', () => {
+    beforeEach(() => {
+      wrapper.unmount()
+      wrapper = mount(AvTooltip, {
+        props: {
+          content: 'Tooltip text',
+          triggerAriaLabel: 'Informations',
+        },
+        slots: {
+          default: '<span>Trigger</span>'
+        },
+      })
+    })
+
+    BddTest().then('it should apply the label to the trigger', () => {
+      const trigger = wrapper.find('.av-tooltip-trigger')
+
+      expect(trigger.attributes('role')).toBe('img')
+      expect(trigger.attributes('aria-label')).toBe('Informations')
+    })
+  })
+
   BddTest().when('the tooltip is disabled', () => {
     beforeEach(() => {
       wrapper.unmount()
