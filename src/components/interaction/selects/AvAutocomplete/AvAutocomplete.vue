@@ -86,7 +86,9 @@ function handleSearch (query: string) {
 }
 
 function handleBlur (event: FocusEvent) {
-  if (dropdownRef.value?.dropdownRef?.contains(event.relatedTarget as Node)) {
+  const relatedTarget = event.relatedTarget as Node | null
+
+  if (relatedTarget && wrapperRef.value?.contains(relatedTarget)) {
     return
   }
 
