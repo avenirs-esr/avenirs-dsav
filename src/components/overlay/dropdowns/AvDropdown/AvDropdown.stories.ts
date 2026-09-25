@@ -1,6 +1,7 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
 import AvDropdown, { type AvDropdownProps } from '@/components/overlay/dropdowns/AvDropdown/AvDropdown.vue'
 import { CUIDA_ICONS, MDI_ICONS } from '@/tokens/icons'
+import { Theme } from '@/types/theme.types'
 
 /**
  * <h1 class="n1">Dropdowns - <code>AvDropdown</code></h1>
@@ -71,7 +72,7 @@ const meta: Meta<AvDropdownProps> = {
     itemSmall: { control: 'boolean' },
     itemTheme: {
       control: { type: 'radio' },
-      options: ['PRIMARY', 'SECONDARY'],
+      options: [Theme.PRIMARY, Theme.SECONDARY],
     },
     itemIconScale: { control: 'number' },
   },
@@ -91,7 +92,7 @@ const meta: Meta<AvDropdownProps> = {
     width: '15rem',
     padding: 'var(--spacing-xs)',
     itemSmall: true,
-    itemTheme: 'SECONDARY',
+    itemTheme: Theme.SECONDARY,
     itemIconScale: 1.3,
   },
 }
@@ -141,7 +142,7 @@ LargeItems.args = {
 
 export const PrimaryItems = Template.bind({})
 PrimaryItems.args = {
-  itemTheme: 'PRIMARY',
+  itemTheme: Theme.PRIMARY,
 }
 
 export const WithoutIcons = Template.bind({})

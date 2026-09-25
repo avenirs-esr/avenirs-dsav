@@ -4,6 +4,7 @@ import type { AvAutocompleteOption } from '@/components/interaction/selects/AvAu
 import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
 import { useAutocompleteContext } from '@/components/interaction/selects/AvAutocomplete/AvAutocompleteContext'
 import { MDI_ICONS } from '@/tokens'
+import { Theme } from '@/types/theme.types'
 
 const slots = defineSlots<{
   selectedItem?: Slot<{ option: T, remove: () => void }>
@@ -48,7 +49,7 @@ function removeOption (option: T) {
         icon-right
         size="sm"
         variant="OUTLINED"
-        theme="SECONDARY"
+        :theme="Theme.SECONDARY"
         @click="() => removeOption(option)"
       />
     </div>
