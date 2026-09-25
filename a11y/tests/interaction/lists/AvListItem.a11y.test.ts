@@ -4,6 +4,8 @@ const component = 'AvListItem'
 const title = 'Components/Interaction/Lists/AvListItem'
 const stories = [
   'Default',
+  'Secondary',
+  'TertiaryOnDarkBackground',
   'WithIcon',
   'Clickable',
   'SubClickable',
@@ -16,8 +18,6 @@ const stories = [
   'SubNavigationLink',
   'LargeIcon',
   'SubLargeIcon',
-  'CustomColors',
-  'SubCustomColors',
   'WithCustomContent',
   'WithAccessibility',
   'WithTitleMaxLines',

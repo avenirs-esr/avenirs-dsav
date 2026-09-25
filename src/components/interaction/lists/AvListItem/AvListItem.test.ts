@@ -1,8 +1,10 @@
 import { type DOMWrapper, mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { AvIconStub } from '@/components/base/AvIcon/AvIcon.stub'
 import AvListItem from '@/components/interaction/lists/AvListItem/AvListItem.vue'
 import { AvTooltipStub } from '@/components/overlay/tooltips/AvTooltip/AvTooltip.stub'
 import { BddTest } from '@/tests/utils'
+import { Theme } from '@/types/theme.types'
 
 const mockIsTruncated = ref(false)
 
@@ -15,11 +17,7 @@ BddTest().given('an AvListItem component', () => {
   let avListItem: DOMWrapper<Element>
 
   const stubs = {
-    AvIcon: {
-      name: 'AvIcon',
-      props: ['name', 'color', 'size'],
-      template: '<div class="av-vicon-stub" />'
-    },
+    AvIcon: AvIconStub,
     AvTooltip: AvTooltipStub,
   }
 
@@ -93,7 +91,6 @@ BddTest().given('an AvListItem component', () => {
 
     BddTest().then('it should pass correct props to icon', () => {
       const iconComponent = avListItem.findComponent({ name: 'AvIcon' })
-      expect(iconComponent.props('color')).toBe('var(--text1)')
       expect(iconComponent.props('size')).toBe(1.3125)
     })
   })
@@ -288,22 +285,20 @@ BddTest().given('an AvListItem component', () => {
     })
   })
 
-  BddTest().when('custom colors are provided', () => {
+  BddTest().when('theme is provided', () => {
     beforeEach(async () => {
-      await wrapper.setProps({
-        color: '#ff0000',
-        descriptionColor: '#00ff00',
-        hoverBackgroundColor: '#0000ff',
-        colorOnHover: '#ffff00'
+      wrapper = mount(AvListItem, {
+        props: { theme: Theme.SECONDARY },
+        slots: {
+          default: '<div class="custom-content">Custom Content</div>'
+        },
+        global: { stubs }
       })
       avListItem = wrapper.find('.av-list-item')
     })
 
-    BddTest().then('it should accept custom color props', () => {
-      expect(wrapper.props('color')).toBe('#ff0000')
-      expect(wrapper.props('descriptionColor')).toBe('#00ff00')
-      expect(wrapper.props('hoverBackgroundColor')).toBe('#0000ff')
-      expect(wrapper.props('colorOnHover')).toBe('#ffff00')
+    BddTest().then('it should apply the correct theme class', () => {
+      expect(avListItem.classes()).toContain('av-list-item--theme-secondary')
     })
   })
 

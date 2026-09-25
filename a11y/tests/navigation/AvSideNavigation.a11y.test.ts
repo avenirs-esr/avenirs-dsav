@@ -4,12 +4,13 @@ const component = 'AvSideNavigation'
 const title = 'Components/Navigation/AvSideNavigation'
 const stories = [
   'Default',
-  'MenuItems',
+  'Secondary',
+  'MenuItemsDefault',
+  'MenuItemsSecondary',
   'Collapsed',
   'HiddenContentCollapsed',
   'CustomWidth',
   'CustomCollapsedWidth',
-  'CustomColor',
   'Sticky'
 ]
 

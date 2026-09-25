@@ -3,32 +3,27 @@ import type { Slot } from 'vue'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
 import { useTextTruncation } from '@/composables'
+import { Theme } from '@/types'
 
 /**
  * AvListItem component props.
  */
 export interface AvListItemProps {
   /**
+   * The theme of the list item, affecting its overall styling.
+   */
+  theme?: Theme
+
+  /**
    * The icon name according to the naming convention of Iconify-vue.
    */
   icon?: string
-
-  /**
-   * The icon color.
-   * @default 'var(--text1)'
-   */
-  color?: string
 
   /**
    * The icon size.
    * @default 1.3125
    */
   iconSize?: number
-
-  /**
-   * icon color
-   */
-  iconColor?: string
 
   /**
    * The title text.
@@ -39,24 +34,6 @@ export interface AvListItemProps {
    * The description text.
    */
   description?: string
-
-  /**
-   * The hover color when the list item is clickable.
-   * @default 'var(--dark-background-primary1)'
-   */
-  hoverBackgroundColor?: string
-
-  /**
-   * The color when the list item is hovered.
-   * @default 'var(--dark-background-primary1)'
-   */
-  colorOnHover?: string
-
-  /**
-   * The description color.
-   * @default 'var(--text2)'
-   */
-  descriptionColor?: string
 
   /**
    * Whether the list item is clickable.
@@ -142,10 +119,6 @@ export interface AvListItemProps {
 
 const {
   icon,
-  color = 'var(--text1)',
-  descriptionColor = 'var(--text2)',
-  hoverBackgroundColor = 'var(--dark-background-primary1)',
-  colorOnHover = 'var(--card)',
   iconSize = 1.3125,
   title,
   description,
@@ -161,6 +134,7 @@ const {
   type = 'main',
   enableTooltip = false,
   titleMaxLines = undefined,
+  theme = Theme.PRIMARY,
 } = defineProps<AvListItemProps>()
 
 /**
@@ -183,9 +157,11 @@ const componentTag = computed(() => {
   if (!!href || !!target || !!rel) {
     return 'a'
   }
+
   if (onClick) {
     return 'button'
   }
+
   return 'div'
 })
 
@@ -197,9 +173,11 @@ const computedAriaLabel = computed(() => {
   if (ariaLabel) {
     return ariaLabel
   }
+
   if (title && description) {
     return `${title}, ${description}`
   }
+
   return title || description || undefined
 })
 
@@ -207,11 +185,13 @@ const clickableClass = computed(() => clickable.value ? 'av-list-item--clickable
 const disabledClass = computed(() => disabled && isButton.value ? 'av-list-item--disabled' : '')
 const selectedClass = computed(() => selected ? 'av-list-item--selected' : '')
 const itemClass = computed(() => `av-list-${type}item`)
+const themeClass = computed(() => `av-list-item--theme-${theme.toLowerCase()}`)
 
 function handleClick (event: MouseEvent) {
   if (!clickable.value || disabled) {
     return
   }
+
   onClick?.(event)
 }
 
@@ -219,12 +199,15 @@ function handleKeyDown (event: KeyboardEvent) {
   if (!clickable.value || disabled) {
     return
   }
+
   if (event.key === 'Enter' || event.key === ' ') {
     event.preventDefault()
+
     const mouseEvent = new MouseEvent('click', {
       bubbles: true,
       cancelable: true,
     })
+
     onClick?.(mouseEvent)
   }
 }
@@ -247,7 +230,7 @@ function handleKeyDown (event: KeyboardEvent) {
         :aria-disabled="disabled && isButton ? 'true' : undefined"
         :tabindex="clickable && !disabled ? 0 : undefined"
         class="av-list-item av-row av-align-center av-gap-xs av-w-full"
-        :class="[clickableClass, disabledClass, selectedClass]"
+        :class="[clickableClass, disabledClass, selectedClass, themeClass]"
         :disabled="disabled && isButton ? true : undefined"
         :type="isButton ? 'button' : undefined"
         :href="isLink ? href : undefined"
@@ -264,7 +247,6 @@ function handleKeyDown (event: KeyboardEvent) {
         >
           <AvIcon
             :name="icon"
-            :color="iconColor ?? color"
             :size="iconSize"
           />
         </div>
@@ -291,6 +273,7 @@ function handleKeyDown (event: KeyboardEvent) {
           >
             {{ description }}
           </span>
+
           <div v-if="slots.default">
             <slot />
           </div>
@@ -301,27 +284,7 @@ function handleKeyDown (event: KeyboardEvent) {
 </template>
 
 <style lang="scss" scoped>
-@mixin hoverColors {
-  .av-list-item__title,
-  .av-list-item__description{
-    color: v-bind('colorOnHover') !important;
-  }
-
-  :deep(.av-icon__icon) {
-    background-color: v-bind('colorOnHover') !important;
-  }
-}
-
-@mixin subHoverColors {
-  .av-list-item__title,
-  .av-list-item__description{
-    color: v-bind('hoverBackgroundColor') !important;
-  }
-
-  :deep(.av-icon__icon) {
-    background-color: v-bind('hoverBackgroundColor') !important;
-  }
-}
+@use "sass:map";
 
 .av-list-item {
   --max-lines: v-bind('titleMaxLines');
@@ -330,12 +293,9 @@ function handleKeyDown (event: KeyboardEvent) {
   cursor: default;
   transition: all 0.2s ease-in-out;
 
-  &__title {
-    color: v-bind('color');
-  }
-
+  &__title,
   &__description {
-    color: v-bind('descriptionColor');
+    color: inherit;
   }
 
   &--clickable {
@@ -347,82 +307,144 @@ function handleKeyDown (event: KeyboardEvent) {
     cursor: not-allowed;
     opacity: 0.6;
 
-    .av-list-item__title,
-    .av-list-item__description {
-      color: var(--text3);
-    }
-
     .av-list-item__icon {
       opacity: 0.5;
     }
   }
 }
 
-.av-list-mainitem {
-  .av-list-item {
-    &--clickable {
-      &:hover:not(.av-list-item--disabled) {
-        background-color: v-bind('hoverBackgroundColor');
-        transform: translateY(-0.0625rem);
-        @include hoverColors;
+// === Themes ===
+@each $theme, $colors in (
+  primary: (
+    text: var(--color-primary-text),
+    bg: var(--color-primary-bg),
+    hover-bg: var(--color-primary-hover-bg),
+    hover-text: var(--color-primary-hover-text),
+    text-selected: var(--color-primary-text-flat),
+    bg-selected: var(--color-primary-bg-flat),
+    sub-text-selected: var(--color-primary-bg-flat),
+    sub-bg-selected: var(--color-primary-text-flat)
+  ),
+  secondary: (
+    text: var(--color-secondary-text),
+    bg: var(--color-secondary-bg),
+    hover-bg: var(--color-secondary-hover-bg),
+    hover-text: var(--color-secondary-hover-text),
+    text-selected: var(--color-secondary-text-flat),
+    bg-selected: var(--color-secondary-bg-flat),
+    sub-text-selected: var(--color-secondary-text),
+    sub-bg-selected: var(--color-secondary-text-flat)
+  ),
+  tertiary: (
+    text: var(--color-tertiary-text),
+    bg: var(--color-tertiary-bg),
+    hover-bg: var(--color-tertiary-hover-bg),
+    hover-text: var(--color-tertiary-hover-text),
+    text-selected: var(--color-tertiary-text-flat),
+    bg-selected: var(--color-tertiary-bg-flat),
+    sub-text-selected: var(--color-tertiary-bg-flat),
+    sub-bg-selected: var(--color-tertiary-text-flat)
+  )
+) {
+  .av-list-item--theme-#{$theme} {
+    .av-list-item__title,
+    .av-list-item__description {
+      color: map.get($colors, text);
+    }
+
+    :deep(.av-icon__icon) {
+      background-color: map.get($colors, text);
+    }
+
+    // === Main items ===
+    .av-list-mainitem & {
+      &.av-list-item--clickable {
+        &:hover:not(.av-list-item--disabled),
+        &:focus-visible {
+          background-color: map.get($colors, hover-bg);
+
+          .av-list-item__title,
+          .av-list-item__description {
+            color: map.get($colors, hover-text);
+          }
+
+          :deep(.av-icon__icon) {
+            background-color: map.get($colors, hover-text);
+          }
+        }
+
+        &:active:not(.av-list-item--disabled) {
+          transform: translateY(0);
+          box-shadow: 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.1);
+        }
       }
 
-      &:focus-visible {
-        outline: 0.125rem solid var(--dark-background-primary1);
-        outline-offset: 0.125rem;
-        background-color: v-bind('hoverBackgroundColor');
-        @include hoverColors;
-      }
+      &.av-list-item--selected {
+        background-color: map.get($colors, bg-selected);
 
-      &:active:not(.av-list-item--disabled) {
-        transform: translateY(0);
-        box-shadow: 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.1);
+        .av-list-item__title,
+        .av-list-item__description {
+          color: map.get($colors, text-selected);
+        }
+
+        :deep(.av-icon__icon) {
+          background-color: map.get($colors, text-selected);
+        }
       }
     }
 
-    &--selected {
-      background-color: v-bind('hoverBackgroundColor');
-      @include hoverColors;
+    // === Sub items ===
+    .av-list-subitem & {
+      &.av-list-item--clickable {
+        &:hover:not(.av-list-item--disabled),
+        &:focus-visible {
+          background-color: map.get($colors, hover-bg);
+
+          .av-list-item__title,
+          .av-list-item__description {
+            color: map.get($colors, hover-text);
+          }
+
+          :deep(.av-icon__icon) {
+            background-color: map.get($colors, hover-text);
+          }
+        }
+
+        &:active:not(.av-list-item--disabled) {
+          transform: translateY(0);
+          box-shadow: 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.1);
+        }
+      }
+
+      &.av-list-item--selected {
+        position: relative;
+
+        .av-list-item__title,
+        .av-list-item__description {
+          color: map.get($colors, sub-text-selected);
+          font-weight: bold;
+        }
+
+        :deep(.av-icon__icon) {
+          background-color: map.get($colors, sub-text-selected);
+        }
+
+        &:before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: var(--spacing-xs);
+          bottom: var(--spacing-xs);
+          width: 2px;
+          background-color: map.get($colors, sub-text-selected);
+        }
+      }
     }
   }
 }
 
-.av-list-subitem {
-  .av-list-item {
-    &--clickable {
-      &:hover:not(.av-list-item--disabled) {
-        background-color: v-bind('colorOnHover');
-        transform: translateY(-0.0625rem);
-        @include subHoverColors;
-      }
-
-      &:focus-visible {
-        outline: 0.125rem solid var(--dark-background-primary1);
-        outline-offset: 0.125rem;
-        background-color: v-bind('colorOnHover');
-        @include subHoverColors;
-      }
-
-      &:active:not(.av-list-item--disabled) {
-        transform: translateY(0);
-        box-shadow: 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.1);
-      }
-    }
-
-    &--selected {
-      position: relative;
-      @include subHoverColors;
-
-      &:before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: var(--spacing-xs);
-        bottom: var(--spacing-xs);
-        width: 2px;
-        background-color: v-bind('hoverBackgroundColor');
-      }
-    }
-  }
+.b1-regular,
+.b2-regular {
+  color: inherit;
 }
 </style>
