@@ -1,0 +1,22 @@
+:root {
+  --color-primary-text: var(--dark-background-primary1);
+  --color-primary-bg: transparent;
+  --color-primary-hover-bg: var(--light-background-primary1);
+  --color-primary-hover-text: var(--dark-background-primary1);
+  --color-primary-text-flat: var(--other-background-base);
+  --color-primary-bg-flat: var(--dark-background-primary1);
+
+  --color-secondary-text: var(--text1);
+  --color-secondary-bg: transparent;
+  --color-secondary-hover-bg: var(--contrast-foreground);
+  --color-secondary-hover-text: var(--text1);
+  --color-secondary-text-flat: var(--text1);
+  --color-secondary-bg-flat: var(--light-background-neutral);
+
+  --color-tertiary-text: var(--other-background-base);
+  --color-tertiary-bg: transparent;
+  --color-tertiary-hover-bg: var(--light-background-primary1);
+  --color-tertiary-hover-text: var(--dark-background-primary1);
+  --color-tertiary-text-flat: var(--dark-background-primary1);
+  --color-tertiary-bg-flat: var(--light-background-neutral);
+}

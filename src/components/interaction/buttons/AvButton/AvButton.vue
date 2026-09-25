@@ -3,6 +3,7 @@ import type { RouteLocationRaw } from 'vue-router'
 import type AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import { useAttrs } from 'vue'
 import { MDI_ICONS } from '@/tokens'
+import { Theme } from '@/types'
 import { toSentenceCase } from '@/utils'
 
 /**
@@ -20,7 +21,7 @@ export interface AvButtonProps {
    * Button theme: blue (`PRIMARY`) or gray (`SECONDARY`) or white (`TERTIARY`).
    * @default 'PRIMARY'
    */
-  theme?: 'PRIMARY' | 'SECONDARY' | 'TERTIARY'
+  theme?: Theme
 
   /**
    * Indicates button loading status.
@@ -98,7 +99,7 @@ defineOptions({
 
 const {
   variant = 'DEFAULT',
-  theme = 'PRIMARY',
+  theme = Theme.PRIMARY,
   small = false,
   iconOnly = false,
   disabled = false,
@@ -257,23 +258,28 @@ const linkProps = computed(() => {
   // === Themes ===
   @each $theme, $colors in (
     primary: (
-      text: var(--dark-background-primary1),
-      bg: transparent,
-      hover-bg: var(--light-background-primary1),
-      hover-text: var(--dark-background-primary1),
-      hover-text-flat: var(--other-background-base)
+      text: var(--color-primary-text),
+      bg: var(--color-primary-bg),
+      hover-bg: var(--color-primary-hover-bg),
+      hover-text: var(--color-primary-hover-text),
+      text-flat: var(--color-primary-text-flat),
+      bg-flat: var(--color-primary-bg-flat)
     ),
     secondary: (
-      text: var(--text1),
-      bg: transparent,
-      hover-bg: var(--contrast-foreground),
-      hover-text: var(--text1)
+      text: var(--color-secondary-text),
+      bg: var(--color-secondary-bg),
+      hover-bg: var(--color-secondary-hover-bg),
+      hover-text: var(--color-secondary-hover-text),
+      text-flat: var(--color-secondary-text-flat),
+      bg-flat: var(--color-secondary-bg-flat)
     ),
     tertiary: (
-      text: var(--other-background-base),
-      bg: transparent,
-      hover-bg: var(--light-background-primary1),
-      hover-text: var(--dark-background-primary1)
+      text: var(--color-tertiary-text),
+      bg: var(--color-tertiary-bg),
+      hover-bg: var(--color-tertiary-hover-bg),
+      hover-text: var(--color-tertiary-hover-text),
+      text-flat: var(--color-tertiary-text-flat),
+      bg-flat: var(--color-tertiary-bg-flat)
     )
   ) {
     &--theme-#{$theme} {
@@ -289,18 +295,10 @@ const linkProps = computed(() => {
           color: map.get($colors, text),
           border: map.get($colors, text)
         ),
-        flat: if(
-          $theme == primary,
-          (
-            bg: map.get($colors, text),
-            color: map.get($colors, hover-text-flat),
-            border: map.get($colors, text)
-          ),
-          (
-            bg: var(--light-background-neutral),
-            color: map.get($colors, hover-text),
-            border: var(--light-background-neutral)
-          )
+        flat: (
+          bg: map.get($colors, bg-flat),
+          color: map.get($colors, text-flat),
+          border: map.get($colors, bg-flat)
         )
       ) {
         &.av-button--variant-#{$variant} {
