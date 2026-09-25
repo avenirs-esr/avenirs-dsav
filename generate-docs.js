@@ -17,11 +17,17 @@ const docsReadme = path.resolve('docs/index.md')
 const iconsPath = path.resolve('src/tokens/icons.ts')
 const iconsReadme = path.resolve('docs/icons/index.md')
 const tokensDir = path.resolve('src/styles/core')
-const tokensReadme = path.resolve('docs/tokens/index.md')
-const scssFiles = [
+const dimensionTokensReadme = path.resolve('docs/tokens/dimensions/index.md')
+const paletteTokensReadme = path.resolve('docs/tokens/palette/index.md')
+const dimensionScssFiles = [
   { file: '_dimensions.scss', title: 'Dimensions' },
   { file: '_radius.scss', title: 'Radius' },
   { file: '_spacing.scss', title: 'Spacing' },
+]
+const paletteScssFiles = [
+  { file: '_palette.scss', title: 'Palette' },
+  { file: '_palette-dark.scss', title: 'Palette Dark' },
+  { file: '_theme.scss', title: 'Theme' }
 ]
 
 /**
@@ -143,7 +149,16 @@ function parseSpacingTokens (filePath) {
   }))
 }
 
-function renderTokensTable (title, tokens) {
+function parsePaletteTokens (filePath) {
+  const content = fs.readFileSync(filePath, 'utf8')
+  const regex = /(--[\w-]+):\s([^;]+);/g
+  return [...content.matchAll(regex)].map(([, name, value]) => ({
+    name,
+    value
+  }))
+}
+
+function renderDimensionTokensTable (title, tokens) {
   if (!tokens.length) {
     return ''
   }
@@ -156,26 +171,56 @@ function renderTokensTable (title, tokens) {
   return md
 }
 
-function generateTokensDoc () {
-  let md = `# Tokens
+function renderPaletteTokensTable (title, tokens) {
+  if (!tokens.length) {
+    return ''
+  }
+  let md = `\n## ${title}\n\n`
+  if (title === 'Theme') {
+    md += 'You can customize the theme (`PRIMARY`, `SECONDARY`, `TERTIARY`) colors by modifying the'
+    md += ' corresponding SCSS variables directly in your root CSS.\n\n'
+  }
+  md += '| Token | Value |\n'
+  md += '| --- | --- |\n'
+  tokens.forEach(({ name, value }) => {
+    md += `| ${name} | ${value} |\n`
+  })
+  return md
+}
+
+function generateTokensDoc (tokenType) {
+  let md = `# ${tokenType} tokens
 
 _Last updated: ${new Date().toISOString().split('T')[0]}_
 
 Generated automatically from SCSS tokens.
 `
-  scssFiles.forEach(({ file, title }) => {
-    const filePath = path.join(tokensDir, file)
-    if (!fs.existsSync(filePath)) {
-      return
-    }
-    const tokens = file === '_spacing.scss' ? parseSpacingTokens(filePath) : parseScssTokens(filePath)
-    md += renderTokensTable(title, tokens)
-  })
+  if (tokenType === 'Dimension') {
+    dimensionScssFiles.forEach(({ file, title }) => {
+      const filePath = path.join(tokensDir, file)
+      if (!fs.existsSync(filePath)) {
+        return
+      }
+      const tokens = file === '_spacing.scss' ? parseSpacingTokens(filePath) : parseScssTokens(filePath)
+      md += renderDimensionTokensTable(title, tokens)
+    })
+  }
 
-  ensureDir(tokensReadme)
-  fs.writeFileSync(tokensReadme, md)
+  if (tokenType === 'Palette') {
+    paletteScssFiles.forEach(({ file, title }) => {
+      const filePath = path.join(tokensDir, file)
+      if (!fs.existsSync(filePath)) {
+        return
+      }
+      const tokens = parsePaletteTokens(filePath)
+      md += renderPaletteTokensTable(title, tokens)
+    })
+  }
+
+  ensureDir(tokenType === 'Dimension' ? dimensionTokensReadme : paletteTokensReadme)
+  fs.writeFileSync(tokenType === 'Dimension' ? dimensionTokensReadme : paletteTokensReadme, md)
   // eslint-disable-next-line no-console
-  console.log(`📄 Tokens readme generated at ${tokensReadme}`)
+  console.log(`📄 Tokens readme generated at ${tokenType === 'Dimension' ? dimensionTokensReadme : paletteTokensReadme}`)
 }
 
 /**
@@ -186,4 +231,5 @@ copyDocsRecursive(stylesComponentsDir, docsStylesComponentsDir)
 copyDocsRecursive(stylesCoreDir, docsStylesCoreDir)
 copyDocsRecursive(stylesUtilitiesDir, docsStylesUtilitiesDir)
 generateIconsDoc()
-generateTokensDoc()
+generateTokensDoc('Dimension')
+generateTokensDoc('Palette')

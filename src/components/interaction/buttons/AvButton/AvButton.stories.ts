@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
 import AvButton, { type AvButtonProps } from '@/components/interaction/buttons/AvButton/AvButton.vue'
+import { Theme } from '@/index'
 import { iconMapping, iconOptions } from '@/utils/storybook'
 
 /**
@@ -62,7 +63,7 @@ const meta: Meta<AvButtonProps> = {
     },
     theme: {
       control: { type: 'radio' },
-      options: ['PRIMARY', 'SECONDARY', 'TERTIARY'],
+      options: Object.values(Theme),
     },
     small: { control: 'boolean' },
     iconOnly: { control: 'boolean' },
@@ -79,7 +80,7 @@ const meta: Meta<AvButtonProps> = {
     label: 'Click me',
     icon: '',
     variant: 'DEFAULT',
-    theme: 'PRIMARY',
+    theme: Theme.PRIMARY,
     small: false,
     iconOnly: false,
     isLoading: false,
@@ -136,12 +137,12 @@ DefaultNoRadius.args = {
 
 export const DefaultSecondary = Template.bind({})
 DefaultSecondary.args = {
-  theme: 'SECONDARY',
+  theme: Theme.SECONDARY,
 }
 
 export const TertiaryOnDarkBackground = Template.bind({})
 TertiaryOnDarkBackground.args = {
-  theme: 'TERTIARY',
+  theme: Theme.TERTIARY,
 }
 
 TertiaryOnDarkBackground.decorators = [
@@ -188,13 +189,13 @@ OutlinedNoRadius.args = {
 export const OutlinedSecondary = Template.bind({})
 OutlinedSecondary.args = {
   variant: 'OUTLINED',
-  theme: 'SECONDARY',
+  theme: Theme.SECONDARY,
 }
 
 export const OutlinedTertiaryOnDarkBackground = Template.bind({})
 OutlinedTertiaryOnDarkBackground.args = {
   variant: 'OUTLINED',
-  theme: 'TERTIARY',
+  theme: Theme.TERTIARY,
 }
 
 OutlinedTertiaryOnDarkBackground.decorators = [
@@ -241,13 +242,13 @@ FlatNoRadius.args = {
 export const FlatSecondary = Template.bind({})
 FlatSecondary.args = {
   variant: 'FLAT',
-  theme: 'SECONDARY',
+  theme: Theme.SECONDARY,
 }
 
 export const FlatTertiaryOnDarkBackground = Template.bind({})
 FlatTertiaryOnDarkBackground.args = {
   variant: 'FLAT',
-  theme: 'TERTIARY',
+  theme: Theme.TERTIARY,
 }
 
 FlatTertiaryOnDarkBackground.decorators = [
@@ -265,7 +266,7 @@ ExternalLinkButton.args = {
   href: 'https://example.com',
   label: 'Go to external site',
   variant: 'DEFAULT',
-  theme: 'PRIMARY',
+  theme: Theme.PRIMARY,
 }
 
 export const LinkButton = Template.bind({})
@@ -273,7 +274,7 @@ LinkButton.args = {
   to: '/some-route',
   label: 'Go to some route',
   variant: 'DEFAULT',
-  theme: 'PRIMARY',
+  theme: Theme.PRIMARY,
 }
 
 export const LinkButtonOutlined = Template.bind({})
@@ -281,7 +282,7 @@ LinkButtonOutlined.args = {
   to: '/some-route',
   label: 'Go to some route',
   variant: 'OUTLINED',
-  theme: 'PRIMARY',
+  theme: Theme.PRIMARY,
 }
 
 export const LinkButtonSecondary = Template.bind({})
@@ -289,7 +290,7 @@ LinkButtonSecondary.args = {
   to: '/some-route',
   label: 'Go to some route',
   variant: 'DEFAULT',
-  theme: 'SECONDARY',
+  theme: Theme.SECONDARY,
 }
 
 export const LinkButtonIconOnly = Template.bind({})
@@ -299,7 +300,7 @@ LinkButtonIconOnly.args = {
   icon: 'mdi:home-variant-outline',
   label: 'Go to some route',
   variant: 'DEFAULT',
-  theme: 'PRIMARY',
+  theme: Theme.PRIMARY,
 }
 
 export const ExternalLinkButtonIconOnly = Template.bind({})
@@ -309,5 +310,5 @@ ExternalLinkButtonIconOnly.args = {
   icon: 'mdi:home-variant-outline',
   label: 'Go to external site',
   variant: 'DEFAULT',
-  theme: 'PRIMARY',
+  theme: Theme.PRIMARY,
 }

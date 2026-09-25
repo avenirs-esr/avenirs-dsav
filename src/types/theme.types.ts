@@ -1,0 +1,5 @@
+export enum Theme {
+  PRIMARY = 'PRIMARY',
+  SECONDARY = 'SECONDARY',
+  TERTIARY = 'TERTIARY'
+}

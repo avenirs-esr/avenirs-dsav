@@ -20,7 +20,8 @@ export default defineConfig({
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Components', link: '/components/' },
-      { text: 'Tokens', link: '/tokens/' },
+      { text: 'Dimension tokens', link: '/tokens/dimensions/' },
+      { text: 'Palette tokens', link: '/tokens/palette/' },
       { text: 'Icons', link: '/icons/' },
       { text: 'DSAV CSS', link: '/styles/' },
       { text: 'Storybook', link: '/storybook/', target: '_blank' }
@@ -240,7 +241,8 @@ export default defineConfig({
           ],
           collapsed: true
         },
-        { text: 'Tokens', link: '/tokens/' },
+        { text: 'Dimension tokens', link: '/tokens/dimensions/' },
+        { text: 'Palette tokens', link: '/tokens/palette/' },
         { text: 'Icons', link: '/icons/' },
         {
           text: 'DSAV CSS',
