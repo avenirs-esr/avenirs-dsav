@@ -8,6 +8,7 @@ import AvListItem from '@/components/interaction/lists/AvListItem/AvListItem.vue
 import { type AvAutocompleteOption, DropdownState } from '@/components/interaction/selects/AvAutocomplete/AvAutocomplete.types'
 import { useAutocompleteContext } from '@/components/interaction/selects/AvAutocomplete/AvAutocompleteContext'
 import { MDI_ICONS } from '@/tokens'
+import { Theme } from '@/types/theme.types'
 
 const emit = defineEmits<{
   loadMore: []
@@ -153,7 +154,7 @@ defineExpose({
         :label="props.clearSelectionLabel ?? 'Clear selection'"
         :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
         variant="DEFAULT"
-        theme="SECONDARY"
+        :theme="Theme.SECONDARY"
         small
         :disabled="selectedItems.length === 0"
         @click="clearSelection"

@@ -4,6 +4,7 @@ import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
 import { useFileUploadContext } from '@/components/interaction/files/AvFileUpload/AvFileUploadContext'
 import { MDI_ICONS } from '@/tokens'
+import { Theme } from '@/types/theme.types'
 
 defineSlots<{
   left?: Slot
@@ -58,7 +59,7 @@ const isPreview = computed(() => !!props.fileName || (modelValue.value && modelV
             <AvButton
               v-if="isPreview"
               :label="props.deleteButtonLabel ?? 'Remove'"
-              theme="SECONDARY"
+              :theme="Theme.SECONDARY"
               @click="() => onClear()"
             />
             <AvIcon
