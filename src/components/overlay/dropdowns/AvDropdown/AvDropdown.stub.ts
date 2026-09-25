@@ -1,6 +1,15 @@
 export const AvDropdownStub = defineComponent({
   name: 'AvDropdown',
-  props: ['items', 'triggerAriaLabel', 'triggerIcon', 'triggerLabel', 'triggerVariant', 'triggerSmall', 'padding'],
+  props: [
+    'items',
+    'triggerAriaLabel',
+    'triggerIcon',
+    'triggerLabel',
+    'triggerVariant',
+    'triggerSmall',
+    'padding',
+    'separatorBefore'
+  ],
   emits: ['itemSelected'],
   template: `
     <div class="av-dropdown-stub">
