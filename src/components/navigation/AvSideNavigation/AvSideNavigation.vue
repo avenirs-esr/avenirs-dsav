@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { AvList, AvListItem } from '@/components/interaction/lists'
 import AvSideMenu from '@/components/navigation/AvSideMenu/AvSideMenu.vue'
+import { Theme } from '@/types'
 
 export interface AvSideNavigationItem {
   id: string
@@ -42,9 +43,10 @@ export interface AvSideNavigationProps {
   collapsedWidth?: string
 
   /**
-   * Color of selected item background and icon.
+   * Theme of the side navigation.
+   * @default 'PRIMARY'
    */
-  selectedItemColor?: string
+  theme?: Theme.PRIMARY | Theme.SECONDARY
 
   /**
    * Whether to hide the content when the menu is collapsed
@@ -84,7 +86,7 @@ const {
   items,
   width = 'fit-content',
   collapsedWidth = '3.5rem',
-  selectedItemColor,
+  theme = Theme.PRIMARY,
   hideContentWhenCollapsed = false,
   sticky = false,
   stickyOffset = '0',
@@ -142,7 +144,6 @@ watchEffect(() => {
     v-model:collapsed="isSideMenuCollapsed"
     :width="width"
     :collapsed-width="collapsedWidth"
-    :color="selectedItemColor"
     :hide-content-when-collapsed="hideContentWhenCollapsed"
     :sticky="sticky"
     :sticky-offset="stickyOffset"
@@ -162,7 +163,7 @@ watchEffect(() => {
           :icon="item.icon"
           :icon-size="1.8"
           :selected="isItemSelected(item)"
-          :hover-background-color="selectedItemColor"
+          :theme="theme"
           :enable-tooltip="isSideMenuCollapsed"
           role="menuitem"
           class="av-side-navigation__menu-item"
@@ -190,7 +191,7 @@ watchEffect(() => {
                 :icon="subitem.icon"
                 :icon-size="1.8"
                 :selected="isSubItemSelected(item, subitem)"
-                :hover-background-color="selectedItemColor"
+                :theme="theme"
                 role="menuitem"
                 type="sub"
                 class="av-side-navigation__menu-item"

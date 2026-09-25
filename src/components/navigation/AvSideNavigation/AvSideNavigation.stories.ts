@@ -1,6 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/vue3'
-import AvSideNavigation from '@/components/navigation/AvSideNavigation/AvSideNavigation.vue'
+import type { Meta, StoryFn } from '@storybook/vue3'
+import AvSideNavigation, { type AvSideNavigationProps } from '@/components/navigation/AvSideNavigation/AvSideNavigation.vue'
 import { MDI_ICONS } from '@/tokens'
+import { Theme } from '@/types'
 
 const mockItems = [
   {
@@ -128,236 +129,136 @@ const meta: Meta<typeof AvSideNavigation> = {
     },
     stickyOffset: {
       control: { type: 'text' }
-    }
+    },
+    theme: {
+      control: { type: 'radio' },
+      options: [Theme.PRIMARY, Theme.SECONDARY],
+    },
   },
   args: {
     items: mockItems,
     collapsedWidth: '3.5rem',
-    width: 'fit-content'
+    width: 'fit-content',
+    theme: Theme.PRIMARY
   }
 }
+
+const template = `
+  <div style="height: 600px; display: flex;">
+    <AvSideNavigation 
+      v-bind="args"
+      v-model:selected-item="selectedItem"
+      v-model:is-side-menu-collapsed="isSideMenuCollapsed"
+    />
+    <div style="flex: 1; padding: 1rem; background: #f5f5f5;">
+      <p><strong>Selected item:</strong> {{ selectedItem.itemId }}</p>
+      <p><strong>Parent item:</strong> {{ selectedItem.parentId }}</p>
+      <p><strong>Menu collapsed:</strong> {{ isSideMenuCollapsed }}</p>
+      <p>This component uses defineModel for automatic two-way binding with parent components.</p>
+    </div>
+  </div>
+`
+
+const Template: StoryFn<AvSideNavigationProps> = args => ({
+  components: { AvSideNavigation },
+  setup () {
+    const selectedItem = ref({ itemId: 'careers' })
+    const isSideMenuCollapsed = ref(false)
+    return { args, selectedItem, isSideMenuCollapsed }
+  },
+  template,
+})
+
+const TemplateCollapsed: StoryFn<AvSideNavigationProps> = args => ({
+  components: { AvSideNavigation },
+  setup () {
+    const selectedItem = ref({ itemId: 'careers' })
+    const isSideMenuCollapsed = ref(true)
+    return { args, selectedItem, isSideMenuCollapsed }
+  },
+  template,
+})
+
+const TemplateWithMenuItems: StoryFn<AvSideNavigationProps> = args => ({
+  components: { AvSideNavigation },
+  setup () {
+    const selectedItem = ref({ itemId: 'subitem-1-1', parentId: 'menu-expanded' })
+    const isSideMenuCollapsed = ref(false)
+    return { args, selectedItem, isSideMenuCollapsed }
+  },
+  template,
+})
+
+const TemplateSticky: StoryFn<AvSideNavigationProps> = args => ({
+  components: { AvSideNavigation },
+  setup () {
+    const selectedItem = ref({ itemId: 'careers' })
+    const isSideMenuCollapsed = ref(false)
+    return { args, selectedItem, isSideMenuCollapsed }
+  },
+  template: `
+    <div style="height: 500px; display: flex; overflow-y: auto; border: 1px solid var(--divider); border-radius: var(--radius-md);">
+      <AvSideNavigation 
+        v-bind="args"
+        v-model:selected-item="selectedItem"
+        v-model:is-side-menu-collapsed="isSideMenuCollapsed"
+      />
+      <div style="flex: 1; padding: 1rem; min-height: 1200px; background: #f5f5f5;">
+        <p><strong>Selected item:</strong> {{ selectedItem.itemId }}</p>
+        <p><strong>Parent item:</strong> {{ selectedItem.parentId }}</p>
+        <p><strong>Menu collapsed:</strong> {{ isSideMenuCollapsed }}</p>
+        <p>This story demonstrates the sticky behavior of the side menu. Scroll this container to see that the menu remains visible.</p>
+      </div>
+    </div>
+  `,
+})
 
 export default meta
-type Story = StoryObj<typeof meta>
 
-export const Default: Story = {
-  render: args => ({
-    components: { AvSideNavigation },
-    setup () {
-      const selectedItem = ref({ itemId: 'careers' })
-      const isSideMenuCollapsed = ref(false)
-      return { args, selectedItem, isSideMenuCollapsed }
-    },
-    template: `
-      <div style="height: 400px; display: flex;">
-        <AvSideNavigation 
-          v-bind="args"
-          v-model:selected-item="selectedItem"
-          v-model:is-side-menu-collapsed="isSideMenuCollapsed"
-        />
-        <div style="flex: 1; padding: 1rem; background: #f5f5f5;">
-          <p><strong>Selected item:</strong> {{ selectedItem.itemId }}</p>
-          <p><strong>Parent item:</strong> {{ selectedItem.parentId }}</p>
-          <p><strong>Menu collapsed:</strong> {{ isSideMenuCollapsed }}</p>
-          <p>This component uses defineModel for automatic two-way binding with parent components.</p>
-        </div>
-      </div>
-    `
-  })
+export const Default = Template.bind({})
+Default.args = {}
+
+export const Secondary = Template.bind({})
+Secondary.args = { theme: Theme.SECONDARY }
+
+export const MenuItemsDefault = TemplateWithMenuItems.bind({})
+MenuItemsDefault.args = {
+  items: mockItemsWithChildren,
+  selectedItem: { itemId: 'subitem-1-1', parentId: 'menu-expanded' }
 }
 
-export const MenuItems: Story = {
-  render: args => ({
-    components: { AvSideNavigation },
-    setup () {
-      const selectedItem = ref({ itemId: 'subitem-1-1', parentId: 'menu-expanded' })
-      const isSideMenuCollapsed = ref(false)
-      return { args: { ...args, items: mockItemsWithChildren }, selectedItem, isSideMenuCollapsed }
-    },
-    template: `
-      <div style="height: 600px; display: flex;">
-        <AvSideNavigation 
-          v-bind="args"
-          v-model:selected-item="selectedItem"
-          v-model:is-side-menu-collapsed="isSideMenuCollapsed"
-        />
-        <div style="flex: 1; padding: 1rem; background: #f5f5f5;">
-          <p><strong>Selected item:</strong> {{ selectedItem.itemId }}</p>
-          <p><strong>Parent item:</strong> {{ selectedItem.parentId }}</p>
-          <p><strong>Menu collapsed:</strong> {{ isSideMenuCollapsed }}</p>
-          <p>This component uses defineModel for automatic two-way binding with parent components.</p>
-        </div>
-      </div>
-    `
-  })
+export const MenuItemsSecondary = TemplateWithMenuItems.bind({})
+MenuItemsSecondary.args = {
+  items: mockItemsWithChildren,
+  selectedItem: { itemId: 'subitem-1-1', parentId: 'menu-expanded' },
+  theme: Theme.SECONDARY
 }
 
-export const Collapsed: Story = {
-  render: args => ({
-    components: { AvSideNavigation },
-    setup () {
-      const selectedItem = ref({ itemId: 'educations' })
-      const isSideMenuCollapsed = ref(true)
-      return { args, selectedItem, isSideMenuCollapsed }
-    },
-    template: `
-      <div style="height: 400px; display: flex;">
-        <AvSideNavigation 
-          v-bind="args"
-          v-model:selected-item="selectedItem"
-          v-model:is-side-menu-collapsed="isSideMenuCollapsed"
-        />
-        <div style="flex: 1; padding: 1rem; background: #f5f5f5;">
-          <p><strong>Selected item:</strong> {{ selectedItem.itemId }}</p>
-          <p><strong>Parent item:</strong> {{ selectedItem.parentId }}</p>
-          <p><strong>Menu collapsed:</strong> {{ isSideMenuCollapsed }}</p>
-          <p>This story demonstrates the collapsed state where only icons are visible.</p>
-        </div>
-      </div>
-    `
-  })
+export const Collapsed = TemplateCollapsed.bind({})
+Collapsed.args = {
+  isSideMenuCollapsed: true
 }
 
-export const HiddenContentCollapsed: Story = {
-  render: args => ({
-    components: { AvSideNavigation },
-    setup () {
-      const selectedItem = ref({ itemId: 'educations' })
-      const isSideMenuCollapsed = ref(true)
-      return { args, selectedItem, isSideMenuCollapsed }
-    },
-    template: `
-      <div style="height: 400px; display: flex;">
-        <AvSideNavigation 
-          v-bind="args"
-          hide-content-when-collapsed
-          v-model:selected-item="selectedItem"
-          v-model:is-side-menu-collapsed="isSideMenuCollapsed"
-        />
-        <div style="flex: 1; padding: 1rem; background: #f5f5f5;">
-          <p><strong>Selected item:</strong> {{ selectedItem.itemId }}</p>
-          <p><strong>Parent item:</strong> {{ selectedItem.parentId }}</p>
-          <p><strong>Menu collapsed:</strong> {{ isSideMenuCollapsed }}</p>
-          <p>This story demonstrates the collapsed state where only collapse button is visible.</p>
-        </div>
-      </div>
-    `
-  })
+export const HiddenContentCollapsed = TemplateCollapsed.bind({})
+HiddenContentCollapsed.args = {
+  selectedItem: { itemId: 'educations' },
+  isSideMenuCollapsed: true
 }
 
-export const CustomdWidth: Story = {
-  render: args => ({
-    components: { AvSideNavigation },
-    setup () {
-      const selectedItem = ref({ itemId: 'experiences' })
-      const isSideMenuCollapsed = ref(false)
-      return { args, selectedItem, isSideMenuCollapsed }
-    },
-    template: `
-      <div style="height: 400px; display: flex;">
-        <AvSideNavigation 
-          v-bind="args"
-          v-model:selected-item="selectedItem"
-          v-model:is-side-menu-collapsed="isSideMenuCollapsed"
-        />
-        <div style="flex: 1; padding: 1rem; background: #f5f5f5;">
-          <p><strong>Selected item:</strong> {{ selectedItem.itemId }}</p>
-          <p><strong>Parent item:</strong> {{ selectedItem.parentId }}</p>
-          <p><strong>Menu collapsed:</strong> {{ isSideMenuCollapsed }}</p>
-          <p>This story demonstrates custom width (20rem instead of default fit-content).</p>
-        </div>
-      </div>
-    `
-  }),
-  args: {
-    width: '20rem'
-  }
+export const CustomWidth = Template.bind({})
+CustomWidth.args = {
+  selectedItem: { itemId: 'experiences' },
+  width: '20rem'
 }
 
-export const CustomCollapsedWidth: Story = {
-  render: args => ({
-    components: { AvSideNavigation },
-    setup () {
-      const selectedItem = ref({ itemId: 'experiences' })
-      const isSideMenuCollapsed = ref(false)
-      return { args, selectedItem, isSideMenuCollapsed }
-    },
-    template: `
-      <div style="height: 400px; display: flex;">
-        <AvSideNavigation 
-          v-bind="args"
-          v-model:selected-item="selectedItem"
-          v-model:is-side-menu-collapsed="isSideMenuCollapsed"
-        />
-        <div style="flex: 1; padding: 1rem; background: #f5f5f5;">
-          <p><strong>Selected item:</strong> {{ selectedItem.itemId }}</p>
-          <p><strong>Parent item:</strong> {{ selectedItem.parentId }}</p>
-          <p><strong>Menu collapsed:</strong> {{ isSideMenuCollapsed }}</p>
-          <p>This story demonstrates custom collapsed width (5rem instead of default 3.5rem).</p>
-        </div>
-      </div>
-    `
-  }),
-  args: {
-    collapsedWidth: '5rem'
-  }
+export const CustomCollapsedWidth = TemplateCollapsed.bind({})
+CustomCollapsedWidth.args = {
+  selectedItem: { itemId: 'experiences' },
+  collapsedWidth: '5rem'
 }
 
-export const CustomColor: Story = {
-  render: args => ({
-    components: { AvSideNavigation },
-    setup () {
-      const selectedItem = ref({ itemId: 'activities' })
-      const isSideMenuCollapsed = ref(false)
-      return { args, selectedItem, isSideMenuCollapsed }
-    },
-    template: `
-      <div style="height: 400px; display: flex;">
-        <AvSideNavigation 
-          v-bind="args"
-          v-model:selected-item="selectedItem"
-          v-model:is-side-menu-collapsed="isSideMenuCollapsed"
-        />
-        <div style="flex: 1; padding: 1rem; background: #f5f5f5;">
-          <p><strong>Selected item:</strong> {{ selectedItem.itemId }}</p>
-          <p><strong>Parent item:</strong> {{ selectedItem.parentId }}</p>
-          <p><strong>Menu collapsed:</strong> {{ isSideMenuCollapsed }}</p>
-          <p>This story demonstrates custom colors using CSS variables.</p>
-        </div>
-      </div>
-    `
-  }),
-  args: {
-    selectedItemColor: 'var(--dark-background-warn)'
-  }
-}
-
-export const Sticky: Story = {
-  render: args => ({
-    components: { AvSideNavigation },
-    setup () {
-      const selectedItem = ref({ itemId: 'careers' })
-      const isSideMenuCollapsed = ref(false)
-      return { args, selectedItem, isSideMenuCollapsed }
-    },
-    template: `
-      <div style="height: 500px; display: flex; overflow-y: auto; border: 1px solid var(--divider); border-radius: var(--radius-md);">
-        <AvSideNavigation 
-          v-bind="args"
-          v-model:selected-item="selectedItem"
-          v-model:is-side-menu-collapsed="isSideMenuCollapsed"
-        />
-        <div style="flex: 1; padding: 1rem; min-height: 1200px; background: #f5f5f5;">
-          <p><strong>Selected item:</strong> {{ selectedItem.itemId }}</p>
-          <p><strong>Parent item:</strong> {{ selectedItem.parentId }}</p>
-          <p><strong>Menu collapsed:</strong> {{ isSideMenuCollapsed }}</p>
-          <p>This story demonstrates the sticky behavior of the side menu. Scroll this container to see that the menu remains visible.</p>
-        </div>
-      </div>
-    `
-  }),
-  args: {
-    sticky: true,
-    stickyOffset: '0'
-  }
+export const Sticky = TemplateSticky.bind({})
+Sticky.args = {
+  sticky: true,
+  stickyOffset: '0'
 }
