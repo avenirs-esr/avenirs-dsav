@@ -47,6 +47,11 @@ export interface AvDropdownItem {
    * Optional route to navigate to when the item is clicked.
    */
   to?: AvButtonProps['to']
+
+  /**
+   * If true, a separator line will be displayed before this menu item.
+   */
+  separatorBefore?: boolean
 }
 
 /**
@@ -182,19 +187,24 @@ function handleItemClick (itemName: string, close: () => void) {
     </template>
     <template #popover="{ close }">
       <div class="av-dropdown av-col">
-        <AvButton
+        <div
           v-for="item in items"
-          v-bind="item"
           :key="item.name"
-          class="av-dropdown__menu-item"
-          :aria-label="item.label"
-          :small="itemSmall"
-          :theme="itemTheme"
-          :icon-scale="itemIconScale"
-          :data-testid="item.name"
-          no-radius
-          @click="handleItemClick(item.name, close)"
-        />
+          :class="{ 'separator-before': item.separatorBefore }"
+        >
+          <AvButton
+
+            v-bind="item"
+            class="av-dropdown__menu-item"
+            :aria-label="item.label"
+            :small="itemSmall"
+            :theme="itemTheme"
+            :icon-scale="itemIconScale"
+            :data-testid="item.name"
+            no-radius
+            @click="handleItemClick(item.name, close)"
+          />
+        </div>
       </div>
     </template>
   </AvPopover>
@@ -212,6 +222,10 @@ function handleItemClick (itemName: string, close: () => void) {
     &:last-child {
       border-radius: 0 0 var(--radius-sm) var(--radius-sm);
     }
+  }
+
+  .separator-before {
+    border-top: 1px solid var(--dark-background-neutral) !important;
   }
 }
 </style>

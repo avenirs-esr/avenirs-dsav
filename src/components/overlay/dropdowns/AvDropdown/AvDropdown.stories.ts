@@ -79,10 +79,10 @@ const meta: Meta<AvDropdownProps> = {
   args: {
     items: [
       { name: 'edit', label: 'Edit', icon: MDI_ICONS.PENCIL_OUTLINE },
-      { name: 'delete', label: 'Delete', icon: MDI_ICONS.TRASH_CAN_OUTLINE },
       { name: 'share', label: 'Share', icon: MDI_ICONS.SHARE_VARIANT_OUTLINE },
       { name: 'details', label: 'Details', to: '/details', icon: CUIDA_ICONS.VISIBILITY_ON_OUTLINE },
       { name: 'external', label: 'External', href: 'https://example.com', icon: MDI_ICONS.LINK },
+      { name: 'delete', label: 'Delete', icon: MDI_ICONS.TRASH_CAN_OUTLINE, separatorBefore: true },
     ],
     triggerAriaLabel: 'Actions menu',
     triggerIcon: MDI_ICONS.DOTS_VERTICAL,

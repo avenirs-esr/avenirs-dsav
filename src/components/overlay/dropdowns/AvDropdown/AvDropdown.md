@@ -45,6 +45,7 @@ interface AvDropdownItem {
   disabledTooltip?: AvButtonProps['disabledTooltip'] // Tooltip text to display when the menu item is disabled.
   href?: AvButtonProps['href'] // Optional URL to navigate to when the item is clicked.
   to?: AvButtonProps['to'] // Optional route to navigate to when the item is clicked.
+  separatorBefore?: boolean // If true, a separator line is displayed before the menu item.
 }
 ```
 
