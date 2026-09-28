@@ -17,7 +17,6 @@ import { AvFilePillStub } from '@/components/interaction/files/AvFilePill/AvFile
 import { AvFileUploadStub } from '@/components/interaction/files/AvFileUpload/AvFileUpload.stub'
 import { AvDatePickerStub } from '@/components/interaction/inputs/AvDatePicker/AvDatePicker.stub'
 import { AvInputStub } from '@/components/interaction/inputs/AvInput/AvInput.stub'
-import { AvPeriodInputStub } from '@/components/interaction/inputs/AvPeriodInput/AvPeriodInput.stub'
 import { AvRichTextEditorStub } from '@/components/interaction/inputs/AvRichTextEditor/AvRichTextEditor.stub'
 import { AvCheckboxListItemStub } from '@/components/interaction/lists/AvCheckboxListItem/AvCheckboxListItem.stub'
 import { AvListStub } from '@/components/interaction/lists/AvList/AvList.stub'
@@ -77,7 +76,6 @@ export {
   AvNavigationStub,
   AvPageSizePickerStub,
   AvPaginationStub,
-  AvPeriodInputStub,
   AvPopoverStub,
   AvRadioButtonSetStub,
   AvRadioButtonStub,
