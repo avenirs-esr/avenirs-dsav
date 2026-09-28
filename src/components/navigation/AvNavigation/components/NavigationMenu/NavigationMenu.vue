@@ -63,6 +63,7 @@ const {
 } = useCollapsable()
 
 const realId = computed(() => id ?? `menu-${crypto.randomUUID()}`)
+const triggerId = computed(() => `trigger-${realId.value}`)
 const expanded = computed(() => realId.value === expandedId)
 
 const styleVars = computed(() => ({
@@ -84,6 +85,7 @@ onMounted(() => {
 
 <template>
   <button
+    :id="triggerId"
     class="av-nav__btn"
     :aria-expanded="expanded"
     :aria-current="active || undefined"
