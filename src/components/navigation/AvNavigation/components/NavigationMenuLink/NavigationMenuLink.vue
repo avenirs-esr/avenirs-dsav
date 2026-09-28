@@ -78,6 +78,7 @@ const closeModal = useHeader?.()
 <template>
   <a
     v-if="isExternal"
+    :id="realId"
     class="av-nav__link av-row av-justify-start av-gap-xs"
     :class="{ 'av-nav__link--active': activeId === realId }"
     data-testid="nav-external-link"
@@ -88,6 +89,7 @@ const closeModal = useHeader?.()
   </a>
   <RouterLink
     v-else-if="highlight"
+    :id="realId"
     v-slot="{ href, navigate, isExactActive }"
     :to="to"
     custom
@@ -109,6 +111,7 @@ const closeModal = useHeader?.()
   </RouterLink>
   <RouterLink
     v-else
+    :id="realId"
     class="av-nav__link av-row av-justify-start av-gap-xs"
     data-testid="nav-router-link"
     :to="to"
