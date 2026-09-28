@@ -50,7 +50,6 @@ const meta: Meta<AvHeaderProps> = {
     homeLabel: 'Accueil - Cofolio Étudiant',
     showSearch: true,
     languageSelector: {
-      id: 'language-selector',
       languages: [
         { label: 'Français', codeIso: 'fr' },
         { label: 'English', codeIso: 'en' },

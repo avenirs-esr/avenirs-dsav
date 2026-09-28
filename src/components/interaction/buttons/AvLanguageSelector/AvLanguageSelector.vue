@@ -16,12 +16,6 @@ export interface AvLanguageSelectorElement {
  */
 export interface AvLanguageSelectorProps {
   /**
-   * Unique id for accessibility
-   * @default crypto.randomUUID()
-   */
-  id?: string
-
-  /**
    * Available languages list.
    * Each language is represented by an object containing a `codeIso` and a `label`
    */
@@ -45,7 +39,6 @@ defineOptions({
 })
 
 const {
-  id,
   languages,
   currentLanguage = 'fr',
   title = 'Sélectionner une langue'
@@ -64,7 +57,6 @@ const emit = defineEmits<{ (
 
 const { isBelowLg } = useAvBreakpoints()
 
-const realId = computed(() => id ?? `language-selector-${crypto.randomUUID()}`)
 const currentLanguageObject = computed(
   () => languages.find(({ codeIso }) => codeIso === currentLanguage),
 )
@@ -99,7 +91,7 @@ function handleItemSelected (itemName: string) {
       class="av-translate av-nav"
     >
       <AvDropdown
-        :id="realId"
+        id="language-selector"
         :items="menuItems"
         :trigger-aria-label="label"
         :trigger-label="label"
