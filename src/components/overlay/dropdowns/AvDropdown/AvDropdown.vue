@@ -225,7 +225,7 @@ function handleItemClick (itemName: string, close: () => void) {
   }
 
   .separator-before {
-    border-top: 1px solid var(--dark-background-neutral) !important;
+    border-top: 1px solid var(--stroke) !important;
   }
 }
 </style>
