@@ -17,9 +17,13 @@ This component displays links for the first, previous, middle, next and last pag
 | `truncLimit` | `number` | `2` | | Maximum number of pages displayed. |
 | `currentPage` | `number` | `0` | | Index of currently selected page (starts at `0`). |
 | `firstPageLabel` | `string` | | ✅ | Tooltip text for link to first page. |
+| `firstPageDisabledTooltip` | `string` | | | Tooltip text for disabled first page link. |
 | `lastPageLabel` | `string` | | ✅ | Tooltip text for link to last page. |
+| `lastPageDisabledTooltip` | `string` | | | Tooltip text for disabled last page link. |
 | `nextPageLabel` | `string` | | ✅ | Tooltip text for page link. |
+| `nextPageDisabledTooltip` | `string` | | | Tooltip text for disabled next page link. |
 | `prevPageLabel` | `string` | | ✅ | Tooltip text for previous page link. |
+| `prevPageDisabledTooltip` | `string` | | | Tooltip text for disabled previous page link. |
 | `compactCurrentPageLabel` | `string` | `undefined` | | Text for compact current page. |
 
 ## 🔊 Events
