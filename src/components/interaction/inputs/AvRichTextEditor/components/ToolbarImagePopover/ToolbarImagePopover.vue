@@ -2,6 +2,7 @@
 import type { AvRichTextEditorLabels } from '@/components/interaction/inputs/AvRichTextEditor/AvRichTextEditor.types'
 import AvInput from '@/components/interaction/inputs/AvInput/AvInput.vue'
 import { MDI_ICONS } from '@/tokens/icons'
+import { Size } from '@/types/size.types'
 
 export interface ToolbarImagePopoverProps extends Pick<AvRichTextEditorLabels, 'imageLabel'
   | 'imageNameLabel'
@@ -33,6 +34,7 @@ const imageUrl = ref('')
         :icon="MDI_ICONS.IMAGE_OUTLINE"
         icon-only
         variant="FLAT"
+        :size="Size.LG"
         data-testid="insert-image-button"
         @click="toggle"
       />

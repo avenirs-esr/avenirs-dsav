@@ -2,6 +2,7 @@
 import type { Slot } from 'vue'
 import type AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
 import { MDI_ICONS } from '@/tokens'
+import { Size } from '@/types/size.types'
 
 /**
  * AvCard component props.
@@ -250,6 +251,7 @@ defineExpose({
         :aria-controls="`${id}-content`"
         :aria-expanded="!collapsed"
         :icon="collapsed ? MDI_ICONS.CHEVRON_DOWN : MDI_ICONS.CHEVRON_LEFT"
+        :size="Size.LG"
         icon-only
         :label="collapsed ? expandLabel : collapseLabel"
         :data-testid="collapsed ? 'expand-button' : 'collapse-button'"

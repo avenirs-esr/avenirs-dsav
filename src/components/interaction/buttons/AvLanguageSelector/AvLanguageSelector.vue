@@ -96,7 +96,6 @@ function handleItemSelected (itemName: string) {
         :trigger-aria-label="label"
         :trigger-label="label"
         :trigger-icon="MDI_ICONS.TRANSLATE"
-        trigger-small
         width="max-content"
         trigger-no-sentence-case
         @item-selected="handleItemSelected"

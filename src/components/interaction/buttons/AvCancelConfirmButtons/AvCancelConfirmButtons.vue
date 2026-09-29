@@ -127,7 +127,6 @@ defineExpose({
       :disabled="cancelDisabled"
       :disabled-tooltip="cancelDisabledTooltip"
       :icon-only="iconOnly"
-      small
       data-testid="cancel-button"
       @click="emit('cancel')"
     />
@@ -143,7 +142,6 @@ defineExpose({
       :type="form ? 'submit' : undefined"
       :form="form"
       :icon-only="iconOnly"
-      small
       data-testid="confirm-button"
       @click="emit('confirm')"
     />

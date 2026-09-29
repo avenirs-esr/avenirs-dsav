@@ -1,6 +1,7 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
 import AvDropdown, { type AvDropdownProps } from '@/components/overlay/dropdowns/AvDropdown/AvDropdown.vue'
 import { CUIDA_ICONS, MDI_ICONS } from '@/tokens/icons'
+import { Size } from '@/types/size.types'
 import { Theme } from '@/types/theme.types'
 
 /**
@@ -66,10 +67,10 @@ const meta: Meta<AvDropdownProps> = {
       control: { type: 'radio' },
       options: ['DEFAULT', 'OUTLINED', 'FLAT'],
     },
-    triggerSmall: { control: 'boolean' },
+    triggerSize: { control: 'radio', options: Object.values(Size) },
     width: { control: 'text' },
     padding: { control: 'text' },
-    itemSmall: { control: 'boolean' },
+    itemSize: { control: 'radio', options: Object.values(Size) },
     itemTheme: {
       control: { type: 'radio' },
       options: [Theme.PRIMARY, Theme.SECONDARY],
@@ -88,10 +89,10 @@ const meta: Meta<AvDropdownProps> = {
     triggerIcon: MDI_ICONS.DOTS_VERTICAL,
     triggerLabel: undefined,
     triggerVariant: 'OUTLINED',
-    triggerSmall: true,
+    triggerSize: Size.MD,
     width: '15rem',
     padding: 'var(--spacing-xs)',
-    itemSmall: true,
+    itemSize: Size.MD,
     itemTheme: Theme.SECONDARY,
     itemIconScale: 1.3,
   },
@@ -127,7 +128,7 @@ DefaultTrigger.args = {
 
 export const LargeTrigger = Template.bind({})
 LargeTrigger.args = {
-  triggerSmall: false,
+  triggerSize: Size.LG,
 }
 
 export const WideMenu = Template.bind({})
@@ -137,7 +138,7 @@ WideMenu.args = {
 
 export const LargeItems = Template.bind({})
 LargeItems.args = {
-  itemSmall: false,
+  itemSize: Size.LG,
 }
 
 export const PrimaryItems = Template.bind({})

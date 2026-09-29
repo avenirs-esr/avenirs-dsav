@@ -112,7 +112,6 @@ defineExpose({
           :icon-scale="1.25"
           variant="DEFAULT"
           :theme="Theme.SECONDARY"
-          small
           @click="handleClearSearch"
         />
       </template>

@@ -47,7 +47,6 @@ function removeOption (option: T) {
         :label="getDisplayLabel(option)"
         :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
         icon-right
-        size="sm"
         variant="OUTLINED"
         :theme="Theme.SECONDARY"
         @click="() => removeOption(option)"

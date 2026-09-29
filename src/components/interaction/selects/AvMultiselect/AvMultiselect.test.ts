@@ -6,6 +6,7 @@ import { AvCheckboxStub } from '@/components/interaction/checkboxes/AvCheckbox/A
 import AvMultiselect, { type AvMultiselectProps } from '@/components/interaction/selects/AvMultiselect/AvMultiselect.vue'
 import { AvButtonStub, AvMessageStub } from '@/tests'
 import { BddTest } from '@/tests/utils'
+import { Size } from '@/types/size.types'
 
 interface VmType {
   handleKeyDownEscape: (e: KeyboardEvent) => void
@@ -59,8 +60,8 @@ BddTest().given('an AvMultiselect component', () => {
         expect(button.classes()).toContain('av-multiselect--unselected')
       })
 
-      BddTest().then('it should render the button in medium size', () => {
-        expect(wrapper.findComponent({ name: 'AvButton' }).props('small')).toBe(false)
+      BddTest().then('it should render the button in large size', () => {
+        expect(wrapper.findComponent({ name: 'AvButton' }).props('size')).toBe(Size.LG)
       })
 
       BddTest().and('Escape key is pressed', () => {
@@ -182,8 +183,8 @@ BddTest().given('an AvMultiselect component', () => {
       wrapper = mountWithProps({ dense: true })
     })
 
-    BddTest().then('it should render the button in small size', () => {
-      expect(wrapper.findComponent({ name: 'AvButton' }).props('small')).toBe(true)
+    BddTest().then('it should render the button in medium size', () => {
+      expect(wrapper.findComponent({ name: 'AvButton' }).props('size')).toBe(Size.MD)
     })
   })
 

@@ -26,10 +26,10 @@ The dropdown consists of:
 | `triggerIcon` | `string` | `MDI_ICONS.DOTS_VERTICAL` | | Icon for the trigger button. |
 | `triggerLabel` | `string` | `undefined` | | Text label for the trigger button. If not provided, only the icon is shown. |
 | `triggerVariant` | `'DEFAULT' \| 'OUTLINED' \| 'FLAT'` | `'OUTLINED'` | | Variant of the trigger button. |
-| `triggerSmall` | `boolean` | `true` | | Display the trigger button in small size (`true`) or default size (`false`). |
+| `triggerSize` | `Size` | `Size.MD` | | Size of the trigger button. |
 | `width` | `string` | `'15rem'` | | Width of the dropdown menu. |
 | `padding` | `string` | `'var(--spacing-xs)'` | | Internal padding of the dropdown menu. |
-| `itemSmall` | `boolean` | `true` | | Display the menu item buttons in small size (`true`) or default size (`false`). |
+| `itemSize` | `Size` | `Size.MD` | | Size of the menu item buttons. |
 | `itemTheme` | `'PRIMARY' \| 'SECONDARY'` | `'SECONDARY'` | | Theme of menu item buttons. |
 | `itemIconScale` | `number` | `1.3` | | Scale factor for menu item icons. |
 
@@ -163,7 +163,7 @@ function handleItemSelected (itemName: string) {
     trigger-aria-label="More actions"
     trigger-label="Actions"
     trigger-variant="FLAT"
-    trigger-small
+    trigger-size="LG"
     width="20rem"
     item-theme="PRIMARY"
     @item-selected="handleAction"

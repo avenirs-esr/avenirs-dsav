@@ -82,12 +82,14 @@ const Template: StoryFn<AvHeaderProps> = args => ({
             <AvButton
               label="Mailbox"
               icon="mdi:chat-bubble-outline"
+              size="LG"
             />
           </li>
           <li>
             <AvButton 
               label="J. Moulin"
               icon="mdi:account-circle-outline"
+              size="LG"
             />
           </li>
         </ul>
@@ -98,6 +100,7 @@ const Template: StoryFn<AvHeaderProps> = args => ({
               <AvButton
                 label="Switch universe"
                 icon="mdi:swap-horizontal"
+                size="LG"
               />
             </div>
           </template>
@@ -105,6 +108,7 @@ const Template: StoryFn<AvHeaderProps> = args => ({
         <AvButton
           label="Navigation link 1"
           icon="mdi:home-variant-outline"
+          size="LG"
         />
       </template>
     </AvHeader>

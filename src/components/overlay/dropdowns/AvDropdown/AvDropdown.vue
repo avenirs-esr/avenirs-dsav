@@ -2,6 +2,7 @@
 import AvButton, { type AvButtonProps } from '@/components/interaction/buttons/AvButton/AvButton.vue'
 import AvPopover from '@/components/overlay/popovers/AvPopover/AvPopover.vue'
 import { MDI_ICONS } from '@/tokens/icons'
+import { Size } from '@/types/size.types'
 import { Theme } from '@/types/theme.types'
 
 /**
@@ -92,10 +93,10 @@ export interface AvDropdownProps {
   triggerVariant?: AvButtonProps['variant']
 
   /**
-   * Display the trigger button in small size (`true`) or default size (`false`).
+   * Display the trigger button in selected size (small 'SM', medium 'MD', large 'LG').
    * @default true
    */
-  triggerSmall?: AvButtonProps['small']
+  triggerSize?: AvButtonProps['size']
 
   /**
    * If true, the trigger button will not apply sentence case to its label.
@@ -115,10 +116,10 @@ export interface AvDropdownProps {
   padding?: string
 
   /**
-   * Display menu item buttons in small size (`true`) or default size (`false`).
+   * Display menu item buttons in selected size (small 'SM', medium 'MD', large 'LG').
    * @default true
    */
-  itemSmall?: AvButtonProps['small']
+  itemSize?: AvButtonProps['size']
 
   /**
    * Theme of menu item buttons.
@@ -139,12 +140,12 @@ const {
   triggerIcon = MDI_ICONS.DOTS_VERTICAL,
   triggerLabel,
   triggerVariant = 'OUTLINED',
-  triggerSmall = true,
+  triggerSize = Size.MD,
   triggerNoSentenceCase = false,
   triggerActive = false,
   width = '15rem',
   padding = 'var(--spacing-xs)',
-  itemSmall = true,
+  itemSize = Size.MD,
   itemTheme = Theme.SECONDARY,
   itemIconScale = 1.3
 } = defineProps<AvDropdownProps>()
@@ -178,7 +179,7 @@ function handleItemClick (itemName: string, close: () => void) {
         :label="triggerLabel || triggerAriaLabel"
         :aria-label="triggerAriaLabel"
         :variant="triggerVariant"
-        :small="triggerSmall"
+        :size="triggerSize"
         :no-sentence-case="triggerNoSentenceCase"
         :icon-only="!triggerLabel"
         :active="triggerActive"
@@ -193,11 +194,10 @@ function handleItemClick (itemName: string, close: () => void) {
           :class="{ 'separator-before': item.separatorBefore }"
         >
           <AvButton
-
             v-bind="item"
             class="av-dropdown__menu-item"
             :aria-label="item.label"
-            :small="itemSmall"
+            :size="itemSize"
             :theme="itemTheme"
             :icon-scale="itemIconScale"
             :data-testid="item.name"

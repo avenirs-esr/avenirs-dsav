@@ -4,6 +4,7 @@ import type AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import { useAttrs } from 'vue'
 import { MDI_ICONS } from '@/tokens'
 import { Theme } from '@/types'
+import { Size } from '@/types/size.types'
 import { toSentenceCase } from '@/utils'
 
 /**
@@ -22,6 +23,12 @@ export interface AvButtonProps {
    * @default 'PRIMARY'
    */
   theme?: Theme
+
+  /**
+   * Display the button in the selected size.
+   * @default 'MD'
+   */
+  size?: Size
 
   /**
    * Indicates button loading status.
@@ -64,12 +71,6 @@ export interface AvButtonProps {
   iconOnly?: boolean
 
   /**
-   * Display the button in small size (`true`) or default size (`false`).
-   * @default false
-   */
-  small?: boolean
-
-  /**
    * Icon to be displayed in the button. Can be a name or an icon configuration (eg: `{"name": "mdi:stars"}`).
    */
   icon?: string | InstanceType<typeof AvIcon>['$props']
@@ -100,7 +101,7 @@ defineOptions({
 const {
   variant = 'DEFAULT',
   theme = Theme.PRIMARY,
-  small = false,
+  size = Size.MD,
   iconOnly = false,
   disabled = false,
   disabledTooltip,
@@ -149,10 +150,16 @@ const iconSize = computed(() => {
   if (iconScale && !Number.isNaN(iconScale)) {
     return iconScale
   }
-  if (small) {
-    return 1
+
+  switch (size) {
+    case Size.SM:
+      return 0.9
+    case Size.LG:
+      return 1.5
+    case Size.MD:
+    default:
+      return 1
   }
-  return 1.5
 })
 
 const iconToRender = computed(() => {
@@ -182,8 +189,42 @@ const componentToRender = computed(() => {
   }
   return 'button'
 })
+
+const sizeClass = computed(() => `av-button--${size.toLowerCase()}`)
 const variantClass = computed(() => `av-button--variant-${asLink.value ? 'default' : variant.toLowerCase()}`)
 const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
+const paddingClass = computed(() => {
+  if (iconOnly) {
+    return {
+      [Size.SM]: 'av-px-xxs av-py-xxs',
+      [Size.MD]: 'av-px-xxs av-py-xxs',
+      [Size.LG]: 'av-px-xs av-py-xs',
+    }[size]
+  }
+
+  return {
+    [Size.SM]: 'av-px-xs av-py-xxs',
+    [Size.MD]: 'av-px-xs av-py-xxs',
+    [Size.LG]: 'av-px-sm av-py-xs',
+  }[size]
+})
+const radiusClass = computed(() => {
+  if (noRadius) {
+    return 'av-radius-none'
+  }
+
+  return size === Size.LG
+    ? 'av-radius-lg'
+    : 'av-radius-md'
+})
+const labelClass = computed(() => {
+  return {
+    [Size.SM]: 'caption-regular',
+    [Size.MD]: 'b2-regular',
+    [Size.LG]: 'b1-regular',
+  }[size]
+})
+
 const showDisabledTooltip = computed(() => disabled && !!disabledTooltip?.trim())
 const tooltipContent = computed(() => showDisabledTooltip.value ? disabledTooltip ?? labelToRender.value : labelToRender.value)
 const tooltipDisabled = computed(() => showDisabledTooltip.value ? false : !iconOnly || buttonDisabled.value)
@@ -218,17 +259,12 @@ const linkProps = computed(() => {
       :class="[
         {
           'av-button--disabled': buttonDisabled,
-          'av-button--sm': small,
-          'av-px-xs av-py-xxs': small && !iconOnly,
-          'av-px-sm av-py-xs': !small && !iconOnly,
-          'av-px-xxs av-py-xxs': small && iconOnly,
-          'av-px-xs av-py-xs': !small && iconOnly,
-          'av-radius-md': !noRadius && small,
-          'av-radius-lg': !noRadius && !small,
-          'av-radius-none': noRadius,
         },
+        sizeClass,
         variantClass,
         themeClass,
+        paddingClass,
+        radiusClass,
       ]"
       :disabled="buttonDisabled"
       :data-tag="hasHref && !buttonDisabled ? 'link' : hasTo && !buttonDisabled ? 'routerlink' : 'button'"
@@ -240,7 +276,7 @@ const linkProps = computed(() => {
       />
       <span
         v-if="!iconOnly"
-        :class="small ? 'b2-regular' : 'b1-regular'"
+        :class="labelClass"
       >
         {{ labelToRender }}
       </span>
@@ -347,8 +383,7 @@ const linkProps = computed(() => {
     }
   }
 
-  .b1-regular,
-  .b2-regular {
+  .b1-regular, .b2-regular, .caption-regular {
     color: inherit;
   }
 }

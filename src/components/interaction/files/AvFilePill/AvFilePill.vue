@@ -128,7 +128,6 @@ const hasDetails = computed(() => showDetails && details.value.length > 0)
       :label="`${downloadPrefixLabel} ${name}`"
       :icon="MDI_ICONS.DOWNLOAD_OUTLINE"
       icon-only
-      small
       @click="emit('download', realId)"
     />
     <AvButton
@@ -136,7 +135,6 @@ const hasDetails = computed(() => showDetails && details.value.length > 0)
       :label="`${deletePrefixLabel} ${name}`"
       :icon="MDI_ICONS.TRASH_CAN_OUTLINE"
       icon-only
-      small
       @click="emit('delete', realId)"
     />
   </div>

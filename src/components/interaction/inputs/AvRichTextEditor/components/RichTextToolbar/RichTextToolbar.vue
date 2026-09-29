@@ -7,6 +7,7 @@ import ToolbarLinkPopover from '@/components/interaction/inputs/AvRichTextEditor
 import ToolbarTableSettingsDropdown from '@/components/interaction/inputs/AvRichTextEditor/components/ToolbarTableSettingsDropdown/ToolbarTableSettingsDropdown.vue'
 import { useRichTextToolbar } from '@/components/interaction/inputs/AvRichTextEditor/composables/use-rich-text-toolbar/use-rich-text-toolbar'
 import { MDI_ICONS, MS_ICONS } from '@/tokens'
+import { Size } from '@/types/size.types'
 
 export interface RichTextToolbarProps extends Omit<AvRichTextEditorLabels, 'editorLabel'> {
   /**
@@ -79,6 +80,7 @@ const headings = computed(() => {
       :icon="MS_ICONS.UNDO"
       icon-only
       :variant="!!editor?.can().chain().focus().undo().run() ? 'FLAT' : 'DEFAULT'"
+      :size="Size.LG"
       data-testid="undo-button"
       @click="undo"
     />
@@ -89,6 +91,7 @@ const headings = computed(() => {
       :icon="MS_ICONS.REDO"
       icon-only
       :variant="!!editor?.can().chain().focus().redo().run() ? 'FLAT' : 'DEFAULT'"
+      :size="Size.LG"
       data-testid="redo-button"
       @click="redo"
     />
@@ -101,6 +104,7 @@ const headings = computed(() => {
       :icon="MDI_ICONS.FORMAT_PARAGRAPH"
       icon-only
       variant="FLAT"
+      :size="Size.LG"
       data-testid="set-paragraph-button"
       @click="setParagraph()"
     />
@@ -113,6 +117,7 @@ const headings = computed(() => {
       :icon="heading.icon"
       icon-only
       variant="FLAT"
+      :size="Size.LG"
       :data-testid="`set-h${heading.level}-button`"
       @click="setHeading(heading.level)"
     />
@@ -125,6 +130,7 @@ const headings = computed(() => {
       :icon="MDI_ICONS.FORMAT_BOLD"
       icon-only
       variant="FLAT"
+      :size="Size.LG"
       data-testid="bold-button"
       @click="toggleBold"
     />
@@ -135,6 +141,7 @@ const headings = computed(() => {
       :icon="MDI_ICONS.FORMAT_ITALIC"
       icon-only
       variant="FLAT"
+      :size="Size.LG"
       data-testid="italic-button"
       @click="toggleItalic"
     />
@@ -145,6 +152,7 @@ const headings = computed(() => {
       :icon="MDI_ICONS.FORMAT_UNDERLINE"
       icon-only
       variant="FLAT"
+      :size="Size.LG"
       data-testid="underline-button"
       @click="toggleUnderline"
     />
@@ -158,6 +166,7 @@ const headings = computed(() => {
       icon-only
       active
       variant="FLAT"
+      :size="Size.LG"
       data-testid="unset-link-button"
       @click="unsetLink()"
     />
@@ -181,6 +190,7 @@ const headings = computed(() => {
       :icon="MDI_ICONS.IMAGE_REMOVE_OUTLINE"
       icon-only
       variant="FLAT"
+      :size="Size.LG"
       data-testid="remove-image-button"
       @click="removeImage"
     />
@@ -221,6 +231,7 @@ const headings = computed(() => {
       :icon="MDI_ICONS.TABLE_PLUS"
       icon-only
       variant="FLAT"
+      :size="Size.LG"
       data-testid="insert-table-button"
       @click="insertTable"
     />
@@ -233,6 +244,7 @@ const headings = computed(() => {
       :icon="MDI_ICONS.FORMAT_ALIGN_LEFT"
       icon-only
       variant="FLAT"
+      :size="Size.LG"
       data-testid="align-left-button"
       @click="() => setTextAlign('left')"
     />
@@ -243,6 +255,7 @@ const headings = computed(() => {
       :icon="MDI_ICONS.FORMAT_ALIGN_CENTER"
       icon-only
       variant="FLAT"
+      :size="Size.LG"
       data-testid="align-center-button"
       @click="() => setTextAlign('center')"
     />
@@ -253,6 +266,7 @@ const headings = computed(() => {
       :icon="MDI_ICONS.FORMAT_ALIGN_RIGHT"
       icon-only
       variant="FLAT"
+      :size="Size.LG"
       data-testid="align-right-button"
       @click="() => setTextAlign('right')"
     />
@@ -263,6 +277,7 @@ const headings = computed(() => {
       :icon="MDI_ICONS.FORMAT_ALIGN_JUSTIFY"
       icon-only
       variant="FLAT"
+      :size="Size.LG"
       data-testid="align-justify-button"
       @click="() => setTextAlign('justify')"
     />
@@ -275,6 +290,7 @@ const headings = computed(() => {
       :icon="MDI_ICONS.FORMAT_LIST_BULLETED"
       icon-only
       variant="FLAT"
+      :size="Size.LG"
       data-testid="bullet-list-button"
       @click="toggleBulletList"
     />
@@ -285,6 +301,7 @@ const headings = computed(() => {
       :icon="MDI_ICONS.FORMAT_LIST_NUMBERED"
       icon-only
       variant="FLAT"
+      :size="Size.LG"
       data-testid="ordered-list-button"
       @click="toggleOrderedList"
     />
@@ -295,6 +312,7 @@ const headings = computed(() => {
       :icon="MDI_ICONS.FORMAT_INDENT_DECREASE"
       icon-only
       :variant="!!editor?.can().chain().focus().liftListItem('listItem').run() ? 'FLAT' : 'DEFAULT'"
+      :size="Size.LG"
       data-testid="decrease-indent-button"
       @click="decreaseIndent"
     />
@@ -305,6 +323,7 @@ const headings = computed(() => {
       :icon="MDI_ICONS.FORMAT_INDENT_INCREASE"
       icon-only
       :variant="!!editor?.can().chain().focus().sinkListItem('listItem').run() ? 'FLAT' : 'DEFAULT'"
+      :size="Size.LG"
       data-testid="increase-indent-button"
       @click="increaseIndent"
     />

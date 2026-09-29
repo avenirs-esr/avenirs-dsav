@@ -217,13 +217,13 @@ const TemplateWithFooter: StoryFn<AvDrawerProps> = args => ({
               label="Action 1"
               variant="DEFAULT"
               theme="PRIMARY"
-              size="sm"
+              size="SM"
             />
             <AvButton
               label="Action 2"
               variant="OUTLINED"
               theme="SECONDARY"
-              size="sm"
+              size="SM"
             />
           </div>
           
@@ -233,7 +233,7 @@ const TemplateWithFooter: StoryFn<AvDrawerProps> = args => ({
               @click="closeDrawer"
               variant="OUTLINED"
               theme="SECONDARY"
-              size="sm"
+              size="SM"
             />
           </div>
         </div>
@@ -244,13 +244,13 @@ const TemplateWithFooter: StoryFn<AvDrawerProps> = args => ({
               label="Exit"
               variant="OUTLINED"
               theme="PRIMARY"
-              size="sm"
+              size="SM"
             />
             <AvButton
               label="Save"
               variant="FLAT"
               theme="PRIMARY"
-              size="sm"
+              size="SM"
             />
           </div>
         </template>

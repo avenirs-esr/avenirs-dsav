@@ -51,6 +51,7 @@ You can find examples of use and demo of the component on its dedicated [Storybo
     <template #trigger="{ toggle }">
       <AvButton
         label="Open popover"
+        size="LG"
         @click="toggle"
       />
     </template>
@@ -59,7 +60,6 @@ You can find examples of use and demo of the component on its dedicated [Storybo
         <span>Some content...</span>
         <AvButton
           label="Close"
-          small
           @click="close"
         />
       </div>

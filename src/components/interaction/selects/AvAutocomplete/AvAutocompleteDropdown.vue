@@ -155,7 +155,6 @@ defineExpose({
         :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
         variant="DEFAULT"
         :theme="Theme.SECONDARY"
-        small
         :disabled="selectedItems.length === 0"
         @click="clearSelection"
       />
