@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { AvList, AvListItem } from '@/components/interaction/lists'
 import AvSideMenu from '@/components/navigation/AvSideMenu/AvSideMenu.vue'
-import { Theme } from '@/types'
 
 export interface AvSideNavigationItem {
   id: string
@@ -46,7 +45,7 @@ export interface AvSideNavigationProps {
    * Theme of the side navigation.
    * @default 'PRIMARY'
    */
-  theme?: Theme.PRIMARY | Theme.SECONDARY
+  theme?: 'PRIMARY' | 'SECONDARY'
 
   /**
    * Whether to hide the content when the menu is collapsed
@@ -86,7 +85,7 @@ const {
   items,
   width = 'fit-content',
   collapsedWidth = '3.5rem',
-  theme = Theme.PRIMARY,
+  theme = 'PRIMARY',
   hideContentWhenCollapsed = false,
   sticky = false,
   stickyOffset = '0',

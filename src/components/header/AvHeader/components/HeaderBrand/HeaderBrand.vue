@@ -5,7 +5,6 @@ import AvLogo from '@/components/header/AvLogo.vue'
 import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
 import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
 import { MDI_ICONS } from '@/tokens'
-import { Size } from '@/types/size.types'
 
 interface HeaderBrandProps {
   homeTo: string | RouteLocationRaw
@@ -51,7 +50,7 @@ defineSlots<{
           :aria-label="showSearchLabel"
           :title="showSearchLabel"
           :icon="MDI_ICONS.MAGNIFY"
-          :size="Size.LG"
+          size="LG"
           icon-only
           data-testid="open-search-btn"
           @click.prevent.stop="emit('showSearchDrawer')"
@@ -60,7 +59,7 @@ defineSlots<{
           v-if="showMenuButton"
           variant="OUTLINED"
           :icon="MDI_ICONS.HAMBURGER_MENU"
-          :size="Size.LG"
+          size="LG"
           aria-haspopup="dialog"
           :label="showMenuLabel"
           :aria-label="showMenuLabel"

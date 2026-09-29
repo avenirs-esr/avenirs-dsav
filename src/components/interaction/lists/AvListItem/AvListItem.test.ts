@@ -4,7 +4,6 @@ import { AvIconStub } from '@/components/base/AvIcon/AvIcon.stub'
 import AvListItem from '@/components/interaction/lists/AvListItem/AvListItem.vue'
 import { AvTooltipStub } from '@/components/overlay/tooltips/AvTooltip/AvTooltip.stub'
 import { BddTest } from '@/tests/utils'
-import { Theme } from '@/types/theme.types'
 
 const mockIsTruncated = ref(false)
 
@@ -288,7 +287,7 @@ BddTest().given('an AvListItem component', () => {
   BddTest().when('theme is provided', () => {
     beforeEach(async () => {
       wrapper = mount(AvListItem, {
-        props: { theme: Theme.SECONDARY },
+        props: { theme: 'SECONDARY' },
         slots: {
           default: '<div class="custom-content">Custom Content</div>'
         },

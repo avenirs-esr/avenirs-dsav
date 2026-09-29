@@ -1,14 +1,12 @@
 import type { PropType } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
-import { Theme } from '@/types'
-import { Size } from '@/types/size.types'
 
 export const AvButtonStub = defineComponent({
   name: 'AvButton',
   props: {
     variant: { type: String, default: 'DEFAULT' },
-    theme: { type: String as PropType<Theme>, default: Theme.PRIMARY },
-    size: { type: String as PropType<Size>, default: Size.MD },
+    theme: { type: String as PropType<'PRIMARY' | 'SECONDARY' | 'TERTIARY'>, default: 'PRIMARY' },
+    size: { type: String as PropType<'SM' | 'MD' | 'LG'>, default: 'MD' },
     isLoading: { type: Boolean, default: false },
     iconScale: { type: Number },
     noRadius: { type: Boolean, default: false },

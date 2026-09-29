@@ -3,7 +3,6 @@ import type AvButton from '@/components/interaction/buttons/AvButton/AvButton.vu
 import type { AvMultiselectOption } from '@/components/interaction/selects/AvMultiselect/AvMultiselect.types'
 import MultiselectCollapse from '@/components/interaction/selects/AvMultiselect/components/MultiselectCollapse.vue'
 import { ICONS_DATA_URL } from '@/tokens'
-import { Size } from '@/types/size.types'
 
 export interface AvMultiselectProps {
   /**
@@ -251,7 +250,7 @@ const styleVars = computed(() => ({
         'av-multiselect--unselected': modelValue.length === 0,
         'av-multiselect--selected': modelValue.length > 0,
       }"
-      :size="dense ? Size.MD : Size.LG"
+      :size="dense ? 'MD' : 'LG'"
       :style="styleVars"
       @click="handleClick"
     />

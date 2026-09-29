@@ -1,7 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
 import AvSideNavigation, { type AvSideNavigationProps } from '@/components/navigation/AvSideNavigation/AvSideNavigation.vue'
 import { MDI_ICONS } from '@/tokens'
-import { Theme } from '@/types'
 
 const mockItems = [
   {
@@ -132,14 +131,14 @@ const meta: Meta<typeof AvSideNavigation> = {
     },
     theme: {
       control: { type: 'radio' },
-      options: [Theme.PRIMARY, Theme.SECONDARY],
+      options: ['PRIMARY', 'SECONDARY'],
     },
   },
   args: {
     items: mockItems,
     collapsedWidth: '3.5rem',
     width: 'fit-content',
-    theme: Theme.PRIMARY
+    theme: 'PRIMARY'
   }
 }
 
@@ -219,7 +218,7 @@ export const Default = Template.bind({})
 Default.args = {}
 
 export const Secondary = Template.bind({})
-Secondary.args = { theme: Theme.SECONDARY }
+Secondary.args = { theme: 'SECONDARY' }
 
 export const MenuItemsDefault = TemplateWithMenuItems.bind({})
 MenuItemsDefault.args = {
@@ -231,7 +230,7 @@ export const MenuItemsSecondary = TemplateWithMenuItems.bind({})
 MenuItemsSecondary.args = {
   items: mockItemsWithChildren,
   selectedItem: { itemId: 'subitem-1-1', parentId: 'menu-expanded' },
-  theme: Theme.SECONDARY
+  theme: 'SECONDARY'
 }
 
 export const Collapsed = TemplateCollapsed.bind({})

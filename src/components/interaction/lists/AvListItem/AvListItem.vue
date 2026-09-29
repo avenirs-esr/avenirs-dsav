@@ -3,7 +3,6 @@ import type { Slot } from 'vue'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
 import { useTextTruncation } from '@/composables'
-import { Theme } from '@/types'
 
 /**
  * AvListItem component props.
@@ -12,7 +11,7 @@ export interface AvListItemProps {
   /**
    * The theme of the list item, affecting its overall styling.
    */
-  theme?: Theme
+  theme?: 'PRIMARY' | 'SECONDARY' | 'TERTIARY'
 
   /**
    * The icon name according to the naming convention of Iconify-vue.
@@ -134,7 +133,7 @@ const {
   type = 'main',
   enableTooltip = false,
   titleMaxLines = undefined,
-  theme = Theme.PRIMARY,
+  theme = 'PRIMARY',
 } = defineProps<AvListItemProps>()
 
 /**

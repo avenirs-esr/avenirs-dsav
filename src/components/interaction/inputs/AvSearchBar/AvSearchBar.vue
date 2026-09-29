@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { MDI_ICONS } from '@/tokens'
-import { Size } from '@/types/size.types'
 
 /**
  * AvSearchBar component props.
@@ -95,7 +94,7 @@ const realId = id ?? `search-bar-${crypto.randomUUID()}`
       :icon="MDI_ICONS.MAGNIFY"
       :disabled="disabled"
       :aria-disabled="disabled"
-      :size="Size.LG"
+      size="LG"
       @click="emit('search', modelValue)"
     />
   </div>

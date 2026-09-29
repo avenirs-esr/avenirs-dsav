@@ -2,7 +2,6 @@
 import type { AvRichTextEditorLabels } from '@/components/interaction/inputs/AvRichTextEditor/AvRichTextEditor.types'
 import AvInput from '@/components/interaction/inputs/AvInput/AvInput.vue'
 import { MS_ICONS } from '@/tokens/icons'
-import { Size } from '@/types/size.types'
 
 export interface ToolbarLinkPopoverProps extends Pick<AvRichTextEditorLabels, 'linkLabel'
   | 'linkNameLabel'
@@ -50,7 +49,7 @@ watchEffect(() => {
         :icon="MS_ICONS.LINK_ROUNDED"
         icon-only
         variant="FLAT"
-        :size="Size.LG"
+        size="LG"
         data-testid="insert-link-button"
         @click="toggle"
       />

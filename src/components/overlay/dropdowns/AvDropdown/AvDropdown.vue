@@ -2,8 +2,6 @@
 import AvButton, { type AvButtonProps } from '@/components/interaction/buttons/AvButton/AvButton.vue'
 import AvPopover from '@/components/overlay/popovers/AvPopover/AvPopover.vue'
 import { MDI_ICONS } from '@/tokens/icons'
-import { Size } from '@/types/size.types'
-import { Theme } from '@/types/theme.types'
 
 /**
  * AvDropdownItem interface representing a single menu item.
@@ -123,7 +121,7 @@ export interface AvDropdownProps {
 
   /**
    * Theme of menu item buttons.
-   * @default Theme.SECONDARY
+   * @default 'SECONDARY'
    */
   itemTheme?: AvButtonProps['theme']
 
@@ -140,13 +138,13 @@ const {
   triggerIcon = MDI_ICONS.DOTS_VERTICAL,
   triggerLabel,
   triggerVariant = 'OUTLINED',
-  triggerSize = Size.MD,
+  triggerSize = 'MD',
   triggerNoSentenceCase = false,
   triggerActive = false,
   width = '15rem',
   padding = 'var(--spacing-xs)',
-  itemSize = Size.MD,
-  itemTheme = Theme.SECONDARY,
+  itemSize = 'MD',
+  itemTheme = 'SECONDARY',
   itemIconScale = 1.3
 } = defineProps<AvDropdownProps>()
 
