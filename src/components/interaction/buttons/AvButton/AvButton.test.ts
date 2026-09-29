@@ -4,8 +4,6 @@ import AvButton, { type AvButtonProps } from '@/components/interaction/buttons/A
 import { AvIconStub, AvTooltipStub } from '@/tests'
 import { BddTest } from '@/tests/utils'
 import { MDI_ICONS } from '@/tokens'
-import { Theme } from '@/types'
-import { Size } from '@/types/size.types'
 
 BddTest().given('an AvButton', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvButton>>
@@ -75,7 +73,7 @@ BddTest().given('an AvButton', () => {
     const props: AvButtonProps = {
       label: 'Click me',
       variant: 'OUTLINED',
-      size: Size.SM,
+      size: 'SM',
       icon: { name: 'test-icon' },
       disabled: true,
     }
@@ -131,7 +129,7 @@ BddTest().given('an AvButton', () => {
         wrapper = mount(AvButton, {
           props: {
             label: 'test',
-            size: Size.SM,
+            size: 'SM',
           },
           global: { stubs },
         })
@@ -156,7 +154,7 @@ BddTest().given('an AvButton', () => {
         wrapper = mount(AvButton, {
           props: {
             label: 'test',
-            size: Size.MD,
+            size: 'MD',
           },
           global: { stubs },
         })
@@ -181,7 +179,7 @@ BddTest().given('an AvButton', () => {
         wrapper = mount(AvButton, {
           props: {
             label: 'test',
-            size: Size.LG,
+            size: 'LG',
           },
           global: { stubs },
         })
@@ -255,7 +253,7 @@ BddTest().given('an AvButton', () => {
           label: 'Large icon button',
           icon: 'mdi:home',
           iconOnly: true,
-          size: Size.LG,
+          size: 'LG',
         },
         global: { stubs },
       })
@@ -347,7 +345,7 @@ BddTest().given('an AvButton', () => {
       wrapper = mount(AvButton, {
         props: {
           label: 'test',
-          size: Size.LG,
+          size: 'LG',
         },
         global: { stubs },
       })
@@ -365,7 +363,7 @@ BddTest().given('an AvButton', () => {
           label: 'test',
           isLoading: true,
           icon: { name: 'other-icon' },
-          size: Size.LG,
+          size: 'LG',
         },
         global: { stubs },
       })
@@ -443,7 +441,7 @@ BddTest().given('an AvButton', () => {
           label: 'test',
           icon: 'mdi:home-variant-outline',
           iconScale: 3,
-          size: Size.SM,
+          size: 'SM',
         },
         global: { stubs },
       })
@@ -461,7 +459,7 @@ BddTest().given('an AvButton', () => {
           label: 'test',
           icon: 'mdi:home-variant-outline',
           iconScale: Number.NaN,
-          size: Size.LG,
+          size: 'LG',
         },
         global: { stubs },
       })
@@ -853,7 +851,7 @@ BddTest().given('an AvButton', () => {
       wrapper = mount(AvButton, {
         props: {
           label: 'test',
-          theme: Theme.SECONDARY,
+          theme: 'SECONDARY',
         },
         global: { stubs },
       })

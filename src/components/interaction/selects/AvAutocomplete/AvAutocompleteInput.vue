@@ -6,7 +6,6 @@ import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
 import AvInput from '@/components/interaction/inputs/AvInput/AvInput.vue'
 import { useAutocompleteContext } from '@/components/interaction/selects/AvAutocomplete/AvAutocompleteContext'
 import { MDI_ICONS } from '@/tokens'
-import { Theme } from '@/types/theme.types'
 
 const emit = defineEmits<{
   search: [query: string]
@@ -111,7 +110,7 @@ defineExpose({
           icon-only
           :icon-scale="1.25"
           variant="DEFAULT"
-          :theme="Theme.SECONDARY"
+          theme="SECONDARY"
           @click="handleClearSearch"
         />
       </template>

@@ -1,10 +1,9 @@
 import type { PropType } from 'vue'
-import { Theme } from '@/types'
 
 export const AvListItemStub = defineComponent({
   name: 'AvListItem',
   props: {
-    theme: { type: String as PropType<Theme>, default: Theme.PRIMARY },
+    theme: { type: String as PropType<'PRIMARY' | 'SECONDARY' | 'TERTIARY'>, default: 'PRIMARY' },
     selected: { type: Boolean, default: false },
     icon: { type: String, required: false },
     iconSize: { type: Number, default: 1.3125 },

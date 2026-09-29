@@ -3,7 +3,6 @@ import type { Meta, StoryFn } from '@storybook/vue3'
 import AvList from '@/components/interaction/lists/AvList/AvList.vue'
 import AvListItem, { type AvListItemProps } from '@/components/interaction/lists/AvListItem/AvListItem.vue'
 import { MDI_ICONS } from '@/tokens'
-import { Theme } from '@/types'
 
 /**
  * <h1 class="n1">Lists - <code>AvListItem</code></h1>
@@ -77,14 +76,14 @@ const meta: Meta<AvListItemProps> = {
     ariaLabel: { control: 'text' },
     ariaDescribedby: { control: 'text' },
     titleMaxLines: { control: 'number' },
-    theme: { control: 'select', options: Object.values(Theme) }
+    theme: { control: 'select', options: ['PRIMARY', 'SECONDARY', 'TERTIARY'] }
   },
   args: {
     iconSize: 1.3125,
     disabled: false,
     selected: false,
     titleMaxLines: undefined,
-    theme: Theme.PRIMARY,
+    theme: 'PRIMARY',
   }
 }
 
@@ -118,7 +117,7 @@ Secondary.args = {
   title: 'Secondary Item',
   description: 'This is a secondary themed list item',
   icon: MDI_ICONS.STARS,
-  theme: Theme.SECONDARY
+  theme: 'SECONDARY'
 }
 
 export const TertiaryOnDarkBackground = Template.bind({})
@@ -126,7 +125,7 @@ TertiaryOnDarkBackground.args = {
   title: 'Tertiary Item',
   description: 'This is a tertiary themed list item',
   icon: MDI_ICONS.STARS,
-  theme: Theme.TERTIARY
+  theme: 'TERTIARY'
 }
 TertiaryOnDarkBackground.decorators = [
   () => ({

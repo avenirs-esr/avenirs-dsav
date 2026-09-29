@@ -3,8 +3,6 @@ import type { RouteLocationRaw } from 'vue-router'
 import type AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import { useAttrs } from 'vue'
 import { MDI_ICONS } from '@/tokens'
-import { Theme } from '@/types'
-import { Size } from '@/types/size.types'
 import { toSentenceCase } from '@/utils'
 
 /**
@@ -22,13 +20,13 @@ export interface AvButtonProps {
    * Button theme: blue (`PRIMARY`) or gray (`SECONDARY`) or white (`TERTIARY`).
    * @default 'PRIMARY'
    */
-  theme?: Theme
+  theme?: 'PRIMARY' | 'SECONDARY' | 'TERTIARY'
 
   /**
    * Display the button in the selected size.
    * @default 'MD'
    */
-  size?: Size
+  size?: 'SM' | 'MD' | 'LG'
 
   /**
    * Indicates button loading status.
@@ -100,8 +98,8 @@ defineOptions({
 
 const {
   variant = 'DEFAULT',
-  theme = Theme.PRIMARY,
-  size = Size.MD,
+  theme = 'PRIMARY',
+  size = 'MD',
   iconOnly = false,
   disabled = false,
   disabledTooltip,
@@ -152,11 +150,11 @@ const iconSize = computed(() => {
   }
 
   switch (size) {
-    case Size.SM:
+    case 'SM':
       return 0.9
-    case Size.LG:
+    case 'LG':
       return 1.5
-    case Size.MD:
+    case 'MD':
     default:
       return 1
   }
@@ -196,16 +194,16 @@ const themeClass = computed(() => `av-button--theme-${theme.toLowerCase()}`)
 const paddingClass = computed(() => {
   if (iconOnly) {
     return {
-      [Size.SM]: 'av-px-xxs av-py-xxs',
-      [Size.MD]: 'av-px-xxs av-py-xxs',
-      [Size.LG]: 'av-px-xs av-py-xs',
+      SM: 'av-px-xxs av-py-xxs',
+      MD: 'av-px-xxs av-py-xxs',
+      LG: 'av-px-xs av-py-xs',
     }[size]
   }
 
   return {
-    [Size.SM]: 'av-px-xs av-py-xxs',
-    [Size.MD]: 'av-px-xs av-py-xxs',
-    [Size.LG]: 'av-px-sm av-py-xs',
+    SM: 'av-px-xs av-py-xxs',
+    MD: 'av-px-xs av-py-xxs',
+    LG: 'av-px-sm av-py-xs',
   }[size]
 })
 const radiusClass = computed(() => {
@@ -213,15 +211,15 @@ const radiusClass = computed(() => {
     return 'av-radius-none'
   }
 
-  return size === Size.LG
+  return size === 'LG'
     ? 'av-radius-lg'
     : 'av-radius-md'
 })
 const labelClass = computed(() => {
   return {
-    [Size.SM]: 'caption-regular',
-    [Size.MD]: 'b2-regular',
-    [Size.LG]: 'b1-regular',
+    SM: 'caption-regular',
+    MD: 'b2-regular',
+    LG: 'b1-regular',
   }[size]
 })
 

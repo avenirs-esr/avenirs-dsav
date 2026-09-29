@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { AvRichTextEditorLabels } from '@/components/interaction/inputs/AvRichTextEditor/AvRichTextEditor.types'
 import { MDI_ICONS } from '@/tokens/icons'
-import { Size } from '@/types/size.types'
 
 export interface ToolbarTableSettingsDropdownProps extends Pick<AvRichTextEditorLabels, 'deleteTableLabel'
   | 'addColumnBeforeLabel'
@@ -131,8 +130,8 @@ function handleItemSelected (itemName: string) {
     trigger-active
     :trigger-aria-label="tableSettingsLabel"
     :trigger-icon="MDI_ICONS.TABLE_SETTINGS"
-    :trigger-size="Size.LG"
-    :item-size="Size.LG"
+    trigger-size="LG"
+    item-size="LG"
     trigger-variant="FLAT"
     width="max-content"
     @item-selected="handleItemSelected"
