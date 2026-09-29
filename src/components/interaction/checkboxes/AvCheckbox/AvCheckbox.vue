@@ -52,6 +52,12 @@ export interface AvCheckboxProps {
   disabled?: boolean
 
   /**
+   * Tooltip to be displayed when the checkbox is disabled
+   * @default ''
+   */
+  disabledTooltip?: string
+
+  /**
    * Label to be displayed next to the checkbox
    * This prop is optional if you use the `label` slot.
    */
@@ -89,6 +95,7 @@ const {
   small = false,
   inline = false,
   disabled = false,
+  disabledTooltip = '',
   label,
   errorMessage,
   validMessage,
@@ -117,6 +124,9 @@ const modelValue = defineModel<(string | number | boolean | undefined)[]>({ requ
 const isChecked = computed(() => modelValue.value.includes(value))
 
 const checkboxIconName = computed(() => {
+  if (disabled) {
+    return isChecked.value ? MDI_ICONS.CHECKBOX_BLANK_OFF : MDI_ICONS.CHECKBOX_BLANK_OFF_OUTLINE
+  }
   return isChecked.value ? MDI_ICONS.CHECKBOX_MARKED : MDI_ICONS.CHECKBOX_BLANK_OUTLINE
 })
 
@@ -138,78 +148,85 @@ const labelClass = computed(() => {
 </script>
 
 <template>
-  <AvFieldsetElement
-    :inline="inline"
-    :disabled="disabled"
+  <AvTooltip
+    :content="disabledTooltip"
+    :force-focusable="!!disabledTooltip"
+    :disabled="!disabledTooltip"
   >
-    <input
-      :id="realId"
-      v-model="modelValue"
-      :name="name"
-      class="av-sr-only"
-      type="checkbox"
-      :value="value"
-      :checked="isChecked"
-      :required
-      v-bind="$attrs"
-      :data-testid="`input-checkbox-${realId}`"
-      :data-test="`input-checkbox-${realId}`"
-      :tabindex="disabled ? -1 : undefined"
-      :aria-describedby="messageId"
+    <AvFieldsetElement
+      :inline="inline"
+      :disabled="disabled"
     >
-    <label
-      :for="realId"
-      class="av-label av-pb-none"
-    >
-      <div class="label-container av-row av-gap-xs av-align-center">
-        <AvIcon
-          class="option-checkbox"
-          :name="checkboxIconName"
-          :color="iconColor"
-          :size="iconSize"
-        />
-        <AvIcon
-          v-if="icon"
-          class="option-icon"
-          :name="icon"
-          :color="iconColor"
-          :size="iconSize"
-        />
-        <span
-          class="label"
-          :class="labelClass"
-        >
-          <slot name="label">
-            {{ label }}
-          </slot>
-        </span>
-        <span
-          v-if="required"
-          class="required"
-          :class="labelClass"
-        >&nbsp;*</span>
-      </div>
-      <span
-        v-if="hint"
-        class="av-hint-text"
+      <input
+        :id="realId"
+        v-model="modelValue"
+        :name="name"
+        class="av-sr-only"
+        type="checkbox"
+        :value="value"
+        :checked="isChecked"
+        :required
+        v-bind="$attrs"
+        :data-testid="`input-checkbox-${realId}`"
+        :data-test="`input-checkbox-${realId}`"
+        :tabindex="disabled ? -1 : undefined"
+        :aria-describedby="messageId"
       >
-        {{ hint }}
-      </span>
-    </label>
-    <AvMessage
-      :message-id="messageId"
-      :type="errorMessage ? 'error' : 'success'"
-      :message="message"
-    />
-  </AvFieldsetElement>
+      <label
+        :for="realId"
+        class="av-label av-pb-none"
+      >
+        <div class="label-container av-row av-gap-xs av-align-center">
+          <AvIcon
+            class="option-checkbox"
+            :name="checkboxIconName"
+            :color="iconColor"
+            :size="iconSize"
+          />
+          <AvIcon
+            v-if="icon"
+            class="option-icon"
+            :name="icon"
+            :color="iconColor"
+            :size="iconSize"
+          />
+          <span
+            class="label av-text-text2"
+            :class="labelClass"
+          >
+            <slot name="label">
+              {{ label }}
+            </slot>
+          </span>
+          <span
+            v-if="required"
+            class="required"
+            :class="labelClass"
+          >&nbsp;*</span>
+        </div>
+        <span
+          v-if="hint"
+          class="av-hint-text"
+        >
+          {{ hint }}
+        </span>
+      </label>
+      <AvMessage
+        :message-id="messageId"
+        :type="errorMessage ? 'error' : 'success'"
+        :message="message"
+      />
+    </AvFieldsetElement>
+  </AvTooltip>
 </template>
 
 <style lang="scss" scoped>
 .av-fieldset__element--disabled {
   opacity: 0.95 !important;
-}
+  cursor: not-allowed !important;
 
-.label {
-  color: var(--text2);
+  .label {
+    font-style: italic;
+  }
 }
 </style>

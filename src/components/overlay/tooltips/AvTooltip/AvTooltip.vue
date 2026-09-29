@@ -166,6 +166,7 @@ onUnmounted(() => {
 <style scoped>
 .av-tooltip-wrapper {
   position: relative;
+  display: inline-flex;
   width: fit-content;
 }
 

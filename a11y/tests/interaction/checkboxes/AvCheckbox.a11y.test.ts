@@ -7,6 +7,8 @@ const stories = [
   'WithIcon',
   'Required',
   'Disabled',
+  'DisabledAndChecked',
+  'DisabledWithTooltip',
   'Error',
   'Valid',
   'Hint',
