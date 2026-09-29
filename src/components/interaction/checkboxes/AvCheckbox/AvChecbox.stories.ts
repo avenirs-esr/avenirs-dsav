@@ -61,19 +61,19 @@ const meta: Meta<AvCheckboxProps> = {
 
 export default meta
 
-const Template: StoryFn<AvCheckboxProps> = args => ({
+const Template: StoryFn<AvCheckboxProps & { modelValue: (string | number)[] }> = args => ({
   components: { AvCheckbox },
   setup () {
-    const model = ref<(string | number)[]>([])
+    const model = ref<(string | number)[]>(args.modelValue ?? [])
     return { args, model }
   },
   template: `<AvCheckbox v-bind="args" v-model="model" />`,
 })
 
-const LabelSlotTemplate: StoryFn<AvCheckboxProps> = args => ({
+const LabelSlotTemplate: StoryFn<AvCheckboxProps & { modelValue: (string | number)[] }> = args => ({
   components: { AvCheckbox },
   setup () {
-    const model = ref<(string | number)[]>([])
+    const model = ref<(string | number)[]>(args.modelValue ?? [])
     return { args, model }
   },
   template: `
@@ -109,6 +109,23 @@ Disabled.args = {
   name: 'disabled-checkbox',
   label: 'A disabled checkbox',
   disabled: true
+}
+
+export const DisabledAndChecked = Template.bind({})
+DisabledAndChecked.args = {
+  name: 'disabled-and-checked-checkbox',
+  label: 'A disabled and checked checkbox',
+  disabled: true,
+  value: '1',
+  modelValue: ['1']
+}
+
+export const DisabledWithTooltip = Template.bind({})
+DisabledWithTooltip.args = {
+  name: 'disabled-checkbox-with-tooltip',
+  label: 'A disabled checkbox with tooltip',
+  disabled: true,
+  disabledTooltip: 'This checkbox is disabled'
 }
 
 export const Error = Template.bind({})

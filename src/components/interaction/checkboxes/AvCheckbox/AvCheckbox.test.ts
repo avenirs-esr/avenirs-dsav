@@ -3,6 +3,7 @@ import { beforeEach, expect } from 'vitest'
 import { AvIconStub } from '@/components/base/AvIcon/AvIcon.stub'
 import { AvMessageStub } from '@/components/base/AvMessage/AvMessage.stub'
 import AvCheckbox, { type AvCheckboxProps } from '@/components/interaction/checkboxes/AvCheckbox/AvCheckbox.vue'
+import { AvTooltipStub } from '@/components/overlay/tooltips/AvTooltip/AvTooltip.stub'
 import { BddTest } from '@/tests/utils'
 
 const defaultProps: AvCheckboxProps & { modelValue: (string | number | boolean | undefined)[] } = {
@@ -12,7 +13,11 @@ const defaultProps: AvCheckboxProps & { modelValue: (string | number | boolean |
   modelValue: []
 }
 
-const stubs = { AvIcon: AvIconStub, AvMessage: AvMessageStub }
+const stubs = {
+  AvIcon: AvIconStub,
+  AvMessage: AvMessageStub,
+  AvTooltip: AvTooltipStub
+}
 
 function mountWithProps (props: Partial<AvCheckboxProps
   & { modelValue: (string | number | boolean | undefined)[] }> = {}, slots = {}) {

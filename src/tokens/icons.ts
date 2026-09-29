@@ -66,6 +66,8 @@ export const MDI_ICONS = {
   CHECK_CIRCLE: 'mdi:check-circle',
   CHECK_CIRCLE_OUTLINE: 'mdi:check-circle-outline',
   CHECK_DECAGRAM_OUTLINE: 'mdi:check-decagram-outline',
+  CHECKBOX_BLANK_OFF: 'mdi:checkbox-blank-off',
+  CHECKBOX_BLANK_OFF_OUTLINE: 'mdi:checkbox-blank-off-outline',
   CHECKBOX_BLANK_OUTLINE: 'mdi:checkbox-blank-outline',
   CHECKBOX_MARKED: 'mdi:checkbox-marked',
   CHEVRON_DOUBLE_LEFT: 'mdi:chevron-double-left',

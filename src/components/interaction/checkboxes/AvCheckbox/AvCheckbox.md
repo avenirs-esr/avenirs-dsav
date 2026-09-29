@@ -32,6 +32,7 @@ The `AvCheckbox` component consists of the following elements:
 | `errorMessage` | `string` | `''` | | Error message to be displayed under the checkbox |
 | `validMessage` | `string` | `''` | | Valid message to be displayed under the checkbox |
 | `hint` | `string` | `''` | | Hint to be displayed under the checkbox |
+| `disabledTooltip` | `string` | `''` | | Tooltip to be displayed when the checkbox is disabled |
 
 ## 🔊 Events
 
