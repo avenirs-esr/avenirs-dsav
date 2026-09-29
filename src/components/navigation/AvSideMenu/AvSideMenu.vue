@@ -124,6 +124,8 @@ const isCollapsed = computed({
   }
 })
 
+const isContentVisible = computed(() => !(props.hideContentWhenCollapsed && isCollapsed.value))
+
 const currentWidth = computed(() => {
   return (props.collapsible && isCollapsed.value) ? collapsedWidth.value : width.value
 })
@@ -138,53 +140,65 @@ function toggleCollapse () {
 <template>
   <nav
     :id="menuId"
-    class="av-side-menu av-col av-h-full"
-    :class="{ 'av-side-menu--collapsed': isCollapsed,
-              'av-side-menu--sticky': sticky }"
+    class="av-side-menu av-col"
+    :class="{
+      'av-side-menu--collapsed': isCollapsed,
+      'av-side-menu--sticky': sticky,
+    }"
     :aria-label="ariaLabel"
     data-testid="av-side-menu"
     :data-collapsed="isCollapsed"
   >
-    <div
-      v-if="collapsible"
-      class="av-side-menu__header av-row av-align-center av-justify-end"
-      data-testid="av-side-menu-header"
-    >
-      <AvButton
-        :aria-expanded="!isCollapsed"
-        :aria-controls="menuId"
-        :icon="isCollapsed ? MDI_ICONS.CHEVRON_DOUBLE_RIGHT : MDI_ICONS.CHEVRON_DOUBLE_LEFT"
-        class="av-side-menu__collapse-button av-p-xs av-m-xs av-gap-none"
-        :label="isCollapsed ? expandButtonAriaLabel : collapseButtonAriaLabel"
-        icon-only
-        size="LG"
-        data-testid="side-menu-collapse-button"
-        @click="toggleCollapse"
-      />
-    </div>
+    <div class="av-side-menu__inner av-col">
+      <div
+        v-if="collapsible"
+        class="av-side-menu__header av-row av-align-center av-justify-end"
+        data-testid="av-side-menu-header"
+      >
+        <AvButton
+          :aria-expanded="!isCollapsed"
+          :aria-controls="isContentVisible ? menuId : undefined"
+          :icon="isCollapsed ? MDI_ICONS.CHEVRON_DOUBLE_RIGHT : MDI_ICONS.CHEVRON_DOUBLE_LEFT"
+          class="av-side-menu__collapse-button av-p-xs av-m-xs av-gap-none"
+          :label="isCollapsed ? expandButtonAriaLabel : collapseButtonAriaLabel"
+          icon-only
+          size="LG"
+          data-testid="side-menu-collapse-button"
+          @click="toggleCollapse"
+        />
+      </div>
 
-    <div
-      v-if="!(hideContentWhenCollapsed && collapsed)"
-      class="av-side-menu__content av-row av-flex-fill av-py-sm"
-      data-testid="av-side-menu-content"
-    >
-      <slot />
+      <div
+        v-if="isContentVisible"
+        :id="menuId"
+        class="av-side-menu__content av-row av-flex-fill av-py-sm"
+        data-testid="av-side-menu-content"
+      >
+        <slot />
+      </div>
     </div>
   </nav>
 </template>
 
 <style lang="scss" scoped>
 .av-side-menu {
-  width: v-bind('currentWidth');
+  align-self: stretch;
+  flex-shrink: 0;
+
+  width: v-bind('collapsedWidth');
   min-width: v-bind('currentWidth');
   max-width: v-bind('currentWidth');
+
   background-color: var(--other-background-base);
-  transition: width 0.3s ease;
   border-right: 1px solid var(--stroke);
+
   padding: v-bind('padding');
+
+  transition: width 0.3s ease;
 }
 
 .av-side-menu__header {
+  flex-shrink: 0;
   min-height: var(--dimension-4xl);
 }
 
@@ -196,10 +210,10 @@ function toggleCollapse () {
   min-height: var(--dimension-lg);
 }
 
-.av-side-menu--sticky {
+.av-side-menu--sticky .av-side-menu__inner {
   position: sticky;
   top: v-bind('stickyOffset');
-  align-self: flex-start;
-  flex-shrink: 0;
+  flex: none;
+  height: calc(100dvh - v-bind('stickyOffset'));
 }
 </style>
