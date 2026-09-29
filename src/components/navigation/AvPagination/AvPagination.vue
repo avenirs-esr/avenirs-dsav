@@ -32,9 +32,19 @@ export interface AvPaginationProps {
   firstPageLabel?: string
 
   /**
+   * Tooltip text for first page link when it is disabled.
+   */
+  firstPageDisabledTooltip?: string
+
+  /**
    * Tooltip text for last page link.
    */
   lastPageLabel?: string
+
+  /**
+   * Tooltip text for last page link when it is disabled.
+   */
+  lastPageDisabledTooltip?: string
 
   /**
    * Tooltip text for next page link.
@@ -42,9 +52,19 @@ export interface AvPaginationProps {
   nextPageLabel?: string
 
   /**
+   * Tooltip text for next page link when it is disabled.
+   */
+  nextPageDisabledTooltip?: string
+
+  /**
    * Tooltip text for previous page link.
    */
   prevPageLabel?: string
+
+  /**
+   * Tooltip text for previous page link when it is disabled.
+   */
+  prevPageDisabledTooltip?: string
 
   /**
    * Text for compact current page.
@@ -121,8 +141,9 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
       <li>
         <AvTooltip
           v-if="!compact"
-          :content="firstPageLabel ?? ''"
-          :disabled="currentPage === 0"
+          :content="currentPage === 0 && !!firstPageDisabledTooltip ? firstPageDisabledTooltip : firstPageLabel ?? ''"
+          :disabled="currentPage === 0 && !firstPageDisabledTooltip"
+          :force-focusable="currentPage === 0 && !!firstPageDisabledTooltip"
         >
           <a
             :href="pages[0]?.href"
@@ -142,8 +163,9 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
       </li>
       <li>
         <AvTooltip
-          :content="prevPageLabel ?? ''"
-          :disabled="currentPage === 0"
+          :content="currentPage === 0 && !!prevPageDisabledTooltip ? prevPageDisabledTooltip : prevPageLabel ?? ''"
+          :disabled="currentPage === 0 && !prevPageDisabledTooltip"
+          :force-focusable="currentPage === 0 && !!prevPageDisabledTooltip"
         >
           <a
             :href="pages[Math.max(currentPage - 1, 0)]?.href"
@@ -187,8 +209,9 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
       </template>
       <li>
         <AvTooltip
-          :content="nextPageLabel ?? ''"
-          :disabled="currentPage === pages.length - 1"
+          :content="currentPage === pages.length - 1 && !!nextPageDisabledTooltip ? nextPageDisabledTooltip : nextPageLabel ?? ''"
+          :disabled="currentPage === pages.length - 1 && !nextPageDisabledTooltip"
+          :force-focusable="currentPage === pages.length - 1 && !!nextPageDisabledTooltip"
         >
           <a
             :href="pages[Math.min(currentPage + 1, pages.length - 1)]?.href"
@@ -214,8 +237,9 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
       <li>
         <AvTooltip
           v-if="!compact"
-          :content="lastPageLabel ?? ''"
-          :disabled="currentPage === pages.length - 1"
+          :content="currentPage === pages.length - 1 && !!lastPageDisabledTooltip ? lastPageDisabledTooltip : lastPageLabel ?? ''"
+          :disabled="currentPage === pages.length - 1 && !lastPageDisabledTooltip"
+          :force-focusable="currentPage === pages.length - 1 && !!lastPageDisabledTooltip"
         >
           <a
             class="av-pagination__link av-row av-align-center av-justify-center av-py-xxs av-px-xs av-radius-lg av-gap-xxs"
