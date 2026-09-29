@@ -95,13 +95,11 @@ interface AvTagPickerMultipleProps extends AvTagPickerBaseProps {
 export type AvTagPickerProps = AvTagPickerSingleProps | AvTagPickerMultipleProps
 
 const props = withDefaults(defineProps<AvTagPickerProps>(), {
-  labelColor: 'var(--text2)',
   labelTypographyClass: 'b2-regular',
 })
 
 const {
   label,
-  labelColor,
   labelTypographyClass,
   multiple,
   handleSelectChange
@@ -159,7 +157,7 @@ watch(() => props.selected, (newSelected) => {
   <div class="av-tag-picker av-row av-gap-xs">
     <span
       v-if="label"
-      class="av-tag-picker__label av-row av-align-center"
+      class="av-tag-picker__label av-row av-align-center av-text-text2"
       :class="[labelTypographyClass]"
     >
       {{ label }}
@@ -190,33 +188,23 @@ watch(() => props.selected, (newSelected) => {
 </template>
 
 <style lang="scss" scoped>
-.av-tag-picker__label {
-  color: v-bind('labelColor');
-}
-
 :deep() {
   .av-tag {
     border-color: var(--divider);
-    color: var(--text2) !important;
-    background: var(--other-background-base) !important;
+    color: var(--color-primary-text) !important;
+    background: var(--color-primary-bg) !important;
     text-align: center !important;
 
-    &:hover {
-      border-color: var(--dark-background-primary1);
-      color: var(--other-background-base) !important;
-      background: var(--dark-background-primary1) !important;
+    &:hover, &:focus {
+      border-color: var(--color-primary-hover-bg);
+      color: var(--color-primary-hover-text) !important;
+      background: var(--color-primary-hover-bg) !important;
     }
 
     &--selected {
-      border-color: var(--dark-background-primary1);
-      color: var(--dark-background-primary1) !important;
-      background: var(--other-background-base) !important;
-
-      &:hover {
-        border-color: var(--dark-background-primary1);
-        color: var(--dark-background-primary1) !important;
-        background: var(--other-background-base) !important;
-      }
+      border-color: var(--color-primary-bg-flat);
+      color: var(--color-primary-text-flat) !important;
+      background: var(--color-primary-bg-flat) !important;
     }
 
     &--disabled {

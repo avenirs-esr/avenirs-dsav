@@ -27,7 +27,6 @@ Each tag can display:
 | --- | --- | --- | --- | --- |
 | `options` | `AvTagPickerOption[]` | | ✅ | List of options available in the picker. |
 | `label` | `string` | `undefined` | | Label displayed above the picker. |
-| `labelColor` | `string` | `'var(--text2)'` | | Color applied to the label. |
 | `labelTypographyClass` | `string` | `'b2-regular'` | | Typography class applied to the label. |
 | `multiple` | `boolean` | `false` | | Enables multiple selection mode when `true`. |
 | `selected` (single mode) | `string` | First option value | | Value of the selected option. |

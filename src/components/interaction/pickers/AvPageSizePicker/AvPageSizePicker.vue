@@ -46,7 +46,6 @@ const selectedOption: ComputedRef<string> = computed(() => pageSizeSelected.toSt
       :multiple="false"
       :label="label"
       label-typography-class="b2-regular"
-      label-color="var(--text2)"
     />
   </div>
 </template>

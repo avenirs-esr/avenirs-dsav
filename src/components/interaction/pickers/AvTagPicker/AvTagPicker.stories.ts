@@ -50,10 +50,6 @@ const meta = {
       type: { name: 'string' },
       control: 'text',
     },
-    labelColor: {
-      type: { name: 'string' },
-      control: 'text',
-    },
     labelTypographyClass: {
       type: { name: 'string' },
       control: 'text',
@@ -90,7 +86,6 @@ const Template: StoryFn<AvTagPickerProps> = args => ({
 export const Default = Template.bind({})
 Default.args = {
   label: 'Pick one:',
-  labelColor: 'var(--text2)',
   labelTypographyClass: 'b2-regular',
   multiple: false,
   options: [
@@ -104,7 +99,6 @@ Default.args = {
 export const Multiple = Template.bind({})
 Multiple.args = {
   label: 'Pick many:',
-  labelColor: 'var(--text2)',
   labelTypographyClass: 'b2-regular',
   multiple: true,
   options: [
