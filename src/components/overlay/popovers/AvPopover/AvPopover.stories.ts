@@ -74,6 +74,7 @@ const Template: StoryFn<AvPopoverProps> = args => ({
       <template #trigger="{ toggle }">
         <AvButton
           label="Open popover"
+          size="LG"
           @click="toggle"
         />
       </template>
@@ -86,7 +87,6 @@ const Template: StoryFn<AvPopoverProps> = args => ({
               icon="mdi:pencil-outline"
               variant="DEFAULT"
               theme="SECONDARY"
-              size="sm"
               no-radius
             />
           </li>
@@ -97,7 +97,6 @@ const Template: StoryFn<AvPopoverProps> = args => ({
               icon="mdi:calendar-month-outline"
               variant="DEFAULT"
               theme="SECONDARY"
-              size="sm"
               no-radius
             />
           </li>
@@ -108,7 +107,6 @@ const Template: StoryFn<AvPopoverProps> = args => ({
               icon="mdi:arrow-top-right-thick"
               variant="DEFAULT"
               theme="SECONDARY"
-              size="sm"
               no-radius
             />
           </li>
@@ -119,7 +117,6 @@ const Template: StoryFn<AvPopoverProps> = args => ({
               icon="mdi:arrow-top-right-thick"
               variant="DEFAULT"
               theme="SECONDARY"
-              size="sm"
               no-radius
             />
           </li>
@@ -130,7 +127,6 @@ const Template: StoryFn<AvPopoverProps> = args => ({
               icon="mdi:logout"
               variant="DEFAULT"
               theme="SECONDARY"
-              size="sm"
               no-radius
             />
           </li>
@@ -152,6 +148,7 @@ Default.parameters = {
       <template #trigger="{ toggle }">
         <AvButton
           label="Open popover"
+          size="LG"
           @click="toggle"
         />
       </template>
@@ -164,7 +161,6 @@ Default.parameters = {
               icon="mdi:pencil-outline"
               variant="DEFAULT"
               theme="SECONDARY"
-              size="sm"
               no-radius
             />
           </li>
@@ -175,7 +171,6 @@ Default.parameters = {
               icon="mdi:calendar-month-outline"
               variant="DEFAULT"
               theme="SECONDARY"
-              size="sm"
               no-radius
             />
           </li>
@@ -186,7 +181,6 @@ Default.parameters = {
               icon="mdi:arrow-top-right-thick"
               variant="DEFAULT"
               theme="SECONDARY"
-              size="sm"
               no-radius
             />
           </li>
@@ -197,7 +191,6 @@ Default.parameters = {
               icon="mdi:arrow-top-right-thick"
               variant="DEFAULT"
               theme="SECONDARY"
-              size="sm"
               no-radius
             />
           </li>
@@ -208,7 +201,6 @@ Default.parameters = {
               icon="mdi:logout"
               variant="DEFAULT"
               theme="SECONDARY"
-              size="sm"
               no-radius
             />
           </li>

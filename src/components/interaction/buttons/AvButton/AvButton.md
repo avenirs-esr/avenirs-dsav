@@ -21,6 +21,7 @@ Buttons consist of:
 | --- | --- | --- | --- | --- |
 | `variant` | `'DEFAULT' \| 'OUTLINED' \| 'FLAT'` | `'DEFAULT'` | | Button variant: without border (`DEFAULT`) or with border (`OUTLINED`) or with filled background and border (`FLAT`). |
 | `theme` | `'PRIMARY' \| 'SECONDARY' \| 'TERTIARY'` | `'PRIMARY'` | | Button theme: blue (`PRIMARY`), gray (`SECONDARY`) or white (`TERTIARY`). |
+| `size` | `'SM' \| 'MD' \| 'LG'` | `'MD'` | | Display the button in small (`SM`), medium (`MD`) or large (`LG`) size. |
 | `isLoading` | `boolean` | `false` | | Indicates a loading status for the button. |
 | `iconScale` | `number` | `undefined` | | Allows you to manually change the icon size (it is automatically calculated otherwise). |
 | `noRadius` | `boolean` | `false` | | Allows you to remove radii from the button border. |
@@ -28,7 +29,6 @@ Buttons consist of:
 | `disabledTooltip` | `string` | `undefined` | | Tooltip text to display when the button is disabled. |
 | `label` | `string` | | ✅ | Text label for the button. |
 | `iconOnly` | `boolean` | `false` | | Hide label text (`true`) or show it (`false`). |
-| `small` | `boolean` | `false` | | Display the button in small size (`true`) or default size (`false`). |
 | `icon` | `string \| InstanceType<typeof AvIcon>['$props']` | `undefined` | | Icon to be displayed in button. Can be a name or icon configuration. |
 | `noSentenceCase` | `boolean` | `false` | | Disable sentence case transformation on the label. You should only use this on very specific cases. |
 | `href` | `string` | `undefined` | | If provided, the button will be rendered as an anchor tag (`<a>`) with `'DEFAULT'` variant and will navigate to the specified URL when clicked. |

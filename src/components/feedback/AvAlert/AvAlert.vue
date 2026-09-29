@@ -2,6 +2,7 @@
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
 import { MDI_ICONS } from '@/tokens'
+import { Size } from '@/types/size.types'
 
 /**
  * AvAlert component props.
@@ -134,7 +135,7 @@ const role = computed(() => (type === 'error' || type === 'warning' ? 'alert' : 
         icon-only
         :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
         :label="closeButtonLabel"
-        :small="small"
+        :size="small ? Size.MD : Size.LG"
         @click="onClick"
       />
     </div>

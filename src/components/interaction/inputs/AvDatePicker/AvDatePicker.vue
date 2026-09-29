@@ -254,7 +254,6 @@ function onUpdate (value: AvDatePickerProps['modelValue']) {
           :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
           icon-only
           :label="clearLabel"
-          small
           class="av-mx-xxs"
           @click="clear()"
         />

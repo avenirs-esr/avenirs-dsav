@@ -155,7 +155,6 @@ onUnmounted(() => {
       <li>
         <AvButton
           name="select-all"
-          size="sm"
           :disabled="filteredOptions.length === 0"
           :label="selectAllLabel[isAllSelected ? 1 : 0]"
           :icon="isAllSelected ? MDI_ICONS.CLOSE_CIRCLE_OUTLINE : MDI_ICONS.CHECK_CIRCLE_OUTLINE"

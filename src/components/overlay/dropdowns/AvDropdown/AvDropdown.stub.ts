@@ -6,9 +6,10 @@ export const AvDropdownStub = defineComponent({
     'triggerIcon',
     'triggerLabel',
     'triggerVariant',
-    'triggerSmall',
+    'triggerSize',
     'padding',
-    'separatorBefore'
+    'separatorBefore',
+    'itemSize'
   ],
   emits: ['itemSelected'],
   template: `

@@ -1,6 +1,7 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
 import AvButton, { type AvButtonProps } from '@/components/interaction/buttons/AvButton/AvButton.vue'
 import { Theme } from '@/index'
+import { Size } from '@/types/size.types'
 import { iconMapping, iconOptions } from '@/utils/storybook'
 
 /**
@@ -17,7 +18,7 @@ import { iconMapping, iconOptions } from '@/utils/storybook'
  * <p>
  *   <span class="b2-regular">
  *     The <code>AvButton</code> is an elegant, reusable Vue component designed to simplify the creation of custom buttons.
- *     It features adjustable sizes (small and default), an optional icon and a click manager.
+ *     It features adjustable sizes ('SM', 'MD', 'LG'), an optional icon and a click manager.
  *     It's easy to use, with the flexibility to adapt to different contexts.
  *   </span>
  * </p>
@@ -65,7 +66,7 @@ const meta: Meta<AvButtonProps> = {
       control: { type: 'radio' },
       options: Object.values(Theme),
     },
-    small: { control: 'boolean' },
+    size: { control: { type: 'radio' }, options: Object.values(Size) },
     iconOnly: { control: 'boolean' },
     isLoading: { control: 'boolean' },
     iconScale: { control: 'number' },
@@ -81,7 +82,7 @@ const meta: Meta<AvButtonProps> = {
     icon: '',
     variant: 'DEFAULT',
     theme: Theme.PRIMARY,
-    small: false,
+    size: Size.MD,
     iconOnly: false,
     isLoading: false,
     iconScale: undefined,
@@ -96,6 +97,16 @@ const meta: Meta<AvButtonProps> = {
 
 export default meta
 
+const darkBackgroundDecorators = [
+  () => ({
+    template: `
+      <div style="background: var(--dark-background-primary1); padding: 24px; display: inline-block;">
+        <story />
+      </div>
+    `,
+  }),
+]
+
 const Template: StoryFn<AvButtonProps> = args => ({
   components: { AvButton },
   setup () {
@@ -107,194 +118,532 @@ const Template: StoryFn<AvButtonProps> = args => ({
 export const Default = Template.bind({})
 Default.args = {}
 
-export const DefaultIconOnly = Template.bind({})
-DefaultIconOnly.args = {
+export const Small = Template.bind({})
+Small.args = {
+  size: Size.SM,
+}
+
+export const Large = Template.bind({})
+Large.args = {
+  size: Size.LG,
+}
+
+const iconOnlyArgs: Partial<AvButtonProps> = {
   iconOnly: true,
   icon: 'mdi:home-variant-outline',
   label: 'Settings',
 }
 
+export const DefaultIconOnly = Template.bind({})
+DefaultIconOnly.args = iconOnlyArgs
+
+export const SmallIconOnly = Template.bind({})
+SmallIconOnly.args = {
+  ...iconOnlyArgs,
+  size: Size.SM,
+}
+
+export const LargeIconOnly = Template.bind({})
+LargeIconOnly.args = {
+  ...iconOnlyArgs,
+  size: Size.LG,
+}
+
+const isLoadingArgs: Partial<AvButtonProps> = {
+  isLoading: true,
+}
+
 export const DefaultLoading = Template.bind({})
-DefaultLoading.args = {
-  isLoading: true
+DefaultLoading.args = isLoadingArgs
+
+export const SmallLoading = Template.bind({})
+SmallLoading.args = {
+  ...isLoadingArgs,
+  size: Size.SM,
+}
+
+export const LargeLoading = Template.bind({})
+LargeLoading.args = {
+  ...isLoadingArgs,
+  size: Size.LG,
+}
+
+const disabledArgs: Partial<AvButtonProps> = {
+  disabled: true,
 }
 
 export const DefaultDisabled = Template.bind({})
-DefaultDisabled.args = {
-  disabled: true
+DefaultDisabled.args = disabledArgs
+
+export const SmallDisabled = Template.bind({})
+SmallDisabled.args = {
+  ...disabledArgs,
+  size: Size.SM,
 }
 
-export const DefaultDisabledWithTooltip = Template.bind({})
-DefaultDisabledWithTooltip.args = {
+export const LargeDisabled = Template.bind({})
+LargeDisabled.args = {
+  ...disabledArgs,
+  size: Size.LG,
+}
+
+const disabledWithTooltipArgs: Partial<AvButtonProps> = {
   disabled: true,
   disabledTooltip: 'This action is not available yet',
 }
 
+export const DefaultDisabledWithTooltip = Template.bind({})
+DefaultDisabledWithTooltip.args = disabledWithTooltipArgs
+
+export const SmallDisabledWithTooltip = Template.bind({})
+SmallDisabledWithTooltip.args = {
+  ...disabledWithTooltipArgs,
+  size: Size.SM,
+}
+
+export const LargeDisabledWithTooltip = Template.bind({})
+LargeDisabledWithTooltip.args = {
+  ...disabledWithTooltipArgs,
+  size: Size.LG,
+}
+
+const noRadiusArgs: Partial<AvButtonProps> = {
+  noRadius: true,
+}
+
 export const DefaultNoRadius = Template.bind({})
-DefaultNoRadius.args = {
-  noRadius: true
+DefaultNoRadius.args = noRadiusArgs
+
+export const SmallNoRadius = Template.bind({})
+SmallNoRadius.args = {
+  ...noRadiusArgs,
+  size: Size.SM,
+}
+
+export const LargeNoRadius = Template.bind({})
+LargeNoRadius.args = {
+  ...noRadiusArgs,
+  size: Size.LG,
+}
+
+const secondaryArgs: Partial<AvButtonProps> = {
+  theme: Theme.SECONDARY,
 }
 
 export const DefaultSecondary = Template.bind({})
-DefaultSecondary.args = {
-  theme: Theme.SECONDARY,
+DefaultSecondary.args = secondaryArgs
+
+export const SmallSecondary = Template.bind({})
+SmallSecondary.args = {
+  ...secondaryArgs,
+  size: Size.SM,
+}
+
+export const LargeSecondary = Template.bind({})
+LargeSecondary.args = {
+  ...secondaryArgs,
+  size: Size.LG,
+}
+
+const tertiaryOnDarkBackgroundArgs: Partial<AvButtonProps> = {
+  theme: Theme.TERTIARY,
 }
 
 export const TertiaryOnDarkBackground = Template.bind({})
-TertiaryOnDarkBackground.args = {
-  theme: Theme.TERTIARY,
+TertiaryOnDarkBackground.args = tertiaryOnDarkBackgroundArgs
+TertiaryOnDarkBackground.decorators = darkBackgroundDecorators
+
+export const SmallTertiaryOnDarkBackground = Template.bind({})
+SmallTertiaryOnDarkBackground.args = {
+  ...tertiaryOnDarkBackgroundArgs,
+  size: Size.SM,
+}
+SmallTertiaryOnDarkBackground.decorators = darkBackgroundDecorators
+
+export const LargeTertiaryOnDarkBackground = Template.bind({})
+LargeTertiaryOnDarkBackground.args = {
+  ...tertiaryOnDarkBackgroundArgs,
+  size: Size.LG,
+}
+LargeTertiaryOnDarkBackground.decorators = darkBackgroundDecorators
+
+const outlinedArgs: Partial<AvButtonProps> = {
+  variant: 'OUTLINED',
 }
 
-TertiaryOnDarkBackground.decorators = [
-  () => ({
-    template: `
-      <div style="background: var(--dark-background-primary1); padding: 24px; display: inline-block;">
-        <story />
-      </div>
-    `,
-  }),
-]
-
 export const Outlined = Template.bind({})
-Outlined.args = {
+Outlined.args = outlinedArgs
+
+export const SmallOutlined = Template.bind({})
+SmallOutlined.args = {
+  ...outlinedArgs,
+  size: Size.SM,
+}
+
+export const LargeOutlined = Template.bind({})
+LargeOutlined.args = {
+  ...outlinedArgs,
+  size: Size.LG,
+}
+
+const outlinedIconOnlyArgs: Partial<AvButtonProps> = {
   variant: 'OUTLINED',
+  iconOnly: true,
+  icon: 'mdi:home-variant-outline',
+  label: 'Settings',
 }
 
 export const OutlinedIconOnly = Template.bind({})
-OutlinedIconOnly.args = {
+OutlinedIconOnly.args = outlinedIconOnlyArgs
+
+export const SmallOutlinedIconOnly = Template.bind({})
+SmallOutlinedIconOnly.args = {
+  ...outlinedIconOnlyArgs,
+  size: Size.SM,
+}
+
+export const LargeOutlinedIconOnly = Template.bind({})
+LargeOutlinedIconOnly.args = {
+  ...outlinedIconOnlyArgs,
+  size: Size.LG,
+}
+
+const outlinedLoadingArgs: Partial<AvButtonProps> = {
   variant: 'OUTLINED',
-  iconOnly: true,
-  icon: 'mdi:home-variant-outline',
-  label: 'Settings',
+  isLoading: true,
 }
 
 export const OutlinedLoading = Template.bind({})
-OutlinedLoading.args = {
+OutlinedLoading.args = outlinedLoadingArgs
+
+export const SmallOutlinedLoading = Template.bind({})
+SmallOutlinedLoading.args = {
+  ...outlinedLoadingArgs,
+  size: Size.SM,
+}
+
+export const LargeOutlinedLoading = Template.bind({})
+LargeOutlinedLoading.args = {
+  ...outlinedLoadingArgs,
+  size: Size.LG,
+}
+
+const outlinedDisabledArgs: Partial<AvButtonProps> = {
   variant: 'OUTLINED',
-  isLoading: true
+  disabled: true,
 }
 
 export const OutlinedDisabled = Template.bind({})
-OutlinedDisabled.args = {
+OutlinedDisabled.args = outlinedDisabledArgs
+
+export const SmallOutlinedDisabled = Template.bind({})
+SmallOutlinedDisabled.args = {
+  ...outlinedDisabledArgs,
+  size: Size.SM,
+}
+
+export const LargeOutlinedDisabled = Template.bind({})
+LargeOutlinedDisabled.args = {
+  ...outlinedDisabledArgs,
+  size: Size.LG,
+}
+
+const outlinedNoRadiusArgs: Partial<AvButtonProps> = {
   variant: 'OUTLINED',
-  disabled: true
+  noRadius: true,
 }
 
 export const OutlinedNoRadius = Template.bind({})
-OutlinedNoRadius.args = {
-  variant: 'OUTLINED',
-  noRadius: true
+OutlinedNoRadius.args = outlinedNoRadiusArgs
+
+export const SmallOutlinedNoRadius = Template.bind({})
+SmallOutlinedNoRadius.args = {
+  ...outlinedNoRadiusArgs,
+  size: Size.SM,
 }
 
-export const OutlinedSecondary = Template.bind({})
-OutlinedSecondary.args = {
+export const LargeOutlinedNoRadius = Template.bind({})
+LargeOutlinedNoRadius.args = {
+  ...outlinedNoRadiusArgs,
+  size: Size.LG,
+}
+
+const outlinedSecondaryArgs: Partial<AvButtonProps> = {
   variant: 'OUTLINED',
   theme: Theme.SECONDARY,
 }
 
-export const OutlinedTertiaryOnDarkBackground = Template.bind({})
-OutlinedTertiaryOnDarkBackground.args = {
+export const OutlinedSecondary = Template.bind({})
+OutlinedSecondary.args = outlinedSecondaryArgs
+
+export const SmallOutlinedSecondary = Template.bind({})
+SmallOutlinedSecondary.args = {
+  ...outlinedSecondaryArgs,
+  size: Size.SM,
+}
+
+export const LargeOutlinedSecondary = Template.bind({})
+LargeOutlinedSecondary.args = {
+  ...outlinedSecondaryArgs,
+  size: Size.LG,
+}
+
+const outlinedTertiaryOnDarkBackgroundArgs: Partial<AvButtonProps> = {
   variant: 'OUTLINED',
   theme: Theme.TERTIARY,
 }
 
-OutlinedTertiaryOnDarkBackground.decorators = [
-  () => ({
-    template: `
-      <div style="background: var(--dark-background-primary1); padding: 24px; display: inline-block;">
-        <story />
-      </div>
-    `,
-  }),
-]
+export const OutlinedTertiaryOnDarkBackground = Template.bind({})
+OutlinedTertiaryOnDarkBackground.args = outlinedTertiaryOnDarkBackgroundArgs
+OutlinedTertiaryOnDarkBackground.decorators = darkBackgroundDecorators
 
-export const Flat = Template.bind({})
-Flat.args = {
+export const SmallOutlinedTertiaryOnDarkBackground = Template.bind({})
+SmallOutlinedTertiaryOnDarkBackground.args = {
+  ...outlinedTertiaryOnDarkBackgroundArgs,
+  size: Size.SM,
+}
+SmallOutlinedTertiaryOnDarkBackground.decorators = darkBackgroundDecorators
+
+export const LargeOutlinedTertiaryOnDarkBackground = Template.bind({})
+LargeOutlinedTertiaryOnDarkBackground.args = {
+  ...outlinedTertiaryOnDarkBackgroundArgs,
+  size: Size.LG,
+}
+LargeOutlinedTertiaryOnDarkBackground.decorators = darkBackgroundDecorators
+
+const flatArgs: Partial<AvButtonProps> = {
   variant: 'FLAT',
 }
 
-export const FlatIconOnly = Template.bind({})
-FlatIconOnly.args = {
+export const Flat = Template.bind({})
+Flat.args = flatArgs
+
+export const SmallFlat = Template.bind({})
+SmallFlat.args = {
+  ...flatArgs,
+  size: Size.SM,
+}
+
+export const LargeFlat = Template.bind({})
+LargeFlat.args = {
+  ...flatArgs,
+  size: Size.LG,
+}
+
+const flatIconOnlyArgs: Partial<AvButtonProps> = {
   variant: 'FLAT',
   iconOnly: true,
   icon: 'mdi:home-variant-outline',
   label: 'Settings',
 }
 
-export const FlatLoading = Template.bind({})
-FlatLoading.args = {
+export const FlatIconOnly = Template.bind({})
+FlatIconOnly.args = flatIconOnlyArgs
+
+export const SmallFlatIconOnly = Template.bind({})
+SmallFlatIconOnly.args = {
+  ...flatIconOnlyArgs,
+  size: Size.SM,
+}
+
+export const LargeFlatIconOnly = Template.bind({})
+LargeFlatIconOnly.args = {
+  ...flatIconOnlyArgs,
+  size: Size.LG,
+}
+
+const flatLoadingArgs: Partial<AvButtonProps> = {
   variant: 'FLAT',
-  isLoading: true
+  isLoading: true,
+}
+
+export const FlatLoading = Template.bind({})
+FlatLoading.args = flatLoadingArgs
+
+export const SmallFlatLoading = Template.bind({})
+SmallFlatLoading.args = {
+  ...flatLoadingArgs,
+  size: Size.SM,
+}
+
+export const LargeFlatLoading = Template.bind({})
+LargeFlatLoading.args = {
+  ...flatLoadingArgs,
+  size: Size.LG,
+}
+
+const flatDisabledArgs: Partial<AvButtonProps> = {
+  variant: 'FLAT',
+  disabled: true,
 }
 
 export const FlatDisabled = Template.bind({})
-FlatDisabled.args = {
+FlatDisabled.args = flatDisabledArgs
+
+export const SmallFlatDisabled = Template.bind({})
+SmallFlatDisabled.args = {
+  ...flatDisabledArgs,
+  size: Size.SM,
+}
+
+export const LargeFlatDisabled = Template.bind({})
+LargeFlatDisabled.args = {
+  ...flatDisabledArgs,
+  size: Size.LG,
+}
+
+const flatNoRadiusArgs: Partial<AvButtonProps> = {
   variant: 'FLAT',
-  disabled: true
+  noRadius: true,
 }
 
 export const FlatNoRadius = Template.bind({})
-FlatNoRadius.args = {
-  variant: 'FLAT',
-  noRadius: true
+FlatNoRadius.args = flatNoRadiusArgs
+
+export const SmallFlatNoRadius = Template.bind({})
+SmallFlatNoRadius.args = {
+  ...flatNoRadiusArgs,
+  size: Size.SM,
 }
 
-export const FlatSecondary = Template.bind({})
-FlatSecondary.args = {
+export const LargeFlatNoRadius = Template.bind({})
+LargeFlatNoRadius.args = {
+  ...flatNoRadiusArgs,
+  size: Size.LG,
+}
+
+const flatSecondaryArgs: Partial<AvButtonProps> = {
   variant: 'FLAT',
   theme: Theme.SECONDARY,
 }
 
-export const FlatTertiaryOnDarkBackground = Template.bind({})
-FlatTertiaryOnDarkBackground.args = {
+export const FlatSecondary = Template.bind({})
+FlatSecondary.args = flatSecondaryArgs
+
+export const SmallFlatSecondary = Template.bind({})
+SmallFlatSecondary.args = {
+  ...flatSecondaryArgs,
+  size: Size.SM,
+}
+
+export const LargeFlatSecondary = Template.bind({})
+LargeFlatSecondary.args = {
+  ...flatSecondaryArgs,
+  size: Size.LG,
+}
+
+const flatTertiaryOnDarkBackgroundArgs: Partial<AvButtonProps> = {
   variant: 'FLAT',
   theme: Theme.TERTIARY,
 }
 
-FlatTertiaryOnDarkBackground.decorators = [
-  () => ({
-    template: `
-      <div style="background: var(--dark-background-primary1); padding: 24px; display: inline-block;">
-        <story />
-      </div>
-    `,
-  }),
-]
+export const FlatTertiaryOnDarkBackground = Template.bind({})
+FlatTertiaryOnDarkBackground.args = flatTertiaryOnDarkBackgroundArgs
+FlatTertiaryOnDarkBackground.decorators = darkBackgroundDecorators
 
-export const ExternalLinkButton = Template.bind({})
-ExternalLinkButton.args = {
+export const SmallFlatTertiaryOnDarkBackground = Template.bind({})
+SmallFlatTertiaryOnDarkBackground.args = {
+  ...flatTertiaryOnDarkBackgroundArgs,
+  size: Size.SM,
+}
+SmallFlatTertiaryOnDarkBackground.decorators = darkBackgroundDecorators
+
+export const LargeFlatTertiaryOnDarkBackground = Template.bind({})
+LargeFlatTertiaryOnDarkBackground.args = {
+  ...flatTertiaryOnDarkBackgroundArgs,
+  size: Size.LG,
+}
+LargeFlatTertiaryOnDarkBackground.decorators = darkBackgroundDecorators
+
+const externalLinkButtonArgs: Partial<AvButtonProps> = {
   href: 'https://example.com',
   label: 'Go to external site',
+  variant: 'DEFAULT',
+  theme: Theme.PRIMARY,
+}
+
+export const ExternalLinkButton = Template.bind({})
+ExternalLinkButton.args = externalLinkButtonArgs
+
+export const SmallExternalLinkButton = Template.bind({})
+SmallExternalLinkButton.args = {
+  ...externalLinkButtonArgs,
+  size: Size.SM,
+}
+
+export const LargeExternalLinkButton = Template.bind({})
+LargeExternalLinkButton.args = {
+  ...externalLinkButtonArgs,
+  size: Size.LG,
+}
+
+const linkButtonArgs: Partial<AvButtonProps> = {
+  to: '/some-route',
+  label: 'Go to some route',
   variant: 'DEFAULT',
   theme: Theme.PRIMARY,
 }
 
 export const LinkButton = Template.bind({})
-LinkButton.args = {
-  to: '/some-route',
-  label: 'Go to some route',
-  variant: 'DEFAULT',
-  theme: Theme.PRIMARY,
+LinkButton.args = linkButtonArgs
+
+export const SmallLinkButton = Template.bind({})
+SmallLinkButton.args = {
+  ...linkButtonArgs,
+  size: Size.SM,
 }
 
-export const LinkButtonOutlined = Template.bind({})
-LinkButtonOutlined.args = {
+export const LargeLinkButton = Template.bind({})
+LargeLinkButton.args = {
+  ...linkButtonArgs,
+  size: Size.LG,
+}
+
+const linkButtonOutlinedArgs: Partial<AvButtonProps> = {
   to: '/some-route',
   label: 'Go to some route',
   variant: 'OUTLINED',
   theme: Theme.PRIMARY,
 }
 
-export const LinkButtonSecondary = Template.bind({})
-LinkButtonSecondary.args = {
+export const LinkButtonOutlined = Template.bind({})
+LinkButtonOutlined.args = linkButtonOutlinedArgs
+
+export const SmallLinkButtonOutlined = Template.bind({})
+SmallLinkButtonOutlined.args = {
+  ...linkButtonOutlinedArgs,
+  size: Size.SM,
+}
+
+export const LargeLinkButtonOutlined = Template.bind({})
+LargeLinkButtonOutlined.args = {
+  ...linkButtonOutlinedArgs,
+  size: Size.LG,
+}
+
+const linkButtonSecondaryArgs: Partial<AvButtonProps> = {
   to: '/some-route',
   label: 'Go to some route',
   variant: 'DEFAULT',
   theme: Theme.SECONDARY,
 }
 
-export const LinkButtonIconOnly = Template.bind({})
-LinkButtonIconOnly.args = {
+export const LinkButtonSecondary = Template.bind({})
+LinkButtonSecondary.args = linkButtonSecondaryArgs
+
+export const SmallLinkButtonSecondary = Template.bind({})
+SmallLinkButtonSecondary.args = {
+  ...linkButtonSecondaryArgs,
+  size: Size.SM,
+}
+
+export const LargeLinkButtonSecondary = Template.bind({})
+LargeLinkButtonSecondary.args = {
+  ...linkButtonSecondaryArgs,
+  size: Size.LG,
+}
+
+const linkButtonIconOnlyArgs: Partial<AvButtonProps> = {
   to: '/some-route',
   iconOnly: true,
   icon: 'mdi:home-variant-outline',
@@ -303,12 +652,41 @@ LinkButtonIconOnly.args = {
   theme: Theme.PRIMARY,
 }
 
-export const ExternalLinkButtonIconOnly = Template.bind({})
-ExternalLinkButtonIconOnly.args = {
+export const LinkButtonIconOnly = Template.bind({})
+LinkButtonIconOnly.args = linkButtonIconOnlyArgs
+
+export const SmallLinkButtonIconOnly = Template.bind({})
+SmallLinkButtonIconOnly.args = {
+  ...linkButtonIconOnlyArgs,
+  size: Size.SM,
+}
+
+export const LargeLinkButtonIconOnly = Template.bind({})
+LargeLinkButtonIconOnly.args = {
+  ...linkButtonIconOnlyArgs,
+  size: Size.LG,
+}
+
+const externalLinkButtonIconOnlyArgs: Partial<AvButtonProps> = {
   href: 'https://example.com',
   iconOnly: true,
   icon: 'mdi:home-variant-outline',
   label: 'Go to external site',
   variant: 'DEFAULT',
   theme: Theme.PRIMARY,
+}
+
+export const ExternalLinkButtonIconOnly = Template.bind({})
+ExternalLinkButtonIconOnly.args = externalLinkButtonIconOnlyArgs
+
+export const SmallExternalLinkButtonIconOnly = Template.bind({})
+SmallExternalLinkButtonIconOnly.args = {
+  ...externalLinkButtonIconOnlyArgs,
+  size: Size.SM,
+}
+
+export const LargeExternalLinkButtonIconOnly = Template.bind({})
+LargeExternalLinkButtonIconOnly.args = {
+  ...externalLinkButtonIconOnlyArgs,
+  size: Size.LG,
 }

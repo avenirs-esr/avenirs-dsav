@@ -2,6 +2,7 @@
 import type { Slot } from 'vue'
 import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
 import { MDI_ICONS } from '@/tokens'
+import { Size } from '@/types/size.types'
 
 export interface AvSideMenuProps {
   /**
@@ -157,6 +158,7 @@ function toggleCollapse () {
         class="av-side-menu__collapse-button av-p-xs av-m-xs av-gap-none"
         :label="isCollapsed ? expandButtonAriaLabel : collapseButtonAriaLabel"
         icon-only
+        :size="Size.LG"
         data-testid="side-menu-collapse-button"
         @click="toggleCollapse"
       />
