@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useAttrs } from 'vue'
+import { type Slot, useAttrs } from 'vue'
 import toggleActiveDisabledSvg from '@/components/interaction/toggles/AvToggle/assets/toggle-active-disabled.svg?url'
 import toggleActiveSvg from '@/components/interaction/toggles/AvToggle/assets/toggle-active.svg?url'
 import toggleInactiveDisabledSvg from '@/components/interaction/toggles/AvToggle/assets/toggle-inactive-disabled.svg?url'
@@ -15,33 +15,10 @@ export interface AvToggleProps {
   modelValue?: boolean
 
   /**
-   * Indicates the purpose of the toggle.
-   * @default undefined
-   */
-  description?: string
-
-  /**
    * Unique id for the toggle. Used for accessibility.
    * @default `toggle-${crypto.randomUUID()}`
    */
   id?: string
-
-  /**
-   * Indicates if the toggle disabled.
-   */
-  disabled?: boolean
-
-  /**
-   * Text to display next to the toggle (right) when it is active.
-   * @default 'On'
-   */
-  activeText?: string
-
-  /**
-   * Text to display next to the toggle (right) when it is inactive.
-   * @default 'Off'
-   */
-  inactiveText?: string
 
   /**
    * `name` attribute of the input
@@ -50,10 +27,26 @@ export interface AvToggleProps {
   name?: string
 
   /**
-   * Width of the active/inactive texts
-   * @default '1.8rem'
+   * Indicates the purpose of the toggle.
+   * @default undefined
    */
-  statusTextWidth?: string
+  description?: string
+
+  /**
+   * Tooltip text to display.
+   */
+  tooltip?: string
+
+  /**
+   * Indicates if the toggle is disabled.
+   */
+  disabled?: boolean
+
+  /**
+   * Tooltip text to display when the toggle is disabled.
+   * When set to `true`, the `tooltip` value will be used.
+   */
+  disabledTooltip?: string | true
 }
 
 defineOptions({
@@ -62,111 +55,116 @@ defineOptions({
 
 const {
   id,
-  activeText = 'On',
-  inactiveText = 'Off',
   name,
+  description,
+  tooltip,
   disabled = false,
-  statusTextWidth = '1.8rem',
+  disabledTooltip,
 } = defineProps<AvToggleProps>()
 
-const modelValue = defineModel<boolean>({
-  default: false,
-})
+defineSlots<{
+  /**
+   * Default slot for custom content.
+   */
+  default?: Slot<{ active: boolean }>
+}>()
+
+const modelValue = defineModel<boolean>({ default: false })
 
 const attrs = useAttrs()
 
-const inputId = computed(() => id ?? `toggle-${crypto.randomUUID()}`)
-const labelId = computed(() => {
-  return `${inputId.value}-label`
-})
+const tooltipContent = computed(() => (!disabled || disabledTooltip === true ? tooltip : disabledTooltip) || undefined)
 
-function getImageHref () {
-  if (disabled) {
-    return modelValue.value
-      ? toggleActiveDisabledSvg
-      : toggleInactiveDisabledSvg
-  }
+const randomId = id ? undefined : crypto.randomUUID()
+const inputId = computed(() => id ?? `toggle-${randomId}`)
+const labelId = computed(() => `${inputId.value}-label`)
 
-  return modelValue.value
-    ? toggleActiveSvg
-    : toggleInactiveSvg
-}
+const dataTestId = computed(() => attrs['data-testid'] ?? id ?? `av-toggle-${randomId}`)
+const inputDataTestId = computed(() => `${dataTestId.value}-input`)
+const labelDataTestId = computed(() => `${dataTestId.value}-label`)
+
+const imageHref = computed(() =>
+  modelValue.value
+    ? (disabled ? toggleActiveDisabledSvg : toggleActiveSvg)
+    : (disabled ? toggleInactiveDisabledSvg : toggleInactiveSvg)
+)
 
 function updateModelValue (event: Event) {
   modelValue.value = (event.target as HTMLInputElement).checked
 }
-
-const dataTestId = computed(() => {
-  return attrs['data-testid'] ?? (id || 'av-toggle')
-})
-const inputDataTestId = computed(() => {
-  return `${dataTestId.value}-input`
-})
-const labelDataTestId = computed(() => {
-  return `${dataTestId.value}-label`
-})
 </script>
 
 <template>
-  <input
-    :id="inputId"
-    class="av-toggle-input"
-    :disabled="disabled"
-    :aria-disabled="disabled"
-    type="checkbox"
-    :checked="modelValue"
-    :aria-describedby="labelId"
-    :name="name"
-    :data-testid="inputDataTestId"
-    @input="updateModelValue"
+  <AvTooltip
+    :content="tooltipContent ?? ''"
+    :disabled="!tooltipContent"
+    :force-focusable="disabled && !!tooltipContent"
   >
-  <label
-    :id="labelId"
-    :for="inputId"
-    class="av-toggle av-row av-justify-center av-gap-xs av-align-start"
-    :class="{
-      'av-toggle--disabled': disabled,
-    }"
-    :data-testid="labelDataTestId"
-  >
-    <div
-      class="toggle av-row av-justify-start av-align-start av-gap-xxs"
-      :class="{
-        'toggle--disabled': disabled,
-      }"
+    <input
+      :id="inputId"
+      class="av-toggle-input"
+      :disabled="disabled"
+      :aria-disabled="disabled"
+      type="checkbox"
+      :checked="modelValue"
+      :aria-describedby="labelId"
+      :name="name"
+      :data-testid="inputDataTestId"
+      @input="updateModelValue"
     >
-      <div class="av-col">
-        <svg
-          width="34"
-          height="14"
-        >
-          <image
-            :href="getImageHref()"
+    <label
+      :id="labelId"
+      :for="inputId"
+      class="av-toggle av-row av-gap-xs av-align-center"
+      :class="{
+        'av-toggle--disabled': disabled,
+      }"
+      :data-testid="labelDataTestId"
+    >
+      <div
+        class="toggle av-row av-justify-start av-align-center av-gap-xxs"
+        :class="{
+          'toggle--disabled': disabled,
+        }"
+      >
+        <div class="av-col">
+          <svg
             width="34"
             height="14"
-          />
-        </svg>
+          >
+            <image
+              :href="imageHref"
+              width="34"
+              height="14"
+            />
+          </svg>
+        </div>
+
+        <div class="av-col">
+          <slot :active="modelValue">
+            <div class="toggle-text av-row">
+              <span
+                v-if="modelValue"
+                class="caption-bold no-select"
+              >
+                On
+              </span>
+              <span
+                v-else
+                class="caption-regular no-select"
+              >
+                Off
+              </span>
+            </div>
+          </slot>
+        </div>
       </div>
-      <div class="av-col toggle-text">
-        <span
-          v-if="modelValue"
-          class="caption-bold no-select"
-        >
-          {{ activeText }}
-        </span>
-        <span
-          v-else
-          class="caption-regular no-select"
-        >
-          {{ inactiveText }}
-        </span>
-      </div>
-    </div>
-    <span
-      v-if="description"
-      class="caption-regular"
-    >{{ description }}</span>
-  </label>
+      <span
+        v-if="description"
+        class="caption-regular"
+      >{{ description }}</span>
+    </label>
+  </AvTooltip>
 </template>
 
 <style lang="scss" scoped>
@@ -192,10 +190,6 @@ const labelDataTestId = computed(() => {
 .av-toggle, .toggle {
   cursor: pointer;
   width: fit-content;
-}
-
-.toggle {
-  width: calc(2.125rem + v-bind(statusTextWidth));
 }
 
 .toggle-text {

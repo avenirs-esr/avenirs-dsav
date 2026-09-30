@@ -13,6 +13,13 @@ import AvToggle, { type AvToggleProps } from '@/components/interaction/toggles/A
  *   </span>
  * </p>
  *
+ * <p>
+ *   <span class="b2-regular">
+ *     It can display a description and a tooltip (with a dedicated one when the toggle is disabled). The text displayed next to the
+ *     switch (<code>On</code> / <code>Off</code> by default) can be customized with the <code>default</code> slot.
+ *   </span>
+ * </p>
+ *
  * <h2 class="n2">🏗️ Structure</h2>
  *
  * <p><span class="b2-regular">None.</span></p>
@@ -23,21 +30,17 @@ const meta: Meta<AvToggleProps> = {
   tags: ['autodocs'],
   argTypes: {
     modelValue: { control: 'boolean' },
-    description: { control: 'text', type: { name: 'string', required: true } },
-    disabled: { control: 'boolean' },
-    activeText: { control: 'text' },
-    inactiveText: { control: 'text' },
+    id: { control: 'text' },
     name: { control: 'text' },
-    statusTextWidth: { control: 'text' }
+    description: { control: 'text' },
+    tooltip: { control: 'text' },
+    disabled: { control: 'boolean' },
+    disabledTooltip: { control: 'text' },
   },
   args: {
     modelValue: false,
     description: 'Some description',
     disabled: false,
-    activeText: 'On',
-    inactiveText: 'Off',
-    name: undefined,
-    statusTextWidth: '1.8rem'
   },
 }
 
@@ -56,8 +59,66 @@ Default.args = {}
 
 export const InitActive = Template.bind({})
 InitActive.args = {
-  modelValue: true
+  modelValue: true,
 }
+
+export const Disabled = Template.bind({})
+Disabled.args = {
+  disabled: true,
+}
+
+export const DisabledActive = Template.bind({})
+DisabledActive.args = {
+  modelValue: true,
+  disabled: true,
+}
+
+export const WithTooltip = Template.bind({})
+WithTooltip.args = {
+  tooltip: 'Enable or disable the feature',
+}
+
+/**
+ * When `disabledTooltip` is `true`, the `tooltip` is also displayed while the toggle is disabled.
+ */
+export const DisabledWithSameTooltip = Template.bind({})
+DisabledWithSameTooltip.args = {
+  disabled: true,
+  tooltip: 'This feature cannot be changed',
+  disabledTooltip: true,
+}
+
+/**
+ * A dedicated tooltip can be displayed while the toggle is disabled (the regular `tooltip` is then hidden).
+ */
+export const DisabledWithCustomTooltip = Template.bind({})
+DisabledWithCustomTooltip.args = {
+  disabled: true,
+  tooltip: 'Enable or disable the feature',
+  disabledTooltip: 'You are not allowed to change this setting',
+}
+
+const CustomStatusTemplate: StoryFn<AvToggleProps> = args => ({
+  components: { AvToggle },
+  setup () {
+    return { args }
+  },
+  template: `
+    <AvToggle v-bind="args" v-model="args.modelValue">
+      <template #default="{ active }">
+        <span :class="active ? 'caption-bold' : 'caption-regular'">
+          {{ active ? 'Yes' : 'No' }}
+        </span>
+      </template>
+    </AvToggle>
+  `,
+})
+
+/**
+ * The `default` slot replaces the `On` / `Off` text and receives the current state through the `active` slot prop.
+ */
+export const CustomStatus = CustomStatusTemplate.bind({})
+CustomStatus.args = {}
 
 const WidthRestrictTemplate: StoryFn<AvToggleProps> = args => ({
   components: { AvToggle },
@@ -69,5 +130,5 @@ const WidthRestrictTemplate: StoryFn<AvToggleProps> = args => ({
 
 export const WidthRestrict = WidthRestrictTemplate.bind({})
 WidthRestrict.args = {
-  description: 'A long description to see how this works'
+  description: 'A long description to see how this works',
 }
