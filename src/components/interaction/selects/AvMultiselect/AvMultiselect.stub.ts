@@ -1,12 +1,15 @@
+import { AvInteractivePropsStub } from '@/types/interfaces.stub'
+
 export const AvMultiselectStub = defineComponent({
   name: 'AvMultiselect',
   props: {
+    ...AvInteractivePropsStub,
     modelValue: Array,
     options: Array,
     label: String,
     placeholder: String,
     selectedText: String,
-    dense: Boolean
+    dense: Boolean,
   },
   emits: ['update:modelValue'],
   template: `

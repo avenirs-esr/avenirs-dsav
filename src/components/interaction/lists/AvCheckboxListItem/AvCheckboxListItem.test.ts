@@ -58,6 +58,32 @@ BddTest().given('an AvCheckboxListItem component', () => {
   })
 })
 
+BddTest().given('an AvCheckboxListItem with a disabled tooltip', () => {
+  let wrapper: VueWrapper<InstanceType<typeof AvCheckboxListItem>>
+
+  BddTest().when('disabled and disabledTooltip are provided', () => {
+    beforeEach(() => {
+      wrapper = mount(AvCheckboxListItem, {
+        props: {
+          id: 'disabled-item',
+          listId: 'disabled-list',
+          label: 'Disabled item',
+          modelValue: [],
+          disabled: true,
+          disabledTooltip: 'Option unavailable',
+        },
+        global: { stubs: { AvCheckbox: AvCheckboxStub, AvListItem: AvListItemStub } },
+      })
+    })
+
+    BddTest().then('it should forward both shared props to AvCheckbox', () => {
+      const checkbox = wrapper.findComponent(AvCheckboxStub)
+      expect(checkbox.props('disabled')).toBe(true)
+      expect(checkbox.props('disabledTooltip')).toBe('Option unavailable')
+    })
+  })
+})
+
 BddTest().given('multiple AvCheckboxListItem mounted in the DOM', () => {
   let wrappers: VueWrapper<InstanceType<typeof AvCheckboxListItem>>[]
   const baseProps = (id: string) => ({

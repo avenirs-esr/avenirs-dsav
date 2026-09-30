@@ -190,6 +190,8 @@ onUnmounted(() => {
         :aria-label="option.label"
         :label="option.label"
         :icon="option.icon"
+        :disabled="option.disabled"
+        :disabled-tooltip="option.disabledTooltip"
       />
     </AvList>
     <div v-if="filteredOptions.length === 0">

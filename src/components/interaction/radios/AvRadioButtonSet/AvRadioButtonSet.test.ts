@@ -4,12 +4,13 @@ import { h } from 'vue'
 import { AvFieldsetStub } from '@/components/base/AvFieldset/AvFieldset.stub'
 import AvRadioButton from '@/components/interaction/radios/AvRadioButton/AvRadioButton.vue'
 import AvRadioButtonSet, { type AvRadioButtonSetProps } from '@/components/interaction/radios/AvRadioButtonSet/AvRadioButtonSet.vue'
+import { AvTooltipStub } from '@/components/overlay/tooltips/AvTooltip/AvTooltip.stub'
 import { BddTest } from '@/tests/utils'
 
 BddTest().given('an AvRadioButtonSet component', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvRadioButtonSet>>
 
-  const stubs = { AvFieldset: AvFieldsetStub }
+  const stubs = { AvFieldset: AvFieldsetStub, AvTooltip: AvTooltipStub }
 
   const props: AvRadioButtonSetProps = {
     name: 'test-radio-set',
@@ -89,6 +90,24 @@ BddTest().given('an AvRadioButtonSet component', () => {
       BddTest().then('it should not render any radio button', () => {
         const radios = wrapper.findAllComponents(AvRadioButton)
         expect(radios.length).toBe(0)
+      })
+    })
+  })
+
+  BddTest().and('disabled with a tooltip message', () => {
+    beforeEach(() => {
+      wrapper = mount(AvRadioButtonSet, {
+        props: { ...props, disabled: true, disabledTooltip: 'Group unavailable' },
+        slots,
+        global: { stubs },
+      })
+    })
+
+    BddTest().when('the radioset is mounted', () => {
+      BddTest().then('it should forward the shared props to AvFieldset', () => {
+        const fieldset = wrapper.findComponent(AvFieldsetStub)
+        expect(fieldset.props('disabled')).toBe(true)
+        expect(fieldset.props('disabledTooltip')).toBe('Group unavailable')
       })
     })
   })

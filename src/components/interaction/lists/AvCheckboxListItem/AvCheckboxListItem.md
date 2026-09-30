@@ -30,6 +30,7 @@ The checkbox list item integrates:
 | `label` | `string` | | | Label for the checkbox list item. |
 | `icon` | `string` | | | Icon to display alongside the checkbox list item. |
 | `disabled` | `boolean` | `false` | | Whether the checkbox list item is disabled. |
+| `disabledTooltip` | `string` | | | Tooltip text displayed when the checkbox list item is disabled. |
 | `ariaLabel` | `string` | | | Custom ARIA label for accessibility. |
 | `ariaDescribedby` | `string` | | | ID of element that describes the list item. |
 

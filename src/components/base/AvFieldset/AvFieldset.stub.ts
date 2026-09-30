@@ -1,6 +1,9 @@
+import { AvInteractivePropsStub } from '@/types/interfaces.stub'
+
 export const AvFieldsetStub = defineComponent({
   name: 'AvFieldset',
   props: {
+    ...AvInteractivePropsStub,
     legend: {
       type: String,
       required: false,

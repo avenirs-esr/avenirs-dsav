@@ -1,8 +1,10 @@
 import type { PropType } from 'vue'
+import { AvInteractivePropsStub } from '@/types/interfaces.stub'
 
 export const AvListItemStub = defineComponent({
   name: 'AvListItem',
   props: {
+    ...AvInteractivePropsStub,
     theme: { type: String as PropType<'PRIMARY' | 'SECONDARY' | 'TERTIARY'>, default: 'PRIMARY' },
     selected: { type: Boolean, default: false },
     icon: { type: String, required: false },

@@ -114,6 +114,19 @@ BddTest().given('an AvMultiselect component', () => {
     })
   })
 
+  BddTest().and('given a disabled tooltip message', () => {
+    beforeEach(() => {
+      wrapper = mountWithProps({ disabled: true, disabledTooltip: 'Select unavailable' })
+    })
+
+    BddTest().when('the multiselect is mounted', () => {
+      BddTest().then('it should forward the message to the trigger button', () => {
+        const button = wrapper.findComponent(AvButtonStub)
+        expect(button.props('disabledTooltip')).toBe('Select unavailable')
+      })
+    })
+  })
+
   BddTest().and('given a preselected value', () => {
     beforeEach(() => {
       wrapper = mountWithProps({

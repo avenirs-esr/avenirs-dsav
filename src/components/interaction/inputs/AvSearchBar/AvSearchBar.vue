@@ -1,10 +1,11 @@
 <script lang="ts" setup>
+import type { AvInteractiveProps } from '@/types/interfaces.types'
 import { MDI_ICONS } from '@/tokens'
 
 /**
  * AvSearchBar component props.
  */
-export interface AvSearchBarProps {
+export interface AvSearchBarProps extends AvInteractiveProps {
   /**
    * Unique id for the search bar
    * @default `search-bar-${crypto.randomUUID()}`
@@ -28,12 +29,6 @@ export interface AvSearchBarProps {
    * @default 'Rechercher...'
    */
   placeholder?: string
-
-  /**
-   * If `true`, disable the search bar
-   * @default false
-   */
-  disabled?: boolean
 }
 
 const {
@@ -80,6 +75,7 @@ const realId = id ?? `search-bar-${crypto.randomUUID()}`
         :model-value="modelValue"
         :label="label"
         :disabled="disabled"
+        :disabled-tooltip="disabledTooltip"
         :aria-disabled="disabled"
         :label-visible="false"
         @update:model-value="emit('update:modelValue', $event?.toString() ?? '')"

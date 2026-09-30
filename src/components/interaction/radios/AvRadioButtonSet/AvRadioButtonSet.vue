@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { AvInteractiveProps } from '@/types/interfaces.types'
 import { Fragment, type Slot, useSlots, type VNode, type VNodeArrayChildren } from 'vue'
 import { AvRadioButton } from '@/components/interaction/radios'
 import RadioButton from '@/components/interaction/radios/AvRadioButtonSet/components/RadioButton.vue'
@@ -6,7 +7,7 @@ import RadioButton from '@/components/interaction/radios/AvRadioButtonSet/compon
 /**
  * AvRadioButtonSet component props.
  */
-export interface AvRadioButtonSetProps {
+export interface AvRadioButtonSetProps extends AvInteractiveProps {
   /**
    * ID of the legend element
    * @default `radio-button-set-${crypto.randomUUID()}`
@@ -31,12 +32,6 @@ export interface AvRadioButtonSetProps {
    * Must match one of the options values.
    */
   modelValue: string | number | boolean | undefined
-
-  /**
-   * If true, disables all radio buttons in the group.
-   * @default false
-   */
-  disabled?: boolean
 
   /**
    * If true, marks the group as required and shows a required indicator.
@@ -192,6 +187,7 @@ defineExpose({ selected })
     :hint="hint"
     :required="required"
     :disabled="disabled"
+    :disabled-tooltip="disabledTooltip"
     :aria-labelledby="realId"
     :aria-describedby="describedByElement"
     :role="(errorMessage || validMessage) ? 'group' : undefined"
@@ -205,6 +201,7 @@ defineExpose({ selected })
       v-model="selected"
       :value="radio.props?.value"
       :disabled="radio.props?.disabled ?? disabled"
+      :disabled-tooltip="radio.props?.disabledTooltip ?? disabledTooltip"
       :small="small"
       :inline="inline"
       :name="name"

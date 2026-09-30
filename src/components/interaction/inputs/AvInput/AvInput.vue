@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import type { AvInteractiveProps } from '@/types/interfaces.types'
 import { type Ref, type Slot, useAttrs } from 'vue'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import { formatDateForInputType, formatDisplayedDate, getDateInputPlaceholder, getDateInputPrefixIcon, isDateInputType } from '@/components/interaction/inputs/AvInput/utils'
+import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
+import { getAvTooltipContent, getAvTooltipForceFocusable, isAvTooltipDisabled } from '@/components/overlay/tooltips/AvTooltip/utils'
 
-export interface AvInputProps {
+export interface AvInputProps extends AvInteractiveProps {
   /**
    * ID of the input element
    * @default `input-${crypto.randomUUID()}`
@@ -76,12 +79,6 @@ export interface AvInputProps {
    * Max date for date inputs
    */
   maxDate?: Date
-
-  /**
-   * Whether the input is disabled
-   * @default false
-   */
-  disabled?: boolean
 
   /**
    * Whether the input is required
@@ -319,84 +316,90 @@ defineExpose({
     }"
   >
     <div class="av-input__wrapper av-col av-gap-xxs">
-      <div class="av-input__control">
-        <div
-          v-if="icon"
-          class="av-input__prefix av-align-center av-col"
-        >
-          <AvIcon
-            :name="icon"
-            :size="1.2"
-          />
-        </div>
-
-        <label
-          :class="finalLabelClass"
-          :for="isDateInputType(type) ? `${realId}-picker` : realId"
-        >
-          <span :class="labelClass">
-            {{ label }}
-            <slot name="requiredTip">
-              <span
-                v-if="required"
-                aria-hidden="true"
-                class="required"
-              >*</span>
-            </slot>
-          </span>
-        </label>
-
-        <template v-if="isDateInputType(type)">
+      <AvTooltip
+        :content="getAvTooltipContent({ content: label, disabled, disabledTooltip })"
+        :force-focusable="getAvTooltipForceFocusable({ disabled, disabledTooltip })"
+        :disabled="isAvTooltipDisabled({ disabled, disabledTooltip })"
+      >
+        <div class="av-input__control">
           <div
-            class="av-input__date-wrapper"
-            @click.stop="openDatePicker"
+            v-if="icon"
+            class="av-input__prefix av-align-center av-col"
           >
-            <component
-              :is="isComponent"
-              v-bind="inputProps"
-              :id="realId"
-              ref="__input"
-              class="av-input__input--date-real"
-              :class="[commonInputClasses]"
-              tabindex="-1"
-              :value="modelValue"
-              @input="emit('update:modelValue', $event.target.value)"
-              @change="emit('update:modelValue', $event.target.value)"
-            />
-            <component
-              :is="isComponent"
-              v-bind="inputProps"
-              :id="`${realId}-picker`"
-              class="av-input__input--date-picker"
-              :class="[commonInputClasses]"
-              :placeholder="!disabled ? getDateInputPlaceholder(type) : ''"
-              type="text"
-              readonly
-              :aria-label="label || placeholder"
-              :tabindex="disabled ? -1 : 0"
-              :value="formatDisplayedDate(type, modelValue, formatDateStr)"
-              @keydown="onDatePickerKeyDown"
+            <AvIcon
+              :name="icon"
+              :size="1.2"
             />
           </div>
-        </template>
-        <component
-          :is="isComponent"
-          v-else
-          v-bind="inputProps"
-          :id="realId"
-          ref="__input"
-          :class="commonInputClasses"
-          :value="modelValue"
-          @input="emit('update:modelValue', $event.target.value)"
-        />
 
-        <div
-          v-if="$slots.suffix"
-          class="av-align-center av-col av-input__suffix"
-        >
-          <slot name="suffix" />
+          <label
+            :class="finalLabelClass"
+            :for="isDateInputType(type) ? `${realId}-picker` : realId"
+          >
+            <span :class="labelClass">
+              {{ label }}
+              <slot name="requiredTip">
+                <span
+                  v-if="required"
+                  aria-hidden="true"
+                  class="required"
+                >*</span>
+              </slot>
+            </span>
+          </label>
+
+          <template v-if="isDateInputType(type)">
+            <div
+              class="av-input__date-wrapper"
+              @click.stop="openDatePicker"
+            >
+              <component
+                :is="isComponent"
+                v-bind="inputProps"
+                :id="realId"
+                ref="__input"
+                class="av-input__input--date-real"
+                :class="[commonInputClasses]"
+                tabindex="-1"
+                :value="modelValue"
+                @input="emit('update:modelValue', $event.target.value)"
+                @change="emit('update:modelValue', $event.target.value)"
+              />
+              <component
+                :is="isComponent"
+                v-bind="inputProps"
+                :id="`${realId}-picker`"
+                class="av-input__input--date-picker"
+                :class="[commonInputClasses]"
+                :placeholder="!disabled ? getDateInputPlaceholder(type) : ''"
+                type="text"
+                readonly
+                :aria-label="label || placeholder"
+                :tabindex="disabled ? -1 : 0"
+                :value="formatDisplayedDate(type, modelValue, formatDateStr)"
+                @keydown="onDatePickerKeyDown"
+              />
+            </div>
+          </template>
+          <component
+            :is="isComponent"
+            v-else
+            v-bind="inputProps"
+            :id="realId"
+            ref="__input"
+            :class="commonInputClasses"
+            :value="modelValue"
+            @input="emit('update:modelValue', $event.target.value)"
+          />
+
+          <div
+            v-if="$slots.suffix"
+            class="av-align-center av-col av-input__suffix"
+          >
+            <slot name="suffix" />
+          </div>
         </div>
-      </div>
+      </AvTooltip>
       <slot
         v-if="!disabled"
         name="maxLengthCaption"

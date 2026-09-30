@@ -109,7 +109,7 @@ BddTest().given('an AvCheckbox component', () => {
 
   BddTest().when('disabled prop is true', () => {
     beforeEach(() => {
-      wrapper = mountWithProps({ disabled: true })
+      wrapper = mountWithProps({ disabled: true, disabledTooltip: 'Unavailable' })
     })
 
     BddTest().then('input should have tabindex -1', () => {
@@ -117,9 +117,21 @@ BddTest().given('an AvCheckbox component', () => {
       expect(input.attributes('tabindex')).toBe('-1')
     })
 
+    BddTest().then('container should use the checkbox disabled opacity and italicize its label', () => {
+      expect(wrapper.findComponent({ name: 'AvFieldsetElement' }).props('disabledOpacity')).toBe(0.9)
+      expect(wrapper.find('.label').classes()).toContain('av-checkbox-label--disabled')
+    })
+
     BddTest().then('icon should use the unselected disabled foreground color', () => {
       const icon = wrapper.findComponent({ name: 'AvIcon' })
       expect(icon.props('color')).toBe('var(--unselected-disabled-foreground)')
+    })
+
+    BddTest().then('it should show the disabled tooltip message', () => {
+      const tooltip = wrapper.findComponent(AvTooltipStub)
+      expect(tooltip.props('content')).toBe('Unavailable')
+      expect(tooltip.props('disabled')).toBe(false)
+      expect(tooltip.props('forceFocusable')).toBe(true)
     })
   })
 

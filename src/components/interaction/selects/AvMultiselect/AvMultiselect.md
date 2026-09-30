@@ -25,7 +25,8 @@ Inside the list:
 
 | Name             | Type | Default | Mandatory | Description |
 |------------------| --- | --- | --- | --- |
-| `disabled`       | `boolean` | `false` | | Indicated if the select is disabled.|
+| `disabled`       | `boolean` | `false` | | Indicates whether the select is disabled.|
+| `disabledTooltip` | `string` | | | Tooltip text displayed when the select is disabled. |
 | `options`        | `{ value: string \| number, label: string, icon?: string})[]` | `[]` | | Selectable options. |
 | `label`          | `string` | | ✅ | Select text label.|
 | `name`           | `string` | | | Field name.|
@@ -42,6 +43,8 @@ Inside the list:
 | `width`          | `string` | `undefined` | | Fixes the width of the multiselect.|
 | `height`         | `string` | `undefined` | | Fixes the height of the multiselect.|
 | `collapseMaxHeight` | `string` | `undefined` | | Fixes the max height of the options list.|
+
+Individual options may also set `disabled` and `disabledTooltip`. Disabled options cannot be selected; their tooltip text is shown when provided.
 
 ## 🔊 Events
 

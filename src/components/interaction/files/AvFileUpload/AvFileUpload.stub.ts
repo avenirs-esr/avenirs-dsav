@@ -1,8 +1,10 @@
 import type { PropType } from 'vue'
+import { AvInteractivePropsStub } from '@/types/interfaces.stub'
 
 export const AvFileUploadStub = defineComponent({
   name: 'AvFileUpload',
   props: {
+    ...AvInteractivePropsStub,
     id: {
       type: String,
       required: false
@@ -25,10 +27,6 @@ export const AvFileUploadStub = defineComponent({
     },
     validMessage: {
       type: String,
-      required: false
-    },
-    disabled: {
-      type: Boolean,
       required: false
     },
     modelValue: {

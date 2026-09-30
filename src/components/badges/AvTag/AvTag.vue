@@ -1,12 +1,14 @@
 <script setup lang="ts" generic="T = string">
+import type { AvInteractiveProps } from '@/types/interfaces.types'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
+import { getAvTooltipContent, getAvTooltipForceFocusable, isAvTooltipDisabled } from '@/components/overlay/tooltips/AvTooltip/utils'
 import { ICONS_DATA_URL } from '@/tokens/icons'
 
 /**
  * AvTag component props.
  */
-export type AvTagProps<T = string> = {
+export type AvTagProps<T = string> = AvInteractiveProps & {
   /**
    * Displayed tag label.
    */
@@ -22,11 +24,6 @@ export type AvTagProps<T = string> = {
    * Icon to display in the tag. Can be a name or an icon configuration.
    */
   icon?: string
-
-  /**
-   * Disabled the tag if it is a button.
-   */
-  disabled?: boolean
 
   /**
    * Display the tag in a small version.
@@ -97,9 +94,9 @@ function handleClick () {
 
 <template>
   <AvTooltip
-    :content="label"
-    :disabled="!iconOnly || disabled"
-    :force-focusable="iconOnly && !disabled && tagName !== 'button'"
+    :content="getAvTooltipContent({ content: label, disabled, disabledTooltip })"
+    :disabled="isAvTooltipDisabled({ iconOnly, disabled, disabledTooltip })"
+    :force-focusable="getAvTooltipForceFocusable({ iconOnly, disabled, disabledTooltip }) && tagName !== 'button'"
   >
     <component
       :is="is"
@@ -177,7 +174,7 @@ function handleClick () {
   }
 }
 
-button.av-tag {
+button.av-tag:not([disabled]) {
   background-color: var(--light-background-primary1);
   color: var(--light-foreground-primary1);
 
@@ -185,5 +182,10 @@ button.av-tag {
     background-color: var(--dark-background-primary1);
     color: var(--other-background-base);
   }
+}
+
+button.av-tag[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 </style>

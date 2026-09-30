@@ -213,6 +213,7 @@ defineExpose({
           :icon="isSelected(option) ? MDI_ICONS.CHECK : undefined"
           :selected="isSelected(option)"
           :disabled="option.disabled"
+          :disabled-tooltip="option.disabledTooltip"
           hover-background-color="var(--light-background-neutral)"
           color-on-hover="var(--base)"
           @click="() => toggleOption(option)"

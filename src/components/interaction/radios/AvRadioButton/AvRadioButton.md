@@ -21,6 +21,7 @@ None.
 | `label` | `string` | `''` | | Optional fallback label, used if no custom label slot is provided. |
 | `description` | `string` | `''` | | Optional description shown under the radio label, providing more context. |
 | `disabled` | `boolean` | `false` | | If true, disables this radio button. |
+| `disabledTooltip` | `string` | | | Tooltip text displayed when this radio button is disabled. |
 
 ## 🔊 Events
 

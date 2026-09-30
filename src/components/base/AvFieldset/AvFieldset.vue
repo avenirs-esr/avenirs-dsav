@@ -1,10 +1,13 @@
 <script lang="ts" setup>
 import type { Slot } from 'vue'
+import type { AvInteractiveProps } from '@/types/interfaces.types'
+import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
+import { getAvTooltipContent, getAvTooltipForceFocusable, isAvTooltipDisabled } from '@/components/overlay/tooltips/AvTooltip/utils'
 
 /**
  * AvFieldset component props.
  */
-export interface AvFieldsetProps {
+export interface AvFieldsetProps extends AvInteractiveProps {
   /**
    * Fieldset caption
    * @default ''
@@ -105,54 +108,60 @@ const message = computed(() => errorMessage || successMessage)
 </script>
 
 <template>
-  <fieldset
-    class="av-fieldset av-col av-pl-none av-m-none"
-    :class="{
-      'av-pl-xs av-fieldset--error': errorMessage,
-      'av-pl-xs av-fieldset--success': successMessage && !errorMessage,
-    }"
+  <AvTooltip
+    :content="getAvTooltipContent({ disabled, disabledTooltip })"
+    :disabled="isAvTooltipDisabled({ disabled, disabledTooltip })"
+    :force-focusable="getAvTooltipForceFocusable({ disabled, disabledTooltip })"
   >
-    <div>
-      <legend
-        v-if="legend || slots.legend"
-        :id="legendId"
-        class="av-fieldset__legend av-w-full av-px-none av-pb-xs"
-        :class="legendClass"
-      >
-        {{ legend }}
-        <slot name="legend" />
-      </legend>
-      <div
-        v-if="hint || slots.hint"
-        class="av-fieldset__element"
-      >
-        <span
-          class="av-hint-text"
-          :class="hintClass"
+    <fieldset
+      class="av-fieldset av-col av-pl-none av-m-none"
+      :class="{
+        'av-pl-xs av-fieldset--error': errorMessage,
+        'av-pl-xs av-fieldset--success': successMessage && !errorMessage,
+      }"
+    >
+      <div>
+        <legend
+          v-if="legend || slots.legend"
+          :id="legendId"
+          class="av-fieldset__legend av-w-full av-px-none av-pb-xs"
+          :class="legendClass"
         >
-          {{ hint }}
-          <slot name="hint" />
-        </span>
-        <span
-          v-if="required"
-          class="caption-regular required"
-        >&nbsp;*</span>
+          {{ legend }}
+          <slot name="legend" />
+        </legend>
+        <div
+          v-if="hint || slots.hint"
+          class="av-fieldset__element"
+        >
+          <span
+            class="av-hint-text"
+            :class="hintClass"
+          >
+            {{ hint }}
+            <slot name="hint" />
+          </span>
+          <span
+            v-if="required"
+            class="caption-regular required"
+          >&nbsp;*</span>
+        </div>
+        <div
+          class="av-fieldset__content av-col av-gap-xs"
+          :class="{
+            'av-col': !inline,
+            'av-row av-row-wrap av-justify-start': inline,
+          }"
+        >
+          <slot />
+        </div>
+        <AvMessage
+          :type="errorMessage ? 'error' : 'success'"
+          :message="message"
+        />
       </div>
-      <div
-        class="av-fieldset__content av-col av-gap-xs"
-        :class="{
-          'av-col': !inline,
-          'av-row av-row-wrap av-justify-start': inline,
-        }"
-      >
-        <slot />
-      </div>
-      <AvMessage
-        :type="errorMessage ? 'error' : 'success'"
-        :message="message"
-      />
-    </div>
-  </fieldset>
+    </fieldset>
+  </AvTooltip>
 </template>
 
 <style lang="scss" scoped>

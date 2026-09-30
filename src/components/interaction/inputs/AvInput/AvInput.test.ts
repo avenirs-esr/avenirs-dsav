@@ -3,10 +3,11 @@ import { beforeEach, expect, type MockInstance } from 'vitest'
 import { AvMessageStub } from '@/components/base/AvMessage/AvMessage.stub'
 import AvInput from '@/components/interaction/inputs/AvInput/AvInput.vue'
 import { isDateInputType, SUPPORTED_DATE_INPUT_TYPES } from '@/components/interaction/inputs/AvInput/utils'
+import { AvTooltipStub } from '@/components/overlay/tooltips/AvTooltip/AvTooltip.stub'
 import { BddTest } from '@/tests/utils'
 import { MDI_ICONS } from '@/tokens'
 
-const stubs = { AvMessage: AvMessageStub }
+const stubs = { AvMessage: AvMessageStub, AvTooltip: AvTooltipStub }
 
 BddTest().given('an AvInput', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvInput>>
@@ -138,7 +139,8 @@ BddTest().given('an AvInput', () => {
     beforeEach(() => {
       wrapper = mount<typeof AvInput>(AvInput, {
         props: {
-          disabled: true
+          disabled: true,
+          disabledTooltip: 'Input unavailable'
         },
         global: { stubs }
       })
@@ -147,6 +149,13 @@ BddTest().given('an AvInput', () => {
     BddTest().then('it should set the disabled attribute', () => {
       const input = wrapper.find('input')
       expect(input.attributes('disabled')).toBeDefined()
+    })
+
+    BddTest().then('it should enable AvTooltip with the disabled message', () => {
+      const tooltip = wrapper.findComponent(AvTooltipStub)
+      expect(tooltip.props('content')).toBe('Input unavailable')
+      expect(tooltip.props('disabled')).toBe(false)
+      expect(tooltip.props('forceFocusable')).toBe(true)
     })
   })
 

@@ -2,13 +2,15 @@ import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { AvMessageStub } from '@/components/base/AvMessage/AvMessage.stub'
 import AvFileUpload, { type AvFileUploadProps } from '@/components/interaction/files/AvFileUpload/AvFileUpload.vue'
+import { AvTooltipStub } from '@/components/overlay/tooltips/AvTooltip/AvTooltip.stub'
 import { BddTest } from '@/tests/utils'
 
 BddTest().given('a file uploader', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvFileUpload>>
 
   const stubs = {
-    AvMessage: AvMessageStub
+    AvMessage: AvMessageStub,
+    AvTooltip: AvTooltipStub,
   }
 
   const mountComponent = (props?: Partial<AvFileUploadProps>) => mount<typeof AvFileUpload>(AvFileUpload, {
@@ -38,6 +40,21 @@ BddTest().given('a file uploader', () => {
       BddTest().then('it should render the slot content', () => {
         expect(wrapper.text()).toContain('Ajouter un document')
         expect(wrapper.text()).toContain('ou glisser et déposer ici')
+      })
+    })
+  })
+
+  BddTest().and('disabled with a tooltip message', () => {
+    beforeEach(() => {
+      wrapper = mountComponent({ disabled: true, disabledTooltip: 'Upload unavailable' })
+    })
+
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should enable AvTooltip with the disabled message', () => {
+        const tooltip = wrapper.findComponent(AvTooltipStub)
+        expect(tooltip.props('content')).toBe('Upload unavailable')
+        expect(tooltip.props('disabled')).toBe(false)
+        expect(tooltip.props('forceFocusable')).toBe(true)
       })
     })
   })

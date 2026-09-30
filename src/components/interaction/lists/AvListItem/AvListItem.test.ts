@@ -361,10 +361,26 @@ BddTest().given('an AvListItem component', () => {
         wrapper = mount(AvListItem, { props, global: { stubs } })
       })
 
-      BddTest().then('it should disabled the tooltip', () => {
+      BddTest().then('it should keep the tooltip enabled', () => {
         const tooltip = wrapper.findComponent(AvTooltipStub)
-        expect(tooltip.props('disabled')).toBe(true)
+        expect(tooltip.props('disabled')).toBe(false)
       })
+    })
+  })
+
+  BddTest().when('the list item is disabled with a tooltip message', () => {
+    beforeEach(async () => {
+      wrapper = mount(AvListItem, {
+        props: { title: 'Unavailable item', disabled: true, disabledTooltip: 'Item unavailable' },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should enable AvTooltip with the disabled message', () => {
+      const tooltip = wrapper.findComponent(AvTooltipStub)
+      expect(tooltip.props('content')).toBe('Item unavailable')
+      expect(tooltip.props('disabled')).toBe(false)
+      expect(tooltip.props('forceFocusable')).toBe(true)
     })
   })
 })

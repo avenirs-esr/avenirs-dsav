@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import type { AvListItem } from '@/components/interaction/lists'
+import type { AvInteractiveProps } from '@/types/interfaces.types'
 import AvCheckbox from '@/components/interaction/checkboxes/AvCheckbox/AvCheckbox.vue'
 
-export interface AvCheckboxListItemProps {
+export interface AvCheckboxListItemProps extends AvInteractiveProps {
   /**
    * Unique ID of the checkbox list item
    */
@@ -22,11 +23,6 @@ export interface AvCheckboxListItemProps {
    * Icon to display alongside the checkbox list item
    */
   icon?: string
-
-  /**
-   * Whether the checkbox list item is disabled
-   */
-  disabled?: boolean
 
   /**
    * ARIA label for the list item when clickable.
@@ -98,6 +94,7 @@ function handleCheckboxFocus () {
       :label="label"
       :icon="icon"
       :disabled="disabled"
+      :disabled-tooltip="disabledTooltip"
       @keydown.down="handleFocusNextCheckbox"
       @keydown.right="handleFocusNextCheckbox"
       @keydown.up="handleFocusPreviousCheckbox"

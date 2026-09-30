@@ -24,6 +24,7 @@ The date picker is composed of:
 | `autoApply`       | `boolean` | `true` |  | Whether a selection is applied immediately without a confirm action, forwarded to VueDatePicker. |
 | `clearLabel`      | `string` | `'clear'` |  | Label of the clear button.                                                       |
 | `disabled`        | `boolean` | `false` |  | Whether the date input is disabled, forwarded to VueDatePicker.                   |
+| `disabledTooltip` | `string` |  |  | Tooltip text displayed when the date input is disabled.                           |
 | `errorMessage`    | `string \| string[]` |  |  | Error message(s) displayed below the date input.                                  |
 | `formats`         | `Partial<FormatsConfig> \| null` | Type-based localized tokens |  | Custom display/parsing formats forwarded to VueDatePicker. When omitted, the component uses type-based date-fns tokens formatted from the resolved locale. Custom values override these defaults, and `null` disables them. |
 | `id`              | `string` | `date-picker-${crypto.randomUUID()}` |  | Unique id for the date input.                                                     |

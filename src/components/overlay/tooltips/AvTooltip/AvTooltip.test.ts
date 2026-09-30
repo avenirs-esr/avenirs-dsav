@@ -23,6 +23,27 @@ BddTest().given('an AvTooltip component', () => {
       expect(wrapper.find('[role="tooltip"]').exists()).toBe(false)
     })
 
+    BddTest().and('fullWidth is enabled', () => {
+      beforeEach(() => {
+        wrapper.unmount()
+        wrapper = mount(AvTooltip, {
+          props: {
+            content: 'Tooltip text',
+            fullWidth: true,
+          },
+          slots: {
+            default: '<button type="button">Trigger</button>'
+          },
+          attachTo: document.body
+        })
+      })
+
+      BddTest().then('it should make the wrapper and trigger full width', () => {
+        expect(wrapper.find('.av-tooltip-wrapper').classes()).toContain('av-tooltip-wrapper--full-width')
+        expect(wrapper.find('.av-tooltip-trigger').classes()).toContain('av-tooltip-trigger--full-width')
+      })
+    })
+
     BddTest().and('the trigger is hovered', () => {
       beforeEach(async () => {
         await wrapper.find('.av-tooltip-wrapper').trigger('mouseenter')

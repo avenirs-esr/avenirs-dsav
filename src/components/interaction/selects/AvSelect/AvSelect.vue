@@ -1,11 +1,14 @@
 <script lang="ts" setup>
+import type { AvInteractiveProps } from '@/types/interfaces.types'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
+import { getAvTooltipContent, getAvTooltipForceFocusable, isAvTooltipDisabled } from '@/components/overlay/tooltips/AvTooltip/utils'
 import { ICONS_DATA_URL } from '@/tokens'
 
 export interface AvSelectOptionBase {
   id: string
   label: string
+  // Native select does not allow AvTooltip integration so we do not use AvInteractiveProps
   disabled?: boolean
 }
 
@@ -19,18 +22,12 @@ export interface AvSelectOption extends AvSelectOptionBase { children?: AvSelect
 /**
  * AvSelect component props.
  */
-export interface AvSelectProps {
+export interface AvSelectProps extends AvInteractiveProps {
   /**
    * Indicates if the select is required.
    * @default false
    */
   required?: boolean
-
-  /**
-   * Indicated if the select is disabled.
-   * @default false
-   */
-  disabled?: boolean
 
   /**
    * Unique id for the select. Used for the accessibility.
@@ -233,7 +230,11 @@ function handleSelectChange (event: Event) {
           </span>
         </label>
 
-        <AvTooltip :content="title">
+        <AvTooltip
+          :content="getAvTooltipContent({ content: title, disabled, disabledTooltip })"
+          :disabled="isAvTooltipDisabled({ disabled, disabledTooltip })"
+          :force-focusable="getAvTooltipForceFocusable({ disabled, disabledTooltip })"
+        >
           <select
             :id="realId"
             :value="selectedId"

@@ -1,6 +1,17 @@
+import { AvInteractivePropsStub } from '@/types/interfaces.stub'
+
 export const AvToggleStub = defineComponent({
   name: 'AvToggle',
-  props: ['id', 'name', 'modelValue', 'description', 'activeText', 'inactiveText', 'disabled', 'statusTextWidth'],
+  props: {
+    ...AvInteractivePropsStub,
+    id: { type: String, required: false },
+    name: { type: String, required: false },
+    modelValue: { type: Boolean, required: false },
+    description: { type: String, required: false },
+    activeText: { type: String, required: false },
+    inactiveText: { type: String, required: false },
+    statusTextWidth: { type: String, required: false },
+  },
   emits: ['update:modelValue'],
   template: `
     <div class="av-toggle">

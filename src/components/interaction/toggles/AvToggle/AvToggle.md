@@ -16,6 +16,7 @@ None.
 | `description` | `string` | `undefined` | | Indicates the purpose of the toggle. |
 | `id` | `string` | `toggle-${crypto.randomUUID()}` | | Unique id for the toggle. Used for accessibility. |
 | `disabled` | `boolean` | `undefined` | | Indicates if the toggle is disabled. |
+| `disabledTooltip` | `string` | `undefined` | | Tooltip text displayed when the toggle is disabled. |
 | `activeText` | `string` | `'On'` | | Text to display next to the toggle (right) when it is active. |
 | `inactiveText` | `string` | `'Off'` | | Text to display next to the toggle (right) when it is inactive. |
 | `name` | `string` | `undefined` | | `name` attribute of the input. |

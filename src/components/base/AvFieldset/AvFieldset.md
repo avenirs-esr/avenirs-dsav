@@ -19,6 +19,8 @@ The fieldset consists of the following elements:
 
 | Name | Type| Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
+| `disabled` | `boolean` | `false` | | Marks the fieldset as disabled and can show a tooltip; child controls remain responsible for disabling their own interaction. |
+| `disabledTooltip` | `string` | | | Tooltip text displayed when the fieldset is disabled. |
 | `legend` | `string` | `''` | | Fieldset caption.|
 | `legendClass` | `string` | `''` | | `<legend>` tag class.|
 | `legendId` | `string` | `''` | | `<legend>` tag id.|

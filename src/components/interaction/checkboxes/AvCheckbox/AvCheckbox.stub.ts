@@ -1,12 +1,14 @@
+import { AvInteractivePropsStub } from '@/types/interfaces.stub'
+
 export const AvCheckboxStub = defineComponent({
   name: 'AvCheckbox',
   props: {
+    ...AvInteractivePropsStub,
     id: { type: String, default: '' },
     name: { type: String, default: 'checkbox' },
     value: { type: [String, Number, Boolean], required: true },
     modelValue: { type: Array, required: true },
     label: { type: String, default: '' },
-    disabledTooltip: { type: String, default: '' }
   },
   emits: ['update:modelValue'],
   template: `

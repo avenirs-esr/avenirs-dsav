@@ -1,14 +1,11 @@
 <script lang="ts" setup>
 import type AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
 import type { AvMultiselectOption } from '@/components/interaction/selects/AvMultiselect/AvMultiselect.types'
+import type { AvInteractiveProps } from '@/types/interfaces.types'
 import MultiselectCollapse from '@/components/interaction/selects/AvMultiselect/components/MultiselectCollapse.vue'
 import { ICONS_DATA_URL } from '@/tokens'
 
-export interface AvMultiselectProps {
-  /**
-   * Indicated if the select is disabled.
-   */
-  disabled?: boolean
+export interface AvMultiselectProps extends AvInteractiveProps {
 
   /**
    * Unique id for the select. Used for the accessibility.
@@ -242,6 +239,7 @@ const styleVars = computed(() => ({
       :label="title"
       class="av-multiselect av-justify-between"
       :disabled="disabled"
+      :disabled-tooltip="disabledTooltip"
       :aria-expanded="isVisible"
       :aria-controls="`${realId}-collapse`"
       :class="{

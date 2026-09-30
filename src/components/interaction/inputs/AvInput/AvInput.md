@@ -37,6 +37,7 @@ The component integrates focus management, proper ARIA attributes, and responsiv
 | `minDate` | `Date` | `undefined` | | Minimum date for date inputs |
 | `maxDate` | `Date` | `undefined` | | Maximum date for date inputs |
 | `disabled` | `boolean` | `false` |  | Whether the input is disabled |
+| `disabledTooltip` | `string` | `undefined` |  | Tooltip text displayed when the input is disabled |
 | `required` | `boolean` | `false` |  | Whether the input is required |
 | `maxlength` | `number` | `undefined` |  | Maximum length of input |
 | `minlength` | `number` | `undefined` |  | Minimum length of input |

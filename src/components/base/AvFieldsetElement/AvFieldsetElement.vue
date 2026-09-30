@@ -1,20 +1,13 @@
 <script lang="ts" setup>
 import type { Slot } from 'vue'
+import type { AvInteractiveProps } from '@/types/interfaces.types'
+import { getAvTooltipContent, getAvTooltipForceFocusable, isAvTooltipDisabled } from '@/components/overlay/tooltips/AvTooltip/utils'
 
-/**
- * AvFieldsetElement component props.
- */
-export interface AvFieldsetElementProps {
-  /**
-   * Simulates a disabled state to make the fieldset element as disabled
-   * @default false
-   */
-  disabled?: boolean
+export interface AvFieldsetElementProps extends AvInteractiveProps {
+  disabledOpacity?: number
 }
 
-const {
-  disabled = false
-} = defineProps<AvFieldsetElementProps>()
+const { disabled = false, disabledOpacity = 0.6 } = defineProps<AvFieldsetElementProps>()
 
 /**
  * Slots available in the AvFieldsetElement component.
@@ -30,22 +23,33 @@ defineSlots<{
 </script>
 
 <template>
-  <div
-    class="av-fieldset__element av-col av-px-xs"
-    :class="{
-      'av-fieldset__element--disabled': disabled,
-    }"
+  <AvTooltip
+    :content="getAvTooltipContent({ disabled, disabledTooltip })"
+    :disabled="isAvTooltipDisabled({ disabled, disabledTooltip })"
+    :force-focusable="getAvTooltipForceFocusable({ disabled, disabledTooltip })"
   >
-    <slot />
-  </div>
+    <div
+      class="av-fieldset__element av-col av-px-xs"
+      :class="{
+        'av-fieldset__element--disabled': disabled,
+      }"
+    >
+      <slot />
+    </div>
+  </AvTooltip>
 </template>
 
 <style lang="scss" scoped>
 .av-fieldset__element {
   &--disabled {
-    pointer-events: none;
-    cursor: default;
-    opacity: 0.6;
+    pointer-events: auto;
+    cursor: not-allowed !important;
+    opacity: v-bind('disabledOpacity');
+    filter: grayscale(100%);
+
+    :slotted(*) {
+      pointer-events: none;
+    }
   }
 }
 </style>

@@ -169,4 +169,20 @@ BddTest().given('an AvTag component', () => {
       })
     })
   })
+
+  BddTest().when('the tag is disabled with a disabled tooltip', () => {
+    beforeEach(() => {
+      wrapper = mount(AvTag, {
+        props: { ...props, disabled: true, disabledTooltip: 'Tag unavailable' },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should pass the tooltip message and focusability to AvTooltip', () => {
+      const tooltip = wrapper.findComponent(AvTooltipStub)
+      expect(tooltip.props('content')).toBe('Tag unavailable')
+      expect(tooltip.props('disabled')).toBe(false)
+      expect(tooltip.props('forceFocusable')).toBe(true)
+    })
+  })
 })

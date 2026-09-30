@@ -57,7 +57,7 @@ const meta = {
     options: [
       { id: '1', label: 'Choice 1' },
       { id: '2', label: 'Choice 2' },
-      { id: '3', label: 'Choice 3' },
+      { id: '3', label: 'Choice 3', disabled: true },
       { id: '4', label: 'Choice 4' },
       { id: '5', label: 'Choice 5' },
     ],
@@ -177,7 +177,7 @@ WithOptGroups.args = {
       label: 'Group 1',
       children: [
         { id: '1', label: 'Choice 1' },
-        { id: '2', label: 'Choice 2' },
+        { id: '2', label: 'Choice 2', disabled: true },
       ],
     },
     {
