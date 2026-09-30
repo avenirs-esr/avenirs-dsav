@@ -1,17 +1,17 @@
 import type { PropType } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
+import { AvInteractivePropsStub } from '@/types/interfaces.stub'
 
 export const AvButtonStub = defineComponent({
   name: 'AvButton',
   props: {
+    ...AvInteractivePropsStub,
     variant: { type: String, default: 'DEFAULT' },
     theme: { type: String as PropType<'PRIMARY' | 'SECONDARY' | 'TERTIARY'>, default: 'PRIMARY' },
     size: { type: String as PropType<'SM' | 'MD' | 'LG'>, default: 'MD' },
     isLoading: { type: Boolean, default: false },
     iconScale: { type: Number },
     noRadius: { type: Boolean, default: false },
-    disabled: { type: Boolean, default: false },
-    disabledTooltip: { type: String },
     label: { type: String, required: true },
     iconOnly: { type: Boolean, default: false },
     icon: { type: [String, Object] },

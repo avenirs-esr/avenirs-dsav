@@ -36,6 +36,7 @@ The list item integrates:
 | `colorOnHover` | `string` | `'var(--card)'` | | Text and icon color when hovered or selected. |
 | `descriptionColor` | `string` | `'var(--text2)'` | | Color for the description text. |
 | `disabled` | `boolean` | `false` | | Whether the list item is disabled. |
+| `disabledTooltip` | `string` | | | Tooltip text displayed when the list item is disabled. |
 | `selected` | `boolean` | `false` | | Whether the list item is in selected/active state. |
 | `onClick` | `function` | | | Function called when the list item is clicked. |
 | `ariaLabel` | `string` | | | Custom ARIA label for accessibility. |

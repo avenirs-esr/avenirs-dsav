@@ -85,6 +85,31 @@ BddTest().given('a tab switcher ', () => {
         expect(wrapper.findAll('.av-tab-item__tab')).toHaveLength(3)
       })
 
+      BddTest().and('a disabled tab has a tooltip', () => {
+        beforeEach(() => {
+          wrapper = mount(AvTabs, {
+            props,
+            slots: {
+              default: '<AvTab title="Unavailable" disabled disabled-tooltip="Not available" />'
+            },
+            global: {
+              stubs: {
+                ...stubs,
+                AvTab: {
+                  name: 'AvTab',
+                  template: '<div />'
+                }
+              }
+            }
+          })
+        })
+
+        BddTest().then('it should keep the list item as a direct child of the tab list', () => {
+          expect(wrapper.find('[role="tablist"] > .av-tab-item').exists()).toBe(true)
+          expect(wrapper.find('.av-tab-item .av-tooltip-wrapper').exists()).toBe(true)
+        })
+      })
+
       BddTest().then('it should render icons for tabs with icons', () => {
         const tabItems = wrapper.findAll('.av-tab-item')
         expect(tabItems[0].findComponent({ name: 'AvIcon' }).exists()).toBe(true)
@@ -461,6 +486,23 @@ BddTest().given('a tab switcher ', () => {
       BddTest().then('it should fallback to the first enabled tab on mount', () => {
         expect(getLastEmittedUpdate(wrapper)).toBe(0)
       })
+    })
+  })
+
+  BddTest().and('with a disabled tab tooltip', () => {
+    beforeEach(() => {
+      wrapper = mount(AvTabs, {
+        props: { modelValue: 0 },
+        slots: {
+          default: '<AvTab title="Tab 1" disabled disabled-tooltip="Tab is disabled">Content 1</AvTab>',
+        },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should render a tooltip wrapper', () => {
+      expect(wrapper.find('.av-tooltip-wrapper').exists()).toBe(true)
+      expect(wrapper.find('.av-tooltip-wrapper').classes()).toContain('av-tooltip-wrapper--full-width')
     })
   })
 

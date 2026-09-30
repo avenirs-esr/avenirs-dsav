@@ -2,17 +2,18 @@ import type {
   AvSelectOption,
   AvSelectSelectedOption,
 } from '@/components/interaction/selects/AvSelect/AvSelect.vue'
+import { AvInteractivePropsStub } from '@/types/interfaces.stub'
 
 export const AvSelectStub = defineComponent({
   name: 'AvSelect',
   props: {
+    ...AvInteractivePropsStub,
     selectedItem: Object as () => AvSelectSelectedOption,
     options: Array as () => AvSelectOption[],
     placeholder: String,
     label: String,
     dense: Boolean,
     required: Boolean,
-    disabled: Boolean,
     hint: String,
     errorMessage: String,
     successMessage: String,

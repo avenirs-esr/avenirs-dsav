@@ -1,6 +1,9 @@
+import { AvInteractivePropsStub } from '@/types/interfaces.stub'
+
 export const AvInputStub = defineComponent({
   name: 'AvInput',
   props: {
+    ...AvInteractivePropsStub,
     modelValue: String,
     label: String,
     labelClass: String,
@@ -8,7 +11,6 @@ export const AvInputStub = defineComponent({
     isValid: Boolean,
     isTextarea: Boolean,
     labelVisible: Boolean,
-    disabled: Boolean,
     required: Boolean,
     maxlength: Number,
     minlength: Number,

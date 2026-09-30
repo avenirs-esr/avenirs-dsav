@@ -26,6 +26,7 @@ The `AvRadioButtonSet` component consists of the following elements:
 | `legend` | `string` | `undefined` | | Label (legend) for the radio group, rendered visually as a title. Helps screen readers understand the group context. |
 | `modelValue` | `string \| number \| boolean \| undefined` | | ✅ | Current selected value in the radio group. Must match one of the options values. |
 | `disabled` | `boolean` | `false` | | If true, disables all radio buttons in the group. |
+| `disabledTooltip` | `string` | | | Tooltip text displayed for disabled radio buttons in the group. |
 | `required` | `boolean` | `false` | | If true, marks the group as required and shows a required indicator. |
 | `small` | `boolean` | `false` | | If true, displays the radio buttons in compact (small) mode. |
 | `inline` | `boolean` | `false` | | If true, displays the radio buttons inline (horizontally). |

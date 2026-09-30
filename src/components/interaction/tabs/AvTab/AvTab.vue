@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import type { Slot } from 'vue'
+import type { AvInteractiveProps } from '@/types/interfaces.types'
 
 /**
  * AvTab component props.
  */
-export interface AvTabProps {
+export interface AvTabProps extends AvInteractiveProps {
   /**
    * Title of the tab displayed in the tab bar.
    */
@@ -14,11 +15,6 @@ export interface AvTabProps {
    * Tab icon
    */
   icon?: string
-
-  /**
-   * Whether the tab is disabled.
-   */
-  disabled?: boolean
 
   /**
    * Whether the tab is in loading state.

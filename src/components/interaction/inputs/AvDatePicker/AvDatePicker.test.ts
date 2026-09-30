@@ -5,6 +5,7 @@ import { fr } from 'date-fns/locale/fr'
 import { beforeEach, expect, vi } from 'vitest'
 import { AvMessageStub } from '@/components/base/AvMessage/AvMessage.stub'
 import AvDatePicker, { type AvDatePickerProps } from '@/components/interaction/inputs/AvDatePicker/AvDatePicker.vue'
+import { AvTooltipStub } from '@/components/overlay/tooltips/AvTooltip/AvTooltip.stub'
 import { BddTest } from '@/tests/utils'
 
 const VueDatePickerStub = vi.hoisted(() => ({
@@ -37,6 +38,7 @@ vi.mock('@vuepic/vue-datepicker', () => ({ VueDatePicker: VueDatePickerStub }))
 
 const stubs = {
   AvMessage: AvMessageStub,
+  AvTooltip: AvTooltipStub,
   VueDatePicker: VueDatePickerStub,
 }
 
@@ -106,6 +108,7 @@ BddTest().given('an AvDatePicker', () => {
       autoApply: false,
       clearLabel: 'Effacer',
       disabled: true,
+      disabledTooltip: 'Date unavailable',
       formats,
       inputAttrs,
       label: 'Custom label',
@@ -150,6 +153,13 @@ BddTest().given('an AvDatePicker', () => {
         'clearable': false,
         'inputmode': 'numeric',
       })
+    })
+
+    BddTest().then('it should enable AvTooltip with the disabled message', () => {
+      const tooltip = wrapper.findComponent(AvTooltipStub)
+      expect(tooltip.props('content')).toBe('Date unavailable')
+      expect(tooltip.props('disabled')).toBe(false)
+      expect(tooltip.props('forceFocusable')).toBe(true)
     })
 
     BddTest().then('it should enable the datetime time picker', () => {

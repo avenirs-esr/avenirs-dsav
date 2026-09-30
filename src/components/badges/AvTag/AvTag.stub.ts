@@ -7,6 +7,7 @@ export const AvTagStub = defineComponent({
     'tagName',
     'icon',
     'disabled',
+    'disabledTooltip',
     'small',
     'iconOnly',
     'selectable',

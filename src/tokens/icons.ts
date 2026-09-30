@@ -104,7 +104,7 @@ export const MDI_ICONS = {
   FILTER_OUTLINE: 'mdi:filter-outline',
   FLAG_VARIANT: 'mdi:flag-variant',
   FLARE: 'mdi:flare',
-  FLOWER_TUILIP_OUTLINE: 'mdi:flower-tulip-outline',
+  FLOWER_TULIP_OUTLINE: 'mdi:flower-tulip-outline',
   FORMAT_ALIGN_CENTER: 'mdi:format-align-center',
   FORMAT_ALIGN_JUSTIFY: 'mdi:format-align-justify',
   FORMAT_ALIGN_LEFT: 'mdi:format-align-left',

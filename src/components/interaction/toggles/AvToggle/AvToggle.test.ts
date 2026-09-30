@@ -1,6 +1,7 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import AvToggle from '@/components/interaction/toggles/AvToggle/AvToggle.vue'
+import { AvTooltipStub } from '@/components/overlay/tooltips/AvTooltip/AvTooltip.stub'
 import { BddTest } from '@/tests/utils'
 
 vi.mock('@/components/interaction/toggles/AvToggle/assets/toggle-active.svg?url', () => ({
@@ -97,7 +98,8 @@ BddTest().given('an AvToggle', () => {
   BddTest().and('disabled and inactive', () => {
     beforeEach(() => {
       wrapper = mount(AvToggle, {
-        props: { ...defaultProps, disabled: true },
+        props: { ...defaultProps, disabled: true, disabledTooltip: 'Toggle unavailable' },
+        global: { stubs: { AvTooltip: AvTooltipStub } },
       })
     })
 
@@ -113,6 +115,13 @@ BddTest().given('an AvToggle', () => {
 
       BddTest().then('it should render the inactive disabled svg', () => {
         expect(wrapper.find('image').attributes('href')).toBe('toggle-inactive-disabled.svg')
+      })
+
+      BddTest().then('it should enable AvTooltip with the disabled message', () => {
+        const tooltip = wrapper.findComponent(AvTooltipStub)
+        expect(tooltip.props('content')).toBe('Toggle unavailable')
+        expect(tooltip.props('disabled')).toBe(false)
+        expect(tooltip.props('forceFocusable')).toBe(true)
       })
     })
   })

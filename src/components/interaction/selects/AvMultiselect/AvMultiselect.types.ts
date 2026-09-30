@@ -1,7 +1,9 @@
+import type { AvInteractiveProps } from '@/types/interfaces.types'
+
 /**
  * AvMultiselect option props.
  */
-export interface AvMultiselectOption {
+export interface AvMultiselectOption extends AvInteractiveProps {
   /**
    * Displayed label of the option
    */

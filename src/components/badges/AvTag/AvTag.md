@@ -22,6 +22,7 @@ It consists of the following elements:
 | `tagName` | `'p' \| 'button'` | `'p'` | | Tag name used for the tag (should be `'p'` or `'button'`). |
 | `icon` | `string` | | | Icon to display in the tag. Can be a name or an icon configuration. |
 | `disabled` | `boolean` | `false` | | Disables the tag if it is a button. |
+| `disabledTooltip` | `string` | | | Tooltip text displayed when the tag is disabled. |
 | `small` | `boolean` | `false` | | Displays the tag in a small version.|
 | `iconOnly` | `boolean` | `false` | | Displays the tag in icon-only version.|
 | `selectable` | `boolean` | `false` | | Makes the tag selectable. When `true`, additional props are available.|

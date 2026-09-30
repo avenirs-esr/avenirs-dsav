@@ -5,6 +5,7 @@
 The `AvTabs` automatically manages the addition of `AvTab` according to the `AvTab` present in the `default` slot.
 
 The tab component allows users to navigate different content sections within the same page.
+Individual `AvTab` entries can be disabled and provide a `disabledTooltip` message; see the `AvTab` props.
 
 The tab system helps to group different contents together in a limited space, and allows dense content to be divided into individually accessible sections to make reading easier for the user.
 

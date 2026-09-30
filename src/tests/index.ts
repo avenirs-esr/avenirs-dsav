@@ -1,6 +1,7 @@
 import { AvBadgeStub } from '@/components/badges/AvBadge/AvBadge.stub'
 import { AvTagStub } from '@/components/badges/AvTag/AvTag.stub'
 import { AvFieldsetStub } from '@/components/base/AvFieldset/AvFieldset.stub'
+import { AvFieldsetElementStub } from '@/components/base/AvFieldsetElement/AvFieldsetElement.stub'
 import { AvIconStub } from '@/components/base/AvIcon/AvIcon.stub'
 import { AvIconTextStub } from '@/components/base/AvIconText/AvIconText.stub'
 import { AvMessageStub } from '@/components/base/AvMessage/AvMessage.stub'
@@ -19,6 +20,7 @@ import { AvFileUploadStub } from '@/components/interaction/files/AvFileUpload/Av
 import { AvDatePickerStub } from '@/components/interaction/inputs/AvDatePicker/AvDatePicker.stub'
 import { AvInputStub } from '@/components/interaction/inputs/AvInput/AvInput.stub'
 import { AvRichTextEditorStub } from '@/components/interaction/inputs/AvRichTextEditor/AvRichTextEditor.stub'
+import { AvSearchBarStub } from '@/components/interaction/inputs/AvSearchBar/AvSearchBar.stub'
 import { AvCheckboxListItemStub } from '@/components/interaction/lists/AvCheckboxListItem/AvCheckboxListItem.stub'
 import { AvListStub } from '@/components/interaction/lists/AvList/AvList.stub'
 import { AvListItemStub } from '@/components/interaction/lists/AvListItem/AvListItem.stub'
@@ -45,6 +47,7 @@ import { AvFloatingPanelStub } from '@/components/overlay/panels/AvFloatingPanel
 import { AvPopoverStub } from '@/components/overlay/popovers/AvPopover/AvPopover.stub'
 import { AvTooltipStub } from '@/components/overlay/tooltips/AvTooltip/AvTooltip.stub'
 import { BddTest } from '@/tests/utils'
+import { AvInteractivePropsStub } from '@/types/interfaces.stub'
 
 export {
   AvAccordionsGroupStub,
@@ -61,6 +64,7 @@ export {
   AvDatePickerStub,
   AvDrawerStub,
   AvDropdownStub,
+  AvFieldsetElementStub,
   AvFieldsetStub,
   AvFilePillStub,
   AvFileUploadStub,
@@ -69,6 +73,7 @@ export {
   AvIconStub,
   AvIconTextStub,
   AvInputStub,
+  AvInteractivePropsStub,
   AvLanguageSelectorStub,
   AvListItemStub,
   AvListStub,
@@ -82,6 +87,7 @@ export {
   AvRadioButtonSetStub,
   AvRadioButtonStub,
   AvRichTextEditorStub,
+  AvSearchBarStub,
   AvSelectStub,
   AvSideNavigationStub,
   AvSkipLinksStub,

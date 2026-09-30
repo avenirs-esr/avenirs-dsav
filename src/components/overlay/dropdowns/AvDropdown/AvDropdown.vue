@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { AvInteractiveProps } from '@/types/interfaces.types'
 import AvButton, { type AvButtonProps } from '@/components/interaction/buttons/AvButton/AvButton.vue'
 import AvPopover from '@/components/overlay/popovers/AvPopover/AvPopover.vue'
 import { MDI_ICONS } from '@/tokens/icons'
@@ -6,7 +7,7 @@ import { MDI_ICONS } from '@/tokens/icons'
 /**
  * AvDropdownItem interface representing a single menu item.
  */
-export interface AvDropdownItem {
+export interface AvDropdownItem extends AvInteractiveProps {
   /**
    * Unique identifier for the item.
    */
@@ -26,16 +27,6 @@ export interface AvDropdownItem {
    * If true, only the icon is displayed, without the label.
    */
   iconOnly?: boolean
-
-  /**
-   * If true, the menu item is disabled.
-   */
-  disabled?: boolean
-
-  /**
-   * Tooltip text to display when the menu item is disabled.
-   */
-  disabledTooltip?: AvButtonProps['disabledTooltip']
 
   /**
    * Optional URL to navigate to when the item is clicked.

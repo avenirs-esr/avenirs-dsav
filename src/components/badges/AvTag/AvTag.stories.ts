@@ -91,6 +91,12 @@ Default.args = {}
 export const Small = Template.bind({})
 Small.args = { small: true }
 
+export const Disabled = Template.bind({})
+Disabled.args = { disabled: true }
+
+export const DisabledWithTooltip = Template.bind({})
+DisabledWithTooltip.args = { disabled: true, disabledTooltip: 'This tag is disabled' }
+
 export const IconOnly = Template.bind({})
 IconOnly.args = { iconOnly: true }
 

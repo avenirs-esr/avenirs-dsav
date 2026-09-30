@@ -1,13 +1,15 @@
 <script setup lang="ts">
+import type { AvInteractiveProps } from '@/types/interfaces.types'
 import { nextTick, type Slot } from 'vue'
 import AvFileUploadCompact from '@/components/interaction/files/AvFileUpload/AvFileUploadCompact.vue'
 import { type AvFileUploadContext, AvFileUploadContextKey } from '@/components/interaction/files/AvFileUpload/AvFileUploadContext'
 import AvFileUploadDefault from '@/components/interaction/files/AvFileUpload/AvFileUploadDefault.vue'
+import { getAvTooltipContent, getAvTooltipForceFocusable, isAvTooltipDisabled } from '@/components/overlay/tooltips/AvTooltip/utils'
 
 /**
  * AvFileUpload component props.
  */
-export interface AvFileUploadProps {
+export interface AvFileUploadProps extends AvInteractiveProps {
   /**
    * Unique identifier for the file upload component.
    * If not specified, a random ID is generated.
@@ -51,13 +53,6 @@ export interface AvFileUploadProps {
    * @default ''
    */
   validMessage?: string
-
-  /**
-   * Whether the file upload input is disabled.
-   *
-   * @default false
-   */
-  disabled?: boolean
 
   /**
    * Array of selected files.
@@ -372,19 +367,25 @@ provide(AvFileUploadContextKey, context)
 </script>
 
 <template>
-  <AvFileUploadCompact v-if="compact">
-    <template #hint>
-      <slot name="hint" />
-    </template>
-  </AvFileUploadCompact>
-  <AvFileUploadDefault v-else>
-    <template #left>
-      <slot name="left" />
-    </template>
-    <template #hint>
-      <slot name="hint" />
-    </template>
-  </AvFileUploadDefault>
+  <AvTooltip
+    :content="getAvTooltipContent({ disabled, disabledTooltip })"
+    :disabled="isAvTooltipDisabled({ disabled, disabledTooltip })"
+    :force-focusable="getAvTooltipForceFocusable({ disabled, disabledTooltip })"
+  >
+    <AvFileUploadCompact v-if="compact">
+      <template #hint>
+        <slot name="hint" />
+      </template>
+    </AvFileUploadCompact>
+    <AvFileUploadDefault v-else>
+      <template #left>
+        <slot name="left" />
+      </template>
+      <template #hint>
+        <slot name="hint" />
+      </template>
+    </AvFileUploadDefault>
+  </AvTooltip>
 </template>
 
 <style lang="scss" scoped>

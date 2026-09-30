@@ -19,6 +19,7 @@ The search bar is composed by:
 | `modelValue`| `string` | `''` | | Current value linked to the search bar. |
 | `placeholder`| `string`| `'Rechercher...'` | | Placeholder for the search bar. |
 | `disabled` | `boolean` | `false` | | If `true`, disable the search bar.
+| `disabledTooltip` | `string` | `undefined` | | Tooltip text displayed when the search bar is disabled.
 
 ## 🔊 Events
 

@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import type { RouteLocationRaw } from 'vue-router'
 import type AvIcon from '@/components/base/AvIcon/AvIcon.vue'
+import type { Variant } from '@/components/interaction/buttons/AvButton/AvButton.types'
+import type { AvInteractiveProps } from '@/types/interfaces.types'
+import type { Size } from '@/types/size.types'
+import type { Theme } from '@/types/theme.types'
 import { useAttrs } from 'vue'
 import { MDI_ICONS } from '@/tokens'
 import { toSentenceCase } from '@/utils'
@@ -8,25 +12,25 @@ import { toSentenceCase } from '@/utils'
 /**
  * AvButton component
  */
-export interface AvButtonProps {
+export interface AvButtonProps extends AvInteractiveProps {
   /**
    * Button variant: borderless (`DEFAULT`), with border (`OUTLINED`), or filled (`FLAT`).
    * @default 'DEFAULT'
-   * @warning If to or href is defined, the button will always be `DEFAULT` variant.
+   * @warning If `to` or `href` is defined, the button will always be `DEFAULT` variant.
    */
-  variant?: 'DEFAULT' | 'OUTLINED' | 'FLAT'
+  variant?: Variant
 
   /**
    * Button theme: blue (`PRIMARY`) or gray (`SECONDARY`) or white (`TERTIARY`).
    * @default 'PRIMARY'
    */
-  theme?: 'PRIMARY' | 'SECONDARY' | 'TERTIARY'
+  theme?: Theme
 
   /**
    * Display the button in the selected size.
    * @default 'MD'
    */
-  size?: 'SM' | 'MD' | 'LG'
+  size?: Size
 
   /**
    * Indicates button loading status.
@@ -45,17 +49,6 @@ export interface AvButtonProps {
    * @default false
    */
   noRadius?: boolean
-
-  /**
-   * Indicates if the button is disabled.
-   * @default false
-   */
-  disabled?: boolean
-
-  /**
-   * Tooltip text to display when the button is disabled.
-   */
-  disabledTooltip?: string
 
   /**
    * Button text label.

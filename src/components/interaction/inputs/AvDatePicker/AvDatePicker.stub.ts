@@ -1,6 +1,9 @@
+import { AvInteractivePropsStub } from '@/types/interfaces.stub'
+
 export const AvDatePickerStub = defineComponent({
   name: 'AvDatePicker',
   props: {
+    ...AvInteractivePropsStub,
     id: String,
     ariaLabel: String,
     clearLabel: String,
@@ -13,7 +16,6 @@ export const AvDatePickerStub = defineComponent({
     width: String,
     minDate: [Date, String, Number],
     maxDate: [Date, String, Number],
-    disabled: Boolean,
     placeholder: String,
     range: Boolean,
     locale: [String, Object],

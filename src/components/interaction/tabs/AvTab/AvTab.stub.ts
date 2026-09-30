@@ -1,6 +1,9 @@
+import { AvInteractivePropsStub } from '@/types/interfaces.stub'
+
 export const AvTabStub = defineComponent({
   name: 'AvTab',
   props: {
+    ...AvInteractivePropsStub,
     title: {
       type: String,
       required: true
@@ -8,11 +11,6 @@ export const AvTabStub = defineComponent({
     icon: {
       type: String,
       required: false
-    },
-    disabled: {
-      type: Boolean,
-      required: false,
-      default: false
     },
     isLoading: {
       type: Boolean,

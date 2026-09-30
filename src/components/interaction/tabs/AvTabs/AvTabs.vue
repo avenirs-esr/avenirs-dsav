@@ -183,6 +183,7 @@ onUnmounted(() => {
         :title="tab.props?.title"
         :icon="tab.props?.icon"
         :disabled="tab.props?.disabled"
+        :disabled-tooltip="tab.props?.['disabled-tooltip'] ?? tab.props?.disabledTooltip"
         :is-loading="tab.props?.['is-loading']"
         :data-testid="tab.props?.['data-testid']"
         :compact="compact"

@@ -1,6 +1,9 @@
+import { AvInteractivePropsStub } from '@/types/interfaces.stub'
+
 export const AvRadioButtonSetStub = defineComponent({
   name: 'AvRadioButtonSet',
   props: {
+    ...AvInteractivePropsStub,
     modelValue: String,
     name: String,
     inline: Boolean,

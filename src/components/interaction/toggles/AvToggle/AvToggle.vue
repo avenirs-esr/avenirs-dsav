@@ -1,14 +1,17 @@
 <script lang="ts" setup>
+import type { AvInteractiveProps } from '@/types/interfaces.types'
 import { useAttrs } from 'vue'
 import toggleActiveDisabledSvg from '@/components/interaction/toggles/AvToggle/assets/toggle-active-disabled.svg?url'
 import toggleActiveSvg from '@/components/interaction/toggles/AvToggle/assets/toggle-active.svg?url'
 import toggleInactiveDisabledSvg from '@/components/interaction/toggles/AvToggle/assets/toggle-inactive-disabled.svg?url'
 import toggleInactiveSvg from '@/components/interaction/toggles/AvToggle/assets/toggle-inactive.svg?url'
+import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
+import { getAvTooltipContent, getAvTooltipForceFocusable, isAvTooltipDisabled } from '@/components/overlay/tooltips/AvTooltip/utils'
 
 /**
  * AvToggle component props.
  */
-export interface AvToggleProps {
+export interface AvToggleProps extends AvInteractiveProps {
   /**
    * Boolean value linked to the input.
    */
@@ -25,11 +28,6 @@ export interface AvToggleProps {
    * @default `toggle-${crypto.randomUUID()}`
    */
   id?: string
-
-  /**
-   * Indicates if the toggle disabled.
-   */
-  disabled?: boolean
 
   /**
    * Text to display next to the toggle (right) when it is active.
@@ -108,65 +106,71 @@ const labelDataTestId = computed(() => {
 </script>
 
 <template>
-  <input
-    :id="inputId"
-    class="av-toggle-input"
-    :disabled="disabled"
-    :aria-disabled="disabled"
-    type="checkbox"
-    :checked="modelValue"
-    :aria-describedby="labelId"
-    :name="name"
-    :data-testid="inputDataTestId"
-    @input="updateModelValue"
+  <AvTooltip
+    :content="getAvTooltipContent({ disabled, disabledTooltip })"
+    :disabled="isAvTooltipDisabled({ disabled, disabledTooltip })"
+    :force-focusable="getAvTooltipForceFocusable({ disabled, disabledTooltip })"
   >
-  <label
-    :id="labelId"
-    :for="inputId"
-    class="av-toggle av-row av-justify-center av-gap-xs av-align-start"
-    :class="{
-      'av-toggle--disabled': disabled,
-    }"
-    :data-testid="labelDataTestId"
-  >
-    <div
-      class="toggle av-row av-justify-start av-align-start av-gap-xxs"
-      :class="{
-        'toggle--disabled': disabled,
-      }"
+    <input
+      :id="inputId"
+      class="av-toggle-input"
+      :disabled="disabled"
+      :aria-disabled="disabled"
+      type="checkbox"
+      :checked="modelValue"
+      :aria-describedby="labelId"
+      :name="name"
+      :data-testid="inputDataTestId"
+      @input="updateModelValue"
     >
-      <div class="av-col">
-        <svg
-          width="34"
-          height="14"
-        >
-          <image
-            :href="getImageHref()"
+    <label
+      :id="labelId"
+      :for="inputId"
+      class="av-toggle av-row av-justify-center av-gap-xs av-align-start"
+      :class="{
+        'av-toggle--disabled': disabled,
+      }"
+      :data-testid="labelDataTestId"
+    >
+      <div
+        class="toggle av-row av-justify-start av-align-start av-gap-xxs"
+        :class="{
+          'toggle--disabled': disabled,
+        }"
+      >
+        <div class="av-col">
+          <svg
             width="34"
             height="14"
-          />
-        </svg>
+          >
+            <image
+              :href="getImageHref()"
+              width="34"
+              height="14"
+            />
+          </svg>
+        </div>
+        <div class="av-col toggle-text">
+          <span
+            v-if="modelValue"
+            class="caption-bold no-select"
+          >
+            {{ activeText }}
+          </span>
+          <span
+            v-else
+            class="caption-regular no-select"
+          >
+            {{ inactiveText }}
+          </span>
+        </div>
       </div>
-      <div class="av-col toggle-text">
-        <span
-          v-if="modelValue"
-          class="caption-bold no-select"
-        >
-          {{ activeText }}
-        </span>
-        <span
-          v-else
-          class="caption-regular no-select"
-        >
-          {{ inactiveText }}
-        </span>
-      </div>
-    </div>
-    <span
-      v-if="description"
-      class="caption-regular"
-    >{{ description }}</span>
-  </label>
+      <span
+        v-if="description"
+        class="caption-regular"
+      >{{ description }}</span>
+    </label>
+  </AvTooltip>
 </template>
 
 <style lang="scss" scoped>

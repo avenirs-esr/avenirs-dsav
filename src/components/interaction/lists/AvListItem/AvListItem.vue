@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
+import type { AvInteractiveProps } from '@/types/interfaces.types'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
+import { getAvTooltipContent, getAvTooltipForceFocusable, isAvTooltipDisabled } from '@/components/overlay/tooltips/AvTooltip/utils'
 import { useTextTruncation } from '@/composables'
 
 /**
  * AvListItem component props.
  */
-export interface AvListItemProps {
+export interface AvListItemProps extends AvInteractiveProps {
   /**
    * The theme of the list item, affecting its overall styling.
    */
@@ -39,12 +41,6 @@ export interface AvListItemProps {
    * @default false
    */
   clickable?: boolean
-
-  /**
-   * Whether the list item is disabled.
-   * @default false
-   */
-  disabled?: boolean
 
   /**
    * Whether the list item is selected/active.
@@ -218,8 +214,9 @@ function handleKeyDown (event: KeyboardEvent) {
     :class="itemClass"
   >
     <AvTooltip
-      :content="computedAriaLabel ?? ''"
-      :disabled="!enableTooltip || !computedAriaLabel || !(isTitleTruncated || isDescriptionTruncated)"
+      :content="getAvTooltipContent({ content: computedAriaLabel, disabled, disabledTooltip })"
+      :disabled="isAvTooltipDisabled({ disabled, disabledTooltip }) && !enableTooltip && !(isTitleTruncated || isDescriptionTruncated)"
+      :force-focusable="getAvTooltipForceFocusable({ disabled, disabledTooltip })"
       trigger-class="av-w-full"
     >
       <component

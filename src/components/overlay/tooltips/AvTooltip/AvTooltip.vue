@@ -9,13 +9,19 @@ export interface AvTooltipProps {
   /**
    * Tooltip text content.
    */
-  content: string
+  content: string | undefined
 
   /**
    * Indicates if the tooltip is disabled.
    * @default false
    */
   disabled?: boolean
+
+  /**
+   * Makes the tooltip wrapper and trigger fill their available width.
+   * @default false
+   */
+  fullWidth?: boolean
 
   /**
    * Forces keyboard focusability on the tooltip trigger when slot content is not focusable by default.
@@ -40,7 +46,7 @@ export interface AvTooltipProps {
   paddingRem?: number
 }
 
-const { content, disabled = false, forceFocusable = false, paddingRem = 0.75 } = defineProps<AvTooltipProps>()
+const { content, disabled = false, fullWidth = false, forceFocusable = false, paddingRem = 0.75 } = defineProps<AvTooltipProps>()
 
 defineSlots<{
   /**
@@ -79,7 +85,7 @@ function isFocusVisible (event: FocusEvent): boolean {
 }
 
 async function showTooltip () {
-  if (disabled) {
+  if (disabled || !content) {
     return
   }
 
@@ -123,12 +129,13 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <slot v-if="disabled" />
+  <slot v-if="disabled || !content" />
 
   <template v-else>
     <span
       v-bind="attrs"
       class="av-tooltip-wrapper"
+      :class="{ 'av-tooltip-wrapper--full-width': fullWidth }"
       data-testid="av-tooltip-wrapper"
       @focusin="handleFocusIn"
       @focusout="hideTooltip"
@@ -138,7 +145,7 @@ onUnmounted(() => {
       <span
         ref="triggerRef"
         class="av-tooltip-trigger"
-        :class="triggerClass"
+        :class="[triggerClass, { 'av-tooltip-trigger--full-width': fullWidth }]"
         :aria-label="triggerAriaLabel"
         :tabindex="forceFocusable ? 0 : undefined"
         :role="triggerAriaLabel ? 'img' : undefined"
@@ -170,9 +177,19 @@ onUnmounted(() => {
   width: fit-content;
 }
 
+.av-tooltip-wrapper--full-width {
+  display: flex;
+  width: 100%;
+}
+
 .av-tooltip-trigger {
   display: inline-flex;
   align-items: center;
+}
+
+.av-tooltip-trigger--full-width {
+  display: flex;
+  width: 100%;
 }
 
 .av-tooltip {

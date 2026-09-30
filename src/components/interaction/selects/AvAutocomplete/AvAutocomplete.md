@@ -56,6 +56,8 @@ The component integrates:
 | `noResultsLabel` | `string` | `'No results found'` | | Label displayed when no results are found for the current search query. |
 | `itemsTitleMaxLines` | `number` | `undefined` | | Maximum number of lines to display for the title of each item in the dropdown. If the title exceeds this number of lines, it will be truncated with an ellipsis. If undefined, no truncation is applied. |
 
+`inputOptions` accepts the shared `AvInput` props `disabled` and `disabledTooltip`. Each option also supports `disabled` and `disabledTooltip`; disabled options cannot be selected, and their tooltip text is shown when provided.
+
 ## 🔊 Events
 
 | Event | Parameters | Description |

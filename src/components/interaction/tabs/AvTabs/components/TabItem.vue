@@ -1,12 +1,15 @@
 <script lang="ts" setup>
 import type { AvIcon } from '@/components/base'
+import type { AvInteractiveProps } from '@/types/interfaces.types'
 import { nextTick } from 'vue'
+import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
+import { getAvTooltipContent, isAvTooltipDisabled } from '@/components/overlay/tooltips/AvTooltip/utils'
 import { MDI_ICONS } from '@/tokens'
 
 /**
  * TabItem component props.
  */
-export interface TabItemProps {
+export interface TabItemProps extends AvInteractiveProps {
   /**
    * ID of the associated tab panel.
    */
@@ -37,12 +40,6 @@ export interface TabItemProps {
    * @default false
    */
   compact?: boolean
-
-  /**
-   * Whether the tab item is disabled.
-   * @default false
-   */
-  disabled?: boolean
 
   /**
    * Whether the tab item is in loading state.
@@ -184,31 +181,37 @@ watch(
     }"
     role="presentation"
   >
-    <button
-      v-bind="$attrs"
-      :id="tabId"
-      ref="button"
-      class="av-tab-item__tab av-row av-gap-xs av-align-center av-justify-center av-text-text2 av-w-full"
-      :class="{ 'av-tab-item--compact__tab av-radius-none av-m-none av-py-xs av-px-2xl': compact,
-                'av-radius-lg': !compact,
-      }"
-      :tabindex="isSelected ? 0 : -1"
-      role="tab"
-      type="button"
-      :aria-selected="isSelected"
-      :aria-controls="panelId"
-      :disabled="disabled || isLoading"
-      @click.prevent="onClick"
-      @keydown="onKeyDown($event)"
+    <AvTooltip
+      :content="getAvTooltipContent({ disabled, disabledTooltip })"
+      :disabled="isAvTooltipDisabled({ disabled, disabledTooltip })"
+      :full-width="!compact"
     >
-      <AvIcon
-        v-if="iconToRender"
-        v-bind="iconToRender"
-      />
-      <span :class="labelClass">
-        {{ title }}
-      </span>
-    </button>
+      <button
+        v-bind="$attrs"
+        :id="tabId"
+        ref="button"
+        class="av-tab-item__tab av-row av-gap-xs av-align-center av-justify-center av-text-text2 av-w-full"
+        :class="{ 'av-tab-item--compact__tab av-radius-none av-m-none av-py-xs av-px-2xl': compact,
+                  'av-radius-lg': !compact,
+        }"
+        :tabindex="isSelected ? 0 : -1"
+        role="tab"
+        type="button"
+        :aria-selected="isSelected"
+        :aria-controls="panelId"
+        :disabled="disabled || isLoading"
+        @click.prevent="onClick"
+        @keydown="onKeyDown($event)"
+      >
+        <AvIcon
+          v-if="iconToRender"
+          v-bind="iconToRender"
+        />
+        <span :class="labelClass">
+          {{ title }}
+        </span>
+      </button>
+    </AvTooltip>
   </li>
 </template>
 

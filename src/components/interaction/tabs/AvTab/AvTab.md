@@ -20,6 +20,7 @@ None.
 | `title` | `string` | | ✅ | Title of tab displayed in tab bar. |
 | `icon` | `string` | `undefined` | | Tab icon. |
 | `disabled` | `boolean` | | | Whether the tab is disabled. |
+| `disabledTooltip` | `string` | | | Tooltip text displayed when the tab is disabled. |
 | `isLoading` | `boolean` | | | Whether the tab is in loading state. |
 
 ## 🔊 Events

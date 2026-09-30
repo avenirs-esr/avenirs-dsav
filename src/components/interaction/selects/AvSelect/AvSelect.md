@@ -17,6 +17,7 @@ The `AvSelect` consists of a set of `<option>` within a `<select>`. If an option
 | `selectedItem` | `AvSelectSelectedOption` | `{ itemId: '' }` | | Selected option object used with `v-model:selectedItem`. |
 | `required` | `boolean` | `false` | | Indicates if the select is required.|
 | `disabled` | `boolean` | `false` | | Indicated if the select is disabled.|
+| `disabledTooltip` | `string` | | | Tooltip text displayed when the select is disabled. |
 | `options` | `AvSelectOption[]` | `[]` | | Selectable options. |
 | `label` | `string` | `''` | | Select text label.|
 | `name` | `string` | `''` | | Field name.|
@@ -47,6 +48,7 @@ export interface AvSelectOption extends AvSelectOptionBase { children?: AvSelect
 ```
 
 ## 🔊 Events
+The `disabled` field on an option is handled by the native `<option>` element; option-level tooltips are not supported.
 
 | Name | Data (*payload*) | Description |
 | --- | --- | --- |

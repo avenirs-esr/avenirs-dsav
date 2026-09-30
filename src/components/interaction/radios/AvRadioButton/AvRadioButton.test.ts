@@ -1,6 +1,7 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 import AvRadioButton, { type AvRadioButtonProps } from '@/components/interaction/radios/AvRadioButton/AvRadioButton.vue'
+import { AvTooltipStub } from '@/components/overlay/tooltips/AvTooltip/AvTooltip.stub'
 import { BddTest } from '@/tests/utils'
 
 BddTest().given('a radio button with required props', () => {
@@ -16,6 +17,7 @@ BddTest().given('a radio button with required props', () => {
         value: 'Test',
       },
       slots,
+      global: { stubs: { AvTooltip: AvTooltipStub } },
     })
   })
 
@@ -39,12 +41,32 @@ BddTest().given('a radio button with required props', () => {
       wrapper = mount(AvRadioButton, {
         props,
         slots,
+        global: { stubs: { AvTooltip: AvTooltipStub } },
       })
     })
 
     BddTest().when('the radio button is mounted', () => {
       BddTest().then('it should accept the props without error', () => {
         expect(wrapper.props()).toMatchObject(props)
+      })
+    })
+  })
+
+  BddTest().and('disabled with a tooltip message', () => {
+    beforeEach(() => {
+      wrapper = mount(AvRadioButton, {
+        props: { value: 'Test', disabled: true, disabledTooltip: 'Choice unavailable' },
+        slots,
+        global: { stubs: { AvTooltip: AvTooltipStub } },
+      })
+    })
+
+    BddTest().when('the radio button is mounted', () => {
+      BddTest().then('it should enable AvTooltip with the disabled message', () => {
+        const tooltip = wrapper.findComponent(AvTooltipStub)
+        expect(tooltip.props('content')).toBe('Choice unavailable')
+        expect(tooltip.props('disabled')).toBe(false)
+        expect(tooltip.props('forceFocusable')).toBe(true)
       })
     })
   })

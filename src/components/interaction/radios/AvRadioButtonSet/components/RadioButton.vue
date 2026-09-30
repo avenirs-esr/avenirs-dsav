@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import type { Slot } from 'vue'
+import type { AvInteractiveProps } from '@/types/interfaces.types'
 
 /**
  * RadioButton component props.
  */
-export interface RadioButtonProps {
+export interface RadioButtonProps extends AvInteractiveProps {
   /**
    * Value of the radio button.
    * This value will be emitted when the radio is selected.
@@ -15,11 +16,6 @@ export interface RadioButtonProps {
    * Model value of the radio button.
    */
   modelValue: string | number | boolean | undefined
-
-  /**
-   * If true, disables this radio button.
-   */
-  disabled?: boolean
 
   /**
    * If true, displays the button in its small version.
@@ -77,6 +73,7 @@ const id = `av-radio-button-${crypto.randomUUID()}`
   <AvFieldsetElement
     :inline="inline"
     :disabled="disabled"
+    :disabled-tooltip="disabledTooltip"
   >
     <div
       class="av-radio-group av-row av-align-center av-gap-xs"

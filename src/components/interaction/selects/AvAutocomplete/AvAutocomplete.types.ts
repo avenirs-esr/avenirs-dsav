@@ -1,11 +1,11 @@
 import type { AvInputProps } from '@/components/interaction/inputs/AvInput/AvInput.vue'
 import type { AvListProps } from '@/components/interaction/lists/AvList/AvList.vue'
+import type { AvInteractiveProps } from '@/types/interfaces.types'
 
-export interface AvAutocompleteOption {
+export interface AvAutocompleteOption extends AvInteractiveProps {
   label: string
   value: string | number
   description?: string
-  disabled?: boolean
 }
 
 export interface AvAutocompleteProps<T extends AvAutocompleteOption = AvAutocompleteOption> {

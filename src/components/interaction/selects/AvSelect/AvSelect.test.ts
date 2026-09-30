@@ -403,4 +403,19 @@ BddTest().given('a select component', () => {
       })
     })
   })
+
+  BddTest().and('with a disabled tooltip message', () => {
+    beforeEach(() => {
+      wrapper = mountWithProps({ disabled: true, disabledTooltip: 'Select unavailable' })
+    })
+
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should enable AvTooltip with the disabled message', () => {
+        const tooltip = wrapper.findComponent(AvTooltipStub)
+        expect(tooltip.props('content')).toBe('Select unavailable')
+        expect(tooltip.props('disabled')).toBe(false)
+        expect(tooltip.props('forceFocusable')).toBe(true)
+      })
+    })
+  })
 })

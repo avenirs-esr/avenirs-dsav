@@ -13,6 +13,8 @@ BddTest().given('a search bar', () => {
         label: String,
         modelValue: String,
         placeholder: String,
+        disabled: Boolean,
+        disabledTooltip: String,
       },
       emits: ['update:modelValue'],
       template: `
@@ -87,6 +89,21 @@ BddTest().given('a search bar', () => {
         expect(wrapper.emitted('search')).toBeTruthy()
         expect(wrapper.emitted('search')![0][0]).toEqual(props.modelValue)
       })
+    })
+  })
+
+  BddTest().when('the search bar is disabled with a tooltip message', () => {
+    beforeEach(() => {
+      wrapper = mount(AvSearchBar, {
+        props: { disabled: true, disabledTooltip: 'Search unavailable' },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should forward the disabled tooltip to AvInput', () => {
+      const input = wrapper.findComponent({ name: 'AvInput' })
+      expect(input.props('disabled')).toBe(true)
+      expect(input.props('disabledTooltip')).toBe('Search unavailable')
     })
   })
 })

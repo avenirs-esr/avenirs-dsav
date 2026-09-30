@@ -2,6 +2,7 @@ import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 import AvFieldset, { type AvFieldsetProps } from '@/components/base/AvFieldset/AvFieldset.vue'
 import { AvMessageStub } from '@/components/base/AvMessage/AvMessage.stub'
+import { AvTooltipStub } from '@/components/overlay/tooltips/AvTooltip/AvTooltip.stub'
 import { BddTest } from '@/tests/utils'
 
 const defaultProps: AvFieldsetProps = {
@@ -15,7 +16,7 @@ const defaultProps: AvFieldsetProps = {
 function mountWithProps (props: Partial<AvFieldsetProps> = {}, slots = {}) {
   return mount(AvFieldset, {
     props: { ...defaultProps, ...props },
-    global: { stubs: { AvMessage: AvMessageStub } },
+    global: { stubs: { AvMessage: AvMessageStub, AvTooltip: AvTooltipStub } },
     slots
   })
 }
@@ -69,6 +70,19 @@ BddTest().given('an AvFieldset component', () => {
     BddTest().then('it should render the hint slot content', () => {
       const hintEl = wrapper.find('span.av-hint-text')
       expect(hintEl.html()).toContain('Hint Slot')
+    })
+  })
+
+  BddTest().when('the fieldset is disabled with a tooltip message', () => {
+    beforeEach(() => {
+      wrapper = mountWithProps({ disabled: true, disabledTooltip: 'Unavailable' })
+    })
+
+    BddTest().then('it should enable the tooltip with the disabled message', () => {
+      const tooltip = wrapper.findComponent(AvTooltipStub)
+      expect(tooltip.props('content')).toBe('Unavailable')
+      expect(tooltip.props('disabled')).toBe(false)
+      expect(tooltip.props('forceFocusable')).toBe(true)
     })
   })
 })

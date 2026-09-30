@@ -164,6 +164,19 @@ BddTest().given('an autocomplete component', () => {
     })
   })
 
+  BddTest().when('a disabled option has a tooltip message', () => {
+    BddTest().then('it should forward the message to AvListItem', async () => {
+      wrapper = mountAutocomplete({
+        options: [{ label: 'Unavailable', value: 'unavailable', disabled: true, disabledTooltip: 'Not available' }],
+      })
+      await wrapper.find('input').trigger('focus')
+
+      const option = wrapper.findComponent(AvListItemStub)
+      expect(option.props('disabled')).toBe(true)
+      expect(option.props('disabledTooltip')).toBe('Not available')
+    })
+  })
+
   BddTest().when('selecting an option in single select mode', () => {
     BddTest().then('it should update modelValue, close dropdown and clear search query', async () => {
       vi.useFakeTimers()

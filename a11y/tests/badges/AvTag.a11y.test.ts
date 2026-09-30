@@ -5,6 +5,8 @@ const title = 'Components/Badges/AvTag'
 const stories = [
   'Default',
   'Small',
+  'Disabled',
+  'DisabledWithTooltip',
   'IconOnly',
   'WithoutIcon',
   'Selectable',

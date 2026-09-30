@@ -1,10 +1,13 @@
 <script lang="ts" setup>
 import type { AvDatePickerModel } from '@/components/interaction/inputs/AvDatePicker/AvDatePicker.types'
+import type { AvInteractiveProps } from '@/types/interfaces.types'
 import { type RootProps, VueDatePicker } from '@vuepic/vue-datepicker'
 import { useAttrs } from 'vue'
 import AvMessage from '@/components/base/AvMessage/AvMessage.vue'
 import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
 import { DATE_FNS_LOCALE_MAP, DEFAULT_DATE_FNS_LOCALE } from '@/components/interaction/inputs/AvDatePicker/AvDatePicker.config'
+import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
+import { getAvTooltipContent, getAvTooltipForceFocusable, isAvTooltipDisabled } from '@/components/overlay/tooltips/AvTooltip/utils'
 import { MDI_ICONS } from '@/tokens'
 import { AV_DATE_PICKER_FORMATS_BY_TYPE, type AvDatePickerType } from '@/utils/dates/date-picker'
 
@@ -14,7 +17,7 @@ import { AV_DATE_PICKER_FORMATS_BY_TYPE, type AvDatePickerType } from '@/utils/d
  * This component renders a single date input with an associated label,
  * built on top of VueDatePicker.
  */
-export interface AvDatePickerProps {
+export interface AvDatePickerProps extends AvInteractiveProps {
   /**
    * Whether a selection is applied immediately without a confirm action, forwarded to VueDatePicker
    * @default true
@@ -26,12 +29,6 @@ export interface AvDatePickerProps {
    * @default 'clear'
    */
   clearLabel?: string
-
-  /**
-   * Whether the date input is disabled, forwarded to VueDatePicker
-   * @default false
-   */
-  disabled?: RootProps['disabled']
 
   /**
    * Error message(s) displayed below the date input
@@ -229,36 +226,43 @@ function onUpdate (value: AvDatePickerProps['modelValue']) {
       <slot name="labelSuffix" />
     </div>
 
-    <VueDatePicker
-      :auto-apply="autoApply"
-      :disabled="disabled"
-      :formats="datePickerFormats"
-      :input-attrs="inputAttrs"
-      :locale="datePickerLocale"
-      :max-date="maxDate"
-      :min-date="minDate"
-      :model-value="modelValue"
-      :month-picker="type === 'month'"
-      :placeholder="placeholder"
-      :range="range"
-      :time-config="datePickerTimeConfig"
-      :time-picker="type === 'time'"
-      :ui="{
-        input: 'av-date-picker__input av-radius-lg b2-light',
-      }"
-      :week-picker="type === 'week'"
-      @update:model-value="onUpdate"
+    <AvTooltip
+      :content="getAvTooltipContent({ content: label, disabled, disabledTooltip })"
+      :disabled="isAvTooltipDisabled({ disabled, disabledTooltip })"
+      :force-focusable="getAvTooltipForceFocusable({ disabled, disabledTooltip })"
+      full-width
     >
-      <template #clear-icon="{ clear }">
-        <AvButton
-          :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
-          icon-only
-          :label="clearLabel"
-          class="av-mx-xxs"
-          @click="clear()"
-        />
-      </template>
-    </VueDatePicker>
+      <VueDatePicker
+        :auto-apply="autoApply"
+        :disabled="disabled"
+        :formats="datePickerFormats"
+        :input-attrs="inputAttrs"
+        :locale="datePickerLocale"
+        :max-date="maxDate"
+        :min-date="minDate"
+        :model-value="modelValue"
+        :month-picker="type === 'month'"
+        :placeholder="placeholder"
+        :range="range"
+        :time-config="datePickerTimeConfig"
+        :time-picker="type === 'time'"
+        :ui="{
+          input: 'av-date-picker__input av-radius-lg b2-light',
+        }"
+        :week-picker="type === 'week'"
+        @update:model-value="onUpdate"
+      >
+        <template #clear-icon="{ clear }">
+          <AvButton
+            :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
+            icon-only
+            :label="clearLabel"
+            class="av-mx-xxs"
+            @click="clear()"
+          />
+        </template>
+      </VueDatePicker>
+    </AvTooltip>
 
     <AvMessage
       v-if="isInvalid"

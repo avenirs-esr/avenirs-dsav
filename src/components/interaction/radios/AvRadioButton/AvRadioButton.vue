@@ -1,10 +1,13 @@
 <script lang="ts" setup>
 import type { Slot } from 'vue'
+import type { AvInteractiveProps } from '@/types/interfaces.types'
+import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
+import { getAvTooltipContent, getAvTooltipForceFocusable, isAvTooltipDisabled } from '@/components/overlay/tooltips/AvTooltip/utils'
 
 /**
  * AvRadioButton component props.
  */
-export interface AvRadioButtonProps {
+export interface AvRadioButtonProps extends AvInteractiveProps {
   /**
    * Value of the radio button.
    * This value will be emitted when the radio is selected.
@@ -21,11 +24,6 @@ export interface AvRadioButtonProps {
    * Optional description shown under the radio label, providing more context.
    */
   description?: string
-
-  /**
-   * If true, disables this radio button.
-   */
-  disabled?: boolean
 }
 
 defineProps<AvRadioButtonProps>()
@@ -40,5 +38,11 @@ defineSlots<{
 </script>
 
 <template>
-  <slot />
+  <AvTooltip
+    :content="getAvTooltipContent({ disabled, disabledTooltip })"
+    :disabled="isAvTooltipDisabled({ disabled, disabledTooltip })"
+    :force-focusable="getAvTooltipForceFocusable({ disabled, disabledTooltip })"
+  >
+    <slot />
+  </AvTooltip>
 </template>

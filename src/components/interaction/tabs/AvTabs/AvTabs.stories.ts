@@ -149,6 +149,7 @@ const TemplateWithDisabled: StoryFn<AvTabsProps & { disabledTab?: number }> = ar
         title="Tab 1"
         icon="mdi:format-list-bulleted"
         :disabled="args.disabledTab === 0"
+        disabled-tooltip="This tab is disabled"
       >
         <span>First tab content</span>
       </AvTab>
@@ -156,6 +157,7 @@ const TemplateWithDisabled: StoryFn<AvTabsProps & { disabledTab?: number }> = ar
         title="Tab 2"
         icon="mdi:calendar-month-outline"
         :disabled="args.disabledTab === 1"
+        disabled-tooltip="This tab is disabled"
       >
         <span>Second tab content</span>
       </AvTab>
@@ -163,6 +165,7 @@ const TemplateWithDisabled: StoryFn<AvTabsProps & { disabledTab?: number }> = ar
         title="Tab 3"
         icon="mdi:bell-notification"
         :disabled="args.disabledTab === 2"
+        disabled-tooltip="This tab is disabled"
       >
         <span>Third tab content</span>
       </AvTab>
