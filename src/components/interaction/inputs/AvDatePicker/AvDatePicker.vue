@@ -209,7 +209,7 @@ function onUpdate (value: AvDatePickerProps['modelValue']) {
 
 <template>
   <div
-    class="av-date-picker av-col av-gap-xxs"
+    class="av-date-picker av-col"
     :class="{ 'av-date-picker--error': isInvalid }"
     :style="{ width }"
   >
