@@ -3,7 +3,7 @@ import type { Slot } from 'vue'
 import type { AvInteractiveProps } from '@/types/interfaces.types'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
-import { getAvTooltipContent, getAvTooltipForceFocusable, isAvTooltipDisabled } from '@/components/overlay/tooltips/AvTooltip/utils'
+import { getAvTooltipContent, isAvTooltipEnabled } from '@/components/overlay/tooltips/AvTooltip/utils'
 import { useTextTruncation } from '@/composables'
 
 /**
@@ -215,8 +215,8 @@ function handleKeyDown (event: KeyboardEvent) {
   >
     <AvTooltip
       :content="getAvTooltipContent({ content: computedAriaLabel, disabled, disabledTooltip })"
-      :disabled="isAvTooltipDisabled({ disabled, disabledTooltip }) && !enableTooltip && !(isTitleTruncated || isDescriptionTruncated)"
-      :force-focusable="getAvTooltipForceFocusable({ disabled, disabledTooltip })"
+      :disabled="!isAvTooltipEnabled({ disabled, disabledTooltip, enableTooltip: enableTooltip || isTitleTruncated || isDescriptionTruncated })"
+      :force-focusable="isAvTooltipEnabled({ disabled, disabledTooltip, enableTooltip: enableTooltip || isTitleTruncated || isDescriptionTruncated })"
       trigger-class="av-w-full"
     >
       <component

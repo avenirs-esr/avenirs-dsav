@@ -7,7 +7,7 @@ import AvMessage from '@/components/base/AvMessage/AvMessage.vue'
 import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
 import { DATE_FNS_LOCALE_MAP, DEFAULT_DATE_FNS_LOCALE } from '@/components/interaction/inputs/AvDatePicker/AvDatePicker.config'
 import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
-import { getAvTooltipContent, getAvTooltipForceFocusable, isAvTooltipDisabled } from '@/components/overlay/tooltips/AvTooltip/utils'
+import { getAvTooltipContent, isAvTooltipEnabled } from '@/components/overlay/tooltips/AvTooltip/utils'
 import { MDI_ICONS } from '@/tokens'
 import { AV_DATE_PICKER_FORMATS_BY_TYPE, type AvDatePickerType } from '@/utils/dates/date-picker'
 
@@ -228,8 +228,8 @@ function onUpdate (value: AvDatePickerProps['modelValue']) {
 
     <AvTooltip
       :content="getAvTooltipContent({ content: label, disabled, disabledTooltip })"
-      :disabled="isAvTooltipDisabled({ disabled, disabledTooltip })"
-      :force-focusable="getAvTooltipForceFocusable({ disabled, disabledTooltip })"
+      :disabled="!isAvTooltipEnabled({ disabled, disabledTooltip })"
+      :force-focusable="isAvTooltipEnabled({ disabled, disabledTooltip })"
       full-width
     >
       <VueDatePicker

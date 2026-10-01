@@ -8,24 +8,14 @@ export function getAvTooltipContent ({ content, disabled, disabledTooltip }: Get
   return disabled && disabledTooltip ? disabledTooltip : content
 }
 
-interface IsAvTooltipDisabledParams {
+interface IsAvTooltipEnabledParams {
   iconOnly?: boolean
   disabled?: boolean
   disabledTooltip?: string
+  enableTooltip?: boolean
 }
 
-export function isAvTooltipDisabled ({ iconOnly, disabled, disabledTooltip }: IsAvTooltipDisabledParams) {
+export function isAvTooltipEnabled ({ iconOnly, disabled, disabledTooltip, enableTooltip }: IsAvTooltipEnabledParams) {
   const isDisabled = disabled ?? false
-  return (!iconOnly && !isDisabled) || (isDisabled && !disabledTooltip)
-}
-
-interface GetAvTooltipForceFocusableParams {
-  iconOnly?: boolean
-  disabled?: boolean
-  disabledTooltip?: string
-}
-
-export function getAvTooltipForceFocusable ({ iconOnly, disabled, disabledTooltip }: GetAvTooltipForceFocusableParams) {
-  const isDisabled = disabled ?? false
-  return (iconOnly && !isDisabled) || (isDisabled && !!disabledTooltip)
+  return (iconOnly || enableTooltip || (isDisabled && !!disabledTooltip))
 }
