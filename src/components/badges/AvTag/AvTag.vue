@@ -2,7 +2,7 @@
 import type { AvInteractiveProps } from '@/types/interfaces.types'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
-import { getAvTooltipContent, getAvTooltipForceFocusable, isAvTooltipDisabled } from '@/components/overlay/tooltips/AvTooltip/utils'
+import { getAvTooltipContent, isAvTooltipEnabled } from '@/components/overlay/tooltips/AvTooltip/utils'
 import { ICONS_DATA_URL } from '@/tokens/icons'
 
 /**
@@ -95,8 +95,8 @@ function handleClick () {
 <template>
   <AvTooltip
     :content="getAvTooltipContent({ content: label, disabled, disabledTooltip })"
-    :disabled="isAvTooltipDisabled({ iconOnly, disabled, disabledTooltip })"
-    :force-focusable="getAvTooltipForceFocusable({ iconOnly, disabled, disabledTooltip }) && tagName !== 'button'"
+    :disabled="!isAvTooltipEnabled({ iconOnly, disabled, disabledTooltip })"
+    :force-focusable="isAvTooltipEnabled({ iconOnly, disabled, disabledTooltip }) && tagName !== 'button'"
   >
     <component
       :is="is"

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Slot } from 'vue'
 import type { AvInteractiveProps } from '@/types/interfaces.types'
-import { getAvTooltipContent, getAvTooltipForceFocusable, isAvTooltipDisabled } from '@/components/overlay/tooltips/AvTooltip/utils'
+import { getAvTooltipContent, isAvTooltipEnabled } from '@/components/overlay/tooltips/AvTooltip/utils'
 
 export interface AvFieldsetElementProps extends AvInteractiveProps {
   disabledOpacity?: number
@@ -25,8 +25,8 @@ defineSlots<{
 <template>
   <AvTooltip
     :content="getAvTooltipContent({ disabled, disabledTooltip })"
-    :disabled="isAvTooltipDisabled({ disabled, disabledTooltip })"
-    :force-focusable="getAvTooltipForceFocusable({ disabled, disabledTooltip })"
+    :disabled="!isAvTooltipEnabled({ disabled, disabledTooltip })"
+    :force-focusable="isAvTooltipEnabled({ disabled, disabledTooltip })"
   >
     <div
       class="av-fieldset__element av-col av-px-xs"

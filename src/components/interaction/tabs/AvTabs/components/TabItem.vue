@@ -3,7 +3,7 @@ import type { AvIcon } from '@/components/base'
 import type { AvInteractiveProps } from '@/types/interfaces.types'
 import { nextTick } from 'vue'
 import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
-import { getAvTooltipContent, isAvTooltipDisabled } from '@/components/overlay/tooltips/AvTooltip/utils'
+import { getAvTooltipContent, isAvTooltipEnabled } from '@/components/overlay/tooltips/AvTooltip/utils'
 import { MDI_ICONS } from '@/tokens'
 
 /**
@@ -183,7 +183,7 @@ watch(
   >
     <AvTooltip
       :content="getAvTooltipContent({ disabled, disabledTooltip })"
-      :disabled="isAvTooltipDisabled({ disabled, disabledTooltip })"
+      :disabled="!isAvTooltipEnabled({ disabled, disabledTooltip })"
       :full-width="!compact"
     >
       <button

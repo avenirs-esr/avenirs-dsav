@@ -2,7 +2,7 @@
 import type { Slot } from 'vue'
 import type { AvInteractiveProps } from '@/types/interfaces.types'
 import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
-import { getAvTooltipContent, getAvTooltipForceFocusable, isAvTooltipDisabled } from '@/components/overlay/tooltips/AvTooltip/utils'
+import { getAvTooltipContent, isAvTooltipEnabled } from '@/components/overlay/tooltips/AvTooltip/utils'
 
 /**
  * AvFieldset component props.
@@ -109,9 +109,9 @@ const message = computed(() => errorMessage || successMessage)
 
 <template>
   <AvTooltip
-    :content="getAvTooltipContent({ disabled, disabledTooltip })"
-    :disabled="isAvTooltipDisabled({ disabled, disabledTooltip })"
-    :force-focusable="getAvTooltipForceFocusable({ disabled, disabledTooltip })"
+    :content="getAvTooltipContent({ content: legend, disabled, disabledTooltip })"
+    :disabled="!isAvTooltipEnabled({ disabled, disabledTooltip })"
+    :force-focusable="isAvTooltipEnabled({ disabled, disabledTooltip })"
   >
     <fieldset
       class="av-fieldset av-col av-pl-none av-m-none"

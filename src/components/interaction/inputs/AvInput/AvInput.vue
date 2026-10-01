@@ -4,7 +4,7 @@ import { type Ref, type Slot, useAttrs } from 'vue'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import { formatDateForInputType, formatDisplayedDate, getDateInputPlaceholder, getDateInputPrefixIcon, isDateInputType } from '@/components/interaction/inputs/AvInput/utils'
 import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
-import { getAvTooltipContent, getAvTooltipForceFocusable, isAvTooltipDisabled } from '@/components/overlay/tooltips/AvTooltip/utils'
+import { getAvTooltipContent, isAvTooltipEnabled } from '@/components/overlay/tooltips/AvTooltip/utils'
 
 export interface AvInputProps extends AvInteractiveProps {
   /**
@@ -318,8 +318,8 @@ defineExpose({
     <div class="av-input__wrapper av-col av-gap-xxs">
       <AvTooltip
         :content="getAvTooltipContent({ content: label, disabled, disabledTooltip })"
-        :force-focusable="getAvTooltipForceFocusable({ disabled, disabledTooltip })"
-        :disabled="isAvTooltipDisabled({ disabled, disabledTooltip })"
+        :disabled="!isAvTooltipEnabled({ disabled, disabledTooltip })"
+        :force-focusable="isAvTooltipEnabled({ disabled, disabledTooltip })"
       >
         <div class="av-input__control">
           <div

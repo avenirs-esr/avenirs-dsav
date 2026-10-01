@@ -2,7 +2,7 @@
 import type { AvInteractiveProps } from '@/types/interfaces.types'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
-import { getAvTooltipContent, getAvTooltipForceFocusable, isAvTooltipDisabled } from '@/components/overlay/tooltips/AvTooltip/utils'
+import { getAvTooltipContent, isAvTooltipEnabled } from '@/components/overlay/tooltips/AvTooltip/utils'
 import { ICONS_DATA_URL } from '@/tokens'
 
 export interface AvSelectOptionBase {
@@ -232,8 +232,8 @@ function handleSelectChange (event: Event) {
 
         <AvTooltip
           :content="getAvTooltipContent({ content: title, disabled, disabledTooltip })"
-          :disabled="isAvTooltipDisabled({ disabled, disabledTooltip })"
-          :force-focusable="getAvTooltipForceFocusable({ disabled, disabledTooltip })"
+          :disabled="!isAvTooltipEnabled({ disabled, disabledTooltip })"
+          :force-focusable="isAvTooltipEnabled({ disabled, disabledTooltip })"
         >
           <select
             :id="realId"

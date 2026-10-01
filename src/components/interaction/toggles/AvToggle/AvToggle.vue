@@ -6,7 +6,7 @@ import toggleActiveSvg from '@/components/interaction/toggles/AvToggle/assets/to
 import toggleInactiveDisabledSvg from '@/components/interaction/toggles/AvToggle/assets/toggle-inactive-disabled.svg?url'
 import toggleInactiveSvg from '@/components/interaction/toggles/AvToggle/assets/toggle-inactive.svg?url'
 import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
-import { getAvTooltipContent, getAvTooltipForceFocusable, isAvTooltipDisabled } from '@/components/overlay/tooltips/AvTooltip/utils'
+import { getAvTooltipContent, isAvTooltipEnabled } from '@/components/overlay/tooltips/AvTooltip/utils'
 
 /**
  * AvToggle component props.
@@ -108,8 +108,8 @@ const labelDataTestId = computed(() => {
 <template>
   <AvTooltip
     :content="getAvTooltipContent({ disabled, disabledTooltip })"
-    :disabled="isAvTooltipDisabled({ disabled, disabledTooltip })"
-    :force-focusable="getAvTooltipForceFocusable({ disabled, disabledTooltip })"
+    :disabled="!isAvTooltipEnabled({ disabled, disabledTooltip })"
+    :force-focusable="isAvTooltipEnabled({ disabled, disabledTooltip })"
   >
     <input
       :id="inputId"

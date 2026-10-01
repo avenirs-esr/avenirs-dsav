@@ -4,7 +4,7 @@ import { nextTick, type Slot } from 'vue'
 import AvFileUploadCompact from '@/components/interaction/files/AvFileUpload/AvFileUploadCompact.vue'
 import { type AvFileUploadContext, AvFileUploadContextKey } from '@/components/interaction/files/AvFileUpload/AvFileUploadContext'
 import AvFileUploadDefault from '@/components/interaction/files/AvFileUpload/AvFileUploadDefault.vue'
-import { getAvTooltipContent, getAvTooltipForceFocusable, isAvTooltipDisabled } from '@/components/overlay/tooltips/AvTooltip/utils'
+import { getAvTooltipContent, isAvTooltipEnabled } from '@/components/overlay/tooltips/AvTooltip/utils'
 
 /**
  * AvFileUpload component props.
@@ -369,8 +369,8 @@ provide(AvFileUploadContextKey, context)
 <template>
   <AvTooltip
     :content="getAvTooltipContent({ disabled, disabledTooltip })"
-    :disabled="isAvTooltipDisabled({ disabled, disabledTooltip })"
-    :force-focusable="getAvTooltipForceFocusable({ disabled, disabledTooltip })"
+    :disabled="!isAvTooltipEnabled({ disabled, disabledTooltip })"
+    :force-focusable="isAvTooltipEnabled({ disabled, disabledTooltip })"
   >
     <AvFileUploadCompact v-if="compact">
       <template #hint>
