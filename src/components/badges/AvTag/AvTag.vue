@@ -175,17 +175,26 @@ function handleClick () {
 }
 
 button.av-tag:not([disabled]) {
-  background-color: var(--light-background-primary1);
-  color: var(--light-foreground-primary1);
+  background-color: var(--color-primary-bg-flat);
+  color: var(--color-primary-text-flat);
+
+  &:not([aria-pressed='true']) {
+    background-color: var(--color-primary-bg);
+    color: var(--color-primary-text);
+    border: 1px solid var(--color-primary-text);
+  }
 
   &:hover {
-    background-color: var(--dark-background-primary1);
-    color: var(--other-background-base);
+    background-color: var(--color-primary-hover-bg);
+    color: var(--color-primary-hover-text);
   }
 }
 
 button.av-tag[disabled] {
-  opacity: 0.6;
   cursor: not-allowed;
+
+  &:not([aria-pressed='true']) {
+    opacity: 0.6;
+  }
 }
 </style>

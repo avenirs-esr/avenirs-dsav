@@ -59,7 +59,7 @@ const meta: Meta<AvTooltipProps & { justify: 'start' | 'center' | 'end' }> = {
     },
   },
   args: {
-    content: 'Tooltip with some long text to demonstrate the max width and wrapping behavior of the tooltip content. Reduce the window width and scroll to see how it behaves on smaller screens and near edges.',
+    content: 'There are two tooltips to demonstrate how the parent one is hidden when the child one is shown. Tooltip with some long text to demonstrate the max width and wrapping behavior of the tooltip content. Reduce the window width and scroll to see how it behaves on smaller screens and near edges.',
     disabled: false,
     forceFocusable: true,
     justify: 'center',
@@ -81,13 +81,15 @@ const Template: StoryFn<AvTooltipProps & { justify: 'start' | 'center' | 'end' }
     return { tooltipArgs, justifyClass }
   },
   template: `
-    <div style="height: 420px;">
-      <div :class="['av-row', 'av-w-full', justifyClass, 'av-pt-xl']">
-        <AvTooltip v-bind="tooltipArgs">
-          <AvIcon name="mdi:information-outline" :size="3" />
-        </AvTooltip>
+    <AvTooltip v-bind="tooltipArgs">
+      <div style="height: 420px; width: 420px; border: 1px solid #ccc;">
+        <div :class="['av-row', 'av-w-full', justifyClass, 'av-pt-xl']">
+          <AvTooltip v-bind="tooltipArgs">
+            <AvIcon name="mdi:information-outline" :size="3" />
+          </AvTooltip>
+        </div>
       </div>
-    </div>
+    </AvTooltip>
   `,
 })
 
