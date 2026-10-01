@@ -1,1 +1,1 @@
-export * from '@/types/interfaces.types'
+export * from './interfaces.types'
