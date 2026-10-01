@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
+import { afterEach, beforeEach, expect, vi } from 'vitest'
 import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
 import { BddTest } from '@/tests/utils'
 
@@ -110,7 +110,70 @@ BddTest().given('an AvTooltip component', () => {
       })
     })
   })
+  BddTest().when('nested AvTooltip instances overlap', () => {
+    let nestedWrapper: ReturnType<typeof mount>
 
+    function getTooltipTexts (): (string | null)[] {
+      return Array.from(document.body.querySelectorAll('[role="tooltip"]')).map(node => node.textContent)
+    }
+
+    beforeEach(() => {
+      document.body.querySelectorAll('[role="tooltip"]').forEach(node => node.remove())
+
+      nestedWrapper = mount({
+        components: { AvTooltip },
+        template: `
+          <AvTooltip content="Parent tooltip">
+            <div class="parent-area">
+              <AvTooltip content="Child tooltip">
+                <button type="button">
+                  Child trigger
+                </button>
+              </AvTooltip>
+            </div>
+          </AvTooltip>
+        `
+      }, { attachTo: document.body })
+    })
+
+    afterEach(() => {
+      nestedWrapper.unmount()
+      document.body.querySelectorAll('[role="tooltip"]').forEach(node => node.remove())
+    })
+
+    BddTest().and('the parent trigger is hovered', () => {
+      beforeEach(async () => {
+        const [parentWrapper] = nestedWrapper.findAll('.av-tooltip-wrapper')
+        await parentWrapper.trigger('mouseenter')
+      })
+
+      BddTest().then('it should display the parent tooltip', () => {
+        expect(getTooltipTexts()).toEqual(['Parent tooltip'])
+      })
+
+      BddTest().and('the child trigger is also hovered', () => {
+        beforeEach(async () => {
+          const [, childWrapper] = nestedWrapper.findAll('.av-tooltip-wrapper')
+          await childWrapper.trigger('mouseenter')
+        })
+
+        BddTest().then('it should hide the parent tooltip and display only the child tooltip', () => {
+          expect(getTooltipTexts()).toEqual(['Child tooltip'])
+        })
+
+        BddTest().and('the pointer leaves the child trigger while staying over the parent', () => {
+          beforeEach(async () => {
+            const [, childWrapper] = nestedWrapper.findAll('.av-tooltip-wrapper')
+            await childWrapper.trigger('mouseleave')
+          })
+
+          BddTest().then('it should display the parent tooltip again', () => {
+            expect(getTooltipTexts()).toEqual(['Parent tooltip'])
+          })
+        })
+      })
+    })
+  })
   BddTest().when('a trigger aria label is provided', () => {
     beforeEach(() => {
       wrapper.unmount()

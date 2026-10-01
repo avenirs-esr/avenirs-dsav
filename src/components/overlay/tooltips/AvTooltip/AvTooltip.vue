@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { nextTick, type Slot, useAttrs } from 'vue'
 import { useTooltipPosition } from '@/composables/use-tooltip-position/use-tooltip-position'
+import { useTooltipVisibilityCoordination } from '@/composables/use-tooltip-visibility-coordination/use-tooltip-visibility-coordination'
 
 /**
  * AvTooltip component props
@@ -69,6 +70,9 @@ const isVisible = ref(false)
 const triggerRef = ref<HTMLElement>()
 const tooltipRef = ref<HTMLElement>()
 
+const isTriggered = ref(false)
+const { shouldShow } = useTooltipVisibilityCoordination(isTriggered)
+
 function isFocusVisible (event: FocusEvent): boolean {
   const target = event.target
 
@@ -84,12 +88,43 @@ function isFocusVisible (event: FocusEvent): boolean {
   }
 }
 
-async function showTooltip () {
-  if (disabled || !content) {
+function setTriggered (value: boolean) {
+  isTriggered.value = value && !disabled && !!content
+}
+
+function handleMouseEnter () {
+  setTriggered(true)
+}
+
+function handleMouseLeave () {
+  setTriggered(false)
+}
+
+function handleFocusIn (event: FocusEvent) {
+  if (isFocusVisible(event)) {
+    setTriggered(true)
+  }
+}
+
+function handleFocusOut () {
+  setTriggered(false)
+}
+
+function handleScroll () {
+  if (!isVisible.value) {
     return
   }
 
-  isVisible.value = true
+  setTriggered(false)
+}
+
+watch(shouldShow, async (visible) => {
+  isVisible.value = visible
+
+  if (!visible) {
+    reset()
+    return
+  }
 
   await nextTick()
 
@@ -98,26 +133,7 @@ async function showTooltip () {
   }
 
   await update(triggerRef.value, tooltipRef.value, paddingRem)
-}
-
-function hideTooltip () {
-  isVisible.value = false
-  reset()
-}
-
-function handleFocusIn (event: FocusEvent) {
-  if (isFocusVisible(event)) {
-    void showTooltip()
-  }
-}
-
-function handleScroll () {
-  if (!isVisible.value) {
-    return
-  }
-
-  hideTooltip()
-}
+})
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll, true)
@@ -138,9 +154,9 @@ onUnmounted(() => {
       :class="{ 'av-tooltip-wrapper--full-width': fullWidth }"
       data-testid="av-tooltip-wrapper"
       @focusin="handleFocusIn"
-      @focusout="hideTooltip"
-      @mouseenter="showTooltip"
-      @mouseleave="hideTooltip"
+      @focusout="handleFocusOut"
+      @mouseenter="handleMouseEnter"
+      @mouseleave="handleMouseLeave"
     >
       <span
         ref="triggerRef"
