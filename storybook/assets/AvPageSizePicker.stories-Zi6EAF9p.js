@@ -1,0 +1,27 @@
+import{n as g,d as s,h as m,l as u,$ as i,L as f}from"./iframe-WEgsN0de.js";import{A as h}from"./AvTagPicker-BfIDb5jO.js";import"./preload-helper-ILsKNznc.js";import"./AvTag-DRNrVJJ2.js";import"./AvIcon-ouK1Ei6J.js";import"./icon-path-u9rVYwcY.js";import"./_plugin-vue_export-helper-DlAUqK2U.js";import"./AvTooltip-qNftEQiM.js";import"./utils-pnJYGbuQ.js";import"./icons-B6bk2eYx.js";import"./date-picker-BV3-HI_h.js";import"./string-6CTWp9fy.js";var t=(e=>(e[e.FOUR=4]="FOUR",e[e.EIGHT=8]="EIGHT",e[e.TWELVE=12]="TWELVE",e[e.TWENTY=20]="TWENTY",e))(t||{});const y={class:"pagination-size-picker-container av-row"},r=g({__name:"AvPageSizePicker",props:{label:{},pageSizeSelected:{},handleSelectChange:{type:Function}},setup(e){const p=s(()=>Object.values(t).filter(n=>typeof n=="number").map(n=>({label:n.toString(),value:n.toString()}))),d=s(()=>e.pageSizeSelected.toString());return(n,k)=>(f(),m("div",y,[u(h,{options:i(p),selected:i(d),"handle-select-change":e.handleSelectChange,multiple:!1,label:e.label,"label-typography-class":"b2-regular"},null,8,["options","selected","handle-select-change","label"])]))}});r.__docgenInfo={exportName:"default",displayName:"AvPageSizePicker",type:1,props:[{name:"label",global:!1,description:"Label of the page size picker.",tags:[],required:!0,type:"string",declarations:[],schema:"string"},{name:"pageSizeSelected",global:!1,description:"Number of results per page selected.",tags:[],required:!0,type:"PageSizes",declarations:[],schema:{kind:"enum",type:"PageSizes",schema:["PageSizes.FOUR","PageSizes.EIGHT","PageSizes.TWELVE","PageSizes.TWENTY"]}},{name:"handleSelectChange",global:!1,description:"Method executed when changing selection.",tags:[{name:"param",text:"val Selected option of type AvTagPickerOption."}],required:!0,type:"(val: AvTagPickerOption) => void",declarations:[],schema:{kind:"event",type:"(val: AvTagPickerOption): void"}},{name:"key",global:!0,description:"",tags:[],required:!1,type:"PropertyKey | undefined",declarations:[],schema:{kind:"enum",type:"PropertyKey | undefined",schema:["undefined","string","number","symbol"]}},{name:"ref",global:!0,description:"",tags:[],required:!1,type:"VNodeRef | undefined",declarations:[],schema:{kind:"enum",type:"VNodeRef | undefined",schema:["undefined","string","Ref<any, any>",{kind:"event",type:"(ref: Element | ComponentPublicInstance<{}, {}, {}, {}, {}, {}, {}, {}, false, ComponentOptionsBase<any, any, any, any, any, any, any, any, any, {}, {}, string, {}, {}, {}, string, ComponentProvideOptions>, ... 4 more ..., any> | null, refs: Record<...>): void"}]}},{name:"ref_for",global:!0,description:"",tags:[],required:!1,type:"boolean | undefined",declarations:[],schema:{kind:"enum",type:"boolean | undefined",schema:["undefined","false","true"]}},{name:"ref_key",global:!0,description:"",tags:[],required:!1,type:"string | undefined",declarations:[],schema:{kind:"enum",type:"string | undefined",schema:["undefined","string"]}},{name:"class",global:!0,description:"",tags:[],required:!1,type:"unknown",declarations:[],schema:"unknown"},{name:"style",global:!0,description:"",tags:[],required:!1,type:"unknown",declarations:[],schema:"unknown"}],events:[],slots:[],exposed:[{name:"label",type:"string",description:"Label of the page size picker.",declarations:[],schema:"string"},{name:"handleSelectChange",type:"(val: AvTagPickerOption) => void",description:"Method executed when changing selection.",declarations:[],schema:{kind:"event",type:"(val: AvTagPickerOption): void"}},{name:"pageSizeSelected",type:"PageSizes",description:"Number of results per page selected.",declarations:[],schema:{kind:"enum",type:"PageSizes",schema:["PageSizes.FOUR","PageSizes.EIGHT","PageSizes.TWELVE","PageSizes.TWENTY"]}}],sourceFiles:"/home/runner/work/avenirs-dsav/avenirs-dsav/src/components/interaction/pickers/AvPageSizePicker/AvPageSizePicker.vue"};const w={title:"Components/Interaction/Pickers/AvPageSizePicker",component:r,tags:["autodocs"],argTypes:{label:{type:{name:"string",required:!0},control:"text"},pageSizeSelected:{type:{name:"string",required:!0},control:{type:"select",options:Object.values(t)}},handleSelectChange:{type:{name:"function"},control:!1,action:"select-change"}},args:{label:"Number of results per page:",pageSizeSelected:t.FOUR},parameters:{docs:{description:{component:`<h1 class="n1">Picker for number of results per page - <code>AvPageSizePicker</code></h1>
+
+<h2 class="n2">✨ Introduction</h2>
+
+<p>
+  <span class="b2-regular">
+    The <code>AvPageSizePicker</code> is a component implementing the <code>AvTagPicker</code> and dedicated to selecting the number of results per page.
+  </span>
+</p>
+
+<h2 class="n2">🏗️ Structure</h2>
+
+<p>
+  <span class="b2-regular">
+    The pickers for number of results per page consist of an <code>AvTagPicker</code> to which options specific to the number of results per page are assigned.
+  </span>
+</p>`}}}},v=e=>({components:{AvPageSizePicker:r},setup(){return{args:e}},template:'<AvPageSizePicker v-bind="args" />'}),a=v.bind({});a.args={};var o,c,l;a.parameters={...a.parameters,docs:{...(o=a.parameters)==null?void 0:o.docs,source:{originalSource:`args => ({
+  components: {
+    AvPageSizePicker
+  },
+  setup() {
+    return {
+      args
+    };
+  },
+  template: \`<AvPageSizePicker v-bind="args" />\`
+})`,...(l=(c=a.parameters)==null?void 0:c.docs)==null?void 0:l.source}}};const x=["Default"];export{a as Default,x as __namedExportsOrder,w as default};
