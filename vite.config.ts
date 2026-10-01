@@ -1,4 +1,3 @@
-import process from 'node:process'
 // https://vitejs.dev/config/
 // import path from 'node:path'
 /// <reference types="vitest/config" />
@@ -41,7 +40,7 @@ export default defineConfig({
     })
   ],
   build: {
-    emptyOutDir: process.env.VITE_BUILD_WATCH !== 'true',
+    emptyOutDir: false,
     lib: {
       entry: {
         'index': 'src/index.ts',
@@ -64,7 +63,8 @@ export default defineConfig({
       output: {
         exports: 'named',
         dir: 'dist',
-        preserveModules: true
+        preserveModules: true,
+        preserveModulesRoot: 'src'
       },
     },
   },

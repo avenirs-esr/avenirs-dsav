@@ -11,10 +11,7 @@
     },
     "types": ["vite/client", "@testing-library/jest-dom"],
 
-    "declaration": true,
-    "emitDeclarationOnly": true,
-    "noEmit": false,
-    "outDir": "./dist"
+    "noEmit": true
   },
   "include": ["src/**/*.ts", "src/**/*.vue", "src/**/*.d.ts"],
   "exclude": ["src/**/__tests__/*", "src/**/*.test.ts", "src/**/*.stories.ts"]
