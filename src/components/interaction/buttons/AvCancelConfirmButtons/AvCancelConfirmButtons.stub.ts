@@ -1,19 +1,19 @@
-export const AvCancelConfirmButtonsStub = defineComponent({
+export const AvCancelConfirmButtonsStubDefinition = {
   name: 'AvCancelConfirmButtons',
-  props: [
-    'cancelLabel',
-    'cancelIcon',
-    'cancelDisabled',
-    'cancelDisabledTooltip',
-    'cancelIsLoading',
-    'confirmLabel',
-    'confirmIcon',
-    'confirmDisabled',
-    'confirmDisabledTooltip',
-    'confirmIsLoading',
-    'iconOnly',
-    'form'
-  ],
+  props: {
+    cancelLabel: String,
+    cancelIcon: String,
+    cancelDisabled: Boolean,
+    cancelDisabledTooltip: String,
+    cancelIsLoading: Boolean,
+    confirmLabel: String,
+    confirmIcon: String,
+    confirmDisabled: Boolean,
+    confirmDisabledTooltip: String,
+    confirmIsLoading: Boolean,
+    iconOnly: Boolean,
+    form: String
+  },
   emits: ['cancel', 'confirm'],
   methods: {
     focusCancel () {},
@@ -35,4 +35,6 @@ export const AvCancelConfirmButtonsStub = defineComponent({
       </button>
     </div>
   `
-})
+}
+
+export const AvCancelConfirmButtonsStub = defineComponent(AvCancelConfirmButtonsStubDefinition)

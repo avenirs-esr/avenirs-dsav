@@ -11,7 +11,7 @@ import { AvHeaderStub } from '@/components/header/AvHeader/AvHeader.stub'
 import { AvAccordionStub } from '@/components/interaction/accordions/AvAccordion/AvAccordion.stub'
 import { AvAccordionsGroupStub } from '@/components/interaction/accordions/AvAccordionsGroup/AvAccordionsGroup.stub'
 import { AvButtonStub } from '@/components/interaction/buttons/AvButton/AvButton.stub'
-import { AvCancelConfirmButtonsStub } from '@/components/interaction/buttons/AvCancelConfirmButtons/AvCancelConfirmButtons.stub'
+import { AvCancelConfirmButtonsStub, AvCancelConfirmButtonsStubDefinition } from '@/components/interaction/buttons/AvCancelConfirmButtons/AvCancelConfirmButtons.stub'
 import { AvLanguageSelectorStub } from '@/components/interaction/buttons/AvLanguageSelector/AvLanguageSelector.stub'
 import { AvCheckboxStub } from '@/components/interaction/checkboxes/AvCheckbox/AvCheckbox.stub'
 import { AvCheckboxesGroupStub } from '@/components/interaction/checkboxes/AvCheckboxesGroup/AvCheckboxesGroup.stub'
@@ -57,6 +57,7 @@ export {
   AvBreadcrumbStub,
   AvButtonStub,
   AvCancelConfirmButtonsStub,
+  AvCancelConfirmButtonsStubDefinition,
   AvCardStub,
   AvCheckboxesGroupStub,
   AvCheckboxListItemStub,
