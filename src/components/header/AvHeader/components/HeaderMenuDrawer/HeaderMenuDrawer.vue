@@ -7,7 +7,7 @@ import { MDI_ICONS } from '@/tokens/icons'
 interface HeaderMenuDrawerProps {
   showDrawer: boolean
   languageSelectorRef?: AvLanguageSelectorProps
-  closeLabel?: string
+  closeLabel: string
 }
 
 defineProps<HeaderMenuDrawerProps>()
@@ -30,12 +30,14 @@ defineSlots<{
     data-testid="header-menu-drawer"
     @escape-pressed="$emit('close')"
   >
-    <div class="av-row av-justify-end">
-      <AvCancelConfirmButtons
-        :cancel-label="closeLabel"
-        :cancel-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
+    <div class="av-row av-justify-end av-p-xs">
+      <AvButton
+        :label="closeLabel"
+        :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
         icon-only
-        @cancel="$emit('close')"
+        size="LG"
+        variant="OUTLINED"
+        @click="$emit('close')"
       />
     </div>
 

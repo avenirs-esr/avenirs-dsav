@@ -24,6 +24,7 @@ The header consists of:
 | `languageSelector` | `AvLanguageSelectorProps` | `undefined` | | Language selector configuration. |
 | `searchLabel` | `string` | `'Recherche'` | | Label for the search bar. |
 | `showSearch` | `boolean` | `false` | | Shows or hides the search bar. |
+| `menuOpen` | `boolean` | `undefined` | | Controls whether the mobile navigation menu is open. Supports `v-model:menu-open`. |
 | `showSearchLabel` | `string` | `'Recherche'` | | Label for the button to display the search. |
 | `menuLabel` | `string` | `'Menu'` | | Menu label. |
 | `menuModalLabel` | `string` | `'Menu'` | | Menu label in modal mode. |
@@ -37,6 +38,7 @@ The header consists of:
 | `'update:modelValue'` | Content (`string`) of the search input field | Emitted when the search bar is updated. |
 | `'search'` | Content (`string`) of the search input field | Emitted when a search is performed. |
 | `'languageSelect'` | Content (`AvLanguageSelectorElement`) of the selected language | Emitted when the user changes the site language. |
+| `'update:menuOpen'` | Whether the menu is open (`boolean`) | Emitted when the menu is opened or closed. |
 
 ## 🎨 Slots
 
@@ -52,11 +54,13 @@ The header consists of:
 <script setup lang="ts">
 const { languageSelector, selectLanguage } = useLanguageSwitcher()
 const searchQuery = ref('')
+const menuOpen = ref(false)
 </script>
 
 <template>
   <AvHeader
     v-model="searchQuery"
+    v-model:menu-open="menuOpen"
     home-label="Student Cofolio"
     home-to="/student"
     show-search

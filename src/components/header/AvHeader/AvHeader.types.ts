@@ -28,6 +28,13 @@ export interface AvHeaderSearchDrawerEmits {
 /**
  * Emits interface for AvHeader component.
  */
-export interface AvHeaderEmits extends AvHeaderMenuDrawerEmits, AvHeaderSearchDrawerEmits {}
+export interface AvHeaderEmits extends AvHeaderMenuDrawerEmits, AvHeaderSearchDrawerEmits {
+  /**
+   * Event emitted when the menu open state changes.
+   * @event update:menuOpen
+   * @param payload Whether the menu is open.
+   */
+  (e: 'update:menuOpen', payload: boolean): void
+}
 
 export type DrawerMode = 'closed' | 'search' | 'menu'
