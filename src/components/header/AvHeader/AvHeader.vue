@@ -49,6 +49,11 @@ export interface AvHeaderProps {
   showSearch?: boolean
 
   /**
+   * Controls whether the mobile navigation menu is open.
+   */
+  menuOpen?: boolean
+
+  /**
    * Label of the button to display the search bar.
    * @default 'Recherche'
    */
@@ -82,7 +87,8 @@ const {
   menuLabel = 'Menu',
   closeDrawerLabel = 'Fermer',
   homeLabel,
-  showSearch = false
+  showSearch = false,
+  menuOpen = undefined
 } = defineProps<AvHeaderProps>()
 
 /**
@@ -113,11 +119,27 @@ const slots = defineSlots<{
 }>()
 
 const languageSelectorRef = toRef(() => languageSelector)
+const menuOpenRef = toRef(() => menuOpen)
 
 const drawerMode = ref<DrawerMode>('closed')
+const isMenuOpen = computed(() => menuOpen ?? drawerMode.value === 'menu')
+
+watch(menuOpenRef, (isOpen) => {
+  if (isOpen) {
+    drawerMode.value = 'menu'
+  }
+  else if (isOpen === false && drawerMode.value === 'menu') {
+    drawerMode.value = 'closed'
+  }
+})
 
 function hideDrawer () {
+  const wasMenuOpen = isMenuOpen.value
   drawerMode.value = 'closed'
+
+  if (wasMenuOpen) {
+    emit('update:menuOpen', false)
+  }
 }
 
 function onKeyDown (e: KeyboardEvent) {
@@ -135,10 +157,12 @@ onUnmounted(() => {
 
 function showMenuDrawer () {
   drawerMode.value = 'menu'
+  emit('update:menuOpen', true)
 }
 
 function showSearchDrawer () {
   drawerMode.value = 'search'
+  emit('update:menuOpen', false)
 }
 
 const isWithSlotNav = computed(() => Boolean(slots.mainnav))
@@ -186,7 +210,7 @@ provide(registerNavigationLinkKey, () => hideDrawer)
     </div>
     <div class="av-header__menu av-hidden av-unhidden--lg av-mt-sm">
       <div
-        v-if="drawerMode === 'closed'"
+        v-if="drawerMode === 'closed' && !isMenuOpen"
         class="av-container av-header__mainnav"
       >
         <slot name="mainnav" />
@@ -206,7 +230,7 @@ provide(registerNavigationLinkKey, () => hideDrawer)
     />
 
     <HeaderMenuDrawer
-      :show-drawer="drawerMode === 'menu'"
+      :show-drawer="isMenuOpen"
       :language-selector-ref="languageSelectorRef"
       :close-label="closeDrawerLabel"
       data-testid="header-menu-drawer"

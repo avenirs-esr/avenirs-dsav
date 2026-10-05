@@ -64,6 +64,31 @@ BddTest().given('an AvHeader', () => {
       const drawer = getMenuDrawer()
       expect(drawer?.exists()).toBe(true)
       expect(drawer!.props('show')).toBe(true)
+      expect(wrapper.emitted('update:menuOpen')).toEqual([[true]])
+    })
+  })
+
+  BddTest().when('menuOpen is controlled by the parent', () => {
+    beforeEach(async () => {
+      wrapper = await mountWithRouter(AvHeader, {
+        props: { homeLabel, menuOpen: false },
+        slots: {
+          mainnav: '<div>Navigation</div>'
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should follow external open and close updates', async () => {
+      const drawer = getMenuDrawer()
+
+      expect(drawer!.props('show')).toBe(false)
+
+      await wrapper.setProps({ menuOpen: true })
+      expect(drawer!.props('show')).toBe(true)
+
+      await wrapper.setProps({ menuOpen: false })
+      expect(drawer!.props('show')).toBe(false)
     })
   })
 
@@ -129,8 +154,9 @@ BddTest().given('an AvHeader', () => {
         expect(menuDrawer?.exists()).toBe(true)
         expect(menuDrawer!.props('show')).toBe(true)
 
-        await menuDrawer!.findComponent({ name: 'AvCancelConfirmButtons' }).vm.$emit('cancel')
+        await menuDrawer!.find('button').trigger('click')
         expect(menuDrawer!.props('show')).toBe(false)
+        expect(wrapper.emitted('update:menuOpen')).toEqual([[true], [false]])
       })
     })
 
@@ -158,6 +184,7 @@ BddTest().given('an AvHeader', () => {
         await wrapper.vm.$nextTick()
 
         expect(menuDrawer!.props('show')).toBe(false)
+        expect(wrapper.emitted('update:menuOpen')).toEqual([[true], [false]])
       })
     })
   })
