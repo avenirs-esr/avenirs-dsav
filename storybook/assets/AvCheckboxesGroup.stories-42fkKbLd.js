@@ -1,0 +1,146 @@
+import{A as y}from"./AvCheckbox-kK1_lsYL.js";import{_ as A}from"./AvCheckboxesGroup-CrMzFcfr.js";import{P as $}from"./iframe-DNAxf33W.js";import"./AvFieldsetElement-CxdgtxxK.js";import"./AvTooltip-D1HYxf-s.js";import"./_plugin-vue_export-helper-DlAUqK2U.js";import"./utils-AN5LjLGN.js";import"./AvMessage-BPqYihX2.js";import"./AvIconText-29E-vgJA.js";import"./AvIcon-qEjhXtjL.js";import"./icon-path-u9rVYwcY.js";import"./use-text-truncation-CSqvruZY.js";import"./icons-B6bk2eYx.js";import"./AvFieldset-BuIaOG4r.js";import"./preload-helper-ILsKNznc.js";const j={title:"Components/Interaction/Checkboxes/AvCheckboxesGroup",component:A,tags:["autodocs"],argTypes:{legend:{control:"text"},legendId:{control:"text"},errorMessage:{control:"text"},successMessage:{control:"text"},hint:{control:"text"},inline:{control:"boolean"}},args:{legend:"Checkboxes group legend",legendId:"checkboxes-group-legend",errorMessage:"",successMessage:"",hint:"",inline:!1},parameters:{docs:{description:{component:`<h1 class="n1">Checkboxes groups - <code>AvCheckboxesGroup</code></h1>
+
+<h2 class="n2">✨ Introduction</h2>
+
+<p class="b2-regular">
+  The <code>AvCheckboxesGroup</code> allows you to manage a set of <code>AvCheckbox</code>.
+  It consists of a label (legend), individual options represented by the <code>AvCheckbox</code> component,
+  and a global information, error, or validation message.
+</p>
+
+<p class="b2-regular">
+  Checkboxes can be used alone or in a list. Avoid lists with more than 5 items,
+  and when you want to restrict the choice to a single item, use radio buttons
+  (see <code>AvRadioButton</code>).
+</p>
+
+<h2 class="n2">🏗️ Structure</h2>
+
+<p class="b2-regular">
+  The <code>AvCheckboxesGroup</code> component consists of the following elements:
+  <ul>
+    <li>a <code>&lt;fieldset&gt;</code> element containing all the checkboxes,</li>
+    <li>a legend defined by the <code>legend</code> prop and customizable with the <code>legend</code> slot,</li>
+    <li>a group of individual checkboxes rendered by the <code>AvCheckbox</code> component,</li>
+    <li>an information, error, or validation message displayed below the group of checkboxes.</li>
+  </ul>
+</p>`}}}},t=f=>({components:{AvCheckboxesGroup:A,AvCheckbox:y},setup(){const G=$([]);return{args:f,model:G}},template:`<AvCheckboxesGroup v-bind="args">
+    <AvCheckbox
+      v-for="i in 3"
+      :key="i"
+      v-model="model"
+      :name="\`checkbox-\${i}\`"
+      :label="\`Checkbox \${i}\`"
+      :value="i"
+    />
+  </AvCheckboxesGroup>`}),e=t.bind({});e.args={};const n=t.bind({});n.args={inline:!0};const o=t.bind({});o.args={errorMessage:"This is an error message."};const s=t.bind({});s.args={inline:!0,successMessage:"This is a success message."};const r=t.bind({});r.args={hint:"This is a hint message."};var c,a,i;e.parameters={...e.parameters,docs:{...(c=e.parameters)==null?void 0:c.docs,source:{originalSource:`args => ({
+  components: {
+    AvCheckboxesGroup,
+    AvCheckbox
+  },
+  setup() {
+    const model = ref<(string | number)[]>([]);
+    return {
+      args,
+      model
+    };
+  },
+  template: \`<AvCheckboxesGroup v-bind="args">
+    <AvCheckbox
+      v-for="i in 3"
+      :key="i"
+      v-model="model"
+      :name="\\\`checkbox-\\\${i}\\\`"
+      :label="\\\`Checkbox \\\${i}\\\`"
+      :value="i"
+    />
+  </AvCheckboxesGroup>\`
+})`,...(i=(a=e.parameters)==null?void 0:a.docs)==null?void 0:i.source}}};var l,d,m;n.parameters={...n.parameters,docs:{...(l=n.parameters)==null?void 0:l.docs,source:{originalSource:`args => ({
+  components: {
+    AvCheckboxesGroup,
+    AvCheckbox
+  },
+  setup() {
+    const model = ref<(string | number)[]>([]);
+    return {
+      args,
+      model
+    };
+  },
+  template: \`<AvCheckboxesGroup v-bind="args">
+    <AvCheckbox
+      v-for="i in 3"
+      :key="i"
+      v-model="model"
+      :name="\\\`checkbox-\\\${i}\\\`"
+      :label="\\\`Checkbox \\\${i}\\\`"
+      :value="i"
+    />
+  </AvCheckboxesGroup>\`
+})`,...(m=(d=n.parameters)==null?void 0:d.docs)==null?void 0:m.source}}};var p,u,b;o.parameters={...o.parameters,docs:{...(p=o.parameters)==null?void 0:p.docs,source:{originalSource:`args => ({
+  components: {
+    AvCheckboxesGroup,
+    AvCheckbox
+  },
+  setup() {
+    const model = ref<(string | number)[]>([]);
+    return {
+      args,
+      model
+    };
+  },
+  template: \`<AvCheckboxesGroup v-bind="args">
+    <AvCheckbox
+      v-for="i in 3"
+      :key="i"
+      v-model="model"
+      :name="\\\`checkbox-\\\${i}\\\`"
+      :label="\\\`Checkbox \\\${i}\\\`"
+      :value="i"
+    />
+  </AvCheckboxesGroup>\`
+})`,...(b=(u=o.parameters)==null?void 0:u.docs)==null?void 0:b.source}}};var h,g,v;s.parameters={...s.parameters,docs:{...(h=s.parameters)==null?void 0:h.docs,source:{originalSource:`args => ({
+  components: {
+    AvCheckboxesGroup,
+    AvCheckbox
+  },
+  setup() {
+    const model = ref<(string | number)[]>([]);
+    return {
+      args,
+      model
+    };
+  },
+  template: \`<AvCheckboxesGroup v-bind="args">
+    <AvCheckbox
+      v-for="i in 3"
+      :key="i"
+      v-model="model"
+      :name="\\\`checkbox-\\\${i}\\\`"
+      :label="\\\`Checkbox \\\${i}\\\`"
+      :value="i"
+    />
+  </AvCheckboxesGroup>\`
+})`,...(v=(g=s.parameters)==null?void 0:g.docs)==null?void 0:v.source}}};var x,k,C;r.parameters={...r.parameters,docs:{...(x=r.parameters)==null?void 0:x.docs,source:{originalSource:`args => ({
+  components: {
+    AvCheckboxesGroup,
+    AvCheckbox
+  },
+  setup() {
+    const model = ref<(string | number)[]>([]);
+    return {
+      args,
+      model
+    };
+  },
+  template: \`<AvCheckboxesGroup v-bind="args">
+    <AvCheckbox
+      v-for="i in 3"
+      :key="i"
+      v-model="model"
+      :name="\\\`checkbox-\\\${i}\\\`"
+      :label="\\\`Checkbox \\\${i}\\\`"
+      :value="i"
+    />
+  </AvCheckboxesGroup>\`
+})`,...(C=(k=r.parameters)==null?void 0:k.docs)==null?void 0:C.source}}};const q=["Default","Inline","WithErrorMessage","InlineWithSuccessMessage","WithHint"];export{e as Default,n as Inline,s as InlineWithSuccessMessage,o as WithErrorMessage,r as WithHint,q as __namedExportsOrder,j as default};
