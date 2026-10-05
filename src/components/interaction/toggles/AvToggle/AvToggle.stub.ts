@@ -26,11 +26,10 @@ export const AvToggleStub = defineComponent({
       <span class="description">
         {{ description }}
       </span>
-      <span class="active-text">
-        {{ activeText }}
-      </span>
-      <span class="inactive-text">
-        {{ inactiveText }}
-      </span>
+      <slot :active="modelValue">
+        <span class="status" :data-status="modelValue">
+          {{ modelValue ? activeText : inactiveText }}
+        </span>
+      </slot>
     </div>`
 })

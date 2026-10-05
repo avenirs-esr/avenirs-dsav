@@ -157,4 +157,21 @@ BddTest().given('an AvToggle', () => {
       })
     })
   })
+
+  BddTest().and('with slot', () => {
+    beforeEach(() => {
+      wrapper = mount(AvToggle, {
+        props: { description: 'with slot' },
+        slots: {
+          default: '<template #default="{ active }"><div>{{ active ? "Active" : "Inactive" }}</div></template>',
+        },
+      })
+    })
+
+    BddTest().when('the toggle is mounted', () => {
+      BddTest().then('it should render the slot content', () => {
+        expect(wrapper.text()).toContain('Inactive')
+      })
+    })
+  })
 })

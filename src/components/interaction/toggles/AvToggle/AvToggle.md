@@ -28,7 +28,9 @@ None.
 
 ## 🎨 Slots
 
-None.
+| Name | Description |
+| --- | --- |
+| `default` | Slot to customize the content displayed next to the toggle. Receives a prop `active` indicating the current state of the toggle. |
 
 ## 🚀 Storybook demos
 

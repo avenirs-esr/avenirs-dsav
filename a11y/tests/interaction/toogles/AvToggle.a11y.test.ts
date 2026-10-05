@@ -6,6 +6,8 @@ const stories = [
   'Default',
   'InitActive',
   'WidthRestrict',
+  'WithSlot',
+  'WithSlotActive'
 ]
 
 testStories(component, title, stories)
