@@ -1,5 +1,7 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
+import AvBadge from '@/components/badges/AvBadge/AvBadge.vue'
 import AvToggle, { type AvToggleProps } from '@/components/interaction/toggles/AvToggle/AvToggle.vue'
+import { MDI_ICONS } from '@/tokens'
 
 /**
  * <h1 class="n1">Toggles - <code>AvToggle</code></h1>
@@ -70,4 +72,29 @@ const WidthRestrictTemplate: StoryFn<AvToggleProps> = args => ({
 export const WidthRestrict = WidthRestrictTemplate.bind({})
 WidthRestrict.args = {
   description: 'A long description to see how this works'
+}
+
+const TemplateWithSlot: StoryFn<AvToggleProps> = args => ({
+  components: { AvToggle, AvBadge, MDI_ICONS },
+  setup () {
+    return { args }
+  },
+  template: `<AvToggle v-bind="args" v-model="args.modelValue">
+    <template #default="{ active }">
+      <AvBadge
+        :label="active ? 'Active' : 'Inactive'"
+        color="white"
+        :background-color="active ? 'darkblue' : 'darkred'"
+        :icon="active ? 'mdi:check-circle-outline' : 'mdi:warning-outline'"
+      />
+    </template>
+  </AvToggle>`,
+})
+
+export const WithSlot = TemplateWithSlot.bind({})
+WithSlot.args = {}
+
+export const WithSlotActive = TemplateWithSlot.bind({})
+WithSlotActive.args = {
+  modelValue: true,
 }

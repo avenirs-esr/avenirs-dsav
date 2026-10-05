@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { AvInteractiveProps } from '@/types/interfaces.types'
-import { useAttrs } from 'vue'
+import { type Slot, useAttrs } from 'vue'
 import toggleActiveDisabledSvg from '@/components/interaction/toggles/AvToggle/assets/toggle-active-disabled.svg?url'
 import toggleActiveSvg from '@/components/interaction/toggles/AvToggle/assets/toggle-active.svg?url'
 import toggleInactiveDisabledSvg from '@/components/interaction/toggles/AvToggle/assets/toggle-inactive-disabled.svg?url'
@@ -67,6 +67,10 @@ const {
   statusTextWidth = '1.8rem',
 } = defineProps<AvToggleProps>()
 
+defineSlots<{
+  default?: Slot<{ active: boolean }>
+}>()
+
 const modelValue = defineModel<boolean>({
   default: false,
 })
@@ -126,16 +130,17 @@ const labelDataTestId = computed(() => {
     <label
       :id="labelId"
       :for="inputId"
-      class="av-toggle av-row av-justify-center av-gap-xs av-align-start"
+      class="av-toggle av-row av-justify-center av-gap-xs av-align-baseline"
       :class="{
         'av-toggle--disabled': disabled,
       }"
       :data-testid="labelDataTestId"
     >
       <div
-        class="toggle av-row av-justify-start av-align-start av-gap-xxs"
+        class="toggle av-row av-justify-start av-align-baseline av-gap-xxs"
         :class="{
           'toggle--disabled': disabled,
+          'toggle--custom': $slots.default !== undefined,
         }"
       >
         <div class="av-col">
@@ -150,19 +155,22 @@ const labelDataTestId = computed(() => {
             />
           </svg>
         </div>
-        <div class="av-col toggle-text">
-          <span
-            v-if="modelValue"
-            class="caption-bold no-select"
-          >
-            {{ activeText }}
-          </span>
-          <span
-            v-else
-            class="caption-regular no-select"
-          >
-            {{ inactiveText }}
-          </span>
+
+        <div
+          class="av-col toggle-value"
+        >
+          <slot :active="modelValue">
+            <span
+              class="status toggle-text no-select"
+              :class="{
+                'caption-bold': modelValue,
+                'caption-regular': !modelValue,
+              }"
+              :data-status="modelValue"
+            >
+              {{ modelValue ? activeText : inactiveText }}
+            </span>
+          </slot>
         </div>
       </div>
       <span
@@ -200,6 +208,10 @@ const labelDataTestId = computed(() => {
 
 .toggle {
   width: calc(2.125rem + v-bind(statusTextWidth));
+}
+
+.toggle--custom {
+  width: fit-content;
 }
 
 .toggle-text {
