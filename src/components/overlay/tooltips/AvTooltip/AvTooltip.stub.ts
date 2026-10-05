@@ -5,7 +5,6 @@ export const AvTooltipStub = defineComponent({
     disabled: { type: Boolean, required: false },
     fullWidth: { type: Boolean, required: false },
     forceFocusable: { type: Boolean, required: false },
-    triggerClass: { type: String, required: false },
     triggerAriaLabel: { type: String, required: false },
     paddingRem: { type: Number, required: false },
   },

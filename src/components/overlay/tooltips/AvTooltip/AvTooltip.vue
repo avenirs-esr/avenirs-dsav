@@ -31,11 +31,6 @@ export interface AvTooltipProps {
   forceFocusable?: boolean
 
   /**
-   * Custom class to apply on the tooltip trigger wrapper.
-   */
-  triggerClass?: string
-
-  /**
    * Aria label for the tooltip trigger element.
    */
   triggerAriaLabel?: string
@@ -161,7 +156,7 @@ onUnmounted(() => {
       <span
         ref="triggerRef"
         class="av-tooltip-trigger"
-        :class="[triggerClass, { 'av-tooltip-trigger--full-width': fullWidth }]"
+        :class="{ 'av-tooltip-trigger--full-width': fullWidth }"
         :aria-label="triggerAriaLabel"
         :tabindex="forceFocusable ? 0 : undefined"
         :role="triggerAriaLabel ? 'img' : undefined"
