@@ -73,7 +73,7 @@ defineSlots<{
   <AvTooltip
     class="av-rich-button__tooltip"
     :content="label"
-    trigger-class="av-w-full"
+    full-width
     :disabled="!enableTooltip"
   >
     <button

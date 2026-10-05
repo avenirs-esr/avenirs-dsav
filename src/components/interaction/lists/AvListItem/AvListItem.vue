@@ -217,7 +217,7 @@ function handleKeyDown (event: KeyboardEvent) {
       :content="getAvTooltipContent({ content: computedAriaLabel, disabled, disabledTooltip })"
       :disabled="!isAvTooltipEnabled({ disabled, disabledTooltip, enableTooltip: enableTooltip || isTitleTruncated || isDescriptionTruncated })"
       :force-focusable="isAvTooltipEnabled({ disabled, disabledTooltip, enableTooltip: enableTooltip || isTitleTruncated || isDescriptionTruncated })"
-      trigger-class="av-w-full"
+      full-width
     >
       <component
         :is="componentTag"
