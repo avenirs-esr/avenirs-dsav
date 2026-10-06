@@ -130,7 +130,7 @@ const {
   collapseMaxHeight,
 } = defineProps<AvMultiselectProps>()
 
-const modelValue = defineModel<AvMultiselectOption[]>({ default: [] })
+const modelValue = defineModel<AvMultiselectOption[]>({ default: () => [] })
 
 const realId = computed(() => id ?? `multi-select-${crypto.randomUUID()}`)
 
