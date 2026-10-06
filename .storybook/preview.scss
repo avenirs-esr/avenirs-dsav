@@ -94,6 +94,61 @@ input[type="checkbox"] + span, input[type="checkbox"] + span + span {
   color: var(--title);
 }
 
+.sbdocs-content h1,
+.sbdocs-content h1 > span {
+  font-size: var(--font-size-n1);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-n1);
+  color: var(--title);
+}
+
+.sbdocs-content h2,
+.sbdocs-content h2 > span {
+  font-size: var(--font-size-n2);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-n2);
+  color: var(--title);
+}
+
+.sbdocs-content h3,
+.sbdocs-content h3 > span {
+  font-size: var(--font-size-n3);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-n3);
+  color: var(--title);
+}
+
+.sbdocs-content h4,
+.sbdocs-content h4 > span {
+  font-size: var(--font-size-n4);
+  font-weight: var(--font-weight-semi-bold);
+  line-height: var(--line-height-n4);
+  color: var(--title);
+}
+
+.sbdocs-content h5,
+.sbdocs-content h5 > span {
+  font-size: var(--font-size-n5);
+  font-weight: var(--font-weight-semi-bold);
+  line-height: var(--line-height-n5);
+  color: var(--title);
+}
+
+.sbdocs-content h6,
+.sbdocs-content h6 > span {
+  font-size: var(--font-size-n6);
+  font-weight: var(--font-weight-semi-bold);
+  line-height: var(--line-height-n6);
+  color: var(--title);
+}
+
+.sbdocs-content p {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-regular);
+  letter-spacing: var(--letter-spacing-md);
+  color: var(--text1);
+}
+
 *,
 ::before,
 ::after {

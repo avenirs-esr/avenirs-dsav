@@ -51,7 +51,7 @@ export function isValidLink (link?: string): boolean {
       return false
     }
 
-    const tld = labels.at(-1) ?? ''
+    const tld = labels[labels.length - 1] ?? ''
 
     return /^[a-z]{2,63}$/.test(tld)
   }

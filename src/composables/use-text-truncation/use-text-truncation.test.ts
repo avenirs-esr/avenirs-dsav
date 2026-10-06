@@ -29,8 +29,14 @@ BddTest().given('a useTextTruncation composable', () => {
       disconnect: vi.fn(),
     }
 
-    vi.stubGlobal('ResizeObserver', vi.fn(() => resizeObserverMock))
-    vi.stubGlobal('MutationObserver', vi.fn(() => mutationObserverMock))
+    vi.stubGlobal('ResizeObserver', class {
+      observe = resizeObserverMock.observe
+      disconnect = resizeObserverMock.disconnect
+    })
+    vi.stubGlobal('MutationObserver', class {
+      observe = mutationObserverMock.observe
+      disconnect = mutationObserverMock.disconnect
+    })
   })
 
   BddTest().when('the referenced element does not exist', () => {
