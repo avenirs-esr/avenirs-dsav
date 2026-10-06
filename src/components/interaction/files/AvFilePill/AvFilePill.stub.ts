@@ -3,52 +3,72 @@ export const AvFilePillStub = defineComponent({
   props: {
     name: {
       type: String,
-      required: true
+      required: true,
     },
     size: {
       type: Number,
-      required: false
+      required: false,
     },
     type: {
       type: String,
-      required: false
+      required: false,
     },
     id: {
       type: String,
-      required: false
+      required: false,
     },
     downloadable: {
       type: Boolean,
-      required: false
+      default: false,
     },
     deletable: {
       type: Boolean,
-      required: false
+      default: true,
     },
     showDetails: {
       type: Boolean,
-      required: false
+      default: false,
+    },
+    downloadPrefixLabel: {
+      type: String,
+      required: false,
+    },
+    deletePrefixLabel: {
+      type: String,
+      required: false,
     },
   },
   emits: [
     'download',
-    'delete'
+    'delete',
   ],
+  setup (props, { emit }) {
+    const realId = props.id ?? 'file-pill-stub'
+
+    return {
+      realId,
+      emit,
+    }
+  },
   template: `
     <div class="av-file-pill-stub">
       <span class="file-name">{{ name }}</span>
+
       <button
+        v-if="downloadable"
         data-testid="download-file-button"
-        @click="$emit('download', id)"
+        @click="emit('download', realId)"
       >
         Download
       </button>
+
       <button
+        v-if="deletable"
         data-testid="delete-file-button"
-        @click="$emit('delete', id)"
+        @click="emit('delete', realId)"
       >
         Delete
       </button>
     </div>
-  `
+  `,
 })

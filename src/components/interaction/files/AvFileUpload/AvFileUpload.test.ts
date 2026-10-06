@@ -1,616 +1,1144 @@
-import { mount, type VueWrapper } from '@vue/test-utils'
+import type { ComponentPublicInstance } from 'vue'
+import type { AvFileUploadFilesRejections, AvFileUploadProps } from '@/components/interaction/files/AvFileUpload/AvFileUpload.types'
+import { type ComponentMountingOptions, flushPromises, mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { AvMessageStub } from '@/components/base/AvMessage/AvMessage.stub'
-import AvFileUpload, { type AvFileUploadProps } from '@/components/interaction/files/AvFileUpload/AvFileUpload.vue'
-import { AvTooltipStub } from '@/components/overlay/tooltips/AvTooltip/AvTooltip.stub'
-import { BddTest } from '@/tests/utils'
+import AvFileUpload from '@/components/interaction/files/AvFileUpload/AvFileUpload.vue'
+import { AvButtonStub, AvFilePillStub, AvIconStub, AvMessageStub, AvTooltipStub, BddTest } from '@/tests'
 
-BddTest().given('a file uploader', () => {
-  let wrapper: VueWrapper<InstanceType<typeof AvFileUpload>>
+const CUSTOM_ID = 'custom-file-upload'
+const ARIA_LABEL = 'Add a document'
+
+const TITLE = 'Upload a document'
+const DESCRIPTION = 'Select a document to upload'
+
+const HINT = 'PDF, DOCX or JPG'
+const COMPACT_HINT = 'Maximum 3 files'
+const LEFT_CONTENT = 'Additional content'
+const DISABLED_TOOLTIP = 'You cannot upload files'
+
+const FIRST_FILE_NAME = 'first.pdf'
+const SECOND_FILE_NAME = 'second.pdf'
+const THIRD_FILE_NAME = 'third.pdf'
+const PERSISTED_FILE_NAME = 'persisted.pdf'
+
+const PDF_TYPE = 'application/pdf'
+const ACCEPT_STRING = '.pdf'
+const ACCEPT_TYPES = ['.pdf', '.png', '.jpg']
+
+const ERROR_MESSAGE = 'Upload failed'
+const VALID_MESSAGE = 'File is valid'
+const INVALID_TYPE_MESSAGE = 'Invalid file type'
+const DELETE_BUTTON_LABEL = 'Remove file'
+const DOWNLOAD_PREFIX_LABEL = 'Download'
+const DELETE_PREFIX_LABEL = 'Delete'
+
+const REQUIRED_ERROR = 'required'
+const INVALID_TYPE_ERROR = 'invalid-type'
+const TOO_LARGE_ERROR = 'too-large'
+
+const FIRST_FILE = new File(['first'], FIRST_FILE_NAME, { type: PDF_TYPE })
+const SECOND_FILE = new File(['second'], SECOND_FILE_NAME, { type: PDF_TYPE })
+const THIRD_FILE = new File(['third'], THIRD_FILE_NAME, { type: PDF_TYPE })
+
+const TWO_FILES = [FIRST_FILE, SECOND_FILE]
+const ALL_FILES = [FIRST_FILE, SECOND_FILE, THIRD_FILE]
+
+type TestError =
+  | typeof REQUIRED_ERROR
+  | typeof INVALID_TYPE_ERROR
+  | typeof TOO_LARGE_ERROR
+
+type TestAvFileUpload = typeof AvFileUpload<TestError>
+type TestAvFileUploadProps = AvFileUploadProps<TestError>
+type TestAvFileUploadMountingOptions = ComponentMountingOptions<TestAvFileUpload>
+type TestAvFileUploadWrapper = ReturnType<typeof mount<TestAvFileUpload>>
+
+type FileValidator = NonNullable<TestAvFileUploadProps['validateFile']>
+type FilesValidator = NonNullable<TestAvFileUploadProps['validateFiles']>
+
+const defaultProps: TestAvFileUploadProps = {
+  title: TITLE,
+  description: DESCRIPTION,
+}
+
+const createFileList = (files: File[]): FileList => Object.assign([...files], { item: (index: number) => files[index] ?? null }) as unknown as FileList
+const createValidateFile = (mockedResult: ReturnType<FileValidator>) => vi.fn<FileValidator>(() => mockedResult)
+const createValidateFiles = (mockedResult: ReturnType<FilesValidator>) => vi.fn<FilesValidator>(() => mockedResult)
+
+BddTest().given('an AvFileUpload component', () => {
+  let wrapper: TestAvFileUploadWrapper
 
   const stubs = {
+    AvButton: AvButtonStub,
+    AvFilePill: AvFilePillStub,
+    AvIcon: AvIconStub,
     AvMessage: AvMessageStub,
     AvTooltip: AvTooltipStub,
   }
 
-  const mountComponent = (props?: Partial<AvFileUploadProps>) => mount<typeof AvFileUpload>(AvFileUpload, {
-    props: {
-      title: 'Ajouter un document',
-      description: 'ou glisser et déposer ici',
-      deleteButtonLabel: 'delete',
-      ...props,
-    },
-    global: { stubs },
-    slots: {
-      default: '<span>Upload a file</span>',
-      hint: '<span>Accepted files: .pdf, .jpg</span>',
-    },
-  })
+  const mountWith = (
+    props: Partial<TestAvFileUploadProps> = {},
+    attrs?: TestAvFileUploadMountingOptions['attrs'],
+    slots?: TestAvFileUploadMountingOptions['slots'],
+  ) => {
+    wrapper = mount<TestAvFileUpload>(AvFileUpload, {
+      props: {
+        ...defaultProps,
+        ...props,
+      },
+      attrs,
+      slots,
+      global: { stubs },
+    })
+  }
 
-  beforeEach(() => {
-    vi.clearAllMocks()
-  })
+  const getFileInput = () => wrapper.find('input[type="file"]')
+  const getUploadLabel = () => wrapper.find('label')
+  const getCompactAddPill = () => wrapper.find('.av-compact-add-pill')
+  const getAvButton = () => wrapper.findComponent(AvButtonStub)
+  const getAvMessage = () => wrapper.findComponent(AvMessageStub)
+  const getAvTooltip = () => wrapper.findComponent(AvTooltipStub)
+  const getFilePills = () => wrapper.findAllComponents(AvFilePillStub)
+  const getDeleteFileButton = (index = 0) => getFilePills()[index].find('[data-testid="delete-file-button"]')
 
-  BddTest().and('with default props', () => {
+  const expectSelection = (files: File[]) => {
+    expect(wrapper.emitted('update:modelValue')).toEqual([[files]])
+    expect(wrapper.emitted('change')).toEqual([[files]])
+  }
+
+  const expectNoSelectionChange = () => {
+    expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    expect(wrapper.emitted('change')).toBeUndefined()
+  }
+
+  const expectFilesDeleted = (files: File[]) => {
+    expect(wrapper.emitted('filesDeleted')).toEqual([[files]])
+  }
+
+  const expectDeleteFilesRequested = (files: File[]) => {
+    expect(wrapper.emitted('deleteFiles')).toEqual([[files]])
+  }
+
+  const expectNoDeletion = () => {
+    expectNoSelectionChange()
+    expect(wrapper.emitted('deleteFiles')).toBeUndefined()
+    expect(wrapper.emitted('filesDeleted')).toBeUndefined()
+  }
+
+  const expectMessagesCleared = () => {
+    expect(wrapper.emitted('update:validMessage')).toEqual([[undefined]])
+    expect(wrapper.emitted('update:errorMessage')).toEqual([[undefined]])
+  }
+
+  const expectFilesRejected = (rejection: AvFileUploadFilesRejections<TestError>) => {
+    expect(wrapper.emitted('filesRejected')).toEqual([[rejection]])
+  }
+
+  const selectFiles = async (files: File[], inputValue = '') => {
+    const input = getFileInput()
+    const inputElement = input.element as HTMLInputElement
+
+    Object.defineProperty(inputElement, 'files', {
+      configurable: true,
+      value: createFileList(files),
+    })
+
+    Object.defineProperty(inputElement, 'value', {
+      configurable: true,
+      writable: true,
+      value: inputValue,
+    })
+
+    await input.trigger('change')
+    await flushPromises()
+
+    return inputElement
+  }
+
+  const selectFilesAndExpectSelection = async (files: File[], expectedSelection: File[] = files) => {
+    await selectFiles(files)
+    expectSelection(expectedSelection)
+  }
+
+  const dropFiles = async (files: File[]) => {
+    await getUploadLabel().trigger('drop', {
+      dataTransfer: {
+        files: createFileList(files),
+      },
+    })
+
+    await flushPromises()
+  }
+
+  BddTest().when('it is mounted with default props', () => {
     beforeEach(() => {
-      wrapper = mountComponent()
+      mountWith()
     })
 
-    BddTest().when('the component is mounted', () => {
-      BddTest().then('it should render the slot content', () => {
-        expect(wrapper.text()).toContain('Ajouter un document')
-        expect(wrapper.text()).toContain('ou glisser et déposer ici')
-      })
+    BddTest().then('it should render the title and description', () => {
+      expect(wrapper.text()).toContain(TITLE)
+      expect(wrapper.text()).toContain(DESCRIPTION)
+    })
+
+    BddTest().then('it should render the file input', () => {
+      expect(getFileInput().exists()).toBe(true)
+    })
+
+    BddTest().then('it should not enable multiple selection', () => {
+      expect(getFileInput().attributes('multiple')).toBeUndefined()
     })
   })
 
-  BddTest().and('disabled with a tooltip message', () => {
+  BddTest().when('a hint slot is provided', () => {
     beforeEach(() => {
-      wrapper = mountComponent({ disabled: true, disabledTooltip: 'Upload unavailable' })
+      mountWith({}, {}, {
+        hint: `<span data-testid="hint">${HINT}</span>`,
+      })
     })
 
-    BddTest().when('the component is mounted', () => {
-      BddTest().then('it should enable AvTooltip with the disabled message', () => {
-        const tooltip = wrapper.findComponent(AvTooltipStub)
-        expect(tooltip.props('content')).toBe('Upload unavailable')
-        expect(tooltip.props('disabled')).toBe(false)
-        expect(tooltip.props('forceFocusable')).toBe(true)
-      })
+    BddTest().then('it should render the hint slot', () => {
+      expect(wrapper.get('[data-testid="hint"]').text()).toBe(HINT)
     })
   })
 
-  BddTest().and('with error and validMessage props', () => {
+  BddTest().when('a left slot is provided', () => {
     beforeEach(() => {
-      wrapper = mountComponent({ error: 'Error', validMessage: 'Valid file' })
+      mountWith({}, {}, {
+        left: `<span data-testid="left-slot">${LEFT_CONTENT}</span>`,
+      })
     })
 
-    BddTest().when('the component is mounted', () => {
-      BddTest().then('it should render only the error message', () => {
-        const avMessage = wrapper.findComponent({ name: 'AvMessage' })
-        expect(avMessage.exists()).toBe(true)
-        expect(avMessage.props('type')).toBe('error')
-        expect(avMessage.props('message')).toBe('Error')
-      })
+    BddTest().then('it should render the left slot', () => {
+      expect(wrapper.get('[data-testid="left-slot"]').text()).toBe(LEFT_CONTENT)
     })
   })
 
-  BddTest().and('with validMessage but no error', () => {
+  BddTest().when('an explicit id and aria label are provided', () => {
     beforeEach(() => {
-      wrapper = mountComponent({ validMessage: 'Valid message' })
+      mountWith({
+        id: CUSTOM_ID,
+        ariaLabel: ARIA_LABEL,
+      })
     })
 
-    BddTest().when('the component is mounted', () => {
-      BddTest().then('it should render the valid message', () => {
-        const avMessage = wrapper.findComponent({ name: 'AvMessage' })
-        expect(avMessage.exists()).toBe(true)
-        expect(avMessage.props('type')).toBe('success')
-        expect(avMessage.props('message')).toBe('Valid message')
-      })
+    BddTest().then('it should apply them to the upload control', () => {
+      expect(getFileInput().attributes('id')).toBe(CUSTOM_ID)
+
+      const label = getUploadLabel()
+      expect(label.attributes('for')).toBe(CUSTOM_ID)
+      expect(label.attributes('aria-label')).toBe(ARIA_LABEL)
     })
   })
 
-  BddTest().and('with accept prop as an array', () => {
+  BddTest().when('an accept string is provided', () => {
     beforeEach(() => {
-      wrapper = mountComponent({ accept: ['.jpg', '.png', '.webp'] })
+      mountWith({
+        accept: ACCEPT_STRING,
+      })
     })
 
-    BddTest().when('the component is mounted', () => {
-      BddTest().then('it should apply correct accept attribute', () => {
-        const input = wrapper.find('input[type="file"]')
-        expect(input.attributes('accept')).toBe('.jpg,.png,.webp')
-      })
+    BddTest().then('it should apply it to the input', () => {
+      expect(getFileInput().attributes('accept')).toBe(ACCEPT_STRING)
     })
   })
 
-  BddTest().and('with change event on input', () => {
-    const file = new File(['hello'], 'hello.png', { type: 'image/png' })
-
+  BddTest().when('an accept array is provided', () => {
     beforeEach(() => {
-      wrapper = mountComponent({ accept: ['.png'] })
-    })
-
-    BddTest().when('an accepted file is selected', () => {
-      BddTest().then('it should emit update:modelValue and change events', async () => {
-        const input = wrapper.find('input[type="file"]')
-        const files = {
-          0: file,
-          length: 1,
-          item: () => file,
-        } as unknown as FileList
-
-        const event = new Event('change')
-        Object.defineProperty(event, 'target', {
-          value: { value: 'C:\\fakepath\\hello.png', files },
-          writable: false,
-        })
-
-        await input.element.dispatchEvent(event)
-
-        expect(wrapper.emitted('update:modelValue')).toBeTruthy()
-        const emittedFiles = wrapper.emitted('update:modelValue')?.[0][0] as File[]
-        expect(emittedFiles[0].name).toBe('hello.png')
-
-        expect(wrapper.emitted('change')).toBeTruthy()
-        expect(wrapper.emitted('change')?.[0][0]).toEqual(files)
+      mountWith({
+        accept: ACCEPT_TYPES,
       })
     })
 
-    BddTest().when('a non accepted file is selected', () => {
-      BddTest().then('it should emit acceptTypeError and not emit update:modelValue and change events', async () => {
-        const filePdf = new File(['hello'], 'hello.pdf', { type: 'application/pdf' })
-        const input = wrapper.find('input[type="file"]')
-        const files = {
-          0: filePdf,
-          length: 1,
-          item: () => filePdf,
-        } as unknown as FileList
-
-        const event = new Event('change')
-        Object.defineProperty(event, 'target', {
-          value: { value: 'C:\\fakepath\\hello.pdf', files },
-          writable: false,
-        })
-
-        await input.element.dispatchEvent(event)
-
-        expect(wrapper.emitted('update:modelValue')).toBeFalsy()
-        expect(wrapper.emitted('change')).toBeFalsy()
-        expect(wrapper.emitted('acceptTypeError')).toBeTruthy()
-      })
-    })
-
-    BddTest().when('an oversized file is selected', () => {
-      BddTest().then('it should emit fileSizeError and not emit update:modelValue and change events', async () => {
-        const oversizedFile = new File(['hello'], 'hello.png', { type: 'image/png' })
-        Object.defineProperty(oversizedFile, 'size', {
-          value: 2 * 1024 * 1024,
-          configurable: true,
-        })
-
-        wrapper = mountComponent({ accept: ['.png'], maxFileSizeMb: 1 })
-        const input = wrapper.find('input[type="file"]')
-        const files = {
-          0: oversizedFile,
-          length: 1,
-          item: () => oversizedFile,
-        } as unknown as FileList
-
-        const event = new Event('change')
-        Object.defineProperty(event, 'target', {
-          value: { value: 'C:\\fakepath\\hello.png', files },
-          writable: false,
-        })
-
-        await input.element.dispatchEvent(event)
-
-        expect(wrapper.emitted('update:modelValue')).toBeFalsy()
-        expect(wrapper.emitted('change')).toBeFalsy()
-        expect(wrapper.emitted('fileSizeError')).toBeTruthy()
-      })
+    BddTest().then('it should apply it as a comma-separated value', () => {
+      expect(getFileInput().attributes('accept')).toBe(ACCEPT_TYPES.join(','))
     })
   })
 
-  BddTest().and('with drag & drop', () => {
-    const file = new File(['drag'], 'dragged.pdf', { type: 'application/pdf' })
-
-    beforeAll(() => {
-      globalThis.DragEvent = class extends Event {
-        dataTransfer: DataTransfer | null
-
-        constructor (type: string, eventInitDict?: { dataTransfer?: DataTransfer }) {
-          super(type)
-          this.dataTransfer = eventInitDict?.dataTransfer ?? null
-        }
-      } as unknown as typeof DragEvent
-    })
-
+  BddTest().when('the uploader is disabled with a disabled tooltip', () => {
     beforeEach(() => {
-      wrapper = mountComponent()
-    })
-
-    BddTest().when('a file is dropped', () => {
-      BddTest().then('it should emit update:modelValue and change events', async () => {
-        const label = wrapper.find('label')
-        const dataTransfer = { files: [file] } as unknown as DataTransfer
-
-        const dropEvent = new DragEvent('drop', { dataTransfer })
-        await label.element.dispatchEvent(dropEvent)
-
-        expect(wrapper.emitted('update:modelValue')).toBeTruthy()
-        const emittedFiles = wrapper.emitted('update:modelValue')?.[0][0] as File[]
-        expect(emittedFiles[0].name).toBe('dragged.pdf')
-
-        expect(wrapper.emitted('change')).toBeTruthy()
-        expect(wrapper.emitted('change')?.[0][0]).toEqual(dataTransfer.files)
+      mountWith({
+        disabled: true,
+        disabledTooltip: DISABLED_TOOLTIP,
       })
     })
 
-    BddTest().when('a dragover event occurs', () => {
-      BddTest().then('it should add drag-over class', async () => {
-        const label = wrapper.find('label')
-        await label.trigger('dragover')
-        expect(label.classes()).toContain('drag-over')
-      })
-    })
-
-    BddTest().when('a dragleave event occurs', () => {
-      BddTest().then('it should remove drag-over class', async () => {
-        const label = wrapper.find('label')
-
-        await label.trigger('dragover')
-        expect(label.classes()).toContain('drag-over')
-
-        await label.trigger('dragleave')
-        expect(label.classes()).not.toContain('drag-over')
-      })
+    BddTest().then('it should configure the tooltip correctly', () => {
+      const tooltip = getAvTooltip()
+      expect(tooltip.props('disabled')).toBe(false)
+      expect(tooltip.props('forceFocusable')).toBe(true)
+      expect(tooltip.props('content')).toBe(DISABLED_TOOLTIP)
     })
   })
 
-  BddTest().and('with drag & drop with strict accept type', () => {
-    const filePdf = new File(['drag'], 'dragged.pdf', { type: 'application/pdf' })
-    const fileJpeg = new File(['drag'], 'dragged.jpeg', { type: 'image/jpeg' })
-    const filePng = new File(['drag'], 'dragged.png', { type: 'image/png' })
-
-    beforeAll(() => {
-      globalThis.DragEvent = class extends Event {
-        dataTransfer: DataTransfer | null
-
-        constructor (type: string, eventInitDict?: { dataTransfer?: DataTransfer }) {
-          super(type)
-          this.dataTransfer = eventInitDict?.dataTransfer ?? null
-        }
-      } as unknown as typeof DragEvent
-    })
-
+  BddTest().when('errorMessage and validMessage are provided', () => {
     beforeEach(() => {
-      wrapper = mountComponent({ accept: ['image/jpeg', '.PNG'] })
-    })
-
-    BddTest().when('an accepted file is dropped', () => {
-      BddTest().then('it should emit update:modelValue and change events and not emit acceptTypeError', async () => {
-        const label = wrapper.find('label')
-        const dataTransfer = { files: [fileJpeg] } as unknown as DataTransfer
-
-        const dropEvent = new DragEvent('drop', { dataTransfer })
-        await label.element.dispatchEvent(dropEvent)
-
-        expect(wrapper.emitted('update:modelValue')).toBeTruthy()
-        const emittedFiles = wrapper.emitted('update:modelValue')?.[0][0] as File[]
-        expect(emittedFiles[0].name).toBe('dragged.jpeg')
-
-        expect(wrapper.emitted('change')).toBeTruthy()
-        expect(wrapper.emitted('change')?.[0][0]).toEqual(dataTransfer.files)
-
-        expect(wrapper.emitted('acceptTypeError')).toBeFalsy()
+      mountWith({
+        errorMessage: ERROR_MESSAGE,
+        validMessage: VALID_MESSAGE,
       })
     })
 
-    BddTest().when('an accepted file is dropped for accepted type starting with "."', () => {
-      BddTest().then('it should emit update:modelValue and change events and not emit acceptTypeError', async () => {
-        const label = wrapper.find('label')
-        const dataTransfer = { files: [filePng] } as unknown as DataTransfer
-
-        const dropEvent = new DragEvent('drop', { dataTransfer })
-        await label.element.dispatchEvent(dropEvent)
-
-        expect(wrapper.emitted('update:modelValue')).toBeTruthy()
-        const emittedFiles = wrapper.emitted('update:modelValue')?.[0][0] as File[]
-        expect(emittedFiles[0].name).toBe('dragged.png')
-
-        expect(wrapper.emitted('change')).toBeTruthy()
-        expect(wrapper.emitted('change')?.[0][0]).toEqual(dataTransfer.files)
-
-        expect(wrapper.emitted('acceptTypeError')).toBeFalsy()
-      })
-    })
-
-    BddTest().when('a non accepted file is dropped', () => {
-      BddTest().then('it should emit acceptTypeError and not emit update:modelValue and change events', async () => {
-        const label = wrapper.find('label')
-        const dataTransfer = { files: [filePdf] } as unknown as DataTransfer
-
-        const dropEvent = new DragEvent('drop', { dataTransfer })
-        await label.element.dispatchEvent(dropEvent)
-
-        expect(wrapper.emitted('update:modelValue')).toBeFalsy()
-        expect(wrapper.emitted('change')).toBeFalsy()
-        expect(wrapper.emitted('acceptTypeError')).toBeTruthy()
-      })
-    })
-
-    BddTest().when('an oversized accepted file is dropped', () => {
-      BddTest().then('it should emit fileSizeError and not emit update:modelValue and change events', async () => {
-        const oversizedJpeg = new File([new Uint8Array(2 * 1024 * 1024)], 'dragged.jpeg', { type: 'image/jpeg' })
-
-        wrapper = mountComponent({ accept: ['image/jpeg'], maxFileSizeMb: 1 })
-        const label = wrapper.find('label')
-        const dataTransfer = { files: [oversizedJpeg] } as unknown as DataTransfer
-
-        const dropEvent = new DragEvent('drop', { dataTransfer })
-        await label.element.dispatchEvent(dropEvent)
-        await wrapper.vm.$nextTick()
-
-        expect(wrapper.emitted('update:modelValue')).toBeFalsy()
-        expect(wrapper.emitted('change')).toBeFalsy()
-        expect(wrapper.emitted('fileSizeError')).toBeTruthy()
-      })
+    BddTest().then('it should render the error message', () => {
+      const message = getAvMessage()
+      expect(message.props('type')).toBe('error')
+      expect(message.props('message')).toBe(ERROR_MESSAGE)
     })
   })
 
-  BddTest().and('with drag & drop with wrong accept type', () => {
-    const filePdf = new File(['drag'], 'dragged.pdf', { type: 'application/pdf' })
-
-    beforeAll(() => {
-      globalThis.DragEvent = class extends Event {
-        dataTransfer: DataTransfer | null
-
-        constructor (type: string, eventInitDict?: { dataTransfer?: DataTransfer }) {
-          super(type)
-          this.dataTransfer = eventInitDict?.dataTransfer ?? null
-        }
-      } as unknown as typeof DragEvent
-    })
-
+  BddTest().when('only validMessage is provided', () => {
     beforeEach(() => {
-      wrapper = mountComponent({ accept: ['png'] })
+      mountWith({
+        validMessage: VALID_MESSAGE,
+      })
     })
 
-    BddTest().when('a file is dropped', () => {
-      BddTest().then('it should emit acceptTypeError and not emit update:modelValue and change events', async () => {
-        const label = wrapper.find('label')
-        const dataTransfer = { files: [filePdf] } as unknown as DataTransfer
-
-        const dropEvent = new DragEvent('drop', { dataTransfer })
-        await label.element.dispatchEvent(dropEvent)
-
-        expect(wrapper.emitted('update:modelValue')).toBeFalsy()
-        expect(wrapper.emitted('change')).toBeFalsy()
-        expect(wrapper.emitted('acceptTypeError')).toBeTruthy()
-      })
+    BddTest().then('it should render the success message', () => {
+      const message = getAvMessage()
+      expect(message.props('type')).toBe('success')
+      expect(message.props('message')).toBe(VALID_MESSAGE)
     })
   })
 
-  BddTest().given('a disabled file uploader with drag & drop', () => {
-    const filePdf = new File(['drag'], 'dragged.pdf', { type: 'application/pdf' })
-
-    beforeAll(() => {
-      globalThis.DragEvent = class extends Event {
-        dataTransfer: DataTransfer | null
-
-        constructor (type: string, eventInitDict?: { dataTransfer?: DataTransfer }) {
-          super(type)
-          this.dataTransfer = eventInitDict?.dataTransfer ?? null
-        }
-      } as unknown as typeof DragEvent
-    })
-
+  BddTest().when('the file input is clicked', () => {
     beforeEach(() => {
-      wrapper = mountComponent({ disabled: true })
+      mountWith()
     })
 
-    BddTest().when('a file is dropped', () => {
-      BddTest().then('it should not emit acceptTypeError, update:modelValue and change events', async () => {
-        const label = wrapper.find('label')
-        const dataTransfer = { files: [filePdf] } as unknown as DataTransfer
+    BddTest().then('it should emit click', async () => {
+      await getFileInput().trigger('click')
 
-        const dropEvent = new DragEvent('drop', { dataTransfer })
-        await label.element.dispatchEvent(dropEvent)
-
-        expect(wrapper.emitted('update:modelValue')).toBeFalsy()
-        expect(wrapper.emitted('change')).toBeFalsy()
-        expect(wrapper.emitted('acceptTypeError')).toBeFalsy()
-      })
+      const emitted = wrapper.emitted('click')
+      expect(emitted).toHaveLength(1)
+      expect(emitted?.[0]?.[0]).toBeInstanceOf(MouseEvent)
     })
   })
 
-  BddTest().and('with onClear button', () => {
+  BddTest().when('a valid file is selected in single mode', () => {
     beforeEach(() => {
-      wrapper = mountComponent({ modelValue: [new File(['test'], 'test.txt')] })
+      mountWith()
     })
 
-    BddTest().when('clicking on onClear button', () => {
-      BddTest().then('it should emit update:modelValue, update:validMessage, and update:error with null', async () => {
-        const onClearButton = wrapper.find('.av-button')
-        expect(onClearButton.exists()).toBe(true)
+    BddTest().then('it should update the model and emit change', async () => {
+      await selectFilesAndExpectSelection([FIRST_FILE])
+    })
 
-        await onClearButton.trigger('click')
+    BddTest().then('it should clear the native input value', async () => {
+      const inputElement = await selectFiles([FIRST_FILE], `C:\\fakepath\\${FIRST_FILE_NAME}`)
 
-        expect(wrapper.emitted('update:modelValue')).toBeTruthy()
-        expect(wrapper.emitted('update:modelValue')?.[0][0]).toBeNull()
-
-        expect(wrapper.emitted('update:validMessage')).toBeTruthy()
-        expect(wrapper.emitted('update:validMessage')?.[0][0]).toBeNull()
-
-        expect(wrapper.emitted('update:error')).toBeTruthy()
-        expect(wrapper.emitted('update:error')?.[0][0]).toBeNull()
-      })
+      expect(inputElement.value).toBe('')
     })
   })
 
-  BddTest().given('a fileUpload rendering', () => {
-    BddTest().when('fileName is set', () => {
-      beforeEach(() => {
-        wrapper = mountComponent({ fileName: 'file.txt', modelValue: null, deleteButtonLabel: 'delete', title: 'click here', description: 'or drag and drop' })
-      })
-
-      BddTest().then('it should render file info template', () => {
-        expect(wrapper.html()).toContain('file.txt')
-      })
-    })
-
-    BddTest().when('modelValue is set (fileName not provided)', () => {
-      let file: File
-
-      beforeEach(() => {
-        file = new File(['content'], 'file.txt')
-        wrapper = mountComponent({ modelValue: [file], fileName: undefined })
-      })
-
-      BddTest().then('it should render file info template', () => {
-        expect(wrapper.html()).toContain('file.txt')
-      })
-
-      BddTest().then('it should render the delete button', () => {
-        const deleteBtn = wrapper.find('.av-button')
-        expect(deleteBtn.exists()).toBe(true)
-      })
-    })
-
-    BddTest().when('modelValue is set and component is disabled', () => {
-      let file: File
-
-      beforeEach(() => {
-        file = new File(['content'], 'file.txt')
-        wrapper = mountComponent({ modelValue: [file], disabled: true })
-      })
-
-      BddTest().then('it should render file info template', () => {
-        expect(wrapper.html()).toContain('file.txt')
-      })
-
-      BddTest().then('it should not render the delete button', () => {
-        const deleteBtn = wrapper.find('.av-button')
-        expect(deleteBtn.exists()).toBe(false)
-      })
-    })
-
-    BddTest().when('neither fileName nor modelValue is set', () => {
-      beforeEach(() => {
-        wrapper = mountComponent({ modelValue: null, fileName: undefined })
-      })
-
-      BddTest().then('it should render upload input template', () => {
-        expect(wrapper.find('input[type="file"]').exists()).toBe(true)
-      })
-    })
-  })
-
-  BddTest().and('with compact variant', () => {
+  BddTest().when('a file is selected in multiple mode', () => {
     beforeEach(() => {
-      wrapper = mountComponent({ compact: true, title: 'Joindre un/des document(s)', description: '' })
-    })
-
-    BddTest().when('the component is mounted', () => {
-      BddTest().then('it should render compact layout', () => {
-        expect(wrapper.find('.av-compact-upload').exists()).toBe(true)
-        expect(wrapper.find('.av-compact-add-pill').exists()).toBe(true)
+      mountWith({
+        enableMultiple: true,
       })
     })
 
-    BddTest().when('files are provided', () => {
-      beforeEach(() => {
-        const file1 = new File(['content1'], 'document1.pdf')
-        const file2 = new File(['content2'], 'document2.pdf')
-        wrapper = mount<typeof AvFileUpload>(AvFileUpload, {
-          props: {
-            title: 'Ajouter un document',
-            description: 'ou glisser et déposer ici',
-            deleteButtonLabel: 'delete',
-            compact: true,
-            enableMultiple: true,
-            modelValue: [file1, file2],
-            fileName: undefined,
-          },
-          global: { stubs },
-          slots: {
-            default: '<span>Upload a file</span>',
-            hint: '<span>Accepted files: .pdf, .jpg</span>',
-          },
-        })
-      })
-
-      BddTest().then('it should render file pills', () => {
-        expect(wrapper.findAll('.av-file-pill')).toHaveLength(2)
-        expect(wrapper.html()).toContain('document1.pdf')
-        expect(wrapper.html()).toContain('document2.pdf')
-      })
-
-      BddTest().then('each pill should have a delete button', () => {
-        const pills = wrapper.findAll('.av-file-pill')
-        const deleteButtons = pills.map(p => p.findComponent({ name: 'AvButton' }))
-        expect(deleteButtons.every(b => b.exists())).toBe(true)
-      })
+    BddTest().then('it should add and emit the file', async () => {
+      await selectFilesAndExpectSelection([FIRST_FILE])
     })
   })
 
-  BddTest().and('with enableMultiple prop', () => {
-    const file1 = new File(['content1'], 'file1.txt')
-
+  BddTest().when('a second file is selected in multiple mode', () => {
     beforeEach(() => {
-      wrapper = mount<typeof AvFileUpload>(AvFileUpload, {
-        props: {
-          title: 'Ajouter un document',
-          description: 'ou glisser et déposer ici',
-          deleteButtonLabel: 'delete',
-          enableMultiple: true,
-          modelValue: [file1],
-        },
-        global: { stubs },
-        slots: {
-          default: '<span>Upload a file</span>',
-          hint: '<span>Accepted files: .pdf, .jpg</span>',
+      mountWith({
+        enableMultiple: true,
+        modelValue: [FIRST_FILE],
+      })
+    })
+
+    BddTest().then('it should append the new file', async () => {
+      await selectFilesAndExpectSelection([SECOND_FILE], TWO_FILES)
+    })
+  })
+
+  BddTest().when('a file is already selected in multiple mode', () => {
+    beforeEach(() => {
+      mountWith({
+        enableMultiple: true,
+        modelValue: [FIRST_FILE],
+      })
+    })
+
+    BddTest().then('it should keep the file input available', () => {
+      expect(getFileInput().exists()).toBe(true)
+    })
+
+    BddTest().then('it should not automatically display the preview', () => {
+      expect(wrapper.text()).toContain(TITLE)
+      expect(wrapper.text()).toContain(DESCRIPTION)
+    })
+
+    BddTest().then('it should allow adding another file', async () => {
+      await selectFilesAndExpectSelection([SECOND_FILE], TWO_FILES)
+    })
+  })
+
+  BddTest().when('collection validation rejects the selection', () => {
+    beforeEach(() => {
+      mountWith({
+        validateFiles: createValidateFiles(REQUIRED_ERROR),
+      })
+    })
+
+    BddTest().then('it should emit the global rejection', async () => {
+      await selectFiles([FIRST_FILE])
+
+      expectFilesRejected(REQUIRED_ERROR)
+    })
+
+    BddTest().then('it should skip file-level validation', async () => {
+      const validateFile = createValidateFile(INVALID_TYPE_ERROR)
+
+      mountWith({
+        validateFiles: createValidateFiles(REQUIRED_ERROR),
+        validateFile,
+      })
+
+      await selectFiles([FIRST_FILE])
+
+      expect(validateFile).not.toHaveBeenCalled()
+    })
+  })
+
+  BddTest().when('file validation rejects a file in single mode', () => {
+    beforeEach(() => {
+      mountWith({
+        validateFile: createValidateFile(INVALID_TYPE_ERROR),
+      })
+    })
+
+    BddTest().then('it should emit the error as a global rejection', async () => {
+      await selectFiles([FIRST_FILE])
+
+      expectFilesRejected(INVALID_TYPE_ERROR)
+    })
+  })
+
+  BddTest().when('file validation returns multiple errors in single mode', () => {
+    beforeEach(() => {
+      mountWith({
+        validateFile: createValidateFile([
+          INVALID_TYPE_ERROR,
+          TOO_LARGE_ERROR,
+        ]),
+      })
+    })
+
+    BddTest().then('it should emit the first error as a global rejection', async () => {
+      await selectFiles([FIRST_FILE])
+
+      expectFilesRejected(INVALID_TYPE_ERROR)
+    })
+  })
+
+  BddTest().when('a validation error message getter is provided', () => {
+    beforeEach(() => {
+      mountWith({
+        validateFile: createValidateFile(INVALID_TYPE_ERROR),
+        getErrorMessage: (error) => {
+          if (error === INVALID_TYPE_ERROR) {
+            return INVALID_TYPE_MESSAGE
+          }
+
+          return undefined
         },
       })
     })
 
-    BddTest().when('a single file is in modelValue', () => {
-      BddTest().then('it should render the file in preview', () => {
-        expect(wrapper.html()).toContain('file1.txt')
+    BddTest().then('it should display the corresponding validation error message', async () => {
+      await selectFiles([FIRST_FILE])
+
+      expect(getAvMessage().props('type')).toBe('error')
+      expect(getAvMessage().props('message')).toEqual([INVALID_TYPE_MESSAGE])
+      expectFilesRejected(INVALID_TYPE_ERROR)
+    })
+  })
+
+  BddTest().when('a validation error message getter returns void', () => {
+    beforeEach(() => {
+      mountWith({
+        validateFile: createValidateFile(INVALID_TYPE_ERROR),
+        getErrorMessage: () => undefined,
       })
     })
 
-    BddTest().when('enableMultiple is true but no files yet', () => {
-      beforeEach(() => {
-        wrapper = mountComponent({ enableMultiple: true, modelValue: null })
+    BddTest().then('it should not display a validation error message', async () => {
+      await selectFiles([FIRST_FILE])
+
+      expect(getAvMessage().exists()).toBe(false)
+    })
+
+    BddTest().then('it should still emit the validation rejection', async () => {
+      await selectFiles([FIRST_FILE])
+
+      expectFilesRejected(INVALID_TYPE_ERROR)
+    })
+  })
+
+  BddTest().when('an external error message and a validation error message getter are provided', () => {
+    beforeEach(() => {
+      mountWith({
+        validateFile: createValidateFile(INVALID_TYPE_ERROR),
+        getErrorMessage: () => INVALID_TYPE_MESSAGE,
+        errorMessage: ERROR_MESSAGE,
+      })
+    })
+
+    BddTest().then('it should display the external error message', async () => {
+      await selectFiles([FIRST_FILE])
+
+      expect(getAvMessage().props('type')).toBe('error')
+      expect(getAvMessage().props('message')).toBe(ERROR_MESSAGE)
+    })
+  })
+
+  BddTest().when('mixed validation results are returned in multiple mode', () => {
+    const validateFile = vi.fn<FileValidator>((file) => {
+      if (file === FIRST_FILE) {
+        return [TOO_LARGE_ERROR, REQUIRED_ERROR]
+      }
+
+      if (file === SECOND_FILE) {
+        return INVALID_TYPE_ERROR
+      }
+
+      return undefined
+    })
+
+    beforeEach(() => {
+      mountWith({
+        enableMultiple: true,
+        validateFiles: createValidateFiles([
+          {
+            file: FIRST_FILE,
+            errors: TOO_LARGE_ERROR,
+          },
+          {
+            file: SECOND_FILE,
+            errors: INVALID_TYPE_ERROR,
+          },
+        ]),
+        validateFile,
+      })
+    })
+
+    BddTest().then('it should merge and deduplicate validation errors', async () => {
+      await selectFiles(ALL_FILES)
+
+      expectFilesRejected([
+        {
+          file: FIRST_FILE,
+          errors: [TOO_LARGE_ERROR, REQUIRED_ERROR],
+        },
+        {
+          file: SECOND_FILE,
+          errors: [INVALID_TYPE_ERROR],
+        },
+      ])
+    })
+
+    BddTest().then('it should keep valid files', async () => {
+      await selectFilesAndExpectSelection(ALL_FILES, [THIRD_FILE])
+    })
+
+    BddTest().then('it should emit change before filesRejected', async () => {
+      await selectFiles(ALL_FILES)
+
+      const events = Object.keys(wrapper.emitted() ?? {})
+      expect(events.indexOf('change')).toBeLessThan(events.indexOf('filesRejected'))
+    })
+  })
+
+  BddTest().when('all files are rejected in multiple mode', () => {
+    beforeEach(() => {
+      mountWith({
+        enableMultiple: true,
+        validateFile: createValidateFile(INVALID_TYPE_ERROR),
+      })
+    })
+
+    BddTest().then('it should emit all file rejections without changing the model', async () => {
+      await selectFiles(TWO_FILES)
+
+      expectFilesRejected([
+        {
+          file: FIRST_FILE,
+          errors: [INVALID_TYPE_ERROR],
+        },
+        {
+          file: SECOND_FILE,
+          errors: [INVALID_TYPE_ERROR],
+        },
+      ])
+
+      expectNoSelectionChange()
+    })
+  })
+
+  BddTest().when('collection validation is asynchronous', () => {
+    beforeEach(() => {
+      mountWith({
+        validateFiles: createValidateFiles(Promise.resolve(REQUIRED_ERROR)),
+      })
+    })
+
+    BddTest().then('it should await the validation result', async () => {
+      await selectFiles([FIRST_FILE])
+
+      expectFilesRejected(REQUIRED_ERROR)
+    })
+  })
+
+  BddTest().when('file validation is asynchronous', () => {
+    beforeEach(() => {
+      mountWith({
+        validateFile: createValidateFile(Promise.resolve(INVALID_TYPE_ERROR)),
+      })
+    })
+
+    BddTest().then('it should await the validation result', async () => {
+      await selectFiles([FIRST_FILE])
+
+      expectFilesRejected(INVALID_TYPE_ERROR)
+    })
+  })
+
+  BddTest().when('a file is dropped', () => {
+    beforeEach(() => {
+      mountWith()
+    })
+
+    BddTest().then('it should update the model and emit change', async () => {
+      await dropFiles([FIRST_FILE])
+
+      expectSelection([FIRST_FILE])
+    })
+  })
+
+  BddTest().when('a dragover occurs', () => {
+    beforeEach(() => {
+      mountWith()
+    })
+
+    BddTest().then('it should add the drag-over class', async () => {
+      const label = getUploadLabel()
+
+      await label.trigger('dragover', {
+        dataTransfer: {
+          files: createFileList([FIRST_FILE]),
+        },
       })
 
-      BddTest().then('it should have the file input visible', () => {
-        expect(wrapper.find('input[type="file"]').exists()).toBe(true)
+      expect(label.classes()).toContain('drag-over')
+    })
+  })
+
+  BddTest().when('a dragleave occurs after a dragover', () => {
+    beforeEach(() => {
+      mountWith()
+    })
+
+    BddTest().then('it should remove the drag-over class', async () => {
+      const label = getUploadLabel()
+
+      await label.trigger('dragover', {
+        dataTransfer: {
+          files: createFileList([FIRST_FILE]),
+        },
       })
 
-      BddTest().then('adding a file then another should append files to the array', async () => {
-        const file1 = new File(['content1'], 'file1.txt')
-        const input = wrapper.find('input[type="file"]')
-        const files1 = {
-          0: file1,
-          length: 1,
-          item: () => file1,
-        } as unknown as FileList
+      await label.trigger('dragleave')
 
-        const event1 = new Event('change')
-        Object.defineProperty(event1, 'target', {
-          value: { value: 'C:\\fakepath\\file1.txt', files: files1 },
-          writable: false,
-        })
+      expect(label.classes()).not.toContain('drag-over')
+    })
+  })
 
-        await input.element.dispatchEvent(event1)
-
-        let emittedValue = wrapper.emitted('update:modelValue')?.[0][0] as File[]
-        expect(emittedValue).toHaveLength(1)
-        expect(emittedValue[0].name).toBe('file1.txt')
-
-        await wrapper.setProps({ modelValue: emittedValue })
-
-        const file2 = new File(['content2'], 'file2.txt')
-        const files2 = {
-          0: file2,
-          length: 1,
-          item: () => file2,
-        } as unknown as FileList
-
-        const event2 = new Event('change')
-        Object.defineProperty(event2, 'target', {
-          value: { value: 'C:\\fakepath\\file2.txt', files: files2 },
-          writable: false,
-        })
-
-        await input.element.dispatchEvent(event2)
-
-        emittedValue = wrapper.emitted('update:modelValue')?.[1][0] as File[]
-        expect(emittedValue).toHaveLength(2)
-        expect(emittedValue[0].name).toBe('file1.txt')
-        expect(emittedValue[1].name).toBe('file2.txt')
+  BddTest().when('a rejected file is dropped', () => {
+    beforeEach(() => {
+      mountWith({
+        validateFile: createValidateFile(INVALID_TYPE_ERROR),
       })
+    })
+
+    BddTest().then('it should emit the rejection without changing the model', async () => {
+      await dropFiles([FIRST_FILE])
+
+      expectFilesRejected(INVALID_TYPE_ERROR)
+      expectNoSelectionChange()
+    })
+  })
+
+  BddTest().when('a file is selected on a disabled uploader', () => {
+    beforeEach(() => {
+      mountWith({
+        disabled: true,
+      })
+    })
+
+    BddTest().then('it should disable the native input', () => {
+      expect(getFileInput().attributes('disabled')).toBeDefined()
+    })
+  })
+
+  BddTest().when('a file is dropped on a disabled uploader', () => {
+    beforeEach(() => {
+      mountWith({
+        disabled: true,
+      })
+    })
+
+    BddTest().then('it should not emit any file event', async () => {
+      await dropFiles([FIRST_FILE])
+
+      expectNoSelectionChange()
+      expect(wrapper.emitted('filesRejected')).toBeUndefined()
+    })
+  })
+
+  BddTest().when('a dragover occurs on a disabled uploader', () => {
+    beforeEach(() => {
+      mountWith({
+        disabled: true,
+      })
+    })
+
+    BddTest().then('it should not enter the drag-over state', async () => {
+      const label = getUploadLabel()
+
+      await label.trigger('dragover', {
+        dataTransfer: {
+          files: createFileList([FIRST_FILE]),
+        },
+      })
+
+      expect(label.classes()).not.toContain('drag-over')
+    })
+  })
+
+  BddTest().when('a file is already selected in single mode', () => {
+    beforeEach(() => {
+      mountWith({
+        modelValue: [FIRST_FILE],
+      })
+    })
+
+    BddTest().then('it should automatically display the preview', () => {
+      expect(wrapper.text()).toContain(FIRST_FILE_NAME)
+      expect(getFileInput().exists()).toBe(false)
+      expect(getAvButton().exists()).toBe(true)
+    })
+  })
+
+  BddTest().when('an explicit preview and fileName are provided', () => {
+    beforeEach(() => {
+      mountWith({
+        isPreview: true,
+        fileName: PERSISTED_FILE_NAME,
+      })
+    })
+
+    BddTest().then('it should render the configured file name', () => {
+      expect(wrapper.text()).toContain(PERSISTED_FILE_NAME)
+    })
+
+    BddTest().then('it should not render the file input', () => {
+      expect(getFileInput().exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render a delete button without modelValue files', () => {
+      expect(getAvButton().exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('an explicit preview is enabled in multiple mode', () => {
+    beforeEach(() => {
+      mountWith({
+        enableMultiple: true,
+        isPreview: true,
+        modelValue: TWO_FILES,
+      })
+    })
+
+    BddTest().then('it should display the selected files', () => {
+      expect(wrapper.text()).toContain(FIRST_FILE_NAME)
+      expect(wrapper.text()).toContain(SECOND_FILE_NAME)
+    })
+
+    BddTest().then('it should not render the file input', () => {
+      expect(getFileInput().exists()).toBe(false)
+    })
+
+    BddTest().then('it should not allow adding files', async () => {
+      await wrapper.vm.addFiles([THIRD_FILE])
+
+      expectNoSelectionChange()
+    })
+  })
+
+  BddTest().when('fileName and a selected file are provided', () => {
+    beforeEach(() => {
+      mountWith({
+        fileName: PERSISTED_FILE_NAME,
+        modelValue: [FIRST_FILE],
+      })
+    })
+
+    BddTest().then('it should display fileName instead of the File name', () => {
+      expect(wrapper.text()).toContain(PERSISTED_FILE_NAME)
+      expect(wrapper.text()).not.toContain(FIRST_FILE_NAME)
+    })
+  })
+
+  BddTest().when('deletable is false', () => {
+    beforeEach(() => {
+      mountWith({
+        deletable: false,
+      })
+    })
+
+    BddTest().then('it should still allow files to be added', async () => {
+      await selectFilesAndExpectSelection([FIRST_FILE])
+    })
+  })
+
+  BddTest().when('deletable is false with a selected file', () => {
+    beforeEach(() => {
+      mountWith({
+        modelValue: [FIRST_FILE],
+        deletable: false,
+      })
+    })
+
+    BddTest().then('it should not render a delete button', () => {
+      expect(getAvButton().exists()).toBe(false)
+    })
+
+    BddTest().then('deleteFiles should not delete the file', () => {
+      wrapper.vm.deleteFiles()
+
+      expectNoDeletion()
+    })
+  })
+
+  BddTest().when('isPreview is true and deletable is true', () => {
+    beforeEach(() => {
+      mountWith({
+        isPreview: true,
+        modelValue: [FIRST_FILE],
+      })
+    })
+
+    BddTest().then('it should not render the file input', () => {
+      expect(getFileInput().exists()).toBe(false)
+    })
+
+    BddTest().then('it should still render the delete button', () => {
+      expect(getAvButton().exists()).toBe(true)
+    })
+
+    BddTest().then('it should allow deleting the file', () => {
+      wrapper.vm.deleteFiles()
+
+      expectSelection([])
+      expectFilesDeleted([FIRST_FILE])
+    })
+  })
+
+  BddTest().when('the default delete button is clicked', () => {
+    beforeEach(() => {
+      mountWith({
+        enableMultiple: true,
+        modelValue: TWO_FILES,
+      })
+    })
+
+    BddTest().then('it should request deletion of all selected files', async () => {
+      await getAvButton().trigger('click')
+
+      expectDeleteFilesRequested(TWO_FILES)
+      expectNoSelectionChange()
+      expect(wrapper.emitted('filesDeleted')).toBeUndefined()
+    })
+  })
+
+  BddTest().when('a file pill delete button is clicked', () => {
+    beforeEach(() => {
+      mountWith({
+        compact: true,
+        enableMultiple: true,
+        modelValue: TWO_FILES,
+      })
+    })
+
+    BddTest().then('it should request deletion of that file', async () => {
+      await getDeleteFileButton().trigger('click')
+
+      expectDeleteFilesRequested([FIRST_FILE])
+      expectNoSelectionChange()
+      expect(wrapper.emitted('filesDeleted')).toBeUndefined()
+    })
+  })
+
+  BddTest().when('deleteFiles is called without an argument', () => {
+    beforeEach(() => {
+      mountWith({
+        enableMultiple: true,
+        modelValue: ALL_FILES,
+      })
+    })
+
+    BddTest().then('it should delete every selected file', () => {
+      wrapper.vm.deleteFiles()
+
+      expectSelection([])
+      expectFilesDeleted(ALL_FILES)
+    })
+
+    BddTest().then('it should clear the validation messages', () => {
+      wrapper.vm.deleteFiles()
+
+      expectMessagesCleared()
+    })
+  })
+
+  BddTest().when('deleteFiles is called with indexes', () => {
+    beforeEach(() => {
+      mountWith({
+        enableMultiple: true,
+        modelValue: ALL_FILES,
+      })
+    })
+
+    BddTest().then('it should delete only the selected indexes', () => {
+      wrapper.vm.deleteFiles([0, 2])
+
+      expectSelection([SECOND_FILE])
+      expectFilesDeleted([FIRST_FILE, THIRD_FILE])
+    })
+  })
+
+  BddTest().when('deleteFiles is called with a file', () => {
+    beforeEach(() => {
+      mountWith({
+        enableMultiple: true,
+        modelValue: ALL_FILES,
+      })
+    })
+
+    BddTest().then('it should delete the specified file', () => {
+      wrapper.vm.deleteFiles([SECOND_FILE])
+
+      expectSelection([FIRST_FILE, THIRD_FILE])
+      expectFilesDeleted([SECOND_FILE])
+    })
+  })
+
+  BddTest().when('deleteFiles is called with an invalid index', () => {
+    beforeEach(() => {
+      mountWith({
+        enableMultiple: true,
+        modelValue: TWO_FILES,
+      })
+    })
+
+    BddTest().then('it should not emit anything', () => {
+      wrapper.vm.deleteFiles([42])
+
+      expectNoDeletion()
+    })
+  })
+
+  BddTest().when('deletion is disabled', () => {
+    beforeEach(() => {
+      mountWith({
+        disabled: true,
+        modelValue: [FIRST_FILE],
+      })
+    })
+
+    BddTest().then('it should not render the delete button', () => {
+      expect(getAvButton().exists()).toBe(false)
+    })
+
+    BddTest().then('deleteFiles should not emit deletion events', () => {
+      wrapper.vm.deleteFiles()
+
+      expectNoDeletion()
+    })
+  })
+
+  BddTest().when('compact mode is enabled', () => {
+    beforeEach(() => {
+      mountWith({
+        compact: true,
+      })
+    })
+
+    BddTest().then('it should render the compact add pill', () => {
+      expect(getCompactAddPill().exists()).toBe(true)
+    })
+  })
+
+  BddTest().when('compact mode and a hint slot are provided', () => {
+    beforeEach(() => {
+      mountWith({ compact: true }, {}, {
+        hint: `<span data-testid="compact-hint">${COMPACT_HINT}</span>`,
+      })
+    })
+
+    BddTest().then('it should render the hint slot', () => {
+      expect(wrapper.get('[data-testid="compact-hint"]').text()).toBe(COMPACT_HINT)
+    })
+  })
+
+  BddTest().when('compact mode contains multiple selected files', () => {
+    beforeEach(() => {
+      mountWith({
+        compact: true,
+        enableMultiple: true,
+        modelValue: TWO_FILES,
+      })
+    })
+
+    BddTest().then('it should render one file pill per selected file', () => {
+      expect(getFilePills()).toHaveLength(2)
+    })
+
+    BddTest().then('each file pill should be deletable', () => {
+      const filePills = getFilePills()
+      expect(filePills[0].props('deletable')).toBe(true)
+      expect(filePills[1].props('deletable')).toBe(true)
+    })
+
+    BddTest().then('it should keep the add pill available', () => {
+      expect(getCompactAddPill().exists()).toBe(true)
+    })
+  })
+
+  BddTest().when('compact preview mode is enabled', () => {
+    beforeEach(() => {
+      mountWith({
+        compact: true,
+        isPreview: true,
+        modelValue: [FIRST_FILE],
+      })
+    })
+
+    BddTest().then('it should keep the file pill visible', () => {
+      expect(getFilePills()).toHaveLength(1)
+    })
+
+    BddTest().then('it should hide the add pill', () => {
+      expect(getCompactAddPill().exists()).toBe(false)
+    })
+
+    BddTest().then('it should keep the file pill deletable', () => {
+      expect(getFilePills()[0].props('deletable')).toBe(true)
+    })
+  })
+
+  BddTest().when('compact mode and fileName are provided without modelValue', () => {
+    beforeEach(() => {
+      mountWith({
+        compact: true,
+        fileName: PERSISTED_FILE_NAME,
+      })
+    })
+
+    BddTest().then('it should render the configured file name', () => {
+      expect(wrapper.text()).toContain(PERSISTED_FILE_NAME)
+    })
+
+    BddTest().then('the file pill should not be deletable', () => {
+      expect(getFilePills()[0].props('deletable')).toBe(false)
+    })
+  })
+
+  BddTest().when('custom file pill labels are provided', () => {
+    beforeEach(() => {
+      mountWith({
+        compact: true,
+        modelValue: [FIRST_FILE],
+        filePillDownloadPrefixLabel: DOWNLOAD_PREFIX_LABEL,
+        filePillDeletePrefixLabel: DELETE_PREFIX_LABEL,
+      })
+    })
+
+    BddTest().then('it should forward them to AvFilePill', () => {
+      expect(getFilePills()[0].props()).toMatchObject({
+        downloadPrefixLabel: DOWNLOAD_PREFIX_LABEL,
+        deletePrefixLabel: DELETE_PREFIX_LABEL,
+      })
+    })
+  })
+
+  BddTest().when('a custom delete button label is provided', () => {
+    beforeEach(() => {
+      mountWith({
+        modelValue: [FIRST_FILE],
+        deleteButtonLabel: DELETE_BUTTON_LABEL,
+      })
+    })
+
+    BddTest().then('it should forward it to AvButton', () => {
+      expect(getAvButton().props('label')).toBe(DELETE_BUTTON_LABEL)
+    })
+  })
+
+  BddTest().when('addFiles is called with a valid file', () => {
+    beforeEach(() => {
+      mountWith()
+    })
+
+    BddTest().then('it should add and emit the file', async () => {
+      const files = [FIRST_FILE]
+
+      await wrapper.vm.addFiles(files)
+
+      expectSelection(files)
+    })
+  })
+
+  BddTest().when('addFiles is called without files', () => {
+    beforeEach(() => {
+      mountWith()
+    })
+
+    BddTest().then('it should not emit anything', async () => {
+      await wrapper.vm.addFiles([])
+
+      expectNoSelectionChange()
+    })
+  })
+
+  BddTest().when('addFiles is called while disabled', () => {
+    beforeEach(() => {
+      mountWith({
+        disabled: true,
+      })
+    })
+
+    BddTest().then('it should not add the file', async () => {
+      await wrapper.vm.addFiles([FIRST_FILE])
+
+      expectNoSelectionChange()
+    })
+  })
+
+  BddTest().when('addFiles is called while in preview', () => {
+    beforeEach(() => {
+      mountWith({
+        isPreview: true,
+      })
+    })
+
+    BddTest().then('it should not add the file', async () => {
+      await wrapper.vm.addFiles([FIRST_FILE])
+
+      expectNoSelectionChange()
     })
   })
 })

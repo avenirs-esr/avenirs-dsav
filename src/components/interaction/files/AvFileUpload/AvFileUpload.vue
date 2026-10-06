@@ -1,186 +1,91 @@
-<script setup lang="ts">
-import type { AvInteractiveProps } from '@/types/interfaces.types'
-import { nextTick, type Slot } from 'vue'
+<script setup lang="ts" generic="TError extends string = string">
+import type { ComputedRef, Slot } from 'vue'
+import type { AvMessageProps } from '@/components/base'
+import type { AvFileUploadFilesRejections, AvFileUploadProps } from '@/components/interaction/files/AvFileUpload/AvFileUpload.types'
+import { getFilesToDelete, getValidationErrorMessages, useFileDropZone, validateFilesToAdd } from '@/components/interaction/files/AvFileUpload/AvFileUpload.utils'
 import AvFileUploadCompact from '@/components/interaction/files/AvFileUpload/AvFileUploadCompact.vue'
-import { type AvFileUploadContext, AvFileUploadContextKey } from '@/components/interaction/files/AvFileUpload/AvFileUploadContext'
+import { AvFileUploadContextKey } from '@/components/interaction/files/AvFileUpload/AvFileUploadContext'
 import AvFileUploadDefault from '@/components/interaction/files/AvFileUpload/AvFileUploadDefault.vue'
 import { getAvTooltipContent, isAvTooltipEnabled } from '@/components/overlay/tooltips/AvTooltip/utils'
-
-/**
- * AvFileUpload component props.
- */
-export interface AvFileUploadProps extends AvInteractiveProps {
-  /**
-   * Unique identifier for the file upload component.
-   * If not specified, a random ID is generated.
-   *
-   * @default `file-upload-${crypto.randomUUID()}`
-   */
-  id?: string
-
-  /**
-   * ARIA label for file upload button.
-   *
-   * @default ''
-   */
-  ariaLabel?: string
-
-  /**
-   * Accepted file types, specified as a string (like HTML `accept` attribute)
-   * or an array of strings (which will be transformed into a string).
-   *
-   * @default undefined
-   */
-  accept?: string | string[]
-
-  /**
-   * Maximum allowed file size in megabytes.
-   *
-   * @default undefined
-   */
-  maxFileSizeMb?: number
-
-  /**
-   * Error message to be displayed in case of upload problem.
-   *
-   * @default ''
-   */
-  error?: string
-
-  /**
-   * Message indicating that the uploaded file is valid.
-   *
-   * @default ''
-   */
-  validMessage?: string
-
-  /**
-   * Array of selected files.
-   *
-   * @default null
-   */
-  modelValue?: File[] | null
-
-  /**
-   * Max width of the component.
-   *
-   * @default undefined
-   */
-  maxWidth?: string
-
-  /**
-   * Title of the file upload section.
-   */
-  title: string
-
-  /**
-   * Description of the file upload section.
-   */
-  description: string
-
-  /**
-   * Delete button label.
-   *
-   * @default 'Remove'
-   */
-  deleteButtonLabel?: string
-
-  /**
-   * Name of the file to display as default (e.g., for server-persisted uploads).
-   *
-   * @default undefined
-   */
-  fileName?: string
-
-  /**
-   * Display in compact mode with file pills.
-   *
-   * @default false
-   */
-  compact?: boolean
-
-  /**
-   * Enable multiple file uploads.
-   *
-   * @default false
-   */
-  enableMultiple?: boolean
-
-  /**
-   * Prefix for the download button label in AvFilePill. If not provided, the default label will be "Download {name}".
-   * @default 'Download'
-   */
-  filePillDownloadPrefixLabel?: string
-
-  /**
-   * Prefix for the delete button label in AvFilePill. If not provided, the default label will be "Delete {name}".
-   * @default 'Delete'
-   */
-  filePillDeletePrefixLabel?: string
-}
 
 defineOptions({
   inheritAttrs: false,
 })
 
-const props = withDefaults(defineProps<AvFileUploadProps>(), {
-  id: undefined,
-  ariaLabel: '',
-  accept: undefined,
-  maxFileSizeMb: undefined,
-  validMessage: '',
-  error: '',
-  maxWidth: 'none',
-  disabled: false,
-  deleteButtonLabel: 'Remove',
-  fileName: undefined,
-  compact: false,
-  enableMultiple: false,
-  filePillDownloadPrefixLabel: 'Download',
-  filePillDeletePrefixLabel: 'Delete',
-})
+const {
+  id = `file-upload-${crypto.randomUUID()}`,
+  title,
+  description,
+  ariaLabel = '',
+  fileName,
+  accept,
+  disabled = false,
+  isPreview: _isPreview = false,
+  deletable = true,
+  enableMultiple = false,
+  validateFile,
+  validateFiles,
+  getErrorMessage,
+  errorMessage,
+  validMessage,
+  compact = false,
+  maxWidth,
+  deleteButtonLabel = 'Delete',
+  filePillDownloadPrefixLabel = 'Download',
+  filePillDeletePrefixLabel = 'Delete',
+} = defineProps<AvFileUploadProps<TError>>()
 
 const emit = defineEmits<{
   /**
-   * Event emitted when the model value is updated.
-   * @param payload The updated files array (File[] or null).
+   * Event emitted when the file input is clicked.
    */
-  (e: 'update:modelValue', payload: File[] | null): void
-
-  /**
-   * Event emitted when the validMessage is updated.
-   * @param payload The updated message (string or null).
-   */
-  (e: 'update:validMessage', payload: string | null): void
-
-  /**
-   * Event emitted when the error is updated.
-   * @param payload The updated error message (string or null).
-   */
-  (e: 'update:error', payload: string | null): void
+  (e: 'click', event: MouseEvent): void
 
   /**
    * Event emitted when the selected file(s) change.
-   * @param payload The new list of selected files (FileList or File[]).
    */
-  (e: 'change', payload: FileList | File[]): void
+  (e: 'change', files: File[]): void
 
   /**
-   * Event emitted when a file is deleted.
-   * @param payload Optional: the File object or index that was deleted.
+   * Event emitted when file validation rejects the selection or one or more files.
+   *
+   * When `enableMultiple` is `false`, only the first validation error is emitted.
+   *
+   * @example
+   * ```ts
+   * function handleFilesRejected(rejections: AvFileUploadFilesRejections<MyError>) {
+   *   if (typeof rejections === 'string') {
+   *     // Global rejection
+   *     return
+   *   }
+   *
+   *   // File-specific rejections
+   * }
+   * ```
    */
-  (e: 'deleteFile', payload?: File | number): void
+  (e: 'filesRejected', rejections: AvFileUploadFilesRejections<TError>): void
 
   /**
-   * Event emitted when a file of wrong type is dropped or selected.
+   * Event emitted when deletion of one or more files is requested.
    */
-  (e: 'acceptTypeError'): void
+  (e: 'deleteFiles', files: File[]): void
 
   /**
-   * Event emitted when a dropped or selected file exceeds the configured size limit.
+   * Event emitted after one or more files have been deleted.
    */
-  (e: 'fileSizeError'): void
+  (e: 'filesDeleted', files: File[]): void
+
+  /**
+   * Event emitted when the errorMessage is updated.
+   */
+  (e: 'update:errorMessage', message?: string): void
+
+  /**
+   * Event emitted when the validMessage is updated.
+   */
+  (e: 'update:validMessage', message?: string): void
 }>()
+
 defineSlots<{
   /**
    * Slot for the hint description.
@@ -191,179 +96,169 @@ defineSlots<{
    * Slot for the left content.
    */
   left?: Slot
-
-  /**
-   * Default slot for global content between the left and right icons.
-   */
-  default?: Slot
 }>()
 
-const modelValue = defineModel<File[] | null>()
-
-const { id, accept, maxFileSizeMb, ariaLabel, disabled, validMessage, error } = toRefs(props)
-const realId = computed(() => id.value ?? `file-upload-${crypto.randomUUID()}`)
-
-const acceptTypes = computed(() => {
-  if (Array.isArray(accept.value)) {
-    return accept.value.join(',')
-  }
-  return accept.value
+const modelValue = defineModel<File[]>({
+  default: () => [],
 })
 
-const isDragging = ref(false)
+const validationErrorMessages = ref<string[]>()
 
-function isFileAccepted (file: File): boolean {
-  const acceptValue = acceptTypes.value
-  if (!acceptValue) {
-    return true
+const acceptTypes = computed(() => Array.isArray(accept) ? accept.join(',') : accept)
+const isPreview = computed(() => _isPreview || (!compact && !enableMultiple && modelValue.value.length > 0))
+const canAddFiles = computed(() => !disabled && !isPreview.value)
+const canDeleteFiles = computed(() => !disabled && deletable && modelValue.value.length > 0)
+const hasExternalMessage = computed(() => errorMessage !== undefined || validMessage !== undefined)
+
+function rejectFiles (rejections: AvFileUploadFilesRejections<TError>) {
+  if (!hasExternalMessage.value) {
+    validationErrorMessages.value = getValidationErrorMessages(rejections, getErrorMessage)
   }
-
-  const acceptedTypes = acceptValue.split(',').map(type => type.trim().toLowerCase())
-
-  return acceptedTypes.some((type) => {
-    if (type.startsWith('.')) {
-      return file.name.toLowerCase().endsWith(type)
-    }
-    else if (type.includes('/')) {
-      return file.type === type || file.type.startsWith(`${type.split('/')[0]}/`)
-    }
-    return false
-  })
+  emit('filesRejected', rejections)
 }
 
-function isFileSizeAccepted (file: File): boolean {
-  if (maxFileSizeMb.value === undefined || maxFileSizeMb.value <= 0) {
-    return true
-  }
-
-  return file.size <= maxFileSizeMb.value * 1024 * 1024
-}
-
-async function onDrop (event: DragEvent) {
-  event.preventDefault()
-  isDragging.value = false
-
-  if (disabled.value || !event.dataTransfer?.files?.length) {
+/**
+ * Validates and adds the provided files.
+ *
+ * A global error from `validateFiles` rejects the entire selection.
+ * In single-file mode, any validation error prevents the file from being added.
+ * In multiple-file mode, files with validation errors are rejected individually while the others are added.
+ *
+ * See `validateFile` and `validateFiles` for validation rules and rejection formats.
+ */
+async function addFiles (files: File[]) {
+  if (!canAddFiles.value || !files.length) {
     return
   }
 
-  const acceptedTypeFiles = Array.from(event.dataTransfer.files).filter(isFileAccepted)
-  const acceptedFiles = acceptedTypeFiles.filter(isFileSizeAccepted)
-  await nextTick()
+  validationErrorMessages.value = undefined
+
+  const filesToBeAdded = enableMultiple ? files : files.slice(0, 1)
+  const { globalError, fileRejections } = await validateFilesToAdd(filesToBeAdded, enableMultiple, validateFile, validateFiles)
+
+  if (globalError) {
+    rejectFiles(globalError)
+    return
+  }
+
+  const acceptedFiles = filesToBeAdded.filter(file => !fileRejections.has(file))
 
   if (acceptedFiles.length) {
-    if (props.enableMultiple) {
-      modelValue.value = [...(modelValue.value ?? []), ...acceptedFiles]
+    const selectedFiles = enableMultiple
+      ? [...modelValue.value, ...acceptedFiles]
+      : acceptedFiles
+
+    modelValue.value = selectedFiles
+    emit('change', selectedFiles)
+  }
+
+  if (fileRejections.size) {
+    rejectFiles(Array.from(fileRejections, ([file, errors]) => ({ file, errors })))
+  }
+}
+
+/**
+ * Deletes the specified files.
+ *
+ * Accepts files or their indexes. When no files are specified, all files are deleted.
+ * Clears validation messages and emits `filesDeleted` and `change` after the deletion.
+ */
+function deleteFiles (files?: (File | number)[]) {
+  if (!canDeleteFiles.value) {
+    return
+  }
+
+  const { toBeDeleted, remainingFiles } = getFilesToDelete(modelValue.value, files)
+
+  if (!toBeDeleted.length) {
+    return
+  }
+
+  modelValue.value = remainingFiles
+  validationErrorMessages.value = undefined
+
+  emit('update:validMessage', undefined)
+  emit('update:errorMessage', undefined)
+  emit('filesDeleted', toBeDeleted)
+  emit('change', remainingFiles)
+}
+
+async function onChange (event: Event) {
+  const input = event.target as HTMLInputElement
+  input.value = ''
+  await addFiles(Array.from(input.files ?? []))
+}
+
+function onDeleteFiles (filesIdx?: number[]) {
+  if (!canDeleteFiles.value) {
+    return
+  }
+
+  const { toBeDeleted } = getFilesToDelete(modelValue.value, filesIdx)
+
+  if (toBeDeleted.length) {
+    emit('deleteFiles', toBeDeleted)
+  }
+}
+
+const { isDragging, dropHandlers } = useFileDropZone(canAddFiles, addFiles)
+
+const uploadLabelAttrs = computed(() => ({
+  'for': id,
+  'class': [
+    'av-upload-group',
+    {
+      'av-upload-group--disabled': disabled,
+      'av-upload-group--error': errorMessage,
+      'av-upload-group--valid': validMessage,
+      'drag-over': isDragging.value,
+    },
+  ],
+  'aria-label': ariaLabel,
+  ...dropHandlers,
+}))
+const messageAttrs: ComputedRef<AvMessageProps | undefined> = computed(() => {
+  if (hasExternalMessage.value) {
+    return {
+      type: errorMessage !== undefined ? 'error' : 'success',
+      message: errorMessage ?? validMessage,
     }
-    else {
-      modelValue.value = [acceptedFiles[0]!]
+  }
+
+  if (validationErrorMessages.value?.length) {
+    return {
+      type: 'error',
+      message: validationErrorMessages.value,
     }
-    emit('change', acceptedFiles)
-  }
-  else if (acceptedTypeFiles.length) {
-    emit('fileSizeError')
-  }
-  else {
-    emit('acceptTypeError')
-  }
-}
-
-function onDragOver (event: DragEvent) {
-  event.preventDefault()
-  if (!disabled.value) {
-    isDragging.value = true
-  }
-}
-
-function onDragLeave () {
-  isDragging.value = false
-}
-
-function onChange ($event: InputEvent) {
-  const fileList = ($event.target as HTMLInputElement).files
-  const selectedFile = fileList?.[0]
-
-  if (selectedFile && !isFileAccepted(selectedFile)) {
-    emit('acceptTypeError')
-    return
   }
 
-  if (selectedFile && !isFileSizeAccepted(selectedFile)) {
-    emit('fileSizeError')
-    return
-  }
-
-  if (!fileList || !fileList.length) {
-    return
-  }
-
-  if (props.enableMultiple) {
-    modelValue.value = [...(modelValue.value ?? []), ...Array.from(fileList)]
-  }
-  else {
-    modelValue.value = [fileList[0]!]
-  }
-  emit('change', fileList)
-}
-
-const uploadLabelAttrs = computed(() => {
-  return {
-    'for': realId.value,
-    'class': [
-      'av-upload-group',
-      {
-        'av-upload-group--error': error.value,
-        'av-upload-group--valid': validMessage.value,
-        'av-upload-group--disabled': disabled.value,
-        'drag-over': isDragging.value,
-      },
-    ],
-    'aria-label': ariaLabel.value,
-    'onDragover': onDragOver,
-    'onDragleave': onDragLeave,
-    'onDrop': onDrop,
-  }
+  return undefined
 })
 
-function clearFile (file: File) {
-  const newFiles = (modelValue.value ?? []).filter(f => f !== file)
-  modelValue.value = newFiles.length > 0 ? newFiles : null
-}
-
-function clearFileByIndex (index: number) {
-  const newFiles = (modelValue.value ?? []).filter((_, i) => i !== index)
-  modelValue.value = newFiles.length > 0 ? newFiles : null
-}
-
-function onClear (file?: File | number) {
-  if (file !== undefined) {
-    if (typeof file === 'number') {
-      clearFileByIndex(file)
-    }
-    else {
-      clearFile(file)
-    }
-  }
-  else {
-    modelValue.value = null
-  }
-  emit('deleteFile', file)
-  emit('update:validMessage', null)
-  emit('update:error', null)
-  emit('change', [] as unknown as FileList)
-}
-
-const context: AvFileUploadContext = {
-  props,
+provide(AvFileUploadContextKey, {
+  id: toRef(() => id),
+  title: toRef(() => title),
+  description: toRef(() => description),
   modelValue,
-  realId: realId.value,
+  fileName: toRef(() => fileName),
+  disabled: toRef(() => disabled),
+  enableMultiple: toRef(() => enableMultiple),
+  maxWidth: toRef(() => maxWidth),
+  deleteButtonLabel: toRef(() => deleteButtonLabel),
+  filePillDownloadPrefixLabel: toRef(() => filePillDownloadPrefixLabel),
+  filePillDeletePrefixLabel: toRef(() => filePillDeletePrefixLabel),
   acceptTypes,
+  isPreview,
+  canAddFiles,
+  canDeleteFiles,
   uploadLabelAttrs,
-  onChange,
-  onClear,
-}
+  messageAttrs,
+})
 
-provide(AvFileUploadContextKey, context)
+defineExpose({
+  addFiles,
+  deleteFiles,
+})
 </script>
 
 <template>
@@ -372,15 +267,27 @@ provide(AvFileUploadContextKey, context)
     :disabled="!isAvTooltipEnabled({ disabled, disabledTooltip })"
     :force-focusable="isAvTooltipEnabled({ disabled, disabledTooltip })"
   >
-    <AvFileUploadCompact v-if="compact">
+    <AvFileUploadCompact
+      v-if="compact"
+      @click="emit('click', $event)"
+      @change="onChange"
+      @delete-files="filesIdx => onDeleteFiles([filesIdx])"
+    >
       <template #hint>
         <slot name="hint" />
       </template>
     </AvFileUploadCompact>
-    <AvFileUploadDefault v-else>
+
+    <AvFileUploadDefault
+      v-else
+      @click="emit('click', $event)"
+      @change="onChange"
+      @delete-files="onDeleteFiles"
+    >
       <template #left>
         <slot name="left" />
       </template>
+
       <template #hint>
         <slot name="hint" />
       </template>
