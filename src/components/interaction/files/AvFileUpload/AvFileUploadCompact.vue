@@ -6,28 +6,54 @@ import { useFileUploadContext } from '@/components/interaction/files/AvFileUploa
 import { MDI_ICONS } from '@/tokens'
 import { getFileExtension } from '@/utils'
 
+const emit = defineEmits<{
+  (e: 'click', event: MouseEvent): void
+  (e: 'change', event: Event): void
+  (e: 'deleteFiles', index: number): void
+}>()
+
 defineSlots<{
   hint?: Slot
 }>()
 
-const { props, modelValue, realId, acceptTypes, uploadLabelAttrs, onChange, onClear } = useFileUploadContext()
+const {
+  id,
+  title,
+  modelValue,
+  fileName,
+  disabled,
+  enableMultiple,
+  maxWidth,
+  filePillDownloadPrefixLabel,
+  filePillDeletePrefixLabel,
+  acceptTypes,
+  isPreview,
+  canDeleteFiles,
+  uploadLabelAttrs,
+  messageAttrs,
+} = useFileUploadContext()
 
 const files = computed(() => {
-  if (modelValue.value?.length) {
-    return modelValue.value.map(file => ({
-      name: file.name,
-      size: file.size,
-      type: getFileExtension(file.name),
-    }))
+  if (fileName.value) {
+    return [{
+      name: fileName.value,
+      size: undefined,
+      type: undefined,
+    }]
   }
-  return props.fileName ? [{ name: props.fileName, size: undefined, type: undefined }] : []
+
+  return modelValue.value.map(file => ({
+    name: file.name,
+    size: file.size,
+    type: getFileExtension(file.name),
+  }))
 })
 </script>
 
 <template>
   <div class="av-compact-upload">
     <div
-      v-if="files.length > 0"
+      v-if="files.length"
       class="av-compact-files-list av-col av-gap-xxs av-mb-xs"
     >
       <AvFilePill
@@ -36,14 +62,15 @@ const files = computed(() => {
         :name="file.name"
         :size="file.size"
         :type="file.type"
-        :deletable="!props.disabled"
-        :download-prefix-label="props.filePillDownloadPrefixLabel"
-        :delete-prefix-label="props.filePillDeletePrefixLabel"
-        @delete="() => onClear(modelValue?.length ? modelValue[idx] : idx)"
+        :deletable="canDeleteFiles"
+        :download-prefix-label="filePillDownloadPrefixLabel"
+        :delete-prefix-label="filePillDeletePrefixLabel"
+        @delete="emit('deleteFiles', idx)"
       />
     </div>
 
     <label
+      v-if="!isPreview"
       v-bind="uploadLabelAttrs"
       class="av-compact-add-pill av-row av-align-center av-gap-xs av-p-xs av-radius-md av-border-width-sm av-border-style-dashed av-border-stroke"
     >
@@ -52,24 +79,30 @@ const files = computed(() => {
         :name="MDI_ICONS.ATTACHMENT_PLUS"
         color="var(--dark-background-primary1)"
       />
-      <span class="b2-regular">{{ props.title }}</span>
+
+      <span class="b2-regular">
+        {{ title }}
+      </span>
+
       <input
-        :id="realId"
+        :id="id"
         class="av-upload"
         type="file"
-        :aria-describedby="props.error || props.validMessage ? `${realId}-desc` : ''"
-        :disabled="props.disabled"
-        :aria-disabled="props.disabled"
+        :aria-describedby="messageAttrs ? `${id}-desc` : ''"
+        :disabled="disabled"
+        :aria-disabled="disabled"
         :accept="acceptTypes"
-        :multiple="props.enableMultiple"
-        @change="onChange($event as InputEvent)"
+        :multiple="enableMultiple"
+        @click="emit('click', $event)"
+        @change="emit('change', $event)"
       >
     </label>
 
     <AvMessage
-      :type="props.error ? 'error' : 'success'"
-      :message="props.error ? props.error : props.validMessage"
+      v-if="messageAttrs"
+      v-bind="messageAttrs"
     />
+
     <span class="caption-light">
       <slot name="hint" />
     </span>
@@ -78,7 +111,7 @@ const files = computed(() => {
 
 <style lang="scss" scoped>
 .av-compact-upload {
-  max-width: v-bind('props.maxWidth');
+  max-width: v-bind('maxWidth');
 }
 
 .av-compact-add-pill {

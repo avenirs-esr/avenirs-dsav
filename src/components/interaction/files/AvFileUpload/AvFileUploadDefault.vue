@@ -5,14 +5,35 @@ import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
 import { useFileUploadContext } from '@/components/interaction/files/AvFileUpload/AvFileUploadContext'
 import { MDI_ICONS } from '@/tokens'
 
+const emit = defineEmits<{
+  (e: 'click', event: MouseEvent): void
+  (e: 'change', event: Event): void
+  (e: 'deleteFiles'): void
+}>()
+
 defineSlots<{
   left?: Slot
   hint?: Slot
 }>()
 
-const { props, modelValue, realId, acceptTypes, uploadLabelAttrs, onChange, onClear } = useFileUploadContext()
+const {
+  id,
+  title,
+  description,
+  modelValue,
+  fileName,
+  disabled,
+  enableMultiple,
+  deleteButtonLabel,
+  acceptTypes,
+  isPreview,
+  canAddFiles,
+  canDeleteFiles,
+  uploadLabelAttrs,
+  messageAttrs,
+} = useFileUploadContext()
 
-const isPreview = computed(() => !!props.fileName || (modelValue.value && modelValue.value.length > 0))
+const displayedFileName = computed(() => fileName.value || modelValue.value.map(file => file.name).join(', '))
 </script>
 
 <template>
@@ -22,9 +43,13 @@ const isPreview = computed(() => !!props.fileName || (modelValue.value && modelV
       v-bind="isPreview ? {} : uploadLabelAttrs"
       :class="isPreview ? 'file-preview-container av-radius-lg av-p-xs' : ''"
     >
-      <div :class="isPreview ? '' : 'file-upload-container av-radius-lg av-p-xs'">
+      <div
+        :class="isPreview ? '' : 'file-upload-container av-radius-lg av-p-xs'"
+      >
         <div class="av-row av-align-center av-gap-xs">
-          <div class="left-content-container av-row av-align-center av-justify-center av-radius-md">
+          <div
+            class="left-content-container av-row av-align-center av-justify-center av-radius-md"
+          >
             <slot name="left">
               <AvIcon
                 :size="2.5"
@@ -33,35 +58,45 @@ const isPreview = computed(() => !!props.fileName || (modelValue.value && modelV
               />
             </slot>
           </div>
+
           <div class="content-container av-col">
             <div v-if="isPreview">
-              <span class="b2-bold">{{ props.fileName || modelValue?.map(f => f.name).join(', ') }}</span>
+              <span class="b2-bold">
+                {{ displayedFileName }}
+              </span>
             </div>
+
             <div
               v-else
               class="av-col av-gap-xxs"
             >
-              <span class="b2-regular">{{ props.title }}</span>
-              <span class="caption-light">{{ props.description }}</span>
+              <span class="b2-regular">
+                {{ title }}
+              </span>
+
+              <span class="caption-light">
+                {{ description }}
+              </span>
             </div>
 
             <AvMessage
-              :type="props.error ? 'error' : 'success'"
-              :message="props.error ? props.error : props.validMessage"
+              v-if="messageAttrs"
+              v-bind="messageAttrs"
             />
           </div>
 
           <div
-            v-if="!props.disabled"
+            v-if="canDeleteFiles || canAddFiles"
             class="av-px-xs"
           >
             <AvButton
-              v-if="isPreview"
-              :label="props.deleteButtonLabel ?? 'Remove'"
+              v-if="canDeleteFiles"
+              :label="deleteButtonLabel"
               theme="SECONDARY"
               size="LG"
-              @click="() => onClear()"
+              @click.prevent.stop="emit('deleteFiles')"
             />
+
             <AvIcon
               v-else
               :size="1.5"
@@ -69,21 +104,24 @@ const isPreview = computed(() => !!props.fileName || (modelValue.value && modelV
               color="var(--dark-background-primary1)"
             />
           </div>
+
           <input
             v-if="!isPreview"
-            :id="realId"
+            :id="id"
             class="av-upload"
             type="file"
-            :aria-describedby="props.error || props.validMessage ? `${realId}-desc` : ''"
-            :disabled="props.disabled"
-            :aria-disabled="props.disabled"
+            :aria-describedby="messageAttrs ? `${id}-desc` : ''"
+            :disabled="disabled"
+            :aria-disabled="disabled"
             :accept="acceptTypes"
-            :multiple="props.enableMultiple"
-            @change="onChange($event as InputEvent)"
+            :multiple="enableMultiple"
+            @click="emit('click', $event)"
+            @change="emit('change', $event)"
           >
         </div>
       </div>
     </component>
+
     <span class="caption-light">
       <slot name="hint" />
     </span>
@@ -110,6 +148,7 @@ const isPreview = computed(() => !!props.fileName || (modelValue.value && modelV
 }
 
 .left-content-container {
+  flex: 0 0 auto;
   height: var(--dimension-4xl);
   width: var(--dimension-4xl);
   overflow: hidden;
@@ -118,9 +157,5 @@ const isPreview = computed(() => !!props.fileName || (modelValue.value && modelV
 .content-container {
   flex: 1 1 auto;
   min-width: 0;
-}
-
-.left-content-container, .right-icon-container {
-  flex: 0 0 auto;
 }
 </style>
