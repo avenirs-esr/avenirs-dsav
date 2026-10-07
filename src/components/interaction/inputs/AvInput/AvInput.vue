@@ -289,7 +289,7 @@ const inputProps = computed(() => ({
   minlength,
   required,
   type,
-  placeholder: !disabled ? placeholder : '',
+  placeholder,
   max: formatDateForInputType(type, maxDate) ?? attrs.max,
   min: formatDateForInputType(type, minDate) ?? attrs.min,
   ariaDescribedBy: descriptionId || undefined,
@@ -320,6 +320,7 @@ defineExpose({
         :content="getAvTooltipContent({ content: label, disabled, disabledTooltip })"
         :disabled="!isAvTooltipEnabled({ disabled, disabledTooltip })"
         :force-focusable="isAvTooltipEnabled({ disabled, disabledTooltip })"
+        full-width
       >
         <div class="av-input__control">
           <div
@@ -371,7 +372,7 @@ defineExpose({
                 :id="`${realId}-picker`"
                 class="av-input__input--date-picker"
                 :class="[commonInputClasses]"
-                :placeholder="!disabled ? getDateInputPlaceholder(type) : ''"
+                :placeholder="getDateInputPlaceholder(type)"
                 type="text"
                 readonly
                 :aria-label="label || placeholder"
@@ -446,6 +447,7 @@ defineExpose({
 
   &__control {
     position: relative;
+    width: 100%;
 
     &:focus-within {
       .av-input__prefix {

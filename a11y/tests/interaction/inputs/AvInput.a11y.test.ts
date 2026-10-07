@@ -8,6 +8,8 @@ const stories = [
   'Required',
   'Valid',
   'Disabled',
+  'DisabledWithPlaceholder',
+  'DisabledWithTooltip',
   'Email',
   'Password',
   'DateInput',
