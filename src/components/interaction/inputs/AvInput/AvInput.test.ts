@@ -135,6 +135,22 @@ BddTest().given('an AvInput', () => {
     })
   })
 
+  BddTest().when('the component is mounted with placeholder and disabled state', () => {
+    beforeEach(() => {
+      wrapper = mount<typeof AvInput>(AvInput, {
+        props: {
+          placeholder: 'Test placeholder',
+          disabled: true
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should keep the placeholder attribute', () => {
+      expect(wrapper.find('input').attributes('placeholder')).toBe('Test placeholder')
+    })
+  })
+
   BddTest().when('the component is mounted with disabled state', () => {
     beforeEach(() => {
       wrapper = mount<typeof AvInput>(AvInput, {

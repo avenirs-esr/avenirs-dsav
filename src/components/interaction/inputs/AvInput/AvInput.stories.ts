@@ -147,6 +147,21 @@ Disabled.args = {
   modelValue: 'This input is disabled'
 }
 
+export const DisabledWithPlaceholder = Template.bind({})
+DisabledWithPlaceholder.args = {
+  label: 'Disabled with placeholder',
+  placeholder: 'The placeholder stays visible',
+  disabled: true
+}
+
+export const DisabledWithTooltip = Template.bind({})
+DisabledWithTooltip.args = {
+  label: 'Disabled with tooltip',
+  placeholder: 'Same width as without tooltip',
+  disabled: true,
+  disabledTooltip: 'This input is disabled'
+}
+
 export const Email = Template.bind({})
 Email.args = {
   type: 'email',
