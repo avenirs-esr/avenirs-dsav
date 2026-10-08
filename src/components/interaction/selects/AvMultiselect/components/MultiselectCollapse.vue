@@ -1,13 +1,17 @@
 <script lang="ts" setup>
 import type AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
-import type { AvMultiselectOption } from '@/components/interaction/selects/AvMultiselect/AvMultiselect.types'
+import type {
+  AvMultiselectItem,
+  AvMultiselectOption,
+  AvMultiselectOptionGroup,
+} from '@/components/interaction/selects/AvMultiselect/AvMultiselect.types'
 import { nextTick } from 'vue'
 import { MDI_ICONS } from '@/tokens/icons'
 
 export interface MultiselectCollapseProps {
   isVisible: boolean
   selected: AvMultiselectOption[]
-  options: AvMultiselectOption[]
+  options: AvMultiselectItem[]
   hint?: string
   id: string
   selectAll?: boolean
@@ -41,10 +45,12 @@ const emit = defineEmits<{
   (e: 'close'): void
 }>()
 
-const filteringKey:(keyof AvMultiselectOption) = 'label'
-
 function generateId (option: AvMultiselectOption, id: string): string {
   return `${id}-${option.value}`
+}
+
+function isOptionGroup (option: AvMultiselectItem): option is AvMultiselectOptionGroup {
+  return 'children' in option && Array.isArray(option.children)
 }
 
 const host = ref<InstanceType<typeof AvButton> | null>(null)
@@ -88,37 +94,96 @@ watch(() => isVisible, (visible) => {
   }
 })
 
-const filteredOptions = computed(() =>
-  options.filter((option) => {
-    if (typeof option === 'object' && option !== null) {
-      return `${option[filteringKey]}`
-        .toLowerCase()
-        .includes(searchInput.value.toLowerCase())
+const filteredOptions = computed<AvMultiselectItem[]>(() => {
+  const searchValue = searchInput.value.toLowerCase()
+  const filtered: AvMultiselectItem[] = []
+
+  const optionMatchSearchValue = (option: AvMultiselectOption) => {
+    return option.label.toLowerCase().includes(searchValue)
+  }
+  for (const option of options) {
+    if (isOptionGroup(option)) {
+      const children = option.children.filter(optionMatchSearchValue)
+
+      if (children.length > 0) {
+        filtered.push({ ...option, children })
+      }
+
+      continue
     }
-    return `${option}`.toLowerCase().includes(searchInput.value.toLowerCase())
-  }),
-)
+
+    if (optionMatchSearchValue(option)) {
+      filtered.push(option)
+    }
+  }
+
+  return filtered
+})
+
+const selectableOptions = computed(() => filteredOptions.value.flatMap(option =>
+  isOptionGroup(option)
+    ? option.children.filter(child => !child.disabled)
+    : option.disabled ? [] : [option]
+))
+
+function isGroupSelected (group: AvMultiselectOptionGroup): boolean {
+  const children = group.children.filter(child => !child.disabled)
+  const selectedValues = new Set(selected.map(option => option.value))
+
+  return children.length > 0 && children.every(child => selectedValues.has(child.value))
+}
+
+function isGroupPartiallySelected (group: AvMultiselectOptionGroup): boolean {
+  const children = group.children.filter(child => !child.disabled)
+  const selectedValues = new Set(selected.map(option => option.value))
+  const selectedChildren = children.filter(child => selectedValues.has(child.value))
+
+  return selectedChildren.length > 0 && selectedChildren.length < children.length
+}
+
+function isGroupDisabled (group: AvMultiselectOptionGroup): boolean {
+  return group.children.every(child => child.disabled)
+}
+
+function handleGroupSelection (
+  group: AvMultiselectOptionGroup,
+  values: (string | number | boolean | undefined)[],
+) {
+  const modelSet = new Set<string | number>(model.value || [])
+  const groupValues = group.children
+    .filter(child => !child.disabled)
+    .map(child => child.value)
+
+  if (values.includes(true)) {
+    groupValues.forEach(value => modelSet.add(value))
+  }
+  else {
+    groupValues.forEach(value => modelSet.delete(value))
+  }
+
+  model.value = Array.from(modelSet)
+}
 
 const isAllSelected = computed(() => {
-  if (selected.length < filteredOptions.value.length) {
+  const selectedValues = new Set(selected.map(option => option.value))
+
+  if (selectedValues.size < selectableOptions.value.length) {
     return false
   }
 
-  return filteredOptions.value.every((option) => {
-    return selected.includes(option)
-  })
+  return selectableOptions.value.every(option => selectedValues.has(option.value))
 })
 
 function handleClickSelectAllClick () {
   const modelSet = new Set<string | number>(model.value || [])
 
   if (isAllSelected.value) {
-    filteredOptions.value.forEach((option) => {
+    selectableOptions.value.forEach((option) => {
       modelSet.delete(option.value)
     })
   }
   else {
-    filteredOptions.value.forEach((option) => {
+    selectableOptions.value.forEach((option) => {
       modelSet.add(option.value)
     })
   }
@@ -155,7 +220,7 @@ onUnmounted(() => {
       <li>
         <AvButton
           name="select-all"
-          :disabled="filteredOptions.length === 0"
+          :disabled="selectableOptions.length === 0"
           :label="selectAllLabel[isAllSelected ? 1 : 0]"
           :icon="isAllSelected ? MDI_ICONS.CLOSE_CIRCLE_OUTLINE : MDI_ICONS.CHECK_CIRCLE_OUTLINE"
           @click="handleClickSelectAllClick"
@@ -181,18 +246,53 @@ onUnmounted(() => {
       size="xsmall"
       class="multiselect-collapse-options-list"
     >
-      <AvCheckboxListItem
-        v-for="option in filteredOptions"
-        :id="option.value.toString()"
-        :key="`${generateId(option, id)}-fieldset`"
-        v-model="model"
-        list-id="multiselect-collapse-options-list"
-        :aria-label="option.label"
-        :label="option.label"
-        :icon="option.icon"
-        :disabled="option.disabled"
-        :disabled-tooltip="option.disabledTooltip"
-      />
+      <template
+        v-for="(option, index) in filteredOptions"
+        :key="`${id}-option-${index}`"
+      >
+        <template v-if="isOptionGroup(option)">
+          <div class="av-row av-justify-between av-align-center av-px-xs av-pt-xs av-pb-xxs">
+            <span class="av-text-title b2-bold">
+              {{ option.label }}
+            </span>
+            <AvCheckbox
+              :id="`${id}-group-${index}`"
+              :model-value="isGroupSelected(option) ? [true] : []"
+              :name="`${id}-group-${index}`"
+              :value="true"
+              small
+              :disabled="isGroupDisabled(option)"
+              :aria-checked="isGroupPartiallySelected(option) ? 'mixed' : undefined"
+              :aria-label="`Sélectionner tout le groupe ${option.label}`"
+              @update:model-value="handleGroupSelection(option, $event)"
+            />
+          </div>
+          <AvCheckboxListItem
+            v-for="child in option.children"
+            :id="child.value.toString()"
+            :key="generateId(child, id)"
+            v-model="model"
+            list-id="multiselect-collapse-options-list"
+            :aria-label="child.label"
+            :label="child.label"
+            :icon="child.icon"
+            :disabled="child.disabled"
+            :disabled-tooltip="child.disabledTooltip"
+          />
+        </template>
+        <AvCheckboxListItem
+          v-else
+          :id="option.value.toString()"
+          :key="generateId(option, id)"
+          v-model="model"
+          list-id="multiselect-collapse-options-list"
+          :aria-label="option.label"
+          :label="option.label"
+          :icon="option.icon"
+          :disabled="option.disabled"
+          :disabled-tooltip="option.disabledTooltip"
+        />
+      </template>
     </AvList>
     <div v-if="filteredOptions.length === 0">
       {{ noResultLabel }}

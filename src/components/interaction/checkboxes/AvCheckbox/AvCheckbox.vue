@@ -154,7 +154,6 @@ const labelClass = computed(() => {
       :required
       v-bind="$attrs"
       :data-testid="`input-checkbox-${realId}`"
-      :data-test="`input-checkbox-${realId}`"
       :tabindex="disabled ? -1 : undefined"
       :aria-describedby="messageId"
     >

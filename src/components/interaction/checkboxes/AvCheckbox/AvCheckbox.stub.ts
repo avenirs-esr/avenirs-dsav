@@ -18,12 +18,14 @@ export const AvCheckboxStub = defineComponent({
         :id="id"
         :name="name"
         :checked="modelValue.includes(value)"
+        :aria-label="$attrs['aria-label']"
+        :aria-checked="$attrs['aria-checked']"
         @change="$emit('update:modelValue', 
           modelValue.includes(value)
             ? modelValue.filter(v => v !== value)
             : [...modelValue, value]
         )"
-        :data-testid="'checkbox-' + id"
+        :data-testid="'input-checkbox-' + id"
       />
       <label :for="id"><slot name="label">{{ label }}</slot></label>
     </div>
