@@ -154,6 +154,15 @@ defineExpose({
     left: 0 !important;
     right: 0 !important;
   }
+
+  .av-card {
+    border-radius: var(--radius-none) !important;
+  }
+
+  .av-card[data-collapsed='false'],
+  .av-card[data-collapsed='false'] > .av-card__content-collapsible {
+    height: 100vh !important;
+  }
 }
 
 @include min-width(md) {
