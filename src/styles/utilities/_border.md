@@ -1,5 +1,7 @@
 # Border
 
+_Last updated: 2026-10-08_
+
 ## ✨ Introduction
 
 This `border` utility generates border width, border style and border radius classes for all defined sizes.
@@ -8,14 +10,10 @@ This `border` utility generates border width, border style and border radius cla
 
 | Class pattern | Description |
 |---------------|-------------|
-| `.av-border-width-{widthSize}` | Applies `border-width` with the specified size |
-| `.av-border-style-{style}` | Applies `border-style` with the specified style |
-| `.av-radius-{radiusSize}` | Applies `border-radius` with the specified size |
-
-📝 Notes:
-- `{widthSize}` corresponds to the border width scale defined in this file: `none` (`0`), `sm` (`0.0625rem`), `md` (`0.125rem`), `lg` (`0.25rem`).
-- `{radiusSize}` corresponds to the radius scale defined in the core: `none`, `xxs`, `xs`, `sm`, `md`, `lg`, `xl`, `hg`, `full`.
-- `{style}` options include: `solid`, `dashed`, `dotted`, `none`.
+| `.av-border-width-{none\|sm\|md\|lg}` | Applies `border-width` with the specified size |
+| `.av-border-style-{solid\|dashed\|dotted\|none}` | Applies `border-style` with the specified style |
+| `.av-radius-{none\|xxs\|xs\|sm\|md\|lg\|xl\|hg\|full}` | Applies `border-radius` with the specified size |
+| `.av-separator-{top\|right\|bottom\|left}` | Applies a separator (`1px solid var(--stroke)`) to the specified direction |
 
 ## 🎨 Some CSS results
 
@@ -55,12 +53,32 @@ This `border` utility generates border width, border style and border radius cla
 }
 ```
 
+### Separator classes
+```css
+.av-separator-top {
+  border-top: 1px solid var(--stroke) !important;
+}
+
+.av-separator-right {
+  border-right: 1px solid var(--stroke) !important;
+}
+
+.av-separator-bottom {
+  border-bottom: 1px solid var(--stroke) !important;
+}
+
+.av-separator-left {
+  border-left: 1px solid var(--stroke) !important;
+}
+```
+
 ## 💡 Examples of use
 
 ```html
-<div class="av-border-width-sm av-border-style-solid av-radius-sm">
+<div class="av-border-width-sm av-border-style-solid av-radius-sm av-separator-bottom">
   <!-- border-width-sm: border width sm (0.0625rem) on all screens -->
   <!-- border-style-solid: solid border style on all screens -->
   <!-- radius-sm: border radius sm (var(--radius-sm)) on all screens -->
+  <!-- av-separator-bottom: separator at the bottom (1px solid var(--stroke)) on all screens -->
 </div>
 ```
