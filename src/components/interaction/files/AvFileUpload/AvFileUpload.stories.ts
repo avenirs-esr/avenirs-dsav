@@ -2,6 +2,7 @@ import type { Meta, StoryFn } from '@storybook/vue3'
 import type { AvFileUploadProps } from '@/components/interaction/files/AvFileUpload/AvFileUpload.types'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import AvFileUpload from '@/components/interaction/files/AvFileUpload/AvFileUpload.vue'
+import { useFileUploadValidation } from '@/composables/use-file-upload-validation/use-file-upload-validation'
 
 /**
  * <h1 class="n1">File uploader - <code>AvFileUpload</code></h1>
@@ -26,7 +27,7 @@ import AvFileUpload from '@/components/interaction/files/AvFileUpload/AvFileUplo
  *   <li><span class="b2-regular">Optional file-level and collection-level validation with error reporting.</span></li>
  * </ul>
  */
-const meta: Meta<AvFileUploadProps<string>> = {
+const meta: Meta<AvFileUploadProps> = {
   title: 'Components/Interaction/Files/AvFileUpload',
   component: AvFileUpload as unknown as Meta['component'],
   tags: ['autodocs'],
@@ -43,9 +44,7 @@ const meta: Meta<AvFileUploadProps<string>> = {
     isPreview: { control: 'boolean' },
     deletable: { control: 'boolean' },
     enableMultiple: { control: 'boolean' },
-    validateFile: { control: false },
-    validateFiles: { control: false },
-    getErrorMessage: { control: false },
+    beforeAdd: { control: false },
     errorMessage: { control: 'text' },
     validMessage: { control: 'text' },
     compact: { control: 'boolean' },
@@ -67,9 +66,7 @@ const meta: Meta<AvFileUploadProps<string>> = {
     isPreview: false,
     deletable: true,
     enableMultiple: false,
-    validateFile: undefined,
-    validateFiles: undefined,
-    getErrorMessage: undefined,
+    beforeAdd: undefined,
     errorMessage: undefined,
     validMessage: undefined,
     maxWidth: undefined,
@@ -82,7 +79,7 @@ const meta: Meta<AvFileUploadProps<string>> = {
 
 export default meta
 
-type StoryArgs = AvFileUploadProps<string>
+type StoryArgs = AvFileUploadProps
 
 const Template: StoryFn<StoryArgs> = args => ({
   components: {
@@ -117,7 +114,7 @@ Success.args = {
   validMessage: 'File uploaded successfully',
 }
 
-export const ValidationWithErrorMessage: StoryFn<StoryArgs> = args => ({
+export const Validation: StoryFn<StoryArgs> = args => ({
   components: {
     AvFileUpload,
   },
@@ -126,15 +123,10 @@ export const ValidationWithErrorMessage: StoryFn<StoryArgs> = args => ({
       addFiles: (files: File[]) => Promise<void>
     }>()
 
-    const validateFile: NonNullable<StoryArgs['validateFile']> = () => 'invalid-file-type'
-
-    const getErrorMessage: NonNullable<StoryArgs['getErrorMessage']> = (error) => {
-      if (error === 'invalid-file-type') {
-        return 'This file type is not supported'
-      }
-
-      return undefined
-    }
+    const { beforeAdd, errorMessage, reset } = useFileUploadValidation({
+      accept: ['.pdf'],
+      getErrorMessage: error => error === 'invalid-file-type' ? 'This file type is not supported' : undefined,
+    })
 
     onMounted(async () => {
       await fileUpload.value?.addFiles([
@@ -147,21 +139,23 @@ export const ValidationWithErrorMessage: StoryFn<StoryArgs> = args => ({
     return {
       args,
       fileUpload,
-      validateFile,
-      getErrorMessage,
+      beforeAdd,
+      errorMessage,
+      reset,
     }
   },
   template: `
     <AvFileUpload
       ref="fileUpload"
       v-bind="args"
-      :validate-file="validateFile"
-      :get-error-message="getErrorMessage"
+      :before-add="beforeAdd"
+      :error-message="errorMessage"
+      @update:error-message="reset"
     />
   `,
 })
 
-ValidationWithErrorMessage.args = {
+Validation.args = {
   title: 'Upload file',
   description: 'The selected file is rejected by validation',
 }

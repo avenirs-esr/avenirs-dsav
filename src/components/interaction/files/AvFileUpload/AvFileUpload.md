@@ -2,7 +2,7 @@
 
 ## ✨ Introduction
 
-The `AvFileUpload` component allows users to select files from their device or add them by drag and drop. It supports single and multiple file selection, two display variants (`default` and `compact`), file deletion, preview mode, and synchronous or asynchronous file validation.
+The `AvFileUpload` component allows users to select files from their device or add them by drag and drop. It supports single and multiple file selection, two display variants (`default` and `compact`), file deletion, preview mode, and optional validation of the files being added.
 
 ## 🏷️ Props
 
@@ -19,81 +19,46 @@ The `AvFileUpload` component allows users to select files from their device or a
 | `isPreview` | `boolean` | `false` | | Displays the current file(s) in preview mode without allowing additional files to be added. In single-file, non-compact mode, preview mode is automatically enabled once a file is selected. |
 | `deletable` | `boolean` | `true` | | Whether files can be deleted. When `false`, files can still be added but existing files cannot be deleted. |
 | `enableMultiple` | `boolean` | `false` | | Enables multiple file selection. When enabled, newly selected files are appended to the current selection. |
-| `validateFile` | `AvFileUploadFileValidator<TError>` | `undefined` | | Validates each file individually. Can be used alone or together with `validateFiles`. When both validators reject the same file, their errors are merged. |
-| `validateFiles` | `AvFileUploadFilesValidator<TError>` | `undefined` | | Validates the files being added as a collection. Files already present in `modelValue` are not provided. A single error rejects the whole selection and skips `validateFile`; an array associates errors with specific files and is combined with `validateFile` results. |
-| `getErrorMessage` | `AvFileUploadErrorMessageGetter<TError>` | `undefined` | | Returns the message associated with a validation error. The returned message is displayed automatically for validation errors when neither `errorMessage` nor `validMessage` is defined. Returning `void` prevents the validation error from being displayed. |
-| `errorMessage` | `string` | `undefined` | | Error message to display. When defined, it takes precedence over messages returned by `getErrorMessage`. |
-| `validMessage` | `string` | `undefined` | | Success message to display. When defined, it takes precedence over messages returned by `getErrorMessage`. |
+| `beforeAdd` | `AvFileUploadBeforeAdd` | `undefined` | | Called with the files being added (files already in `modelValue` are not provided). Only the returned files are added. May be asynchronous. See `useFileUploadValidation`. |
+| `errorMessage` | `string` | `undefined` | | Error message to display. |
+| `validMessage` | `string` | `undefined` | | Success message to display. |
 | `compact` | `boolean` | `false` | | Displays the component in compact mode with file pills. |
 | `maxWidth` | `string` | `undefined` | | Maximum width of the component. |
 | `deleteButtonLabel` | `string` | `'Delete'` | | Label of the delete button. |
 | `filePillDownloadPrefixLabel` | `string` | `'Download'` | | Prefix label for the download button in file pills. |
 | `filePillDeletePrefixLabel` | `string` | `'Delete'` | | Prefix label for the delete button in file pills. |
 
-`AvFileUpload` is generic over `TError extends string = string`. This type represents the application's validation error codes and is preserved by `validateFile`, `validateFiles`, `getErrorMessage`, and the `filesRejected` event.
-
 The component also inherits the props defined by `AvInteractiveProps`, including `disabledTooltip`.
 
 ## ✅ Validation
 
-`validateFile` validates each file individually and may return:
-
-```text
-TError | TError[] | void
-```
-
-For example:
+The component does not validate files by itself. Use `beforeAdd` to filter the files being added, ideally through the `useFileUploadValidation` composable:
 
 ```ts
-validateFile: file => file.size > MAX_FILE_SIZE ? 'file-too-large' : undefined
+const files = ref<File[]>([])
+const { beforeAdd, errorMessage, reset } = useFileUploadValidation({
+  files,
+  accept: ['.pdf', 'image/*'],
+  maxSize: 5 * 1024 * 1024,
+  maxFiles: 3,
+  validate: file => file.name.includes(' ') ? 'invalid-name' : undefined,
+  getErrorMessage: error => t(`upload.errors.${error}`),
+})
 ```
 
-`validateFiles` validates the files being added as a collection and may return:
-
-```text
-TError
- | AvFileUploadFileValidationResult<TError>[]
- | void
+```vue
+<AvFileUpload
+  v-model="files"
+  enable-multiple
+  :before-add="beforeAdd"
+  :error-message="errorMessage"
+  @update:error-message="reset"
+/>
 ```
 
-A single `TError` represents a global rejection of the selection. An array associates one or more errors with specific files.
+Built-in error codes are `'invalid-file-type'`, `'file-too-large'` and `'too-many-files'` (the latter rejects the whole selection). Files with errors are not added; the others are.
 
-For example:
-
-```ts
-validateFiles: files => files.length > MAX_FILES ? 'too-many-files' : undefined
-```
-
-or:
-
-```ts
-validateFiles: files => files
-  .filter(file => existingFileNames.has(file.name))
-  .map(file => ({ file, errors: 'duplicate-file' }))
-```
-
-Both validators may be synchronous or asynchronous.
-
-When both validators are provided, file-specific errors returned by `validateFiles` and `validateFile` are merged per file and duplicate errors are removed.
-
-A global error returned by `validateFiles` rejects the whole selection and skips `validateFile`.
-
-`getErrorMessage` can be used to map validation error codes to user-facing messages:
-
-```ts
-getErrorMessage: (error) => {
-  switch (error) {
-    case 'file-too-large':
-      return 'The file is too large'
-    case 'invalid-type':
-      return 'This file type is not allowed'
-  }
-}
-```
-
-When neither `errorMessage` nor `validMessage` is provided, the messages returned by `getErrorMessage` are displayed automatically for validation errors. Returning `void` prevents a validation error from being displayed.
-
-The `accept` prop configures the native file input but does not perform validation. Use `validateFile` or `validateFiles` to enforce validation rules consistently, including for files added by drag and drop.
+The `accept` prop configures the native file input but is not enforced for files added by drag and drop. Pass `accept` to `useFileUploadValidation` as well to enforce it.
 
 ## 🔊 Events
 
@@ -102,17 +67,10 @@ The `accept` prop configures the native file input but does not perform validati
 | `'update:modelValue'` | `File[]` | Event emitted when the selected files are updated. |
 | `'click'` | `MouseEvent` | Event emitted when the file input is clicked. |
 | `'change'` | `File[]` | Event emitted when the selected file(s) change. |
-| `'filesRejected'` | `AvFileUploadFilesRejections<TError>` | Event emitted when file validation rejects the selection or one or more files. |
 | `'deleteFiles'` | `File[]` | Event emitted when the user requests the deletion of one or more files. The parent is responsible for deciding whether and how the files should be deleted. |
 | `'filesDeleted'` | `File[]` | Event emitted after one or more files have actually been deleted by the component. |
 | `'update:errorMessage'` | `string \| undefined` | Event emitted when the `errorMessage` is updated. |
 | `'update:validMessage'` | `string \| undefined` | Event emitted when the `validMessage` is updated. |
-
-`filesRejected` behaves differently depending on the mode:
-
-* In single-file mode, only the first validation error is emitted as a `TError`.
-* In multiple-file mode, files without validation errors are added while rejected files are emitted through `filesRejected` as an array of `{ file, errors }`.
-* When a multiple-file selection contains both valid and rejected files, `change` is emitted before `filesRejected`.
 
 The deletion flow is intentionally split between `deleteFiles` and `filesDeleted`:
 
@@ -123,7 +81,7 @@ The deletion flow is intentionally split between `deleteFiles` and `filesDeleted
 
 ### `addFiles`
 
-Adds files programmatically using the same validation and selection logic as files added through the file input or drag and drop.
+Adds files programmatically using the same `beforeAdd` and selection logic as files added through the file input or drag and drop.
 
 ```ts
 avFileUploadRef.value?.addFiles(files)

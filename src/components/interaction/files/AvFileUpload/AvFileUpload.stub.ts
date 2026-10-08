@@ -1,5 +1,5 @@
 import type { PropType } from 'vue'
-import type { AvFileUploadErrorMessageGetter, AvFileUploadFilesValidator, AvFileUploadFileValidator } from '@/components/interaction/files/AvFileUpload/AvFileUpload.types'
+import type { AvFileUploadBeforeAdd } from '@/components/interaction/files/AvFileUpload/AvFileUpload.types'
 import { vi } from 'vitest'
 import { AvInteractivePropsStub } from '@/types/interfaces.stub'
 
@@ -57,16 +57,8 @@ export const AvFileUploadStub = defineComponent({
       required: false,
       default: false,
     },
-    validateFile: {
-      type: Function as PropType<AvFileUploadFileValidator<string>>,
-      required: false,
-    },
-    validateFiles: {
-      type: Function as PropType<AvFileUploadFilesValidator<string>>,
-      required: false,
-    },
-    getErrorMessage: {
-      type: Function as PropType<AvFileUploadErrorMessageGetter<string>>,
+    beforeAdd: {
+      type: Function as PropType<AvFileUploadBeforeAdd>,
       required: false,
     },
     errorMessage: {
@@ -108,7 +100,6 @@ export const AvFileUploadStub = defineComponent({
     'update:validMessage',
     'click',
     'change',
-    'filesRejected',
     'deleteFiles',
     'filesDeleted',
   ],
