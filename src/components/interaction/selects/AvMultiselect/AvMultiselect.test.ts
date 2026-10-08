@@ -1,15 +1,11 @@
 import type { AvMultiselectOption } from '@/components/interaction/selects/AvMultiselect/AvMultiselect.types'
-import { flushPromises, mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect } from 'vitest'
+import { mount, type VueWrapper } from '@vue/test-utils'
+import { afterAll, beforeAll, beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 import { AvCheckboxStub } from '@/components/interaction/checkboxes/AvCheckbox/AvCheckbox.stub'
 import AvMultiselect, { type AvMultiselectProps } from '@/components/interaction/selects/AvMultiselect/AvMultiselect.vue'
 import { AvButtonStub, AvMessageStub } from '@/tests'
 import { BddTest } from '@/tests/utils'
-
-interface VmType {
-  handleKeyDownEscape: (e: KeyboardEvent) => void
-}
 
 const defaultOptions = [
   { label: 'Option 1', value: '1' },
@@ -19,12 +15,31 @@ const defaultOptions = [
 
 const defaultProps = {
   modelValue: [],
+  id: 'test-multiselect',
   label: 'Choisissez des options',
   placeholder: 'Sélectionnez une option',
   options: defaultOptions,
   selectAll: false,
   selectedText: 'Options sélectionnées'
 }
+
+class ResizeObserverStub implements ResizeObserver {
+  constructor (_callback: ResizeObserverCallback) {}
+
+  disconnect () {}
+
+  observe (_target: Element, _options?: ResizeObserverOptions) {}
+
+  unobserve (_target: Element) {}
+}
+
+beforeAll(() => {
+  vi.stubGlobal('ResizeObserver', ResizeObserverStub)
+})
+
+afterAll(() => {
+  vi.unstubAllGlobals()
+})
 
 function mountWithProps (props: Partial<AvMultiselectProps & { modelValue: AvMultiselectOption[] }> = {}, attrs: Record<string, unknown> = {}) {
   return mount(AvMultiselect, {
@@ -43,12 +58,14 @@ function mountWithProps (props: Partial<AvMultiselectProps & { modelValue: AvMul
 
 BddTest().given('an AvMultiselect component', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvMultiselect>>
+  let updateModelValue = vi.fn()
   const removeSpy = vi.spyOn(document, 'removeEventListener')
 
   BddTest().and('given default props', () => {
     beforeEach(() => {
       vi.clearAllMocks()
-      wrapper = mountWithProps()
+      updateModelValue = vi.fn()
+      wrapper = mountWithProps({}, { 'onUpdate:modelValue': updateModelValue })
     })
 
     BddTest().when('the component is mounted', () => {
@@ -64,13 +81,14 @@ BddTest().given('an AvMultiselect component', () => {
       })
 
       BddTest().and('Escape key is pressed', () => {
-        beforeEach(() => {
-          (wrapper.vm as unknown as VmType)
-            .handleKeyDownEscape({ key: 'Escape' } as KeyboardEvent)
+        beforeEach(async () => {
+          await wrapper.find('button.av-multiselect').trigger('click')
+          document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
+          await nextTick()
         })
 
-        BddTest().then('it should call clean', () => {
-          expect(removeSpy).toHaveBeenCalledWith('keydown', expect.any(Function))
+        BddTest().then('it should close the collapse', () => {
+          expect(wrapper.find('[data-testid="av-multiselect__collapse"]').exists()).toBe(false)
         })
       })
     })
@@ -99,16 +117,48 @@ BddTest().given('an AvMultiselect component', () => {
 
       BddTest().and('the user selects an option', () => {
         beforeEach(async () => {
-          const checkbox = wrapper.findComponent({ name: 'AvCheckbox' })
-          await checkbox.find('input').setValue(true)
-          await flushPromises()
+          const checkbox = wrapper.find('[data-testid="input-checkbox-multiselect-collapse-options-list-1-checkbox"]')
+          await checkbox.setValue(true)
         })
 
-        BddTest().then('it should emit update:modelValue with the selected option', () => {
-          const emitted = wrapper.emitted('update:modelValue')
-          expect(emitted).toBeTruthy()
-          const last = emitted![emitted!.length - 1][0]
-          expect(last).toEqual([{ label: 'Option 1', value: '1' }])
+        BddTest().then('it should emit update:modelValue with the selected option', async () => {
+          await vi.waitFor(() => {
+            expect(updateModelValue).toHaveBeenCalledWith([{ label: 'Option 1', value: '1' }])
+          })
+        })
+      })
+    })
+  })
+
+  BddTest().and('given grouped options', () => {
+    beforeEach(() => {
+      updateModelValue = vi.fn()
+      wrapper = mountWithProps({
+        options: [
+          {
+            label: 'Group 1',
+            children: [
+              { label: 'Option 1', value: '1' },
+              { label: 'Option 2', value: '2' },
+            ],
+          },
+          { label: 'Option 3', value: '3' },
+        ],
+      }, { 'onUpdate:modelValue': updateModelValue })
+    })
+
+    BddTest().when('the user selects a group', () => {
+      beforeEach(async () => {
+        await wrapper.find('button.av-multiselect').trigger('click')
+        await wrapper.find('[data-testid="input-checkbox-test-multiselect-group-0"]').setValue(true)
+      })
+
+      BddTest().then('it should emit all group options as selected values', async () => {
+        await vi.waitFor(() => {
+          expect(updateModelValue).toHaveBeenCalledWith([
+            { label: 'Option 1', value: '1' },
+            { label: 'Option 2', value: '2' },
+          ])
         })
       })
     })

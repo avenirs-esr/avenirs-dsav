@@ -6,6 +6,8 @@ const stories = [
   'Default',
   'Dense',
   'OptionsWithIcon',
+  'GroupedOptions',
+  'GroupedOptionsWithSelectedValues',
   'CollapseMaxHeight',
 ]
 

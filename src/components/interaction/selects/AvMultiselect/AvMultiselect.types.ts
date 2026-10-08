@@ -19,3 +19,10 @@ export interface AvMultiselectOption extends AvInteractiveProps {
    */
   value: string | number
 }
+
+export interface AvMultiselectOptionGroup {
+  label: string
+  children: AvMultiselectOption[]
+}
+
+export type AvMultiselectItem = AvMultiselectOption | AvMultiselectOptionGroup

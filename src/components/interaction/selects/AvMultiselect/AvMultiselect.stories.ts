@@ -1,6 +1,11 @@
 import type { StoryFn } from '@storybook/vue3'
+import type { AvMultiselectOption } from '@/components/interaction/selects/AvMultiselect/AvMultiselect.types'
 import AvMultiselect, { type AvMultiselectProps } from '@/components/interaction/selects/AvMultiselect/AvMultiselect.vue'
 import { MDI_ICONS } from '@/tokens'
+
+type AvMultiselectStoryArgs = AvMultiselectProps & {
+  modelValue: AvMultiselectOption[]
+}
 
 /**
  * <h1 class="n1">Enhanced drop-down list - <code>AvMultiselect</code></h1>
@@ -9,39 +14,80 @@ import { MDI_ICONS } from '@/tokens'
  *
  * <p>
  *   <span class="b2-regular">
- *     The <code>AvMultiselect</code> is a Vue component enabling a user to select one or many items from a given list.
+ *     The <code>AvMultiselect</code> component enables users to select one or multiple options from a custom
+ *     drop-down list.
  *   </span>
  * </p>
  *
  * <p>
  *   <span class="b2-regular">
- *     The drop-down list provides a list of options for the user to choose from.
- *     The user can filter this list and use a button to select/deselect all visible items.
+ *     The component supports flat options and one level of grouped options. Users can search the list, select
+ *     or deselect all visible active options, and select or deselect all active options within a group.
  *   </span>
  * </p>
  *
  * <h2 class="n2">🏗️ Structure</h2>
  *
- * <p><span class="b2-regular">The <code>AvMultiselect</code> consists of:</span></p>
- * <ul>
- *   <li><span class="b2-regular">a <strong>label</strong> - Mandatory (<code>label</code> prop)</span></li>
- *   <li><span class="b2-regular">a <strong>description</strong> - Optional (<code>hint</code> prop or <code>hint</code> slot)</span></li>
- *   <li><span class="b2-regular">a <strong>list</strong> - Composed of a set of selectable options (mandatory, <code>options</code> prop with a label, a value and an optional icon)</span></li>
- * </ul>
+ * <p>
+ *   <span class="b2-regular">
+ *     The <code>AvMultiselect</code> component consists of:
+ *   </span>
+ * </p>
  *
- * <p><span class="b2-regular">Inside the list:</span></p>
  * <ul>
- *   <li><span class="b2-regular">a <strong>"Select all" / "Deselect all" button</strong> - Optional (<code>selectAll</code> and <code>selectAllLabel</code> props)</span></li>
- *   <li><span class="b2-regular">an <strong>input field</strong> - Optional</span></li>
- *   <li><span class="b2-regular">a <strong>form section (fieldset)</strong> containing:</span>
+ *   <li>
+ *     <span class="b2-regular">
+ *       A label, provided by the mandatory <code>label</code> prop.
+ *     </span>
+ *   </li>
+ *   <li>
+ *     <span class="b2-regular">
+ *       An optional hint, provided by the <code>hint</code> prop.
+ *     </span>
+ *   </li>
+ *   <li>
+ *     <span class="b2-regular">
+ *       A button displaying the placeholder or selected text.
+ *     </span>
+ *   </li>
+ *   <li>
+ *     <span class="b2-regular">
+ *       A custom options panel containing:
+ *     </span>
  *     <ul>
- *       <li><span class="b2-regular">a <strong>legend</strong> - Optional, can be hidden (<code>legend</code> prop or <code>legend</code> slot)</span></li>
- *       <li><span class="b2-regular">a <strong>description of the group</strong> - Optional, can be hidden</span></li>
- *       <li><span class="b2-regular">a <strong>list of options</strong> - Mandatory (<code>options</code> prop with a label, a value and an optional icon)</span></li>
+ *       <li>
+ *         <span class="b2-regular">
+ *           An optional search input.
+ *         </span>
+ *       </li>
+ *       <li>
+ *         <span class="b2-regular">
+ *           An optional select-all button.
+ *         </span>
+ *       </li>
+ *       <li>
+ *         <span class="b2-regular">
+ *           Flat options or groups containing child options.
+ *         </span>
+ *       </li>
+ *       <li>
+ *         <span class="b2-regular">
+ *           A group checkbox when grouped options are provided.
+ *         </span>
+ *       </li>
  *     </ul>
  *   </li>
  * </ul>
+ *
+ * <p>
+ *   <span class="b2-regular">
+ *     Groups support only one nesting level: a group can contain options, but cannot contain other groups.
+ *     Group objects are not added to the selected model; selecting a group selects or deselects its active
+ *     child options.
+ *   </span>
+ * </p>
  */
+
 const meta = {
   title: 'Components/Interaction/Selects/AvMultiselect',
   component: AvMultiselect,
@@ -57,7 +103,7 @@ const meta = {
     },
     label: { control: 'text' },
     options: {
-      type: { name: '{value: string | number, label: string}[]', required: true },
+      type: { name: '{value: string | number, label: string}[] | {label: string, children: ...}[]', required: true },
       control: false,
     },
     successMessage: { control: 'text' },
@@ -88,7 +134,7 @@ const meta = {
     dense: false,
     selectAll: false,
     search: false,
-    selectedText: 'Option(s) sélectionnée(s)',
+    selectedText: 'Selected option(s)',
   },
   parameters: {
     docs: {
@@ -101,7 +147,7 @@ const meta = {
 
 export default meta
 
-const Template: StoryFn<AvMultiselectProps> = args => ({
+const Template: StoryFn<AvMultiselectStoryArgs> = args => ({
   components: { AvMultiselect },
   setup () {
     return { args }
@@ -130,6 +176,38 @@ OptionsWithIcon.args = {
     { value: '5', label: 'Choice 5', icon: MDI_ICONS.IMAGE_OUTLINE },
   ],
   label: 'Options with icon',
+}
+
+export const GroupedOptions = Template.bind({})
+GroupedOptions.args = {
+  options: [
+    {
+      label: 'Group 1',
+      children: [
+        { value: '1', label: 'Choice 1' },
+        { value: '2', label: 'Choice 2' },
+      ],
+    },
+    { value: '3', label: 'Ungrouped choice' },
+    {
+      label: 'Group 2',
+      children: [
+        { value: '4', label: 'Choice 4' },
+        { value: '5', label: 'Choice 5', disabled: true },
+      ],
+    },
+  ],
+  label: 'Grouped options',
+}
+
+export const GroupedOptionsWithSelectedValues = Template.bind({})
+GroupedOptionsWithSelectedValues.args = {
+  ...GroupedOptions.args,
+  modelValue: [
+    { value: '1', label: 'Choice 1' },
+    { value: '2', label: 'Choice 2' },
+  ],
+  label: 'Grouped options with selected values',
 }
 
 export const CollapseMaxHeight = Template.bind({})

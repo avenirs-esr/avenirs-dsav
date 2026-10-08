@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import type AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
-import type { AvMultiselectOption } from '@/components/interaction/selects/AvMultiselect/AvMultiselect.types'
+import type {
+  AvMultiselectItem,
+  AvMultiselectOption,
+  AvMultiselectOptionGroup,
+} from '@/components/interaction/selects/AvMultiselect/AvMultiselect.types'
 import type { AvInteractiveProps } from '@/types/interfaces.types'
 import MultiselectCollapse from '@/components/interaction/selects/AvMultiselect/components/MultiselectCollapse.vue'
 import { ICONS_DATA_URL } from '@/tokens'
@@ -46,7 +50,7 @@ export interface AvMultiselectProps extends AvInteractiveProps {
    * Selectable options.
    * @default []
    */
-  options?: AvMultiselectOption[]
+  options?: AvMultiselectItem[]
 
   /**
    * If set, display a success message.
@@ -185,11 +189,14 @@ function clean () {
 }
 
 function onUpdateModelValue (values: (string | number)[]) {
-  const selectedOptions = options?.filter(option =>
-    values.includes(option.value)
-  ) ?? []
+  const availableOptions = options.flatMap(option =>
+    isOptionGroup(option) ? option.children : [option]
+  )
+  modelValue.value = availableOptions.filter(option => values.includes(option.value))
+}
 
-  modelValue.value = selectedOptions
+function isOptionGroup (option: AvMultiselectItem): option is AvMultiselectOptionGroup {
+  return 'children' in option && Array.isArray(option.children)
 }
 
 onUnmounted(() => {
