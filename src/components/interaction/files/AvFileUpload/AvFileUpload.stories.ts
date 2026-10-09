@@ -63,6 +63,27 @@ const meta: Meta<AvFileUploadProps> = {
   },
 }
 
+const files = [
+  new File([], 'Document.pdf'),
+  new File([], 'text.txt'),
+  new File([], 'Image.png'),
+  new File([], 'Audio.mp3'),
+  new File([], 'Video.mp4'),
+  new File([], 'Application.zip'),
+  new File([], 'Video.mov'),
+  new File([], 'Spreadsheet.xlsx'),
+  new File([], 'Presentation.pptx'),
+  new File([], 'Archive.rar'),
+  new File([], 'Script.js'),
+  new File([], 'Database.db'),
+  new File([], 'Vector.svg'),
+  new File([], 'Font.ttf'),
+  new File([], 'Archive.7z'),
+  new File([], 'Compressed.tar.gz'),
+  new File([], 'Executable.exe'),
+  new File([], 'Script.py'),
+]
+
 export default meta
 
 const Template: StoryFn<AvFileUploadProps> = args => ({
@@ -90,6 +111,43 @@ const Template: StoryFn<AvFileUploadProps> = args => ({
 export const Default = Template.bind({})
 Default.args = {}
 
+export const WithFiles = Template.bind({})
+WithFiles.args = {
+  modelValue: files.slice(0, 1)
+}
+
+export const Multiple = Template.bind({})
+Multiple.args = {
+  enableMultiple: true,
+  modelValue: files,
+  deleteButtonLabel: 'Delete\u{00A0}all'
+}
+
+export const MultipleWithCountLabel = Template.bind({})
+MultipleWithCountLabel.args = {
+  enableMultiple: true,
+  countLabel: 'files selected',
+  modelValue: files,
+  deleteButtonLabel: 'Delete\u{00A0}all'
+}
+
+export const MultipleWithMaxFiles = Template.bind({})
+MultipleWithMaxFiles.args = {
+  enableMultiple: true,
+  maxFiles: files.length,
+  modelValue: files,
+  deleteButtonLabel: 'Delete\u{00A0}all'
+}
+
+export const MultipleWithMaxFilesAndCountLabel = Template.bind({})
+MultipleWithMaxFilesAndCountLabel.args = {
+  enableMultiple: true,
+  maxFiles: files.length,
+  countLabel: `/ ${files.length} files selected`,
+  modelValue: files,
+  deleteButtonLabel: 'Delete\u{00A0}all'
+}
+
 export const Error = Template.bind({})
 Error.args = {
   error: 'This is an error message'
@@ -97,7 +155,15 @@ Error.args = {
 
 export const Success = Template.bind({})
 Success.args = {
+  modelValue: files.slice(0, 1),
   validMessage: 'File uploaded successfully'
+}
+
+export const SuccessAndError = Template.bind({})
+SuccessAndError.args = {
+  modelValue: files.slice(0, 1),
+  validMessage: 'File uploaded successfully',
+  error: 'The file does not meet the expected format. The file size exceeds the allowed limit. The number of files exceeds the allowed limit.'
 }
 
 const LeftSlotTemplate: StoryFn<AvFileUploadProps & { leftImageSrc: string }> = args => ({
@@ -157,4 +223,5 @@ MultipleFiles.args = {
   title: 'Attach documents',
   description: '',
   fileName: 'Document1.pdf',
+  modelValue: files,
 }

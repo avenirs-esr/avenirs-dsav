@@ -20,6 +20,7 @@ It handles file validation, including accepted file types, maximum file size, an
 | `modelValue` | `File[] \| null` | `null` | | Array of selected files. |
 | `maxWidth` | `string` | `'none'` | | Max width of the component. |
 | `fileName` | `string` | `undefined` | | Name of the file to display as default (e.g., for server-persisted uploads). |
+| `countLabel` | `string` | `undefined` | | Label indicating the count of selected files when multiple files are enabled. You do not need to include the file count in this label; it will be automatically prefixed with the number of selected files. |
 | `title` | `string` | | ✅ | Title of the file upload section. |
 | `description` | `string` | | ✅ | Description of the file upload section. |
 | `deleteButtonLabel` | `string` | `Remove` | | Delete button label. |
@@ -86,6 +87,82 @@ function handleFileChange (fileList: FileList | File[]) {
 </template>
 ```
 
+### Handling errors
+```vue
+<script setup lang="ts">
+import { AvFileUpload } from '@avenirs-esr/avenirs-dsav'
+import { ref } from 'vue'
+
+const files = ref<File[] | null>(null)
+function handleFileChange (fileList: FileList | File[]) {
+  console.log('Files selected:', fileList)
+}
+
+const acceptTypeError = ref<string | null>(null)
+const fileSizeError = ref<string | null>(null)
+const maxFilesError = ref<string | null>(null)
+
+function handleAcceptTypeError () {
+  acceptTypeError.value = 'The file does not meet the expected format.'
+}
+
+function handleFileSizeError () {
+  fileSizeError.value = 'The file size exceeds the allowed limit.'
+}
+
+function handleMaxFilesError () {
+  maxFilesError.value = 'The number of files exceeds the allowed limit.'
+}
+
+const errors = computed(() => {
+  return [
+    acceptTypeError.value,
+    fileSizeError.value,
+    maxFilesError.value
+  ].filter(Boolean).join(' ')
+})
+</script>
+
+<template>
+  <AvFileUpload
+    v-model="files"
+    title="Upload a document"
+    description="or drag and drop here"
+    :accept="['.pdf', '.jpg', '.png']"
+    :error="errors"
+    @change="handleFileChange"
+    @accept-type-error="handleAcceptTypeError"
+    @file-size-error="handleFileSizeError"
+    @max-files-error="handleMaxFilesError"
+  >
+    <template #hint>
+      PDF: <span class="caption-bold">10MB • </span>
+      Images: <span class="caption-bold">5MB</span>
+    </template>
+  </AvFileUpload>
+</template>
+```
+
+### With file pills
+
+```vue
+<script setup lang="ts">
+import { AvFileUpload } from '@avenirs-esr/avenirs-dsav'
+import { ref } from 'vue'
+
+const files = ref<File[] | null>([new File(['a'], 'a.pdf'), new File(['b'], 'b.pdf')])
+</script>
+
+<template>
+  <AvFileUpload
+    v-model="files"
+    enable-multiple
+    title="Attach documents"
+    :accept="['.pdf', '.doc']"
+  />
+</template>
+```
+
 ### Compact variant (multiple files)
 
 ```vue
@@ -103,6 +180,58 @@ const files = ref<File[] | null>(null)
     title="Attach documents"
     :enable-multiple="true"
     :accept="['.pdf', '.doc']"
+  />
+</template>
+```
+
+### With delete modal
+
+```vue
+<script setup lang="ts">
+import { AvFileUpload, AvModal } from '@avenirs-esr/avenirs-dsav'
+import { ref } from 'vue'
+
+const files = ref<File[] | null>([new File(['a'], 'a.pdf'), new File(['b'], 'b.pdf')])
+const errors = ref<string | null>(null)
+const validMessage = ref<string | null>(null)
+const isDeleteModalOpen = ref(false)
+
+async function onRequestDeleteImage () {
+  const currentError = errors.value
+  const currentValid = validMessage.value
+
+  files.value = modelValue.value ? [modelValue.value] : []
+  isDeleteModalOpen.value = true
+
+  await nextTick()
+  errors.value = currentError
+  validMessage.value = currentValid
+}
+
+function onConfirmDeleteFile () {
+  isDeleteModalOpen.value = false
+
+  errors.value = null
+  validMessage.value = null
+  files.value = []
+  modelValue.value = null
+}
+</script>
+
+<template>
+  <AvFileUpload
+    v-model="files"
+    enable-multiple
+    title="Attach documents"
+    :accept="['.pdf', '.doc']"
+  />
+
+  <AvModal
+    :opened="isDeleteModalOpen"
+    title="Are you sure you want to delete this file?"
+    description="This action cannot be undone."
+    @close="isDeleteModalOpen.value = false"
+    @confirm="onConfirmDeleteFile"
   />
 </template>
 ```

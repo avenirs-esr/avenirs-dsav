@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { AvFileUploadValidationError } from '@/components/interaction/files/AvFileUpload/AvFileUpload.types'
 import type { AvInteractiveProps } from '@/types/interfaces.types'
 import { nextTick, type Slot } from 'vue'
-import { getRemainingSlots, isFileAccepted, isFileSizeAccepted } from '@/components/interaction/files/AvFileUpload/AvFileUpload.utils'
+import { validateFiles } from '@/components/interaction/files/AvFileUpload/AvFileUpload.utils'
 import AvFileUploadCompact from '@/components/interaction/files/AvFileUpload/AvFileUploadCompact.vue'
 import { type AvFileUploadContext, AvFileUploadContextKey } from '@/components/interaction/files/AvFileUpload/AvFileUploadContext'
 import AvFileUploadDefault from '@/components/interaction/files/AvFileUpload/AvFileUploadDefault.vue'
+import AvFileUploadFilePills from '@/components/interaction/files/AvFileUpload/AvFileUploadFilePills.vue'
 import { getAvTooltipContent, isAvTooltipEnabled } from '@/components/overlay/tooltips/AvTooltip/utils'
 
 /**
@@ -89,6 +89,14 @@ export interface AvFileUploadProps extends AvInteractiveProps {
    * @default undefined
    */
   fileName?: string
+
+  /**
+   * Label for the file count display. Displayed when multiple files are enabled.
+   * You do not need to include the file count in this label; it will
+   * be automatically prefixed with the number of selected files.
+   * @example 'files selected'
+   */
+  countLabel?: string
 
   /**
    * Display in compact mode with file pills.
@@ -183,6 +191,7 @@ const emit = defineEmits<{
    */
   (e: 'maxFilesError'): void
 }>()
+
 defineSlots<{
   /**
    * Slot for the hint description.
@@ -214,29 +223,15 @@ const acceptTypes = computed(() => {
 
 const isDragging = ref(false)
 
-function validateFiles (files: File[]): { toAdd: File[], errors: AvFileUploadValidationError[] } {
-  const errors: AvFileUploadValidationError[] = []
-
-  const acceptedTypeFiles = files.filter(file => isFileAccepted(file, acceptTypes.value))
-  if (acceptedTypeFiles.length < files.length) {
-    errors.push('acceptTypeError')
-  }
-
-  const acceptedFiles = acceptedTypeFiles.filter(file => isFileSizeAccepted(file, maxFileSizeMb.value))
-  if (acceptedFiles.length < acceptedTypeFiles.length) {
-    errors.push('fileSizeError')
-  }
-
-  const toAdd = acceptedFiles.slice(0, getRemainingSlots(props.enableMultiple, props.maxFiles, modelValue.value?.length ?? 0))
-  if (toAdd.length < acceptedFiles.length) {
-    errors.push('maxFilesError')
-  }
-
-  return { toAdd, errors }
-}
-
 function handleFiles (files: File[]) {
-  const { toAdd, errors } = validateFiles(files)
+  const { toAdd, errors } = validateFiles({
+    files,
+    acceptTypes: acceptTypes.value,
+    maxFileSizeMb: maxFileSizeMb.value,
+    enableMultiple: props.enableMultiple,
+    maxFiles: props.maxFiles,
+    currentFilesCount: modelValue.value?.length ?? 0,
+  })
 
   if (toAdd.length) {
     if (props.enableMultiple) {
@@ -360,6 +355,8 @@ provide(AvFileUploadContextKey, context)
     :disabled="!isAvTooltipEnabled({ disabled, disabledTooltip })"
     :force-focusable="isAvTooltipEnabled({ disabled, disabledTooltip })"
   >
+    <AvFileUploadFilePills />
+
     <AvFileUploadCompact v-if="compact">
       <template #hint>
         <slot name="hint" />

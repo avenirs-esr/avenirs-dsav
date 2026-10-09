@@ -12,7 +12,26 @@ defineSlots<{
 
 const { props, modelValue, realId, acceptTypes, uploadLabelAttrs, onChange, onClear } = useFileUploadContext()
 
-const isPreview = computed(() => !!props.fileName || (modelValue.value && modelValue.value.length > 0))
+const isPreview = computed(() =>
+  !!props.fileName
+  || (modelValue.value && modelValue.value.length > 0)
+  || (props.enableMultiple && modelValue.value && modelValue.value.length >= (props.maxFiles ?? Infinity))
+)
+
+const countPreviewLabel = computed(() => {
+  return props.countLabel
+    ? `${(modelValue.value ?? []).length} ${props.countLabel}`
+    : ''
+})
+
+const previewLabel = computed(() => {
+  if (props.enableMultiple) {
+    return props.countLabel
+      ? countPreviewLabel.value
+      : (modelValue.value ?? []).map(f => f.name).join(', ')
+  }
+  return props.fileName ?? (modelValue.value ?? []).map(f => f.name).join(', ')
+})
 </script>
 
 <template>
@@ -35,7 +54,7 @@ const isPreview = computed(() => !!props.fileName || (modelValue.value && modelV
           </div>
           <div class="content-container av-col">
             <div v-if="isPreview">
-              <span class="b2-bold">{{ props.fileName || modelValue?.map(f => f.name).join(', ') }}</span>
+              <span class="b2-bold">{{ previewLabel }}</span>
             </div>
             <div
               v-else
@@ -43,6 +62,10 @@ const isPreview = computed(() => !!props.fileName || (modelValue.value && modelV
             >
               <span class="b2-regular">{{ props.title }}</span>
               <span class="caption-light">{{ props.description }}</span>
+              <span
+                v-if="countPreviewLabel"
+                class="b2-bold"
+              >{{ countPreviewLabel }}</span>
             </div>
 
             <AvMessage
@@ -63,16 +86,18 @@ const isPreview = computed(() => !!props.fileName || (modelValue.value && modelV
           >
             <AvButton
               v-if="isPreview"
+              :icon="props.enableMultiple ? MDI_ICONS.DELETE_SWEEP_OUTLINE : MDI_ICONS.TRASH_CAN_OUTLINE"
               :label="props.deleteButtonLabel ?? 'Remove'"
-              theme="SECONDARY"
+              icon-only
               size="LG"
+              :icon-scale="props.enableMultiple ? 1.9 : undefined"
               @click="() => onClear()"
             />
             <AvIcon
               v-else
               :size="1.5"
               :name="MDI_ICONS.TRAY_UPLOAD"
-              color="var(--dark-background-primary1)"
+              color="var(--color-primary-text)"
             />
           </div>
           <input
