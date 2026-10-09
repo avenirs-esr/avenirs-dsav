@@ -10,8 +10,16 @@ import AvFileUpload, { type AvFileUploadProps } from '@/components/interaction/f
  *
  * <p>
  *   <span class="b2-regular">
- *     The <code>AvFileUpload</code> component allows you to upload files by clicking on the file upload area
- *     or by dragging and dropping a file in the area. Supports both single and multiple file uploads with two display variants.
+ *     The <code>AvFileUpload</code> component allows users to upload files by clicking on the file upload area
+ *     or by dragging and dropping files. It supports both single and multiple file uploads, with two display
+ *     variants: default and compact.
+ *   </span>
+ * </p>
+ *
+ * <p>
+ *   <span class="b2-regular">
+ *     The component handles file validation, including accepted file types, maximum file size, and maximum
+ *     number of files. Invalid files are discarded, and appropriate error events are emitted.
  *   </span>
  * </p>
  */
@@ -23,6 +31,7 @@ const meta: Meta<AvFileUploadProps> = {
     ariaLabel: { control: 'text' },
     accept: { control: 'text' },
     maxFileSizeMb: { control: 'number' },
+    maxFiles: { control: 'number' },
     error: { control: 'text' },
     validMessage: { control: 'text' },
     disabled: { control: 'boolean' },
@@ -39,6 +48,7 @@ const meta: Meta<AvFileUploadProps> = {
     ariaLabel: '',
     accept: '',
     maxFileSizeMb: undefined,
+    maxFiles: undefined,
     error: '',
     validMessage: '',
     disabled: false,

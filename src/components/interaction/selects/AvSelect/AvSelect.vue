@@ -201,6 +201,7 @@ function handleSelectChange (event: Event) {
       <div
         class="av-select-control"
         :class="{ 'av-select-control--disabled': disabled }"
+        :style="styleVars"
       >
         <div
           v-if="prefixIcon"
@@ -251,7 +252,6 @@ function handleSelectChange (event: Event) {
             :aria-required="required"
             :aria-describedby="message ? `${realId}-${messageType}` : undefined"
             v-bind="$attrs"
-            :style="styleVars"
             @change="handleSelectChange"
           >
             <option
@@ -310,9 +310,36 @@ function handleSelectChange (event: Event) {
   position: relative;
   width: fit-content;
 
+  &::after {
+    content: '';
+    position: absolute;
+    right: var(--dimension-sm);
+    top: v-bind(iconsTopPosition);
+    transform: translateY(-50%);
+    width: var(--dimension-sm);
+    height: var(--dimension-sm);
+    pointer-events: none;
+    background-color: var(--text2);
+    mask: var(--icon-path) center / contain no-repeat;
+    -webkit-mask: var(--icon-path) center / contain no-repeat;
+    transition: transform 0.3s;
+  }
+
+  &:has(select:open)::after {
+    transform: translateY(-50%) rotate(-180deg);
+  }
+
+  &.av-select-control--disabled::after {
+    opacity: 0.7;
+  }
+
   &:not(.av-select-control--disabled):hover {
+    &::after {
+      background-color: var(--color-primary-hover-text);
+    }
+
     .av-select-prefix {
-      color: white;
+      color: var(--color-primary-hover-text);
     }
   }
 }
@@ -333,10 +360,6 @@ function handleSelectChange (event: Event) {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  background-image: var(--icon-path);
-  background-position: calc(100% - var(--dimension-sm)) 50%;
-  background-repeat: no-repeat;
-  background-size: var(--dimension-sm) var(--dimension-sm);
 
   optgroup {
     background: var(--other-background-base);
@@ -351,9 +374,8 @@ function handleSelectChange (event: Event) {
   }
 
   &:not([aria-disabled=true]):hover {
-    background-color: var(--dark-background-primary1);
-    color: var(--other-background-base);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23FFFFFF' d='M7.41 8.58L12 13.17l4.59-4.59L18 10l-6 6l-6-6z'/%3E%3C/svg%3E");
+    background-color: var(--color-primary-hover-bg);
+    color: var(--color-primary-hover-text);
   }
 
   &:hover {
@@ -364,7 +386,7 @@ function handleSelectChange (event: Event) {
   }
 
   option[aria-disabled=true] {
-    background-color: var(--surface-background);
+    background-color: var(--light-background-neutral);
     color: var(--text2);
     opacity: 0.7;
   }

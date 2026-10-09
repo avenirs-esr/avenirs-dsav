@@ -65,11 +65,13 @@ BddTest().given('a file uploader', () => {
     })
 
     BddTest().when('the component is mounted', () => {
-      BddTest().then('it should render only the error message', () => {
-        const avMessage = wrapper.findComponent({ name: 'AvMessage' })
-        expect(avMessage.exists()).toBe(true)
-        expect(avMessage.props('type')).toBe('error')
-        expect(avMessage.props('message')).toBe('Error')
+      BddTest().then('it should render the error message and the valid message', () => {
+        const avMessages = wrapper.findAllComponents({ name: 'AvMessage' })
+        expect(avMessages).toHaveLength(2)
+        expect(avMessages[0].props('type')).toBe('success')
+        expect(avMessages[0].props('message')).toBe('Valid file')
+        expect(avMessages[1].props('type')).toBe('error')
+        expect(avMessages[1].props('message')).toBe('Error')
       })
     })
   })
@@ -131,7 +133,7 @@ BddTest().given('a file uploader', () => {
         expect(emittedFiles[0].name).toBe('hello.png')
 
         expect(wrapper.emitted('change')).toBeTruthy()
-        expect(wrapper.emitted('change')?.[0][0]).toEqual(files)
+        expect(wrapper.emitted('change')?.[0][0]).toEqual([file])
       })
     })
 
@@ -333,6 +335,130 @@ BddTest().given('a file uploader', () => {
         expect(wrapper.emitted('update:modelValue')).toBeFalsy()
         expect(wrapper.emitted('change')).toBeFalsy()
         expect(wrapper.emitted('fileSizeError')).toBeTruthy()
+      })
+    })
+  })
+
+  BddTest().and('with multiple files and validation limits', () => {
+    const makeFile = (name: string, type: string, size = 10) => {
+      const f = new File(['x'], name, { type })
+      Object.defineProperty(f, 'size', { value: size, configurable: true })
+      return f
+    }
+
+    const drop = async (files: File[]) => {
+      const dataTransfer = { files } as unknown as DataTransfer
+      await wrapper.find('label').element.dispatchEvent(new DragEvent('drop', { dataTransfer }))
+      await wrapper.vm.$nextTick()
+    }
+
+    beforeAll(() => {
+      globalThis.DragEvent = class extends Event {
+        dataTransfer: DataTransfer | null
+
+        constructor (type: string, eventInitDict?: { dataTransfer?: DataTransfer }) {
+          super(type)
+          this.dataTransfer = eventInitDict?.dataTransfer ?? null
+        }
+      } as unknown as typeof DragEvent
+    })
+
+    BddTest().when('valid and invalid format files are dropped together', () => {
+      BddTest().then('it should keep the valid files and emit acceptTypeError', async () => {
+        wrapper = mountComponent({ enableMultiple: true, accept: ['.png'] })
+        await drop([makeFile('a.png', 'image/png'), makeFile('b.pdf', 'application/pdf')])
+
+        const emitted = wrapper.emitted('update:modelValue')?.[0][0] as File[]
+        expect(emitted.map(f => f.name)).toEqual(['a.png'])
+        expect(wrapper.emitted('acceptTypeError')).toBeTruthy()
+        expect(wrapper.emitted('fileSizeError')).toBeFalsy()
+      })
+    })
+
+    BddTest().when('valid and oversized files are dropped together', () => {
+      BddTest().then('it should keep the valid files and emit fileSizeError', async () => {
+        wrapper = mountComponent({ enableMultiple: true, maxFileSizeMb: 1 })
+        await drop([makeFile('a.png', 'image/png'), makeFile('big.png', 'image/png', 2 * 1024 * 1024)])
+
+        const emitted = wrapper.emitted('update:modelValue')?.[0][0] as File[]
+        expect(emitted.map(f => f.name)).toEqual(['a.png'])
+        expect(wrapper.emitted('fileSizeError')).toBeTruthy()
+        expect(wrapper.emitted('acceptTypeError')).toBeFalsy()
+      })
+    })
+
+    BddTest().when('maxFileSizeMb is a function returning a limit per file type', () => {
+      BddTest().then('it should apply each limit and emit fileSizeError for the exceeding files only', async () => {
+        const maxFileSizeMb = (file: File) => file.type.startsWith('video/') ? 10 : 1
+        wrapper = mountComponent({ enableMultiple: true, maxFileSizeMb })
+        const mb = 1024 * 1024
+        await drop([
+          makeFile('ok.png', 'image/png', mb / 2),
+          makeFile('big.png', 'image/png', 2 * mb),
+          makeFile('ok.mp4', 'video/mp4', 5 * mb),
+        ])
+
+        const emitted = wrapper.emitted('update:modelValue')?.[0][0] as File[]
+        expect(emitted.map(f => f.name)).toEqual(['ok.png', 'ok.mp4'])
+        expect(wrapper.emitted('fileSizeError')).toBeTruthy()
+      })
+    })
+
+    BddTest().when('maxFileSizeMb function returns undefined', () => {
+      BddTest().then('it should not limit the file size', async () => {
+        wrapper = mountComponent({ enableMultiple: true, maxFileSizeMb: () => undefined })
+        await drop([makeFile('huge.png', 'image/png', 100 * 1024 * 1024)])
+
+        expect(wrapper.emitted('update:modelValue')).toBeTruthy()
+        expect(wrapper.emitted('fileSizeError')).toBeFalsy()
+      })
+    })
+
+    BddTest().when('more files than maxFiles are dropped', () => {
+      BddTest().then('it should keep files up to the limit and emit maxFilesError', async () => {
+        wrapper = mountComponent({ enableMultiple: true, maxFiles: 2 })
+        await drop([makeFile('a.png', 'image/png'), makeFile('b.png', 'image/png'), makeFile('c.png', 'image/png')])
+
+        const emitted = wrapper.emitted('update:modelValue')?.[0][0] as File[]
+        expect(emitted.map(f => f.name)).toEqual(['a.png', 'b.png'])
+        expect(wrapper.emitted('maxFilesError')).toBeTruthy()
+      })
+    })
+
+    BddTest().when('maxFiles is already reached', () => {
+      BddTest().then('it should emit maxFilesError and not emit update:modelValue and change', async () => {
+        wrapper = mountComponent({
+          compact: true,
+          enableMultiple: true,
+          maxFiles: 1,
+          modelValue: [makeFile('a.png', 'image/png')],
+        })
+        await drop([makeFile('b.png', 'image/png')])
+
+        expect(wrapper.emitted('maxFilesError')).toBeTruthy()
+        expect(wrapper.emitted('update:modelValue')).toBeFalsy()
+        expect(wrapper.emitted('change')).toBeFalsy()
+      })
+    })
+
+    BddTest().when('several files are dropped without enableMultiple', () => {
+      BddTest().then('it should keep only the first valid file and emit maxFilesError', async () => {
+        wrapper = mountComponent()
+        await drop([makeFile('a.png', 'image/png'), makeFile('b.png', 'image/png')])
+
+        const emitted = wrapper.emitted('update:modelValue')?.[0][0] as File[]
+        expect(emitted.map(f => f.name)).toEqual(['a.png'])
+        expect(wrapper.emitted('maxFilesError')).toBeTruthy()
+      })
+    })
+
+    BddTest().when('maxFiles is set without enableMultiple', () => {
+      BddTest().then('it should ignore maxFiles', async () => {
+        wrapper = mountComponent({ maxFiles: 1 })
+        await drop([makeFile('a.png', 'image/png')])
+
+        expect(wrapper.emitted('maxFilesError')).toBeFalsy()
+        expect(wrapper.emitted('update:modelValue')).toBeTruthy()
       })
     })
   })

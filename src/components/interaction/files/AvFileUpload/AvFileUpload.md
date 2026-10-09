@@ -4,15 +4,18 @@
 
 The `AvFileUpload` component allows you to upload files by clicking on the file upload area or by dragging and dropping files. It supports both single and multiple file uploads with two display variants (default and compact).
 
+It handles file validation, including accepted file types, maximum file size, and maximum number of files. Invalid files are discarded, and appropriate error events are emitted.
+
 ## 🏷️ Props
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
 | `id` | `string` | `file-upload-${crypto.randomUUID()}` | | Unique identifier for the file upload component. If not specified, a random ID is generated. |
 | `ariaLabel` | `string` | `''` | | ARIA label for file upload button. |
-| `accept` | `string \| string[]` | `undefined` | | Accepted file types, specified as a string (like HTML `accept` attribute) or an array of strings (which will be transformed into a string). |
-| `maxFileSizeMb` | `number` | `undefined` | | Maximum allowed file size in megabytes. |
-| `validMessage` | `string` | `''` | | Message indicating that the uploaded file is valid. |
+| `accept` | `string \| string[]` | `undefined` | | Accepted file types, specified as a string (like HTML `accept` attribute) or an array of strings (which will be transformed into a string). Non accepted files are discarded. |
+| `maxFileSizeMb` | `number \| ((file: File) => number \| undefined)` | `undefined` | | Maximum allowed file size in megabytes, or a function returning the limit for a given file (`undefined` means no limit). Larger files are discarded. |
+| `maxFiles` | `number` | `undefined` | | Maximum number of files allowed (only with `enableMultiple`). Files beyond the limit are discarded. |
+| `validMessage` | `string` | `''` | | Message indicating that the uploaded file is valid. Displayed together with `error` when both are set. |
 | `error` | `string` | `''` | | Error message to be displayed in case of upload problem. |
 | `modelValue` | `File[] \| null` | `null` | | Array of selected files. |
 | `maxWidth` | `string` | `'none'` | | Max width of the component. |
@@ -34,10 +37,11 @@ The `AvFileUpload` component allows you to upload files by clicking on the file 
 | `'update:modelValue'` | The updated files array (`File[] \| null`) | Event emitted when the files array is updated. |
 | `'update:validMessage'` | The updated message (`string \| null`) | Event emitted when the validMessage is updated. |
 | `'update:error'` | The updated error message (`string \| null`) | Event emitted when the error is updated. |
-| `'change'` | The new list of selected files (`FileList \| File[]`) | Event emitted when the selected file(s) change. |
+| `'change'` | The new list of accepted files (`File[]`) | Event emitted when the selected file(s) change. |
 | `'deleteFile'` | Optional file or index (`File \| number`) | Event emitted when a file is deleted. |
-| `'acceptTypeError'` | | Event emitted when a file of wrong type is dropped or selected. |
-| `'fileSizeError'` | | Event emitted when a file exceeds the configured max size. |
+| `'acceptTypeError'` | | Event emitted when at least one dropped or selected file has an invalid format. Valid files are still accepted. |
+| `'fileSizeError'` | | Event emitted when at least one file exceeds the configured max size. Valid files are still accepted. |
+| `'maxFilesError'` | | Event emitted when more files are dropped or selected than allowed: more than `maxFiles` with `enableMultiple`, or more than one file without it. Files up to the limit are still accepted. |
 
 ## 🎨 Slots
 

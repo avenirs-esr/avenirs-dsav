@@ -46,8 +46,14 @@ const isPreview = computed(() => !!props.fileName || (modelValue.value && modelV
             </div>
 
             <AvMessage
-              :type="props.error ? 'error' : 'success'"
-              :message="props.error ? props.error : props.validMessage"
+              v-if="props.validMessage"
+              type="success"
+              :message="props.validMessage"
+            />
+            <AvMessage
+              v-if="props.error"
+              type="error"
+              :message="props.error"
             />
           </div>
 
