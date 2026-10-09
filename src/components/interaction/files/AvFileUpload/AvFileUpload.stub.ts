@@ -1,4 +1,6 @@
 import type { PropType } from 'vue'
+import type { AvFileUploadErrorMessageGetter, AvFileUploadFilesValidator, AvFileUploadFileValidator } from '@/components/interaction/files/AvFileUpload/AvFileUpload.types'
+import { vi } from 'vitest'
 import { AvInteractivePropsStub } from '@/types/interfaces.stub'
 
 export const AvFileUploadStub = defineComponent({
@@ -7,92 +9,156 @@ export const AvFileUploadStub = defineComponent({
     ...AvInteractivePropsStub,
     id: {
       type: String,
-      required: false
-    },
-    ariaLabel: {
-      type: String,
-      required: false
-    },
-    accept: {
-      type: [String, Array<string>],
-      required: false
-    },
-    maxFileSizeMb: {
-      type: Number,
-      required: false
-    },
-    error: {
-      type: String,
-      required: false
-    },
-    validMessage: {
-      type: String,
-      required: false
-    },
-    modelValue: {
-      type: Array as PropType<File[] | null>,
-      required: false
-    },
-    maxWidth: {
-      type: String,
-      required: false
+      required: false,
     },
     title: {
       type: String,
-      required: true
+      required: true,
     },
     description: {
       type: String,
-      required: true
+      required: true,
     },
-    deleteButtonLabel: {
+    ariaLabel: {
       type: String,
-      required: false
+      required: false,
+      default: '',
+    },
+    modelValue: {
+      type: Array as PropType<File[]>,
+      required: false,
+      default: () => [],
     },
     fileName: {
       type: String,
-      required: false
+      required: false,
     },
-    compact: {
+    accept: {
+      type: [String, Array] as PropType<string | string[]>,
+      required: false,
+    },
+    disabled: {
       type: Boolean,
-      required: false
+      required: false,
+      default: false,
+    },
+    isPreview: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    deletable: {
+      type: Boolean,
+      required: false,
+      default: true,
     },
     enableMultiple: {
       type: Boolean,
-      required: false
+      required: false,
+      default: false,
+    },
+    validateFile: {
+      type: Function as PropType<AvFileUploadFileValidator<string>>,
+      required: false,
+    },
+    validateFiles: {
+      type: Function as PropType<AvFileUploadFilesValidator<string>>,
+      required: false,
+    },
+    getErrorMessage: {
+      type: Function as PropType<AvFileUploadErrorMessageGetter<string>>,
+      required: false,
+    },
+    errorMessage: {
+      type: String,
+      required: false,
+    },
+    validMessage: {
+      type: String,
+      required: false,
+    },
+    compact: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    maxWidth: {
+      type: String,
+      required: false,
+    },
+    deleteButtonLabel: {
+      type: String,
+      required: false,
+      default: 'Delete',
+    },
+    filePillDownloadPrefixLabel: {
+      type: String,
+      required: false,
+      default: 'Download',
+    },
+    filePillDeletePrefixLabel: {
+      type: String,
+      required: false,
+      default: 'Delete',
     },
   },
   emits: [
     'update:modelValue',
+    'update:errorMessage',
     'update:validMessage',
-    'update:error',
+    'click',
     'change',
-    'deleteFile',
-    'acceptTypeError',
-    'fileSizeError'
+    'filesRejected',
+    'deleteFiles',
+    'filesDeleted',
   ],
+  setup (props, { emit, expose }) {
+    const realId = props.id ?? 'file-upload-stub'
+
+    expose({
+      addFiles: vi.fn(),
+      deleteFiles: vi.fn(),
+    })
+
+    return {
+      realId,
+      emit,
+    }
+  },
   template: `
-    <div>
+    <div class="av-file-upload-stub">
       <slot name="left"></slot>
+
       <input
+        v-if="!isPreview"
+        :id="realId"
         class="file-input"
         type="file"
         :multiple="enableMultiple"
-        @change="e => $emit('change', e.target.files)"
-      />
+        :disabled="disabled"
+        :accept="Array.isArray(accept) ? accept.join(',') : accept"
+        @click="emit('click', $event)"
+        @change="emit('change', Array.from($event.target.files ?? []))"
+      >
+
       <button
         class="error-trigger"
-        @click="$emit('acceptTypeError')"
+        type="button"
+        @click="emit('filesRejected', 'stub-error')"
       >
         Trigger Error
       </button>
+
       <button
-        class="error-trigger"
-        @click="$emit('fileSizeError')"
+        v-if="deletable && !disabled && modelValue.length"
+        data-testid="delete-file-button"
+        type="button"
+        @click="emit('deleteFiles', modelValue)"
       >
-        Trigger File Size Error
+        {{ deleteButtonLabel }}
       </button>
-      <button data-testid="delete-file-button" @click="$emit('deleteFile')">Delete File</button>
+
+      <slot name="hint"></slot>
     </div>
   `
 })

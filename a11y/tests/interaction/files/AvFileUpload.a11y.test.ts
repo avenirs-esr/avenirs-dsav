@@ -6,10 +6,15 @@ const stories = [
   'Default',
   'Error',
   'Success',
+  'ValidationWithErrorMessage',
+  'Disabled',
+  'NotDeletable',
   'LeftSlot',
   'Compact',
-  'CompactWithFiles',
-  'MultipleFiles',
+  'CompactWithFileName',
+  'CompactMultipleFiles',
+  'Preview',
+  'PreviewWithFile',
 ]
 
 testStories(component, title, stories)
