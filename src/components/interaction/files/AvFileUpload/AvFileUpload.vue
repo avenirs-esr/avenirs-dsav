@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import type { AvFileUploadValidationError } from '@/components/interaction/files/AvFileUpload/AvFileUpload.types'
 import type { AvInteractiveProps } from '@/types/interfaces.types'
 import { nextTick, type Slot } from 'vue'
+import { getRemainingSlots, isFileAccepted, isFileSizeAccepted } from '@/components/interaction/files/AvFileUpload/AvFileUpload.utils'
 import AvFileUploadCompact from '@/components/interaction/files/AvFileUpload/AvFileUploadCompact.vue'
 import { type AvFileUploadContext, AvFileUploadContextKey } from '@/components/interaction/files/AvFileUpload/AvFileUploadContext'
 import AvFileUploadDefault from '@/components/interaction/files/AvFileUpload/AvFileUploadDefault.vue'
@@ -13,14 +15,12 @@ export interface AvFileUploadProps extends AvInteractiveProps {
   /**
    * Unique identifier for the file upload component.
    * If not specified, a random ID is generated.
-   *
    * @default `file-upload-${crypto.randomUUID()}`
    */
   id?: string
 
   /**
    * ARIA label for file upload button.
-   *
    * @default ''
    */
   ariaLabel?: string
@@ -28,42 +28,42 @@ export interface AvFileUploadProps extends AvInteractiveProps {
   /**
    * Accepted file types, specified as a string (like HTML `accept` attribute)
    * or an array of strings (which will be transformed into a string).
-   *
    * @default undefined
    */
   accept?: string | string[]
 
   /**
-   * Maximum allowed file size in megabytes.
-   *
+   * Maximum allowed file size in megabytes, or a function returning the limit for a given file.
    * @default undefined
    */
-  maxFileSizeMb?: number
+  maxFileSizeMb?: number | ((file: File) => number | undefined)
+
+  /**
+   * Maximum number of files allowed (only applies when `enableMultiple` is true).
+   * @default undefined
+   */
+  maxFiles?: number
 
   /**
    * Error message to be displayed in case of upload problem.
-   *
    * @default ''
    */
   error?: string
 
   /**
    * Message indicating that the uploaded file is valid.
-   *
    * @default ''
    */
   validMessage?: string
 
   /**
    * Array of selected files.
-   *
    * @default null
    */
   modelValue?: File[] | null
 
   /**
    * Max width of the component.
-   *
    * @default undefined
    */
   maxWidth?: string
@@ -80,28 +80,24 @@ export interface AvFileUploadProps extends AvInteractiveProps {
 
   /**
    * Delete button label.
-   *
    * @default 'Remove'
    */
   deleteButtonLabel?: string
 
   /**
    * Name of the file to display as default (e.g., for server-persisted uploads).
-   *
    * @default undefined
    */
   fileName?: string
 
   /**
    * Display in compact mode with file pills.
-   *
    * @default false
    */
   compact?: boolean
 
   /**
    * Enable multiple file uploads.
-   *
    * @default false
    */
   enableMultiple?: boolean
@@ -128,6 +124,7 @@ const props = withDefaults(defineProps<AvFileUploadProps>(), {
   ariaLabel: '',
   accept: undefined,
   maxFileSizeMb: undefined,
+  maxFiles: undefined,
   validMessage: '',
   error: '',
   maxWidth: 'none',
@@ -180,6 +177,11 @@ const emit = defineEmits<{
    * Event emitted when a dropped or selected file exceeds the configured size limit.
    */
   (e: 'fileSizeError'): void
+
+  /**
+   * Event emitted when the number of files exceeds the configured limit.
+   */
+  (e: 'maxFilesError'): void
 }>()
 defineSlots<{
   /**
@@ -212,31 +214,49 @@ const acceptTypes = computed(() => {
 
 const isDragging = ref(false)
 
-function isFileAccepted (file: File): boolean {
-  const acceptValue = acceptTypes.value
-  if (!acceptValue) {
-    return true
+function validateFiles (files: File[]): { toAdd: File[], errors: AvFileUploadValidationError[] } {
+  const errors: AvFileUploadValidationError[] = []
+
+  const acceptedTypeFiles = files.filter(file => isFileAccepted(file, acceptTypes.value))
+  if (acceptedTypeFiles.length < files.length) {
+    errors.push('acceptTypeError')
   }
 
-  const acceptedTypes = acceptValue.split(',').map(type => type.trim().toLowerCase())
+  const acceptedFiles = acceptedTypeFiles.filter(file => isFileSizeAccepted(file, maxFileSizeMb.value))
+  if (acceptedFiles.length < acceptedTypeFiles.length) {
+    errors.push('fileSizeError')
+  }
 
-  return acceptedTypes.some((type) => {
-    if (type.startsWith('.')) {
-      return file.name.toLowerCase().endsWith(type)
-    }
-    else if (type.includes('/')) {
-      return file.type === type || file.type.startsWith(`${type.split('/')[0]}/`)
-    }
-    return false
-  })
+  const toAdd = acceptedFiles.slice(0, getRemainingSlots(props.enableMultiple, props.maxFiles, modelValue.value?.length ?? 0))
+  if (toAdd.length < acceptedFiles.length) {
+    errors.push('maxFilesError')
+  }
+
+  return { toAdd, errors }
 }
 
-function isFileSizeAccepted (file: File): boolean {
-  if (maxFileSizeMb.value === undefined || maxFileSizeMb.value <= 0) {
-    return true
+function handleFiles (files: File[]) {
+  const { toAdd, errors } = validateFiles(files)
+
+  if (toAdd.length) {
+    if (props.enableMultiple) {
+      modelValue.value = [...(modelValue.value ?? []), ...toAdd]
+    }
+    else {
+      modelValue.value = [toAdd[0]!]
+    }
+    emit('change', toAdd)
   }
 
-  return file.size <= maxFileSizeMb.value * 1024 * 1024
+  if (errors.includes('acceptTypeError')) {
+    emit('acceptTypeError')
+  }
+  if (errors.includes('fileSizeError')) {
+    emit('fileSizeError')
+  }
+  if (errors.includes('maxFilesError')) {
+    emit('maxFilesError')
+  }
 }
 
 async function onDrop (event: DragEvent) {
@@ -247,25 +267,10 @@ async function onDrop (event: DragEvent) {
     return
   }
 
-  const acceptedTypeFiles = Array.from(event.dataTransfer.files).filter(isFileAccepted)
-  const acceptedFiles = acceptedTypeFiles.filter(isFileSizeAccepted)
+  const files = Array.from(event.dataTransfer.files)
   await nextTick()
 
-  if (acceptedFiles.length) {
-    if (props.enableMultiple) {
-      modelValue.value = [...(modelValue.value ?? []), ...acceptedFiles]
-    }
-    else {
-      modelValue.value = [acceptedFiles[0]!]
-    }
-    emit('change', acceptedFiles)
-  }
-  else if (acceptedTypeFiles.length) {
-    emit('fileSizeError')
-  }
-  else {
-    emit('acceptTypeError')
-  }
+  handleFiles(files)
 }
 
 function onDragOver (event: DragEvent) {
@@ -281,29 +286,12 @@ function onDragLeave () {
 
 function onChange ($event: InputEvent) {
   const fileList = ($event.target as HTMLInputElement).files
-  const selectedFile = fileList?.[0]
-
-  if (selectedFile && !isFileAccepted(selectedFile)) {
-    emit('acceptTypeError')
-    return
-  }
-
-  if (selectedFile && !isFileSizeAccepted(selectedFile)) {
-    emit('fileSizeError')
-    return
-  }
 
   if (!fileList || !fileList.length) {
     return
   }
 
-  if (props.enableMultiple) {
-    modelValue.value = [...(modelValue.value ?? []), ...Array.from(fileList)]
-  }
-  else {
-    modelValue.value = [fileList[0]!]
-  }
-  emit('change', fileList)
+  handleFiles(Array.from(fileList))
 }
 
 const uploadLabelAttrs = computed(() => {

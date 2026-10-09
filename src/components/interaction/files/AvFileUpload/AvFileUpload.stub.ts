@@ -18,6 +18,10 @@ export const AvFileUploadStub = defineComponent({
       required: false
     },
     maxFileSizeMb: {
+      type: [Number, Function],
+      required: false
+    },
+    maxFiles: {
       type: Number,
       required: false
     },
@@ -69,7 +73,8 @@ export const AvFileUploadStub = defineComponent({
     'change',
     'deleteFile',
     'acceptTypeError',
-    'fileSizeError'
+    'fileSizeError',
+    'maxFilesError'
   ],
   template: `
     <div>
@@ -91,6 +96,12 @@ export const AvFileUploadStub = defineComponent({
         @click="$emit('fileSizeError')"
       >
         Trigger File Size Error
+      </button>
+      <button
+        class="error-trigger"
+        @click="$emit('maxFilesError')"
+      >
+        Trigger Max Files Error
       </button>
       <button data-testid="delete-file-button" @click="$emit('deleteFile')">Delete File</button>
     </div>

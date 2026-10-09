@@ -67,8 +67,14 @@ const files = computed(() => {
     </label>
 
     <AvMessage
-      :type="props.error ? 'error' : 'success'"
-      :message="props.error ? props.error : props.validMessage"
+      v-if="props.validMessage"
+      type="success"
+      :message="props.validMessage"
+    />
+    <AvMessage
+      v-if="props.error"
+      type="error"
+      :message="props.error"
     />
     <span class="caption-light">
       <slot name="hint" />
