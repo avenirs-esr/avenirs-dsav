@@ -83,6 +83,7 @@ export const MDI_ICONS = {
   CLOSE_CIRCLE_OUTLINE: 'mdi:close-circle-outline',
   CLOSE_OCTAGON: 'mdi:close-octagon',
   CONTENT_SAVE_OUTLINE: 'mdi:content-save-outline',
+  DELETE_SWEEP_OUTLINE: 'mdi:delete-sweep-outline',
   DIAMOND_STONE: 'mdi:diamond-stone',
   DOTS_HORIZONTAL_CIRCLE_OUTLINE: 'mdi:dots-horizontal-circle-outline',
   DOTS_VERTICAL: 'mdi:dots-vertical',

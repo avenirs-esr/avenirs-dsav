@@ -739,4 +739,79 @@ BddTest().given('a file uploader', () => {
       })
     })
   })
+
+  BddTest().and('with file pills', () => {
+    const fileA = new File(['a'], 'a.pdf')
+    const fileB = new File(['b'], 'b.pdf')
+
+    BddTest().when('enableMultiple is true in the default variant', () => {
+      BddTest().then('it should render one pill per file', () => {
+        wrapper = mountComponent({ enableMultiple: true, modelValue: [fileA, fileB] })
+
+        expect(wrapper.findAll('.av-file-pill')).toHaveLength(2)
+        expect(wrapper.find('.av-compact-upload').exists()).toBe(false)
+      })
+    })
+
+    BddTest().when('enableMultiple is false', () => {
+      BddTest().then('it should not render the pills list', () => {
+        wrapper = mountComponent({ modelValue: [fileA] })
+
+        expect(wrapper.find('.av-compact-files-list').exists()).toBe(false)
+        expect(wrapper.findAll('.av-file-pill')).toHaveLength(0)
+      })
+    })
+
+    BddTest().when('only fileName is provided with enableMultiple', () => {
+      BddTest().then('it should render a pill with the file name', () => {
+        wrapper = mountComponent({ enableMultiple: true, fileName: 'server.pdf' })
+
+        expect(wrapper.findAll('.av-file-pill')).toHaveLength(1)
+        expect(wrapper.html()).toContain('server.pdf')
+      })
+    })
+
+    BddTest().when('the component is disabled', () => {
+      BddTest().then('it should render pills without delete buttons', () => {
+        wrapper = mountComponent({ enableMultiple: true, modelValue: [fileA], disabled: true })
+
+        const pill = wrapper.find('.av-file-pill')
+        expect(pill.exists()).toBe(true)
+        expect(pill.findComponent({ name: 'AvButton' }).exists()).toBe(false)
+      })
+    })
+
+    BddTest().when('a pill is deleted', () => {
+      BddTest().then('it should emit deleteFile with the file and update modelValue without it', async () => {
+        wrapper = mountComponent({ enableMultiple: true, modelValue: [fileA, fileB] })
+
+        await wrapper.findAllComponents({ name: 'AvFilePill' })[0].vm.$emit('delete')
+
+        expect(wrapper.emitted('deleteFile')?.[0][0]).toBe(fileA)
+        expect(wrapper.emitted('update:modelValue')?.[0][0]).toEqual([fileB])
+        expect(wrapper.emitted('update:validMessage')?.[0][0]).toBeNull()
+        expect(wrapper.emitted('update:error')?.[0][0]).toBeNull()
+      })
+    })
+
+    BddTest().when('the last pill is deleted', () => {
+      BddTest().then('it should set modelValue to null', async () => {
+        wrapper = mountComponent({ enableMultiple: true, modelValue: [fileA] })
+
+        await wrapper.findComponent({ name: 'AvFilePill' }).vm.$emit('delete')
+
+        expect(wrapper.emitted('update:modelValue')?.[0][0]).toBeNull()
+      })
+    })
+
+    BddTest().when('the pill of a server-persisted file is deleted', () => {
+      BddTest().then('it should emit deleteFile with the index', async () => {
+        wrapper = mountComponent({ enableMultiple: true, fileName: 'server.pdf' })
+
+        await wrapper.findComponent({ name: 'AvFilePill' }).vm.$emit('delete')
+
+        expect(wrapper.emitted('deleteFile')?.[0][0]).toBe(0)
+      })
+    })
+  })
 })

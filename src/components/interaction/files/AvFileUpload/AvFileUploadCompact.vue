@@ -1,48 +1,18 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
-import AvFilePill from '@/components/interaction/files/AvFilePill/AvFilePill.vue'
 import { useFileUploadContext } from '@/components/interaction/files/AvFileUpload/AvFileUploadContext'
 import { MDI_ICONS } from '@/tokens'
-import { getFileExtension } from '@/utils'
 
 defineSlots<{
   hint?: Slot
 }>()
 
-const { props, modelValue, realId, acceptTypes, uploadLabelAttrs, onChange, onClear } = useFileUploadContext()
-
-const files = computed(() => {
-  if (modelValue.value?.length) {
-    return modelValue.value.map(file => ({
-      name: file.name,
-      size: file.size,
-      type: getFileExtension(file.name),
-    }))
-  }
-  return props.fileName ? [{ name: props.fileName, size: undefined, type: undefined }] : []
-})
+const { props, realId, acceptTypes, uploadLabelAttrs, onChange } = useFileUploadContext()
 </script>
 
 <template>
   <div class="av-compact-upload">
-    <div
-      v-if="files.length > 0"
-      class="av-compact-files-list av-col av-gap-xxs av-mb-xs"
-    >
-      <AvFilePill
-        v-for="(file, idx) in files"
-        :key="`${file.name}-${idx}`"
-        :name="file.name"
-        :size="file.size"
-        :type="file.type"
-        :deletable="!props.disabled"
-        :download-prefix-label="props.filePillDownloadPrefixLabel"
-        :delete-prefix-label="props.filePillDeletePrefixLabel"
-        @delete="() => onClear(modelValue?.length ? modelValue[idx] : idx)"
-      />
-    </div>
-
     <label
       v-bind="uploadLabelAttrs"
       class="av-compact-add-pill av-row av-align-center av-gap-xs av-p-xs av-radius-md av-border-width-sm av-border-style-dashed av-border-stroke"

@@ -57,6 +57,10 @@ export const AvFileUploadStub = defineComponent({
       type: String,
       required: false
     },
+    countLabel: {
+      type: String,
+      required: false
+    },
     compact: {
       type: Boolean,
       required: false
