@@ -24,12 +24,16 @@ It handles file validation, including accepted file types, maximum file size, an
 | `title` | `string` | | ✅ | Title of the file upload section. |
 | `description` | `string` | | ✅ | Description of the file upload section. |
 | `deleteButtonLabel` | `string` | `Remove` | | Delete button label. |
+| `confirmDelete` | `boolean` | `false` | | Ask for confirmation in a modal before deleting a file. |
+| `confirmDeleteModalTitle` | `string` | `Are you sure you want to delete this(these) file(s)?` | | Title displayed in the delete confirmation modal. |
+| `confirmDeleteModalConfirmLabel` | `string` | `Delete` | | Confirm button label in the delete confirmation modal. |
+| `confirmDeleteModalCancelLabel` | `string` | `Cancel` | | Cancel button label in the delete confirmation modal. |
 | `disabled` | `boolean` | `false` | | Whether the file upload input is disabled. |
 | `disabledTooltip` | `string` | | | Tooltip text displayed when the file upload is disabled. |
 | `compact` | `boolean` | `false` | | Display in compact mode with file pills. |
 | `enableMultiple` | `boolean` | `false` | | Enable multiple file uploads. |
 | `filePillDownloadPrefixLabel` | `string` | `'Download'` | | Prefix label for the download button in file pills. |
-| `filePillDeletePrefixLabel` | `string` | `'Delete'` | | | Prefix label for the delete button in file pills. |
+| `filePillDeletePrefixLabel` | `string` | `'Delete'` | | Prefix label for the delete button in file pills. |
 
 ## 🔊 Events
 
@@ -39,7 +43,7 @@ It handles file validation, including accepted file types, maximum file size, an
 | `'update:validMessage'` | The updated message (`string \| null`) | Event emitted when the validMessage is updated. |
 | `'update:error'` | The updated error message (`string \| null`) | Event emitted when the error is updated. |
 | `'change'` | The new list of accepted files (`File[]`) | Event emitted when the selected file(s) change. |
-| `'deleteFile'` | Optional file or index (`File \| number`) | Event emitted when a file is deleted. |
+| `'deleteFile'` | Optional file or index (`File \| number`) | Event emitted when a file is deleted. When confirmation is enabled, emitted after confirmation. |
 | `'acceptTypeError'` | | Event emitted when at least one dropped or selected file has an invalid format. Valid files are still accepted. |
 | `'fileSizeError'` | | Event emitted when at least one file exceeds the configured max size. Valid files are still accepted. |
 | `'maxFilesError'` | | Event emitted when more files are dropped or selected than allowed: more than `maxFiles` with `enableMultiple`, or more than one file without it. Files up to the limit are still accepted. |
@@ -51,12 +55,117 @@ It handles file validation, including accepted file types, maximum file size, an
 | `hint` | Slot for the hint description. |
 | `left` | Slot for the left content. |
 | `default` | Default slot for global content between the left and right icons. |
+| `confirmDeleteModalBody` | Confirmation modal body. Receives `files`, the files selected for deletion (`File[]` or `{ name: string }[]` when only `fileName` is provided). |
 
 ## 🚀 Storybook demos
 
 You can find examples of use and demo of the component on its dedicated [Storybook page](https://avenirs-esr.github.io/avenirs-dsav/storybook/?path=/docs/components-interaction-files-avfileupload--docs).
 
 ## 💡 Examples of use
+
+### i18n wrapper
+
+```vue
+<script setup lang="ts">
+import { AvFileUpload, type AvFileUploadProps } from '@avenirs-esr/avenirs-dsav'
+import { type ComputedRef, type Slot, useAttrs } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+export interface FileUploadProps extends Omit<
+  AvFileUploadProps,
+  'deleteButtonLabel'
+  | 'countLabel'
+  | 'filePillDownloadPrefixLabel'
+  | 'filePillDeletePrefixLabel'
+  | 'confirmDeleteModalTitle'
+  | 'confirmDeleteModalConfirmLabel'
+  | 'confirmDeleteModalCancelLabel'
+> { }
+
+defineOptions({
+  inheritAttrs: false
+})
+
+const props = defineProps<FileUploadProps>()
+
+defineSlots<{
+  default?: Slot<{ active: boolean }>
+}>()
+
+const modelValue = defineModel<File[] | null>()
+
+const { t } = useI18n()
+const attrs = useAttrs()
+
+const avFileUpload = ref<InstanceType<typeof AvFileUpload> | null>(null)
+const acceptTypeError = ref<string | null>(null)
+const fileSizeError = ref<string | null>(null)
+const maxFilesError = ref<string | null>(null)
+
+const errors = computed(() => {
+  return [
+    props.error,
+    acceptTypeError.value,
+    fileSizeError.value,
+    maxFilesError.value
+  ].filter(Boolean).join(' ')
+})
+
+const pendingDeleteFileCount = computed(() => avFileUpload.value?.pendingDeleteFilesCount ?? 0)
+
+const hasLoadedFiles = computed(() => (modelValue.value ?? []).length > 0)
+
+const avFileUploadProps: ComputedRef<AvFileUploadProps> = computed(() => ({
+  ...attrs,
+  ...props,
+  deleteButtonLabel: (modelValue.value ?? []).length > 1 ? t('global.buttons.deleteAll') : t('global.buttons.delete'),
+  countLabel: t('global.information.FileUpload.countLabel', { count: (modelValue.value ?? []).length }),
+  filePillDownloadPrefixLabel: t('global.buttons.download'),
+  filePillDeletePrefixLabel: t('global.buttons.delete'),
+  validMessage: hasLoadedFiles.value && !props.disabled ? `${t('global.success.file.loaded')}` : undefined,
+  error: errors.value,
+  confirmDeleteModalTitle: t('global.information.FileUpload.deleteConfirmationModal', { count: pendingDeleteFileCount.value }),
+  confirmDeleteModalConfirmLabel: pendingDeleteFileCount.value > 1 ? t('global.buttons.deleteAll') : t('global.buttons.delete'),
+  confirmDeleteModalCancelLabel: t('global.buttons.cancel'),
+}))
+
+function resetErrors () {
+  acceptTypeError.value = null
+  fileSizeError.value = null
+  maxFilesError.value = null
+}
+
+function onFilesUpdate (newFiles: File[] | null) {
+  resetErrors()
+
+  modelValue.value = newFiles ?? []
+}
+
+function handleAcceptTypeError () {
+  acceptTypeError.value = t('global.error.file.acceptType')
+}
+
+function handleFileSizeError () {
+  fileSizeError.value = t('global.error.file.size')
+}
+
+function handleMaxFilesError () {
+  maxFilesError.value = t('global.error.file.maxFiles')
+}
+</script>
+
+<template>
+  <AvFileUpload
+    ref="avFileUpload"
+    v-bind="avFileUploadProps"
+    :model-value="modelValue"
+    @update:model-value="onFilesUpdate"
+    @accept-type-error="handleAcceptTypeError"
+    @file-size-error="handleFileSizeError"
+    @max-files-error="handleMaxFilesError"
+  />
+</template>
+```
 
 ### Default variant (single file)
 
@@ -184,54 +293,38 @@ const files = ref<File[] | null>(null)
 </template>
 ```
 
-### With delete modal
+### Confirming file deletion
 
 ```vue
 <script setup lang="ts">
-import { AvFileUpload, AvModal } from '@avenirs-esr/avenirs-dsav'
+import { AvFileUpload } from '@avenirs-esr/avenirs-dsav'
 import { ref } from 'vue'
 
 const files = ref<File[] | null>([new File(['a'], 'a.pdf'), new File(['b'], 'b.pdf')])
-const errors = ref<string | null>(null)
-const validMessage = ref<string | null>(null)
-const isDeleteModalOpen = ref(false)
-
-async function onRequestDeleteImage () {
-  const currentError = errors.value
-  const currentValid = validMessage.value
-
-  files.value = modelValue.value ? [modelValue.value] : []
-  isDeleteModalOpen.value = true
-
-  await nextTick()
-  errors.value = currentError
-  validMessage.value = currentValid
-}
-
-function onConfirmDeleteFile () {
-  isDeleteModalOpen.value = false
-
-  errors.value = null
-  validMessage.value = null
-  files.value = []
-  modelValue.value = null
-}
 </script>
 
 <template>
   <AvFileUpload
     v-model="files"
+    :confirm-delete="true"
+    confirm-delete-modal-title="Remove selected files?"
+    confirm-delete-modal-confirm-label="Remove"
+    confirm-delete-modal-cancel-label="Keep files"
     enable-multiple
     title="Attach documents"
     :accept="['.pdf', '.doc']"
-  />
-
-  <AvModal
-    :opened="isDeleteModalOpen"
-    title="Are you sure you want to delete this file?"
-    description="This action cannot be undone."
-    @close="isDeleteModalOpen.value = false"
-    @confirm="onConfirmDeleteFile"
-  />
+  >
+    <template #confirmDeleteModalBody="{ files: filesToDelete }">
+      <p>The following files will be removed:</p>
+      <ul>
+        <li
+          v-for="file in filesToDelete"
+          :key="file.name"
+        >
+          {{ file.name }}
+        </li>
+      </ul>
+    </template>
+  </AvFileUpload>
 </template>
 ```

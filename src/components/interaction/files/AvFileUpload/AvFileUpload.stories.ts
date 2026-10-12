@@ -41,6 +41,7 @@ const meta: Meta<AvFileUploadProps> = {
     title: { control: 'text' },
     description: { control: 'text' },
     deleteButtonLabel: { control: 'text' },
+    confirmDelete: { control: 'boolean' },
     compact: { control: 'boolean' },
     enableMultiple: { control: 'boolean' },
   },
@@ -58,6 +59,7 @@ const meta: Meta<AvFileUploadProps> = {
     title: 'Upload file',
     description: 'or drag and drop here',
     deleteButtonLabel: 'Delete',
+    confirmDelete: false,
     compact: false,
     enableMultiple: false,
   },
@@ -67,8 +69,13 @@ const files = [
   new File([], 'Document.pdf'),
   new File([], 'text.txt'),
   new File([], 'Image.png'),
+  new File([], 'Bitmap.bmp'),
+  new File([], 'Image.jpeg'),
+  new File([], 'Image.gif'),
   new File([], 'Audio.mp3'),
+  new File([], 'Audio.wav'),
   new File([], 'Video.mp4'),
+  new File([], 'Video.avi'),
   new File([], 'Application.zip'),
   new File([], 'Video.mov'),
   new File([], 'Spreadsheet.xlsx'),
@@ -82,6 +89,13 @@ const files = [
   new File([], 'Compressed.tar.gz'),
   new File([], 'Executable.exe'),
   new File([], 'Script.py'),
+  new File([], 'Vector.ai'),
+  new File([], 'Vector.eps'),
+  new File([], 'Vector.psd'),
+  new File([], 'Vector.indd'),
+  new File([], 'Vector.cdr'),
+  new File([], 'Vector.sketch'),
+  new File([], 'Vector.figma'),
 ]
 
 export default meta
@@ -148,6 +162,16 @@ MultipleWithMaxFilesAndCountLabel.args = {
   deleteButtonLabel: 'Delete\u{00A0}all'
 }
 
+export const MultipleWithMaxFilesAndCountLabelAndConfirmDelete = Template.bind({})
+MultipleWithMaxFilesAndCountLabelAndConfirmDelete.args = {
+  enableMultiple: true,
+  maxFiles: files.length,
+  countLabel: `/ ${files.length} files selected`,
+  modelValue: files,
+  deleteButtonLabel: 'Delete\u{00A0}all',
+  confirmDelete: true
+}
+
 export const Error = Template.bind({})
 Error.args = {
   error: 'This is an error message'
@@ -208,16 +232,16 @@ Compact.args = {
   description: '',
 }
 
-export const CompactWithFiles = Template.bind({})
-CompactWithFiles.args = {
+export const CompactWithFile = Template.bind({})
+CompactWithFile.args = {
   compact: true,
   title: 'Attach documents',
   description: '',
   fileName: 'Document.pdf',
 }
 
-export const MultipleFiles = Template.bind({})
-MultipleFiles.args = {
+export const CompactMultipleFiles = Template.bind({})
+CompactMultipleFiles.args = {
   compact: true,
   enableMultiple: true,
   title: 'Attach documents',

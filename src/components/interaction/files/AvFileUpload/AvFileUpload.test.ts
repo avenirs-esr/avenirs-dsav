@@ -1,7 +1,9 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { h, type Slot } from 'vue'
 import { AvMessageStub } from '@/components/base/AvMessage/AvMessage.stub'
 import AvFileUpload, { type AvFileUploadProps } from '@/components/interaction/files/AvFileUpload/AvFileUpload.vue'
+import { AvModalStub } from '@/components/overlay/modals/AvModal/AvModal.stub'
 import { AvTooltipStub } from '@/components/overlay/tooltips/AvTooltip/AvTooltip.stub'
 import { BddTest } from '@/tests/utils'
 
@@ -10,10 +12,14 @@ BddTest().given('a file uploader', () => {
 
   const stubs = {
     AvMessage: AvMessageStub,
+    AvModal: AvModalStub,
     AvTooltip: AvTooltipStub,
   }
 
-  const mountComponent = (props?: Partial<AvFileUploadProps>) => mount<typeof AvFileUpload>(AvFileUpload, {
+  const mountComponent = (
+    props?: Partial<AvFileUploadProps>,
+    slots?: Partial<Record<'confirmDeleteModalBody', Slot>>,
+  ) => mount<typeof AvFileUpload>(AvFileUpload, {
     props: {
       title: 'Ajouter un document',
       description: 'ou glisser et déposer ici',
@@ -24,6 +30,7 @@ BddTest().given('a file uploader', () => {
     slots: {
       default: '<span>Upload a file</span>',
       hint: '<span>Accepted files: .pdf, .jpg</span>',
+      ...slots,
     },
   })
 
@@ -549,6 +556,95 @@ BddTest().given('a file uploader', () => {
 
         expect(wrapper.emitted('update:error')).toBeTruthy()
         expect(wrapper.emitted('update:error')?.[0][0]).toBeNull()
+      })
+    })
+  })
+
+  BddTest().and('with delete confirmation enabled', () => {
+    const file = new File(['test'], 'test.txt')
+
+    beforeEach(() => {
+      wrapper = mountComponent({ modelValue: [file], confirmDelete: true })
+    })
+
+    BddTest().when('clicking the delete button', () => {
+      BddTest().then('it should ask for confirmation before deleting', async () => {
+        await wrapper.find('.av-button').trigger('click')
+
+        const modal = wrapper.findComponent(AvModalStub)
+        expect(modal.props('opened')).toBe(true)
+        expect(wrapper.find('.confirm-delete-modal').text()).toContain(file.name)
+        expect(wrapper.emitted('update:modelValue')).toBeFalsy()
+      })
+
+      BddTest().then('it should delete the selected file after confirmation', async () => {
+        await wrapper.find('.av-button').trigger('click')
+        wrapper.findComponent(AvModalStub).vm.$emit('confirm')
+        await wrapper.vm.$nextTick()
+
+        expect(wrapper.emitted('update:modelValue')?.[0][0]).toBeNull()
+      })
+
+      BddTest().then('it should leave the selected file untouched when cancelled', async () => {
+        await wrapper.find('.av-button').trigger('click')
+        wrapper.findComponent(AvModalStub).vm.$emit('close')
+        await wrapper.vm.$nextTick()
+
+        expect(wrapper.emitted('update:modelValue')).toBeFalsy()
+      })
+    })
+
+    BddTest().when('deleting a file from compact mode', () => {
+      BddTest().then('it should also ask for confirmation', async () => {
+        wrapper.unmount()
+        const otherFile = new File(['other'], 'other.txt')
+        wrapper = mountComponent({ modelValue: [file, otherFile], confirmDelete: true, compact: true, enableMultiple: true })
+
+        wrapper.findAllComponents({ name: 'AvFilePill' })[1].vm.$emit('delete', 'file-pill')
+        await wrapper.vm.$nextTick()
+
+        expect(wrapper.findComponent(AvModalStub).props('opened')).toBe(true)
+        expect(wrapper.find('.confirm-delete-modal').text()).toContain(otherFile.name)
+        expect(wrapper.find('.confirm-delete-modal').text()).not.toContain(file.name)
+        expect(wrapper.emitted('update:modelValue')).toBeFalsy()
+      })
+
+      BddTest().then('it should remove only the confirmed file', async () => {
+        wrapper.unmount()
+        const otherFile = new File(['other'], 'other.txt')
+        wrapper = mountComponent({ modelValue: [file, otherFile], confirmDelete: true, compact: true, enableMultiple: true })
+
+        wrapper.findAllComponents({ name: 'AvFilePill' })[1].vm.$emit('delete', 'file-pill')
+        wrapper.findComponent(AvModalStub).vm.$emit('confirm')
+        await wrapper.vm.$nextTick()
+
+        expect(wrapper.emitted('update:modelValue')?.[0][0]).toEqual([file])
+      })
+    })
+
+    BddTest().when('customizing the confirmation modal', () => {
+      BddTest().then('it should expose the target files to the body slot and apply custom labels', async () => {
+        wrapper.unmount()
+        wrapper = mountComponent(
+          {
+            modelValue: [file],
+            confirmDelete: true,
+            confirmDeleteModalConfirmLabel: 'Remove now',
+            confirmDeleteModalCancelLabel: 'Keep file',
+          },
+          {
+            confirmDeleteModalBody: ({ files }: { files: File[] }) => [
+              h('p', files.map(item => item.name).join(', ')),
+            ],
+          },
+        )
+
+        await wrapper.find('.av-button').trigger('click')
+        const modal = wrapper.findComponent(AvModalStub)
+
+        expect(modal.props('confirmButtonLabel')).toBe('Remove now')
+        expect(modal.props('closeButtonLabel')).toBe('Keep file')
+        expect(wrapper.text()).toContain(file.name)
       })
     })
   })

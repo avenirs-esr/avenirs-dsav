@@ -220,6 +220,13 @@ const showDisabledTooltip = computed(() => disabled && !!disabledTooltip?.trim()
 const tooltipContent = computed(() => showDisabledTooltip.value ? disabledTooltip ?? labelToRender.value : labelToRender.value)
 const tooltipDisabled = computed(() => showDisabledTooltip.value ? false : !iconOnly || buttonDisabled.value)
 
+const buttonProps = computed(() => {
+  if (componentToRender.value === 'button') {
+    return { type: 'button' }
+  }
+  return {}
+})
+
 const linkProps = computed(() => {
   if (hasHref.value && !buttonDisabled.value) {
     if (isInternalAnchor.value) {
@@ -243,7 +250,7 @@ const linkProps = computed(() => {
     <component
       :is="componentToRender"
       ref="btn"
-      v-bind="{ ...attrs, ...linkProps }"
+      v-bind="{ ...buttonProps, ...attrs, ...linkProps }"
       :aria-label="!hasTo || (hasTo && iconOnly) ? labelToRender : undefined"
       :aria-disabled="buttonDisabled"
       class="av-button av-row av-align-center av-gap-xs"
