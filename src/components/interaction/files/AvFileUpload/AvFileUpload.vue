@@ -1,11 +1,13 @@
 <script setup lang="ts">
+import type { Slot } from 'vue'
 import type { AvInteractiveProps } from '@/types/interfaces.types'
-import { nextTick, type Slot } from 'vue'
-import { validateFiles } from '@/components/interaction/files/AvFileUpload/AvFileUpload.utils'
 import AvFileUploadCompact from '@/components/interaction/files/AvFileUpload/AvFileUploadCompact.vue'
 import { type AvFileUploadContext, AvFileUploadContextKey } from '@/components/interaction/files/AvFileUpload/AvFileUploadContext'
 import AvFileUploadDefault from '@/components/interaction/files/AvFileUpload/AvFileUploadDefault.vue'
+import AvFileUploadDeleteModal from '@/components/interaction/files/AvFileUpload/AvFileUploadDeleteModal.vue'
 import AvFileUploadFilePills from '@/components/interaction/files/AvFileUpload/AvFileUploadFilePills.vue'
+import { useAvFileUploadDelete } from '@/components/interaction/files/AvFileUpload/composables/useAvFileUploadDelete'
+import { useAvFileUploadFiles } from '@/components/interaction/files/AvFileUpload/composables/useAvFileUploadFiles'
 import { getAvTooltipContent, isAvTooltipEnabled } from '@/components/overlay/tooltips/AvTooltip/utils'
 
 /**
@@ -121,6 +123,30 @@ export interface AvFileUploadProps extends AvInteractiveProps {
    * @default 'Delete'
    */
   filePillDeletePrefixLabel?: string
+
+  /**
+   * Ask for confirmation before deleting selected files.
+   * @default false
+   */
+  confirmDelete?: boolean
+
+  /**
+   * Title for the confirmation modal when deleting files.
+   * @default 'Are you sure you want to delete this(these) file(s)?'
+   */
+  confirmDeleteModalTitle?: string
+
+  /**
+   * Label for the confirm button in the delete confirmation modal.
+   * @default 'Delete'
+   */
+  confirmDeleteModalConfirmLabel?: string
+
+  /**
+   * Label for the cancel button in the delete confirmation modal.
+   * @default 'Cancel'
+   */
+  confirmDeleteModalCancelLabel?: string
 }
 
 defineOptions({
@@ -138,11 +164,15 @@ const props = withDefaults(defineProps<AvFileUploadProps>(), {
   maxWidth: 'none',
   disabled: false,
   deleteButtonLabel: 'Remove',
+  confirmDelete: false,
   fileName: undefined,
   compact: false,
   enableMultiple: false,
   filePillDownloadPrefixLabel: 'Download',
   filePillDeletePrefixLabel: 'Delete',
+  confirmDeleteModalTitle: 'Are you sure you want to delete this(these) file(s)?',
+  confirmDeleteModalConfirmLabel: 'Delete',
+  confirmDeleteModalCancelLabel: 'Cancel',
 })
 
 const emit = defineEmits<{
@@ -204,6 +234,11 @@ defineSlots<{
   left?: Slot
 
   /**
+   * Slot for the confirm delete modal body.
+   */
+  confirmDeleteModalBody?: Slot<{ files: (File | { name: string })[] }>
+
+  /**
    * Default slot for global content between the left and right icons.
    */
   default?: Slot
@@ -221,73 +256,24 @@ const acceptTypes = computed(() => {
   return accept.value
 })
 
-const isDragging = ref(false)
-
-function handleFiles (files: File[]) {
-  const { toAdd, errors } = validateFiles({
-    files,
-    acceptTypes: acceptTypes.value,
-    maxFileSizeMb: maxFileSizeMb.value,
-    enableMultiple: props.enableMultiple,
-    maxFiles: props.maxFiles,
-    currentFilesCount: modelValue.value?.length ?? 0,
-  })
-
-  if (toAdd.length) {
-    if (props.enableMultiple) {
-      modelValue.value = [...(modelValue.value ?? []), ...toAdd]
-    }
-    else {
-      modelValue.value = [toAdd[0]!]
-    }
-    emit('change', toAdd)
-  }
-
-  if (errors.includes('acceptTypeError')) {
-    emit('acceptTypeError')
-  }
-  if (errors.includes('fileSizeError')) {
-    emit('fileSizeError')
-  }
-  if (errors.includes('maxFilesError')) {
-    emit('maxFilesError')
-  }
-}
-
-async function onDrop (event: DragEvent) {
-  event.preventDefault()
-  isDragging.value = false
-
-  if (disabled.value || !event.dataTransfer?.files?.length) {
-    return
-  }
-
-  const files = Array.from(event.dataTransfer.files)
-  await nextTick()
-
-  handleFiles(files)
-}
-
-function onDragOver (event: DragEvent) {
-  event.preventDefault()
-  if (!disabled.value) {
-    isDragging.value = true
-  }
-}
-
-function onDragLeave () {
-  isDragging.value = false
-}
-
-function onChange ($event: InputEvent) {
-  const fileList = ($event.target as HTMLInputElement).files
-
-  if (!fileList || !fileList.length) {
-    return
-  }
-
-  handleFiles(Array.from(fileList))
-}
+const {
+  isDragging,
+  onChange,
+  onDragOver,
+  onDragLeave,
+  onDrop,
+} = useAvFileUploadFiles({
+  acceptTypes,
+  maxFileSizeMb,
+  enableMultiple: toRef(props, 'enableMultiple'),
+  maxFiles: toRef(props, 'maxFiles'),
+  disabled,
+  modelValue,
+  emitChange: files => emit('change', files),
+  emitAcceptTypeError: () => emit('acceptTypeError'),
+  emitFileSizeError: () => emit('fileSizeError'),
+  emitMaxFilesError: () => emit('maxFilesError'),
+})
 
 const uploadLabelAttrs = computed(() => {
   return {
@@ -308,33 +294,21 @@ const uploadLabelAttrs = computed(() => {
   }
 })
 
-function clearFile (file: File) {
-  const newFiles = (modelValue.value ?? []).filter(f => f !== file)
-  modelValue.value = newFiles.length > 0 ? newFiles : null
-}
-
-function clearFileByIndex (index: number) {
-  const newFiles = (modelValue.value ?? []).filter((_, i) => i !== index)
-  modelValue.value = newFiles.length > 0 ? newFiles : null
-}
-
-function onClear (file?: File | number) {
-  if (file !== undefined) {
-    if (typeof file === 'number') {
-      clearFileByIndex(file)
-    }
-    else {
-      clearFile(file)
-    }
-  }
-  else {
-    modelValue.value = null
-  }
-  emit('deleteFile', file)
-  emit('update:validMessage', null)
-  emit('update:error', null)
-  emit('change', [] as unknown as FileList)
-}
+const {
+  isDeleteConfirmationOpen,
+  pendingDeleteFiles,
+  onClear,
+  cancelDelete,
+  confirmDelete,
+} = useAvFileUploadDelete({
+  modelValue,
+  confirmDelete: toRef(props, 'confirmDelete'),
+  fileName: toRef(props, 'fileName'),
+  emitDeleteFile: file => emit('deleteFile', file),
+  emitValidMessageUpdate: message => emit('update:validMessage', message),
+  emitErrorUpdate: error => emit('update:error', error),
+  emitChange: files => emit('change', files),
+})
 
 const context: AvFileUploadContext = {
   props,
@@ -347,6 +321,10 @@ const context: AvFileUploadContext = {
 }
 
 provide(AvFileUploadContextKey, context)
+
+defineExpose({
+  pendingDeleteFilesCount: computed(() => pendingDeleteFiles.value.length)
+})
 </script>
 
 <template>
@@ -371,6 +349,23 @@ provide(AvFileUploadContextKey, context)
       </template>
     </AvFileUploadDefault>
   </AvTooltip>
+
+  <AvFileUploadDeleteModal
+    :opened="isDeleteConfirmationOpen"
+    :pending-delete-files="pendingDeleteFiles"
+    @close="cancelDelete"
+    @confirm="confirmDelete"
+  >
+    <template
+      v-if="$slots.confirmDeleteModalBody"
+      #default="{ files }"
+    >
+      <slot
+        name="confirmDeleteModalBody"
+        :files="files"
+      />
+    </template>
+  </AvFileUploadDeleteModal>
 </template>
 
 <style lang="scss" scoped>

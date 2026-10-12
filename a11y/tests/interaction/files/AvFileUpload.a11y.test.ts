@@ -9,13 +9,14 @@ const stories = [
   'MultipleWithCountLabel',
   'MultipleWithMaxFiles',
   'MultipleWithMaxFilesAndCountLabel',
+  'MultipleWithMaxFilesAndCountLabelAndConfirmDelete',
   'Error',
   'Success',
   'SuccessAndError',
   'LeftSlot',
   'Compact',
-  'CompactWithFiles',
-  'MultipleFiles',
+  'CompactWithFile',
+  'CompactMultipleFiles',
 ]
 
 testStories(component, title, stories)

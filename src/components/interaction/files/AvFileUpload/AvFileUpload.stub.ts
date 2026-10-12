@@ -53,6 +53,22 @@ export const AvFileUploadStub = defineComponent({
       type: String,
       required: false
     },
+    confirmDelete: {
+      type: Boolean,
+      required: false
+    },
+    confirmDeleteModalTitle: {
+      type: String,
+      required: false
+    },
+    confirmDeleteModalConfirmLabel: {
+      type: String,
+      required: false
+    },
+    confirmDeleteModalCancelLabel: {
+      type: String,
+      required: false
+    },
     fileName: {
       type: String,
       required: false
@@ -83,6 +99,7 @@ export const AvFileUploadStub = defineComponent({
   template: `
     <div>
       <slot name="left"></slot>
+      <slot name="confirmDeleteModalBody" :files="modelValue ?? []"></slot>
       <input
         class="file-input"
         type="file"

@@ -63,7 +63,7 @@ const previewLabel = computed(() => {
               <span class="b2-regular">{{ props.title }}</span>
               <span class="caption-light">{{ props.description }}</span>
               <span
-                v-if="countPreviewLabel"
+                v-if="(modelValue ?? []).length > 0 && !!props.countLabel"
                 class="b2-bold"
               >{{ countPreviewLabel }}</span>
             </div>
