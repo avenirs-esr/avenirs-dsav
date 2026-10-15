@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
-import AvRadioButton, { type AvRadioButtonProps } from '@/components/interaction/radios/AvRadioButton/AvRadioButton.vue'
+import type { AvRadioButtonProps } from '@/components/interaction/radios/AvRadioButton/AvRadioButton.vue'
+import AvRadioButton from '@/components/interaction/radios/AvRadioButton/AvRadioButton.vue'
 
 /**
  * <h1 class="n1">Radio buttons - <code>AvRadioButton</code></h1>

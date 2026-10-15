@@ -1,4 +1,5 @@
-import { nextTick, type Ref } from 'vue'
+import type { Ref } from 'vue'
+import { nextTick } from 'vue'
 
 /**
  * Result returned by the usePopover composable.

@@ -1,5 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
-import NavigationMenu, { type NavigationMenuProps } from '@/components/navigation/AvNavigation/components/NavigationMenu/NavigationMenu.vue'
+import type { NavigationMenuProps } from '@/components/navigation/AvNavigation/components/NavigationMenu/NavigationMenu.vue'
+import NavigationMenu from '@/components/navigation/AvNavigation/components/NavigationMenu/NavigationMenu.vue'
 import { NavigationMenuItemStub } from '@/components/navigation/AvNavigation/components/NavigationMenuItem/NavigationMenuItem.stub'
 import { NavigationMenuLinkStub } from '@/components/navigation/AvNavigation/components/NavigationMenuLink/NavigationMenuLink.stub'
 import { BddTest } from '@/tests'

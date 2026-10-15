@@ -1,6 +1,7 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
+import type { AvTooltipProps } from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
-import AvTooltip, { type AvTooltipProps } from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
+import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
 
 /**
  * <h1 class="n1">Tooltips - <code>AvTooltip</code></h1>

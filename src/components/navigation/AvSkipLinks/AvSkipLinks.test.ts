@@ -1,4 +1,5 @@
-import { mount, type VueWrapper } from '@vue/test-utils'
+import type { VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { beforeEach } from 'vitest'
 import AvSkipLinks from '@/components/navigation/AvSkipLinks/AvSkipLinks.vue'
 import { AvButtonStub, BddTest } from '@/tests'

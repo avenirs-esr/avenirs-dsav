@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
-import AvMessage, { type AvMessageProps } from '@/components/base/AvMessage/AvMessage.vue'
+import type { AvMessageProps } from '@/components/base/AvMessage/AvMessage.vue'
+import AvMessage from '@/components/base/AvMessage/AvMessage.vue'
 
 /**
  * <h1 class="n1">Messages - <code>AvMessage</code></h1>

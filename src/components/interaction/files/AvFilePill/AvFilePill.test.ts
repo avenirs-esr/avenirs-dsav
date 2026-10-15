@@ -1,7 +1,9 @@
-import { mount, type VueWrapper } from '@vue/test-utils'
+import type { VueWrapper } from '@vue/test-utils'
+import type { AvFilePillProps } from '@/components/interaction/files/AvFilePill/AvFilePill.vue'
+import { mount } from '@vue/test-utils'
 import { expect } from 'vitest'
 import { AvIconStub } from '@/components/base/AvIcon/AvIcon.stub'
-import AvFilePill, { type AvFilePillProps } from '@/components/interaction/files/AvFilePill/AvFilePill.vue'
+import AvFilePill from '@/components/interaction/files/AvFilePill/AvFilePill.vue'
 import { AvButtonStub } from '@/tests'
 import { BddTest } from '@/tests/utils'
 

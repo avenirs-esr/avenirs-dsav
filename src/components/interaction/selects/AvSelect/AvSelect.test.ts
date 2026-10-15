@@ -1,6 +1,8 @@
-import { mount, type VueWrapper } from '@vue/test-utils'
+import type { VueWrapper } from '@vue/test-utils'
+import type { AvSelectProps, AvSelectSelectedOption } from '@/components/interaction/selects/AvSelect/AvSelect.vue'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-import AvSelect, { type AvSelectProps, type AvSelectSelectedOption } from '@/components/interaction/selects/AvSelect/AvSelect.vue'
+import AvSelect from '@/components/interaction/selects/AvSelect/AvSelect.vue'
 import { AvIconStub, AvMessageStub, AvTooltipStub, BddTest } from '@/tests'
 import { MDI_ICONS } from '@/tokens/icons'
 

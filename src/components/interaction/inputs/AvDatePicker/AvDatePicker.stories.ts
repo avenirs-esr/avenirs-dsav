@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
-import AvDatePicker, { type AvDatePickerProps } from '@/components/interaction/inputs/AvDatePicker/AvDatePicker.vue'
+import type { AvDatePickerProps } from '@/components/interaction/inputs/AvDatePicker/AvDatePicker.vue'
+import AvDatePicker from '@/components/interaction/inputs/AvDatePicker/AvDatePicker.vue'
 
 /**
  * <h2 class="n2">✨ Introduction</h2>

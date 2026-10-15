@@ -1,4 +1,5 @@
-import { nextTick, type Ref } from 'vue'
+import type { Ref } from 'vue'
+import { nextTick } from 'vue'
 
 const MEASURE_CLASS = 'av-text-truncation-measure'
 const HEIGHT_TOLERANCE = 1

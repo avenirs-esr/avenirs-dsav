@@ -1,6 +1,7 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
+import type { AvToggleProps } from '@/components/interaction/toggles/AvToggle/AvToggle.vue'
 import AvBadge from '@/components/badges/AvBadge/AvBadge.vue'
-import AvToggle, { type AvToggleProps } from '@/components/interaction/toggles/AvToggle/AvToggle.vue'
+import AvToggle from '@/components/interaction/toggles/AvToggle/AvToggle.vue'
 import { MDI_ICONS } from '@/tokens'
 
 /**

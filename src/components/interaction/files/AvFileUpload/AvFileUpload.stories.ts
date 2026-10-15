@@ -1,7 +1,8 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
+import type { AvFileUploadProps } from '@/components/interaction/files/AvFileUpload/AvFileUpload.vue'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
-import AvFileUpload, { type AvFileUploadProps } from '@/components/interaction/files/AvFileUpload/AvFileUpload.vue'
+import AvFileUpload from '@/components/interaction/files/AvFileUpload/AvFileUpload.vue'
 
 /**
  * <h1 class="n1">File uploader - <code>AvFileUpload</code></h1>

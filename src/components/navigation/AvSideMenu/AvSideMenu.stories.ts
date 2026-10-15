@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
-import AvSideMenu, { type AvSideMenuProps } from '@/components/navigation/AvSideMenu/AvSideMenu.vue'
+import type { AvSideMenuProps } from '@/components/navigation/AvSideMenu/AvSideMenu.vue'
+import AvSideMenu from '@/components/navigation/AvSideMenu/AvSideMenu.vue'
 import { MDI_ICONS } from '@/tokens'
 
 /**

@@ -1,5 +1,6 @@
 import type { StoryFn } from '@storybook/vue3'
-import AvTagPicker, { type AvTagPickerProps } from '@/components/interaction/pickers/AvTagPicker/AvTagPicker.vue'
+import type { AvTagPickerProps } from '@/components/interaction/pickers/AvTagPicker/AvTagPicker.vue'
+import AvTagPicker from '@/components/interaction/pickers/AvTagPicker/AvTagPicker.vue'
 
 /**
  * <h1 class="n1">Tag picker - <code>AvTagPicker</code></h1>

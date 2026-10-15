@@ -1,4 +1,5 @@
-import { mount, type VueWrapper } from '@vue/test-utils'
+import type { VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 import { AvIconStub } from '@/components/base/AvIcon/AvIcon.stub'
 import AvRichButton from '@/components/interaction/buttons/AvRichButton/AvRichButton.vue'

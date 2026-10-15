@@ -1,6 +1,7 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
+import type { AvPopoverProps } from '@/components/overlay/popovers/AvPopover/AvPopover.vue'
 import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
-import AvPopover, { type AvPopoverProps } from '@/components/overlay/popovers/AvPopover/AvPopover.vue'
+import AvPopover from '@/components/overlay/popovers/AvPopover/AvPopover.vue'
 
 /**
  * <h1 class="n1">Popovers - <code>AvPopover</code></h1>

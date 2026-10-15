@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
-import AvBreadcrumb, { type AvBreadcrumbProps } from '@/components/navigation/AvBreadcrumb/AvBreadcrumb.vue'
+import type { AvBreadcrumbProps } from '@/components/navigation/AvBreadcrumb/AvBreadcrumb.vue'
+import AvBreadcrumb from '@/components/navigation/AvBreadcrumb/AvBreadcrumb.vue'
 
 /**
  * <h1 class="n1">Navigation - <code>AvBreadcrumb</code></h1>

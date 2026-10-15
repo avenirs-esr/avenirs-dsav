@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
-import AvTable, { type AvTableColumn, type AvTableProps } from '@/components/dataDisplay/AvTable/AvTable.vue'
+import type { AvTableColumn, AvTableProps } from '@/components/dataDisplay/AvTable/AvTable.vue'
+import AvTable from '@/components/dataDisplay/AvTable/AvTable.vue'
 
 /**
  * <h1 class="n1">Data Display - <code>AvTable</code></h1>

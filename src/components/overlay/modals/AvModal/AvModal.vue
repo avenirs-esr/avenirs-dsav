@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import type { Slot } from 'vue'
 import { FocusTrap } from 'focus-trap-vue'
-import { type Slot, useAttrs } from 'vue'
+import { useAttrs } from 'vue'
 import AvCancelConfirmButtons from '@/components/interaction/buttons/AvCancelConfirmButtons/AvCancelConfirmButtons.vue'
 import { MDI_ICONS } from '@/tokens'
 

@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
-import AvCard, { type AvCardProps } from '@/components/cards/AvCard/AvCard.vue'
+import type { AvCardProps } from '@/components/cards/AvCard/AvCard.vue'
+import AvCard from '@/components/cards/AvCard/AvCard.vue'
 
 /**
  * <h1 class="n1">Cards - <code>AvCard</code></h1>

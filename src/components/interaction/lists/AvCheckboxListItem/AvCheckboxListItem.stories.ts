@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
-import AvCheckboxListItem, { type AvCheckboxListItemProps } from '@/components/interaction/lists/AvCheckboxListItem/AvCheckboxListItem.vue'
+import type { AvCheckboxListItemProps } from '@/components/interaction/lists/AvCheckboxListItem/AvCheckboxListItem.vue'
+import AvCheckboxListItem from '@/components/interaction/lists/AvCheckboxListItem/AvCheckboxListItem.vue'
 import AvList from '@/components/interaction/lists/AvList/AvList.vue'
 import { MDI_ICONS } from '@/tokens'
 import { iconMappingWithDataUrl, iconOptionsWithDataUrl } from '@/utils/storybook'

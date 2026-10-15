@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
-import AvDropdown, { type AvDropdownProps } from '@/components/overlay/dropdowns/AvDropdown/AvDropdown.vue'
+import type { AvDropdownProps } from '@/components/overlay/dropdowns/AvDropdown/AvDropdown.vue'
+import AvDropdown from '@/components/overlay/dropdowns/AvDropdown/AvDropdown.vue'
 import { CUIDA_ICONS, MDI_ICONS } from '@/tokens/icons'
 
 /**

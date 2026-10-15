@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
-import AvPageSizePicker, { type AvPageSizePickerProps } from '@/components/interaction/pickers/AvPageSizePicker/AvPageSizePicker.vue'
+import type { AvPageSizePickerProps } from '@/components/interaction/pickers/AvPageSizePicker/AvPageSizePicker.vue'
+import AvPageSizePicker from '@/components/interaction/pickers/AvPageSizePicker/AvPageSizePicker.vue'
 import { PageSizes } from '@/config'
 
 /**

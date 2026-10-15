@@ -1,9 +1,11 @@
-import { mount, type VueWrapper } from '@vue/test-utils'
+import type { VueWrapper } from '@vue/test-utils'
+import type { MultiselectCollapseProps } from '@/components/interaction/selects/AvMultiselect/components/MultiselectCollapse.vue'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 import { AvFieldsetStub } from '@/components/base/AvFieldset/AvFieldset.stub'
 import { AvCheckboxStub } from '@/components/interaction/checkboxes/AvCheckbox/AvCheckbox.stub'
-import MultiselectCollapse, { type MultiselectCollapseProps } from '@/components/interaction/selects/AvMultiselect/components/MultiselectCollapse.vue'
+import MultiselectCollapse from '@/components/interaction/selects/AvMultiselect/components/MultiselectCollapse.vue'
 import { AvButtonStub } from '@/tests'
 import { BddTest } from '@/tests/utils'
 

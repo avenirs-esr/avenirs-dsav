@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
-import AvHeader, { type AvHeaderProps } from '@/components/header/AvHeader/AvHeader.vue'
+import type { AvHeaderProps } from '@/components/header/AvHeader/AvHeader.vue'
+import AvHeader from '@/components/header/AvHeader/AvHeader.vue'
 import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
 
 /**

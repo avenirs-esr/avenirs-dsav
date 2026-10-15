@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
-import AvCheckbox, { type AvCheckboxProps } from '@/components/interaction/checkboxes/AvCheckbox/AvCheckbox.vue'
+import type { AvCheckboxProps } from '@/components/interaction/checkboxes/AvCheckbox/AvCheckbox.vue'
+import AvCheckbox from '@/components/interaction/checkboxes/AvCheckbox/AvCheckbox.vue'
 
 /**
  * <h2 class="n2">✨ Introduction</h2>

@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
+import type { AvFileUploadContext } from '@/components/interaction/files/AvFileUpload/AvFileUploadContext'
 import type { AvInteractiveProps } from '@/types/interfaces.types'
 import AvFileUploadCompact from '@/components/interaction/files/AvFileUpload/AvFileUploadCompact.vue'
-import { type AvFileUploadContext, AvFileUploadContextKey } from '@/components/interaction/files/AvFileUpload/AvFileUploadContext'
+import { AvFileUploadContextKey } from '@/components/interaction/files/AvFileUpload/AvFileUploadContext'
 import AvFileUploadDefault from '@/components/interaction/files/AvFileUpload/AvFileUploadDefault.vue'
 import AvFileUploadDeleteModal from '@/components/interaction/files/AvFileUpload/AvFileUploadDeleteModal.vue'
 import AvFileUploadFilePills from '@/components/interaction/files/AvFileUpload/AvFileUploadFilePills.vue'

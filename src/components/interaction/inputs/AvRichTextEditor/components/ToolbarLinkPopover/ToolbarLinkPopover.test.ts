@@ -1,6 +1,8 @@
-import { mount, type VueWrapper } from '@vue/test-utils'
+import type { VueWrapper } from '@vue/test-utils'
+import type { ToolbarLinkPopoverProps } from '@/components/interaction/inputs/AvRichTextEditor/components/ToolbarLinkPopover/ToolbarLinkPopover.vue'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-import ToolbarLinkPopover, { type ToolbarLinkPopoverProps } from '@/components/interaction/inputs/AvRichTextEditor/components/ToolbarLinkPopover/ToolbarLinkPopover.vue'
+import ToolbarLinkPopover from '@/components/interaction/inputs/AvRichTextEditor/components/ToolbarLinkPopover/ToolbarLinkPopover.vue'
 import { AvButtonStub, AvCancelConfirmButtonsStub, AvInputStub, AvPopoverStub, BddTest } from '@/tests'
 
 BddTest().given('a toolbar link popover', () => {

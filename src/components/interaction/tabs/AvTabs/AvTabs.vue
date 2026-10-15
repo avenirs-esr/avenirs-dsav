@@ -1,6 +1,7 @@
 <script lang="ts" setup>
+import type { VNode } from 'vue'
 import type AvTab from '@/components/interaction/tabs/AvTab/AvTab.vue'
-import { useSlots, type VNode } from 'vue'
+import { useSlots } from 'vue'
 import TabContent from '@/components/interaction/tabs/AvTabs/components/TabContent.vue'
 import TabItem from '@/components/interaction/tabs/AvTabs/components/TabItem.vue'
 import TabPanelContent from '@/components/interaction/tabs/AvTabs/components/TabPanelContent'

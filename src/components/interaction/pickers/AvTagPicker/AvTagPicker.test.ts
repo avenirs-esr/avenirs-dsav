@@ -1,6 +1,8 @@
-import { mount, type VueWrapper } from '@vue/test-utils'
+import type { VueWrapper } from '@vue/test-utils'
+import type { AvTagPickerOption } from '@/components/interaction/pickers/AvTagPicker/AvTagPicker.vue'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import AvTagPicker, { type AvTagPickerOption } from '@/components/interaction/pickers/AvTagPicker/AvTagPicker.vue'
+import AvTagPicker from '@/components/interaction/pickers/AvTagPicker/AvTagPicker.vue'
 import { BddTest } from '@/tests/utils'
 
 BddTest().given('an AvTagPicker', () => {

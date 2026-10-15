@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { type ComponentPublicInstance, nextTick } from 'vue'
+import type { ComponentPublicInstance } from 'vue'
+import { nextTick } from 'vue'
 import { usePopover } from '@/components/overlay/popovers/AvPopover/use-popover'
 import { useFocusTrap } from '@/composables'
 

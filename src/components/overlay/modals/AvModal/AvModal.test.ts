@@ -1,8 +1,11 @@
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect, type MockInstance, vi } from 'vitest'
+import type { VueWrapper } from '@vue/test-utils'
+import type { MockInstance } from 'vitest'
+import type { AvModalProps } from '@/components/overlay/modals/AvModal/AvModal.vue'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 import { AvCancelConfirmButtonsStub } from '@/components/interaction/buttons/AvCancelConfirmButtons/AvCancelConfirmButtons.stub'
-import AvModal, { type AvModalProps } from '@/components/overlay/modals/AvModal/AvModal.vue'
+import AvModal from '@/components/overlay/modals/AvModal/AvModal.vue'
 import { BddTest } from '@/tests/utils'
 
 Object.defineProperty(HTMLDialogElement.prototype, 'showModal', {

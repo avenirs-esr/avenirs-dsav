@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
-import AvBadge, { type AvBadgeProps } from '@/components/badges/AvBadge/AvBadge.vue'
+import type { AvBadgeProps } from '@/components/badges/AvBadge/AvBadge.vue'
+import AvBadge from '@/components/badges/AvBadge/AvBadge.vue'
 import { ICONS_DATA_URL } from '@/tokens'
 import { iconMappingWithDataUrl, iconOptionsWithDataUrl } from '@/utils/storybook'
 

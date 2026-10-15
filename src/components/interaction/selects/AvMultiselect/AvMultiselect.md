@@ -93,7 +93,8 @@ You can find examples of use and demo of the component on its dedicated [Storybo
 
 ```vue
 <script setup lang="ts">
-import { AvMultiselect, type AvMultiselectOption } from '@avenirs-esr/avenirs-dsav'
+import type { AvMultiselectOption } from '@avenirs-esr/avenirs-dsav'
+import { AvMultiselect } from '@avenirs-esr/avenirs-dsav'
 import { ref } from 'vue'
 
 const selectedOptions = ref<AvMultiselectOption[]>([])
@@ -118,7 +119,8 @@ const selectedOptions = ref<AvMultiselectOption[]>([])
 
 ```vue
 <script setup lang="ts">
-import { AvMultiselect, type AvMultiselectOption } from '@avenirs-esr/avenirs-dsav'
+import type { AvMultiselectOption } from '@avenirs-esr/avenirs-dsav'
+import { AvMultiselect } from '@avenirs-esr/avenirs-dsav'
 import { ref } from 'vue'
 
 const selectedOptions = ref<AvMultiselectOption[]>([])

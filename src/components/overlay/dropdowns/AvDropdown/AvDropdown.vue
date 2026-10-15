@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import type { AvButtonProps } from '@/components/interaction/buttons/AvButton/AvButton.vue'
 import type { AvInteractiveProps } from '@/types/interfaces.types'
-import AvButton, { type AvButtonProps } from '@/components/interaction/buttons/AvButton/AvButton.vue'
+import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
 import AvPopover from '@/components/overlay/popovers/AvPopover/AvPopover.vue'
 import { MDI_ICONS } from '@/tokens/icons'
 

@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import type { Slot } from 'vue'
 import type { AvHeaderEmits } from '@/components/header/AvHeader/AvHeader.types'
-import AvLanguageSelector, { type AvLanguageSelectorProps } from '@/components/interaction/buttons/AvLanguageSelector/AvLanguageSelector.vue'
+import type { AvLanguageSelectorProps } from '@/components/interaction/buttons/AvLanguageSelector/AvLanguageSelector.vue'
+import AvLanguageSelector from '@/components/interaction/buttons/AvLanguageSelector/AvLanguageSelector.vue'
 import AvSearchBar from '@/components/interaction/inputs/AvSearchBar/AvSearchBar.vue'
 
 interface HeaderToolbarProps {

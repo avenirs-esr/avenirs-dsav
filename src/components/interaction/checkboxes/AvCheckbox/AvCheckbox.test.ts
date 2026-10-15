@@ -1,8 +1,10 @@
-import { mount, type VueWrapper } from '@vue/test-utils'
+import type { VueWrapper } from '@vue/test-utils'
+import type { AvCheckboxProps } from '@/components/interaction/checkboxes/AvCheckbox/AvCheckbox.vue'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 import { AvIconStub } from '@/components/base/AvIcon/AvIcon.stub'
 import { AvMessageStub } from '@/components/base/AvMessage/AvMessage.stub'
-import AvCheckbox, { type AvCheckboxProps } from '@/components/interaction/checkboxes/AvCheckbox/AvCheckbox.vue'
+import AvCheckbox from '@/components/interaction/checkboxes/AvCheckbox/AvCheckbox.vue'
 import { AvTooltipStub } from '@/components/overlay/tooltips/AvTooltip/AvTooltip.stub'
 import { BddTest } from '@/tests/utils'
 

@@ -1,6 +1,8 @@
-import { mount, type VueWrapper } from '@vue/test-utils'
+import type { VueWrapper } from '@vue/test-utils'
+import type { AvRadioButtonProps } from '@/components/interaction/radios/AvRadioButton/AvRadioButton.vue'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-import AvRadioButton, { type AvRadioButtonProps } from '@/components/interaction/radios/AvRadioButton/AvRadioButton.vue'
+import AvRadioButton from '@/components/interaction/radios/AvRadioButton/AvRadioButton.vue'
 import { AvTooltipStub } from '@/components/overlay/tooltips/AvTooltip/AvTooltip.stub'
 import { BddTest } from '@/tests/utils'
 

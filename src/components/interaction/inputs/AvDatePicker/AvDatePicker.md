@@ -172,8 +172,9 @@ The `range` prop is independent from `type`, so it can be combined with `month` 
 ```vue
 <script setup lang="ts">
 import type { AvDatePickerModel } from '@/components/interaction/inputs/AvDatePicker/AvDatePicker.types'
+import type { AvDatePickerProps } from '@/components/interaction/inputs/AvDatePicker/AvDatePicker.vue'
 import { ref } from 'vue'
-import AvDatePicker, { type AvDatePickerProps } from '@/components/interaction/inputs/AvDatePicker/AvDatePicker.vue'
+import AvDatePicker from '@/components/interaction/inputs/AvDatePicker/AvDatePicker.vue'
 import { isDate, isDateRange, isMonthModel, isMonthRange, isTimeModel, isTimeRange, toDate } from '@/utils'
 
 const monthValue = ref<AvDatePickerModel>(null)

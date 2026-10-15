@@ -1,6 +1,8 @@
-import { mount, type VueWrapper } from '@vue/test-utils'
+import type { VueWrapper } from '@vue/test-utils'
+import type { AvSearchBarProps } from '@/components/interaction/inputs/AvSearchBar/AvSearchBar.vue'
+import { mount } from '@vue/test-utils'
 import { beforeEach } from 'vitest'
-import AvSearchBar, { type AvSearchBarProps } from '@/components/interaction/inputs/AvSearchBar/AvSearchBar.vue'
+import AvSearchBar from '@/components/interaction/inputs/AvSearchBar/AvSearchBar.vue'
 import { AvButtonStub, BddTest } from '@/tests'
 
 BddTest().given('a search bar', () => {

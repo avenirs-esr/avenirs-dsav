@@ -1,5 +1,6 @@
+import type { Ref } from 'vue'
 import { beforeEach, expect, vi } from 'vitest'
-import { nextTick, type Ref } from 'vue'
+import { nextTick } from 'vue'
 import { useTextTruncation } from '@/composables/use-text-truncation/use-text-truncation'
 import { BddTest, mountComposable } from '@/tests/utils'
 

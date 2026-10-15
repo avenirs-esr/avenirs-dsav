@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
-import AvNotice, { type AvNoticeProps } from '@/components/base/AvNotice/AvNotice.vue'
+import type { AvNoticeProps } from '@/components/base/AvNotice/AvNotice.vue'
+import AvNotice from '@/components/base/AvNotice/AvNotice.vue'
 
 /**
  * <h1 class="n1">Important information banner - <code>AvNotice</code></h1>

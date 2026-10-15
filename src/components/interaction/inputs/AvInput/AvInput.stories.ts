@@ -1,6 +1,7 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
+import type { AvInputProps } from '@/components/interaction/inputs/AvInput/AvInput.vue'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
-import AvInput, { type AvInputProps } from '@/components/interaction/inputs/AvInput/AvInput.vue'
+import AvInput from '@/components/interaction/inputs/AvInput/AvInput.vue'
 import { CUIDA_ICONS } from '@/tokens'
 
 /**

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { nextTick, type Slot, useAttrs } from 'vue'
+import type { Slot } from 'vue'
+import { nextTick, useAttrs } from 'vue'
 import { useTooltipPosition } from '@/composables/use-tooltip-position/use-tooltip-position'
 import { useTooltipVisibilityCoordination } from '@/composables/use-tooltip-visibility-coordination/use-tooltip-visibility-coordination'
 

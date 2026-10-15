@@ -1,6 +1,8 @@
-import { mount, type VueWrapper } from '@vue/test-utils'
+import type { VueWrapper } from '@vue/test-utils'
+import type { AvStepperProps } from '@/components/navigation/AvStepper/AvStepper.vue'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-import AvStepper, { type AvStepperProps } from '@/components/navigation/AvStepper/AvStepper.vue'
+import AvStepper from '@/components/navigation/AvStepper/AvStepper.vue'
 import { BddTest } from '@/tests/utils'
 
 BddTest().given('an AvStepper component', () => {

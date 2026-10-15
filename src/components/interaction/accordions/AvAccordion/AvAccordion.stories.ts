@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
-import AvAccordion, { type AvAccordionProps } from '@/components/interaction/accordions/AvAccordion/AvAccordion.vue'
+import type { AvAccordionProps } from '@/components/interaction/accordions/AvAccordion/AvAccordion.vue'
+import AvAccordion from '@/components/interaction/accordions/AvAccordion/AvAccordion.vue'
 
 /**
  * <h2 class="n2">✨ Introduction</h2>

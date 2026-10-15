@@ -1,6 +1,8 @@
-import { mount, type VueWrapper } from '@vue/test-utils'
+import type { VueWrapper } from '@vue/test-utils'
+import type { AvRichTextEditorProps } from '@/components/interaction/inputs/AvRichTextEditor/AvRichTextEditor.vue'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-import AvRichTextEditor, { type AvRichTextEditorProps } from '@/components/interaction/inputs/AvRichTextEditor/AvRichTextEditor.vue'
+import AvRichTextEditor from '@/components/interaction/inputs/AvRichTextEditor/AvRichTextEditor.vue'
 import { RichTextToolbarStub } from '@/components/interaction/inputs/AvRichTextEditor/components/RichTextToolbar/RichTextToolbar.stub'
 import { BddTest } from '@/tests'
 

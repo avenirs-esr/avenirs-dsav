@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
-import AvFloatingPanel, { type AvFloatingPanelProps } from '@/components/overlay/panels/AvFloatingPanel/AvFloatingPanel.vue'
+import type { AvFloatingPanelProps } from '@/components/overlay/panels/AvFloatingPanel/AvFloatingPanel.vue'
+import AvFloatingPanel from '@/components/overlay/panels/AvFloatingPanel/AvFloatingPanel.vue'
 import { MDI_ICONS } from '@/tokens'
 
 /**

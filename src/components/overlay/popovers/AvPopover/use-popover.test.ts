@@ -1,5 +1,7 @@
-import { beforeEach, expect, type MockInstance, vi } from 'vitest'
-import { nextTick, type Ref } from 'vue'
+import type { MockInstance } from 'vitest'
+import type { Ref } from 'vue'
+import { beforeEach, expect, vi } from 'vitest'
+import { nextTick } from 'vue'
 import { usePopover } from '@/components/overlay/popovers/AvPopover/use-popover'
 import { BddTest, mountComposable } from '@/tests/utils'
 

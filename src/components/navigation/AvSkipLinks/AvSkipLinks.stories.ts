@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
-import AvSkipLinks, { type AvSkipLinksProps } from '@/components/navigation/AvSkipLinks/AvSkipLinks.vue'
+import type { AvSkipLinksProps } from '@/components/navigation/AvSkipLinks/AvSkipLinks.vue'
+import AvSkipLinks from '@/components/navigation/AvSkipLinks/AvSkipLinks.vue'
 
 /**
  * <h1 class="n1">Navigation - <code>AvSkipLinks</code></h1>

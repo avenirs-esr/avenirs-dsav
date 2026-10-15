@@ -1,6 +1,8 @@
-import { mount, type VueWrapper } from '@vue/test-utils'
+import type { VueWrapper } from '@vue/test-utils'
+import type { AvFloatingPanelProps } from '@/components/overlay/panels/AvFloatingPanel/AvFloatingPanel.vue'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-import AvFloatingPanel, { type AvFloatingPanelProps } from '@/components/overlay/panels/AvFloatingPanel/AvFloatingPanel.vue'
+import AvFloatingPanel from '@/components/overlay/panels/AvFloatingPanel/AvFloatingPanel.vue'
 import { AvCardStub, AvIconTextStub } from '@/tests'
 import { BddTest } from '@/tests/utils'
 

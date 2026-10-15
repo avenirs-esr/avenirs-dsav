@@ -1,6 +1,7 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
+import type { AvDrawerProps } from '@/components/overlay/drawers/AvDrawer/AvDrawer.vue'
 import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
-import AvDrawer, { type AvDrawerProps } from '@/components/overlay/drawers/AvDrawer/AvDrawer.vue'
+import AvDrawer from '@/components/overlay/drawers/AvDrawer/AvDrawer.vue'
 
 /**
  * <h1 class="n1">Drawers - <code>AvDrawer</code></h1>

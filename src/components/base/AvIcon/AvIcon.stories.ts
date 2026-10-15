@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
-import AvIcon, { type AvIconProps } from '@/components/base/AvIcon/AvIcon.vue'
+import type { AvIconProps } from '@/components/base/AvIcon/AvIcon.vue'
+import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import { MDI_ICONS } from '@/tokens'
 import { iconMappingWithDataUrl, iconOptionsWithDataUrl } from '@/utils/storybook'
 

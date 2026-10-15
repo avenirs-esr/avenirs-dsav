@@ -1,6 +1,7 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
+import type { AvCheckboxesGroupProps } from '@/components/interaction/checkboxes/AvCheckboxesGroup/AvCheckboxesGroup.vue'
 import { AvCheckbox } from '@/components/interaction/checkboxes'
-import AvCheckboxesGroup, { type AvCheckboxesGroupProps } from '@/components/interaction/checkboxes/AvCheckboxesGroup/AvCheckboxesGroup.vue'
+import AvCheckboxesGroup from '@/components/interaction/checkboxes/AvCheckboxesGroup/AvCheckboxesGroup.vue'
 
 /**
  * <h1 class="n1">Checkboxes groups - <code>AvCheckboxesGroup</code></h1>

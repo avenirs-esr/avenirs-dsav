@@ -1,9 +1,11 @@
-import { mount, type VueWrapper } from '@vue/test-utils'
+import type { VueWrapper } from '@vue/test-utils'
+import type { AvRadioButtonSetProps } from '@/components/interaction/radios/AvRadioButtonSet/AvRadioButtonSet.vue'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 import { h } from 'vue'
 import { AvFieldsetStub } from '@/components/base/AvFieldset/AvFieldset.stub'
 import AvRadioButton from '@/components/interaction/radios/AvRadioButton/AvRadioButton.vue'
-import AvRadioButtonSet, { type AvRadioButtonSetProps } from '@/components/interaction/radios/AvRadioButtonSet/AvRadioButtonSet.vue'
+import AvRadioButtonSet from '@/components/interaction/radios/AvRadioButtonSet/AvRadioButtonSet.vue'
 import { AvTooltipStub } from '@/components/overlay/tooltips/AvTooltip/AvTooltip.stub'
 import { BddTest } from '@/tests/utils'
 
