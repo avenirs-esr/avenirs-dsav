@@ -1,6 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
+import type { AvTableColumn } from '@/components/dataDisplay/AvTable/AvTable.vue'
 import { expect } from 'vitest'
-import AvTable, { type AvTableColumn } from '@/components/dataDisplay/AvTable/AvTable.vue'
+import AvTable from '@/components/dataDisplay/AvTable/AvTable.vue'
 import { BddTest, mountWithRouter } from '@/tests/utils'
 
 interface User {

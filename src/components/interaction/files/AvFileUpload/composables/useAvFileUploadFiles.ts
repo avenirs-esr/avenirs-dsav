@@ -1,5 +1,6 @@
+import type { ComputedRef, Ref } from 'vue'
 import type { AvFileMaxSizeMb } from '@/components/interaction/files/AvFileUpload/AvFileUpload.types'
-import { type ComputedRef, nextTick, type Ref } from 'vue'
+import { nextTick } from 'vue'
 import { validateFiles } from '@/components/interaction/files/AvFileUpload/AvFileUpload.utils'
 
 interface UseAvFileUploadFilesOptions {

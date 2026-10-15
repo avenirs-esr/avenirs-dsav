@@ -1,4 +1,5 @@
-import { mount, type VueWrapper } from '@vue/test-utils'
+import type { VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import EsupLogo from '@/components/header/EsupLogo.vue'
 import { BddTest } from '@/tests/utils'

@@ -1,6 +1,7 @@
 import type { StoryFn } from '@storybook/vue3'
 import type { AvMultiselectOption } from '@/components/interaction/selects/AvMultiselect/AvMultiselect.types'
-import AvMultiselect, { type AvMultiselectProps } from '@/components/interaction/selects/AvMultiselect/AvMultiselect.vue'
+import type { AvMultiselectProps } from '@/components/interaction/selects/AvMultiselect/AvMultiselect.vue'
+import AvMultiselect from '@/components/interaction/selects/AvMultiselect/AvMultiselect.vue'
 import { MDI_ICONS } from '@/tokens'
 
 type AvMultiselectStoryArgs = AvMultiselectProps & {

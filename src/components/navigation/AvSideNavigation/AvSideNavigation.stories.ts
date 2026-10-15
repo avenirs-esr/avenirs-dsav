@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
-import AvSideNavigation, { type AvSideNavigationProps } from '@/components/navigation/AvSideNavigation/AvSideNavigation.vue'
+import type { AvSideNavigationProps } from '@/components/navigation/AvSideNavigation/AvSideNavigation.vue'
+import AvSideNavigation from '@/components/navigation/AvSideNavigation/AvSideNavigation.vue'
 import { MDI_ICONS } from '@/tokens'
 
 const mockItems = [

@@ -1,6 +1,7 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
+import type { AvRichButtonProps } from '@/components/interaction/buttons/AvRichButton/AvRichButton.vue'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
-import AvRichButton, { type AvRichButtonProps } from '@/components/interaction/buttons/AvRichButton/AvRichButton.vue'
+import AvRichButton from '@/components/interaction/buttons/AvRichButton/AvRichButton.vue'
 import { iconMapping, iconOptions } from '@/utils/storybook'
 
 /**

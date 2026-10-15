@@ -1,6 +1,7 @@
+import type { ComponentPublicInstance } from 'vue'
 import { flushPromises, mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { type ComponentPublicInstance, h } from 'vue'
+import { h } from 'vue'
 import AvPopover from '@/components/overlay/popovers/AvPopover/AvPopover.vue'
 import { BddTest } from '@/tests/utils'
 

@@ -1,6 +1,8 @@
-import { mount, type VueWrapper } from '@vue/test-utils'
+import type { VueWrapper } from '@vue/test-utils'
+import type { AvDropdownProps } from '@/components/overlay/dropdowns/AvDropdown/AvDropdown.vue'
+import { mount } from '@vue/test-utils'
 import { beforeEach } from 'vitest'
-import AvDropdown, { type AvDropdownProps } from '@/components/overlay/dropdowns/AvDropdown/AvDropdown.vue'
+import AvDropdown from '@/components/overlay/dropdowns/AvDropdown/AvDropdown.vue'
 import { AvButtonStub, AvPopoverStub, BddTest } from '@/tests'
 import { MDI_ICONS } from '@/tokens'
 

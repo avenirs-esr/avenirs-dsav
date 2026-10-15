@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
-import AvNavigation, { type AvNavigationProps } from '@/components/navigation/AvNavigation/AvNavigation.vue'
+import type { AvNavigationProps } from '@/components/navigation/AvNavigation/AvNavigation.vue'
+import AvNavigation from '@/components/navigation/AvNavigation/AvNavigation.vue'
 
 /**
  * <h1 class="n1">Navigation - <code>AvNavigation</code></h1>

@@ -1,5 +1,6 @@
+import type { AvTagProps } from '@/components/badges/AvTag/AvTag.vue'
 import { mount } from '@vue/test-utils'
-import AvTag, { type AvTagProps } from '@/components/badges/AvTag/AvTag.vue'
+import AvTag from '@/components/badges/AvTag/AvTag.vue'
 import { AvIconStub, AvTooltipStub, BddTest } from '@/tests'
 
 BddTest().given('an AvTag component', () => {

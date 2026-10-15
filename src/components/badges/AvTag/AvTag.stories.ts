@@ -1,6 +1,7 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
 import type { ConcreteComponent } from 'vue'
-import AvTag, { type AvTagProps } from '@/components/badges/AvTag/AvTag.vue'
+import type { AvTagProps } from '@/components/badges/AvTag/AvTag.vue'
+import AvTag from '@/components/badges/AvTag/AvTag.vue'
 import { iconMapping, iconOptions } from '@/utils/storybook'
 
 /**

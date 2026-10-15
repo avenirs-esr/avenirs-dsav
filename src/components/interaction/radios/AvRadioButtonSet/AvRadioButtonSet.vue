@@ -1,6 +1,7 @@
 <script lang="ts" setup>
+import type { Slot, VNode, VNodeArrayChildren } from 'vue'
 import type { AvInteractiveProps } from '@/types/interfaces.types'
-import { Fragment, type Slot, useSlots, type VNode, type VNodeArrayChildren } from 'vue'
+import { Fragment, useSlots } from 'vue'
 import { AvRadioButton } from '@/components/interaction/radios'
 import RadioButton from '@/components/interaction/radios/AvRadioButtonSet/components/RadioButton.vue'
 

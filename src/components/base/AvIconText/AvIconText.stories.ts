@@ -1,6 +1,7 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
+import type { AvIconTextProps } from '@/components/base/AvIconText/AvIconText.vue'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
-import AvIconText, { type AvIconTextProps } from '@/components/base/AvIconText/AvIconText.vue'
+import AvIconText from '@/components/base/AvIconText/AvIconText.vue'
 import { iconMapping, iconOptions } from '@/utils/storybook'
 
 const typographyClasses = [

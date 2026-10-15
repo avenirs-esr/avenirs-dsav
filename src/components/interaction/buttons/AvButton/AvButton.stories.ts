@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
-import AvButton, { type AvButtonProps } from '@/components/interaction/buttons/AvButton/AvButton.vue'
+import type { AvButtonProps } from '@/components/interaction/buttons/AvButton/AvButton.vue'
+import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
 import { iconMapping, iconOptions } from '@/utils/storybook'
 
 /**

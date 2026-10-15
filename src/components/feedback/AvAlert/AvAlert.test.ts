@@ -1,6 +1,8 @@
-import { mount, type VueWrapper } from '@vue/test-utils'
+import type { VueWrapper } from '@vue/test-utils'
+import type { AvAlertProps } from '@/components/feedback/AvAlert/AvAlert.vue'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-import AvAlert, { type AvAlertProps } from '@/components/feedback/AvAlert/AvAlert.vue'
+import AvAlert from '@/components/feedback/AvAlert/AvAlert.vue'
 import { BddTest } from '@/tests/utils'
 import { MDI_ICONS } from '@/tokens'
 

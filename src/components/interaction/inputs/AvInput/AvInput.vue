@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import type { Ref, Slot } from 'vue'
 import type { AvInteractiveProps } from '@/types/interfaces.types'
-import { type Ref, type Slot, useAttrs } from 'vue'
+import { useAttrs } from 'vue'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import { formatDateForInputType, formatDisplayedDate, getDateInputPlaceholder, getDateInputPrefixIcon, isDateInputType } from '@/components/interaction/inputs/AvInput/utils'
 import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'

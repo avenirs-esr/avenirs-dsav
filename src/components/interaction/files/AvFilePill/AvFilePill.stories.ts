@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
-import AvFilePill, { type AvFilePillProps } from '@/components/interaction/files/AvFilePill/AvFilePill.vue'
+import type { AvFilePillProps } from '@/components/interaction/files/AvFilePill/AvFilePill.vue'
+import AvFilePill from '@/components/interaction/files/AvFilePill/AvFilePill.vue'
 
 /**
  * <h1 class="n1">File pill - <code>AvFilePill</code></h1>

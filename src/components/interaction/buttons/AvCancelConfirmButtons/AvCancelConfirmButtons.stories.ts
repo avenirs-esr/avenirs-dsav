@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
-import AvCancelConfirmButtons, { type AvCancelConfirmButtonsProps } from '@/components/interaction/buttons/AvCancelConfirmButtons/AvCancelConfirmButtons.vue'
+import type { AvCancelConfirmButtonsProps } from '@/components/interaction/buttons/AvCancelConfirmButtons/AvCancelConfirmButtons.vue'
+import AvCancelConfirmButtons from '@/components/interaction/buttons/AvCancelConfirmButtons/AvCancelConfirmButtons.vue'
 import { iconMapping, iconOptions } from '@/utils/storybook'
 
 /**

@@ -1,6 +1,7 @@
+import type { AvSideNavigationMenuItem } from '@/components/navigation/AvSideNavigation/AvSideNavigation.vue'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-import AvSideNavigation, { type AvSideNavigationMenuItem } from '@/components/navigation/AvSideNavigation/AvSideNavigation.vue'
+import AvSideNavigation from '@/components/navigation/AvSideNavigation/AvSideNavigation.vue'
 import { BddTest } from '@/tests/utils'
 import { MDI_ICONS } from '@/tokens'
 

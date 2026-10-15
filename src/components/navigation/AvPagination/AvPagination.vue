@@ -102,7 +102,7 @@ const emit = defineEmits<{
    * @param e Le nom de l'événement.
    * @param payload L'index de la nouvelle page sélectionnée.
    */
-  (e: 'update:current-page', payload: number): void
+  (e: 'update:currentPage', payload: number): void
 }>()
 
 const startIndex = computed(() => {
@@ -116,7 +116,7 @@ const displayedPages = computed(() => {
 })
 const hasPages = computed(() => pages.length > 0)
 
-const updatePage = (index: number) => emit('update:current-page', index)
+const updatePage = (index: number) => emit('update:currentPage', index)
 const toPage = (index: number) => updatePage(index)
 const toFirstPage = () => toPage(0)
 const toPreviousPage = () => toPage(Math.max(0, currentPage - 1))

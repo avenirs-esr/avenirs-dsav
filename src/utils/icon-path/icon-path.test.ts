@@ -1,7 +1,8 @@
+import type { IconPathStyle } from '@/utils/icon-path/icon-path'
 import { beforeEach, expect } from 'vitest'
 import { BddTest } from '@/tests'
 import { MDI_ICONS, RI_ICONS } from '@/tokens'
-import { getIconPath, type IconPathStyle } from '@/utils/icon-path/icon-path'
+import { getIconPath } from '@/utils/icon-path/icon-path'
 
 /**
  * Get CSS variable for icon path

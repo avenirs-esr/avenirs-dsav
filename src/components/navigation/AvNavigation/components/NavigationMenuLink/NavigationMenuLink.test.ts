@@ -1,8 +1,10 @@
-import { RouterLinkStub, type VueWrapper } from '@vue/test-utils'
+import type { VueWrapper } from '@vue/test-utils'
+import type { NavigationMenuLinkProps } from '@/components/navigation/AvNavigation/components/NavigationMenuLink/NavigationMenuLink.vue'
+import { RouterLinkStub } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 import { registerNavigationLinkKey } from '@/components/header/AvHeader/injection-key'
-import NavigationMenuLink, { type NavigationMenuLinkProps } from '@/components/navigation/AvNavigation/components/NavigationMenuLink/NavigationMenuLink.vue'
+import NavigationMenuLink from '@/components/navigation/AvNavigation/components/NavigationMenuLink/NavigationMenuLink.vue'
 import { BddTest, mountWithRouter } from '@/tests/utils'
 
 BddTest().given('a navigation menu link', () => {

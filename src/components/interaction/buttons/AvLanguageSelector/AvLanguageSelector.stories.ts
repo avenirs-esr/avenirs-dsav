@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
-import AvLanguageSelector, { type AvLanguageSelectorProps } from '@/components/interaction/buttons/AvLanguageSelector/AvLanguageSelector.vue'
+import type { AvLanguageSelectorProps } from '@/components/interaction/buttons/AvLanguageSelector/AvLanguageSelector.vue'
+import AvLanguageSelector from '@/components/interaction/buttons/AvLanguageSelector/AvLanguageSelector.vue'
 
 /**
  * <h2 class="n2">✨ Introduction</h2>

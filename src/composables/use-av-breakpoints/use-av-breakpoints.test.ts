@@ -1,6 +1,7 @@
 import type { MaybeRefOrGetter } from 'vue'
+import type { AV_BREAKPOINTS } from '@/composables/use-av-breakpoints/use-av-breakpoints'
 import { beforeEach, expect, vi } from 'vitest'
-import { type AV_BREAKPOINTS, useAvBreakpoints } from '@/composables/use-av-breakpoints/use-av-breakpoints'
+import { useAvBreakpoints } from '@/composables/use-av-breakpoints/use-av-breakpoints'
 import { BddTest, mountComposable } from '@/tests/utils'
 
 const mockSmaller = vi.fn()

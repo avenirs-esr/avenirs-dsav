@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import type { NavigationMenuProps } from '@/components/navigation/AvNavigation/components/NavigationMenu/NavigationMenu.vue'
+import type { NavigationMenuLinkProps } from '@/components/navigation/AvNavigation/components/NavigationMenuLink/NavigationMenuLink.vue'
 import NavigationItem from '@/components/navigation/AvNavigation/components/NavigationItem/NavigationItem.vue'
-import NavigationMenu, { type NavigationMenuProps } from '@/components/navigation/AvNavigation/components/NavigationMenu/NavigationMenu.vue'
-import NavigationMenuLink, { type NavigationMenuLinkProps } from '@/components/navigation/AvNavigation/components/NavigationMenuLink/NavigationMenuLink.vue'
+import NavigationMenu from '@/components/navigation/AvNavigation/components/NavigationMenu/NavigationMenu.vue'
+import NavigationMenuLink from '@/components/navigation/AvNavigation/components/NavigationMenuLink/NavigationMenuLink.vue'
 
 /**
  * AvNavigation component props.

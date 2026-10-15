@@ -1,6 +1,7 @@
 <script lang="ts" setup>
+import type { Slot } from 'vue'
 import type { AvInteractiveProps } from '@/types/interfaces.types'
-import { type Slot, useAttrs } from 'vue'
+import { useAttrs } from 'vue'
 import toggleActiveDisabledSvg from '@/components/interaction/toggles/AvToggle/assets/toggle-active-disabled.svg?url'
 import toggleActiveSvg from '@/components/interaction/toggles/AvToggle/assets/toggle-active.svg?url'
 import toggleInactiveDisabledSvg from '@/components/interaction/toggles/AvToggle/assets/toggle-inactive-disabled.svg?url'

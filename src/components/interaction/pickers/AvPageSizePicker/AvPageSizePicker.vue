@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { ComputedRef } from 'vue'
-import AvTagPicker, { type AvTagPickerOption } from '@/components/interaction/pickers/AvTagPicker/AvTagPicker.vue'
+import type { AvTagPickerOption } from '@/components/interaction/pickers/AvTagPicker/AvTagPicker.vue'
+import AvTagPicker from '@/components/interaction/pickers/AvTagPicker/AvTagPicker.vue'
 import { PageSizes } from '@/config'
 
 /**

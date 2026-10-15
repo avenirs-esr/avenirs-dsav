@@ -1,4 +1,5 @@
-import { mount, type VueWrapper } from '@vue/test-utils'
+import type { VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 import NavigationItem from '@/components/navigation/AvNavigation/components/NavigationItem/NavigationItem.vue'
 import { BddTest } from '@/tests/utils'

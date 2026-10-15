@@ -26,10 +26,10 @@ export const AvPaginationStub = defineComponent({
     prevPageDisabledTooltip: String,
     truncLimit: Number,
   },
-  emits: ['update:current-page'],
+  emits: ['update:currentPage'],
   template: `
     <div class="av-pagination-stub">
-      <button class="av-pagination" @click="$emit('update:current-page', 2)">Page 2</button>
+      <button class="av-pagination" @click="$emit('update:currentPage', 2)">Page 2</button>
     </div>
   `
 })

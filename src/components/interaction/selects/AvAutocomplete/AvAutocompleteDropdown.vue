@@ -1,11 +1,12 @@
 <script setup lang="ts" generic="T extends AvAutocompleteOption = AvAutocompleteOption">
 import type { Slot } from 'vue'
+import type { AvAutocompleteOption } from '@/components/interaction/selects/AvAutocomplete/AvAutocomplete.types'
 import { useScroll } from '@vueuse/core'
 import { debounce } from 'lodash-es'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import AvList from '@/components/interaction/lists/AvList/AvList.vue'
 import AvListItem from '@/components/interaction/lists/AvListItem/AvListItem.vue'
-import { type AvAutocompleteOption, DropdownState } from '@/components/interaction/selects/AvAutocomplete/AvAutocomplete.types'
+import { DropdownState } from '@/components/interaction/selects/AvAutocomplete/AvAutocomplete.types'
 import { useAutocompleteContext } from '@/components/interaction/selects/AvAutocomplete/AvAutocompleteContext'
 import { MDI_ICONS } from '@/tokens'
 

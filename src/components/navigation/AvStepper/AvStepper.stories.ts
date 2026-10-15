@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
-import { AvStepper, type AvStepperProps } from '@/components/navigation'
+import type { AvStepperProps } from '@/components/navigation'
+import { AvStepper } from '@/components/navigation'
 
 /**
  * <h2 class="n2">✨ Introduction</h2>

@@ -1,7 +1,9 @@
 <script lang="ts" setup>
+import type { RootProps } from '@vuepic/vue-datepicker'
 import type { AvDatePickerModel } from '@/components/interaction/inputs/AvDatePicker/AvDatePicker.types'
 import type { AvInteractiveProps } from '@/types/interfaces.types'
-import { type RootProps, VueDatePicker } from '@vuepic/vue-datepicker'
+import type { AvDatePickerType } from '@/utils/dates/date-picker'
+import { VueDatePicker } from '@vuepic/vue-datepicker'
 import { useAttrs } from 'vue'
 import AvMessage from '@/components/base/AvMessage/AvMessage.vue'
 import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
@@ -9,7 +11,7 @@ import { DATE_FNS_LOCALE_MAP, DEFAULT_DATE_FNS_LOCALE } from '@/components/inter
 import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
 import { getAvTooltipContent, isAvTooltipEnabled } from '@/components/overlay/tooltips/AvTooltip/utils'
 import { MDI_ICONS } from '@/tokens'
-import { AV_DATE_PICKER_FORMATS_BY_TYPE, type AvDatePickerType } from '@/utils/dates/date-picker'
+import { AV_DATE_PICKER_FORMATS_BY_TYPE } from '@/utils/dates/date-picker'
 
 /**
  * AvDatePicker component.

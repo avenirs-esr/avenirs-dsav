@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import type { Slot } from 'vue'
 import { onClickOutside, useScrollLock } from '@vueuse/core'
 import { FocusTrap } from 'focus-trap-vue'
-import { type Slot, useAttrs } from 'vue'
+import { useAttrs } from 'vue'
 
 export interface AvDrawerProps {
   /**

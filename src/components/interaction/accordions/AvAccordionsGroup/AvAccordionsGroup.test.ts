@@ -1,5 +1,6 @@
+import type { DOMWrapper, VueWrapper } from '@vue/test-utils'
 import type { Ref } from 'vue'
-import { type DOMWrapper, mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, expect } from 'vitest'
 import { AvAccordionStub } from '@/components/interaction/accordions/AvAccordion/AvAccordion.stub'
 import AvAccordionsGroup from '@/components/interaction/accordions/AvAccordionsGroup/AvAccordionsGroup.vue'

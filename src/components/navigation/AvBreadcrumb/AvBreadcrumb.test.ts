@@ -1,6 +1,8 @@
-import { mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
+import type { VueWrapper } from '@vue/test-utils'
+import type { AvBreadcrumbProps } from '@/components/navigation/AvBreadcrumb/AvBreadcrumb.vue'
+import { mount, RouterLinkStub } from '@vue/test-utils'
 import { beforeEach } from 'vitest'
-import AvBreadcrumb, { type AvBreadcrumbProps } from '@/components/navigation/AvBreadcrumb/AvBreadcrumb.vue'
+import AvBreadcrumb from '@/components/navigation/AvBreadcrumb/AvBreadcrumb.vue'
 import { BddTest } from '@/tests'
 
 const doExpandSpy = vi.fn()

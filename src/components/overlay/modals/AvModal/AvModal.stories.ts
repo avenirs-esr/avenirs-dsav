@@ -1,8 +1,9 @@
 /* eslint-disable no-alert */
 import type { Meta, StoryFn } from '@storybook/vue3'
+import type { AvModalProps } from '@/components/overlay/modals/AvModal/AvModal.vue'
 import AvIconText from '@/components/base/AvIconText/AvIconText.vue'
 import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
-import AvModal, { type AvModalProps } from '@/components/overlay/modals/AvModal/AvModal.vue'
+import AvModal from '@/components/overlay/modals/AvModal/AvModal.vue'
 import { MDI_ICONS } from '@/tokens'
 
 /**

@@ -1,6 +1,8 @@
-import { mount, type VueWrapper } from '@vue/test-utils'
+import type { VueWrapper } from '@vue/test-utils'
+import type { AvMessageProps } from '@/components/base/AvMessage/AvMessage.vue'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-import AvMessage, { type AvMessageProps } from '@/components/base/AvMessage/AvMessage.vue'
+import AvMessage from '@/components/base/AvMessage/AvMessage.vue'
 import { AvIconTextStub } from '@/tests'
 import { BddTest } from '@/tests/utils'
 

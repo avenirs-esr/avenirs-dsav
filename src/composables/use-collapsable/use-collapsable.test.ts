@@ -1,6 +1,7 @@
+import type { UseCollapsableReturn } from '@/composables/use-collapsable/use-collapsable'
 import { beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
-import { useCollapsable, type UseCollapsableReturn } from '@/composables/use-collapsable/use-collapsable'
+import { useCollapsable } from '@/composables/use-collapsable/use-collapsable'
 import { BddTest, mountComposable } from '@/tests/utils'
 
 BddTest().given('a useCollapsable composable', () => {

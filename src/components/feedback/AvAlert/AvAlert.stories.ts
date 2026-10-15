@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
-import AvAlert, { type AvAlertProps } from '@/components/feedback/AvAlert/AvAlert.vue'
+import type { AvAlertProps } from '@/components/feedback/AvAlert/AvAlert.vue'
+import AvAlert from '@/components/feedback/AvAlert/AvAlert.vue'
 
 /**
  * <h1 class="n1">Alerts - <code>AvAlert</code></h1>

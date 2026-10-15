@@ -1,4 +1,5 @@
-import { mount, type VueWrapper } from '@vue/test-utils'
+import type { VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 import AvPagination from '@/components/navigation/AvPagination/AvPagination.vue'
 import { AvTooltipStub } from '@/components/overlay/tooltips/AvTooltip/AvTooltip.stub'
@@ -70,29 +71,29 @@ BddTest().given('an AvPagination', () => {
     })
 
     BddTest().and('clicking on navigation', () => {
-      BddTest().then('it should emit update:current-page', async () => {
+      BddTest().then('it should emit update:currentPage', async () => {
         expect(wrapper.find('[aria-current="page"]').exists()).toBe(true)
         await wrapper.find('[data-testid="next-page-link"]').trigger('click')
-        expect(wrapper.emitted('update:current-page')).toBeTruthy()
-        expect(wrapper.emitted('update:current-page')![0]).toEqual([2])
+        expect(wrapper.emitted('update:currentPage')).toBeTruthy()
+        expect(wrapper.emitted('update:currentPage')![0]).toEqual([2])
 
         expect(wrapper.find('[data-testid="previous-page-link"]').exists()).toBe(true)
         await wrapper.find('[data-testid="previous-page-link"]').trigger('click')
-        expect(wrapper.emitted('update:current-page')![1]).toEqual([0])
+        expect(wrapper.emitted('update:currentPage')![1]).toEqual([0])
 
         expect(wrapper.find('[data-testid="first-page-link"]').exists()).toBe(true)
         await wrapper.find('[data-testid="first-page-link"]').trigger('click')
-        expect(wrapper.emitted('update:current-page')![2]).toEqual([0])
+        expect(wrapper.emitted('update:currentPage')![2]).toEqual([0])
 
         expect(wrapper.find('[data-testid="last-page-link"]').exists()).toBe(true)
         await wrapper.find('[data-testid="last-page-link"]').trigger('click')
-        expect(wrapper.emitted('update:current-page')![3]).toEqual([pagesMock.length - 1])
+        expect(wrapper.emitted('update:currentPage')![3]).toEqual([pagesMock.length - 1])
 
         const pageLinks = wrapper.findAll('a.av-pagination__link:not(.av-unhidden-md)')
         const linkToPage2 = pageLinks.find(link => link.text() === '2')
         await linkToPage2!.trigger('click')
 
-        expect(wrapper.emitted('update:current-page')![4]).toEqual([1])
+        expect(wrapper.emitted('update:currentPage')![4]).toEqual([1])
       })
     })
   })

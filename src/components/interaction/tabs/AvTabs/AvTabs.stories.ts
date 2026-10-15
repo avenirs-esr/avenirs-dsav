@@ -1,6 +1,7 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
+import type { AvTabsProps } from '@/components/interaction/tabs/AvTabs/AvTabs.vue'
 import AvTab from '@/components/interaction/tabs/AvTab/AvTab.vue'
-import AvTabs, { type AvTabsProps } from '@/components/interaction/tabs/AvTabs/AvTabs.vue'
+import AvTabs from '@/components/interaction/tabs/AvTabs/AvTabs.vue'
 import TabContent from '@/components/interaction/tabs/AvTabs/components/TabContent.vue'
 import TabItem from '@/components/interaction/tabs/AvTabs/components/TabItem.vue'
 

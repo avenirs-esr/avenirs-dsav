@@ -1,6 +1,8 @@
-import { mount, type VueWrapper } from '@vue/test-utils'
+import type { VueWrapper } from '@vue/test-utils'
+import type { AvLanguageSelectorProps } from '@/components/interaction/buttons/AvLanguageSelector/AvLanguageSelector.vue'
+import { mount } from '@vue/test-utils'
 import { beforeEach } from 'vitest'
-import AvLanguageSelector, { type AvLanguageSelectorProps } from '@/components/interaction/buttons/AvLanguageSelector/AvLanguageSelector.vue'
+import AvLanguageSelector from '@/components/interaction/buttons/AvLanguageSelector/AvLanguageSelector.vue'
 import { AvDropdownStub, AvTooltipStub, BddTest } from '@/tests'
 
 vi.mock('@/composables', () => ({

@@ -1,4 +1,5 @@
-import { type DOMWrapper, mount, type VueWrapper } from '@vue/test-utils'
+import type { DOMWrapper, VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { AvIconStub } from '@/components/base/AvIcon/AvIcon.stub'
 import AvListItem from '@/components/interaction/lists/AvListItem/AvListItem.vue'

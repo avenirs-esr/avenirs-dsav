@@ -1,4 +1,5 @@
-import { mount, type VueWrapper } from '@vue/test-utils'
+import type { VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import AvTab from '@/components/interaction/tabs/AvTab/AvTab.vue'
 import AvTabs from '@/components/interaction/tabs/AvTabs/AvTabs.vue'

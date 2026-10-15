@@ -1,9 +1,11 @@
+import type { VueWrapper } from '@vue/test-utils'
 import type { AvMultiselectOption } from '@/components/interaction/selects/AvMultiselect/AvMultiselect.types'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import type { AvMultiselectProps } from '@/components/interaction/selects/AvMultiselect/AvMultiselect.vue'
+import { mount } from '@vue/test-utils'
 import { afterAll, beforeAll, beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 import { AvCheckboxStub } from '@/components/interaction/checkboxes/AvCheckbox/AvCheckbox.stub'
-import AvMultiselect, { type AvMultiselectProps } from '@/components/interaction/selects/AvMultiselect/AvMultiselect.vue'
+import AvMultiselect from '@/components/interaction/selects/AvMultiselect/AvMultiselect.vue'
 import { AvButtonStub, AvMessageStub } from '@/tests'
 import { BddTest } from '@/tests/utils'
 

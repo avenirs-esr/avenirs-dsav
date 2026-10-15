@@ -3,13 +3,14 @@
   setup
   generic="TRow extends object"
 >
+import type { Slot } from 'vue'
 import {
   createColumnHelper,
   FlexRender,
   getCoreRowModel,
   useVueTable,
 } from '@tanstack/vue-table'
-import { type Slot, useAttrs } from 'vue'
+import { useAttrs } from 'vue'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import { MDI_ICONS } from '@/tokens/icons'
 

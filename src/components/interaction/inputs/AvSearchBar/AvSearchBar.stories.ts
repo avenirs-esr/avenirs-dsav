@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
-import AvSearchBar, { type AvSearchBarProps } from '@/components/interaction/inputs/AvSearchBar/AvSearchBar.vue'
+import type { AvSearchBarProps } from '@/components/interaction/inputs/AvSearchBar/AvSearchBar.vue'
+import AvSearchBar from '@/components/interaction/inputs/AvSearchBar/AvSearchBar.vue'
 
 /**
  * <h2 class="n2">✨ Introduction</h2>

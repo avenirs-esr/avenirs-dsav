@@ -1,4 +1,5 @@
-import { mount, type VueWrapper } from '@vue/test-utils'
+import type { VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { expect } from 'vitest'
 import AvNotice from '@/components/base/AvNotice/AvNotice.vue'
 import { BddTest } from '@/tests/utils'

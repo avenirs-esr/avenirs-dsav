@@ -1,6 +1,7 @@
 <script lang="ts" setup>
+import type { NavigationMenuLinkProps } from '@/components/navigation/AvNavigation/components/NavigationMenuLink/NavigationMenuLink.vue'
 import NavigationMenuItem from '@/components/navigation/AvNavigation/components/NavigationMenuItem/NavigationMenuItem.vue'
-import NavigationMenuLink, { type NavigationMenuLinkProps } from '@/components/navigation/AvNavigation/components/NavigationMenuLink/NavigationMenuLink.vue'
+import NavigationMenuLink from '@/components/navigation/AvNavigation/components/NavigationMenuLink/NavigationMenuLink.vue'
 import { useCollapsable } from '@/composables/use-collapsable/use-collapsable'
 import { ICONS_DATA_URL } from '@/tokens/icons'
 

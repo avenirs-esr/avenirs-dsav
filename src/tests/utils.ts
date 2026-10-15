@@ -1,6 +1,8 @@
 /// <reference types="vitest/globals" />
-import { type ComponentMountingOptions, mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
-import { type Component, createApp } from 'vue'
+import type { ComponentMountingOptions, VueWrapper } from '@vue/test-utils'
+import type { Component } from 'vue'
+import { mount, RouterLinkStub } from '@vue/test-utils'
+import { createApp } from 'vue'
 
 /**
  * Function allowing developpers to use a common BDD format for tests

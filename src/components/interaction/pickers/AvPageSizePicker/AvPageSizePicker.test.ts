@@ -1,4 +1,5 @@
-import { mount, type VueWrapper } from '@vue/test-utils'
+import type { VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import AvPageSizePicker from '@/components/interaction/pickers/AvPageSizePicker/AvPageSizePicker.vue'
 import { PageSizes, pageSizeValues } from '@/config'

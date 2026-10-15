@@ -1,4 +1,5 @@
-import { mount, type VueWrapper } from '@vue/test-utils'
+import type { VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import { BddTest } from '@/tests/utils'
 

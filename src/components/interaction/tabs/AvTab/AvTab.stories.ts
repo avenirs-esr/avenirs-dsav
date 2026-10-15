@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
-import AvTab, { type AvTabProps } from '@/components/interaction/tabs/AvTab/AvTab.vue'
+import type { AvTabProps } from '@/components/interaction/tabs/AvTab/AvTab.vue'
+import AvTab from '@/components/interaction/tabs/AvTab/AvTab.vue'
 
 /**
  * <h1 class="n1">Tabs - <code>AvTab</code></h1>
