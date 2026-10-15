@@ -1,10 +1,11 @@
-import { type Preview, setup } from '@storybook/vue3-vite'
+import type { Decorator, Preview } from '@storybook/vue3-vite'
+import { setup } from '@storybook/vue3-vite'
 import '@/styles/main.scss'
 import '@vuepic/vue-datepicker/dist/main.css'
 // eslint-disable-next-line no-restricted-imports
 import './preview.scss'
 
-function toggleDarkTheme (story, context) {
+const toggleDarkTheme: Decorator = (story, context) => {
   const isDark = context.globals.theme === 'dark'
   document.body.classList.toggle('theme-dark', isDark)
   return ({
@@ -49,7 +50,7 @@ const preview: Preview = {
           { value: 'light', right: '☀️', title: 'Light Theme' },
           { value: 'dark', right: '🌙', title: 'Dark Theme' }
         ],
-        showName: true,
+        title: 'Theme',
       },
     },
   },
