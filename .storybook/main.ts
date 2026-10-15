@@ -1,5 +1,6 @@
 import type { StorybookConfig } from '@storybook/vue3-vite'
-import { defineConfig, type PluginOption } from 'vite'
+import type { PluginOption } from 'vite'
+import { defineConfig } from 'vite'
 
 const config: StorybookConfig = {
   stories: [

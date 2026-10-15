@@ -8,6 +8,9 @@
     },
     {
       "path": "./tsconfig.vitest.json"
+    },
+    {
+      "path": "./.storybook/tsconfig.json"
     }
   ],
   "files": []
