@@ -45,6 +45,7 @@ export const MDI_ICONS = {
   BADGE_ACCOUNT_HORIZONTAL_OUTLINE: 'mdi:badge-account-horizontal-outline',
   BELL_NOTIFICATION: 'mdi:bell-notification',
   BOOK_LOCATION_OUTLINE: 'mdi:book-location-outline',
+  BOOK_OPEN_BLANK_VARIANT_OUTLINE: 'mdi:book-open-blank-variant-outline',
   BOOK_OPEN_VARIANT: 'mdi:book-open-variant',
   BOOK_OUTLINE: 'mdi:book-outline',
   BOOKMARK_CHECK: 'mdi:bookmark-check',
