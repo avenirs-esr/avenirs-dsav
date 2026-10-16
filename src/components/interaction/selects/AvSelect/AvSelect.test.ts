@@ -1,423 +1,288 @@
 import type { VueWrapper } from '@vue/test-utils'
-import type { AvSelectProps, AvSelectSelectedOption } from '@/components/interaction/selects/AvSelect/AvSelect.vue'
+import type { AvSelectOption } from '@/components/interaction/selects/AvSelect/AvSelect.types'
+import type { AvSelectProps } from '@/components/interaction/selects/AvSelect/AvSelect.vue'
 import { mount } from '@vue/test-utils'
-import { beforeEach, expect } from 'vitest'
+import { afterAll, beforeAll, beforeEach, expect, vi } from 'vitest'
+import { nextTick } from 'vue'
+import { AvCheckboxStub } from '@/components/interaction/checkboxes/AvCheckbox/AvCheckbox.stub'
 import AvSelect from '@/components/interaction/selects/AvSelect/AvSelect.vue'
-import { AvIconStub, AvMessageStub, AvTooltipStub, BddTest } from '@/tests'
-import { MDI_ICONS } from '@/tokens/icons'
+import { AvButtonStub, AvMessageStub } from '@/tests'
+import { BddTest } from '@/tests/utils'
 
-const options = [
-  { id: '1', label: 'Option 1' },
-  { id: '2', label: 'Option 2' },
-  { id: '3', label: 'Option 3', disabled: true }
+const defaultOptions = [
+  { label: 'Option 1', value: '1' },
+  { label: 'Option 2', value: '2' },
+  { label: 'Option 3', value: '3' },
 ]
 
-const defaultProps: AvSelectProps = {
-  placeholder: 'Select an option',
-  options
+const defaultProps = {
+  modelValue: null as AvSelectOption | null,
+  id: 'test-select',
+  label: 'Choisissez une option',
+  placeholder: 'Sélectionnez une option',
+  options: defaultOptions,
+  multiple: false,
+  selectAll: false,
+  selectedText: 'Options sélectionnées',
 }
 
-const stubs = { AvIcon: AvIconStub, AvMessage: AvMessageStub, AvTooltip: AvTooltipStub }
+class ResizeObserverStub implements ResizeObserver {
+  constructor (_callback: ResizeObserverCallback) {}
 
-function mountWithProps (props: Partial<AvSelectProps> = {}) {
+  disconnect () {}
+
+  observe (_target: Element, _options?: ResizeObserverOptions) {}
+
+  unobserve (_target: Element) {}
+}
+
+beforeAll(() => {
+  vi.stubGlobal('ResizeObserver', ResizeObserverStub)
+})
+
+afterAll(() => {
+  vi.unstubAllGlobals()
+})
+
+function mountWithProps (
+  props: Partial<AvSelectProps & {
+    modelValue: AvSelectOption | AvSelectOption[] | null
+  }> = {},
+  attrs: Record<string, unknown> = {},
+) {
   return mount(AvSelect, {
     props: { ...defaultProps, ...props },
-    global: { stubs }
+    attrs: { ...attrs },
+    global: {
+      stubs: {
+        AvButton: AvButtonStub,
+        AvCheckbox: AvCheckboxStub,
+        AvMessage: AvMessageStub,
+        transition: false,
+      },
+    },
   })
 }
 
-BddTest().given('a select component', () => {
+BddTest().given('an AvSelect component', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvSelect>>
+  let updateModelValue = vi.fn()
+  const removeSpy = vi.spyOn(document, 'removeEventListener')
 
-  BddTest().and('with default props', () => {
+  BddTest().and('given default props', () => {
     beforeEach(() => {
-      wrapper = mountWithProps()
+      vi.clearAllMocks()
+      updateModelValue = vi.fn()
+      wrapper = mountWithProps({}, { 'onUpdate:modelValue': updateModelValue })
     })
 
     BddTest().when('the component is mounted', () => {
-      BddTest().then('it should render the default title in tooltip', () => {
-        expect(wrapper.findComponent(AvTooltipStub).props('content')).toBe('Select an option')
+      BddTest().then('it should display the unselected state and placeholder text', () => {
+        const button = wrapper.find('button.av-select')
+
+        expect(button.exists()).toBe(true)
+        expect(button.text()).toContain('Sélectionnez une option')
+        expect(button.classes()).toContain('av-select--unselected')
       })
 
-      BddTest().then('it should display all available options', () => {
-        expect(wrapper.text()).toContain('Option 1')
-        expect(wrapper.text()).toContain('Option 2')
-        expect(wrapper.text()).toContain('Option 3')
+      BddTest().then('it should render the button in large size', () => {
+        expect(wrapper.findComponent(AvButtonStub).props('size')).toBe('LG')
       })
 
-      BddTest().then('it should fallback to placeholder when selectedItem.itemId is undefined', () => {
-        const wrapperWithUndefinedItemId = mount(AvSelect, {
-          props: {
-            ...defaultProps,
-            selectedItem: {} as AvSelectSelectedOption
-          },
-          global: { stubs }
+      BddTest().and('Escape key is pressed', () => {
+        beforeEach(async () => {
+          await wrapper.find('button.av-select').trigger('click')
+          document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
+          await nextTick()
         })
 
-        expect(wrapperWithUndefinedItemId.findComponent(AvTooltipStub).props('content')).toBe('Select an option')
-      })
-
-      BddTest().then('it should fallback to placeholder when selectedItem.itemId does not match any option', () => {
-        const wrapperWithUnknownItemId = mount(AvSelect, {
-          props: {
-            ...defaultProps,
-            selectedItem: { itemId: 'unknown-id' }
-          },
-          global: { stubs }
+        BddTest().then('it should close the collapse', () => {
+          expect(wrapper.find('[data-testid="av-select__collapse"]').exists()).toBe(false)
         })
-
-        expect(wrapperWithUnknownItemId.findComponent(AvTooltipStub).props('content')).toBe('Select an option')
       })
     })
 
-    BddTest().when('the user selects a new value (changes via select)', () => {
-      BddTest().then('it should emit update:selectedItem with new value', async () => {
-        await wrapper.find('select').setValue('1')
-        expect(wrapper.emitted('update:selectedItem')).toBeTruthy()
-        expect(wrapper.emitted('update:selectedItem')![0]).toEqual([{ itemId: '1' }])
+    BddTest().when('the component is unmounted', () => {
+      beforeEach(() => {
+        wrapper.unmount()
       })
 
-      BddTest().then('it should fallback to itemId only when selected value is empty', async () => {
-        await wrapper.find('select').setValue('')
+      BddTest().then('it should remove the event listeners', () => {
+        expect(removeSpy).toHaveBeenCalledWith('keydown', expect.any(Function))
+      })
+    })
 
-        expect(wrapper.emitted('update:selectedItem')).toBeTruthy()
-        expect(wrapper.emitted('update:selectedItem')![0]).toEqual([{ itemId: '' }])
+    BddTest().when('the user opens the select', () => {
+      beforeEach(async () => {
+        await wrapper.find('button.av-select').trigger('click')
+        await nextTick()
+      })
+
+      BddTest().then('the collapse should be visible', () => {
+        const collapse = wrapper.find('[data-testid="av-select__collapse"]')
+
+        expect(collapse.exists()).toBe(true)
+        expect(collapse.isVisible()).toBe(true)
+      })
+
+      BddTest().and('the user selects an option', () => {
+        beforeEach(async () => {
+          const checkbox = wrapper.findComponent(AvCheckboxStub)
+
+          expect(checkbox.exists()).toBe(true)
+
+          checkbox.vm.$emit('update:modelValue', ['1'])
+          await nextTick()
+        })
+
+        BddTest().then('it should emit the selected option', async () => {
+          await vi.waitFor(() => {
+            expect(updateModelValue).toHaveBeenCalledWith({
+              label: 'Option 1',
+              value: '1',
+            })
+          })
+        })
+
+        BddTest().then('it should close the collapse', async () => {
+          await vi.waitFor(() => {
+            expect(wrapper.find('[data-testid="av-select__collapse"]').exists()).toBe(false)
+          })
+        })
       })
     })
   })
 
-  BddTest().and('with dense prop set to true', () => {
+  BddTest().and('given a preselected value', () => {
+    beforeEach(() => {
+      wrapper = mountWithProps({
+        modelValue: { label: 'Option 2', value: '2' },
+      })
+    })
+
+    BddTest().then('it should render in selected state with the option label', () => {
+      const button = wrapper.find('button.av-select')
+
+      expect(button.classes()).toContain('av-select--selected')
+      expect(button.text()).toContain('Option 2')
+    })
+  })
+
+  BddTest().and('given no preselected value', () => {
+    beforeEach(() => {
+      wrapper = mountWithProps({ modelValue: null })
+    })
+
+    BddTest().then('it should render the placeholder', () => {
+      expect(wrapper.find('button.av-select').text()).toContain(defaultProps.placeholder)
+    })
+  })
+
+  BddTest().and('given a selected value that is deselected', () => {
+    beforeEach(async () => {
+      updateModelValue = vi.fn()
+
+      wrapper = mountWithProps(
+        {
+          modelValue: { label: 'Option 1', value: '1' },
+        },
+        { 'onUpdate:modelValue': updateModelValue },
+      )
+
+      await wrapper.find('button.av-select').trigger('click')
+      await nextTick()
+
+      const checkbox = wrapper.findComponent(AvCheckboxStub)
+
+      expect(checkbox.exists()).toBe(true)
+
+      checkbox.vm.$emit('update:modelValue', [])
+      await nextTick()
+    })
+
+    BddTest().then('it should emit null', async () => {
+      await vi.waitFor(() => {
+        expect(updateModelValue).toHaveBeenCalledWith(null)
+      })
+    })
+  })
+
+  BddTest().and('given a disabled tooltip message', () => {
+    beforeEach(() => {
+      wrapper = mountWithProps({
+        disabled: true,
+        disabledTooltip: 'Select unavailable',
+      })
+    })
+
+    BddTest().when('the select is mounted', () => {
+      BddTest().then('it should forward the message to the trigger button', () => {
+        const button = wrapper.findComponent(AvButtonStub)
+
+        expect(button.props('disabledTooltip')).toBe('Select unavailable')
+      })
+    })
+  })
+
+  BddTest().and('given required attr', () => {
+    beforeEach(() => {
+      wrapper = mountWithProps({}, { required: true })
+    })
+
+    BddTest().then('it should render the required class', () => {
+      expect(wrapper.find('.required').exists()).toBe(true)
+    })
+  })
+
+  BddTest().and('given hint', () => {
+    beforeEach(() => {
+      wrapper = mountWithProps({ hint: 'This is the hint' })
+    })
+
+    BddTest().then('it should render the hint', () => {
+      const hint = wrapper.find('.av-hint-text')
+
+      expect(hint.exists()).toBe(true)
+      expect(hint.text()).toContain('This is the hint')
+    })
+  })
+
+  BddTest().and('given dense prop', () => {
     beforeEach(() => {
       wrapper = mountWithProps({ dense: true })
     })
 
-    BddTest().when('the component is mounted', () => {
-      BddTest().then('it should have the dense class', () => {
-        expect(wrapper.find('.av-select--dense').exists()).toBe(true)
-      })
+    BddTest().then('it should render the button in medium size', () => {
+      expect(wrapper.findComponent(AvButtonStub).props('size')).toBe('MD')
     })
   })
 
-  BddTest().and('with dense prop set to false', () => {
+  BddTest().and('given error message', () => {
     beforeEach(() => {
-      wrapper = mountWithProps({ dense: false })
+      wrapper = mountWithProps({ errorMessage: 'Erreur test' })
     })
 
-    BddTest().when('the component is mounted', () => {
-      BddTest().then('it should not have the dense class', () => {
-        expect(wrapper.find('.av-select--dense').exists()).toBe(false)
-      })
+    BddTest().then('it should display the error message and error class', () => {
+      const errorText = wrapper.find('.av-message--error')
+
+      expect(errorText.exists()).toBe(true)
+      expect(errorText.text()).toBe('Erreur test')
+
+      const group = wrapper.find('.av-select-group')
+      expect(group.classes()).toContain('av-select-group--error')
     })
   })
 
-  BddTest().and('with a custom placeholder', () => {
-    const customText = 'Please choose'
+  BddTest().and('given success message', () => {
     beforeEach(() => {
-      wrapper = mountWithProps({ placeholder: customText })
+      wrapper = mountWithProps({ successMessage: 'C’est bon !' })
     })
 
-    BddTest().when('the component is mounted', () => {
-      BddTest().then('it should use the custom text in tooltip', () => {
-        expect(wrapper.findComponent(AvTooltipStub).props('content')).toBe(customText)
-      })
-    })
-  })
+    BddTest().then('it should display the success message', () => {
+      const successText = wrapper.find('.av-message--success')
 
-  BddTest().and('with required prop set to true', () => {
-    beforeEach(() => {
-      wrapper = mountWithProps({ required: true })
-    })
-
-    BddTest().when('the component is mounted', () => {
-      BddTest().then('it should have the required attribute', () => {
-        expect(wrapper.find('select').attributes('required')).toBeDefined()
-      })
-
-      BddTest().then('it should have the aria-required attribute', () => {
-        expect(wrapper.find('select').attributes('aria-required')).toBe('true')
-      })
-
-      BddTest().then('it should display the asterisk in the label', () => {
-        expect(wrapper.find('label').text()).toContain('*')
-        expect(wrapper.find('label').find('.required').exists()).toBe(true)
-      })
-    })
-  })
-
-  BddTest().and('with required prop set to false', () => {
-    beforeEach(() => {
-      wrapper = mountWithProps({ required: false })
-    })
-
-    BddTest().when('the component is mounted', () => {
-      BddTest().then('it should not have the required attribute', () => {
-        expect(wrapper.find('select').attributes('required')).toBeUndefined()
-      })
-
-      BddTest().then('it should not have the aria-required attribute', () => {
-        expect(wrapper.find('select').attributes('aria-required')).toBe(false.toString())
-      })
-
-      BddTest().then('it should not display the asterisk in the label', () => {
-        expect(wrapper.find('label').text()).not.toContain('*')
-        expect(wrapper.find('label').find('.required').exists()).toBe(false)
-      })
-    })
-  })
-
-  BddTest().and('labelVisible is set to false', () => {
-    beforeEach(() => {
-      wrapper = mountWithProps({ label: 'Visible label', labelVisible: false })
-    })
-
-    BddTest().when('the component is mounted', () => {
-      BddTest().then('it should hide the label visually', () => {
-        expect(wrapper.find('label').classes()).toContain('av-sr-only')
-      })
-
-      BddTest().then('it should still keep the label text in the DOM', () => {
-        expect(wrapper.find('label').text()).toContain('Visible label')
-      })
-    })
-  })
-
-  BddTest().and('with disabled prop set to true', () => {
-    beforeEach(() => {
-      wrapper = mountWithProps({ disabled: true })
-    })
-
-    BddTest().when('the component is mounted', () => {
-      BddTest().then('it should have the disabled attribute', () => {
-        expect(wrapper.find('select').attributes('disabled')).toBeDefined()
-      })
-
-      BddTest().then('it should have the aria-disabled attribute', () => {
-        expect(wrapper.find('select').attributes('aria-disabled')).toBe('true')
-      })
-    })
-  })
-
-  BddTest().and('with disabled prop set to false', () => {
-    beforeEach(() => {
-      wrapper = mountWithProps({ disabled: false })
-    })
-
-    BddTest().when('the component is mounted', () => {
-      BddTest().then('it should not have the disabled attribute', () => {
-        expect(wrapper.find('select').attributes('disabled')).toBeUndefined()
-      })
-
-      BddTest().then('it should not have the aria-disabled attribute', () => {
-        expect(wrapper.find('select').attributes('aria-disabled')).toBe(false.toString())
-      })
-    })
-  })
-
-  BddTest().and('with a hint prop', () => {
-    const hintText = 'This is a hint'
-    beforeEach(() => {
-      wrapper = mountWithProps({ hint: hintText })
-    })
-
-    BddTest().when('the component is mounted', () => {
-      BddTest().then('it should display the hint text', () => {
-        expect(wrapper.find('.av-hint-text').exists()).toBe(true)
-        expect(wrapper.find('.av-hint-text').text()).toBe(hintText)
-      })
-    })
-  })
-
-  BddTest().and('with only successMessage prop', () => {
-    const successMessage = 'This is a success'
-    beforeEach(() => {
-      wrapper = mountWithProps({ successMessage })
-    })
-
-    BddTest().when('the component is mounted', () => {
-      BddTest().then('it should display the success message', () => {
-        expect(wrapper.find('.av-message--success').exists()).toBe(true)
-        expect(wrapper.find('.av-message--success').text()).toBe(successMessage)
-      })
-    })
-  })
-
-  BddTest().and('with only errorMessage prop', () => {
-    const errorMessage = 'This is an error'
-    beforeEach(() => {
-      wrapper = mountWithProps({ errorMessage })
-    })
-
-    BddTest().when('the component is mounted', () => {
-      BddTest().then('it should display the error message', () => {
-        expect(wrapper.find('.av-message--error').exists()).toBe(true)
-        expect(wrapper.find('.av-message--error').text()).toBe(errorMessage)
-      })
-    })
-  })
-
-  BddTest().and('with errorMessage and successMessage props', () => {
-    const errorMessage = 'This is an error'
-    const successMessage = 'This is a success'
-    beforeEach(() => {
-      wrapper = mountWithProps({ errorMessage, successMessage })
-    })
-
-    BddTest().when('the component is mounted', () => {
-      BddTest().then('it should display the error message', () => {
-        expect(wrapper.find('.av-message--error').exists()).toBe(true)
-        expect(wrapper.find('.av-message--error').text()).toBe(errorMessage)
-      })
-
-      BddTest().then('it not should display the success message', () => {
-        expect(wrapper.find('.av-message--success').exists()).toBe(false)
-      })
-    })
-  })
-
-  BddTest().and('with empty options array', () => {
-    beforeEach(() => {
-      wrapper = mountWithProps({ options: [] })
-    })
-
-    BddTest().when('the component is mounted', () => {
-      BddTest().then('it should only render the placeholder option', () => {
-        expect(wrapper.findAll('option').length).toBe(1)
-        expect(wrapper.find('option').text()).toBe('Select an option')
-      })
-    })
-  })
-
-  BddTest().and('with options set to undefined', () => {
-    beforeEach(() => {
-      wrapper = mountWithProps({ options: undefined })
-    })
-
-    BddTest().when('the component is mounted', () => {
-      BddTest().then('it should only render the placeholder option', () => {
-        expect(wrapper.findAll('option').length).toBe(1)
-        expect(wrapper.find('option').text()).toBe('Select an option')
-      })
-    })
-  })
-
-  BddTest().and('with a name prop', () => {
-    const name = 'my-select'
-    beforeEach(() => {
-      wrapper = mountWithProps({ name })
-    })
-
-    BddTest().when('the component is mounted', () => {
-      BddTest().then('it should set the name attribute on the select element', () => {
-        expect(wrapper.find('select').attributes('name')).toBe(name)
-      })
-    })
-  })
-
-  BddTest().and('with a prefixIcon prop', () => {
-    beforeEach(() => {
-      wrapper = mount(AvSelect, {
-        props: { ...defaultProps, prefixIcon: MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE },
-        global: { stubs }
-      })
-    })
-
-    BddTest().when('the component is mounted', () => {
-      BddTest().then('it should render the prefix icon container', () => {
-        expect(wrapper.find('.av-select-prefix').exists()).toBe(true)
-      })
-
-      BddTest().then('it should render the AvIcon component', () => {
-        expect(wrapper.findComponent(AvIconStub).exists()).toBe(true)
-      })
-
-      BddTest().then('it should add the with-prefix class to the select', () => {
-        expect(wrapper.find('select').classes()).toContain('av-select--with-prefix')
-      })
-    })
-  })
-
-  BddTest().and('without a prefixIcon prop', () => {
-    beforeEach(() => {
-      wrapper = mountWithProps()
-    })
-
-    BddTest().when('the component is mounted', () => {
-      BddTest().then('it should not render the prefix icon container', () => {
-        expect(wrapper.find('.av-select-prefix').exists()).toBe(false)
-      })
-
-      BddTest().then('it should not add the with-prefix class to the select', () => {
-        expect(wrapper.find('select').classes()).not.toContain('av-select--with-prefix')
-      })
-    })
-  })
-
-  BddTest().and('with optgroup options', () => {
-    const optgroupOptions = [
-      { id: '1', label: 'Option 1' },
-      {
-        id: 'group1',
-        label: 'Group 1',
-        children: [
-          { id: '2', label: 'Option 2' },
-          { id: '3', label: 'Option 3' }
-        ]
-      }
-    ]
-
-    beforeEach(() => {
-      wrapper = mountWithProps({ options: optgroupOptions })
-    })
-
-    BddTest().when('the component is mounted', () => {
-      BddTest().then('it should render the optgroup element', () => {
-        expect(wrapper.find('optgroup').exists()).toBe(true)
-        expect(wrapper.find('optgroup').attributes('label')).toBe('Group 1')
-      })
-
-      BddTest().then('it should render the child options within the optgroup', () => {
-        const options = wrapper.findAll('option')
-        expect(options.length).toBe(4)
-        expect(options[2].text()).toBe('Option 2')
-        expect(options[3].text()).toBe('Option 3')
-      })
-
-      BddTest().then('it should use selected child label as tooltip content when selectedItem points to an optgroup child', () => {
-        const wrapperWithSelectedChild = mount(AvSelect, {
-          props: {
-            ...defaultProps,
-            options: optgroupOptions,
-            selectedItem: { itemId: '2' }
-          },
-          global: { stubs }
-        })
-
-        expect(wrapperWithSelectedChild.findComponent(AvTooltipStub).props('content')).toBe('Option 2')
-      })
-    })
-
-    BddTest().when('the user selects a child option in an optgroup', () => {
-      BddTest().then('it should emit update:selectedItem with itemId and parentId', async () => {
-        await wrapper.find('select').setValue('2')
-
-        expect(wrapper.emitted('update:selectedItem')).toBeTruthy()
-        expect(wrapper.emitted('update:selectedItem')![0]).toEqual([{ itemId: '2', parentId: 'group1' }])
-      })
-    })
-  })
-
-  BddTest().and('with a disabled tooltip message', () => {
-    beforeEach(() => {
-      wrapper = mountWithProps({ disabled: true, disabledTooltip: 'Select unavailable' })
-    })
-
-    BddTest().when('the component is mounted', () => {
-      BddTest().then('it should enable AvTooltip with the disabled message', () => {
-        const tooltip = wrapper.findComponent(AvTooltipStub)
-        expect(tooltip.props('content')).toBe('Select unavailable')
-        expect(tooltip.props('disabled')).toBe(false)
-        expect(tooltip.props('forceFocusable')).toBe(true)
-      })
+      expect(successText.exists()).toBe(true)
+      expect(successText.text()).toBe('C’est bon !')
     })
   })
 })

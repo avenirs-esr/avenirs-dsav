@@ -1,58 +1,91 @@
-# Drop-down list - `AvSelect`
+# Enhanced drop-down list - `AvSelect`
 
 ## ✨ Introduction
 
-The `AvSelect` is a Vue component enabling a user to select an item from a given list.
+`AvSelect` enables users to select one or multiple options from a custom drop-down list, depending on the `multiple` prop.
 
-The drop-down list provides a list of options from which the user can choose. Only the visible part of the component is stylized: the drop-down list of options retains the browser style.
+The component supports flat options and one level of grouped options. Users can search the list. In multiple-selection mode, they can also select or deselect all visible active options and select or deselect all active options within a group.
+
+**Single-selection mode** is enabled when `multiple` is `false`. **Multiple-selection mode** is enabled when `multiple` is `true`.
 
 ## 🏗️ Structure
 
-The `AvSelect` consists of a set of `<option>` within a `<select>`. If an option group is provided, it is rendered as an `<optgroup>` containing its child options.
+The `AvSelect` consists of:
+
+- a label, provided by the mandatory `label` prop;
+- an optional hint, provided by the `hint` prop;
+- a button displaying the placeholder or selected text;
+- a custom options panel containing:
+  - an optional search input;
+  - an optional select-all button, available in multiple-selection mode;
+  - flat options or groups containing child options;
+  - a group checkbox when grouped options are provided in multiple-selection mode.
+
+Groups support one nesting level only: a group contains options, but groups cannot contain other groups. Group objects are not added to the selected model; selecting a group selects or deselects its active child options.
 
 ## 🏷️ Props
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
-| `selectedItem` | `AvSelectSelectedOption` | `{ itemId: '' }` | | Selected option object used with `v-model:selectedItem`. |
-| `required` | `boolean` | `false` | | Indicates if the select is required.|
-| `disabled` | `boolean` | `false` | | Indicated if the select is disabled.|
-| `disabledTooltip` | `string` | | | Tooltip text displayed when the select is disabled. |
-| `options` | `AvSelectOption[]` | `[]` | | Selectable options. |
-| `label` | `string` | `''` | | Select text label.|
-| `name` | `string` | `''` | | Field name.|
-| `hint` | `string` | | `''` | Texte d'indice pour guider.|
-| `successMessage` | `string` | `''` | | If set, display a success message. |
-| `errorMessage` | `string` | `''` | | If set, display an error message.|
-| `placeholder` | `string` | | ✅ | Placeholder text.|
-| `id` | `string` | `select-${crypto.randomUUID()}` | | Unique id for the select. Used for the accessibility. |
-| `dense` | `boolean` | `false` | | Dense mode for reduced padding.|
-| `prefixIcon` | `string` | | | Prefix icon name (optional).|
-| `labelVisible` | `boolean` | `true` | | Whether the label is visible. |
+| `collapseHint` | `string` | `'Utilisez la tabulation (ou les touches flèches) pour naviguer dans la liste des suggestions'` | | Screen-reader-only hint for the options panel. |
+| `collapseMaxHeight` | `string` | `undefined` | | Maximum height of the options panel. |
+| `dense` | `boolean` | `undefined` | | Enables the dense display mode. |
+| `disabled` | `boolean` | `undefined` | | Disables the select. |
+| `disabledTooltip` | `string` | `undefined` | | Tooltip displayed when the select is disabled. |
+| `errorMessage` | `string` | `''` | | Error message displayed below the select. |
+| `height` | `string` | `undefined` | | Fixed height of the select button. |
+| `hint` | `string` | `''` | | Guidance text displayed with the label. |
+| `id` | `string` | `select-${crypto.randomUUID()}` | | Unique identifier used for accessibility. |
+| `label` | `string` | | ✅ | Text label for the select. |
+| `labelClass` | `string` | `''` | | Additional CSS class applied to the label. |
+| `labelVisible` | `boolean` | `true` | | Controls whether the label is visually visible. The label remains available to assistive technologies when hidden. |
+| `multiple` | `boolean` | `false` | | Enables multiple selection when `true`, or single selection when `false`. |
+| `options` | `AvSelectItem[]` | `[]` | | Flat options or groups of options displayed in the list. |
+| `placeholder` | `string` | | ✅ | Text displayed when no option is selected. |
+| `search` | `boolean` | `false` | | Displays the search input. |
+| `selectAll` | `boolean` | `false` | | Displays the button used to select or deselect all visible active options. Only applies in multiple-selection mode. |
+| `selectAllLabel` | `[string, string]` | `['Tout sélectionner', 'Tout désélectionner']` | | Labels for the select-all and deselect-all states. |
+| `selectedText` | `string` | | | Text displayed when at least one option is selected in multiple-selection mode. |
+| `successMessage` | `string` | `''` | | Success message displayed below the select. |
+| `width` | `string` | `undefined` | | Fixed width of the select button. |
 
-N.B. The `options` prop is an array of objects with the following structure:
+Individual options inherit `disabled` and `disabledTooltip` from `AvInteractiveProps`. Disabled options cannot be selected by clicking an option, selecting all options, or selecting a group. Their disabled tooltip is displayed when provided.
+
+## 🧩 Option types
+
+`options` accepts flat options or groups with child options:
 
 ```ts
-export interface AvSelectOptionBase {
-  id: string
+interface AvSelectOption {
   label: string
+  value: string | number
+  icon?: string
   disabled?: boolean
+  disabledTooltip?: string
 }
 
-export interface AvSelectSelectedOption {
-  itemId: string
-  parentId?: string
+interface AvSelectOptionGroup {
+  label: string
+  children: AvSelectOption[]
 }
 
-export interface AvSelectOption extends AvSelectOptionBase { children?: AvSelectOption[] }
+type AvSelectItem = AvSelectOption | AvSelectOptionGroup
 ```
 
-## 🔊 Events
-The `disabled` field on an option is handled by the native `<option>` element; option-level tooltips are not supported.
+A group checkbox reflects the state of its active children. It is checked when all active children are selected, unchecked when none are selected, and partially checked when only some are selected. Disabled children are ignored when calculating and changing the group selection.
 
-| Name | Data (*payload*) | Description |
+## 🔊 Events
+
+| Name | Payload | Description |
 | --- | --- | --- |
-| `'update:selectedItem'` | `AvSelectSelectedOption` | Emitted when an option is selected (includes `parentId` when option comes from an `optgroup`). |
+| `update:modelValue` | `AvSelectOption[] \| AvSelectOption \| null` | Emitted when the selection changes. In multiple-selection mode, the payload is an array of selected options. In single-selection mode, it is the selected option or `null` when no option is selected. Group objects are never emitted. |
+
+The component supports `v-model` through the `modelValue` prop and the `update:modelValue` event.
+
+The expected model type depends on the `multiple` prop:
+
+- When `multiple` is `true`, use `AvSelectOption[]`.
+- When `multiple` is `false`, use `AvSelectOption | null`.
 
 ## 🎨 Slots
 
@@ -60,32 +93,97 @@ None.
 
 ## 🚀 Storybook demos
 
-You can find examples of use and demo of the component on its dedicated [Storybook page](https://avenirs-esr.github.io/avenirs-dsav/storybook/?path=/docs/components-interaction-selects-avselect--docs).
+You can find examples of use and demos of the component on its dedicated [Storybook page](https://avenirs-esr.github.io/avenirs-dsav/storybook/?path=/docs/components-interaction-selects-AvSelect--docs).
 
 ## 💡 Examples of use
 
+### Single selection
+
 ```vue
 <script setup lang="ts">
+import type { AvSelectOption } from '@avenirs-esr/avenirs-dsav'
+import { AvSelect } from '@avenirs-esr/avenirs-dsav'
 import { ref } from 'vue'
 
-const selectedItem = ref({ itemId: '' })
+const selectedOption = ref<AvSelectOption | null>(null)
 </script>
 
 <template>
   <AvSelect
-    v-model:selected-item="selectedItem"
+    v-model="selectedOption"
+    :options="[
+      { value: 1, label: 'Choice number 1' },
+      { value: 2, label: 'Choice number 2' },
+      { value: 3, label: 'Choice number 3' },
+    ]"
+    placeholder="Select an option"
+    label="Option"
+  />
+</template>
+```
+
+### Multiple selection
+
+```vue
+<script setup lang="ts">
+import type { AvSelectOption } from '@avenirs-esr/avenirs-dsav'
+import { AvSelect } from '@avenirs-esr/avenirs-dsav'
+import { ref } from 'vue'
+
+const selectedOptions = ref<AvSelectOption[]>([])
+</script>
+
+<template>
+  <AvSelect
+    v-model="selectedOptions"
+    :options="[
+      { value: 1, label: 'Choice number 1' },
+      { value: 2, label: 'Choice number 2' },
+      { value: 3, label: 'Choice number 3' },
+    ]"
+    placeholder="Select options"
+    selected-text="Options selected"
+    label="Options"
+    multiple
+  />
+</template>
+```
+
+### Grouped options
+
+```vue
+<script setup lang="ts">
+import type { AvSelectOption } from '@avenirs-esr/avenirs-dsav'
+import { AvSelect } from '@avenirs-esr/avenirs-dsav'
+import { ref } from 'vue'
+
+const selectedOptions = ref<AvSelectOption[]>([])
+</script>
+
+<template>
+  <AvSelect
+    v-model="selectedOptions"
     :options="[
       {
-        id: 'group-1',
         label: 'Group 1',
         children: [
-          { id: '1', label: 'Choice 1' },
-          { id: '2', label: 'Choice 2' },
+          { value: 'choice-1', label: 'Choice 1' },
+          { value: 'choice-2', label: 'Choice 2' },
         ],
       },
-      { id: '3', label: 'Choice 3' },
+      {
+        label: 'Group 2',
+        children: [
+          { value: 'choice-3', label: 'Choice 3' },
+        ],
+      },
     ]"
-    placeholder="Placeholder"
+    placeholder="Select options"
+    selected-text="Options selected"
+    label="Options"
+    search
+    select-all
+    multiple
   />
 </template>
 ```

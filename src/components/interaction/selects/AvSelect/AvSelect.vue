@@ -1,45 +1,20 @@
 <script lang="ts" setup>
+import type AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
+import type {
+  AvSelectItem,
+  AvSelectOption,
+  AvSelectOptionGroup,
+} from '@/components/interaction/selects/AvSelect/AvSelect.types'
 import type { AvInteractiveProps } from '@/types/interfaces.types'
-import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
-import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
-import { getAvTooltipContent, isAvTooltipEnabled } from '@/components/overlay/tooltips/AvTooltip/utils'
+import SelectCollapse from '@/components/interaction/selects/AvSelect/components/SelectCollapse.vue'
 import { ICONS_DATA_URL } from '@/tokens'
 
-export interface AvSelectOptionBase {
-  id: string
-  label: string
-  // Native select does not allow AvTooltip integration so we do not use AvInteractiveProps
-  disabled?: boolean
-}
-
-export interface AvSelectSelectedOption {
-  itemId: string
-  parentId?: string
-}
-
-export interface AvSelectOption extends AvSelectOptionBase { children?: AvSelectOption[] }
-
-/**
- * AvSelect component props.
- */
 export interface AvSelectProps extends AvInteractiveProps {
   /**
-   * Indicates if the select is required.
-   * @default false
-   */
-  required?: boolean
-
-  /**
-   * Unique id for the select. Used for the accessibility.
+   * Unique id for the select. Used for accessibility.
    * @default `select-${crypto.randomUUID()}`
    */
   id?: string
-
-  /**
-   * Field name.
-   * @default ''
-   */
-  name?: string
 
   /**
    * Hint for guidance.
@@ -48,16 +23,32 @@ export interface AvSelectProps extends AvInteractiveProps {
   hint?: string
 
   /**
+   * Screen reader only hint for collapse.
+   */
+  collapseHint?: string
+
+  /**
    * Select text label.
+   */
+  label: string
+
+  /**
+   * Whether the label is visible or not.
+   * @default true
+   */
+  labelVisible?: boolean
+
+  /**
+   * CSS class for the label.
    * @default ''
    */
-  label?: string
+  labelClass?: string
 
   /**
    * Selectable options.
    * @default []
    */
-  options?: AvSelectOption[]
+  options?: AvSelectItem[]
 
   /**
    * If set, display a success message.
@@ -77,318 +68,324 @@ export interface AvSelectProps extends AvInteractiveProps {
   placeholder: string
 
   /**
-   * dense mode
-   * @default false
+   * Dense mode.
    */
   dense?: boolean
 
   /**
-   * Prefix icon name (optional)
+   * Displayed text when options are selected in multiple mode.
    */
-  prefixIcon?: string
+  selectedText: string
 
   /**
-   * Whether the label is visible
-   * @default true
+   * Displays the select all items button.
+   * @default false
    */
-  labelVisible?: boolean
+  selectAll?: boolean
+
+  /**
+   * Labels for the select all items button.
+   */
+  selectAllLabel?: [string, string]
+
+  /**
+   * Displays the search bar.
+   */
+  search?: boolean
+
+  /**
+   * Fixes the width of the multiselect.
+   */
+  width?: string
+
+  /**
+   * Fixes the height of the multiselect.
+   */
+  height?: string
+
+  /**
+   * Max height of the collapse list of options.
+   */
+  collapseMaxHeight?: string
+
+  /**
+   * Whether multiple options can be selected.
+   * @default false
+   */
+  multiple?: boolean
 }
 
-defineOptions({
-  inheritAttrs: false
-})
-
 const {
-  required = false,
-  disabled = false,
+  disabled,
+  disabledTooltip,
   id,
-  name = '',
   hint = '',
-  label = '',
+  collapseHint = 'Utilisez la tabulation (ou les touches flèches) pour naviguer dans la liste des suggestions',
+  label,
+  labelVisible = true,
+  labelClass = '',
   options = [],
   successMessage = '',
   errorMessage = '',
   placeholder,
-  dense = false,
-  prefixIcon,
-  labelVisible = true
+  dense,
+  selectedText,
+  selectAll = false,
+  selectAllLabel = ['Tout sélectionner', 'Tout désélectionner'],
+  search = false,
+  width,
+  height,
+  collapseMaxHeight,
+  multiple = false,
 } = defineProps<AvSelectProps>()
 
-const selectedItem = defineModel<AvSelectSelectedOption>('selectedItem', {
-  default: () => ({ itemId: '' })
+const modelValue = defineModel<AvSelectOption[] | AvSelectOption | null>({ default: null })
+
+const realId = computed(() => id ?? `select-${crypto.randomUUID()}`)
+
+const host = ref<InstanceType<typeof AvButton> | null>(null)
+
+const message = computed(() => errorMessage || successMessage)
+const messageType = computed(() => errorMessage ? 'error' : 'success')
+
+/**
+ * Normalizes the public model to an array for internal use.
+ */
+const selectedOptions = computed<AvSelectOption[]>(() => {
+  if (Array.isArray(modelValue.value)) {
+    return modelValue.value
+  }
+
+  return modelValue.value ? [modelValue.value] : []
 })
 
-const selectedId = computed(() => {
-  return String(selectedItem.value.itemId ?? '')
-})
+/**
+ * SelectCollapse always works with an array of option values.
+ */
+const computedModelValue = computed({
+  get: () => selectedOptions.value.map(option => option.value),
 
-const realId = id ?? `select-${crypto.randomUUID()}`
+  set: (values: (string | number)[]) => {
+    const availableOptions = options.flatMap(option =>
+      isOptionGroup(option) ? option.children : [option],
+    )
+
+    const selected = availableOptions.filter(option =>
+      values.includes(option.value),
+    )
+
+    if (multiple) {
+      modelValue.value = selected
+      return
+    }
+
+    modelValue.value = selected[0] ?? null
+    close()
+  },
+})
 
 const title = computed(() => {
-  if (!selectedId.value) {
+  if (selectedOptions.value.length === 0) {
     return placeholder
   }
-  const selected = findSelectedOptionById(selectedId.value)
-  return selected ? selected.label : placeholder
+
+  if (multiple) {
+    return selectedText
+  }
+
+  return selectedOptions.value[0].label
 })
+
+const isSelected = computed(() => selectedOptions.value.length > 0)
+
+const isVisible = ref(false)
+
+function handleKeyDownEscape (event: KeyboardEvent) {
+  if (event.key === 'Escape') {
+    close()
+  }
+}
+
+function open () {
+  if (disabled) {
+    return
+  }
+
+  isVisible.value = true
+  document.addEventListener('keydown', handleKeyDownEscape)
+}
+
+function close () {
+  isVisible.value = false
+  clean()
+}
+
+function handleClick () {
+  if (isVisible.value) {
+    close()
+  }
+  else {
+    open()
+  }
+}
+
+function clean () {
+  document.removeEventListener('keydown', handleKeyDownEscape)
+}
+
+function isOptionGroup (
+  option: AvSelectItem,
+): option is AvSelectOptionGroup {
+  return 'children' in option && Array.isArray(option.children)
+}
+
+onUnmounted(clean)
+
+const finalLabelClass = computed(() => [
+  'av-label',
+  { invisible: !labelVisible },
+  labelClass,
+])
 
 const styleVars = computed(() => ({
   '--icon-path': `url(${ICONS_DATA_URL.MDI_KEYBOARD_ARROW_DOWN})`,
 }))
-
-const message = computed(() => {
-  return errorMessage || successMessage
-})
-const messageType = computed(() => {
-  return errorMessage ? 'error' : 'success'
-})
-const finalLabelClass = computed(() => [
-  'av-label b2-regular',
-  { 'av-sr-only': !labelVisible },
-])
-const iconsTopPosition = computed(() => labelVisible && label ? '69%' : '50%')
-
-function isOptionGroup (option: AvSelectOption): option is AvSelectOption {
-  return Array.isArray(option.children)
-}
-
-function findSelectedOptionById (id: string) {
-  for (const option of options) {
-    if (isOptionGroup(option) && option.children) {
-      const selectedChild = option.children.find(child => String(child.id) === id)
-      if (selectedChild) {
-        return selectedChild
-      }
-    }
-
-    if (String(option.id) === id) {
-      return option
-    }
-  }
-
-  return undefined
-}
-
-function buildSelectedOptionById (id: string): AvSelectSelectedOption {
-  for (const option of options) {
-    if (isOptionGroup(option) && option.children) {
-      const selectedChild = option.children.find(child => String(child.id) === id)
-      if (selectedChild) {
-        return { itemId: selectedChild.id, parentId: option.id }
-      }
-    }
-
-    if (String(option.id) === id) {
-      return { itemId: option.id }
-    }
-  }
-
-  return { itemId: id }
-}
-
-function handleSelectChange (event: Event) {
-  const id = (event.target as HTMLSelectElement).value
-  selectedItem.value = buildSelectedOptionById(id)
-}
 </script>
 
 <template>
-  <div :class="{ 'av-select--dense': dense }">
-    <div
-      class="av-select-group"
-      :class="{ [`av-select-group--${messageType}`]: message }"
+  <div
+    class="av-select-group"
+    :class="{ [`av-select-group--${messageType}`]: message }"
+  >
+    <label
+      :class="finalLabelClass"
+      :for="realId"
     >
-      <div
-        class="av-select-control"
-        :class="{ 'av-select-control--disabled': disabled }"
-        :style="styleVars"
-      >
-        <div
-          v-if="prefixIcon"
-          class="av-select-prefix av-align-center av-col av-text-text2"
-        >
-          <AvIcon
-            :name="prefixIcon"
-            :size="1.2"
-          />
-        </div>
+      <span class="b2-light">{{ label }}</span>
 
-        <label
-          :class="finalLabelClass"
-          :for="realId"
-        >
-          <span>{{ label }}</span>
-          <span
-            v-if="required"
-            class="required"
-          >&nbsp;*</span>
-
-          <span
-            v-if="hint"
-            class="av-hint-text"
-          >
-            {{ hint }}
-          </span>
-        </label>
-
-        <AvTooltip
-          :content="getAvTooltipContent({ content: title, disabled, disabledTooltip })"
-          :disabled="!isAvTooltipEnabled({ disabled, disabledTooltip })"
-          :force-focusable="isAvTooltipEnabled({ disabled, disabledTooltip })"
-        >
-          <select
-            :id="realId"
-            :value="selectedId"
-            :class="{ [`av-select--${messageType}`]: message,
-                      'av-select--with-prefix av-pl-xl': prefixIcon,
-                      'av-py-xxs': dense,
-                      'av-py-xs': !dense,
-            }"
-            class="av-select b2-light av-w-full av-pr-xl av-pl-sm av-text-text2 av-radius-lg"
-            :name="name || realId"
-            :disabled="disabled"
-            :aria-disabled="disabled"
-            :required="required"
-            :aria-required="required"
-            :aria-describedby="message ? `${realId}-${messageType}` : undefined"
-            v-bind="$attrs"
-            @change="handleSelectChange"
-          >
-            <option
-              disabled
-              value=""
-              hidden=""
-            >
-              {{ placeholder }}
-            </option>
-
-            <template
-              v-for="(option, index) in options"
-              :key="index"
-            >
-              <template v-if="isOptionGroup(option) && option.children">
-                <optgroup
-                  v-if="option.children.length > 0"
-                  :label="option.label"
-                  :data-testid="`select-optgroup-${option.id}`"
-                >
-                  <option
-                    v-for="(childOption, childIndex) in option.children"
-                    :key="`${index}-${childIndex}`"
-                    :value="childOption.id"
-                    :disabled="childOption.disabled"
-                    :aria-disabled="childOption.disabled"
-                  >
-                    {{ childOption.label }}
-                  </option>
-                </optgroup>
-              </template>
-
-              <option
-                v-else
-                :value="option.id"
-                :disabled="option.disabled"
-                :aria-disabled="option.disabled"
-              >
-                {{ option.label }}
-              </option>
-            </template>
-          </select>
-        </AvTooltip>
-      </div>
-      <AvMessage
-        :message-id="`${realId}-${messageType}`"
-        :message="message"
-        :type="messageType"
+      <span
+        v-if="'required' in $attrs && $attrs.required !== false"
+        class="required"
       />
-    </div>
+
+      <span
+        v-if="hint"
+        class="av-hint-text"
+      >
+        {{ hint }}
+      </span>
+    </label>
+
+    <AvButton
+      :id="realId"
+      ref="host"
+      type="button"
+      variant="OUTLINED"
+      v-bind="$attrs"
+      :label="title"
+      class="av-select av-justify-between"
+      :disabled="disabled"
+      :disabled-tooltip="disabledTooltip"
+      :aria-expanded="isVisible"
+      :aria-controls="`${realId}-collapse`"
+      :class="{
+        'av-select--is-open': isVisible,
+        'av-select--dense': dense,
+        'av-select--unselected': !isSelected,
+        'av-select--selected': isSelected,
+      }"
+      :size="dense ? 'MD' : 'LG'"
+      :style="styleVars"
+      @click="handleClick"
+    />
+
+    <SelectCollapse
+      :id="realId"
+      v-model="computedModelValue"
+      :hint="collapseHint"
+      :is-visible="isVisible"
+      :select-all="multiple && selectAll"
+      :select-all-label="selectAllLabel"
+      :search="search"
+      :options="options"
+      :selected="modelValue"
+      :max-height="collapseMaxHeight"
+      :multiple="multiple"
+      @close="close"
+    />
   </div>
+
+  <AvMessage
+    :message-id="`select-${messageType}-desc-${messageType}`"
+    :type="messageType"
+    :message="message"
+  />
 </template>
 
 <style lang="scss" scoped>
-.av-select-control {
-  position: relative;
+@use '@/styles/utilities/_text.scss';
+
+.av-select-group {
   width: fit-content;
+}
 
-  &::after {
-    content: '';
-    position: absolute;
-    right: var(--dimension-sm);
-    top: v-bind(iconsTopPosition);
-    transform: translateY(-50%);
-    width: var(--dimension-sm);
-    height: var(--dimension-sm);
-    pointer-events: none;
-    background-color: var(--text2);
-    mask: var(--icon-path) center / contain no-repeat;
-    -webkit-mask: var(--icon-path) center / contain no-repeat;
-    transition: transform 0.3s;
-  }
+:deep() {
+  .av-select {
+    text-align: left;
+    background-image: none;
+    width: v-bind('width');
+    height: v-bind('height');
 
-  &:has(select:open)::after {
-    transform: translateY(-50%) rotate(-180deg);
-  }
-
-  &.av-select-control--disabled::after {
-    opacity: 0.7;
-  }
-
-  &:not(.av-select-control--disabled):hover {
     &::after {
-      background-color: var(--color-primary-hover-text);
+      background-color: currentColor;
+      content: "";
+      display: inline-block;
+      flex: 0 0 auto;
+      height: var(--dimension-sm);
+      -webkit-mask-image: var(--icon-path);
+      mask-image: var(--icon-path);
+      -webkit-mask-size: 100% 100%;
+      mask-size: 100% 100%;
+      transition: transform 0.3s;
+      vertical-align: calc((0.75em - var(--dimension-sm)) * 0.5);
+      width: var(--dimension-sm);
+      margin-top: auto;
+      margin-bottom: auto;
     }
 
-    .av-select-prefix {
-      color: var(--color-primary-hover-text);
+    &--is-open::after {
+      transform: rotate(-180deg);
+    }
+
+    &--dense {
+      padding-top: .1rem !important;
+      padding-bottom: .1rem !important;
+    }
+
+    &:not([aria-disabled=true]):hover {
+      background-color: var(--dark-background-primary1);
+      color: var(--other-background-base);
+    }
+
+    &--unselected {
+      font-style: italic;
     }
   }
 }
 
-.av-select-prefix {
-  position: absolute;
-  left: var(--spacing-xs);
-  top: v-bind(iconsTopPosition);
-  transform: translateY(-50%);
-  z-index: 1;
-  pointer-events: none;
-  transition: color 0.2s ease;
+:deep(.av-button span) {
+  @extend .av-ellipsis;
+
+  color: var(--text2) !important;
 }
 
-.av-select {
-  background-color: var(--other-background-base);
-  border: 1px solid var(--divider);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-
-  optgroup {
-    background: var(--other-background-base);
-    color: var(--title);
+:deep(.av-button):hover {
+  span {
+    color: unset !important;
   }
+}
 
-  &[aria-disabled=true] {
-    background-color: var(--surface-background);
-    color: var(--text2);
-    cursor: not-allowed;
-    opacity: 0.7;
-  }
-
-  &:not([aria-disabled=true]):hover {
-    background-color: var(--color-primary-hover-bg);
-    color: var(--color-primary-hover-text);
-  }
-
-  &:hover {
-    option {
-      color: var(--text1);
-      background-color: var(--other-background-base);
-    }
-  }
-
-  option[aria-disabled=true] {
-    background-color: var(--light-background-neutral);
-    color: var(--text2);
-    opacity: 0.7;
-  }
+.b2-bold {
+  color: var(--dark-background-primary1);
 }
 </style>
