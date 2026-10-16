@@ -1,95 +1,72 @@
-import type {
-  AvSelectOption,
-  AvSelectSelectedOption,
-} from '@/components/interaction/selects/AvSelect/AvSelect.vue'
 import { AvInteractivePropsStub } from '@/types/interfaces.stub'
 
 export const AvSelectStub = defineComponent({
   name: 'AvSelect',
   props: {
     ...AvInteractivePropsStub,
-    selectedItem: Object as () => AvSelectSelectedOption,
-    options: Array as () => AvSelectOption[],
-    placeholder: String,
+    modelValue: {
+      type: [Array, Object],
+      default: null,
+    },
+    options: Array,
     label: String,
+    placeholder: String,
+    selectedText: String,
     dense: Boolean,
-    required: Boolean,
-    hint: String,
-    errorMessage: String,
-    successMessage: String,
-    prefixIcon: String,
+    multiple: {
+      type: Boolean,
+      default: false,
+    },
   },
-  emits: ['update:selectedItem'],
-  setup (props, { emit }) {
-    function buildSelectedItemById (id: string): AvSelectSelectedOption {
-      for (const option of props.options ?? []) {
-        if (option.children?.length) {
-          const selectedChild = option.children.find(child => String(child.id) === id)
-          if (selectedChild) {
-            return { itemId: selectedChild.id, parentId: option.id }
-          }
-        }
-
-        if (String(option.id) === id) {
-          return { itemId: option.id }
-        }
-      }
-
-      return { itemId: id }
-    }
-
-    function handleChange (event: Event) {
-      const id = (event.target as HTMLSelectElement).value
-      emit('update:selectedItem', buildSelectedItemById(id))
-    }
-
-    return {
-      handleChange,
-    }
-  },
+  emits: ['update:modelValue'],
   template: `
-    <select 
-      class="av-select-stub"
-      :value="selectedItem?.itemId || ''"
-      :disabled="disabled"
-      :required="required"
-      @change="handleChange"
-    >
-      <option
-        v-if="placeholder !== undefined"
-        value=""
+    <div :class="{ 'av-multiselect--dense': dense }">
+      <label>{{ label }}</label>
+      <select
+        :multiple="multiple"
+        :value="multiple
+          ? (Array.isArray(modelValue) ? modelValue.map(o => o.value) : [])
+          : (modelValue?.value ?? '')"
+        @change="$emit(
+          'update:modelValue',
+          multiple
+            ? Array.from($event.target.selectedOptions).map(o => ({
+                label: o.text,
+                value: o.value
+              }))
+            : (
+                $event.target.selectedOptions[0]
+                  ? {
+                      label: $event.target.selectedOptions[0].text,
+                      value: $event.target.selectedOptions[0].value
+                    }
+                  : null
+              )
+        )"
       >
-        {{ placeholder }}
-      </option>
-      <template
-        v-for="(option, index) in options"
-        :key="index"
-      >
-        <optgroup
-          v-if="option.children && option.children.length > 0"
-          :label="option.label"
-        >
-          <option
-            v-for="(childOption, childIndex) in option.children"
-            :key="childOption.id"
-            :value="childOption.id"
-            :disabled="childOption.disabled"
-          >
-            {{ childOption.label }}
-          </option>
-        </optgroup>
-
         <option
-          v-else
-          :value="option.id"
+          v-if="!multiple"
+          value=""
+        >
+          {{ placeholder }}
+        </option>
+        <option
+          v-for="option in options"
+          :key="option.value"
+          :value="option.value"
           :disabled="option.disabled"
         >
           {{ option.label }}
         </option>
-      </template>
-      <span v-if="hint">{{ hint }}</span>
-      <span v-if="errorMessage">{{ errorMessage }}</span>
-      <span v-if="!errorMessage && successMessage">{{ successMessage }}</span>
-    </select>
-  `
+      </select>
+      <p class="av-multiselect__caption">
+        {{ multiple
+          ? (Array.isArray(modelValue) && modelValue.length
+              ? (selectedText || modelValue.length + ' sélection(s)')
+              : placeholder)
+          : (modelValue?.label ?? placeholder)
+        }}
+      </p>
+    </div>
+  `,
 })

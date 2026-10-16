@@ -1,18 +1,18 @@
 import type { VueWrapper } from '@vue/test-utils'
-import type { MultiselectCollapseProps } from '@/components/interaction/selects/AvMultiselect/components/MultiselectCollapse.vue'
+import type { SelectCollapseProps } from '@/components/interaction/selects/AvSelect/components/SelectCollapse.vue'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 import { AvFieldsetStub } from '@/components/base/AvFieldset/AvFieldset.stub'
 import { AvCheckboxStub } from '@/components/interaction/checkboxes/AvCheckbox/AvCheckbox.stub'
-import MultiselectCollapse from '@/components/interaction/selects/AvMultiselect/components/MultiselectCollapse.vue'
+import SelectCollapse from '@/components/interaction/selects/AvSelect/components/SelectCollapse.vue'
 import { AvButtonStub } from '@/tests'
 import { BddTest } from '@/tests/utils'
 
 const defaultOptions = [
   { label: 'Option 1', value: '1' },
   { label: 'Option 2', value: '2' },
-  { label: 'Option 3', value: '3' }
+  { label: 'Option 3', value: '3' },
 ]
 
 const groupedOptions = [
@@ -32,20 +32,23 @@ const groupedOptions = [
   },
 ]
 
-const defaultProps: MultiselectCollapseProps = {
+const defaultProps: SelectCollapseProps = {
   isVisible: true,
   selected: [],
   options: defaultOptions,
   id: 'test-collapse',
+  multiple: true,
 }
 
-type MultiselectCollapseTestProps = Partial<MultiselectCollapseProps> & {
+type SelectCollapseTestProps = Partial<SelectCollapseProps> & {
   modelValue?: (string | number)[]
 }
 
-function mountWithProps (props: MultiselectCollapseTestProps = {}, attrs: Record<string, unknown> = {}):
-VueWrapper<InstanceType<typeof MultiselectCollapse>> {
-  return mount<typeof MultiselectCollapse>(MultiselectCollapse, {
+function mountWithProps (
+  props: SelectCollapseTestProps = {},
+  attrs: Record<string, unknown> = {},
+): VueWrapper<InstanceType<typeof SelectCollapse>> {
+  return mount<typeof SelectCollapse>(SelectCollapse, {
     props: { modelValue: [], ...defaultProps, ...props },
     attrs,
     global: {
@@ -53,15 +56,15 @@ VueWrapper<InstanceType<typeof MultiselectCollapse>> {
         AvButton: AvButtonStub,
         AvCheckbox: AvCheckboxStub,
         AvFieldset: AvFieldsetStub,
-        transition: false
-      }
+        transition: false,
+      },
     },
-    attachTo: document.body
+    attachTo: document.body,
   })
 }
 
-BddTest().given('a MultiselectCollapse component', () => {
-  let wrapper: VueWrapper<InstanceType<typeof MultiselectCollapse>>
+BddTest().given('a SelectCollapse component', () => {
+  let wrapper: VueWrapper<InstanceType<typeof SelectCollapse>>
   let updateModelValue = vi.fn()
   const addSpy = vi.spyOn(document, 'addEventListener')
   const removeSpy = vi.spyOn(document, 'removeEventListener')
@@ -85,7 +88,10 @@ BddTest().given('a MultiselectCollapse component', () => {
 
       BddTest().and('select all button is enabled', () => {
         beforeEach(async () => {
-          wrapper = mountWithProps({ selectAll: true }, { 'onUpdate:modelValue': updateModelValue })
+          wrapper = mountWithProps(
+            { selectAll: true },
+            { 'onUpdate:modelValue': updateModelValue },
+          )
         })
 
         BddTest().then('it should show the select all button', () => {
@@ -97,7 +103,10 @@ BddTest().given('a MultiselectCollapse component', () => {
         BddTest().then('clicking select all should emit all option values', async () => {
           const btn = getAvButton()
           await btn.find('button').trigger('click')
-          expect(updateModelValue).toHaveBeenCalledWith(defaultOptions.map(option => option.value))
+
+          expect(updateModelValue).toHaveBeenCalledWith(
+            defaultOptions.map(option => option.value),
+          )
         })
       })
 
@@ -110,6 +119,7 @@ BddTest().given('a MultiselectCollapse component', () => {
 
         BddTest().then('it should only show filtered options', () => {
           const checkboxes = wrapper.findAllComponents(AvCheckboxStub)
+
           expect(checkboxes.length).toBe(1)
           expect(checkboxes[0].props('label')).toBe('Option 2')
         })
@@ -140,7 +150,11 @@ BddTest().given('a MultiselectCollapse component', () => {
 
     BddTest().when('all options are selected', () => {
       beforeEach(async () => {
-        await wrapper.setProps({ selected: defaultOptions, selectAll: true })
+        await wrapper.setProps({
+          selected: defaultOptions,
+          modelValue: defaultOptions.map(option => option.value),
+          selectAll: true,
+        })
       })
 
       BddTest().then('it should show the deselect all label', () => {
@@ -150,15 +164,105 @@ BddTest().given('a MultiselectCollapse component', () => {
     })
   })
 
+  BddTest().and('single-selection mode', () => {
+    BddTest().when('an option is selected', () => {
+      beforeEach(() => {
+        updateModelValue = vi.fn()
+        wrapper = mountWithProps(
+          {
+            multiple: false,
+            selected: null,
+            modelValue: [],
+          },
+          { 'onUpdate:modelValue': updateModelValue },
+        )
+      })
+
+      BddTest().then('it should emit only the selected option value', async () => {
+        const checkbox = wrapper.findComponent(AvCheckboxStub)
+
+        await checkbox.vm.$emit('update:modelValue', ['1'])
+
+        expect(updateModelValue).toHaveBeenCalledWith(['1'])
+      })
+
+      BddTest().then('it should emit close after selecting an option', async () => {
+        const checkbox = wrapper.findComponent(AvCheckboxStub)
+
+        await checkbox.vm.$emit('update:modelValue', ['1'])
+
+        expect(wrapper.emitted('close')).toBeTruthy()
+      })
+    })
+
+    BddTest().when('the selected option is deselected', () => {
+      beforeEach(() => {
+        updateModelValue = vi.fn()
+        wrapper = mountWithProps(
+          {
+            multiple: false,
+            selected: defaultOptions[0],
+            modelValue: ['1'],
+          },
+          { 'onUpdate:modelValue': updateModelValue },
+        )
+      })
+
+      BddTest().then('it should emit an empty array', async () => {
+        const checkbox = wrapper.findComponent(AvCheckboxStub)
+
+        await checkbox.vm.$emit('update:modelValue', [])
+
+        expect(updateModelValue).toHaveBeenCalledWith([])
+      })
+    })
+
+    BddTest().when('a single option is selected initially', () => {
+      beforeEach(() => {
+        wrapper = mountWithProps({
+          multiple: false,
+          selected: defaultOptions[0],
+          modelValue: ['1'],
+        })
+      })
+
+      BddTest().then('it should mark the option as selected', () => {
+        const checkbox = wrapper.findComponent(AvCheckboxStub)
+
+        expect(checkbox.props('modelValue')).toContain('1')
+      })
+    })
+
+    BddTest().when('no option is selected initially', () => {
+      beforeEach(() => {
+        wrapper = mountWithProps({
+          multiple: false,
+          selected: null,
+          modelValue: [],
+        })
+      })
+
+      BddTest().then('it should render all available options', () => {
+        const checkboxes = wrapper.findAllComponents(AvCheckboxStub)
+
+        expect(checkboxes.length).toBe(defaultOptions.length)
+      })
+    })
+  })
+
   BddTest().and('given grouped options', () => {
     BddTest().when('a group is selected', () => {
       beforeEach(async () => {
         updateModelValue = vi.fn()
-        wrapper = mountWithProps({
-          options: groupedOptions,
-          modelValue: [],
-          selected: [],
-        }, { 'onUpdate:modelValue': updateModelValue })
+        wrapper = mountWithProps(
+          {
+            options: groupedOptions,
+            modelValue: [],
+            selected: [],
+          },
+          { 'onUpdate:modelValue': updateModelValue },
+        )
+
         const groupCheckbox = getGroupCheckbox()
         await groupCheckbox.setValue(true)
       })
@@ -195,6 +299,7 @@ BddTest().given('a MultiselectCollapse component', () => {
           selected: [],
           modelValue: [],
         }, { 'onUpdate:modelValue': updateModelValue })
+
         await getAvButton().find('button').trigger('click')
       })
 
@@ -213,10 +318,11 @@ BddTest().given('a MultiselectCollapse component', () => {
           selected: groupedOptions[0].children,
           modelValue: ['1', '2'],
         }, { 'onUpdate:modelValue': updateModelValue })
+
         await getGroupCheckbox().setValue(false)
       })
 
-      BddTest().then('it should emit the group without its child values', async () => {
+      BddTest().then('it should emit an empty selection', async () => {
         await vi.waitFor(() => {
           expect(updateModelValue).toHaveBeenCalledWith([])
         })
@@ -260,19 +366,22 @@ BddTest().given('a MultiselectCollapse component', () => {
       const addCallsBefore = addSpy.mock.calls.length
       close = vi.fn()
       wrapper = mountWithProps({ isVisible: false }, { onClose: close })
+
       await wrapper.setProps({ isVisible: true })
       await nextTick()
-      await vi.waitFor(() => expect(addSpy.mock.calls.length).toBeGreaterThan(addCallsBefore))
+
+      await vi.waitFor(() => {
+        expect(addSpy.mock.calls.length).toBeGreaterThan(addCallsBefore)
+      })
     })
 
     BddTest().then('it should emit close', () => {
       const outsideEl = document.createElement('div')
       document.body.appendChild(outsideEl)
-      const dispatchOutsideClick = () => {
-        outsideEl.dispatchEvent(new MouseEvent('click', { bubbles: true }))
-      }
-      dispatchOutsideClick()
-      dispatchOutsideClick()
+
+      outsideEl.dispatchEvent(new MouseEvent('click', { bubbles: true }))
+      outsideEl.dispatchEvent(new MouseEvent('click', { bubbles: true }))
+
       expect(close).toHaveBeenCalled()
       outsideEl.remove()
     })
@@ -298,9 +407,13 @@ BddTest().given('a MultiselectCollapse component', () => {
       const addCallsBefore = addSpy.mock.calls.length
       close = vi.fn()
       wrapper = mountWithProps({ isVisible: false }, { onClose: close })
+
       await wrapper.setProps({ isVisible: true })
       await nextTick()
-      await vi.waitFor(() => expect(addSpy.mock.calls.length).toBeGreaterThan(addCallsBefore))
+
+      await vi.waitFor(() => {
+        expect(addSpy.mock.calls.length).toBeGreaterThan(addCallsBefore)
+      })
     })
 
     BddTest().then('it should not emit close', () => {
@@ -318,6 +431,7 @@ BddTest().given('a MultiselectCollapse component', () => {
       BddTest().then('it should not emit close and clear the flag', () => {
         const outsideEl = document.createElement('div')
         document.body.appendChild(outsideEl)
+
         const dispatchOutsideClick = () => {
           outsideEl.dispatchEvent(new MouseEvent('click', { bubbles: true }))
         }
