@@ -1,76 +1,76 @@
 import type { StoryFn } from '@storybook/vue3'
-import type { AvSelectProps, AvSelectSelectedOption } from '@/components/interaction/selects/AvSelect/AvSelect.vue'
+import type { AvSelectOption } from '@/components/interaction/selects/AvSelect/AvSelect.types'
+import type { AvSelectProps } from '@/components/interaction/selects/AvSelect/AvSelect.vue'
 import AvSelect from '@/components/interaction/selects/AvSelect/AvSelect.vue'
-import { MDI_ICONS } from '@/tokens/icons'
+import { MDI_ICONS } from '@/tokens'
 
 type AvSelectStoryArgs = AvSelectProps & {
-  selectedItem: AvSelectSelectedOption
+  modelValue: AvSelectOption[] | AvSelectOption | null
 }
 
-/**
- * <h1 class="n1">Drop-down list - <code>AvSelect</code></h1>
- *
- * <h2 class="n2">✨ Introduction</h2>
- *
- * <p>
- *   <span class="b2-regular">
- *     The <code>AvSelect</code> is a Vue component enabling a user to select an item from a given list.
- *   </span>
- * </p>
- *
- * <p>
- *   <span class="b2-regular">
- *     The drop-down list provides a list of options from which the user can choose. Only the visible part of the component is stylized:
- *     the drop-down list of options retains the browser style.
- *   </span>
- * </p>
- *
- * <h2 class="n2">🏗️ Structure</h2>
- *
- * <p><span class="b2-regular">The <code>AvSelect</code> consists of a set of <code>&lt;option&gt;</code> within a <code>&lt;select&gt;</code>.</span></p>
- */
 const meta = {
   title: 'Components/Interaction/Selects/AvSelect',
   component: AvSelect,
   tags: ['autodocs'],
   argTypes: {
-    required: { control: 'boolean' },
     disabled: { control: 'boolean' },
     dense: { control: 'boolean' },
+    multiple: { control: 'boolean' },
     name: { control: 'text' },
     hint: { control: 'text' },
-    label: { control: 'text' },
-    options: {
-      type: { name: '{id: string | number | undefined, label: string, disabled?: boolean}[]', required: true },
+    modelValue: {
+      type: {
+        name: 'AvSelectOption[] | AvSelectOption | null',
+        required: false,
+      },
       control: false,
     },
-    selectedItem: { control: false },
+    label: { control: 'text' },
+    options: {
+      type: {
+        name: 'AvSelectOption[] | AvSelectOptionGroup[]',
+        required: true,
+      },
+      control: false,
+    },
     successMessage: { control: 'text' },
     errorMessage: { control: 'text' },
     placeholder: { control: 'text', required: true },
-    prefixIcon: { control: 'text' },
-    labelVisible: { control: 'boolean' },
+    selectAll: { control: 'boolean' },
+    search: { control: 'boolean' },
+    width: { control: 'text' },
+    height: { control: 'text' },
+    selectedText: { control: 'text' },
   },
   args: {
     options: [
-      { id: '1', label: 'Choice 1' },
-      { id: '2', label: 'Choice 2' },
-      { id: '3', label: 'Choice 3', disabled: true },
-      { id: '4', label: 'Choice 4' },
-      { id: '5', label: 'Choice 5' },
+      { value: '1', label: 'Choice 1' },
+      { value: '2', label: 'Choice 2 with a long text' },
+      { value: '3', label: 'Choice 3' },
+      { value: '4', label: 'Choice 4' },
+      { value: '5', label: 'Choice 5' },
     ],
     placeholder: 'Placeholder',
     required: false,
     disabled: false,
+    multiple: false,
     name: 'select',
     hint: '',
-    selectedItem: { itemId: '' },
+    modelValue: null,
     label: '',
     successMessage: '',
     errorMessage: '',
     dense: false,
-    prefixIcon: '',
-    labelVisible: true,
+    selectAll: false,
+    search: false,
+    selectedText: 'Selected option(s)',
+  },
+  parameters: {
+    docs: {
+      story: {
+        height: '20rem',
+      },
+    },
   },
 }
 
@@ -81,137 +81,145 @@ const Template: StoryFn<AvSelectStoryArgs> = args => ({
   setup () {
     return { args }
   },
-  template: `
-    <AvSelect v-bind="args" v-model:selected-item="args.selectedItem" />
-    <p>Selected item: {{ args.selectedItem.itemId }}</p>
-    <p>Selected item parent: {{ args.selectedItem.parentId }}</p>
-  `,
+  template: `<AvSelect v-bind="args" v-model="args.modelValue" />`,
 })
+
+const optionsWithIcon = [
+  { value: '1', label: 'Choice 1', icon: MDI_ICONS.ATTACH_FILE },
+  { value: '2', label: 'Choice 2', icon: MDI_ICONS.CHAT_ALERT },
+  { value: '3', label: 'Choice 3', icon: MDI_ICONS.CONTENT_SAVE_OUTLINE },
+  { value: '4', label: 'Choice 4', icon: MDI_ICONS.ELECTRON_FRAMEWORK },
+  { value: '5', label: 'Choice 5', icon: MDI_ICONS.IMAGE_OUTLINE },
+]
+
+const groupedOptions = [
+  {
+    label: 'Group 1',
+    children: [
+      { value: '1', label: 'Choice 1' },
+      { value: '2', label: 'Choice 2' },
+    ],
+  },
+  { value: '3', label: 'Ungrouped choice' },
+  {
+    label: 'Group 2',
+    children: [
+      { value: '4', label: 'Choice 4' },
+      { value: '5', label: 'Choice 5', disabled: true, disabledTooltip: 'This option is disabled' },
+    ],
+  },
+]
+
+const optionsForMaxHeight = [
+  { value: '1', label: 'Choice 1', icon: MDI_ICONS.ATTACH_FILE },
+  { value: '2', label: 'Choice 2', icon: MDI_ICONS.CHAT_ALERT },
+  { value: '3', label: 'Choice 3', icon: MDI_ICONS.CONTENT_SAVE_OUTLINE },
+  { value: '4', label: 'Choice 4', icon: MDI_ICONS.ELECTRON_FRAMEWORK },
+  { value: '5', label: 'Choice 5', icon: MDI_ICONS.IMAGE_OUTLINE },
+  { value: '6', label: 'Choice 6', icon: MDI_ICONS.ATTACH_FILE },
+  { value: '7', label: 'Choice 7', icon: MDI_ICONS.CHAT_ALERT },
+  { value: '8', label: 'Choice 8', icon: MDI_ICONS.CONTENT_SAVE_OUTLINE },
+  { value: '9', label: 'Choice 9', icon: MDI_ICONS.ELECTRON_FRAMEWORK },
+  { value: '10', label: 'Choice 10', icon: MDI_ICONS.IMAGE_OUTLINE },
+]
+
+/* Default */
 
 export const Default = Template.bind({})
 Default.args = {
-  name: 'default-select',
-  label: 'Select'
+  label: 'Select',
+  multiple: false,
+  modelValue: null,
+}
+
+export const Multiple = Template.bind({})
+Multiple.args = {
+  label: 'Multiple select',
+  multiple: true,
+  modelValue: [],
 }
 
 export const Dense = Template.bind({})
 Dense.args = {
-  name: 'dense-select',
   dense: true,
   label: 'Dense Select',
+  multiple: false,
+  modelValue: null,
 }
 
-export const Disabled = Template.bind({})
-Disabled.args = {
-  name: 'disabled-select',
-  disabled: true,
-  label: 'Disabled Select',
+export const DenseMultiple = Template.bind({})
+DenseMultiple.args = {
+  dense: true,
+  label: 'Dense Multiple Select',
+  multiple: true,
+  modelValue: [],
 }
 
-export const Required = Template.bind({})
-Required.args = {
-  name: 'required-select',
-  required: true,
-  label: 'Required Select',
+export const OptionsWithIcon = Template.bind({})
+OptionsWithIcon.args = {
+  options: optionsWithIcon,
+  label: 'Options with icon',
+  multiple: false,
+  modelValue: null,
 }
 
-export const Hint = Template.bind({})
-Hint.args = {
-  name: 'hint-select',
-  hint: 'This is a hint message.',
-  label: 'Hint Select',
+export const OptionsWithIconMultiple = Template.bind({})
+OptionsWithIconMultiple.args = {
+  options: optionsWithIcon,
+  label: 'Options with icon - multiple',
+  multiple: true,
+  modelValue: [],
 }
 
-export const CustomPlaceholder = Template.bind({})
-CustomPlaceholder.args = {
-  name: 'custom-placeholder-select',
-  placeholder: 'Please select an option',
-  label: 'Custom placeholder Select',
+export const GroupedOptions = Template.bind({})
+GroupedOptions.args = {
+  options: groupedOptions,
+  label: 'Grouped options',
+  multiple: false,
+  modelValue: null,
 }
 
-export const WithError = Template.bind({})
-WithError.args = {
-  name: 'with-error-select',
-  errorMessage: 'This field is required.',
-  label: 'With error Select',
+export const GroupedOptionsMultiple = Template.bind({})
+GroupedOptionsMultiple.args = {
+  options: groupedOptions,
+  label: 'Grouped options - multiple',
+  multiple: true,
+  modelValue: [],
 }
 
-export const WithSuccess = Template.bind({})
-WithSuccess.args = {
-  name: 'with-success-select',
-  successMessage: 'Selection successful!',
-  label: 'With success Select',
+export const GroupedOptionsWithSelectedValues = Template.bind({})
+GroupedOptionsWithSelectedValues.args = {
+  options: groupedOptions,
+  modelValue: { value: '1', label: 'Choice 1' },
+  label: 'Grouped options with selected value',
+  multiple: false,
 }
 
-export const WithPrefixIcon = Template.bind({})
-WithPrefixIcon.args = {
-  name: 'with-prefix-icon-select',
-  prefixIcon: MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE,
-  label: 'With prefix icon Select',
-}
-
-export const LabelInvisible = Template.bind({})
-LabelInvisible.args = {
-  name: 'label-invisible-select',
-  label: 'Invisible label Select',
-  labelVisible: false,
-}
-
-export const LabelInvisibleWithPrefixIcon = Template.bind({})
-LabelInvisibleWithPrefixIcon.args = {
-  name: 'label-invisible-with-prefix-icon-select',
-  label: 'Invisible label with prefix icon Select',
-  labelVisible: false,
-  prefixIcon: MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE,
-}
-
-export const WithOptGroups = Template.bind({})
-WithOptGroups.args = {
-  name: 'with-optgroups-select',
-  label: 'Select with optgroups',
-  options: [
-    {
-      id: 'group1',
-      label: 'Group 1',
-      children: [
-        { id: '1', label: 'Choice 1' },
-        { id: '2', label: 'Choice 2', disabled: true },
-      ],
-    },
-    {
-      id: 'group2',
-      label: 'Group 2',
-      children: [
-        { id: '3', label: 'Choice 3' },
-        { id: '4', label: 'Choice 4' },
-      ],
-    },
-    { id: '5', label: 'Ungrouped Choice' },
+export const GroupedOptionsWithSelectedValuesMultiple = Template.bind({})
+GroupedOptionsWithSelectedValuesMultiple.args = {
+  options: groupedOptions,
+  modelValue: [
+    { value: '1', label: 'Choice 1' },
+    { value: '2', label: 'Choice 2' },
   ],
+  label: 'Grouped options with selected values - multiple',
+  multiple: true,
 }
 
-export const WithOptGroupsAndSelectedItem = Template.bind({})
-WithOptGroupsAndSelectedItem.args = {
-  name: 'with-optgroups-select',
-  label: 'Select with optgroups',
-  options: [
-    {
-      id: 'group1',
-      label: 'Group 1',
-      children: [
-        { id: '1', label: 'Choice 1' },
-        { id: '2', label: 'Choice 2' },
-      ],
-    },
-    {
-      id: 'group2',
-      label: 'Group 2',
-      children: [
-        { id: '3', label: 'Choice 3' },
-        { id: '4', label: 'Choice 4' },
-      ],
-    },
-    { id: '5', label: 'Ungrouped Choice' },
-  ],
-  selectedItem: { itemId: '3', parentId: 'group2' },
+export const CollapseMaxHeight = Template.bind({})
+CollapseMaxHeight.args = {
+  options: optionsForMaxHeight,
+  label: 'Collapse max height',
+  collapseMaxHeight: '150px',
+  multiple: false,
+  modelValue: null,
+}
+
+export const CollapseMaxHeightMultiple = Template.bind({})
+CollapseMaxHeightMultiple.args = {
+  options: optionsForMaxHeight,
+  label: 'Collapse max height - multiple',
+  collapseMaxHeight: '150px',
+  multiple: true,
+  modelValue: [],
 }

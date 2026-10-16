@@ -1,9 +1,9 @@
 import type { AvInteractiveProps } from '@/types/interfaces.types'
 
 /**
- * AvMultiselect option props.
+ * AvSelect option props.
  */
-export interface AvMultiselectOption extends AvInteractiveProps {
+export interface AvSelectOption extends AvInteractiveProps {
   /**
    * Displayed label of the option
    */
@@ -20,9 +20,9 @@ export interface AvMultiselectOption extends AvInteractiveProps {
   value: string | number
 }
 
-export interface AvMultiselectOptionGroup {
+export interface AvSelectOptionGroup {
   label: string
-  children: AvMultiselectOption[]
+  children: AvSelectOption[]
 }
 
-export type AvMultiselectItem = AvMultiselectOption | AvMultiselectOptionGroup
+export type AvSelectItem = AvSelectOption | AvSelectOptionGroup

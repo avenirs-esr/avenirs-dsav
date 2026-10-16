@@ -29,7 +29,6 @@ import { AvTagPickerStub } from '@/components/interaction/pickers/AvTagPicker/Av
 import { AvRadioButtonStub } from '@/components/interaction/radios/AvRadioButton/AvRadioButton.stub'
 import { AvRadioButtonSetStub } from '@/components/interaction/radios/AvRadioButtonSet/AvRadioButtonSet.stub'
 import { AvAutocompleteStub } from '@/components/interaction/selects/AvAutocomplete/AvAutocomplete.stub'
-import { AvMultiselectStub } from '@/components/interaction/selects/AvMultiselect/AvMultiselect.stub'
 import { AvSelectStub } from '@/components/interaction/selects/AvSelect/AvSelect.stub'
 import { AvTabStub } from '@/components/interaction/tabs/AvTab/AvTab.stub'
 import { AvTabsStub } from '@/components/interaction/tabs/AvTabs/AvTabs.stub'
@@ -80,7 +79,6 @@ export {
   AvListStub,
   AvMessageStub,
   AvModalStub,
-  AvMultiselectStub,
   AvNavigationStub,
   AvPageSizePickerStub,
   AvPaginationStub,
