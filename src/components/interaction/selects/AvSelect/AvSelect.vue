@@ -311,6 +311,7 @@ const styleVars = computed(() => ({
       :selected="modelValue"
       :max-height="collapseMaxHeight"
       :multiple="multiple"
+      :required="'required' in $attrs && $attrs.required !== false"
       @close="close"
     />
   </div>
@@ -326,7 +327,7 @@ const styleVars = computed(() => ({
 @use '@/styles/utilities/_text.scss';
 
 .av-select-group {
-  width: fit-content;
+  width: v-bind('width');
 }
 
 :deep() {
