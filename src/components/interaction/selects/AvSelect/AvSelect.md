@@ -52,6 +52,7 @@ Groups support one nesting level only: a group contains options, but groups cann
 | `selectedText` | `string` | `'fichier(s) sélectionné(s)'` | | Text displayed when at least one option is selected in multiple-selection mode. |
 | `successMessage` | `string` | `''` | | Success message displayed below the select when no error message is provided. |
 | `width` | `string` | `undefined` | | CSS width applied to the select container and button, such as `20rem` or `100%`. |
+| `prefixIcon` | `string` | `undefined` | | Prefix icon displayed inside the select button. |
 
 Individual options inherit `disabled` and `disabledTooltip` from `AvInteractiveProps`. Disabled options cannot be selected through individual option interactions, group selection, or select-all. Their disabled tooltip is displayed when provided.
 

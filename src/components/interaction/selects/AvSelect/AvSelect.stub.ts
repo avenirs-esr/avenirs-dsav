@@ -1,3 +1,5 @@
+import type { PropType } from 'vue'
+import type { AvSelectItem } from '@/components/interaction/selects/AvSelect/AvSelect.types'
 import { AvInteractivePropsStub } from '@/types/interfaces.stub'
 
 export const AvSelectStub = defineComponent({
@@ -8,15 +10,81 @@ export const AvSelectStub = defineComponent({
       type: [Array, Object],
       default: null,
     },
-    options: Array,
+    id: {
+      type: String,
+      required: false,
+    },
+    hint: {
+      type: String,
+      required: false,
+    },
+    collapseHint: {
+      type: String,
+      required: false,
+    },
     label: String,
+    labelVisible: {
+      type: Boolean,
+      default: true,
+    },
+    labelClass: {
+      type: String,
+      required: false,
+    },
+    options: Array as PropType<AvSelectItem[]>,
+    successMessage: {
+      type: String,
+      required: false,
+    },
+    errorMessage: {
+      type: String,
+      required: false,
+    },
     placeholder: String,
-    selectedText: String,
-    dense: Boolean,
+    dense: {
+      type: Boolean,
+      required: false,
+    },
+    selectedText: {
+      type: String,
+      required: false,
+    },
+    selectAll: {
+      type: Boolean,
+      required: false,
+    },
+    selectAllLabel: {
+      type: Object as PropType<[string, string]>,
+      required: false,
+    },
+    search: {
+      type: Boolean,
+      required: false,
+    },
+    width: {
+      type: String,
+      required: false,
+    },
+    height: {
+      type: String,
+      required: false,
+    },
+    collapseMaxHeight: {
+      type: String,
+      required: false,
+    },
     multiple: {
       type: Boolean,
       default: false,
     },
+    required: {
+      type: Boolean,
+      required: false,
+    },
+    prefixIcon: {
+      type: String,
+      required: false,
+    }
   },
   emits: ['update:modelValue'],
   template: `
