@@ -1,3 +1,4 @@
+import type { PropType } from 'vue'
 import { AvInteractivePropsStub } from '@/types/interfaces.stub'
 
 export const AvCheckboxListItemStub = defineComponent({
@@ -10,7 +11,7 @@ export const AvCheckboxListItemStub = defineComponent({
     icon: String,
     ariaLabel: String,
     ariaLabelledby: String,
-    modelValue: { type: Array, required: true },
+    modelValue: { type: Array as PropType<(string | number)[]>, required: true },
   },
   emits: ['update:modelValue'],
   template: `

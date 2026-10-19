@@ -1,18 +1,15 @@
 <script lang="ts" setup>
 import type AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
-import type {
-  AvSelectItem,
-  AvSelectOption,
-  AvSelectOptionGroup,
-} from '@/components/interaction/selects/AvSelect/AvSelect.types'
+import type { AvSelectItem, AvSelectOption, AvSelectSelectedOption } from '@/components/interaction/selects/AvSelect/AvSelect.types'
 import type { AvInteractiveProps } from '@/types/interfaces.types'
+import { buildSelectedOptionByValue, findOptionByValue, findParentId, isOptionGroup } from '@/components/interaction/selects/AvSelect/AvSelect.utils'
 import SelectCollapse from '@/components/interaction/selects/AvSelect/components/SelectCollapse.vue'
 import { ICONS_DATA_URL } from '@/tokens'
 
 export interface AvSelectProps extends AvInteractiveProps {
   /**
    * Unique id for the select. Used for accessibility.
-   * @default `select-${crypto.randomUUID()}`
+   * @default select-${crypto.randomUUID()}
    */
   id?: string
 
@@ -74,8 +71,9 @@ export interface AvSelectProps extends AvInteractiveProps {
 
   /**
    * Displayed text when options are selected in multiple mode.
+   * @default 'fichier(s) sélectionné(s)'
    */
-  selectedText: string
+  selectedText?: string
 
   /**
    * Displays the select all items button.
@@ -113,6 +111,12 @@ export interface AvSelectProps extends AvInteractiveProps {
    * @default false
    */
   multiple?: boolean
+
+  /**
+   * Whether the select is required.
+   * @default false
+   */
+  required?: boolean
 }
 
 const {
@@ -129,7 +133,7 @@ const {
   errorMessage = '',
   placeholder,
   dense,
-  selectedText,
+  selectedText = 'fichier(s) sélectionné(s)',
   selectAll = false,
   selectAllLabel = ['Tout sélectionner', 'Tout désélectionner'],
   search = false,
@@ -137,9 +141,12 @@ const {
   height,
   collapseMaxHeight,
   multiple = false,
+  required = false,
 } = defineProps<AvSelectProps>()
 
-const modelValue = defineModel<AvSelectOption[] | AvSelectOption | null>({ default: null })
+const modelValue = defineModel<
+  AvSelectSelectedOption[] | AvSelectSelectedOption | null
+>({ default: null })
 
 const realId = computed(() => id ?? `select-${crypto.randomUUID()}`)
 
@@ -149,14 +156,27 @@ const message = computed(() => errorMessage || successMessage)
 const messageType = computed(() => errorMessage ? 'error' : 'success')
 
 /**
- * Normalizes the public model to an array for internal use.
+ * Normalize the public model to an array for internal use.
  */
-const selectedOptions = computed<AvSelectOption[]>(() => {
-  if (Array.isArray(modelValue.value)) {
-    return modelValue.value
-  }
+const selectedOptions = computed<AvSelectSelectedOption[]>(() => {
+  const values = Array.isArray(modelValue.value)
+    ? modelValue.value
+    : modelValue.value
+      ? [modelValue.value]
+      : []
 
-  return modelValue.value ? [modelValue.value] : []
+  return values.map(option => ({
+    ...option,
+    ...findParentId(options, option.value),
+  }))
+})
+
+const selectedOptionsForCollapse = computed<AvSelectOption[]>(() => {
+  return selectedOptions.value.flatMap(({ value }) => {
+    const option = findOptionByValue(options, value)
+
+    return option ? [{ ...option, ...findParentId(options, option.value) }] : []
+  })
 })
 
 /**
@@ -166,13 +186,11 @@ const computedModelValue = computed({
   get: () => selectedOptions.value.map(option => option.value),
 
   set: (values: (string | number)[]) => {
-    const availableOptions = options.flatMap(option =>
-      isOptionGroup(option) ? option.children : [option],
-    )
+    const selected = values.flatMap((value) => {
+      const option = buildSelectedOptionByValue(options, value)
 
-    const selected = availableOptions.filter(option =>
-      values.includes(option.value),
-    )
+      return option ? [option] : []
+    })
 
     if (multiple) {
       modelValue.value = selected
@@ -193,7 +211,13 @@ const title = computed(() => {
     return selectedText
   }
 
-  return selectedOptions.value[0].label
+  const selected = selectedOptions.value[0]
+  const availableOptions = options.flatMap(option =>
+    isOptionGroup(option) ? option.children : [option],
+  )
+
+  return availableOptions.find(option => String(option.value) === String(selected.value))?.label
+    ?? placeholder
 })
 
 const isSelected = computed(() => selectedOptions.value.length > 0)
@@ -233,12 +257,6 @@ function clean () {
   document.removeEventListener('keydown', handleKeyDownEscape)
 }
 
-function isOptionGroup (
-  option: AvSelectItem,
-): option is AvSelectOptionGroup {
-  return 'children' in option && Array.isArray(option.children)
-}
-
 onUnmounted(clean)
 
 const finalLabelClass = computed(() => [
@@ -264,7 +282,7 @@ const styleVars = computed(() => ({
       <span class="b2-light">{{ label }}</span>
 
       <span
-        v-if="'required' in $attrs && $attrs.required !== false"
+        v-if="required"
         class="required"
       />
 
@@ -308,10 +326,10 @@ const styleVars = computed(() => ({
       :select-all-label="selectAllLabel"
       :search="search"
       :options="options"
-      :selected="modelValue"
+      :selected="selectedOptionsForCollapse"
       :max-height="collapseMaxHeight"
       :multiple="multiple"
-      :required="'required' in $attrs && $attrs.required !== false"
+      :required="required"
       @close="close"
     />
   </div>

@@ -1,5 +1,5 @@
 import type { StoryFn } from '@storybook/vue3'
-import type { AvSelectOption } from '@/components/interaction/selects/AvSelect/AvSelect.types'
+import type { AvSelectItem, AvSelectOption } from '@/components/interaction/selects/AvSelect/AvSelect.types'
 import type { AvSelectProps } from '@/components/interaction/selects/AvSelect/AvSelect.vue'
 import AvSelect from '@/components/interaction/selects/AvSelect/AvSelect.vue'
 import { MDI_ICONS } from '@/tokens'
@@ -28,7 +28,7 @@ const meta = {
     label: { control: 'text' },
     options: {
       type: {
-        name: 'AvSelectOption[] | AvSelectOptionGroup[]',
+        name: 'AvSelectItem[]',
         required: true,
       },
       control: false,
@@ -54,7 +54,7 @@ const meta = {
     required: false,
     disabled: false,
     multiple: false,
-    name: 'select',
+    name: 'av-select',
     hint: '',
     modelValue: null,
     label: '',
@@ -81,10 +81,15 @@ const Template: StoryFn<AvSelectStoryArgs> = args => ({
   setup () {
     return { args }
   },
-  template: `<AvSelect v-bind="args" v-model="args.modelValue" />`,
+  template: `
+    <div class="av-col av-gap-sm">
+      <AvSelect v-bind="args" v-model="args.modelValue" />
+      <pre>modelValue: {{ JSON.stringify(args.modelValue, null, 2) }}</pre>
+    </div>
+  `,
 })
 
-const optionsWithIcon = [
+const optionsWithIcon: AvSelectOption[] = [
   { value: '1', label: 'Choice 1', icon: MDI_ICONS.ATTACH_FILE },
   { value: '2', label: 'Choice 2', icon: MDI_ICONS.CHAT_ALERT },
   { value: '3', label: 'Choice 3', icon: MDI_ICONS.CONTENT_SAVE_OUTLINE },
@@ -92,8 +97,9 @@ const optionsWithIcon = [
   { value: '5', label: 'Choice 5', icon: MDI_ICONS.IMAGE_OUTLINE },
 ]
 
-const groupedOptions = [
+const groupedOptions: AvSelectItem[] = [
   {
+    id: 'group-1',
     label: 'Group 1',
     children: [
       { value: '1', label: 'Choice 1' },
@@ -102,6 +108,7 @@ const groupedOptions = [
   },
   { value: '3', label: 'Ungrouped choice' },
   {
+    id: 'group-2',
     label: 'Group 2',
     children: [
       { value: '4', label: 'Choice 4' },
@@ -110,7 +117,7 @@ const groupedOptions = [
   },
 ]
 
-const optionsForMaxHeight = [
+const optionsForMaxHeight: AvSelectOption[] = [
   { value: '1', label: 'Choice 1', icon: MDI_ICONS.ATTACH_FILE },
   { value: '2', label: 'Choice 2', icon: MDI_ICONS.CHAT_ALERT },
   { value: '3', label: 'Choice 3', icon: MDI_ICONS.CONTENT_SAVE_OUTLINE },
