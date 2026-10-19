@@ -117,6 +117,11 @@ export interface AvSelectProps extends AvInteractiveProps {
    * @default false
    */
   required?: boolean
+
+  /**
+   * Prefix icon for the select.
+   */
+  prefixIcon?: string
 }
 
 const {
@@ -142,6 +147,7 @@ const {
   collapseMaxHeight,
   multiple = false,
   required = false,
+  prefixIcon,
 } = defineProps<AvSelectProps>()
 
 const modelValue = defineModel<AvSelectModelValue>({ default: null })
@@ -299,6 +305,7 @@ const styleVars = computed(() => ({
       variant="OUTLINED"
       v-bind="$attrs"
       :label="title"
+      :icon="prefixIcon"
       class="av-select av-justify-between"
       :disabled="disabled"
       :disabled-tooltip="disabledTooltip"
@@ -379,24 +386,19 @@ const styleVars = computed(() => ({
       padding-bottom: .1rem !important;
     }
 
-    &:not([aria-disabled=true]):hover {
-      background-color: var(--dark-background-primary1);
-      color: var(--other-background-base);
-    }
-
     &--unselected {
       font-style: italic;
     }
   }
 }
 
-:deep(.av-button span) {
+:deep(.av-button:not([aria-disabled=true]) span) {
   @extend .av-ellipsis;
 
   color: var(--text2) !important;
 }
 
-:deep(.av-button):hover {
+:deep(.av-button:not([aria-disabled=true])):hover {
   span {
     color: unset !important;
   }
