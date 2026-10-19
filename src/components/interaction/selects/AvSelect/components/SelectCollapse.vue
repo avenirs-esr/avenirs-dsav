@@ -20,6 +20,7 @@ export interface SelectCollapseProps {
   noResultLabel?: string
   maxHeight?: string
   multiple?: boolean
+  required?: boolean
 }
 
 const props = withDefaults(defineProps<SelectCollapseProps>(), {
@@ -29,6 +30,7 @@ const props = withDefaults(defineProps<SelectCollapseProps>(), {
   selectAllLabel: () => ['Tout sélectionner', 'Tout désélectionner'],
   noResultLabel: 'Pas de résultat',
   multiple: false,
+  required: false,
 })
 
 const emit = defineEmits<{
@@ -125,6 +127,10 @@ function handleOptionUpdate (
 
   if (props.multiple) {
     model.value = values
+    return
+  }
+
+  if (props.required && values.length === 0) {
     return
   }
 
