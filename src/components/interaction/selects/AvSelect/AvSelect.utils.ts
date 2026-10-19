@@ -1,4 +1,4 @@
-import type { AvSelectItem, AvSelectOption, AvSelectOptionGroup, AvSelectSelectedOption } from '@/components/interaction/selects/AvSelect/AvSelect.types'
+import type { AvSelectItem, AvSelectModelValue, AvSelectOption, AvSelectOptionGroup, AvSelectSelectedOption } from '@/components/interaction/selects/AvSelect/AvSelect.types'
 
 /**
  * Check if the given option is a group.
@@ -71,4 +71,26 @@ export function buildSelectedOptionByValue (
       return option
     }
   }
+}
+
+/**
+ * Get the selected options from the given value, handling both single and array values.
+ * @param value The value representing the selected option(s).
+ * @returns An array of selected options if available, or null if no selection is available.
+ */
+export function getAvSelectSelectedOptions (value: AvSelectModelValue): AvSelectSelectedOption[] | null {
+  if (Array.isArray(value)) {
+    return value.length > 0 ? value : null
+  }
+
+  return value ? [value] : null
+}
+
+/**
+ * Get the selected option from the given value, handling both single and array values.
+ * @param value The value representing the selected option(s).
+ * @returns The first selected option if the value is an array, the value itself if it's a single option, or null if no selection is available.
+ */
+export function getAvSelectSelectedOption (value: AvSelectModelValue): AvSelectSelectedOption | null {
+  return getAvSelectSelectedOptions(value)?.[0] ?? null
 }

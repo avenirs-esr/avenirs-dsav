@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
-import type { AvSelectItem, AvSelectOption, AvSelectSelectedOption } from '@/components/interaction/selects/AvSelect/AvSelect.types'
+import type { AvSelectItem, AvSelectModelValue, AvSelectOption, AvSelectSelectedOption } from '@/components/interaction/selects/AvSelect/AvSelect.types'
 import type { AvInteractiveProps } from '@/types/interfaces.types'
 import { buildSelectedOptionByValue, findOptionByValue, findParentId, isOptionGroup } from '@/components/interaction/selects/AvSelect/AvSelect.utils'
 import SelectCollapse from '@/components/interaction/selects/AvSelect/components/SelectCollapse.vue'
@@ -144,9 +144,7 @@ const {
   required = false,
 } = defineProps<AvSelectProps>()
 
-const modelValue = defineModel<
-  AvSelectSelectedOption[] | AvSelectSelectedOption | null
->({ default: null })
+const modelValue = defineModel<AvSelectModelValue>({ default: null })
 
 const realId = computed(() => id ?? `select-${crypto.randomUUID()}`)
 
@@ -406,5 +404,17 @@ const styleVars = computed(() => ({
 
 .b2-bold {
   color: var(--dark-background-primary1);
+}
+
+.invisible {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 </style>
