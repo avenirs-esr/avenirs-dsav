@@ -21,8 +21,13 @@ export interface AvSelectOption extends AvInteractiveProps {
 }
 
 export interface AvSelectOptionGroup {
+  id: string
   label: string
   children: AvSelectOption[]
+}
+
+export interface AvSelectSelectedOption extends AvSelectOption {
+  parentId?: string
 }
 
 export type AvSelectItem = AvSelectOption | AvSelectOptionGroup

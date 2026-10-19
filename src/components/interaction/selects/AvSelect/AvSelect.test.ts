@@ -1,22 +1,48 @@
 import type { VueWrapper } from '@vue/test-utils'
-import type { AvSelectOption } from '@/components/interaction/selects/AvSelect/AvSelect.types'
+import type {
+  AvSelectItem,
+  AvSelectOption,
+  AvSelectSelectedOption,
+} from '@/components/interaction/selects/AvSelect/AvSelect.types'
 import type { AvSelectProps } from '@/components/interaction/selects/AvSelect/AvSelect.vue'
 import { mount } from '@vue/test-utils'
 import { afterAll, beforeAll, beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 import { AvCheckboxStub } from '@/components/interaction/checkboxes/AvCheckbox/AvCheckbox.stub'
 import AvSelect from '@/components/interaction/selects/AvSelect/AvSelect.vue'
+import { SelectCollapseStub } from '@/components/interaction/selects/AvSelect/components/SelectCollapse.stub'
 import { AvButtonStub, AvMessageStub } from '@/tests'
 import { BddTest } from '@/tests/utils'
 
-const defaultOptions = [
+const defaultOptions: AvSelectOption[] = [
   { label: 'Option 1', value: '1' },
   { label: 'Option 2', value: '2' },
   { label: 'Option 3', value: '3' },
 ]
 
-const defaultProps = {
-  modelValue: null as AvSelectOption | null,
+const groupedOptions: AvSelectItem[] = [
+  {
+    id: 'group-1',
+    label: 'Groupe 1',
+    children: [
+      { label: 'Option 1', value: '1' },
+      { label: 'Option 2', value: '2' },
+    ],
+  },
+  {
+    id: 'group-2',
+    label: 'Groupe 2',
+    children: [
+      { label: 'Option 3', value: '3' },
+    ],
+  },
+  { label: 'Option indépendante', value: '4' },
+]
+
+const defaultProps: AvSelectProps & {
+  modelValue: AvSelectSelectedOption[] | AvSelectSelectedOption | null
+} = {
+  modelValue: null,
   id: 'test-select',
   label: 'Choisissez une option',
   placeholder: 'Sélectionnez une option',
@@ -46,18 +72,19 @@ afterAll(() => {
 
 function mountWithProps (
   props: Partial<AvSelectProps & {
-    modelValue: AvSelectOption | AvSelectOption[] | null
+    modelValue: AvSelectSelectedOption[] | AvSelectSelectedOption | null
   }> = {},
   attrs: Record<string, unknown> = {},
-) {
+): VueWrapper<InstanceType<typeof AvSelect>> {
   return mount(AvSelect, {
     props: { ...defaultProps, ...props },
-    attrs: { ...attrs },
+    attrs,
     global: {
       stubs: {
         AvButton: AvButtonStub,
         AvCheckbox: AvCheckboxStub,
         AvMessage: AvMessageStub,
+        SelectCollapse: SelectCollapseStub,
         transition: false,
       },
     },
@@ -67,37 +94,80 @@ function mountWithProps (
 BddTest().given('an AvSelect component', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvSelect>>
   let updateModelValue = vi.fn()
+
   const removeSpy = vi.spyOn(document, 'removeEventListener')
+  const getButton = () => wrapper.find('button.av-select')
+  const getCollapse = () => wrapper.find('[data-testid="av-select__collapse"]')
+  const getCollapseComponent = () => wrapper.findComponent(SelectCollapseStub)
+
+  const selectValues = async (values: (string | number)[]) => {
+    getCollapseComponent().vm.$emit('update:modelValue', values)
+    await nextTick()
+  }
 
   BddTest().and('given default props', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       updateModelValue = vi.fn()
-      wrapper = mountWithProps({}, { 'onUpdate:modelValue': updateModelValue })
+
+      wrapper = mountWithProps({}, {
+        'onUpdate:modelValue': updateModelValue,
+      })
     })
 
     BddTest().when('the component is mounted', () => {
-      BddTest().then('it should display the unselected state and placeholder text', () => {
-        const button = wrapper.find('button.av-select')
-
-        expect(button.exists()).toBe(true)
-        expect(button.text()).toContain('Sélectionnez une option')
-        expect(button.classes()).toContain('av-select--unselected')
+      BddTest().then('it should display the placeholder and unselected state', () => {
+        expect(getButton().exists()).toBe(true)
+        expect(getButton().text()).toContain('Sélectionnez une option')
+        expect(getButton().classes()).toContain('av-select--unselected')
       })
 
       BddTest().then('it should render the button in large size', () => {
         expect(wrapper.findComponent(AvButtonStub).props('size')).toBe('LG')
       })
 
-      BddTest().and('Escape key is pressed', () => {
+      BddTest().and('the Escape key is pressed after opening the select', () => {
         beforeEach(async () => {
-          await wrapper.find('button.av-select').trigger('click')
+          await getButton().trigger('click')
           document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
           await nextTick()
         })
 
         BddTest().then('it should close the collapse', () => {
-          expect(wrapper.find('[data-testid="av-select__collapse"]').exists()).toBe(false)
+          expect(getCollapse().exists()).toBe(false)
+        })
+      })
+    })
+
+    BddTest().when('the user opens the select', () => {
+      beforeEach(async () => {
+        await getButton().trigger('click')
+        await nextTick()
+      })
+
+      BddTest().then('the collapse should be visible', () => {
+        expect(getCollapse().exists()).toBe(true)
+        expect(getCollapse().isVisible()).toBe(true)
+      })
+
+      BddTest().and('the user selects an option', () => {
+        beforeEach(async () => {
+          await selectValues(['1'])
+        })
+
+        BddTest().then('it should emit the selected option object', async () => {
+          await vi.waitFor(() => {
+            expect(updateModelValue).toHaveBeenCalledWith({
+              label: 'Option 1',
+              value: '1',
+            })
+          })
+        })
+
+        BddTest().then('it should close the collapse in single-selection mode', async () => {
+          await vi.waitFor(() => {
+            expect(getCollapse().exists()).toBe(false)
+          })
         })
       })
     })
@@ -107,48 +177,8 @@ BddTest().given('an AvSelect component', () => {
         wrapper.unmount()
       })
 
-      BddTest().then('it should remove the event listeners', () => {
+      BddTest().then('it should remove the keydown event listener', () => {
         expect(removeSpy).toHaveBeenCalledWith('keydown', expect.any(Function))
-      })
-    })
-
-    BddTest().when('the user opens the select', () => {
-      beforeEach(async () => {
-        await wrapper.find('button.av-select').trigger('click')
-        await nextTick()
-      })
-
-      BddTest().then('the collapse should be visible', () => {
-        const collapse = wrapper.find('[data-testid="av-select__collapse"]')
-
-        expect(collapse.exists()).toBe(true)
-        expect(collapse.isVisible()).toBe(true)
-      })
-
-      BddTest().and('the user selects an option', () => {
-        beforeEach(async () => {
-          const checkbox = wrapper.findComponent(AvCheckboxStub)
-
-          expect(checkbox.exists()).toBe(true)
-
-          checkbox.vm.$emit('update:modelValue', ['1'])
-          await nextTick()
-        })
-
-        BddTest().then('it should emit the selected option', async () => {
-          await vi.waitFor(() => {
-            expect(updateModelValue).toHaveBeenCalledWith({
-              label: 'Option 1',
-              value: '1',
-            })
-          })
-        })
-
-        BddTest().then('it should close the collapse', async () => {
-          await vi.waitFor(() => {
-            expect(wrapper.find('[data-testid="av-select__collapse"]').exists()).toBe(false)
-          })
-        })
       })
     })
   })
@@ -160,11 +190,15 @@ BddTest().given('an AvSelect component', () => {
       })
     })
 
-    BddTest().then('it should render in selected state with the option label', () => {
-      const button = wrapper.find('button.av-select')
+    BddTest().then('it should render the selected option label', () => {
+      expect(getButton().classes()).toContain('av-select--selected')
+      expect(getButton().text()).toContain('Option 2')
+    })
 
-      expect(button.classes()).toContain('av-select--selected')
-      expect(button.text()).toContain('Option 2')
+    BddTest().then('it should pass the selected option to the collapse', () => {
+      expect(getCollapseComponent().props('selected')).toEqual([
+        { label: 'Option 2', value: '2' },
+      ])
     })
   })
 
@@ -174,7 +208,7 @@ BddTest().given('an AvSelect component', () => {
     })
 
     BddTest().then('it should render the placeholder', () => {
-      expect(wrapper.find('button.av-select').text()).toContain(defaultProps.placeholder)
+      expect(getButton().text()).toContain(defaultProps.placeholder)
     })
   })
 
@@ -183,27 +217,185 @@ BddTest().given('an AvSelect component', () => {
       updateModelValue = vi.fn()
 
       wrapper = mountWithProps(
-        {
-          modelValue: { label: 'Option 1', value: '1' },
-        },
+        { modelValue: { label: 'Option 1', value: '1' } },
         { 'onUpdate:modelValue': updateModelValue },
       )
 
-      await wrapper.find('button.av-select').trigger('click')
-      await nextTick()
-
-      const checkbox = wrapper.findComponent(AvCheckboxStub)
-
-      expect(checkbox.exists()).toBe(true)
-
-      checkbox.vm.$emit('update:modelValue', [])
-      await nextTick()
+      await selectValues([])
     })
 
     BddTest().then('it should emit null', async () => {
       await vi.waitFor(() => {
         expect(updateModelValue).toHaveBeenCalledWith(null)
       })
+    })
+  })
+
+  BddTest().and('given grouped options', () => {
+    BddTest().when('the user selects a child option', () => {
+      beforeEach(async () => {
+        updateModelValue = vi.fn()
+
+        wrapper = mountWithProps(
+          { options: groupedOptions },
+          { 'onUpdate:modelValue': updateModelValue },
+        )
+
+        await selectValues(['1'])
+      })
+
+      BddTest().then('it should emit the selected child with its parentId', async () => {
+        await vi.waitFor(() => {
+          expect(updateModelValue).toHaveBeenCalledWith({
+            label: 'Option 1',
+            value: '1',
+            parentId: 'group-1',
+          })
+        })
+      })
+
+      BddTest().then('it should close the collapse in single-selection mode', async () => {
+        await vi.waitFor(() => {
+          expect(getCollapse().exists()).toBe(false)
+        })
+      })
+    })
+
+    BddTest().when('a grouped child is already selected', () => {
+      beforeEach(() => {
+        wrapper = mountWithProps({
+          options: groupedOptions,
+          modelValue: {
+            label: 'Option 2',
+            value: '2',
+            parentId: 'group-1',
+          },
+        })
+      })
+
+      BddTest().then('it should display the selected child label', () => {
+        expect(getButton().classes()).toContain('av-select--selected')
+        expect(getButton().text()).toContain('Option 2')
+      })
+
+      BddTest().then('it should pass the parentId to the collapse', () => {
+        expect(getCollapseComponent().props('selected')).toEqual([
+          {
+            label: 'Option 2',
+            value: '2',
+            parentId: 'group-1',
+          },
+        ])
+      })
+    })
+
+    BddTest().when('a preselected grouped child has no parentId', () => {
+      beforeEach(() => {
+        wrapper = mountWithProps({
+          options: groupedOptions,
+          modelValue: {
+            label: 'Option 2',
+            value: '2',
+          },
+        })
+      })
+
+      BddTest().then('it should resolve the parentId from the available options', () => {
+        expect(getCollapseComponent().props('selected')).toEqual([
+          {
+            label: 'Option 2',
+            value: '2',
+            parentId: 'group-1',
+          },
+        ])
+      })
+    })
+
+    BddTest().when('the user selects multiple children from different groups', async () => {
+      beforeEach(async () => {
+        wrapper = mountWithProps({
+          options: groupedOptions,
+          multiple: true,
+        })
+
+        await selectValues(['1', '3'])
+      })
+
+      BddTest().then('it should display the selected text', () => {
+        expect(getButton().text()).toContain('Options sélectionnées')
+      })
+
+      BddTest().then('it should emit the selected options with their parent IDs', () => {
+        expect(wrapper.emitted('update:modelValue')?.at(-1)?.[0]).toEqual([
+          { label: 'Option 1', value: '1', parentId: 'group-1' },
+          { label: 'Option 3', value: '3', parentId: 'group-2' },
+        ])
+      })
+    })
+
+    BddTest().when('the user selects an ungrouped option', () => {
+      beforeEach(async () => {
+        updateModelValue = vi.fn()
+
+        wrapper = mountWithProps(
+          { options: groupedOptions },
+          { 'onUpdate:modelValue': updateModelValue },
+        )
+
+        await selectValues(['4'])
+      })
+
+      BddTest().then('it should emit the option without a parentId', async () => {
+        await vi.waitFor(() => {
+          expect(updateModelValue).toHaveBeenCalledWith({
+            label: 'Option indépendante',
+            value: '4',
+          })
+        })
+      })
+    })
+
+    BddTest().when('multiple grouped options are preselected', () => {
+      beforeEach(() => {
+        wrapper = mountWithProps({
+          options: groupedOptions,
+          multiple: true,
+          modelValue: [
+            { label: 'Option 1', value: '1', parentId: 'group-1' },
+            { label: 'Option 3', value: '3', parentId: 'group-2' },
+          ],
+        })
+      })
+
+      BddTest().then('it should pass every parentId to the collapse', () => {
+        expect(getCollapseComponent().props('selected')).toEqual([
+          { label: 'Option 1', value: '1', parentId: 'group-1' },
+          { label: 'Option 3', value: '3', parentId: 'group-2' },
+        ])
+      })
+    })
+  })
+
+  BddTest().and('given multiple selected values', () => {
+    beforeEach(() => {
+      wrapper = mountWithProps({
+        multiple: true,
+        modelValue: [
+          { label: 'Option 1', value: '1' },
+          { label: 'Option 2', value: '2' },
+        ],
+      })
+    })
+
+    BddTest().then('it should display the selected text', () => {
+      expect(getButton().text()).toContain('Options sélectionnées')
+    })
+
+    BddTest().then('it should pass all selected options to the collapse', () => {
+      expect(getCollapseComponent().props('selected')).toEqual([
+        { label: 'Option 1', value: '1' },
+        { label: 'Option 2', value: '2' },
+      ])
     })
   })
 
@@ -215,26 +407,24 @@ BddTest().given('an AvSelect component', () => {
       })
     })
 
-    BddTest().when('the select is mounted', () => {
-      BddTest().then('it should forward the message to the trigger button', () => {
-        const button = wrapper.findComponent(AvButtonStub)
-
-        expect(button.props('disabledTooltip')).toBe('Select unavailable')
-      })
+    BddTest().then('it should forward the message to the trigger button', () => {
+      expect(
+        wrapper.findComponent(AvButtonStub).props('disabledTooltip'),
+      ).toBe('Select unavailable')
     })
   })
 
-  BddTest().and('given required attr', () => {
+  BddTest().and('given the required prop', () => {
     beforeEach(() => {
       wrapper = mountWithProps({}, { required: true })
     })
 
-    BddTest().then('it should render the required class', () => {
+    BddTest().then('it should render the required indicator', () => {
       expect(wrapper.find('.required').exists()).toBe(true)
     })
   })
 
-  BddTest().and('given hint', () => {
+  BddTest().and('given a hint', () => {
     beforeEach(() => {
       wrapper = mountWithProps({ hint: 'This is the hint' })
     })
@@ -247,7 +437,7 @@ BddTest().given('an AvSelect component', () => {
     })
   })
 
-  BddTest().and('given dense prop', () => {
+  BddTest().and('given dense mode', () => {
     beforeEach(() => {
       wrapper = mountWithProps({ dense: true })
     })
@@ -257,7 +447,7 @@ BddTest().given('an AvSelect component', () => {
     })
   })
 
-  BddTest().and('given error message', () => {
+  BddTest().and('given an error message', () => {
     beforeEach(() => {
       wrapper = mountWithProps({ errorMessage: 'Erreur test' })
     })
@@ -267,13 +457,13 @@ BddTest().given('an AvSelect component', () => {
 
       expect(errorText.exists()).toBe(true)
       expect(errorText.text()).toBe('Erreur test')
-
-      const group = wrapper.find('.av-select-group')
-      expect(group.classes()).toContain('av-select-group--error')
+      expect(wrapper.find('.av-select-group').classes()).toContain(
+        'av-select-group--error',
+      )
     })
   })
 
-  BddTest().and('given success message', () => {
+  BddTest().and('given a success message', () => {
     beforeEach(() => {
       wrapper = mountWithProps({ successMessage: 'C’est bon !' })
     })

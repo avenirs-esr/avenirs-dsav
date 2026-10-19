@@ -4,13 +4,14 @@ import type {
   AvSelectItem,
   AvSelectOption,
   AvSelectOptionGroup,
+  AvSelectSelectedOption,
 } from '@/components/interaction/selects/AvSelect/AvSelect.types'
 import { nextTick } from 'vue'
 import { MDI_ICONS } from '@/tokens/icons'
 
 export interface SelectCollapseProps {
   isVisible: boolean
-  selected: AvSelectOption[] | AvSelectOption | null
+  selected: AvSelectSelectedOption[] | AvSelectSelectedOption | null
   options: AvSelectItem[]
   hint?: string
   id: string
@@ -50,7 +51,7 @@ function isOptionGroup (
 /**
  * Normalize the public selection to an array.
  */
-const selectedOptions = computed<AvSelectOption[]>(() => {
+const selectedOptions = computed<AvSelectSelectedOption[]>(() => {
   if (Array.isArray(props.selected)) {
     return props.selected
   }
@@ -78,8 +79,8 @@ function handleClickOutside (event: MouseEvent) {
   }
 
   const element = event.target as HTMLElement
-  const hostEl = host.value && (host.value as any).$el
-    ? (host.value as any).$el
+  const hostEl = host.value && host.value.$el
+    ? host.value.$el
     : null
 
   if (hostEl?.contains(element)) {
@@ -346,6 +347,7 @@ onUnmounted(clean)
           v-else
           :id="option.value.toString()"
           :key="generateId(option, id)"
+          class="ungroup-option"
           :model-value="model"
           list-id="select-collapse-options-list"
           :aria-label="option.label"
@@ -384,5 +386,11 @@ onUnmounted(clean)
   overflow-y: auto;
   overflow-x: hidden;
   border: none;
+}
+
+.ungroup-option {
+  :deep(.av-fieldset__element) {
+    padding-left: 0 !important;
+  }
 }
 </style>
