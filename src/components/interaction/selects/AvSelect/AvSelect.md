@@ -270,3 +270,71 @@ const options = [
   />
 </template>
 ```
+
+### Selection utilities
+
+The library provides utility functions to normalize the value emitted by `AvSelect`. They are useful when handling the component's model value, which can represent a single selection, multiple selections, or no selection.
+
+#### `getAvSelectSelectedOptions`
+
+Returns the selected options as an array, regardless of whether the input contains a single option or an array of options. Returns `null` when no selection is available.
+
+```ts
+import type { AvSelectModelValue } from '@avenirs-esr/avenirs-dsav'
+import { getAvSelectSelectedOptions } from '@avenirs-esr/avenirs-dsav'
+
+const selectedValue: AvSelectModelValue = {
+  value: 'choice-1',
+  label: 'Choice 1',
+}
+
+const selectedOptions = getAvSelectSelectedOptions(selectedValue)
+// [{ value: 'choice-1', label: 'Choice 1' }]
+```
+
+This is particularly useful when the calling code always needs to iterate over the selected options:
+
+```ts
+const selectedOptions = getAvSelectSelectedOptions(modelValue)
+
+if (selectedOptions) {
+  selectedOptions.forEach((option) => {
+    console.log(option.value)
+  })
+}
+```
+
+#### `getAvSelectSelectedOption`
+
+Returns the selected option when the input contains a single option, or the first selected option when it contains an array. Returns `null` when no selection is available.
+
+```ts
+import type { AvSelectModelValue } from '@avenirs-esr/avenirs-dsav'
+import { getAvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
+
+const selectedValue: AvSelectModelValue = [
+  { value: 'choice-1', label: 'Choice 1' },
+  { value: 'choice-2', label: 'Choice 2' },
+]
+
+const selectedOption = getAvSelectSelectedOption(selectedValue)
+// { value: 'choice-1', label: 'Choice 1' }
+```
+
+This is useful when the calling code only needs one option, for example to retrieve its value:
+
+```ts
+const selectedOption = getAvSelectSelectedOption(modelValue)
+
+if (selectedOption) {
+  console.log(selectedOption.value)
+}
+```
+
+Both utilities accept `AvSelectModelValue`, which represents the possible values emitted by `AvSelect`:
+
+```ts
+type AvSelectModelValue = AvSelectSelectedOption | AvSelectSelectedOption[] | null
+```
+
+Use `getAvSelectSelectedOptions` when working with a collection of selected options, and `getAvSelectSelectedOption` when only one option is needed.

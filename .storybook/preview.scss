@@ -82,6 +82,11 @@ input[type="checkbox"] {
   height: var(--dimension-md) !important;
 }
 
+input[type="checkbox"]:not(.docs-story input[type="checkbox"]) {
+  clip: unset !important;
+  clip-path: unset !important;
+}
+
 input[type="checkbox"] + span, input[type="checkbox"] + span + span {
   display: none !important;
 }

@@ -31,3 +31,5 @@ export interface AvSelectSelectedOption extends AvSelectOption {
 }
 
 export type AvSelectItem = AvSelectOption | AvSelectOptionGroup
+
+export type AvSelectModelValue = AvSelectSelectedOption | AvSelectSelectedOption[] | null
