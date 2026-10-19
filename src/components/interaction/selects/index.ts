@@ -4,5 +4,6 @@ export type {
   AvSelectItem,
   AvSelectOption,
   AvSelectOptionGroup,
+  AvSelectSelectedOption,
 } from './AvSelect/AvSelect.types'
 export { default as AvSelect, type AvSelectProps } from './AvSelect/AvSelect.vue'
