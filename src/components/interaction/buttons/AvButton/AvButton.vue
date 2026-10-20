@@ -6,6 +6,7 @@ import type { AvInteractiveProps } from '@/types/interfaces.types'
 import type { Size } from '@/types/size.types'
 import type { Theme } from '@/types/theme.types'
 import { useAttrs } from 'vue'
+import { useTextTruncation } from '@/composables/use-text-truncation/use-text-truncation'
 import { MDI_ICONS } from '@/tokens'
 import { toSentenceCase } from '@/utils'
 
@@ -129,6 +130,9 @@ function focus () {
 }
 defineExpose({ focus })
 
+const labelRef = ref<HTMLElement | null>(null)
+const { isTruncated } = useTextTruncation(labelRef)
+
 const loadingIcon: InstanceType<typeof AvIcon>['$props'] = { name: MDI_ICONS.LOADING, animation: 'spin' }
 
 const buttonDisabled = computed(() => disabled || isLoading)
@@ -216,7 +220,7 @@ const labelClass = computed(() => {
   }[size]
 })
 
-const showDisabledTooltip = computed(() => disabled && !!disabledTooltip?.trim())
+const showDisabledTooltip = computed(() => (disabled && !!disabledTooltip?.trim()) || isTruncated.value)
 const tooltipContent = computed(() => showDisabledTooltip.value ? disabledTooltip ?? labelToRender.value : labelToRender.value)
 const tooltipDisabled = computed(() => showDisabledTooltip.value ? false : !iconOnly || buttonDisabled.value)
 
@@ -274,6 +278,7 @@ const linkProps = computed(() => {
       />
       <span
         v-if="!iconOnly"
+        ref="labelRef"
         :class="labelClass"
       >
         {{ labelToRender }}
