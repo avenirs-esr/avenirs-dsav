@@ -161,6 +161,7 @@ const messageType = computed(() => errorMessage ? 'error' : 'success')
 
 /**
  * Normalize the public model to an array for internal use.
+ * Add my super comment
  */
 const selectedOptions = computed<AvSelectSelectedOption[]>(() => {
   const values = Array.isArray(modelValue.value)
