@@ -70,5 +70,7 @@ h1, h2, h3, h4, h5, h6 {
   overflow: visible !important;
   -webkit-line-clamp: unset !important;
   line-clamp: unset !important;
+  -webkit-box-orient: initial !important;
   max-height: none !important;
+  height: auto !important;
 }
