@@ -303,6 +303,7 @@ const styleVars = computed(() => ({
       ref="host"
       type="button"
       variant="OUTLINED"
+      data-testid="av-select"
       v-bind="$attrs"
       :label="title"
       :icon="prefixIcon"
