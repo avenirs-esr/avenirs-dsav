@@ -8,6 +8,18 @@ import { AvIconStub, AvTooltipStub } from '@/tests'
 import { BddTest } from '@/tests/utils'
 import { MDI_ICONS } from '@/tokens'
 
+const mockIsTruncated = ref(false)
+
+vi.mock('@/composables/use-text-truncation/use-text-truncation', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/composables/use-text-truncation/use-text-truncation')>()
+  return {
+    ...actual,
+    useTextTruncation: () => ({
+      isTruncated: mockIsTruncated,
+    }),
+  }
+})
+
 BddTest().given('an AvButton', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvButton>>
 
@@ -19,6 +31,8 @@ BddTest().given('an AvButton', () => {
 
   BddTest().and('default props', () => {
     beforeEach(() => {
+      vi.clearAllMocks()
+
       wrapper = mount(AvButton, {
         props: { label: 'test' },
         global: { stubs },

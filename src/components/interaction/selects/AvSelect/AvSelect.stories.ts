@@ -89,6 +89,25 @@ const Template: StoryFn<AvSelectStoryArgs> = args => ({
   `,
 })
 
+const TemplateWithModelValueAsSelectedText: StoryFn<AvSelectStoryArgs> = args => ({
+  components: { AvSelect },
+  setup () {
+    return { args }
+  },
+  template: `
+    <div class="av-col av-gap-sm">
+      <AvSelect
+        v-bind="args"
+        v-model="args.modelValue"  
+        :selected-text="Array.isArray(args.modelValue)
+          ? args.modelValue.map(option => option.label).join(', ')
+          : args.modelValue?.label ?? ''"
+      />
+      <pre>modelValue: {{ JSON.stringify(args.modelValue, null, 2) }}</pre>
+    </div>
+  `,
+})
+
 const optionsWithIcon: AvSelectOption[] = [
   { value: '1', label: 'Choice 1', icon: MDI_ICONS.ATTACH_FILE },
   { value: '2', label: 'Choice 2', icon: MDI_ICONS.CHAT_ALERT },
@@ -129,8 +148,6 @@ const optionsForMaxHeight: AvSelectOption[] = [
   { value: '9', label: 'Choice 9', icon: MDI_ICONS.ELECTRON_FRAMEWORK },
   { value: '10', label: 'Choice 10', icon: MDI_ICONS.IMAGE_OUTLINE },
 ]
-
-/* Default */
 
 export const Default = Template.bind({})
 Default.args = {
@@ -227,6 +244,24 @@ CollapseMaxHeightMultiple.args = {
   options: optionsForMaxHeight,
   label: 'Collapse max height - multiple',
   collapseMaxHeight: '150px',
+  multiple: true,
+  modelValue: [],
+}
+
+export const ConstrainedWidth = TemplateWithModelValueAsSelectedText.bind({})
+ConstrainedWidth.args = {
+  options: optionsForMaxHeight,
+  label: 'Constrained width',
+  width: '200px',
+  multiple: false,
+  modelValue: null,
+}
+
+export const ConstrainedWidthMultiple = TemplateWithModelValueAsSelectedText.bind({})
+ConstrainedWidthMultiple.args = {
+  options: optionsForMaxHeight,
+  label: 'Constrained width - multiple',
+  width: '200px',
   multiple: true,
   modelValue: [],
 }

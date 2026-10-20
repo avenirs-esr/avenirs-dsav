@@ -15,6 +15,8 @@ const stories = [
   'GroupedOptionsWithSelectedValuesMultiple',
   'CollapseMaxHeight',
   'CollapseMaxHeightMultiple',
+  'ConstrainedWidth',
+  'ConstrainedWidthMultiple',
 ]
 
 testStories(component, title, stories)
