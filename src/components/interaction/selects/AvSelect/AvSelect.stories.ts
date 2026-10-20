@@ -63,7 +63,6 @@ const meta = {
     dense: false,
     selectAll: false,
     search: false,
-    selectedText: 'Selected option(s)',
   },
   parameters: {
     docs: {
@@ -84,25 +83,6 @@ const Template: StoryFn<AvSelectStoryArgs> = args => ({
   template: `
     <div class="av-col av-gap-sm">
       <AvSelect v-bind="args" v-model="args.modelValue" />
-      <pre>modelValue: {{ JSON.stringify(args.modelValue, null, 2) }}</pre>
-    </div>
-  `,
-})
-
-const TemplateWithModelValueAsSelectedText: StoryFn<AvSelectStoryArgs> = args => ({
-  components: { AvSelect },
-  setup () {
-    return { args }
-  },
-  template: `
-    <div class="av-col av-gap-sm">
-      <AvSelect
-        v-bind="args"
-        v-model="args.modelValue"  
-        :selected-text="Array.isArray(args.modelValue)
-          ? args.modelValue.map(option => option.label).join(', ')
-          : args.modelValue?.label ?? ''"
-      />
       <pre>modelValue: {{ JSON.stringify(args.modelValue, null, 2) }}</pre>
     </div>
   `,
@@ -248,7 +228,7 @@ CollapseMaxHeightMultiple.args = {
   modelValue: [],
 }
 
-export const ConstrainedWidth = TemplateWithModelValueAsSelectedText.bind({})
+export const ConstrainedWidth = Template.bind({})
 ConstrainedWidth.args = {
   options: optionsForMaxHeight,
   label: 'Constrained width',
@@ -257,7 +237,7 @@ ConstrainedWidth.args = {
   modelValue: null,
 }
 
-export const ConstrainedWidthMultiple = TemplateWithModelValueAsSelectedText.bind({})
+export const ConstrainedWidthMultiple = Template.bind({})
 ConstrainedWidthMultiple.args = {
   options: optionsForMaxHeight,
   label: 'Constrained width - multiple',
