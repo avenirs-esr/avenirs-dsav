@@ -18,9 +18,15 @@ export function useTextTruncation (elementRef: Ref<HTMLElement | undefined | nul
   const isTruncated = ref(false)
   let resizeObserver: ResizeObserver | undefined
   let mutationObserver: MutationObserver | undefined
+  let observedElement: HTMLElement | null = null
+  let observedParent: HTMLElement | null = null
 
   const checkTruncation = async () => {
     await nextTick()
+
+    await new Promise<void>((resolve) => {
+      requestAnimationFrame(() => resolve())
+    })
 
     const element = elementRef.value
     const parent = element?.parentElement
@@ -33,7 +39,7 @@ export function useTextTruncation (elementRef: Ref<HTMLElement | undefined | nul
     const parentClone = parent.cloneNode(true) as HTMLElement
 
     const elementIndex = Array.from(parent.children).indexOf(element)
-    const clone = parentClone.children[elementIndex] as HTMLElement
+    const clone = parentClone.children[elementIndex] as HTMLElement | undefined
 
     if (!clone) {
       isTruncated.value = false
@@ -41,6 +47,16 @@ export function useTextTruncation (elementRef: Ref<HTMLElement | undefined | nul
     }
 
     clone.classList.add(MEASURE_CLASS)
+
+    const naturalWidth = element.getBoundingClientRect().width
+
+    Object.assign(clone.style, {
+      display: 'block',
+      width: `${naturalWidth}px`,
+      height: 'auto',
+      maxHeight: 'none',
+      overflow: 'visible',
+    })
 
     Object.assign(parentClone.style, {
       position: 'absolute',
@@ -53,44 +69,68 @@ export function useTextTruncation (elementRef: Ref<HTMLElement | undefined | nul
 
     document.body.appendChild(parentClone)
 
-    const naturalHeight = clone.getBoundingClientRect().height
-    const displayedHeight = element.getBoundingClientRect().height
+    try {
+      const naturalHeight = clone.getBoundingClientRect().height
+      const displayedHeight = element.getBoundingClientRect().height
 
-    isTruncated.value = naturalHeight > displayedHeight + HEIGHT_TOLERANCE
+      const isHorizontallyTruncated = element.scrollWidth > element.clientWidth
+      const isVerticallyTruncated = naturalHeight > displayedHeight + HEIGHT_TOLERANCE
 
-    parentClone.remove()
+      isTruncated.value = isHorizontallyTruncated || isVerticallyTruncated
+    }
+    finally {
+      parentClone.remove()
+    }
   }
 
-  onMounted(() => {
-    const element = elementRef.value
-    const parent = element?.parentElement
+  const observeElement = () => {
+    resizeObserver?.disconnect()
+    mutationObserver?.disconnect()
 
-    if (!element) {
+    observedElement = elementRef.value ?? null
+    observedParent = observedElement?.parentElement ?? null
+
+    if (!observedElement) {
+      isTruncated.value = false
       return
     }
 
     resizeObserver = new ResizeObserver(checkTruncation)
-    resizeObserver.observe(element)
-    if (parent) {
-      resizeObserver.observe(parent)
+    resizeObserver.observe(observedElement)
+
+    if (observedParent) {
+      resizeObserver.observe(observedParent)
     }
 
     mutationObserver = new MutationObserver(checkTruncation)
-    mutationObserver.observe(element, {
+
+    mutationObserver.observe(observedElement, {
       childList: true,
       characterData: true,
       subtree: true,
+      attributes: true,
+      attributeFilter: ['class', 'style'],
     })
 
-    window.addEventListener('resize', checkTruncation)
+    if (observedParent) {
+      mutationObserver.observe(observedParent, {
+        attributes: true,
+        attributeFilter: ['class', 'style'],
+      })
+    }
 
     checkTruncation()
-  })
+  }
+
+  onMounted(observeElement)
+
+  watch(elementRef, observeElement, { flush: 'post' })
 
   onBeforeUnmount(() => {
     resizeObserver?.disconnect()
     mutationObserver?.disconnect()
-    window.removeEventListener('resize', checkTruncation)
+    observedElement = null
+    observedParent = null
   })
 
   return {
