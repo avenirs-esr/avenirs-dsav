@@ -260,7 +260,7 @@ onUnmounted(clean)
     ref="collapse"
     :style="{ '--width-host': `${hostWidth}px` }"
     class="av-select__collapse"
-    data-testid="av-select__collapse"
+    data-testid="av-select-collapse"
   >
     <p
       :id="`${id}-text-hint`"
@@ -279,6 +279,7 @@ onUnmounted(clean)
           :disabled="selectableOptions.length === 0"
           :label="selectAllLabel[isAllSelected ? 1 : 0]"
           :icon="isAllSelected ? MDI_ICONS.CLOSE_CIRCLE_OUTLINE : MDI_ICONS.CHECK_CIRCLE_OUTLINE"
+          :data-testid="isAllSelected ? 'deselect-all-button' : 'select-all-button'"
           @click="handleClickSelectAllClick"
         />
       </li>
@@ -293,6 +294,7 @@ onUnmounted(clean)
         aria-live="polite"
         placeholder="Rechercher"
         type="search"
+        data-testid="av-select-search-input"
       />
     </div>
 
@@ -303,6 +305,7 @@ onUnmounted(clean)
       border-radius="var(--radius-lg)"
       size="xsmall"
       class="select-collapse-options-list"
+      data-testid="av-select-options-list"
     >
       <template
         v-for="(option, index) in filteredOptions"
@@ -310,7 +313,11 @@ onUnmounted(clean)
       >
         <template v-if="isOptionGroup(option)">
           <div class="av-row av-justify-between av-align-center av-px-xs av-pt-xs av-pb-xxs">
-            <span class="av-text-title b2-bold">
+            <span
+              class="av-text-title b2-bold"
+              data-testid="av-select-group-label"
+              :data-group-id="option.id"
+            >
               {{ option.label }}
             </span>
 
@@ -324,6 +331,8 @@ onUnmounted(clean)
               :disabled="isGroupDisabled(option)"
               :aria-checked="isGroupPartiallySelected(option) ? 'mixed' : undefined"
               :aria-label="`Sélectionner tout le groupe ${option.label}`"
+              data-testid="av-select-group-option"
+              :data-group-id="option.id"
               @update:model-value="handleGroupSelection(option, $event)"
             />
           </div>
@@ -339,6 +348,9 @@ onUnmounted(clean)
             :icon="child.icon"
             :disabled="child.disabled"
             :disabled-tooltip="child.disabledTooltip"
+            data-testid="av-select-child-option"
+            :data-group-id="option.id"
+            :data-child-id="String(child.value)"
             @update:model-value="handleOptionUpdate($event, child)"
           />
         </template>
@@ -355,6 +367,8 @@ onUnmounted(clean)
           :icon="option.icon"
           :disabled="option.disabled"
           :disabled-tooltip="option.disabledTooltip"
+          data-testid="av-select-option"
+          :data-option-id="String(option.value)"
           @update:model-value="handleOptionUpdate($event, option)"
         />
       </template>
