@@ -71,7 +71,8 @@ export interface AvSelectProps extends AvInteractiveProps {
 
   /**
    * Displayed text when options are selected in multiple mode.
-   * @default 'fichier(s) sélectionné(s)'
+   * Fallback to labels from model value joined by a comma.
+   * @default 'undefined'
    */
   selectedText?: string
 
@@ -138,7 +139,7 @@ const {
   errorMessage = '',
   placeholder,
   dense,
-  selectedText = 'fichier(s) sélectionné(s)',
+  selectedText,
   selectAll = false,
   selectAllLabel = ['Tout sélectionner', 'Tout désélectionner'],
   search = false,
@@ -212,7 +213,7 @@ const title = computed(() => {
   }
 
   if (multiple) {
-    return selectedText
+    return selectedText ?? selectedOptions.value.map(option => option.label).join(', ')
   }
 
   const selected = selectedOptions.value[0]

@@ -49,7 +49,6 @@ const defaultProps: AvSelectProps & {
   options: defaultOptions,
   multiple: false,
   selectAll: false,
-  selectedText: 'Options sélectionnées',
 }
 
 class ResizeObserverStub implements ResizeObserver {
@@ -311,6 +310,29 @@ BddTest().given('an AvSelect component', () => {
       })
     })
 
+    BddTest().when('selectedText is defined and user selects multiple children from different groups', async () => {
+      beforeEach(async () => {
+        wrapper = mountWithProps({
+          options: groupedOptions,
+          multiple: true,
+          selectedText: 'Options sélectionnées',
+        })
+
+        await selectValues(['1', '3'])
+      })
+
+      BddTest().then('it should display the labels from modelValue as selected text', () => {
+        expect(getButton().text()).toContain('Options sélectionnées')
+      })
+
+      BddTest().then('it should emit the selected options with their parent IDs', () => {
+        expect(wrapper.emitted('update:modelValue')?.at(-1)?.[0]).toEqual([
+          { label: 'Option 1', value: '1', parentId: 'group-1' },
+          { label: 'Option 3', value: '3', parentId: 'group-2' },
+        ])
+      })
+    })
+
     BddTest().when('the user selects multiple children from different groups', async () => {
       beforeEach(async () => {
         wrapper = mountWithProps({
@@ -321,8 +343,8 @@ BddTest().given('an AvSelect component', () => {
         await selectValues(['1', '3'])
       })
 
-      BddTest().then('it should display the selected text', () => {
-        expect(getButton().text()).toContain('Options sélectionnées')
+      BddTest().then('it should display the labels from modelValue as selected text', () => {
+        expect(getButton().text()).toContain('Option 1, Option 3')
       })
 
       BddTest().then('it should emit the selected options with their parent IDs', () => {
@@ -387,8 +409,8 @@ BddTest().given('an AvSelect component', () => {
       })
     })
 
-    BddTest().then('it should display the selected text', () => {
-      expect(getButton().text()).toContain('Options sélectionnées')
+    BddTest().then('it should display the labels from modelValue as selected text', () => {
+      expect(getButton().text()).toContain('Option 1, Option 2')
     })
 
     BddTest().then('it should pass all selected options to the collapse', () => {

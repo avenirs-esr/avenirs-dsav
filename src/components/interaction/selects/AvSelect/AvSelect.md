@@ -49,7 +49,7 @@ Groups support one nesting level only: a group contains options, but groups cann
 | `search` | `boolean` | `false` | | Displays the search input used to filter options by label. |
 | `selectAll` | `boolean` | `false` | | Displays the button used to select or deselect all visible enabled options. Only applies in multiple-selection mode. |
 | `selectAllLabel` | `[string, string]` | `['Tout sélectionner', 'Tout désélectionner']` | | Labels for the select-all and deselect-all states, respectively. |
-| `selectedText` | `string` | `'fichier(s) sélectionné(s)'` | | Text displayed when at least one option is selected in multiple-selection mode. |
+| `selectedText` | `string` | `undefined` | | Text displayed when at least one option is selected in multiple-selection mode. Fallback to labels from model value joined by a comma. |
 | `successMessage` | `string` | `''` | | Success message displayed below the select when no error message is provided. |
 | `width` | `string` | `undefined` | | CSS width applied to the select container and button, such as `20rem` or `100%`. |
 | `prefixIcon` | `string` | `undefined` | | Prefix icon displayed inside the select button. |
