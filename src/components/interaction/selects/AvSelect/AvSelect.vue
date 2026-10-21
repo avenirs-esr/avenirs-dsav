@@ -319,6 +319,7 @@ const styleVars = computed(() => ({
         'av-select--unselected': !isSelected,
         'av-select--selected': isSelected,
       }"
+      no-sentence-case
       :size="dense ? 'MD' : 'LG'"
       :style="styleVars"
       @click="handleClick"
