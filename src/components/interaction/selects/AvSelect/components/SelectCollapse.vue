@@ -388,16 +388,11 @@ onUnmounted(clean)
   width: auto;
   border: 2px solid var(--stroke);
   border-top-width: 1px;
-
-  &__fieldset {
-    overflow: auto;
-    max-height: v-bind('maxHeight');
-  }
+  overflow: auto;
+  max-height: v-bind('maxHeight');
 }
 
 .select-collapse-options-list {
-  max-height: v-bind('maxHeight');
-  overflow-y: auto;
   overflow-x: hidden;
   border: none;
 }
