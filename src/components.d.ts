@@ -72,7 +72,6 @@ declare module 'vue' {
     HeaderMenuDrawer: typeof import('./components/header/AvHeader/components/HeaderMenuDrawer/HeaderMenuDrawer.vue')['default']
     HeaderSearchDrawer: typeof import('./components/header/AvHeader/components/HeaderSearchDrawer/HeaderSearchDrawer.vue')['default']
     HeaderToolbar: typeof import('./components/header/AvHeader/components/HeaderToolbar/HeaderToolbar.vue')['default']
-    MultiselectCollapse: typeof import('./components/interaction/selects/AvSelect/components/MultiselectCollapse.vue')['default']
     NavigationItem: typeof import('./components/navigation/AvNavigation/components/NavigationItem/NavigationItem.vue')['default']
     NavigationMenu: typeof import('./components/navigation/AvNavigation/components/NavigationMenu/NavigationMenu.vue')['default']
     NavigationMenuItem: typeof import('./components/navigation/AvNavigation/components/NavigationMenuItem/NavigationMenuItem.vue')['default']

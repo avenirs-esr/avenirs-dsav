@@ -50,12 +50,15 @@ export function useTextTruncation (elementRef: Ref<HTMLElement | undefined | nul
 
     const naturalWidth = element.getBoundingClientRect().width
 
+    const originalStyle = getComputedStyle(element)
+
     Object.assign(clone.style, {
       display: 'block',
       width: `${naturalWidth}px`,
       height: 'auto',
       maxHeight: 'none',
       overflow: 'visible',
+      whiteSpace: originalStyle.whiteSpace,
     })
 
     Object.assign(parentClone.style, {
