@@ -60,6 +60,12 @@ export interface AvCardProps {
    * @default 'Expand card'
    */
   expandLabel?: string
+
+  /**
+   * The border radius of the card.
+   * @default 'var(--radius-2xl)'
+   */
+  radius?: string
 }
 
 const {
@@ -71,8 +77,8 @@ const {
   collapsible = false,
   collapsed: defaultCollapsed = false,
   collapseLabel = 'Collapse card',
-  expandLabel = 'Expand card'
-
+  expandLabel = 'Expand card',
+  radius = 'var(--radius-2xl)'
 } = defineProps<AvCardProps>()
 
 /**
@@ -222,7 +228,7 @@ defineExpose({
 
 <template>
   <div
-    class="av-card av-col av-p-sm av-justify-start av-radius-2xl"
+    class="av-card av-col av-p-sm av-justify-start"
     :class="{
       'av-card--collapsible': collapsible,
       'av-card--hovering-interactive': isHoveringInteractive,
@@ -286,10 +292,22 @@ defineExpose({
 .av-card {
   box-sizing: border-box;
   border: 1px solid transparent;
-  overflow: hidden;
+  border-radius: v-bind('radius');
 
   &__title {
+    border-top-left-radius: v-bind('radius');
+    border-top-right-radius: v-bind('radius');
     box-sizing: border-box;
+
+    &--collapsed {
+      border-bottom-left-radius: v-bind('radius');
+      border-bottom-right-radius: v-bind('radius');
+    }
+  }
+
+  &__content-collapsible {
+    border-bottom-left-radius: v-bind('radius');
+    border-bottom-right-radius: v-bind('radius');
   }
 
   &--collapsible:not(.av-card--hovering-interactive) .av-card__title:hover {

@@ -29,6 +29,8 @@ When the `collapsible` prop is enabled, the card displays only the `title` slot 
 | `collapsed` | `boolean` | `false` | | Whether the card is collapsed by default (only if collapsible is true). |
 | `collapseLabel` | `string` | `'Collapse card'` | | ARIA label for the collapse button when the card is expanded. |
 | `expandLabel` | `string` | `'Expand card'` | | ARIA label for the expand button when the card is collapsed. |
+| `radius` | `string` | `'var(--radius-2xl)'` | | The border radius of the card. |
+
 
 ## 🔊 Events
 
