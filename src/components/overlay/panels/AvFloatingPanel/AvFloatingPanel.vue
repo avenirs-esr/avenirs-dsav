@@ -3,6 +3,7 @@ import type { Slot } from 'vue'
 import AvIconText from '@/components/base/AvIconText/AvIconText.vue'
 import AvCard from '@/components/cards/AvCard/AvCard.vue'
 import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
+import { useAvBreakpoints } from '@/composables/use-av-breakpoints/use-av-breakpoints'
 import { useTextTruncation } from '@/composables/use-text-truncation/use-text-truncation'
 import { MDI_ICONS } from '@/tokens'
 
@@ -74,6 +75,7 @@ const cardRef = ref<InstanceType<typeof AvCard> | null>(null)
 
 const subtitleRef = ref<HTMLElement | null>(null)
 const { isTruncated } = useTextTruncation(subtitleRef)
+const { isMobile } = useAvBreakpoints()
 
 function toggleCollapsed () {
   cardRef.value?.toggleCollapsed()
@@ -97,6 +99,7 @@ defineExpose({
       :aria-label="title"
       :collapse-label="collapseLabel"
       :expand-label="expandLabel"
+      :radius="isMobile ? 'var(--radius-none)' : undefined"
       data-testid="av-floating-panel-card"
     >
       <template #title>
@@ -153,10 +156,6 @@ defineExpose({
     bottom: 0 !important;
     left: 0 !important;
     right: 0 !important;
-  }
-
-  .av-card {
-    border-radius: var(--radius-none) !important;
   }
 
   .av-card[data-collapsed='false'],
