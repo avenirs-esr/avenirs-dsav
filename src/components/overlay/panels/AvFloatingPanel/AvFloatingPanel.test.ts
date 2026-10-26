@@ -12,6 +12,10 @@ vi.mock('@/composables/use-text-truncation/use-text-truncation', () => ({
   useTextTruncation: () => ({ isTruncated: mockIsTruncated }),
 }))
 
+vi.mock('@/composables/use-av-breakpoints/use-av-breakpoints', () => ({
+  useAvBreakpoints: () => ({ isMobile: false }),
+}))
+
 BddTest().given('an AvFloatingPanel', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvFloatingPanel>>
 
