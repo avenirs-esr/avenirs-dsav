@@ -31,6 +31,7 @@ export const IX_ICONS = {
 export const MDI_ICONS = {
   ACCOUNT_CIRCLE_OUTLINE: 'mdi:account-circle-outline',
   ACCOUNT_STUDENT_OUTLINE: 'mdi:account-student-outline',
+  ADMINISTRATOR: 'mdi:administrator',
   ALERT_CIRCLE_OUTLINE: 'mdi:alert-circle-outline',
   ALERT_OUTLINE: 'mdi:alert-outline',
   ARROW_DECISION: 'mdi:arrow-decision',
