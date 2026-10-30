@@ -38,6 +38,7 @@ const meta = {
     placeholder: { control: 'text', required: true },
     selectAll: { control: 'boolean' },
     search: { control: 'boolean' },
+    searchPlaceholder: { control: 'text' },
     width: { control: 'text' },
     height: { control: 'text' },
     selectedText: { control: 'text' },
@@ -63,6 +64,7 @@ const meta = {
     dense: false,
     selectAll: false,
     search: false,
+    searchPlaceholder: 'Rechercher...',
   },
   parameters: {
     docs: {

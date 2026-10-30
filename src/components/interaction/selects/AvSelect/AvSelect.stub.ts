@@ -61,6 +61,10 @@ export const AvSelectStub = defineComponent({
       type: Boolean,
       required: false,
     },
+    searchPlaceholder: {
+      type: String,
+      required: false,
+    },
     width: {
       type: String,
       required: false,

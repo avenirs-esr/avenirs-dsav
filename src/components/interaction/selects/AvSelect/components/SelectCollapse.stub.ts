@@ -12,6 +12,14 @@ export const SelectCollapseStub = defineComponent({
       type: Array as () => AvSelectItem[],
       default: () => [],
     },
+    search: {
+      type: Boolean,
+      default: false,
+    },
+    searchPlaceholder: {
+      type: String,
+      default: 'Rechercher...',
+    },
     modelValue: {
       type: Array as () => (string | number)[],
       default: () => [],

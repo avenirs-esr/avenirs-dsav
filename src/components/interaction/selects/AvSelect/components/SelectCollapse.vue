@@ -17,6 +17,7 @@ export interface SelectCollapseProps {
   id: string
   selectAll?: boolean
   search?: boolean
+  searchPlaceholder?: string
   selectAllLabel?: [string, string]
   noResultLabel?: string
   maxHeight?: string
@@ -28,6 +29,7 @@ const props = withDefaults(defineProps<SelectCollapseProps>(), {
   hint: 'Utilisez la tabulation (ou les touches flèches) pour naviguer dans la liste des suggestions',
   selectAll: false,
   search: false,
+  searchPlaceholder: 'Rechercher...',
   selectAllLabel: () => ['Tout sélectionner', 'Tout désélectionner'],
   noResultLabel: 'Pas de résultat',
   multiple: false,
@@ -292,7 +294,7 @@ onUnmounted(clean)
         :aria-controls="`${id}-checkboxes`"
         :prefix-icon="MDI_ICONS.MAGNIFY"
         aria-live="polite"
-        placeholder="Rechercher"
+        :placeholder="searchPlaceholder"
         type="search"
         data-testid="av-select-search-input"
       />
