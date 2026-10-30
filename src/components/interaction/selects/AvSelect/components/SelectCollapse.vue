@@ -392,6 +392,7 @@ onUnmounted(clean)
   border-top-width: 1px;
   overflow: auto;
   max-height: v-bind('maxHeight');
+  background-color: var(--dialog);
 }
 
 .select-collapse-options-list {
