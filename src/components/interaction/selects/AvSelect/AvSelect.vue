@@ -93,6 +93,12 @@ export interface AvSelectProps extends AvInteractiveProps {
   search?: boolean
 
   /**
+   * Placeholder for the search input.
+   * @default 'Rechercher...'
+   */
+  searchPlaceholder?: string
+
+  /**
    * Fixes the width of the multiselect.
    */
   width?: string
@@ -143,6 +149,7 @@ const {
   selectAll = false,
   selectAllLabel = ['Tout sélectionner', 'Tout désélectionner'],
   search = false,
+  searchPlaceholder = 'Rechercher...',
   width,
   height,
   collapseMaxHeight,
@@ -333,6 +340,7 @@ const styleVars = computed(() => ({
       :select-all="multiple && selectAll"
       :select-all-label="selectAllLabel"
       :search="search"
+      :search-placeholder="searchPlaceholder"
       :options="options"
       :selected="selectedOptionsForCollapse"
       :max-height="collapseMaxHeight"

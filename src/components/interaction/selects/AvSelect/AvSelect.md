@@ -47,6 +47,7 @@ Groups support one nesting level only: a group contains options, but groups cann
 | `placeholder` | `string` | | ✅ | Text displayed when no option is selected, or when a selected value cannot be resolved to an available option. |
 | `required` | `boolean` | `false` | | Marks the select as required and prevents clearing the selection through an individual option interaction in single-selection mode. |
 | `search` | `boolean` | `false` | | Displays the search input used to filter options by label. |
+| `searchPlaceholder` | `string` | `'Rechercher...'` | | Placeholder text for the search input. |
 | `selectAll` | `boolean` | `false` | | Displays the button used to select or deselect all visible enabled options. Only applies in multiple-selection mode. |
 | `selectAllLabel` | `[string, string]` | `['Tout sélectionner', 'Tout désélectionner']` | | Labels for the select-all and deselect-all states, respectively. |
 | `selectedText` | `string` | `undefined` | | Text displayed when at least one option is selected in multiple-selection mode. Fallback to labels from model value joined by a comma. |
