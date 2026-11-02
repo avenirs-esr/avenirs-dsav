@@ -6,7 +6,7 @@ import type {
 } from '@/components/interaction/selects/AvSelect/AvSelect.types'
 import type { SelectCollapseProps } from '@/components/interaction/selects/AvSelect/components/SelectCollapse.vue'
 import { mount } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
+import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 import { AvFieldsetStub } from '@/components/base/AvFieldset/AvFieldset.stub'
 import { AvCheckboxStub } from '@/components/interaction/checkboxes/AvCheckbox/AvCheckbox.stub'
@@ -615,6 +615,59 @@ BddTest().given('a SelectCollapse component', () => {
       )
 
       expect(close).not.toHaveBeenCalled()
+    })
+  })
+
+  BddTest().when('the collapse is teleported', () => {
+    let anchor: HTMLElement
+
+    const getTeleportedCollapse = () =>
+      Array.from(document.body.querySelectorAll<HTMLElement>(`#${defaultProps.id}-collapse`)).at(-1)!
+
+    beforeEach(async () => {
+      anchor = document.createElement('button')
+      document.body.append(anchor)
+      vi.spyOn(anchor, 'getBoundingClientRect').mockReturnValue({
+        bottom: 120,
+        left: 40,
+        width: 200,
+      } as DOMRect)
+
+      wrapper = mountWithProps({ teleport: true, anchor, isVisible: false })
+      await wrapper.setProps({ isVisible: true })
+      await nextTick()
+    })
+
+    afterEach(() => {
+      wrapper.unmount()
+      anchor.remove()
+    })
+
+    BddTest().then('it should render the collapse in the document body', () => {
+      expect(getTeleportedCollapse().parentElement).toBe(document.body)
+    })
+
+    BddTest().then('it should align the collapse with the anchor', () => {
+      const collapse = getTeleportedCollapse()
+
+      expect(collapse.style.position).toBe('fixed')
+      expect(collapse.style.top).toBe('120px')
+      expect(collapse.style.left).toBe('40px')
+      expect(collapse.style.width).toBe('200px')
+    })
+
+    BddTest().then('it should follow the anchor on scroll', async () => {
+      vi.spyOn(anchor, 'getBoundingClientRect').mockReturnValue({
+        bottom: 80,
+        left: 40,
+        width: 200,
+      } as DOMRect)
+      window.dispatchEvent(new Event('scroll'))
+      await nextTick()
+
+      const collapse = getTeleportedCollapse()
+
+      expect(collapse.style.top).toBe('80px')
     })
   })
 })

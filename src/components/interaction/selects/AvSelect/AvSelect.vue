@@ -114,6 +114,13 @@ export interface AvSelectProps extends AvInteractiveProps {
   collapseMaxHeight?: string
 
   /**
+   * Renders the options list in the document body so it is never clipped by a
+   * scrollable or overflow-hidden ancestor.
+   * @default false
+   */
+  teleport?: boolean
+
+  /**
    * Whether multiple options can be selected.
    * @default false
    */
@@ -153,6 +160,7 @@ const {
   width,
   height,
   collapseMaxHeight,
+  teleport = false,
   multiple = false,
   required = false,
   prefixIcon,
@@ -163,6 +171,7 @@ const modelValue = defineModel<AvSelectModelValue>({ default: null })
 const realId = computed(() => id ?? `select-${crypto.randomUUID()}`)
 
 const host = ref<InstanceType<typeof AvButton> | null>(null)
+const group = ref<HTMLElement | null>(null)
 
 const message = computed(() => errorMessage || successMessage)
 const messageType = computed(() => errorMessage ? 'error' : 'success')
@@ -284,6 +293,7 @@ const styleVars = computed(() => ({
 
 <template>
   <div
+    ref="group"
     class="av-select-group"
     :class="{ [`av-select-group--${messageType}`]: message }"
   >
@@ -344,6 +354,8 @@ const styleVars = computed(() => ({
       :options="options"
       :selected="selectedOptionsForCollapse"
       :max-height="collapseMaxHeight"
+      :teleport="teleport"
+      :anchor="group"
       :multiple="multiple"
       :required="required"
       @close="close"

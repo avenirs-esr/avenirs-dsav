@@ -77,6 +77,10 @@ export const AvSelectStub = defineComponent({
       type: String,
       required: false,
     },
+    teleport: {
+      type: Boolean,
+      default: false,
+    },
     multiple: {
       type: Boolean,
       default: false,

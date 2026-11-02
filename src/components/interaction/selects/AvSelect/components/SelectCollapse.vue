@@ -6,6 +6,7 @@ import type {
   AvSelectOptionGroup,
   AvSelectSelectedOption,
 } from '@/components/interaction/selects/AvSelect/AvSelect.types'
+import { useEventListener } from '@vueuse/core'
 import { nextTick } from 'vue'
 import { MDI_ICONS } from '@/tokens/icons'
 
@@ -23,6 +24,8 @@ export interface SelectCollapseProps {
   maxHeight?: string
   multiple?: boolean
   required?: boolean
+  teleport?: boolean
+  anchor?: HTMLElement | null
 }
 
 const props = withDefaults(defineProps<SelectCollapseProps>(), {
@@ -34,6 +37,8 @@ const props = withDefaults(defineProps<SelectCollapseProps>(), {
   noResultLabel: 'Pas de résultat',
   multiple: false,
   required: false,
+  teleport: false,
+  anchor: null,
 })
 
 const emit = defineEmits<{
@@ -72,6 +77,29 @@ let skipNextClickOutside = false
 const model = defineModel<(string | number)[]>({ required: true })
 
 const hostWidth = ref(0)
+const floatingStyle = ref<Record<string, string>>({})
+
+/**
+ * Teleported to the body, the collapse is fixed and aligned under the anchor.
+ */
+function updatePosition () {
+  if (!props.teleport || !props.anchor) {
+    return
+  }
+
+  const { bottom, left, width } = props.anchor.getBoundingClientRect()
+
+  floatingStyle.value = {
+    position: 'fixed',
+    zIndex: '9999',
+    top: `${bottom}px`,
+    left: `${left}px`,
+    width: `${width}px`,
+  }
+}
+
+useEventListener(window, 'scroll', updatePosition, { capture: true, passive: true })
+useEventListener(window, 'resize', updatePosition, { passive: true })
 const searchInput = ref('')
 
 function handleClickOutside (event: MouseEvent) {
@@ -104,6 +132,7 @@ watch(
   () => props.isVisible,
   (visible) => {
     if (visible) {
+      updatePosition()
       nextTick(() => {
         skipNextClickOutside = true
         document.addEventListener('click', handleClickOutside)
@@ -256,130 +285,135 @@ onUnmounted(clean)
 </script>
 
 <template>
-  <div
-    v-if="isVisible"
-    :id="`${id}-collapse`"
-    ref="collapse"
-    :style="{ '--width-host': `${hostWidth}px` }"
-    class="av-select__collapse"
-    data-testid="av-select-collapse"
+  <Teleport
+    to="body"
+    :disabled="!teleport"
   >
-    <p
-      :id="`${id}-text-hint`"
-      class="av-sr-only"
+    <div
+      v-if="isVisible"
+      :id="`${id}-collapse`"
+      ref="collapse"
+      :style="[{ '--width-host': `${hostWidth}px` }, floatingStyle]"
+      class="av-select__collapse"
+      data-testid="av-select-collapse"
     >
-      {{ hint }}
-    </p>
-
-    <ul
-      v-if="multiple && selectAll"
-      class="av-btns-group"
-    >
-      <li>
-        <AvButton
-          name="select-all"
-          :disabled="selectableOptions.length === 0"
-          :label="selectAllLabel[isAllSelected ? 1 : 0]"
-          :icon="isAllSelected ? MDI_ICONS.CLOSE_CIRCLE_OUTLINE : MDI_ICONS.CHECK_CIRCLE_OUTLINE"
-          :data-testid="isAllSelected ? 'deselect-all-button' : 'select-all-button'"
-          @click="handleClickSelectAllClick"
-        />
-      </li>
-    </ul>
-
-    <div v-if="search">
-      <AvInput
-        v-model="searchInput"
-        :aria-describedby="`${id}-text-hint`"
-        :aria-controls="`${id}-checkboxes`"
-        :prefix-icon="MDI_ICONS.MAGNIFY"
-        aria-live="polite"
-        :placeholder="searchPlaceholder"
-        type="search"
-        data-testid="av-select-search-input"
-      />
-    </div>
-
-    <AvList
-      background-color="var(--dialog)"
-      bordered
-      border-color="var(--stroke)"
-      border-radius="var(--radius-lg)"
-      size="xsmall"
-      class="select-collapse-options-list"
-      data-testid="av-select-options-list"
-    >
-      <template
-        v-for="(option, index) in filteredOptions"
-        :key="`${id}-option-${index}`"
+      <p
+        :id="`${id}-text-hint`"
+        class="av-sr-only"
       >
-        <template v-if="isOptionGroup(option)">
-          <div class="av-row av-justify-between av-align-center av-px-xs av-pt-xs av-pb-xxs">
-            <span
-              class="av-text-title b2-bold"
-              data-testid="av-select-group-label"
-              :data-group-id="option.id"
-            >
-              {{ option.label }}
-            </span>
+        {{ hint }}
+      </p>
 
-            <AvCheckbox
-              v-if="multiple"
-              :id="`${id}-group-${index}`"
-              :model-value="isGroupSelected(option) ? [true] : []"
-              :name="`${id}-group-${index}`"
-              :value="true"
-              small
-              :disabled="isGroupDisabled(option)"
-              :aria-checked="isGroupPartiallySelected(option) ? 'mixed' : undefined"
-              :aria-label="`Sélectionner tout le groupe ${option.label}`"
-              data-testid="av-select-group-option"
+      <ul
+        v-if="multiple && selectAll"
+        class="av-btns-group"
+      >
+        <li>
+          <AvButton
+            name="select-all"
+            :disabled="selectableOptions.length === 0"
+            :label="selectAllLabel[isAllSelected ? 1 : 0]"
+            :icon="isAllSelected ? MDI_ICONS.CLOSE_CIRCLE_OUTLINE : MDI_ICONS.CHECK_CIRCLE_OUTLINE"
+            :data-testid="isAllSelected ? 'deselect-all-button' : 'select-all-button'"
+            @click="handleClickSelectAllClick"
+          />
+        </li>
+      </ul>
+
+      <div v-if="search">
+        <AvInput
+          v-model="searchInput"
+          :aria-describedby="`${id}-text-hint`"
+          :aria-controls="`${id}-checkboxes`"
+          :prefix-icon="MDI_ICONS.MAGNIFY"
+          aria-live="polite"
+          :placeholder="searchPlaceholder"
+          type="search"
+          data-testid="av-select-search-input"
+        />
+      </div>
+
+      <AvList
+        background-color="var(--dialog)"
+        bordered
+        border-color="var(--stroke)"
+        border-radius="var(--radius-lg)"
+        size="xsmall"
+        class="select-collapse-options-list"
+        data-testid="av-select-options-list"
+      >
+        <template
+          v-for="(option, index) in filteredOptions"
+          :key="`${id}-option-${index}`"
+        >
+          <template v-if="isOptionGroup(option)">
+            <div class="av-row av-justify-between av-align-center av-px-xs av-pt-xs av-pb-xxs">
+              <span
+                class="av-text-title b2-bold"
+                data-testid="av-select-group-label"
+                :data-group-id="option.id"
+              >
+                {{ option.label }}
+              </span>
+
+              <AvCheckbox
+                v-if="multiple"
+                :id="`${id}-group-${index}`"
+                :model-value="isGroupSelected(option) ? [true] : []"
+                :name="`${id}-group-${index}`"
+                :value="true"
+                small
+                :disabled="isGroupDisabled(option)"
+                :aria-checked="isGroupPartiallySelected(option) ? 'mixed' : undefined"
+                :aria-label="`Sélectionner tout le groupe ${option.label}`"
+                data-testid="av-select-group-option"
+                :data-group-id="option.id"
+                @update:model-value="handleGroupSelection(option, $event)"
+              />
+            </div>
+
+            <AvCheckboxListItem
+              v-for="child in option.children"
+              :id="child.value.toString()"
+              :key="generateId(child, id)"
+              :model-value="model"
+              list-id="select-collapse-options-list"
+              :aria-label="child.label"
+              :label="child.label"
+              :icon="child.icon"
+              :disabled="child.disabled"
+              :disabled-tooltip="child.disabledTooltip"
+              data-testid="av-select-child-option"
               :data-group-id="option.id"
-              @update:model-value="handleGroupSelection(option, $event)"
+              :data-child-id="String(child.value)"
+              @update:model-value="handleOptionUpdate($event, child)"
             />
-          </div>
+          </template>
 
           <AvCheckboxListItem
-            v-for="child in option.children"
-            :id="child.value.toString()"
-            :key="generateId(child, id)"
+            v-else
+            :id="option.value.toString()"
+            :key="generateId(option, id)"
+            class="ungroup-option"
             :model-value="model"
             list-id="select-collapse-options-list"
-            :aria-label="child.label"
-            :label="child.label"
-            :icon="child.icon"
-            :disabled="child.disabled"
-            :disabled-tooltip="child.disabledTooltip"
-            data-testid="av-select-child-option"
-            :data-group-id="option.id"
-            :data-child-id="String(child.value)"
-            @update:model-value="handleOptionUpdate($event, child)"
+            :aria-label="option.label"
+            :label="option.label"
+            :icon="option.icon"
+            :disabled="option.disabled"
+            :disabled-tooltip="option.disabledTooltip"
+            data-testid="av-select-option"
+            :data-option-id="String(option.value)"
+            @update:model-value="handleOptionUpdate($event, option)"
           />
         </template>
+      </AvList>
 
-        <AvCheckboxListItem
-          v-else
-          :id="option.value.toString()"
-          :key="generateId(option, id)"
-          class="ungroup-option"
-          :model-value="model"
-          list-id="select-collapse-options-list"
-          :aria-label="option.label"
-          :label="option.label"
-          :icon="option.icon"
-          :disabled="option.disabled"
-          :disabled-tooltip="option.disabledTooltip"
-          data-testid="av-select-option"
-          :data-option-id="String(option.value)"
-          @update:model-value="handleOptionUpdate($event, option)"
-        />
-      </template>
-    </AvList>
-
-    <div v-if="filteredOptions.length === 0">
-      {{ noResultLabel }}
+      <div v-if="filteredOptions.length === 0">
+        {{ noResultLabel }}
+      </div>
     </div>
-  </div>
+  </Teleport>
 </template>
 
 <style lang="scss" scoped>
