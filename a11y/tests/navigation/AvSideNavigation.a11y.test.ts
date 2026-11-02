@@ -5,6 +5,8 @@ const title = 'Components/Navigation/AvSideNavigation'
 const stories = [
   'Default',
   'Secondary',
+  'ItemsWithIndexes',
+  'ItemsWithIndexesSecondary',
   'MenuItemsDefault',
   'MenuItemsSecondary',
   'Collapsed',

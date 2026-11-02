@@ -1,7 +1,7 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
 import type { AvSideNavigationProps } from '@/components/navigation/AvSideNavigation/AvSideNavigation.vue'
 import AvSideNavigation from '@/components/navigation/AvSideNavigation/AvSideNavigation.vue'
-import { MDI_ICONS } from '@/tokens'
+import { EOS_ICONS, MDI_ICONS } from '@/tokens'
 
 const mockItems = [
   {
@@ -23,6 +23,30 @@ const mockItems = [
     id: 'activities',
     label: 'Activities & Projects',
     icon: MDI_ICONS.TARGET_ARROW
+  }
+]
+
+const mockItemsWithIndexes = [
+  {
+    id: 'careers',
+    label: 'Career Information',
+    icon: EOS_ICONS.ACTION_CHAINS_OUTLINED
+  },
+  {
+    id: 'educations',
+    label: 'Educational Background',
+    index: 1
+  },
+  {
+    id: 'experiences',
+    label: 'Professional Experience',
+    index: 2,
+    icon: MDI_ICONS.VECTOR_POLYGON_VARIANT
+  },
+  {
+    id: 'activities',
+    label: 'Activities & Projects',
+    index: 3
   }
 ]
 
@@ -221,6 +245,18 @@ Default.args = {}
 export const Secondary = Template.bind({})
 Secondary.args = { theme: 'SECONDARY' }
 
+export const ItemsWithIndexes = Template.bind({})
+ItemsWithIndexes.args = {
+  items: mockItemsWithIndexes,
+  selectedItem: { itemId: 'subitem-1-1', parentId: 'menu-expanded' }
+}
+
+export const ItemWithIndexesSecondary = Template.bind({})
+ItemWithIndexesSecondary.args = {
+  items: mockItemsWithIndexes,
+  selectedItem: { itemId: 'subitem-1-1', parentId: 'menu-expanded' },
+  theme: 'SECONDARY'
+}
 export const MenuItemsDefault = TemplateWithMenuItems.bind({})
 MenuItemsDefault.args = {
   items: mockItemsWithChildren,

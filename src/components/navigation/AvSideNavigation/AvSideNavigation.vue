@@ -6,6 +6,7 @@ export interface AvSideNavigationItem {
   id: string
   label: string
   icon?: string
+  index?: number
 }
 
 export interface AvSideNavigationSelectedItem {
@@ -160,6 +161,7 @@ watchEffect(() => {
         <AvListItem
           :title="item.label"
           :icon="item.icon"
+          :index="item.index"
           :icon-size="1.8"
           :selected="isItemSelected(item)"
           :theme="theme"

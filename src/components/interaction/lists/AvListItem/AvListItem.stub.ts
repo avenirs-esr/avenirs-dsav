@@ -8,6 +8,7 @@ export const AvListItemStub = defineComponent({
     theme: { type: String as PropType<'PRIMARY' | 'SECONDARY' | 'TERTIARY'>, default: 'PRIMARY' },
     selected: { type: Boolean, default: false },
     icon: { type: String, required: false },
+    index: { type: Number, required: false },
     iconSize: { type: Number, default: 1.3125 },
     enableTooltip: { type: Boolean, default: false },
     title: { type: String, required: false },
@@ -23,5 +24,11 @@ export const AvListItemStub = defineComponent({
       {{ title }}
       {{ description }}
       <slot />
+      <span
+        v-if="index && Number.isFinite(index)"
+        data-testid="av-list-item-index"
+      >
+        {{ index }}
+      </span>
     </div>`
 })

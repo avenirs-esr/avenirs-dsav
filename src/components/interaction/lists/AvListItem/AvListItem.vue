@@ -21,6 +21,11 @@ export interface AvListItemProps extends AvInteractiveProps {
   icon?: string
 
   /**
+   * The index of the list item within the list.
+   */
+  index?: number
+
+  /**
    * The icon size.
    * @default 1.3125
    */
@@ -114,6 +119,7 @@ export interface AvListItemProps extends AvInteractiveProps {
 
 const {
   icon,
+  index = undefined,
   iconSize = 1.3125,
   title,
   description,
@@ -237,6 +243,18 @@ function handleKeyDown (event: KeyboardEvent) {
         @click="handleClick"
         @keydown="handleKeyDown"
       >
+        <span
+          v-if="index && Number.isFinite(index)"
+          class="av-list-item__index av-p-xxs av-border-width-md av-border-style-solid av-radius-full"
+          :class="{
+            'b2-bold': type === 'main',
+            'b2-regular': type !== 'main',
+          }"
+          data-testid="av-list-item-index"
+        >
+          {{ index }}
+        </span>
+
         <div
           v-if="icon"
           class="av-list-item__icon av-col av-align-center av-justify-center"
@@ -290,8 +308,14 @@ function handleKeyDown (event: KeyboardEvent) {
   transition: all 0.2s ease-in-out;
 
   &__title,
-  &__description {
+  &__description,
+  &__index {
     color: inherit;
+  }
+
+  &__index {
+    min-width: var(--dimension-md);
+    text-align: center;
   }
 
   &--clickable {
@@ -344,7 +368,8 @@ function handleKeyDown (event: KeyboardEvent) {
 ) {
   .av-list-item--theme-#{$theme} {
     .av-list-item__title,
-    .av-list-item__description {
+    .av-list-item__description,
+    .av-list-item__index {
       color: map.get($colors, text);
     }
 
@@ -360,7 +385,8 @@ function handleKeyDown (event: KeyboardEvent) {
           background-color: map.get($colors, hover-bg);
 
           .av-list-item__title,
-          .av-list-item__description {
+          .av-list-item__description,
+          .av-list-item__index {
             color: map.get($colors, hover-text);
           }
 
@@ -379,7 +405,8 @@ function handleKeyDown (event: KeyboardEvent) {
         background-color: map.get($colors, bg-selected);
 
         .av-list-item__title,
-        .av-list-item__description {
+        .av-list-item__description,
+        .av-list-item__index {
           color: map.get($colors, text-selected);
         }
 
@@ -397,7 +424,8 @@ function handleKeyDown (event: KeyboardEvent) {
           background-color: map.get($colors, hover-bg);
 
           .av-list-item__title,
-          .av-list-item__description {
+          .av-list-item__description,
+          .av-list-item__index {
             color: map.get($colors, hover-text);
           }
 
@@ -416,7 +444,8 @@ function handleKeyDown (event: KeyboardEvent) {
         position: relative;
 
         .av-list-item__title,
-        .av-list-item__description {
+        .av-list-item__description,
+        .av-list-item__index {
           color: map.get($colors, sub-text-selected);
           font-weight: bold;
         }

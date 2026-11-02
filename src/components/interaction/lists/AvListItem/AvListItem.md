@@ -27,6 +27,7 @@ The list item integrates:
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
 | `icon` | `string` | | | The icon name according to the naming convention defined for AvIcon. |
+| `index` | `number` | | | The index number displayed on the list item. |
 | `color` | `string` | `'var(--text1)'` | | The text color for title and description. |
 | `iconColor` | `string` | | | The icon color. If not provided, uses the `color` prop. |
 | `iconSize` | `number` | `1.3125` | | The icon size in rem units. |
