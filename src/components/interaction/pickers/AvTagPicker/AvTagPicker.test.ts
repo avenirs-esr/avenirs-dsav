@@ -1,5 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
-import type { AvTagPickerOption } from '@/components/interaction/pickers/AvTagPicker/AvTagPicker.vue'
+import type { AvTagPickerOption, AvTagPickerProps } from '@/components/interaction/pickers/AvTagPicker/AvTagPicker.vue'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import AvTagPicker from '@/components/interaction/pickers/AvTagPicker/AvTagPicker.vue'
@@ -24,7 +24,7 @@ BddTest().given('an AvTagPicker', () => {
 
   BddTest().and('without label', () => {
     beforeEach(() => {
-      const props = {
+      const props: AvTagPickerProps = {
         options: mockOptions,
         handleSelectChange: vi.fn()
       }
@@ -44,7 +44,7 @@ BddTest().given('an AvTagPicker', () => {
     const testLabel = 'Test Label'
 
     beforeEach(() => {
-      const props = {
+      const props: AvTagPickerProps = {
         label: testLabel,
         options: mockOptions,
         handleSelectChange: vi.fn()
@@ -68,7 +68,7 @@ BddTest().given('an AvTagPicker', () => {
     const handleSelectChange = vi.fn()
 
     beforeEach(() => {
-      const props = {
+      const props: AvTagPickerProps = {
         options: mockOptions,
         handleSelectChange,
         multiple: false
@@ -104,7 +104,7 @@ BddTest().given('an AvTagPicker', () => {
 
     BddTest().and('with first option selected', () => {
       beforeEach(async () => {
-        const props = {
+        const props: AvTagPickerProps = {
           options: mockOptions,
           handleSelectChange,
           multiple: false
@@ -143,7 +143,7 @@ BddTest().given('an AvTagPicker', () => {
     const handleSelectChange = vi.fn()
 
     beforeEach(() => {
-      const props = {
+      const props: AvTagPickerProps = {
         options: mockOptions,
         handleSelectChange,
         multiple: true
@@ -198,7 +198,7 @@ BddTest().given('an AvTagPicker', () => {
       const handleSelectChange = vi.fn()
 
       beforeEach(async () => {
-        const props = {
+        const props: AvTagPickerProps = {
           options: mockOptions,
           handleSelectChange,
           multiple: true
@@ -238,7 +238,7 @@ BddTest().given('an AvTagPicker', () => {
       beforeEach(() => {
         const selectedOption: string = mockOptions[0].value
         const handleSelectChange = vi.fn()
-        const props = {
+        const props: AvTagPickerProps = {
           options: mockOptions,
           selected: selectedOption,
           handleSelectChange
@@ -263,7 +263,7 @@ BddTest().given('an AvTagPicker', () => {
       beforeEach(() => {
         const selectedOptions: string[] = [mockOptions[0].value, mockOptions[2].value]
         const handleSelectChange = vi.fn()
-        const props = {
+        const props: AvTagPickerProps = {
           options: mockOptions,
           selected: selectedOptions,
           handleSelectChange,

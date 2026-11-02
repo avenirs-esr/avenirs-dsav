@@ -49,7 +49,7 @@ interface AvTagPickerBaseProps {
 /**
  * AvTagPicker component props in single selection mode.
  */
-interface AvTagPickerSingleProps extends AvTagPickerBaseProps {
+export interface AvTagPickerSingleProps extends AvTagPickerBaseProps {
   /**
    * Multiple mode disabled.
    * @default false
@@ -71,7 +71,7 @@ interface AvTagPickerSingleProps extends AvTagPickerBaseProps {
 /**
  * AvTagPicker component props in multiple selection mode.
  */
-interface AvTagPickerMultipleProps extends AvTagPickerBaseProps {
+export interface AvTagPickerMultipleProps extends AvTagPickerBaseProps {
   /**
    * Enables multiple selection mode.
    */
@@ -94,22 +94,20 @@ interface AvTagPickerMultipleProps extends AvTagPickerBaseProps {
  */
 export type AvTagPickerProps = AvTagPickerSingleProps | AvTagPickerMultipleProps
 
-const props = withDefaults(defineProps<AvTagPickerProps>(), {
-  labelTypographyClass: 'b2-regular',
-})
-
 const {
   label,
-  labelTypographyClass,
+  labelTypographyClass = 'b2-regular',
   multiple,
-  handleSelectChange
-} = props
+  options,
+  selected,
+  handleSelectChange,
+} = defineProps<AvTagPickerProps>()
 
-const renderedOptions: ComputedRef<AvTagPickerOption[]> = computed(() => removeDuplicates<AvTagPickerOption>(props.options))
+const renderedOptions: ComputedRef<AvTagPickerOption[]> = computed(() => removeDuplicates<AvTagPickerOption>(options))
 
 function getSelectedOptions (selected?: string | string[]): string[] {
   if (!selected) {
-    return !multiple && props.options.length > 0 ? [props.options[0].value] : []
+    return !multiple && options.length > 0 ? [options[0].value] : []
   }
   if (Array.isArray(selected)) {
     return selected
@@ -132,7 +130,7 @@ function toggleOption (option: AvTagPickerOption): void {
     else {
       selectedOptions.value.push(option.value)
     }
-    handleSelectChange(props.options.filter(option => selectedOptions.value.includes(option.value)))
+    handleSelectChange(options.filter(option => selectedOptions.value.includes(option.value)))
   }
   else {
     selectedOptions.value = [option.value]
@@ -148,7 +146,7 @@ function getDisabled (option: AvTagPickerOption): boolean {
   return isOptionSelected(option) && !multiple
 }
 
-watch(() => props.selected, (newSelected) => {
+watch(() => selected, (newSelected) => {
   selectedOptions.value = getSelectedOptions(newSelected)
 }, { immediate: true })
 </script>
