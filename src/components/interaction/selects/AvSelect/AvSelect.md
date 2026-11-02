@@ -52,6 +52,7 @@ Groups support one nesting level only: a group contains options, but groups cann
 | `selectAllLabel` | `[string, string]` | `['Tout sélectionner', 'Tout désélectionner']` | | Labels for the select-all and deselect-all states, respectively. |
 | `selectedText` | `string` | `undefined` | | Text displayed when at least one option is selected in multiple-selection mode. Fallback to labels from model value joined by a comma. |
 | `successMessage` | `string` | `''` | | Success message displayed below the select when no error message is provided. |
+| `teleport` | `boolean` | `false` | | Renders the options panel in the document body, aligned with the select, so it is not clipped by a scrollable or `overflow: hidden` ancestor. |
 | `width` | `string` | `undefined` | | CSS width applied to the select container and button, such as `20rem` or `100%`. |
 | `prefixIcon` | `string` | `undefined` | | Prefix icon displayed inside the select button. |
 
