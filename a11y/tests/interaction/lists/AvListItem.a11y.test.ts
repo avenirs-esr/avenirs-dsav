@@ -7,6 +7,8 @@ const stories = [
   'Secondary',
   'TertiaryOnDarkBackground',
   'WithIcon',
+  'WithIndex',
+  'WithIconAndIndex',
   'Clickable',
   'SubClickable',
   'Selected',

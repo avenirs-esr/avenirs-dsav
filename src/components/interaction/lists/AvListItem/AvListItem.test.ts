@@ -46,6 +46,11 @@ BddTest().given('an AvListItem component', () => {
     BddTest().then('it should not have aria-label when not clickable', () => {
       expect(avListItem.attributes('aria-label')).toBeUndefined()
     })
+
+    BddTest().then('it should not render the index by default', () => {
+      const indexElement = wrapper.find('[data-testid="av-list-item-index"]')
+      expect(indexElement.exists()).toBe(false)
+    })
   })
 
   BddTest().when('title prop is provided', () => {
@@ -382,6 +387,21 @@ BddTest().given('an AvListItem component', () => {
       expect(tooltip.props('content')).toBe('Item unavailable')
       expect(tooltip.props('disabled')).toBe(false)
       expect(tooltip.props('forceFocusable')).toBe(true)
+    })
+  })
+
+  BddTest().when('an index is provided', () => {
+    beforeEach(async () => {
+      wrapper = mount(AvListItem, {
+        props: { index: 1 },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should render the index', () => {
+      const indexElement = wrapper.find('[data-testid="av-list-item-index"]')
+      expect(indexElement.exists()).toBe(true)
+      expect(indexElement.text()).toBe('1')
     })
   })
 })

@@ -66,6 +66,7 @@ const meta: Meta<AvListItemProps> = {
         MDI_ICONS.STARS
       ]
     },
+    index: { control: 'number' },
     iconSize: { control: 'number' },
     title: { control: 'text' },
     description: { control: 'text' },
@@ -80,6 +81,7 @@ const meta: Meta<AvListItemProps> = {
     theme: { control: 'select', options: ['PRIMARY', 'SECONDARY', 'TERTIARY'] }
   },
   args: {
+    index: undefined,
     iconSize: 1.3125,
     disabled: false,
     selected: false,
@@ -143,6 +145,21 @@ WithIcon.args = {
   title: 'Home',
   description: 'Navigate to homepage',
   icon: MDI_ICONS.HOME_VARIANT_OUTLINE
+}
+
+export const WithIndex = Template.bind({})
+WithIndex.args = {
+  title: 'Item with Index',
+  description: 'This item displays an index',
+  index: 1
+}
+
+export const WithIconAndIndex = Template.bind({})
+WithIconAndIndex.args = {
+  title: 'Item with Icon and Index',
+  description: 'This item displays both an icon and an index',
+  icon: MDI_ICONS.INFORMATION_OUTLINE,
+  index: 1
 }
 
 export const Clickable = Template.bind({})
