@@ -31,7 +31,7 @@ export default defineConfig({
      * Use the preview server on CI for more realistic testing.
      * Playwright will re-use the local server if there is already a dev-server running.
      */
-    command: 'npm run storybook',
+    command: 'pnpm run storybook',
     port: 6006,
     reuseExistingServer: true,
     cwd: '../'

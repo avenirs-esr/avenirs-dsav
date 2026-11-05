@@ -81,6 +81,41 @@ Example:
 
 ## Contributing
 
+### Local development
+
+DSAV is maintained as a standalone package. Use Node.js 26 (`nvm use`) and pnpm 10.34.2, as declared in `packageManager`.
+
+```sh
+npm install --global pnpm@10.34.2
+pnpm install --frozen-lockfile
+```
+
+Run commands from the repository root:
+
+| Command | Purpose |
+| --- | --- |
+| `pnpm run dev` | Start the Vite development server |
+| `pnpm run storybook` | Start Storybook on port 6006 |
+| `pnpm run test` | Run unit tests |
+| `pnpm run test:coverage` | Run unit tests with coverage |
+| `pnpm run test:a11y` | Run accessibility tests against Storybook |
+| `pnpm run lint` | Check code style |
+| `pnpm run type-check` | Check TypeScript types |
+| `pnpm run build` | Build the library and TypeScript declarations |
+| `pnpm run build:watch` | Build and watch the library and declarations |
+| `pnpm run build:development` | Build the library in development mode |
+| `pnpm run storybook:build` | Build Storybook into `storybook-static` |
+| `pnpm run docs:dev` | Generate documentation and start VitePress |
+| `pnpm run docs:build` | Build documentation into `docs/.vitepress/dist` |
+
+Install the Chromium browser before running accessibility tests locally:
+
+```sh
+pnpm exec playwright install chromium
+```
+
+Dependency build-script permissions are maintained in `pnpm-workspace.yaml`; this file configures pnpm without introducing additional packages or catalogs. Commit dependency changes with `pnpm-lock.yaml`.
+
 ### Deploying a new npm version
 
 When your development is successfully merged in `develop` or `main`, you can run the job `Release new version to npm` and select the type of version bump : `patch`, `minor` or `release`.
