@@ -57,8 +57,9 @@ const attrs = useAttrs()
 const {
   placement,
   tooltipStyle,
-  update,
   reset,
+  startTracking,
+  stopTracking
 } = useTooltipPosition()
 
 const isVisible = ref(false)
@@ -88,8 +89,17 @@ function setTriggered (value: boolean) {
   isTriggered.value = value && !disabled && !!content
 }
 
-function handleMouseEnter () {
+function handleMouseEnter (event: MouseEvent) {
+  // A pressed button means a click or drag is in progress, not a hover intent
+  if (event.buttons > 0) {
+    return
+  }
+
   setTriggered(true)
+}
+
+function handlePointerDown () {
+  setTriggered(false)
 }
 
 function handleMouseLeave () {
@@ -114,10 +124,18 @@ function handleScroll () {
   setTriggered(false)
 }
 
-watch(shouldShow, async (visible) => {
+// The wrapper is unmounted when disabled, so no mouseleave/focusout can reset the state
+watch([() => disabled, () => content], ([isDisabled, newContent]) => {
+  if (isDisabled || !newContent) {
+    isTriggered.value = false
+  }
+})
+
+watch([shouldShow, () => disabled, () => content], async ([visible]) => {
   isVisible.value = visible
 
   if (!visible) {
+    stopTracking()
     reset()
     return
   }
@@ -128,8 +146,8 @@ watch(shouldShow, async (visible) => {
     return
   }
 
-  await update(triggerRef.value, tooltipRef.value, paddingRem)
-})
+  startTracking(triggerRef.value, tooltipRef.value, paddingRem)
+}, { flush: 'post' })
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll, true)
@@ -152,6 +170,7 @@ onUnmounted(() => {
       @focusin="handleFocusIn"
       @focusout="handleFocusOut"
       @mouseenter="handleMouseEnter"
+      @pointerdown="handlePointerDown"
       @mouseleave="handleMouseLeave"
     >
       <span

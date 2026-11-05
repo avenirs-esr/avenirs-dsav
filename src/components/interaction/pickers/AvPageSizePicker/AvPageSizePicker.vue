@@ -36,6 +36,8 @@ const options: ComputedRef<AvTagPickerOption[]> = computed(() => Object.values(P
   })))
 
 const selectedOption: ComputedRef<string> = computed(() => pageSizeSelected.toString())
+
+const toto = ref([])
 </script>
 
 <template>
@@ -47,6 +49,10 @@ const selectedOption: ComputedRef<string> = computed(() => pageSizeSelected.toSt
       :multiple="false"
       :label="label"
       label-typography-class="b2-regular"
+    />
+
+    <AvSortableList
+      v-model="toto"
     />
   </div>
 </template>

@@ -48,7 +48,9 @@ BddTest().given('a useTooltipPosition composable', () => {
   })
 
   afterEach(() => {
+    composable.stopTracking()
     vi.restoreAllMocks()
+    vi.unstubAllGlobals()
   })
 
   BddTest().then('it should initialize with hidden style and top placement', () => {
@@ -110,6 +112,29 @@ BddTest().given('a useTooltipPosition composable', () => {
     })
   })
 
+  BddTest().when('there is not enough space on either side', () => {
+    beforeEach(async () => {
+      vi.spyOn(trigger, 'getBoundingClientRect').mockReturnValue(createRect({
+        top: 300,
+        bottom: 320,
+        left: 400,
+        width: 40,
+      }))
+
+      vi.spyOn(tooltip, 'getBoundingClientRect').mockReturnValue(createRect({
+        width: 160,
+        height: 400,
+      }))
+
+      await composable.update(trigger, tooltip, defaultPadding)
+    })
+
+    BddTest().then('it should choose the side with the most available space', () => {
+      expect(composable.placement.value).toBe('bottom')
+      expect(composable.tooltipStyle.value.top).toBe('328px')
+    })
+  })
+
   BddTest().when('the tooltip would overflow on the right', () => {
     beforeEach(async () => {
       Object.defineProperty(document.documentElement, 'clientWidth', {
@@ -163,6 +188,59 @@ BddTest().given('a useTooltipPosition composable', () => {
     })
   })
 
+  BddTest().when('the trigger is close to the right edge of the viewport', () => {
+    beforeEach(async () => {
+      vi.spyOn(trigger, 'getBoundingClientRect').mockReturnValue(createRect({
+        top: 200,
+        bottom: 220,
+        left: 950,
+        width: 40,
+      }))
+
+      vi.spyOn(tooltip, 'getBoundingClientRect').mockReturnValue(createRect({
+        width: 200,
+        height: 80,
+      }))
+
+      await composable.update(trigger, tooltip, defaultPadding)
+    })
+
+    BddTest().then('it should clamp the arrow offset to the tooltip width', () => {
+      expect(composable.tooltipStyle.value['--arrow-left']).toBe('178px')
+    })
+  })
+
+  BddTest().when('visualViewport is available', () => {
+    beforeEach(async () => {
+      Object.defineProperty(window, 'visualViewport', {
+        configurable: true,
+        value: {
+          width: 600,
+          height: 500,
+        },
+      })
+
+      vi.spyOn(trigger, 'getBoundingClientRect').mockReturnValue(createRect({
+        top: 200,
+        bottom: 220,
+        left: 500,
+        width: 40,
+      }))
+
+      vi.spyOn(tooltip, 'getBoundingClientRect').mockReturnValue(createRect({
+        width: 200,
+        height: 80,
+      }))
+
+      await composable.update(trigger, tooltip, defaultPadding)
+    })
+
+    BddTest().then('it should use visualViewport dimensions', () => {
+      expect(composable.tooltipStyle.value.left).toBe('392px')
+      expect(composable.tooltipStyle.value['--arrow-left']).toBe('128px')
+    })
+  })
+
   BddTest().when('reset is called after update', () => {
     beforeEach(async () => {
       vi.spyOn(trigger, 'getBoundingClientRect').mockReturnValue(createRect({
@@ -187,6 +265,48 @@ BddTest().given('a useTooltipPosition composable', () => {
         position: 'fixed',
         visibility: 'hidden',
       })
+    })
+  })
+
+  BddTest().when('tracking is started', () => {
+    let requestAnimationFrameSpy: ReturnType<typeof vi.spyOn>
+    let cancelAnimationFrameSpy: ReturnType<typeof vi.spyOn>
+
+    beforeEach(() => {
+      requestAnimationFrameSpy = vi.spyOn(window, 'requestAnimationFrame')
+        .mockReturnValue(1)
+
+      cancelAnimationFrameSpy = vi.spyOn(window, 'cancelAnimationFrame')
+        .mockImplementation(() => {})
+    })
+
+    BddTest().then('it should schedule an animation frame', () => {
+      composable.startTracking(trigger, tooltip, defaultPadding)
+
+      expect(requestAnimationFrameSpy).toHaveBeenCalledOnce()
+      expect(cancelAnimationFrameSpy).not.toHaveBeenCalled()
+    })
+
+    BddTest().then('it should cancel the previous tracking before starting a new one', () => {
+      composable.startTracking(trigger, tooltip, defaultPadding)
+      composable.startTracking(trigger, tooltip, defaultPadding)
+
+      expect(cancelAnimationFrameSpy).toHaveBeenCalledWith(1)
+      expect(requestAnimationFrameSpy).toHaveBeenCalledTimes(2)
+    })
+
+    BddTest().then('it should stop tracking and cancel the pending frame', () => {
+      composable.startTracking(trigger, tooltip, defaultPadding)
+
+      composable.stopTracking()
+
+      expect(cancelAnimationFrameSpy).toHaveBeenCalledWith(1)
+    })
+
+    BddTest().then('it should not cancel a frame when tracking has not started', () => {
+      composable.stopTracking()
+
+      expect(cancelAnimationFrameSpy).not.toHaveBeenCalled()
     })
   })
 })

@@ -12,6 +12,7 @@ import { useTextTruncation } from '@/composables'
 export interface AvListItemProps extends AvInteractiveProps {
   /**
    * The theme of the list item, affecting its overall styling.
+   * @default 'PRIMARY'
    */
   theme?: 'PRIMARY' | 'SECONDARY' | 'TERTIARY'
 
