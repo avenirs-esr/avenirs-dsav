@@ -65,6 +65,14 @@ export default antfu({
 
   },
 }, {
+  files: ['pnpm-workspace.yaml'],
+  rules: {
+    'pnpm/yaml-enforce-settings': ['error', {
+      settings: {},
+      requiredFields: ['allowBuilds']
+    }]
+  }
+}, {
   files: ['**/index.ts', '**/index.js'],
   rules: {
     'no-restricted-imports': 'off',
