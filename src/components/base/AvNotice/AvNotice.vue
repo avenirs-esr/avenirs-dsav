@@ -23,9 +23,15 @@ export interface AvNoticeProps {
    * Can be 'info', 'warning', or 'alert'.
    */
   type: 'info' | 'warning' | 'alert'
+
+  /**
+   * Whether the notice is global.
+   * @default false
+   */
+  global?: boolean
 }
 
-const { title = '', text = '', type } = defineProps<AvNoticeProps>()
+const { title = '', text = '', type, global = false } = defineProps<AvNoticeProps>()
 
 const formattedDesc = computed(() => formatTextToHtml(text))
 
@@ -40,12 +46,24 @@ const icon = computed(() => {
       return { name: MDI_ICONS.INFORMATION_BOX, color: 'var(--dark-background-info)' }
   }
 })
+
+const backgroundColor = computed(() => {
+  switch (type) {
+    case 'warning':
+      return 'var(--light-background-warn)'
+    case 'alert':
+      return 'var(--light-background-error)'
+    case 'info':
+    default:
+      return 'var(--light-background-info)'
+  }
+})
 </script>
 
 <template>
   <div
     class="av-notice av-row av-align-center av-gap-sm av-p-sm"
-    :class="`av-notice--${type}`"
+    :class="[`av-notice--${type}`, { 'av-notice--global av-container': global }]"
   >
     <AvIcon
       v-bind="icon"
@@ -63,18 +81,20 @@ const icon = computed(() => {
 <style lang="scss" scoped>
 .av-notice {
   &--info {
-    background-color: var(--light-background-info);
     color: var(--dark-background-info);
   }
 
   &--warning {
-    background-color: var(--light-background-warn);
     color: var(--dark-background-warn);
   }
 
   &--alert {
-    background-color: var(--light-background-error);
     color: var(--dark-background-error);
+  }
+
+  &--global {
+    box-shadow: 0 0 0 100vmax v-bind('backgroundColor');
+    clip-path: inset(0 -100vmax);
   }
 
   span,

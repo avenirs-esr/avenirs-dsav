@@ -41,5 +41,12 @@ BddTest().given('an AvNotice', () => {
         expect(wrapper.find('.text-underline').exists()).toBe(false)
       })
     })
+
+    BddTest().and('the global prop is true', () => {
+      BddTest().then('it should add the av-notice--global class', () => {
+        wrapper = mount(AvNotice, { props: { ...props, global: true } })
+        expect(wrapper.find('.av-notice--global').exists()).toBe(true)
+      })
+    })
   })
 })
