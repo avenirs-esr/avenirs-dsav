@@ -102,7 +102,7 @@ const meta: Meta<AvRichTextEditorProps> = {
     popoversConfirmLabel: { control: 'text' },
     allowExceedMaxlength: { control: 'boolean', required: false },
     allowedHeadersLevels: {
-      control: { type: 'multi-select' },
+      control: { type: 'check' },
       options: [1, 2, 3, 4, 5, 6],
     },
   },
