@@ -215,6 +215,22 @@ BddTest().given('an AvHeader', () => {
     })
   })
 
+  BddTest().when('the global notice slot is provided', () => {
+    beforeEach(async () => {
+      wrapper = await mountWithRouter(AvHeader, {
+        props: { homeLabel },
+        slots: {
+          globalNotice: '<div>Global Notice</div>'
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render the global notice slot', () => {
+      expect(wrapper.html()).toContain('Global Notice')
+    })
+  })
+
   BddTest().when('the component is unmounted', () => {
     beforeEach(async () => {
       vi.clearAllMocks()
