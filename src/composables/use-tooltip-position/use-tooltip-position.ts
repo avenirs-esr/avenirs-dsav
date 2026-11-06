@@ -5,7 +5,7 @@ type Placement = 'top' | 'bottom'
 
 /**
  * Composable for managing tooltip positioning. It is meant to be used with AvTooltip.
- * @returns An object containing tooltip placement, style, and update/reset functions.
+ * @returns An object containing tooltip placement, style, and update/reset/startTracking/stopTracking functions.
  */
 export function useTooltipPosition () {
   const placement = ref<Placement>('top')
@@ -14,6 +14,8 @@ export function useTooltipPosition () {
     visibility: 'hidden',
   })
   const arrowLeft = ref('50%')
+
+  let animationFrameId: number | undefined
 
   function getViewportWidth (): number {
     return window.visualViewport?.width ?? document.documentElement.clientWidth
@@ -103,10 +105,34 @@ export function useTooltipPosition () {
     arrowLeft.value = '50%'
   }
 
+  function stopTracking () {
+    if (animationFrameId !== undefined) {
+      cancelAnimationFrame(animationFrameId)
+      animationFrameId = undefined
+    }
+  }
+
+  function startTracking (
+    trigger: HTMLElement,
+    tooltip: HTMLElement,
+    paddingRem: number
+  ) {
+    stopTracking()
+
+    const track = async () => {
+      await update(trigger, tooltip, paddingRem)
+      animationFrameId = requestAnimationFrame(track)
+    }
+
+    animationFrameId = requestAnimationFrame(track)
+  }
+
   return {
     placement,
     tooltipStyle,
     update,
     reset,
+    startTracking,
+    stopTracking
   }
 }

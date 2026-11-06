@@ -1,6 +1,6 @@
 # Components
 
-_Last updated: 2026-01-06_
+_Last updated: 2026-11-05_
 
 ## Badges
 - [AvBadge](badges/AvBadge/AvBadge.md)
@@ -50,6 +50,7 @@ _Last updated: 2026-01-06_
 - [AvCheckboxListItem](interaction/lists/AvCheckboxListItem/AvCheckboxListItem.md)
 - [AvList](interaction/lists/AvList/AvList.md)
 - [AvListItem](interaction/lists/AvListItem/AvListItem.md)
+- [AvSortableList](interaction/lists/AvSortableList/AvSortableList.md)
 
 ### Pickers
 - [AvPageSizePicker](interaction/pickers/AvPageSizePicker/AvPageSizePicker.md)

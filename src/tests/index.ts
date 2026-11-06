@@ -25,6 +25,7 @@ import { AvSearchBarStub } from '@/components/interaction/inputs/AvSearchBar/AvS
 import { AvCheckboxListItemStub } from '@/components/interaction/lists/AvCheckboxListItem/AvCheckboxListItem.stub'
 import { AvListStub } from '@/components/interaction/lists/AvList/AvList.stub'
 import { AvListItemStub } from '@/components/interaction/lists/AvListItem/AvListItem.stub'
+import { AvSortableListStub } from '@/components/interaction/lists/AvSortableList/AvSortableList.stub'
 import { AvPageSizePickerStub } from '@/components/interaction/pickers/AvPageSizePicker/AvPageSizePicker.stub'
 import { AvTagPickerStub } from '@/components/interaction/pickers/AvTagPicker/AvTagPicker.stub'
 import { AvRadioButtonStub } from '@/components/interaction/radios/AvRadioButton/AvRadioButton.stub'
@@ -92,6 +93,7 @@ export {
   AvSelectStub,
   AvSideNavigationStub,
   AvSkipLinksStub,
+  AvSortableListStub,
   AvStepperStub,
   AvTableStub,
   AvTabsStub,
