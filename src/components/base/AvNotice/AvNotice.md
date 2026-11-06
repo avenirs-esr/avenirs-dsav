@@ -6,6 +6,14 @@ The `AvNotice` is an important information banner that allow users to view or ac
 
 It is displayed on all pages on desktop and mobile devices. It displays important and urgent information (overuse may cause this banner to "disappear").
 
+The text supports basic formatting:
+- Any text surrounded by `__` will be underlined.
+- Any text surrounded by `**` will be bolded.
+- Any text surrounded by `###` will be treated as a heading.
+- Any text starting with a dash (`-`) will be treated as a list item.
+
+The text will be formatted to HTML and sanitized to prevent XSS attacks.
+
 ## 🏗️ Structure
 
 The notice consists of the following elements:
@@ -25,7 +33,7 @@ The notice consists of the following elements:
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
 | `title` | `string` | `''` | | The banner title. |
-| `text` | `string` | `''` | | The banner text. Any text surrounded by ** will be underlined. |
+| `text` | `string` | `''` | | The banner text. Any text surrounded by `__` will be underlined. Any text surrounded by `**` will be bolded. Any text surrounded by `###` will be treated as a heading. Any text starting with a dash (`-`) will be treated as a list item. The text will be formatted to HTML and sanitized to prevent XSS attacks. |
 | `type` | `'info' \| 'warning' \| 'alert'` | | ✅ | The banner type. |
 | `global` | `boolean` | `false` | | Whether the notice is global. Used for full-width notices (e.g., a site-wide alert at the top of the page). Use it when notice is instanciated in AvHeader globalNotice slot. |
 
