@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import DOMPurify from 'dompurify'
 import { MDI_ICONS } from '@/tokens'
-import { formatTextToHtml } from '@/utils/string/string'
 
 /**
  * AvNotice component props.
@@ -14,11 +13,7 @@ export interface AvNoticeProps {
   title?: string
 
   /**
-   * The banner text. Will be formatted to HTML and sanitized to prevent XSS attacks.
-   * Any text surrounded by __ will be underlined.
-   * Any text surrounded by ** will be bolded.
-   * Any text surrounded by ### will be treated as a heading.
-   * Any text starting with a dash (-) will be treated as a list item.
+   * The banner text as plain text or HTML. Will be sanitized to prevent XSS attacks.
    * @default ''
    */
   text?: string
@@ -40,10 +35,7 @@ export interface AvNoticeProps {
 
 const { title = '', text = '', type, global = false } = defineProps<AvNoticeProps>()
 
-const formattedDesc = computed(() => formatTextToHtml(text))
-const sanitizedDescription = computed(() =>
-  DOMPurify.sanitize(formattedDesc.value ?? '')
-)
+const sanitizedDescription = computed(() => DOMPurify.sanitize(text ?? ''))
 
 const icon = computed(() => {
   switch (type) {

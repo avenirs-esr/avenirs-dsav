@@ -27,43 +27,29 @@ BddTest().given('an AvNotice', () => {
       expect(wrapper.text()).toContain('Titre test')
     })
 
-    BddTest().and('type is warning', () => {
-      BddTest().then('it should manage the type of notice', () => {
-        mountNotice({ type: 'warning' })
-
-        expect(wrapper.find('.av-notice--warning').exists()).toBe(true)
-      })
-    })
-
-    BddTest().and('type is alert', () => {
-      BddTest().then('it should manage the type of notice', () => {
-        mountNotice({ type: 'alert' })
-
-        expect(wrapper.find('.av-notice--alert').exists()).toBe(true)
-      })
-    })
-
-    BddTest().and('text with underlines is passed', () => {
-      BddTest().then('it should format text between __ in span.text-underline', () => {
-        mountNotice({ text: 'Voici un texte avec __partie soulignée__ ici.' })
-
-        const span = wrapper.find('.text-underline')
-
-        expect(span.exists()).toBe(true)
-        expect(span.text()).toBe('partie soulignée')
-      })
-    })
-
-    BddTest().and('there is no __ in the text', () => {
-      BddTest().then('it should not create span.text-underline', () => {
+    BddTest().and('text is provided', () => {
+      BddTest().then('it should display text correctly', () => {
         mountNotice()
 
-        expect(wrapper.find('.text-underline').exists()).toBe(false)
+        expect(wrapper.text()).toContain('Texte sans mise en forme')
       })
     })
 
-    BddTest().and('the description contains malicious HTML', () => {
-      BddTest().then('it should sanitize the description', () => {
+    BddTest().and('text contains safe HTML', () => {
+      BddTest().then('it should render the HTML', () => {
+        mountNotice({
+          text: '<strong>Texte important</strong>',
+        })
+
+        const strong = wrapper.find('strong')
+
+        expect(strong.exists()).toBe(true)
+        expect(strong.text()).toBe('Texte important')
+      })
+    })
+
+    BddTest().and('text contains malicious HTML', () => {
+      BddTest().then('it should remove dangerous attributes', () => {
         mountNotice({
           text: '<img src="x" onerror="alert(1)">',
         })
@@ -75,13 +61,60 @@ BddTest().given('an AvNotice', () => {
       })
     })
 
-    BddTest().and('the description contains a script tag', () => {
-      BddTest().then('it should remove the script tag', () => {
+    BddTest().and('text contains a script tag', () => {
+      BddTest().then('it should remove the script tag and its content', () => {
         mountNotice({
           text: '<script>alert("XSS")</script>',
         })
 
         expect(wrapper.find('script').exists()).toBe(false)
+        expect(wrapper.html()).not.toContain('alert("XSS")')
+      })
+    })
+
+    BddTest().and('text contains a javascript URL', () => {
+      BddTest().then('it should remove the dangerous URL', () => {
+        mountNotice({
+          text: '<a href="javascript:alert(1)">Clique ici</a>',
+        })
+
+        const link = wrapper.find('a')
+
+        expect(link.exists()).toBe(true)
+        expect(link.attributes('href')).toBeUndefined()
+        expect(link.text()).toBe('Clique ici')
+      })
+    })
+
+    BddTest().and('text is empty', () => {
+      BddTest().then('it should not display any description', () => {
+        mountNotice({ text: '' })
+
+        expect(wrapper.find('.b2-regular').text()).toBe('')
+      })
+    })
+
+    BddTest().and('type is warning', () => {
+      BddTest().then('it should add the warning class', () => {
+        mountNotice({ type: 'warning' })
+
+        expect(wrapper.find('.av-notice--warning').exists()).toBe(true)
+      })
+    })
+
+    BddTest().and('type is alert', () => {
+      BddTest().then('it should add the alert class', () => {
+        mountNotice({ type: 'alert' })
+
+        expect(wrapper.find('.av-notice--alert').exists()).toBe(true)
+      })
+    })
+
+    BddTest().and('type is info', () => {
+      BddTest().then('it should add the info class', () => {
+        mountNotice({ type: 'info' })
+
+        expect(wrapper.find('.av-notice--info').exists()).toBe(true)
       })
     })
 

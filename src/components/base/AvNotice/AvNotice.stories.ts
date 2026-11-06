@@ -9,45 +9,60 @@ import AvNotice from '@/components/base/AvNotice/AvNotice.vue'
  *
  * <p>
  *   <span class="b2-regular">
- *     The <code>AvNotice</code> is an important information banner that allow
- *     users to view or access important and temporary information.
+ *     The <code>AvNotice</code> component is an important information banner that allows users to view or
+ *     access important and temporary information.
  *   </span>
  * </p>
  *
  * <p>
  *   <span class="b2-regular">
- *     It is displayed on all pages on desktop and mobile devices. It displays important and urgent information
- *     (overuse may cause this banner to "disappear").
+ *     It is displayed on all pages, on both desktop and mobile devices. It is intended for important and
+ *     urgent information; overuse may cause users to overlook the banner.
+ *   </span>
+ * </p>
+ *
+ * <p>
+ *   <span class="b2-regular">
+ *     The text supports plain text or HTML and is sanitized to prevent XSS attacks.
  *   </span>
  * </p>
  *
  * <h2 class="n2">🏗️ Structure</h2>
  *
- * <p><span class="b2-regular">The notice consists of the following elements:</span></p>
+ * <p>
+ *   <span class="b2-regular">
+ *     The notice consists of the following elements:
+ *   </span>
+ * </p>
  *
  * <ul>
  *   <li>
- *     <span class="b2-regular">A title (prop <code>title</code>, of type <code>string</code>):</span>
+ *     <span class="b2-regular">
+ *       A title, provided by the <code>title</code> prop (<code>string</code>), which is optional and defaults
+ *       to <code>''</code>.
+ *     </span>
+ *   </li>
+ *   <li>
+ *     <span class="b2-regular">
+ *       A text, provided by the <code>text</code> prop (<code>string</code>), which is optional and defaults
+ *       to <code>''</code>.
+ *     </span>
+ *   </li>
+ *   <li>
+ *     <span class="b2-regular">
+ *       A pictogram and a color determined by the <code>type</code> prop, which accepts one of the following
+ *       values:
+ *     </span>
  *     <ul>
- *       <li><span class="b2-regular">Optional with a default value <code>''</code></span></li>
+ *       <li><code>'info'</code></li>
+ *       <li><code>'warning'</code></li>
+ *       <li><code>'alert'</code></li>
  *     </ul>
  *   </li>
  *   <li>
- *     <span class="b2-regular">A text (prop <code>text</code>, of type <code>string</code>):</span>
- *     <ul>
- *       <li><span class="b2-regular">Optional with a default value <code>''</code></span></li>
- *     </ul>
- *   </li>
- *   <li>
- *     <span class="b2-regular">A pictogram and a color determined by the prop <code>type</code>, which can be one of the following strings:</span>
- *     <ul>
- *       <li><span class="b2-regular"><code>'info'</code></span></li>
- *       <li><span class="b2-regular"><code>'warning'</code></span></li>
- *       <li><span class="b2-regular"><code>'alert'</code></span></li>
- *     </ul>
- *   </li>
- *   <li>
- *     <span class="b2-regular">An information icon</span>
+ *     <span class="b2-regular">
+ *       An information icon.
+ *     </span>
  *   </li>
  * </ul>
  */
@@ -67,7 +82,7 @@ const meta: Meta<AvNoticeProps> = {
   },
   args: {
     title: 'Attention',
-    text: 'Please **read carefully** the instructions.',
+    text: 'Please <b>read carefully</b> the instructions.',
     type: 'warning',
     global: false,
   },
@@ -89,20 +104,20 @@ Default.args = {}
 export const InfoNotice = Template.bind({})
 InfoNotice.args = {
   title: 'Information',
-  text: 'This is an **informative message** with underlined parts.',
+  text: 'This is an <b>informative message</b> with bolded parts.',
   type: 'info',
 }
 
 export const AlertNotice = Template.bind({})
 AlertNotice.args = {
   title: 'Critical alert',
-  text: '**Immediate action** is required.',
+  text: '<b>Immediate action</b> is required.',
   type: 'alert',
 }
 
 export const WithoutTitle = Template.bind({})
 WithoutTitle.args = {
   title: undefined,
-  text: 'This is an informative message **without title** and you must pay attention to it.',
+  text: 'This is an informative message <b>without title</b> and you must pay attention to it.',
   type: 'info',
 }
