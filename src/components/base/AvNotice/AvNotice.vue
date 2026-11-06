@@ -25,7 +25,9 @@ export interface AvNoticeProps {
   type: 'info' | 'warning' | 'alert'
 
   /**
-   * Whether the notice is global.
+   * Whether the notice is global. Used for full-width notices
+   * (e.g. a site-wide alert at the top of the page)
+   * Use it when notice is instanciated in AvHeader globalNotice slot.
    * @default false
    */
   global?: boolean

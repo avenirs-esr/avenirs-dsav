@@ -27,6 +27,7 @@ The notice consists of the following elements:
 | `title` | `string` | `''` | | The banner title. |
 | `text` | `string` | `''` | | The banner text. Any text surrounded by ** will be underlined. |
 | `type` | `'info' \| 'warning' \| 'alert'` | | ✅ | The banner type. |
+| `global` | `boolean` | `false` | | Whether the notice is global. Used for full-width notices (e.g., a site-wide alert at the top of the page). Use it when notice is instanciated in AvHeader globalNotice slot. |
 
 ## 🔊 Events
 
