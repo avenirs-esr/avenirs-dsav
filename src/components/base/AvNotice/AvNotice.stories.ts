@@ -63,11 +63,13 @@ const meta: Meta<AvNoticeProps> = {
       options: ['info', 'warning', 'alert'],
       description: 'The type of notice',
     },
+    global: { control: 'boolean' },
   },
   args: {
     title: 'Attention',
     text: 'Please **read carefully** the instructions.',
     type: 'warning',
+    global: false,
   },
 }
 
