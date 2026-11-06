@@ -21,17 +21,34 @@ BddTest().given('an AvNotice', () => {
   }
 
   BddTest().when('the component is mounted', () => {
-    BddTest().then('it should display title correctly', () => {
+    BddTest().then('it should display the title', () => {
       mountNotice()
 
-      expect(wrapper.text()).toContain('Titre test')
+      expect(wrapper.find('.b2-bold').text()).toBe('Titre test')
+    })
+
+    BddTest().and('no title is provided', () => {
+      BddTest().then('it should not render the title element', () => {
+        mountNotice({ title: '' })
+
+        expect(wrapper.find('.b2-bold').exists()).toBe(false)
+      })
+    })
+
+    BddTest().and('no title is provided', () => {
+      BddTest().then('it should still render the content', () => {
+        mountNotice({ title: '' })
+
+        expect(wrapper.find('.av-notice__content').exists()).toBe(true)
+        expect(wrapper.find('.b2-regular').text()).toBe('Texte sans mise en forme')
+      })
     })
 
     BddTest().and('text is provided', () => {
-      BddTest().then('it should display text correctly', () => {
+      BddTest().then('it should display the text', () => {
         mountNotice()
 
-        expect(wrapper.text()).toContain('Texte sans mise en forme')
+        expect(wrapper.find('.b2-regular').text()).toBe('Texte sans mise en forme')
       })
     })
 
@@ -41,7 +58,7 @@ BddTest().given('an AvNotice', () => {
           text: '<strong>Texte important</strong>',
         })
 
-        const strong = wrapper.find('strong')
+        const strong = wrapper.find('.b2-regular strong')
 
         expect(strong.exists()).toBe(true)
         expect(strong.text()).toBe('Texte important')
@@ -87,9 +104,10 @@ BddTest().given('an AvNotice', () => {
     })
 
     BddTest().and('text is empty', () => {
-      BddTest().then('it should not display any description', () => {
+      BddTest().then('it should render an empty description', () => {
         mountNotice({ text: '' })
 
+        expect(wrapper.find('.b2-regular').exists()).toBe(true)
         expect(wrapper.find('.b2-regular').text()).toBe('')
       })
     })

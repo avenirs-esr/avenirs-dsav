@@ -71,17 +71,26 @@ const backgroundColor = computed(() => {
       v-bind="icon"
       :size="1.5"
     />
-    <span class="b2-bold">
-      {{ title }}
-      <span class="b2-regular">
-        <span v-html="sanitizedDescription" />
+    <div class="av-notice__content">
+      <span
+        v-if="title"
+        class="b2-bold"
+      >
+        {{ title }}
       </span>
-    </span>
+
+      <div
+        class="b2-regular"
+        v-html="sanitizedDescription"
+      />
+    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .av-notice {
+  background-color: v-bind('backgroundColor');
+
   &--info {
     color: var(--dark-background-info);
   }
