@@ -98,6 +98,11 @@ const emit = defineEmits<AvHeaderEmits>()
 
 const slots = defineSlots<{
   /**
+   * Slot for the global notice.
+   */
+  globalNotice?: Slot
+
+  /**
    * Slot for adding content before quicklinks.
    */
   quickLinks?: Slot
@@ -174,6 +179,7 @@ provide(registerNavigationLinkKey, () => hideDrawer)
     role="banner"
     class="av-header"
   >
+    <slot name="globalNotice" />
     <div class="av-header__body">
       <div class="av-container">
         <div class="av-row av-justify-start av-align-center av-pt-sm av-pb-xxs">

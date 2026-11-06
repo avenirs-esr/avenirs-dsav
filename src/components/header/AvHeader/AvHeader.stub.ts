@@ -26,6 +26,7 @@ export const AvHeaderStub = defineComponent({
   emits: ['update:modelValue', 'language-select', 'update:menuOpen'],
   template: `
     <div>
+      <slot name="globalNotice" />
       <slot name="quickLinks" />
       <slot name="roleContext" />
       <slot name="mainnav" />
