@@ -18,7 +18,7 @@ export function testStories (component: string, title: string, stories: string[]
       await nextTick()
       await page.waitForLoadState('domcontentloaded')
       await nextTick()
-      await page.waitForTimeout(50)
+      await page.waitForSelector('#storybook-root *')
 
       // some rules are disabled because we only test components and not their integration in pages
       const rawAxeResults = await new AxeBuilder({ page })

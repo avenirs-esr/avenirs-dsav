@@ -11,6 +11,7 @@ interface UseRichTextEditorOptions {
   content?: string
   maxlength?: number
   allowExceedMaxlength?: boolean
+  editorLabel: string
   onUpdate?: (editor: Editor) => void
 }
 
@@ -24,7 +25,13 @@ export const ResizableImage = Image.extend({
   },
 })
 
-export function useRichTextEditor ({ content, maxlength, allowExceedMaxlength = true, onUpdate }: UseRichTextEditorOptions) {
+export function useRichTextEditor ({
+  content,
+  maxlength,
+  allowExceedMaxlength = true,
+  editorLabel,
+  onUpdate
+}: UseRichTextEditorOptions) {
   return useEditor({
     extensions: [
       StarterKit.configure({ link: false }),
@@ -45,7 +52,10 @@ export function useRichTextEditor ({ content, maxlength, allowExceedMaxlength = 
     content,
     onUpdate: ({ editor }) => onUpdate?.(editor),
     editorProps: {
-      attributes: { class: 'av--mx-sm av-px-sm av-py-xxs' },
+      attributes: {
+        'class': 'av--mx-sm av-px-sm av-py-xxs',
+        'aria-label': editorLabel,
+      },
       handleClick: (view, pos, event) => {
         const { schema } = view.state
         const $pos = view.state.doc.resolve(pos)
