@@ -49,7 +49,8 @@ const editor = useRichTextEditor({
     model.value = editorInstance.getHTML()
   },
   maxlength,
-  allowExceedMaxlength
+  allowExceedMaxlength,
+  editorLabel
 })
 
 watch(

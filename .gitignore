@@ -353,6 +353,7 @@ $RECYCLE.BIN/
 auto-imports.d.ts
 
 a11y/reports
+a11y/.output
 
 storybook-static/
 
