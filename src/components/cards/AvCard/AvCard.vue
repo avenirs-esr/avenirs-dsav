@@ -238,7 +238,7 @@ defineExpose({
     :data-collapsible="collapsible"
     :data-collapsed="collapsed"
   >
-    <header
+    <div
       v-if="slots.title"
       class="av-card__title av-row av-align-center av-justify-between av-p-sm av-gap-sm"
       :class="titleClasses"
@@ -262,7 +262,7 @@ defineExpose({
         :data-testid="collapsed ? 'expand-button' : 'collapse-button'"
         @click.stop="toggleCollapsed"
       />
-    </header>
+    </div>
     <div
       v-if="!titleOnly"
       v-show="!collapsible || !collapsed"

@@ -78,7 +78,6 @@ defineSlots<{
   >
     <button
       v-bind="$attrs"
-      :aria-label="label"
       class="av-rich-button av-row av-w-full av-align-center av-justify-between"
       @click="$emit('click', $event)"
     >

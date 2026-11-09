@@ -70,11 +70,13 @@ const previewLabel = computed(() => {
 
             <AvMessage
               v-if="props.validMessage"
+              :id="`${realId}-desc`"
               type="success"
               :message="props.validMessage"
             />
             <AvMessage
               v-if="props.error"
+              :id="`${realId}-desc`"
               type="error"
               :message="props.error"
             />

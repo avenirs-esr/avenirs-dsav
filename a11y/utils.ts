@@ -18,7 +18,9 @@ export function testStories (component: string, title: string, stories: string[]
       await nextTick()
       await page.waitForLoadState('domcontentloaded')
       await nextTick()
-      await page.waitForSelector('#storybook-root *')
+      await page.waitForSelector('#storybook-root *', {
+        state: 'attached',
+      })
 
       // some rules are disabled because we only test components and not their integration in pages
       const rawAxeResults = await new AxeBuilder({ page })
