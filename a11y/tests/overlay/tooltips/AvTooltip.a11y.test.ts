@@ -4,7 +4,7 @@ const component = 'AvTooltip'
 const title = 'Components/Overlay/Tooltips/AvTooltip'
 const stories = [
   'Default',
-  'Disavbled',
+  'Disabled',
   'JustifyLeft',
   'JustifyCenter',
   'JustifyRight',

@@ -251,8 +251,8 @@ ItemsWithIndexes.args = {
   selectedItem: { itemId: 'subitem-1-1', parentId: 'menu-expanded' }
 }
 
-export const ItemWithIndexesSecondary = Template.bind({})
-ItemWithIndexesSecondary.args = {
+export const ItemsWithIndexesSecondary = Template.bind({})
+ItemsWithIndexesSecondary.args = {
   items: mockItemsWithIndexes,
   selectedItem: { itemId: 'subitem-1-1', parentId: 'menu-expanded' },
   theme: 'SECONDARY'

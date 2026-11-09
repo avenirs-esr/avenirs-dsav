@@ -41,6 +41,8 @@ The component also provides a polite live region to announce reorder operations.
 | --- | --- | --- |
 | `default` | `{ element: T; index: number }` | Custom content for an item. The index is zero-based. If omitted, the component displays `element.label`. |
 
+N.B.: When using `AvListItem` inside the default slot, set `:role="null"` to avoid conflicting roles with the `AvCard` wrapper.
+
 ## 🚀 Storybook demos
 
 You can find examples of use and demos of the component on its dedicated [Storybook page](https://avenirs-esr.github.io/avenirs-dsav/storybook/?path=/docs/components-interaction-lists-avsortablelist--docs).
@@ -72,6 +74,7 @@ const items = ref([
   <AvSortableList v-model="items">
     <template #default="{ element, index }">
       <AvListItem
+        :role="null"
         :index="index + 1"
         :title="element.label"
         :description="element.description"
@@ -90,6 +93,7 @@ The slot can pass an icon to each `AvListItem`; use icon names from `MDI_ICONS` 
   <AvSortableList v-model="items">
     <template #default="{ element, index }">
       <AvListItem
+        :role="null"
         :index="index + 1"
         :title="element.label"
         :description="element.description"

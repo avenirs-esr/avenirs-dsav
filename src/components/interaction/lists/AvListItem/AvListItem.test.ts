@@ -260,8 +260,12 @@ BddTest().given('an AvListItem component', () => {
       avListItem = wrapper.find('.av-list-item')
     })
 
-    BddTest().then('it should combine title and description for aria-label', () => {
-      expect(avListItem.attributes('aria-label')).toBe('Test Title, Test Description')
+    BddTest().then('it should pass the computed aria label to AvTooltip content', () => {
+      expect(wrapper.findComponent(AvTooltipStub).props('content')).toBe('Test Title, Test Description')
+    })
+
+    BddTest().then('it should not give aria label to button since it has visible text for it', () => {
+      expect(avListItem.attributes('aria-label')).toBeUndefined()
     })
   })
 
@@ -274,8 +278,12 @@ BddTest().given('an AvListItem component', () => {
       avListItem = wrapper.find('.av-list-item')
     })
 
-    BddTest().then('it should use title as aria-label', () => {
-      expect(avListItem.attributes('aria-label')).toBe('Test Title')
+    BddTest().then('it should pass the computed aria label to AvTooltip content', () => {
+      expect(wrapper.findComponent(AvTooltipStub).props('content')).toBe('Test Title')
+    })
+
+    BddTest().then('it should not give aria label to button since it has visible text for it', () => {
+      expect(avListItem.attributes('aria-label')).toBeUndefined()
     })
   })
 

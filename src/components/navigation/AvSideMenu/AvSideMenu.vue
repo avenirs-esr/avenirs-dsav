@@ -170,7 +170,7 @@ function toggleCollapse () {
 
       <div
         v-if="isContentVisible"
-        :id="menuId"
+        :id="`${menuId}-content`"
         class="av-side-menu__content av-row av-flex-fill av-py-sm"
         data-testid="av-side-menu-content"
       >

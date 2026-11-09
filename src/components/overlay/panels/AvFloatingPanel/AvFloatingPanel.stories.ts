@@ -53,7 +53,7 @@ import { MDI_ICONS } from '@/tokens'
  * </ul>
  */
 const meta: Meta<AvFloatingPanelProps> = {
-  title: 'Components/Overlay/FloatingPanel/AvFloatingPanel',
+  title: 'Components/Overlay/Panels/AvFloatingPanel',
   component: AvFloatingPanel,
   argTypes: {
     title: { control: 'text' },
@@ -121,7 +121,7 @@ WithSubtitleAndFitContent.args = {
   width: 'fit-content'
 }
 
-export const WithouIcon = Template.bind({})
-WithouIcon.args = {
+export const WithoutIcon = Template.bind({})
+WithoutIcon.args = {
   icon: undefined,
 }

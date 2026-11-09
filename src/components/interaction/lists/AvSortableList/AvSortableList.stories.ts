@@ -97,6 +97,7 @@ const TemplateWithCustomSlot: StoryFn<ExtendedStoryArgs> = args => ({
     <AvSortableList v-bind="args">
       <template #default="{ element, index }">
         <AvListItem
+          :role="null"
           :index="index + 1"
           :title="element.label"
           :description="element.description"
@@ -115,6 +116,7 @@ const TemplateWithIcons: StoryFn<IconStoryArgs> = args => ({
     <AvSortableList v-bind="args">
       <template #default="{ element, index }">
         <AvListItem
+          :role="null"
           :index="index + 1"
           :title="element.label"
           :description="element.description"

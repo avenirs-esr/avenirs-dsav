@@ -94,7 +94,7 @@ export interface AvListItemProps extends AvInteractiveProps {
   /**
    * ARIA role for the list item. If not provided, defaults based on context.
    */
-  role?: string
+  role?: string | null
 
   /**
    * Type of list item, affecting styling. 'main' for primary items, 'sub' for nested items.
@@ -217,7 +217,7 @@ function handleKeyDown (event: KeyboardEvent) {
 
 <template>
   <div
-    :role="role"
+    :role="role ?? undefined"
     :class="itemClass"
   >
     <AvTooltip
@@ -228,7 +228,7 @@ function handleKeyDown (event: KeyboardEvent) {
     >
       <component
         :is="componentTag"
-        :aria-label="clickable ? computedAriaLabel : undefined"
+        :aria-label="clickable && !enableTooltip ? ariaLabel : enableTooltip ? computedAriaLabel : undefined"
         :aria-describedby="ariaDescribedby"
         :aria-disabled="disabled && isButton ? 'true' : undefined"
         :tabindex="clickable && !disabled ? 0 : undefined"

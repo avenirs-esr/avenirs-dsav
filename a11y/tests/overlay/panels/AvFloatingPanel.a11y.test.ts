@@ -7,7 +7,7 @@ const stories = [
   'Expanded',
   'WithSubtitle',
   'WithSubtitleAndFitContent',
-  'WithouIcon',
+  'WithoutIcon',
 ]
 
 testStories(component, title, stories)

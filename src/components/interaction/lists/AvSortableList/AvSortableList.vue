@@ -185,6 +185,7 @@ async function onDragEnd (event: { oldIndex?: number, newIndex?: number }) {
     ref="listRef"
     v-model="items"
     item-key="id"
+    role="list"
     class="av-col av-gap-sm"
     :class="{ 'is-dragging': isDragging }"
     :disabled="disabled"
@@ -195,7 +196,10 @@ async function onDragEnd (event: { oldIndex?: number, newIndex?: number }) {
     @end="onDragEnd"
   >
     <template #item="{ element, index }">
-      <AvCard radius="var(--radius-lg)">
+      <AvCard
+        role="listitem"
+        radius="var(--radius-lg)"
+      >
         <div
           class="av-row av-gap-sm av-align-center av-justify-between"
           :data-sortable-item-id="element.id"
