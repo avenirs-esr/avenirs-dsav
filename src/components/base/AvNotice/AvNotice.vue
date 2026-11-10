@@ -108,9 +108,11 @@ const backgroundColor = computed(() => {
     clip-path: inset(0 -100vmax);
   }
 
-  span,
-  .b2-bold,
-  .b2-regular {
+  :deep(p) {
+    margin: 0;
+  }
+
+  :deep(*) {
     color: inherit;
   }
 }

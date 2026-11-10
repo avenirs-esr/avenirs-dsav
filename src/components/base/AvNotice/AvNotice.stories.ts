@@ -82,7 +82,7 @@ const meta: Meta<AvNoticeProps> = {
   },
   args: {
     title: 'Attention',
-    text: 'Please <b>read carefully</b> the instructions.',
+    text: '<p>Please <b>read carefully</b> the instructions.</p>',
     type: 'warning',
     global: false,
   },
@@ -104,20 +104,20 @@ Default.args = {}
 export const InfoNotice = Template.bind({})
 InfoNotice.args = {
   title: 'Information',
-  text: 'This is an <b>informative message</b> with bolded parts.',
+  text: '<p>This is an <b>informative message</b> with bolded parts.</p>',
   type: 'info',
 }
 
 export const AlertNotice = Template.bind({})
 AlertNotice.args = {
   title: 'Critical alert',
-  text: '<b>Immediate action</b> is required.',
+  text: '<p><b>Immediate action</b> is required.</p>',
   type: 'alert',
 }
 
 export const WithoutTitle = Template.bind({})
 WithoutTitle.args = {
   title: undefined,
-  text: 'This is an informative message <b>without title</b> and you must pay attention to it.',
+  text: '<p>This is an informative message <b>without title</b> and you must pay attention to it.</p>',
   type: 'info',
 }

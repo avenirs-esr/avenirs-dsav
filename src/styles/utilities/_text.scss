@@ -53,16 +53,6 @@ $text-alignments: (
   ));
 }
 
-// === RESPONSIVE CLASSES ===
-
-// === Responsive text alignment ===
-// Ex: .av-text-left--md / .av-text-center--lg
-@each $alignment, $value in $text-alignments {
-  @include utility-responsive("text-#{$alignment}", (
-    text-align: #{$value} !important
-  ));
-}
-
 // === Text weight ===
 // Ex: .av-text-bold / .av-text-light / .av-text-regular
 @include ns("text-bold") {
@@ -75,4 +65,22 @@ $text-alignments: (
 
 @include ns("text-regular") {
   font-weight: var(--font-weight-regular) !important;
+}
+
+// === Links ===
+@include ns("link") {
+  &:hover {
+    color: var(--light-foreground-primary2) !important;
+    text-decoration: underline !important;
+  }
+}
+
+// === RESPONSIVE CLASSES ===
+
+// === Responsive text alignment ===
+// Ex: .av-text-left--md / .av-text-center--lg
+@each $alignment, $value in $text-alignments {
+  @include utility-responsive("text-#{$alignment}", (
+    text-align: #{$value} !important
+  ));
 }
