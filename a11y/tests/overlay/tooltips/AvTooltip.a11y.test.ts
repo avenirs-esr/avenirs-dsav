@@ -9,6 +9,7 @@ const stories = [
   'JustifyCenter',
   'JustifyRight',
   'ShortContent',
+  'WideHeight',
 ]
 
 testStories(component, title, stories)
