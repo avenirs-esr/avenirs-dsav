@@ -10,20 +10,24 @@ import AvSortableList from '@/components/interaction/lists/AvSortableList/AvSort
 import { AvTooltipStub } from '@/components/overlay/tooltips/AvTooltip/AvTooltip.stub'
 import { BddTest } from '@/tests/utils'
 
-const DraggableStub = defineComponent({
-  name: 'Draggable',
-  props: ['modelValue', 'itemKey', 'disabled'],
+const VueDraggableStub = defineComponent({
+  name: 'VueDraggable',
+  props: {
+    modelValue: {
+      type: Array,
+      default: () => [],
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+  },
   emits: ['update:modelValue', 'start', 'end'],
-  template: `
-    <div class="draggable-stub">
-      <template v-for="(element, index) in modelValue" :key="element[itemKey]">
-        <slot name="item" :element="element" :index="index" />
-      </template>
-    </div>`
+  template: '<div class="vue-draggable-stub"><slot /></div>',
 })
 
 const stubs = {
-  Draggable: DraggableStub,
+  VueDraggable: VueDraggableStub,
   AvCard: AvCardStub,
   AvButton: AvButtonStub,
   AvIcon: AvIconStub,
@@ -54,7 +58,7 @@ BddTest().given('an AvSortableList component', () => {
 
   const labels = () => wrapper.findAll('.av-card').map(card => card.find('.b2-regular').text())
   const buttons = (direction: 'up' | 'down') => wrapper.findAll(`[data-move-direction="${direction}"]`)
-  const draggable = () => wrapper.findComponent(DraggableStub)
+  const draggable = () => wrapper.findComponent(VueDraggableStub)
   const announcement = () => wrapper.find('[aria-live="polite"]').text()
 
   afterEach(() => {

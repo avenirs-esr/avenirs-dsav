@@ -59,6 +59,7 @@ export default defineConfig({
         'focus-trap',
         'focus-trap-vue',
         'lodash-es',
+        'vuedraggable'
       ],
       output: {
         exports: 'named',
