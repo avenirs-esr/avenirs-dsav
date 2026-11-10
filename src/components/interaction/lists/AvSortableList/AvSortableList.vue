@@ -2,7 +2,7 @@
 import type { VNode } from 'vue'
 import type { AvInteractiveProps } from '@/types/interfaces.types'
 import { nextTick } from 'vue'
-import Draggable from 'vuedraggable'
+import { VueDraggable } from 'vue-draggable-plus'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import AvCard from '@/components/cards/AvCard/AvCard.vue'
 import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
@@ -114,7 +114,7 @@ const DRAG_ANIMATION_MS = 200
 
 const announcement = ref('')
 const isDragging = ref(false)
-const listRef = ref<{ $el: HTMLElement } | null>(null)
+const listRef = ref<HTMLElement | null>(null)
 
 function isIndexInvalid (index: number) {
   return index < 0 || index >= items.value.length
@@ -136,7 +136,7 @@ async function restoreMoveButtonFocus (itemId: string, direction: 'up' | 'down')
   await nextTick()
 
   const allSortableItems = Array.from(
-    listRef.value?.$el.querySelectorAll<HTMLElement>('[data-sortable-item-id]') ?? []
+    listRef.value?.querySelectorAll<HTMLElement>('[data-sortable-item-id]') ?? []
   )
   const sortableItem = allSortableItems.find(item => item.dataset.sortableItemId === itemId)
   const moveButton = sortableItem?.querySelector<HTMLButtonElement>(`[data-move-direction="${direction}"]`)
@@ -171,7 +171,9 @@ async function onDragEnd (event: { oldIndex?: number, newIndex?: number }) {
   if (event.oldIndex !== undefined && event.newIndex !== undefined && event.oldIndex !== event.newIndex) {
     const element = items.value[event.newIndex]
 
-    announceMove(element, event.oldIndex, event.newIndex)
+    if (element) {
+      announceMove(element, event.oldIndex, event.newIndex)
+    }
   }
 
   await nextTick()
@@ -181,22 +183,23 @@ async function onDragEnd (event: { oldIndex?: number, newIndex?: number }) {
 </script>
 
 <template>
-  <Draggable
-    ref="listRef"
-    v-model="items"
-    item-key="id"
-    role="list"
-    class="av-col av-gap-sm"
-    :class="{ 'is-dragging': isDragging }"
-    :disabled="disabled"
-    handle=".drag-handle"
-    ghost-class="ghost"
-    :animation="DRAG_ANIMATION_MS"
-    @start="onDragStart"
-    @end="onDragEnd"
-  >
-    <template #item="{ element, index }">
+  <div ref="listRef">
+    <VueDraggable
+      v-model="items"
+      tag="div"
+      role="list"
+      class="av-col av-gap-sm"
+      :class="{ 'is-dragging': isDragging }"
+      :disabled="disabled"
+      handle=".drag-handle"
+      ghost-class="ghost"
+      :animation="DRAG_ANIMATION_MS"
+      @start="onDragStart"
+      @end="onDragEnd"
+    >
       <AvCard
+        v-for="(element, index) in items"
+        :key="element.id"
         role="listitem"
         radius="var(--radius-lg)"
       >
@@ -253,8 +256,8 @@ async function onDragEnd (event: { oldIndex?: number, newIndex?: number }) {
           </div>
         </div>
       </AvCard>
-    </template>
-  </Draggable>
+    </VueDraggable>
+  </div>
 
   <div
     class="av-sr-only"
