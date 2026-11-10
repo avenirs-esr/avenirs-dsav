@@ -243,6 +243,7 @@ defineExpose({
       class="av-card__title av-row av-align-center av-justify-between av-p-sm av-gap-sm"
       :class="titleClasses"
       :style="{ background: titleBackground, minHeight: titleHeight, maxHeight: titleHeight }"
+      data-testid="av-card-title"
       @click="handleHeaderClick"
       @mousemove="handleMouseMove"
     >
