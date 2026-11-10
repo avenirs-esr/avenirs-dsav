@@ -94,6 +94,36 @@ const Template: StoryFn<AvTooltipProps & { justify: 'start' | 'center' | 'end' }
   `,
 })
 
+const WideHeightTemplate: StoryFn<AvTooltipProps & { justify: 'start' | 'center' | 'end' }> = args => ({
+  components: { AvTooltip, AvIcon },
+  setup () {
+    const justifyClass = computed(() => `av-justify-${args.justify}`)
+    const tooltipArgs = computed(() => ({
+      content: args.content,
+      disabled: args.disabled,
+      forceFocusable: args.forceFocusable,
+    }))
+
+    return { tooltipArgs, justifyClass }
+  },
+  template: `
+    <AvTooltip v-bind="tooltipArgs">
+      <div class="av-col av-justify-between" style="height: 2000px; width: 420px; border: 1px solid #ccc;">
+        <div :class="['av-row', 'av-w-full', justifyClass, 'av-pt-xl']">
+          <AvTooltip v-bind="tooltipArgs">
+            <AvIcon name="mdi:information-outline" :size="3" />
+          </AvTooltip>
+        </div>
+        <div :class="['av-row', 'av-w-full', justifyClass, 'av-pt-xl']">
+          <AvTooltip v-bind="tooltipArgs">
+            <AvIcon name="mdi:information-outline" :size="3" />
+          </AvTooltip>
+        </div>
+      </div>
+    </AvTooltip>
+  `,
+})
+
 export const Default = Template.bind({})
 Default.args = {}
 
@@ -120,4 +150,9 @@ JustifyRight.args = {
 export const ShortContent = Template.bind({})
 ShortContent.args = {
   content: 'Quick hint',
+}
+
+export const WideHeight = WideHeightTemplate.bind({})
+WideHeight.args = {
+  justify: 'center',
 }

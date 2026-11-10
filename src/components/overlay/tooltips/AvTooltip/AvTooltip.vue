@@ -121,6 +121,16 @@ function handleScroll () {
     return
   }
 
+  const activeElement = document.activeElement
+
+  if (
+    activeElement instanceof HTMLElement
+    && triggerRef.value?.contains(activeElement)
+    && isFocusVisible({ target: activeElement } as unknown as FocusEvent)
+  ) {
+    return
+  }
+
   setTriggered(false)
 }
 
