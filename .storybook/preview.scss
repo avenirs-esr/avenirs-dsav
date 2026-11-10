@@ -1,4 +1,4 @@
-.rejt-name {
+.rejt-name:not(.docs-story .rejt-name) {
   color: var(--dark-background-primary1) !important;
 }
 
@@ -12,19 +12,19 @@
   box-shadow: none;
 }
 
-a[href] {
+a[href]:not(.docs-story a[href]) {
   background-image: none;
 }
 
-.sidebar-item svg {
+.sidebar-item svg:not(.docs-story .sidebar-item svg) {
   color: var(--dark-background-primary1) !important;
 }
 
-.sbdocs-title {
+.sbdocs-title:not(.docs-story .sbdocs-title) {
   display: none;
 }
 
-code, .sb-bar {
+code:not(.docs-story code), .sb-bar:not(.docs-story .sb-bar) {
   color: var(--text1) !important;
   background: var(--light-background-neutral) !important;
   border: none !important;
@@ -32,51 +32,55 @@ code, .sb-bar {
   font-weight: inherit !important;
 }
 
-body, .sbdocs-wrapper, .storybook-docs, .docs-story {
+body, .sbdocs-wrapper, .storybook-docs {
   background-color: var(--card) !important;
 }
 
-button[class^="css-"],
-.docblock-code-toggle {
+.docs-story {
+  background-color: var(--card) !important;
+}
+
+button[class^="css-"]:not(.docs-story button[class^="css-"]),
+.docblock-code-toggle:not(.docs-story .docblock-code-toggle) {
   background: var(--dark-background-primary1) !important;
   color: var(--other-background-base) !important;
   border: 1px solid var(--dark-background-primary1) !important;
 }
 
-.docblock-argstable-head button[class^="css-"] > svg,
-.docblock-argstable-head button[class^="css-"] > svg > path {
+.docblock-argstable-head button[class^="css-"]:not(.docs-story .docblock-argstable-head button[class^="css-"]) > svg,
+.docblock-argstable-head button[class^="css-"]:not(.docs-story .docblock-argstable-head button[class^="css-"]) > svg > path {
   fill: var(--other-background-base) !important;
   background: transparent !important;
   color: var(--other-background-base) !important;
 }
 
-.docblock-argstable-head button[class^="css-"]:hover > svg,
-.docblock-argstable-head button[class^="css-"]:hover > svg > path {
+.docblock-argstable-head button[class^="css-"]:hover:not(.docs-story .docblock-argstable-head button[class^="css-"]:hover) > svg,
+.docblock-argstable-head button[class^="css-"]:hover:not(.docs-story .docblock-argstable-head button[class^="css-"]:hover) > svg > path {
   fill: var(--dark-background-primary1) !important;
   color: var(--dark-background-primary1) !important;
 }
 
-button[class^="css-"]:hover,
-.docblock-code-toggle:hover {
+button[class^="css-"]:not(.docs-story button[class^="css-"]):hover,
+.docblock-code-toggle:not(.docs-story .docblock-code-toggle):hover {
   background: var(--other-background-base) !important;
   color: var(--dark-background-primary1) !important;
 }
 
-.story-wrapper {
+.story-wrapper:not(.docs-story .story-wrapper) {
   background-color: var(--card);
 }
 
-.dark p, .dark [class^="css-"]:not(code), .dark, .dark * {
+.dark:not(.docs-story .dark) p, .dark:not(.docs-story .dark) [class^="css-"]:not(code), .dark:not(.docs-story .dark), .dark:not(.docs-story .dark) * {
   color: #FAFAFACC !important;
   background-color: #14171A !important;
 }
 
-.light p, .light [class^="css-"]:not(code), .light, .light * {
+.light:not(.docs-story .light) p, .light:not(.docs-story .light) [class^="css-"]:not(code), .light:not(.docs-story .light), .light:not(.docs-story .light) * {
   color: #14171A !important;
   background-color: #FAFAFACC !important;
 }
 
-input[type="checkbox"] {
+input[type="checkbox"]:not(.docs-story input[type="checkbox"]) {
   appearance: auto !important;
   width: var(--dimension-md) !important;
   height: var(--dimension-md) !important;
@@ -87,75 +91,77 @@ input[type="checkbox"]:not(.story-wrapper input[type="checkbox"]):not(.docs-stor
   clip-path: unset !important;
 }
 
-input[type="checkbox"] + span[aria-hidden="true"], input[type="checkbox"] + span + span {
+input[type="checkbox"]:not(.docs-story input[type="checkbox"]) + span[aria-hidden="true"], input[type="checkbox"]:not(.docs-story input[type="checkbox"]) + span + span {
   display: none !important;
 }
 
-.token.plain-text {
+.token.plain-text:not(.docs-story .token.plain-text) {
   color: white !important;
 }
 
-.n1, .n2, .n3, .n4, .n5, .n6 {
+.n1:not(.docs-story .n1), .n2:not(.docs-story .n2), .n3:not(.docs-story .n3), .n4:not(.docs-story .n4), .n5:not(.docs-story .n5), .n6:not(.docs-story .n6) {
   color: var(--title);
 }
 
-.sbdocs-content h1,
-.sbdocs-content h1 > span {
+.sbdocs-content h1:not(.docs-story h1),
+.sbdocs-content h1:not(.docs-story h1) > span {
   font-size: var(--font-size-n1);
   font-weight: var(--font-weight-regular);
   line-height: var(--line-height-n1);
   color: var(--title);
 }
 
-.sbdocs-content h2,
-.sbdocs-content h2 > span {
+.sbdocs-content h2:not(.docs-story h2),
+.sbdocs-content h2:not(.docs-story h2) > span {
   font-size: var(--font-size-n2);
   font-weight: var(--font-weight-regular);
   line-height: var(--line-height-n2);
   color: var(--title);
 }
 
-.sbdocs-content h3,
-.sbdocs-content h3 > span {
+.sbdocs-content h3:not(.docs-story h3),
+.sbdocs-content h3:not(.docs-story h3) > span {
   font-size: var(--font-size-n3);
   font-weight: var(--font-weight-regular);
   line-height: var(--line-height-n3);
   color: var(--title);
 }
 
-.sbdocs-content h4,
-.sbdocs-content h4 > span {
+.sbdocs-content h4:not(.docs-story h4),
+.sbdocs-content h4:not(.docs-story h4) > span {
   font-size: var(--font-size-n4);
   font-weight: var(--font-weight-semi-bold);
   line-height: var(--line-height-n4);
   color: var(--title);
 }
 
-.sbdocs-content h5,
-.sbdocs-content h5 > span {
+.sbdocs-content h5:not(.docs-story h5),
+.sbdocs-content h5:not(.docs-story h5) > span {
   font-size: var(--font-size-n5);
   font-weight: var(--font-weight-semi-bold);
   line-height: var(--line-height-n5);
   color: var(--title);
 }
 
-.sbdocs-content h6,
-.sbdocs-content h6 > span {
+.sbdocs-content h6:not(.docs-story h6),
+.sbdocs-content h6:not(.docs-story h6) > span {
   font-size: var(--font-size-n6);
   font-weight: var(--font-weight-semi-bold);
   line-height: var(--line-height-n6);
   color: var(--title);
 }
 
-.sbdocs-content p {
+.sbdocs-content p:not(.docs-story p) {
   font-size: var(--font-size-md);
   font-weight: var(--font-weight-regular);
   letter-spacing: var(--letter-spacing-md);
   color: var(--text1);
 }
 
-*,
-::before,
-::after {
+* {
   font-family: var(--font-family-primary) !important;
+}
+
+.docs-story * {
+  font-family: inherit;
 }

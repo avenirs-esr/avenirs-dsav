@@ -1,6 +1,6 @@
 # Text
 
-_Last updated: 2026-06-24_
+_Last updated: 2026-11-10_
 
 ## ✨ Introduction
 
@@ -16,6 +16,7 @@ This `text` utility generates text-related classes for all defined styles.
 | `.av-text-{left\|center\|right\|justify}` | Applies text alignment |
 | `.av-text-{left\|center\|right\|justify}--{sm\|md\|lg\|xl}` | Applies text alignment from a breakpoint and up |
 | `.av-text-{bold\|light\|regular}` | Applies text weight |
+| `.av-link` | Applies link styles on hover |
 
 📝 Notes:
 - for `.av-max-lines`, the number of lines is determined by the CSS variable `--max-lines` (default: 2), which can be set on the element or inherited from a parent element.
@@ -95,6 +96,17 @@ This `text` utility generates text-related classes for all defined styles.
 
 .av-text-regular {
   font-weight: var(--font-weight-regular) !important;
+}
+```
+
+### Link classes
+
+```css
+.av-link {
+  &:hover {
+    color: var(--light-foreground-primary2) !important;
+    text-decoration: underline !important;
+  }
 }
 ```
 

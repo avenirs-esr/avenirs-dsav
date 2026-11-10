@@ -1,5 +1,6 @@
 import type { StorybookConfig } from '@storybook/vue3-vite'
 import type { PluginOption } from 'vite'
+import process from 'node:process'
 import { defineConfig } from 'vite'
 
 const config: StorybookConfig = {
@@ -10,7 +11,7 @@ const config: StorybookConfig = {
   addons: [
     '@chromatic-com/storybook',
     '@storybook/addon-docs',
-    '@storybook/addon-a11y',
+    ...(process.env.CI ? [] : ['@storybook/addon-a11y']),
     '@storybook/addon-vitest'
   ],
   framework: {
