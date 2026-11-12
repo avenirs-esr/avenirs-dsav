@@ -250,3 +250,95 @@ export const AllAllowedHeadersLevels = Template.bind({})
 AllAllowedHeadersLevels.args = {
   allowedHeadersLevels: [1, 2, 3, 4, 5, 6]
 }
+
+const TemplateWithTwoEditors: StoryFn<AvRichTextEditorProps> = args => ({
+  components: { AvRichTextEditor },
+  setup () {
+    const content1 = ref('<ol><li><p>item 1</p></li><li><p>item 2</p></li></ol><p></p>')
+    const charCount1 = ref(0)
+    const content2 = ref('<ol><li><p>item 1</p></li><li><p>item 2</p></li></ol><p></p>')
+    const charCount2 = ref(0)
+
+    return {
+      args,
+      content1,
+      charCount1,
+      content2,
+      charCount2
+    }
+  },
+  template: `
+    <div class="av-col av-container">
+      <AvRichTextEditor
+        v-model="content1"
+        v-model:char-count="charCount1"
+        v-bind="args"
+      />
+
+      <p>Character count 1: {{ charCount1 }}</p>
+      <p>HTML Content count 1: {{ content1.length }}</p>
+      <p>HTML Content 1: {{ content1 }}</p>
+
+      <AvRichTextEditor
+        v-model="content2"
+        v-model:char-count="charCount2"
+        v-bind="args"
+      />
+
+      <p>Character count 2: {{ charCount2 }}</p>
+      <p>HTML Content count 2: {{ content2.length }}</p>
+      <p>HTML Content 2: {{ content2 }}</p>
+    </div>
+  `
+})
+
+export const TwoEditors = TemplateWithTwoEditors.bind({})
+TwoEditors.args = {}
+
+const TemplateWithTwoEditorsInList: StoryFn<AvRichTextEditorProps> = args => ({
+  components: { AvRichTextEditor },
+  setup () {
+    const content1 = ref('<ol><li><p>item 1</p></li><li><p>item 2</p></li></ol><p></p>')
+    const charCount1 = ref(0)
+    const content2 = ref('<ol><li><p>item 1</p></li><li><p>item 2</p></li></ol><p></p>')
+    const charCount2 = ref(0)
+
+    return {
+      args,
+      content1,
+      charCount1,
+      content2,
+      charCount2
+    }
+  },
+  template: `
+    <ol>
+      <li>
+        <div class="av-col av-container">
+          <AvRichTextEditor
+            v-model="content1"
+            v-model:char-count="charCount1"
+            v-bind="args"
+          />
+
+          <p>Character count 1: {{ charCount1 }}</p>
+          <p>HTML Content count 1: {{ content1.length }}</p>
+          <p>HTML Content 1: {{ content1 }}</p>
+
+          <AvRichTextEditor
+            v-model="content2"
+            v-model:char-count="charCount2"
+            v-bind="args"
+          />
+
+          <p>Character count 2: {{ charCount2 }}</p>
+          <p>HTML Content count 2: {{ content2.length }}</p>
+          <p>HTML Content 2: {{ content2 }}</p>
+        </div>
+      </li>
+    </ol>
+  `
+})
+
+export const TwoEditorsInList = TemplateWithTwoEditorsInList.bind({})
+TwoEditorsInList.args = {}
