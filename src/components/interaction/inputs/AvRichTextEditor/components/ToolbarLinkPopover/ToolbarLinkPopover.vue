@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import type { AvButtonProps } from '@/components/interaction/buttons'
 import type { AvRichTextEditorLabels } from '@/components/interaction/inputs/AvRichTextEditor/AvRichTextEditor.types'
+import type { AvInteractiveProps } from '@/types'
 import AvInput from '@/components/interaction/inputs/AvInput/AvInput.vue'
+import { getToolbarButtonProps } from '@/components/interaction/inputs/AvRichTextEditor/AvRichTextEditor.utils'
 import { MS_ICONS } from '@/tokens/icons'
 
 export interface ToolbarLinkPopoverProps extends Pick<AvRichTextEditorLabels, 'linkLabel'
@@ -8,7 +11,8 @@ export interface ToolbarLinkPopoverProps extends Pick<AvRichTextEditorLabels, 'l
   | 'linkNamePlaceholder'
   | 'linkUrlLabel'
   | 'popoversCancelLabel'
-  | 'popoversConfirmLabel'> {
+  | 'popoversConfirmLabel'>,
+  AvInteractiveProps {
   /**
    * The initial name to populate the link input with.
    * Usually the selected text in the editor, if any. This allows users to easily create a link with the selected text as the display name.
@@ -16,7 +20,7 @@ export interface ToolbarLinkPopoverProps extends Pick<AvRichTextEditorLabels, 'l
   initialName?: string
 }
 
-const { initialName } = defineProps<ToolbarLinkPopoverProps>()
+const { initialName, disabled, disabledTooltip, isLoading } = defineProps<ToolbarLinkPopoverProps>()
 
 const emit = defineEmits<{
   /**
@@ -29,6 +33,15 @@ const emit = defineEmits<{
 
 const linkName = ref(initialName ?? '')
 const linkUrl = ref('')
+
+function getAvButtonProps (): Partial<AvButtonProps & { dataTestid: string }> {
+  return getToolbarButtonProps({
+    id: 'insert-link',
+    disabled,
+    disabledTooltip,
+    isLoading
+  })
+}
 
 function onConfirm () {
   emit('confirm', { name: linkName.value ? linkName.value : linkUrl.value, url: linkUrl.value })
@@ -45,12 +58,9 @@ watchEffect(() => {
   <AvPopover padding="var(--spacing-md)">
     <template #trigger="{ toggle }">
       <AvButton
+        v-bind="getAvButtonProps()"
         :label="linkLabel"
         :icon="MS_ICONS.LINK_ROUNDED"
-        icon-only
-        variant="FLAT"
-        size="LG"
-        data-testid="insert-link-button"
         @click="toggle"
       />
     </template>

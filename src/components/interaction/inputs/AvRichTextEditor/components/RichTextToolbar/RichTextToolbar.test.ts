@@ -309,6 +309,26 @@ BddTest().given('a rich text toolbar', () => {
       expect(increaseIndentButton!.props('variant')).toBe('DEFAULT')
     })
 
+    BddTest().then('it should render the toolbar with the correct role', () => {
+      expect(wrapper.find('[role="toolbar"]').exists()).toBe(true)
+    })
+
+    BddTest().then('it should pass the interactive props to the link popover', () => {
+      const linkPopover = getToolbarLinkPopover()
+
+      expect(linkPopover.props('disabled')).toBe(false)
+      expect(linkPopover.props('isLoading')).toBe(false)
+      expect(linkPopover.props('disabledTooltip')).toBeUndefined()
+    })
+
+    BddTest().then('it should pass the interactive props to the image popover', () => {
+      const imagePopover = getToolbarImagePopover()
+
+      expect(imagePopover.props('disabled')).toBe(false)
+      expect(imagePopover.props('isLoading')).toBe(false)
+      expect(imagePopover.props('disabledTooltip')).toBeUndefined()
+    })
+
     BddTest().and('the user makes an actions that enables the undo and redo buttons', () => {
       beforeEach(() => {
         isUndoActive.value = true
@@ -674,6 +694,89 @@ BddTest().given('a rich text toolbar', () => {
       const linkPopover = getToolbarLinkPopover()
       expect(linkPopover.exists()).toBe(true)
       expect(linkPopover.props('initialName')).toBe('')
+    })
+  })
+
+  BddTest().when('the component is disabled', () => {
+    beforeEach(() => {
+      wrapper = mount(RichTextToolbar, {
+        props: {
+          ...props,
+          disabled: true,
+          disabledTooltip: 'Action indisponible'
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('all toolbar buttons should be disabled', () => {
+      const buttons = wrapper.findAllComponents(AvButtonStub)
+
+      expect(buttons.length).toBeGreaterThan(0)
+      expect(buttons.every(button => button.props('disabled'))).toBe(true)
+    })
+
+    BddTest().then('it should pass the disabled state to the link popover', () => {
+      expect(getToolbarLinkPopover().props('disabled')).toBe(true)
+      expect(getToolbarLinkPopover().props('disabledTooltip')).toBe('Action indisponible')
+    })
+
+    BddTest().then('it should pass the disabled state to the image popover', () => {
+      expect(getToolbarImagePopover().props('disabled')).toBe(true)
+      expect(getToolbarImagePopover().props('disabledTooltip')).toBe('Action indisponible')
+    })
+  })
+
+  BddTest().when('the component is loading', () => {
+    beforeEach(() => {
+      wrapper = mount(RichTextToolbar, {
+        props: {
+          ...props,
+          isLoading: true
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render the loading icon', () => {
+      expect(wrapper.find('[data-testid="loader"]').exists()).toBe(true)
+    })
+
+    BddTest().then('it should pass the disabled state to all toolbar buttons', () => {
+      const buttons = wrapper.findAllComponents(AvButtonStub)
+
+      expect(buttons.length).toBeGreaterThan(0)
+      expect(buttons.every(button => button.props('disabled'))).toBe(true)
+    })
+
+    BddTest().then('it should pass the loading state to the link popover', () => {
+      expect(getToolbarLinkPopover().props('isLoading')).toBe(true)
+    })
+
+    BddTest().then('it should pass the loading state to the image popover', () => {
+      expect(getToolbarImagePopover().props('isLoading')).toBe(true)
+    })
+  })
+
+  BddTest().when('the component is disabled and loading', () => {
+    beforeEach(() => {
+      wrapper = mount(RichTextToolbar, {
+        props: {
+          ...props,
+          disabled: true,
+          isLoading: true,
+          disabledTooltip: 'Action indisponible'
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render the loading icon and disable all toolbar buttons', () => {
+      expect(wrapper.find('[data-testid="loader"]').exists()).toBe(true)
+
+      const buttons = wrapper.findAllComponents(AvButtonStub)
+
+      expect(buttons.every(button => button.props('disabled'))).toBe(true)
     })
   })
 })

@@ -1,14 +1,18 @@
 <script setup lang="ts">
 import type { Editor } from '@tiptap/vue-3'
+import type { AvButtonProps } from '@/components/interaction/buttons/AvButton/AvButton.vue'
 import type { AvRichTextEditorHeaderLevels, AvRichTextEditorLabels } from '@/components/interaction/inputs/AvRichTextEditor/AvRichTextEditor.types'
+import type { AvInteractiveProps } from '@/types'
+import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
 import AvButton from '@/components/interaction/buttons/AvButton/AvButton.vue'
+import { getToolbarButtonProps } from '@/components/interaction/inputs/AvRichTextEditor/AvRichTextEditor.utils'
 import ToolbarImagePopover from '@/components/interaction/inputs/AvRichTextEditor/components/ToolbarImagePopover/ToolbarImagePopover.vue'
 import ToolbarLinkPopover from '@/components/interaction/inputs/AvRichTextEditor/components/ToolbarLinkPopover/ToolbarLinkPopover.vue'
 import ToolbarTableSettingsDropdown from '@/components/interaction/inputs/AvRichTextEditor/components/ToolbarTableSettingsDropdown/ToolbarTableSettingsDropdown.vue'
 import { useRichTextToolbar } from '@/components/interaction/inputs/AvRichTextEditor/composables/use-rich-text-toolbar/use-rich-text-toolbar'
 import { MDI_ICONS, MS_ICONS } from '@/tokens'
 
-export interface RichTextToolbarProps extends Omit<AvRichTextEditorLabels, 'editorLabel'> {
+export interface RichTextToolbarProps extends Omit<AvRichTextEditorLabels, 'editorLabel'>, AvInteractiveProps {
   /**
    * The Tiptap editor instance to control with the toolbar.
    */
@@ -21,7 +25,7 @@ export interface RichTextToolbarProps extends Omit<AvRichTextEditorLabels, 'edit
 }
 
 const props = defineProps<RichTextToolbarProps>()
-const { editor, allowedHeadersLevels } = toRefs(props)
+const { editor, allowedHeadersLevels, disabled, disabledTooltip, isLoading } = toRefs(props)
 
 const {
   undo,
@@ -66,93 +70,110 @@ const headings = computed(() => {
     icon: MDI_ICONS[`FORMAT_HEADING_${level}` as keyof typeof MDI_ICONS]
   }))
 })
+
+function getAvButtonProps ({
+  id,
+  localDisabled = false
+}: { id: string, localDisabled?: boolean }): Partial<AvButtonProps & { dataTestid: string }> {
+  return getToolbarButtonProps({
+    id,
+    localDisabled,
+    disabled: disabled.value,
+    disabledTooltip: disabledTooltip.value,
+    isLoading: isLoading.value
+  })
+}
+
+function canUndo () {
+  return editor.value?.can().chain().focus().undo().run() ?? false
+}
+
+function canRedo () {
+  return editor.value?.can().chain().focus().redo().run() ?? false
+}
+
+function canDecreaseIndent () {
+  return editor.value?.can().chain().focus().liftListItem('listItem').run() ?? false
+}
+
+function canIncreaseIndent () {
+  return editor.value?.can().chain().focus().sinkListItem('listItem').run() ?? false
+}
 </script>
 
 <template>
   <div
     role="toolbar"
-    class="toolbar av-row av-wrap av-gap-xs av-px-md av-py-xs"
+    :aria-label="toolbarLabel"
+    :aria-disabled="disabled || isLoading"
+    class="toolbar av-row av-wrap av-align-center av-gap-xs av-px-md av-py-xs"
   >
+    <AvIcon
+      v-if="isLoading"
+      :name="MDI_ICONS.LOADING"
+      :size="1.5"
+      color="var(--other-background-base)"
+      animation="spin"
+      data-testid="loader"
+    />
+
     <AvButton
+      v-bind="getAvButtonProps({ id: 'undo', localDisabled: !canUndo() })"
       :label="undoLabel"
-      :disabled="!editor?.can().chain().focus().undo().run()"
       :icon="MS_ICONS.UNDO"
-      icon-only
-      :variant="!!editor?.can().chain().focus().undo().run() ? 'FLAT' : 'DEFAULT'"
-      size="LG"
-      data-testid="undo-button"
       @click="undo"
     />
 
     <AvButton
+      v-bind="getAvButtonProps({ id: 'redo', localDisabled: !canRedo() })"
       :label="redoLabel"
-      :disabled="!editor?.can().chain().focus().redo().run()"
       :icon="MS_ICONS.REDO"
-      icon-only
-      :variant="!!editor?.can().chain().focus().redo().run() ? 'FLAT' : 'DEFAULT'"
-      size="LG"
-      data-testid="redo-button"
       @click="redo"
     />
 
     <div class="vertical-separator av-my-xxs" />
 
     <AvButton
+      v-bind="getAvButtonProps({ id: 'set-paragraph' })"
       :label="paragraphLabel"
       :aria-pressed="editor?.isActive('paragraph')"
       :icon="MDI_ICONS.FORMAT_PARAGRAPH"
-      icon-only
-      variant="FLAT"
-      size="LG"
-      data-testid="set-paragraph-button"
       @click="setParagraph()"
     />
 
     <AvButton
       v-for="heading in headings"
+      v-bind="getAvButtonProps({ id: `set-h${heading.level}` })"
       :key="heading.level"
       :label="heading.label"
       :aria-pressed="editor?.isActive('heading', { level: heading.level })"
       :icon="heading.icon"
-      icon-only
-      variant="FLAT"
-      size="LG"
-      :data-testid="`set-h${heading.level}-button`"
       @click="setHeading(heading.level)"
     />
 
     <div class="vertical-separator av-my-xxs" />
 
     <AvButton
+      v-bind="getAvButtonProps({ id: 'bold' })"
       :label="boldLabel"
       :aria-pressed="editor?.isActive('bold')"
       :icon="MDI_ICONS.FORMAT_BOLD"
-      icon-only
-      variant="FLAT"
-      size="LG"
-      data-testid="bold-button"
       @click="toggleBold"
     />
 
     <AvButton
+      v-bind="getAvButtonProps({ id: 'italic' })"
       :label="italicLabel"
       :aria-pressed="editor?.isActive('italic')"
       :icon="MDI_ICONS.FORMAT_ITALIC"
-      icon-only
-      variant="FLAT"
-      size="LG"
-      data-testid="italic-button"
       @click="toggleItalic"
     />
 
     <AvButton
+      v-bind="getAvButtonProps({ id: 'underline' })"
       :label="underlineLabel"
       :aria-pressed="editor?.isActive('underline')"
       :icon="MDI_ICONS.FORMAT_UNDERLINE"
-      icon-only
-      variant="FLAT"
-      size="LG"
-      data-testid="underline-button"
       @click="toggleUnderline"
     />
 
@@ -160,13 +181,10 @@ const headings = computed(() => {
 
     <AvButton
       v-if="editor?.isActive('link')"
+      v-bind="getAvButtonProps({ id: 'unset-link' })"
       :label="unsetLinkLabel"
       :icon="MS_ICONS.LINK_OFF_ROUNDED"
-      icon-only
       active
-      variant="FLAT"
-      size="LG"
-      data-testid="unset-link-button"
       @click="unsetLink()"
     />
 
@@ -179,18 +197,18 @@ const headings = computed(() => {
       :link-url-label="linkUrlLabel"
       :popovers-cancel-label="popoversCancelLabel"
       :popovers-confirm-label="popoversConfirmLabel"
+      :disabled="disabled"
+      :is-loading="isLoading"
+      :disabled-tooltip="disabledTooltip"
       @confirm="({ url, name }) => setLink({ url, name })"
     />
 
     <AvButton
       v-if="editor?.isActive('image')"
+      v-bind="getAvButtonProps({ id: 'remove-image' })"
       :label="removeImageLabel"
       :aria-pressed="editor?.isActive('image')"
       :icon="MDI_ICONS.IMAGE_REMOVE_OUTLINE"
-      icon-only
-      variant="FLAT"
-      size="LG"
-      data-testid="remove-image-button"
       @click="removeImage"
     />
 
@@ -202,6 +220,9 @@ const headings = computed(() => {
       :image-url-label="imageUrlLabel"
       :popovers-cancel-label="popoversCancelLabel"
       :popovers-confirm-label="popoversConfirmLabel"
+      :disabled="disabled"
+      :is-loading="isLoading"
+      :disabled-tooltip="disabledTooltip"
       @confirm="({ url, name }) => setImage({ url, name })"
     />
 
@@ -215,6 +236,9 @@ const headings = computed(() => {
       :add-row-before-label="addRowBeforeLabel"
       :add-row-after-label="addRowAfterLabel"
       :delete-row-label="deleteRowLabel"
+      :disabled="disabled"
+      :is-loading="isLoading"
+      :disabled-tooltip="disabledTooltip"
       @delete-table-selected="deleteTable"
       @add-column-before-selected="addColumnBefore"
       @add-column-after-selected="addColumnAfter"
@@ -226,104 +250,75 @@ const headings = computed(() => {
 
     <AvButton
       v-else
+      v-bind="getAvButtonProps({ id: 'insert-table' })"
       :label="insertTableLabel"
       :icon="MDI_ICONS.TABLE_PLUS"
-      icon-only
-      variant="FLAT"
-      size="LG"
-      data-testid="insert-table-button"
       @click="insertTable"
     />
 
     <div class="vertical-separator av-my-xxs" />
 
     <AvButton
+      v-bind="getAvButtonProps({ id: 'align-left' })"
       :label="alignLeftLabel"
       :aria-pressed="editor?.isActive({ textAlign: 'left' })"
       :icon="MDI_ICONS.FORMAT_ALIGN_LEFT"
-      icon-only
-      variant="FLAT"
-      size="LG"
-      data-testid="align-left-button"
       @click="() => setTextAlign('left')"
     />
 
     <AvButton
+      v-bind="getAvButtonProps({ id: 'align-center' })"
       :label="alignCenterLabel"
       :aria-pressed="editor?.isActive({ textAlign: 'center' })"
       :icon="MDI_ICONS.FORMAT_ALIGN_CENTER"
-      icon-only
-      variant="FLAT"
-      size="LG"
-      data-testid="align-center-button"
       @click="() => setTextAlign('center')"
     />
 
     <AvButton
+      v-bind="getAvButtonProps({ id: 'align-right' })"
       :label="alignRightLabel"
       :aria-pressed="editor?.isActive({ textAlign: 'right' })"
       :icon="MDI_ICONS.FORMAT_ALIGN_RIGHT"
-      icon-only
-      variant="FLAT"
-      size="LG"
-      data-testid="align-right-button"
       @click="() => setTextAlign('right')"
     />
 
     <AvButton
+      v-bind="getAvButtonProps({ id: 'align-justify' })"
       :label="alignJustifyLabel"
       :aria-pressed="editor?.isActive({ textAlign: 'justify' })"
       :icon="MDI_ICONS.FORMAT_ALIGN_JUSTIFY"
-      icon-only
-      variant="FLAT"
-      size="LG"
-      data-testid="align-justify-button"
       @click="() => setTextAlign('justify')"
     />
 
     <div class="vertical-separator av-my-xxs" />
 
     <AvButton
+      v-bind="getAvButtonProps({ id: 'bullet-list' })"
       :label="bulletListLabel"
       :aria-pressed="editor?.isActive('bulletList')"
       :icon="MDI_ICONS.FORMAT_LIST_BULLETED"
-      icon-only
-      variant="FLAT"
-      size="LG"
-      data-testid="bullet-list-button"
       @click="toggleBulletList"
     />
 
     <AvButton
+      v-bind="getAvButtonProps({ id: 'ordered-list' })"
       :label="orderedListLabel"
       :aria-pressed="editor?.isActive('orderedList')"
       :icon="MDI_ICONS.FORMAT_LIST_NUMBERED"
-      icon-only
-      variant="FLAT"
-      size="LG"
-      data-testid="ordered-list-button"
       @click="toggleOrderedList"
     />
 
     <AvButton
+      v-bind="getAvButtonProps({ id: 'decrease-indent', localDisabled: !canDecreaseIndent() })"
       :label="decreaseIndentLabel"
-      :disabled="!editor?.can().chain().focus().liftListItem('listItem').run()"
       :icon="MDI_ICONS.FORMAT_INDENT_DECREASE"
-      icon-only
-      :variant="!!editor?.can().chain().focus().liftListItem('listItem').run() ? 'FLAT' : 'DEFAULT'"
-      size="LG"
-      data-testid="decrease-indent-button"
       @click="decreaseIndent"
     />
 
     <AvButton
+      v-bind="getAvButtonProps({ id: 'increase-indent', localDisabled: !canIncreaseIndent() })"
       :label="increaseIndentLabel"
-      :disabled="!editor?.can().chain().focus().sinkListItem('listItem').run()"
       :icon="MDI_ICONS.FORMAT_INDENT_INCREASE"
-      icon-only
-      :variant="!!editor?.can().chain().focus().sinkListItem('listItem').run() ? 'FLAT' : 'DEFAULT'"
-      size="LG"
-      data-testid="increase-indent-button"
       @click="increaseIndent"
     />
   </div>

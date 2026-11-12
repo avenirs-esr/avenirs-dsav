@@ -105,6 +105,9 @@ const meta: Meta<AvRichTextEditorProps> = {
       control: { type: 'check' },
       options: [1, 2, 3, 4, 5, 6],
     },
+    disabled: { control: 'boolean', required: false },
+    isLoading: { control: 'boolean', required: false },
+    disabledTooltip: { control: 'text', required: false }
   },
   args: {
     editorLabel: 'Rich Text Editor',
@@ -146,7 +149,10 @@ const meta: Meta<AvRichTextEditorProps> = {
     popoversCancelLabel: 'Cancel',
     popoversConfirmLabel: 'Confirm',
     allowExceedMaxlength: true,
-    allowedHeadersLevels: [1, 2, 3]
+    allowedHeadersLevels: [1, 2, 3],
+    disabled: false,
+    isLoading: false,
+    disabledTooltip: 'This field is disabled'
   }
 }
 
@@ -181,6 +187,16 @@ const Template: StoryFn<AvRichTextEditorProps> = args => ({
 
 export const Default = Template.bind({})
 Default.args = {}
+
+export const Disabled = Template.bind({})
+Disabled.args = {
+  disabled: true
+}
+
+export const Loading = Template.bind({})
+Loading.args = {
+  isLoading: true
+}
 
 export const MaxLength = Template.bind({})
 MaxLength.args = {

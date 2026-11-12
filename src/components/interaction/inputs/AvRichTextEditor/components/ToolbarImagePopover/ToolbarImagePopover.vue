@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import type { AvButtonProps } from '@/components/interaction/buttons'
 import type { AvRichTextEditorLabels } from '@/components/interaction/inputs/AvRichTextEditor/AvRichTextEditor.types'
+import type { AvInteractiveProps } from '@/types'
 import AvInput from '@/components/interaction/inputs/AvInput/AvInput.vue'
+import { getToolbarButtonProps } from '@/components/interaction/inputs/AvRichTextEditor/AvRichTextEditor.utils'
 import { MDI_ICONS } from '@/tokens/icons'
 
 export interface ToolbarImagePopoverProps extends Pick<AvRichTextEditorLabels, 'imageLabel'
@@ -8,9 +11,10 @@ export interface ToolbarImagePopoverProps extends Pick<AvRichTextEditorLabels, '
   | 'imageNamePlaceholder'
   | 'imageUrlLabel'
   | 'popoversCancelLabel'
-  | 'popoversConfirmLabel'> {}
+  | 'popoversConfirmLabel'>,
+  AvInteractiveProps {}
 
-defineProps<ToolbarImagePopoverProps>()
+const { disabled, disabledTooltip, isLoading } = defineProps<ToolbarImagePopoverProps>()
 
 const emit = defineEmits<{
   /**
@@ -23,18 +27,24 @@ const emit = defineEmits<{
 
 const imageName = ref('')
 const imageUrl = ref('')
+
+function getAvButtonProps (): Partial<AvButtonProps & { dataTestid: string }> {
+  return getToolbarButtonProps({
+    id: 'insert-link',
+    disabled,
+    disabledTooltip,
+    isLoading
+  })
+}
 </script>
 
 <template>
   <AvPopover padding="var(--spacing-md)">
     <template #trigger="{ toggle }">
       <AvButton
+        v-bind="getAvButtonProps()"
         :label="imageLabel"
         :icon="MDI_ICONS.IMAGE_OUTLINE"
-        icon-only
-        variant="FLAT"
-        size="LG"
-        data-testid="insert-image-button"
         @click="toggle"
       />
     </template>

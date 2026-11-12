@@ -24,93 +24,102 @@ BddTest().given('a toolbar link popover', () => {
     AvCancelConfirmButtons: AvCancelConfirmButtonsStub
   }
 
+  function mountComponent (componentProps = props) {
+    wrapper = mount(ToolbarLinkPopover, {
+      props: componentProps,
+      global: { stubs }
+    })
+  }
+
+  const getTriggerButton = () => wrapper.findComponent(AvButtonStub)
   const getCancelConfirmButtons = () => wrapper.findComponent(AvCancelConfirmButtonsStub)
-  const getTriggerButton = () => wrapper.findAllComponents(AvButtonStub).find(button => button.attributes('data-testid') === 'insert-link-button')
-  const getLinkNameInput = () => wrapper.find('[data-testid="link-inputs-container"]').findAllComponents(AvInputStub)[0]
-  const getLinkUrlInput = () => wrapper.find('[data-testid="link-inputs-container"]').findAllComponents(AvInputStub)[1]
+  const getInputsContainer = () => wrapper.find('[data-testid="link-inputs-container"]')
+  const getLinkNameInput = () => getInputsContainer().findAllComponents(AvInputStub)[0]
+  const getLinkUrlInput = () => getInputsContainer().findAllComponents(AvInputStub)[1]
+
+  async function openPopover () {
+    await getTriggerButton().trigger('click')
+  }
+
+  beforeEach(() => {
+    mountComponent()
+  })
 
   BddTest().when('the component is mounted', () => {
-    beforeEach(() => {
-      wrapper = mount(ToolbarLinkPopover, { props, global: { stubs } })
+    BddTest().then('it should render the trigger button with the correct label', () => {
+      expect(getTriggerButton().exists()).toBe(true)
+      expect(getTriggerButton().props('label')).toBe(props.linkLabel)
     })
 
-    BddTest().then('the trigger button should be rendered with the correct label', () => {
-      const triggerButton = getTriggerButton()
-      expect(triggerButton).toBeDefined()
-      expect(triggerButton?.props('label')).toBe(props.linkLabel)
+    BddTest().then('it should pass the correct props to the inputs and buttons', async () => {
+      await openPopover()
+
+      expect(getLinkNameInput().props('label')).toBe(props.linkNameLabel)
+      expect(getLinkNameInput().props('placeholder')).toBe(props.linkNamePlaceholder)
+
+      expect(getLinkUrlInput().props('label')).toBe(props.linkUrlLabel)
+      expect(getLinkUrlInput().props('placeholder')).toBe('https://example.com')
+
+      expect(getCancelConfirmButtons().props('cancelLabel')).toBe(props.popoversCancelLabel)
+      expect(getCancelConfirmButtons().props('confirmLabel')).toBe(props.popoversConfirmLabel)
     })
 
-    BddTest().then('the popover should contain the correct inputs and buttons', () => {
-      const triggerButton = getTriggerButton()
-      triggerButton?.trigger('click')
+    BddTest().then('it should disable the confirmation button when the URL is empty', async () => {
+      await openPopover()
 
-      const linkNameInput = getLinkNameInput()
-      expect(linkNameInput).toBeDefined()
-      expect(linkNameInput?.props('label')).toBe(props.linkNameLabel)
+      expect(getCancelConfirmButtons().props('confirmDisabled')).toBe(true)
+    })
+  })
 
-      const linkUrlInput = getLinkUrlInput()
-      expect(linkUrlInput).toBeDefined()
-      expect(linkUrlInput?.props('label')).toBe(props.linkUrlLabel)
+  BddTest().when('the user fills the inputs and confirms', () => {
+    const testLinkData = {
+      name: 'Test Link',
+      url: 'https://example.com/link'
+    }
 
-      const cancelConfirmButtons = getCancelConfirmButtons()
-      expect(cancelConfirmButtons).toBeDefined()
-      expect(cancelConfirmButtons?.props('cancelLabel')).toBe(props.popoversCancelLabel)
-      expect(cancelConfirmButtons?.props('confirmLabel')).toBe(props.popoversConfirmLabel)
+    beforeEach(async () => {
+      await openPopover()
+
+      await getLinkNameInput().setValue(testLinkData.name)
+      await getLinkUrlInput().setValue(testLinkData.url)
+
+      getCancelConfirmButtons().vm.$emit('confirm')
     })
 
-    BddTest().and('the user fills the inputs and confirms', () => {
-      const testLinkData = {
-        name: 'Test Link',
-        url: 'https://example.com/link'
-      }
+    BddTest().then('it should enable the confirmation button', () => {
+      expect(getCancelConfirmButtons().props('confirmDisabled')).toBe(false)
+    })
 
-      beforeEach(() => {
-        const triggerButton = getTriggerButton()
-        triggerButton?.trigger('click')
-
-        const linkNameInput = getLinkNameInput()
-        const linkUrlInput = getLinkUrlInput()
-        const cancelConfirmButtons = getCancelConfirmButtons()
-
-        linkNameInput?.setValue(testLinkData.name)
-        linkUrlInput?.setValue(testLinkData.url)
-        cancelConfirmButtons?.vm.$emit('confirm')
-      })
-
-      BddTest().then('the component should emit the correct event with the link data', () => {
-        expect(wrapper.emitted('confirm')).toBeTruthy()
-        const emittedEvent = wrapper.emitted('confirm')?.[0][0]
-        expect(emittedEvent).toEqual({
+    BddTest().then('it should emit the correct event with the link data', () => {
+      expect(wrapper.emitted('confirm')).toEqual([
+        [{
           name: testLinkData.name,
           url: testLinkData.url
-        })
-      })
+        }]
+      ])
+    })
+  })
+
+  BddTest().when('the user only fills the link URL and confirms', () => {
+    const testLinkData = {
+      url: 'https://example.com/link'
+    }
+
+    beforeEach(async () => {
+      await openPopover()
+
+      await getLinkUrlInput().setValue(testLinkData.url)
+
+      getCancelConfirmButtons().vm.$emit('confirm')
     })
 
-    BddTest().and('the user only fills the link url input and confirms', () => {
-      const testLinkData = {
-        url: 'https://example.com/link'
-      }
-
-      beforeEach(() => {
-        const triggerButton = getTriggerButton()
-        triggerButton?.trigger('click')
-
-        const linkUrlInput = getLinkUrlInput()
-        const cancelConfirmButtons = getCancelConfirmButtons()
-
-        linkUrlInput?.setValue(testLinkData.url)
-        cancelConfirmButtons?.vm.$emit('confirm')
-      })
-
-      BddTest().then('the component should emit the correct event with the link data and use the url as name', () => {
-        expect(wrapper.emitted('confirm')).toBeTruthy()
-        const emittedEvent = wrapper.emitted('confirm')?.[0][0]
-        expect(emittedEvent).toEqual({
+    BddTest().then('it should use the URL as the link name', () => {
+      expect(wrapper.emitted('confirm')).toEqual([
+        [{
           name: testLinkData.url,
           url: testLinkData.url
-        })
-      })
+        }]
+      ])
     })
   })
 
@@ -118,16 +127,61 @@ BddTest().given('a toolbar link popover', () => {
     const initialName = 'Initial Link Name'
 
     beforeEach(() => {
-      wrapper = mount(ToolbarLinkPopover, { props: { ...props, initialName }, global: { stubs } })
+      mountComponent({ ...props, initialName })
     })
 
-    BddTest().then('the link name input should be pre-filled with the initial name', () => {
-      const triggerButton = getTriggerButton()
-      triggerButton?.trigger('click')
+    BddTest().then('it should pre-fill the link name input', async () => {
+      await openPopover()
 
-      const linkNameInput = getLinkNameInput()
-      expect(linkNameInput).toBeDefined()
-      expect(linkNameInput?.props('modelValue')).toBe(initialName)
+      expect(getLinkNameInput().props('modelValue')).toBe(initialName)
+    })
+
+    BddTest().then('it should update the link name when the initial name changes', async () => {
+      await openPopover()
+
+      const updatedName = 'Updated Link Name'
+
+      await wrapper.setProps({ initialName: updatedName })
+
+      expect(getLinkNameInput().props('modelValue')).toBe(updatedName)
+    })
+  })
+
+  BddTest().when('the component is disabled', () => {
+    beforeEach(() => {
+      mountComponent({
+        ...props,
+        disabled: true
+      })
+    })
+
+    BddTest().then('it should disable the trigger button', () => {
+      expect(getTriggerButton().props('disabled')).toBe(true)
+    })
+
+    BddTest().then('it should pass the disabled tooltip to the trigger button', () => {
+      const disabledTooltip = 'Action indisponible'
+
+      mountComponent({
+        ...props,
+        disabled: true,
+        disabledTooltip
+      })
+
+      expect(getTriggerButton().props('disabledTooltip')).toBe(disabledTooltip)
+    })
+  })
+
+  BddTest().when('the component is loading', () => {
+    beforeEach(() => {
+      mountComponent({
+        ...props,
+        isLoading: true
+      })
+    })
+
+    BddTest().then('it should pass the disabled state to the trigger button', () => {
+      expect(getTriggerButton().props('disabled')).toBe(true)
     })
   })
 })
