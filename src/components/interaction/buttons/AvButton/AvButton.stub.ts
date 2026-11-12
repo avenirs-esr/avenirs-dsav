@@ -9,7 +9,6 @@ export const AvButtonStub = defineComponent({
     variant: { type: String, default: 'DEFAULT' },
     theme: { type: String as PropType<'PRIMARY' | 'SECONDARY' | 'TERTIARY'>, default: 'PRIMARY' },
     size: { type: String as PropType<'SM' | 'MD' | 'LG'>, default: 'MD' },
-    isLoading: { type: Boolean, default: false },
     iconScale: { type: Number },
     noRadius: { type: Boolean, default: false },
     label: { type: String, required: true },

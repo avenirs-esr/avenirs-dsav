@@ -12,11 +12,6 @@ export const AvTabStub = defineComponent({
       type: String,
       required: false
     },
-    isLoading: {
-      type: Boolean,
-      required: false,
-      default: false
-    }
   },
   template: '<div class="av-tab"><slot /></div>'
 })

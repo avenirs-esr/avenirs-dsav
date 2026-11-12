@@ -34,12 +34,6 @@ export interface AvButtonProps extends AvInteractiveProps {
   size?: Size
 
   /**
-   * Indicates button loading status.
-   * @default false
-   */
-  isLoading?: boolean
-
-  /**
    * Manually change icon size.
    * If not defined, the size is automatically calculated.
    */

@@ -8,4 +8,9 @@ export interface AvInteractiveProps {
    * Tooltip text to display when the element is disabled.
    */
   disabledTooltip?: string
+
+  /**
+   * Indicates element loading status.
+   */
+  isLoading?: boolean
 }
