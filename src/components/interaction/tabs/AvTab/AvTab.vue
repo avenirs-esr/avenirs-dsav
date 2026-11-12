@@ -15,11 +15,6 @@ export interface AvTabProps extends AvInteractiveProps {
    * Tab icon
    */
   icon?: string
-
-  /**
-   * Whether the tab is in loading state.
-   */
-  isLoading?: boolean
 }
 
 defineProps<AvTabProps>()

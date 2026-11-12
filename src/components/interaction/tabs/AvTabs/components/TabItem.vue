@@ -40,12 +40,6 @@ export interface TabItemProps extends AvInteractiveProps {
    * @default false
    */
   compact?: boolean
-
-  /**
-   * Whether the tab item is in loading state.
-   * @default false
-   */
-  isLoading?: boolean
 }
 
 defineOptions({
