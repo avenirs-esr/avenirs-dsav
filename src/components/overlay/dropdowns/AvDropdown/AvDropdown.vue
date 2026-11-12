@@ -94,6 +94,23 @@ export interface AvDropdownProps {
   triggerNoSentenceCase?: AvButtonProps['noSentenceCase']
 
   /**
+   * If true, the trigger button will be disabled.
+   * @default false
+   */
+  triggerDisabled?: boolean
+
+  /**
+   * Tooltip text to display when the trigger button is disabled.
+   */
+  triggerDisabledTooltip?: string
+
+  /**
+   * If true, the trigger button will show a loading state.
+   * @default false
+   */
+  triggerIsLoading?: boolean
+
+  /**
    * Width of the dropdown menu.
    * @default '15rem'
    */
@@ -133,6 +150,8 @@ const {
   triggerSize = 'MD',
   triggerNoSentenceCase = false,
   triggerActive = false,
+  triggerDisabled = false,
+  triggerIsLoading = false,
   width = '15rem',
   padding = 'var(--spacing-xs)',
   itemSize = 'MD',
@@ -173,6 +192,9 @@ function handleItemClick (itemName: string, close: () => void) {
         :no-sentence-case="triggerNoSentenceCase"
         :icon-only="!triggerLabel"
         :active="triggerActive"
+        :disabled="triggerDisabled"
+        :is-loading="triggerIsLoading"
+        :disabled-tooltip="triggerDisabledTooltip"
         @click="toggle"
       />
     </template>
