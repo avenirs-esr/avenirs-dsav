@@ -27,6 +27,9 @@ The dropdown consists of:
 | `triggerLabel` | `string` | `undefined` | | Text label for the trigger button. If not provided, only the icon is shown. |
 | `triggerVariant` | `'DEFAULT' \| 'OUTLINED' \| 'FLAT'` | `'OUTLINED'` | | Variant of the trigger button. |
 | `triggerSize` | `'SM' \| 'MD' \| 'LG'` | `'MD'` | | Size of the trigger button. |
+| `triggerDisabled` | `boolean` | `false` | | Disables the trigger button when set to true. |
+| `triggerDisabledTooltip` | `string` | | | Tooltip text to display when the trigger button is disabled. |
+| `triggerIsLoading` | `boolean` | `false` | | Shows a loading spinner on the trigger button when set to true. |
 | `width` | `string` | `'15rem'` | | Width of the dropdown menu. |
 | `padding` | `string` | `'var(--spacing-xs)'` | | Internal padding of the dropdown menu. |
 | `itemSize` | `'SM' \| 'MD' \| 'LG'` | `'MD'` | | Size of the menu item buttons. |
