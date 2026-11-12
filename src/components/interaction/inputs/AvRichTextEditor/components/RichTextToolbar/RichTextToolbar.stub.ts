@@ -1,6 +1,11 @@
+import type { PropType } from 'vue'
+import type { AvRichTextEditorHeaderLevels } from '@/components/interaction/inputs/AvRichTextEditor/AvRichTextEditor.types'
+import { AvInteractivePropsStub } from '@/types/interfaces.stub'
+
 export const RichTextToolbarStub = defineComponent({
   name: 'RichTextToolbarStub',
   props: {
+    ...AvInteractivePropsStub,
     undoLabel: String,
     redoLabel: String,
     paragraphLabel: String,
@@ -32,6 +37,7 @@ export const RichTextToolbarStub = defineComponent({
     imageUrlLabel: String,
     popoversCancelLabel: String,
     popoversConfirmLabel: String,
+    allowedHeadersLevels: Array as PropType<readonly AvRichTextEditorHeaderLevels[]>
   },
   template: '<div data-testid="rich-text-toolbar" />'
 })

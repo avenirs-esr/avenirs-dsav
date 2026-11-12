@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import type { AvRichTextEditorLabels } from '@/components/interaction/inputs/AvRichTextEditor/AvRichTextEditor.types'
+import type { AvDropdownItem, AvDropdownProps } from '@/components/overlay'
+import type { AvInteractiveProps } from '@/types/interfaces.types'
+import { getToolbarButtonProps } from '@/components/interaction/inputs/AvRichTextEditor/AvRichTextEditor.utils'
 import { MDI_ICONS } from '@/tokens/icons'
 
 export interface ToolbarTableSettingsDropdownProps extends Pick<AvRichTextEditorLabels, 'deleteTableLabel'
@@ -9,7 +12,8 @@ export interface ToolbarTableSettingsDropdownProps extends Pick<AvRichTextEditor
   | 'addRowBeforeLabel'
   | 'addRowAfterLabel'
   | 'deleteRowLabel'
-  | 'tableSettingsLabel'> {}
+  | 'tableSettingsLabel'>,
+  AvInteractiveProps {}
 
 const {
   deleteTableLabel,
@@ -19,7 +23,10 @@ const {
   addRowBeforeLabel,
   addRowAfterLabel,
   deleteRowLabel,
-  tableSettingsLabel
+  tableSettingsLabel,
+  disabled: _disabled,
+  disabledTooltip: _disabledTooltip,
+  isLoading: _isLoading
 } = defineProps<ToolbarTableSettingsDropdownProps>()
 
 /**
@@ -52,50 +59,89 @@ enum ToolbarTableDropdownEvents {
   DELETE_ROW = 'deleteRow',
 }
 
+const computedProps = computed(() => {
+  const { disabled, disabledTooltip, variant, size } = getToolbarButtonProps({
+    id: 'table-settings',
+    disabled: _disabled,
+    disabledTooltip: _disabledTooltip,
+    isLoading: _isLoading
+  })
+
+  return {
+    triggerSize: size,
+    itemSize: size,
+    triggerVariant: variant,
+    triggerDisabled: _disabled,
+    triggerIsLoading: _isLoading,
+    triggerDisabledTooltip: _disabledTooltip,
+    disabled,
+    disabledTooltip
+  }
+})
+
+const commonMenuItemsProps = computed<Partial<AvDropdownItem>>(() => ({
+  iconOnly: true,
+  disabled: computedProps.value.disabled,
+  disabledTooltip: computedProps.value.disabledTooltip
+}))
+
 const menuItems = computed(() => [
   {
     name: ToolbarTableDropdownEvents.DELETE_TABLE,
     icon: MDI_ICONS.TABLE_REMOVE,
     label: deleteTableLabel,
-    iconOnly: true
+    ...commonMenuItemsProps.value
   },
   {
     name: ToolbarTableDropdownEvents.ADD_COLUMN_BEFORE,
     icon: MDI_ICONS.TABLE_COLUMN_PLUS_BEFORE,
     label: addColumnBeforeLabel,
-    iconOnly: true
+    ...commonMenuItemsProps.value
   },
   {
     name: ToolbarTableDropdownEvents.ADD_COLUMN_AFTER,
     icon: MDI_ICONS.TABLE_COLUMN_PLUS_AFTER,
     label: addColumnAfterLabel,
-    iconOnly: true
+    ...commonMenuItemsProps.value
   },
   {
     name: ToolbarTableDropdownEvents.DELETE_COLUMN,
     icon: MDI_ICONS.TABLE_COLUMN_REMOVE,
     label: deleteColumnLabel,
-    iconOnly: true
+    ...commonMenuItemsProps.value
   },
   {
     name: ToolbarTableDropdownEvents.ADD_ROW_BEFORE,
     icon: MDI_ICONS.TABLE_ROW_PLUS_BEFORE,
     label: addRowBeforeLabel,
-    iconOnly: true
+    ...commonMenuItemsProps.value
   },
   {
     name: ToolbarTableDropdownEvents.ADD_ROW_AFTER,
     icon: MDI_ICONS.TABLE_ROW_PLUS_AFTER,
     label: addRowAfterLabel,
-    iconOnly: true
+    ...commonMenuItemsProps.value
   },
   {
     name: ToolbarTableDropdownEvents.DELETE_ROW,
     icon: MDI_ICONS.TABLE_ROW_REMOVE,
     label: deleteRowLabel,
-    iconOnly: true
+    ...commonMenuItemsProps.value
   },
 ])
+
+const avDropdownProps = computed<AvDropdownProps>(() => ({
+  items: menuItems.value,
+  triggerAriaLabel: tableSettingsLabel,
+  triggerIcon: MDI_ICONS.TABLE_SETTINGS,
+  triggerActive: true,
+  triggerSize: computedProps.value.triggerSize,
+  itemSize: computedProps.value.itemSize,
+  triggerVariant: computedProps.value.triggerVariant,
+  triggerDisabled: computedProps.value.triggerDisabled,
+  triggerIsLoading: computedProps.value.triggerIsLoading,
+  triggerDisabledTooltip: computedProps.value.triggerDisabledTooltip,
+}))
 
 function handleItemSelected (itemName: string) {
   switch (itemName) {
@@ -126,13 +172,7 @@ function handleItemSelected (itemName: string) {
 
 <template>
   <AvDropdown
-    :items="menuItems"
-    trigger-active
-    :trigger-aria-label="tableSettingsLabel"
-    :trigger-icon="MDI_ICONS.TABLE_SETTINGS"
-    trigger-size="LG"
-    item-size="LG"
-    trigger-variant="FLAT"
+    v-bind="avDropdownProps"
     width="max-content"
     @item-selected="handleItemSelected"
   />

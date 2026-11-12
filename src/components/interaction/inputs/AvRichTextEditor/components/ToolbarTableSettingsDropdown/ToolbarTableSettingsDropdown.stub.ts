@@ -1,6 +1,9 @@
+import { AvInteractivePropsStub } from '@/types/interfaces.stub'
+
 export const ToolbarTableSettingsDropdownStub = defineComponent({
   name: 'ToolbarTableSettingsDropdown',
   props: {
+    ...AvInteractivePropsStub,
     deleteTableLabel: { type: String, required: true },
     addColumnBeforeLabel: { type: String, required: true },
     addColumnAfterLabel: { type: String, required: true },

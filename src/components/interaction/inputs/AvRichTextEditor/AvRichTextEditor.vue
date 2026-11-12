@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
 import type { AvRichTextEditorHeaderLevels, AvRichTextEditorLabels } from '@/components/interaction/inputs/AvRichTextEditor/AvRichTextEditor.types'
+import type { AvInteractiveProps } from '@/types/interfaces.types'
 import { EditorContent } from '@tiptap/vue-3'
 import RichTextToolbar from '@/components/interaction/inputs/AvRichTextEditor/components/RichTextToolbar/RichTextToolbar.vue'
 import { useRichTextEditor } from '@/components/interaction/inputs/AvRichTextEditor/composables/use-rich-text-editor/use-rich-text-editor'
 
-export interface AvRichTextEditorProps extends AvRichTextEditorLabels {
+export interface AvRichTextEditorProps extends AvRichTextEditorLabels, AvInteractiveProps {
   /**
    * Maximum length of input
    */
@@ -29,6 +30,8 @@ const {
   maxlength,
   allowExceedMaxlength = true,
   allowedHeadersLevels = [1, 2, 3],
+  disabled = false,
+  isLoading = false,
   ...labels
 } = defineProps<AvRichTextEditorProps>()
 
@@ -50,7 +53,7 @@ const editor = useRichTextEditor({
   },
   maxlength,
   allowExceedMaxlength,
-  editorLabel
+  editorLabel,
 })
 
 watch(
@@ -75,6 +78,12 @@ watch(
     }
   }
 )
+
+watchEffect(() => {
+  if (editor.value) {
+    editor.value.setEditable(!(disabled || isLoading))
+  }
+})
 </script>
 
 <template>
@@ -87,6 +96,9 @@ watch(
         v-bind="labels"
         :editor="editor"
         :allowed-headers-levels="allowedHeadersLevels"
+        :disabled="disabled"
+        :is-loading="isLoading"
+        :disabled-tooltip="disabledTooltip"
       />
       <div class="av-px-sm">
         <EditorContent
@@ -138,6 +150,13 @@ watch(
       resize: vertical;
       overflow-wrap: anywhere;
       word-break: break-word;
+    }
+
+    .ProseMirror[contenteditable="false"] {
+      background-color: var(--surface-background);
+      color: var(--text2);
+      cursor: not-allowed;
+      opacity: 0.7;
     }
 
     a {

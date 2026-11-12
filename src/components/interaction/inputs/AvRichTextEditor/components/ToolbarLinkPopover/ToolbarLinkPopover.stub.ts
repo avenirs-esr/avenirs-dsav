@@ -1,6 +1,9 @@
+import { AvInteractivePropsStub } from '@/types/interfaces.stub'
+
 export const ToolbarLinkPopoverStub = defineComponent({
   name: 'ToolbarLinkPopover',
   props: {
+    ...AvInteractivePropsStub,
     initialName: {
       type: String,
       required: false,

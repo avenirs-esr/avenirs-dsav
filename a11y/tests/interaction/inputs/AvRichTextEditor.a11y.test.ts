@@ -4,6 +4,8 @@ const component = 'AvRichTextEditor'
 const title = 'Components/Interaction/Inputs/AvRichTextEditor'
 const stories = [
   'Default',
+  'Disabled',
+  'Loading',
   'MaxLength',
   'ExceedableMaxLength',
   'MaxLengthCaptionSlot',

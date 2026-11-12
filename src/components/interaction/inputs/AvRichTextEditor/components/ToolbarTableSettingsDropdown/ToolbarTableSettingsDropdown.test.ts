@@ -33,38 +33,118 @@ BddTest().given('a toolbar table settings dropdown', () => {
     AvDropdown: AvDropdownStub
   }
 
+  function mountComponent (componentProps = props) {
+    wrapper = mount(ToolbarTableSettingsDropdown, {
+      props: componentProps,
+      global: { stubs }
+    })
+  }
+
+  function getDropdown () {
+    return wrapper.findComponent(AvDropdownStub)
+  }
+
   beforeEach(() => {
-    wrapper = mount(ToolbarTableSettingsDropdown, { props, global: { stubs } })
+    mountComponent()
   })
 
   BddTest().when('the component is mounted', () => {
     BddTest().then('it should render the dropdown with 7 menu items', () => {
-      const dropdown = wrapper.findComponent({ name: 'AvDropdown' })
-      expect(dropdown.exists()).toBe(true)
-      expect(dropdown.props('items')).toHaveLength(7)
+      expect(getDropdown().exists()).toBe(true)
+      expect(getDropdown().props('items')).toHaveLength(7)
     })
 
-    BddTest().then('it should pass correct props to dropdown', () => {
-      const dropdown = wrapper.findComponent({ name: 'AvDropdown' })
-      expect(dropdown.props('items')).toHaveLength(7)
-      expect(dropdown.props('triggerAriaLabel')).toBe(props.tableSettingsLabel)
-      expect(dropdown.props('triggerLabel')).toBeUndefined()
+    BddTest().then('it should pass the correct props to the dropdown', () => {
+      const dropdown = getDropdown()
+
+      expect(dropdown.props()).toMatchObject({
+        triggerAriaLabel: props.tableSettingsLabel,
+        triggerIcon: expect.any(String),
+        triggerActive: true,
+        width: 'max-content'
+      })
+    })
+
+    BddTest().then('it should pass the correct labels to menu items', () => {
+      const items = getDropdown().props('items')
+
+      expect(items.map((item: { label: string }) => item.label)).toEqual([
+        props.deleteTableLabel,
+        props.addColumnBeforeLabel,
+        props.addColumnAfterLabel,
+        props.deleteColumnLabel,
+        props.addRowBeforeLabel,
+        props.addRowAfterLabel,
+        props.deleteRowLabel
+      ])
+    })
+
+    BddTest().then('it should configure menu items as icon-only', () => {
+      const items = getDropdown().props('items')
+
+      expect(items.every(item => item.iconOnly)).toBe(true)
     })
   })
 
   events.forEach((event) => {
-    BddTest().when(`the ${event} menu item is clicked`, () => {
-      let button: ReturnType<typeof wrapper.find>
-
-      beforeEach(() => {
-        button = wrapper.find(`[data-name="${event}"]`)
-        expect(button.exists()).toBe(true)
-      })
-
+    BddTest().when(`the ${event} menu item is selected`, () => {
       BddTest().then(`it should emit the ${event}Selected event`, async () => {
-        await button.trigger('click')
+        getDropdown().vm.$emit('item-selected', event)
+
         expect(wrapper.emitted(`${event}Selected`)).toHaveLength(1)
       })
+    })
+  })
+
+  BddTest().when('the component is disabled', () => {
+    beforeEach(() => {
+      mountComponent({
+        ...props,
+        disabled: true
+      })
+    })
+
+    BddTest().then('it should disable the dropdown trigger', () => {
+      expect(getDropdown().props('triggerDisabled')).toBe(true)
+    })
+
+    BddTest().then('it should disable all menu items', () => {
+      const items = getDropdown().props('items')
+
+      expect(items.every(item => item.disabled)).toBe(true)
+    })
+  })
+
+  BddTest().when('the component is loading', () => {
+    beforeEach(() => {
+      mountComponent({
+        ...props,
+        isLoading: true
+      })
+    })
+
+    BddTest().then('it should pass the loading state to the dropdown trigger', () => {
+      expect(getDropdown().props('triggerIsLoading')).toBe(true)
+    })
+  })
+
+  BddTest().when('the component has a disabled tooltip', () => {
+    const disabledTooltip = 'Action indisponible'
+
+    beforeEach(() => {
+      mountComponent({
+        ...props,
+        disabled: true,
+        disabledTooltip
+      })
+    })
+
+    BddTest().then('it should pass the tooltip to the trigger and menu items', () => {
+      expect(getDropdown().props('triggerDisabledTooltip')).toBe(disabledTooltip)
+
+      const items = getDropdown().props('items')
+
+      expect(items.every(item => (item.disabledTooltip === disabledTooltip))).toBe(true)
     })
   })
 })
