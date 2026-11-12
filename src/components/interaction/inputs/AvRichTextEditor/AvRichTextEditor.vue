@@ -150,6 +150,24 @@ watchEffect(() => {
       resize: vertical;
       overflow-wrap: anywhere;
       word-break: break-word;
+
+      // reset list item counter for ordered lists on each ProseMirror instance to prevent
+      // counter conflicts between different editors on certain browsers such as Firefox
+      counter-reset: li-counter 0 !important;
+
+      ol {
+        counter-reset: li-counter 0 !important;
+        list-style-type: decimal;
+        padding-inline-start: 1.5rem;
+      }
+
+      ol > li {
+        counter-increment: li-counter !important;
+      }
+
+      li::marker {
+        content: counter(li-counter) ". " !important;
+      }
     }
 
     .ProseMirror[contenteditable="false"] {
