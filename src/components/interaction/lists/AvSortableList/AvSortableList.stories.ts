@@ -290,6 +290,17 @@ const TemplateWithForms: StoryFn<SubActivityStoryArgs> = args => ({
 
 export const Default = Template.bind({})
 
+export const Disabled = Template.bind({})
+Disabled.args = {
+  disabled: true,
+  disabledTooltip: 'Mode lecture seule activée'
+}
+
+export const Loading = Template.bind({})
+Loading.args = {
+  isLoading: true
+}
+
 export const CustomSlot = TemplateWithCustomSlot.bind({})
 CustomSlot.args = {
   modelValue: [
@@ -324,12 +335,6 @@ CustomControlLabels.args = {
   dragLabel: 'Faire glisser',
   moveUpDisabledTooltip: 'Cet élément est déjà en tête de liste',
   moveDownDisabledTooltip: 'Cet élément est déjà en fin de liste'
-}
-
-export const Disabled = Template.bind({})
-Disabled.args = {
-  disabled: true,
-  disabledTooltip: 'Enregistrement en cours'
 }
 
 export const LongList = TemplateWithStepIndex.bind({})

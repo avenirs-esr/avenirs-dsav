@@ -90,6 +90,7 @@ export interface AvSortableListProps<T extends AvSortableListItem> extends AvInt
 const {
   disabled = false,
   disabledTooltip,
+  isLoading = false,
   moveUpLabel = 'Monter',
   moveDownLabel = 'Descendre',
   dragLabel = 'Déplacer',
@@ -115,6 +116,18 @@ const DRAG_ANIMATION_MS = 200
 const announcement = ref('')
 const isDragging = ref(false)
 const listRef = ref<HTMLElement | null>(null)
+
+function getMoveTooltip (itemTooltip: string) {
+  if (isLoading) {
+    return undefined
+  }
+
+  if (disabled) {
+    return disabledTooltip ?? itemTooltip
+  }
+
+  return itemTooltip
+}
 
 function isIndexInvalid (index: number) {
   return index < 0 || index >= items.value.length
@@ -149,7 +162,7 @@ async function restoreMoveButtonFocus (itemId: string, direction: 'up' | 'down')
 function moveItem (index: number, offset: number) {
   const targetIndex = index + offset
 
-  if (disabled || isIndexInvalid(index) || isIndexInvalid(targetIndex)) {
+  if (disabled || isLoading || isIndexInvalid(index) || isIndexInvalid(targetIndex)) {
     return
   }
 
@@ -190,7 +203,7 @@ async function onDragEnd (event: { oldIndex?: number, newIndex?: number }) {
       role="list"
       class="av-col av-gap-sm"
       :class="{ 'is-dragging': isDragging }"
-      :disabled="disabled"
+      :disabled="disabled || isLoading"
       handle=".drag-handle"
       ghost-class="ghost"
       :animation="DRAG_ANIMATION_MS"
@@ -209,16 +222,18 @@ async function onDragEnd (event: { oldIndex?: number, newIndex?: number }) {
         >
           <div class="av-col av-gap-xs av-align-center">
             <AvTooltip
-              :content="disabled && disabledTooltip ? disabledTooltip : `${dragLabel} ${element.label}`"
-              :disabled="isDragging || (disabled && !disabledTooltip)"
+              :content="getMoveTooltip(`${dragLabel} ${element.label}`)"
+              :disabled="isDragging || isLoading || (disabled && !disabledTooltip)"
             >
               <AvIcon
-                class="drag-handle"
-                :class="{ 'drag-handle--disabled': disabled }"
-                :name="MDI_ICONS.DRAG"
+                :class="{
+                  'drag-handle': !isLoading,
+                  'drag-handle--disabled': disabled }"
+                :name="isLoading ? MDI_ICONS.LOADING : MDI_ICONS.DRAG"
                 :size="1.5"
                 color="var(--dark-background-primary1)"
-                data-testid="drag-handle"
+                :animation="isLoading ? 'spin' : undefined"
+                :data-testid="isLoading ? 'loader' : 'drag-handle'"
               />
             </AvTooltip>
           </div>
@@ -236,8 +251,9 @@ async function onDragEnd (event: { oldIndex?: number, newIndex?: number }) {
             <AvButton
               :label="`${moveUpLabel} ${element.label}`"
               :icon="ICONS_DATA_URL.MS_ARROW_DROP_UP_ROUNDED"
-              :disabled="disabled || index === 0"
-              :disabled-tooltip="disabled ? disabledTooltip : moveUpDisabledTooltip"
+              :disabled="disabled || isLoading || index === 0"
+              :is-loading="isLoading"
+              :disabled-tooltip="getMoveTooltip(moveUpDisabledTooltip)"
               icon-only
               data-testid="move-up-button"
               data-move-direction="up"
@@ -246,8 +262,8 @@ async function onDragEnd (event: { oldIndex?: number, newIndex?: number }) {
             <AvButton
               :label="`${moveDownLabel} ${element.label}`"
               :icon="ICONS_DATA_URL.MS_ARROW_DROP_DOWN_ROUNDED"
-              :disabled="disabled || index === items.length - 1"
-              :disabled-tooltip="disabled ? disabledTooltip : moveDownDisabledTooltip"
+              :disabled="disabled || isLoading || index === items.length - 1"
+              :disabled-tooltip="getMoveTooltip(moveDownDisabledTooltip)"
               icon-only
               data-testid="move-down-button"
               data-move-direction="down"
