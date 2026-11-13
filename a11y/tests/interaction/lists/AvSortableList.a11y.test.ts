@@ -4,11 +4,12 @@ const component = 'AvSortableList'
 const title = 'Components/Interaction/Lists/AvSortableList'
 const stories = [
   'Default',
+  'Disabled',
+  'Loading',
   'CustomSlot',
   'ItemsWithIcons',
   'ItemsAsButtons',
   'CustomControlLabels',
-  'Disabled',
   'LongList',
   'SubActivityForms',
 ]

@@ -57,9 +57,11 @@ BddTest().given('an AvSortableList component', () => {
   }
 
   const labels = () => wrapper.findAll('.av-card').map(card => card.find('.b2-regular').text())
-  const buttons = (direction: 'up' | 'down') => wrapper.findAll(`[data-move-direction="${direction}"]`)
+  const buttons = (direction: 'up' | 'down') => wrapper.findAllComponents(AvButtonStub)
+    .filter(button => button.attributes('data-move-direction') === direction)
   const draggable = () => wrapper.findComponent(VueDraggableStub)
   const announcement = () => wrapper.find('[aria-live="polite"]').text()
+  const tooltips = () => wrapper.findAllComponents(AvTooltipStub)
 
   afterEach(() => {
     wrapper.unmount()
@@ -99,35 +101,152 @@ BddTest().given('an AvSortableList component', () => {
     BddTest().then('it should render an empty live region', () => {
       expect(wrapper.find('[aria-live="polite"]').exists()).toBe(true)
       expect(announcement()).toBe('')
+      expect(wrapper.find('[aria-live="polite"]').attributes('aria-atomic')).toBe('true')
+    })
+
+    BddTest().then('it should render a list with list items', () => {
+      expect(draggable().attributes('role')).toBe('list')
+      expect(wrapper.findAll('[role="listitem"]')).toHaveLength(3)
+    })
+
+    BddTest().then('it should enable dragging', () => {
+      expect(draggable().props('disabled')).toBe(false)
+    })
+
+    BddTest().then('it should render a drag handle for each item', () => {
+      expect(wrapper.findAll('[data-testid="drag-handle"]')).toHaveLength(3)
+    })
+
+    BddTest().then('it should display the default drag tooltip for each item', () => {
+      expect(tooltips().map(tooltip => tooltip.props('content'))).toEqual([
+        'Déplacer Item 1',
+        'Déplacer Item 2',
+        'Déplacer Item 3',
+      ])
     })
   })
 
   BddTest().when('the component is mounted without items', () => {
     BddTest().then('it should not render any card', () => {
       mountList({ modelValue: [] })
+
       expect(wrapper.findAll('.av-card')).toHaveLength(0)
+    })
+
+    BddTest().then('it should still render the live region', () => {
+      mountList({ modelValue: [] })
+
+      expect(wrapper.find('[aria-live="polite"]').exists()).toBe(true)
+      expect(announcement()).toBe('')
     })
   })
 
   BddTest().when('the list is disabled', () => {
-    BddTest().then('it should disable every move button', () => {
+    beforeEach(() => {
       mountList({ disabled: true })
+    })
 
+    BddTest().then('it should disable every move button', () => {
       expect([...buttons('up'), ...buttons('down')].every(button => button.attributes('disabled') !== undefined)).toBe(true)
     })
 
     BddTest().then('it should disable dragging', () => {
-      mountList({ disabled: true })
-
       expect(draggable().props('disabled')).toBe(true)
     })
 
     BddTest().then('it should not emit any update when a move is attempted', async () => {
-      mountList({ disabled: true })
-
       await buttons('down')[0].trigger('click')
 
       expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    })
+
+    BddTest().then('it should display the default disabled tooltip on move buttons', () => {
+      expect(buttons('up')[1].props('disabledTooltip')).toBe('Cet élément est déjà en première position')
+      expect(buttons('down')[0].props('disabledTooltip')).toBe('Cet élément est déjà en dernière position')
+    })
+
+    BddTest().then('it should display the default drag tooltip', () => {
+      expect(tooltips()[0].props('content')).toBe('Déplacer Item 1')
+    })
+
+    BddTest().then('it should disable the drag tooltip when no global disabled tooltip is provided', () => {
+      expect(tooltips()[0].props('disabled')).toBe(true)
+    })
+
+    BddTest().then('it should apply the disabled class to drag handles', () => {
+      expect(wrapper.findAll('.drag-handle--disabled')).toHaveLength(3)
+    })
+  })
+
+  BddTest().when('the list is loading', () => {
+    beforeEach(() => {
+      mountList({ isLoading: true })
+    })
+
+    BddTest().then('it should disable every move button', () => {
+      expect([...buttons('up'), ...buttons('down')].every(button => button.attributes('disabled') !== undefined)).toBe(true)
+    })
+
+    BddTest().then('it should disable dragging', () => {
+      expect(draggable().props('disabled')).toBe(true)
+    })
+
+    BddTest().then('it should render a loader instead of the drag handle', () => {
+      expect(wrapper.findAll('[data-testid="loader"]')).toHaveLength(3)
+      expect(wrapper.findAll('[data-testid="drag-handle"]')).toHaveLength(0)
+    })
+
+    BddTest().then('it should not emit any update when a move is attempted', async () => {
+      await buttons('down')[0].trigger('click')
+
+      expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    })
+
+    BddTest().then('it should not display disabled tooltips on move buttons', () => {
+      expect(buttons('up')[1].props('disabledTooltip')).toBeUndefined()
+      expect(buttons('down')[0].props('disabledTooltip')).toBeUndefined()
+    })
+
+    BddTest().then('it should not display the drag tooltip', () => {
+      expect(tooltips()[0].props('content')).toBeUndefined()
+    })
+
+    BddTest().then('it should disable the drag tooltip', () => {
+      expect(tooltips()[0].props('disabled')).toBe(true)
+    })
+
+    BddTest().then('it should not apply the drag handle class', () => {
+      expect(wrapper.findAll('.drag-handle')).toHaveLength(0)
+    })
+  })
+
+  BddTest().when('a custom disabled tooltip is provided', () => {
+    BddTest().then('it should use it on move buttons when the list is disabled', () => {
+      mountList({
+        disabled: true,
+        disabledTooltip: 'Liste indisponible',
+      })
+
+      expect(buttons('up')[1].props('disabledTooltip')).toBe('Liste indisponible')
+      expect(buttons('down')[0].props('disabledTooltip')).toBe('Liste indisponible')
+    })
+
+    BddTest().then('it should use it on the drag handle tooltip', () => {
+      mountList({
+        disabled: true,
+        disabledTooltip: 'Liste indisponible',
+      })
+
+      expect(tooltips()[0].props('content')).toBe('Liste indisponible')
+    })
+
+    BddTest().then('it should enable the drag tooltip when a custom disabled tooltip is provided', () => {
+      mountList({
+        disabled: true,
+        disabledTooltip: 'Liste indisponible',
+      })
+
+      expect(tooltips()[0].props('disabled')).toBe(false)
     })
   })
 
@@ -161,6 +280,23 @@ BddTest().given('an AvSortableList component', () => {
 
       expect(buttons('up')[0].text()).toBe('Up Item 1')
       expect(buttons('down')[0].text()).toBe('Down Item 1')
+    })
+
+    BddTest().then('it should use the custom drag label', () => {
+      mountList({ dragLabel: 'Reorder' })
+
+      expect(tooltips()[0].props('content')).toBe('Reorder Item 1')
+    })
+
+    BddTest().then('it should use custom disabled tooltips', () => {
+      mountList({
+        disabled: true,
+        moveUpDisabledTooltip: 'Cannot move up',
+        moveDownDisabledTooltip: 'Cannot move down',
+      })
+
+      expect(buttons('up')[1].props('disabledTooltip')).toBe('Cannot move up')
+      expect(buttons('down')[0].props('disabledTooltip')).toBe('Cannot move down')
     })
   })
 
@@ -209,12 +345,34 @@ BddTest().given('an AvSortableList component', () => {
       expect(emitted[0][0].map(item => item.id)).toEqual(['1', '3', '2'])
     })
 
+    BddTest().then('it should render the items in the new order', () => {
+      expect(labels()).toEqual(['Item 1', 'Item 3', 'Item 2'])
+    })
+
     BddTest().then('it should announce the move', () => {
       expect(announcement()).toBe('Élément Item 3 déplacé de la position 3 à la position 2')
     })
 
     BddTest().then('it should keep the focus on the move up button of the moved item', () => {
       expect(document.activeElement).toBe(buttons('up')[1].element)
+    })
+  })
+
+  BddTest().when('a move is attempted outside the list boundaries', () => {
+    BddTest().then('it should not move the first item further up', async () => {
+      mountList()
+
+      await buttons('up')[0].trigger('click')
+
+      expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    })
+
+    BddTest().then('it should not move the last item further down', async () => {
+      mountList()
+
+      await buttons('down')[2].trigger('click')
+
+      expect(wrapper.emitted('update:modelValue')).toBeUndefined()
     })
   })
 
@@ -247,11 +405,20 @@ BddTest().given('an AvSortableList component', () => {
 
       draggable().vm.$emit('start')
       await nextTick()
+
       expect(draggable().classes()).toContain('is-dragging')
 
       draggable().vm.$emit('end', { oldIndex: 0, newIndex: 0 })
       await vi.advanceTimersByTimeAsync(250)
+
       expect(draggable().classes()).not.toContain('is-dragging')
+    })
+
+    BddTest().then('it should disable tooltips while dragging', async () => {
+      draggable().vm.$emit('start')
+      await nextTick()
+
+      expect(tooltips().every(tooltip => tooltip.props('disabled'))).toBe(true)
     })
 
     BddTest().then('it should announce the move when the position changed', async () => {
@@ -269,6 +436,43 @@ BddTest().given('an AvSortableList component', () => {
       await vi.advanceTimersByTimeAsync(250)
 
       expect(announcement()).toBe('')
+    })
+
+    BddTest().then('it should not announce anything when the old index is undefined', async () => {
+      draggable().vm.$emit('end', { newIndex: 1 })
+      await vi.advanceTimersByTimeAsync(250)
+
+      expect(announcement()).toBe('')
+    })
+
+    BddTest().then('it should not announce anything when the new index is undefined', async () => {
+      draggable().vm.$emit('end', { oldIndex: 1 })
+      await vi.advanceTimersByTimeAsync(250)
+
+      expect(announcement()).toBe('')
+    })
+
+    BddTest().then('it should not announce anything when the moved item does not exist', async () => {
+      draggable().vm.$emit('update:modelValue', [])
+      await nextTick()
+
+      draggable().vm.$emit('end', { oldIndex: 0, newIndex: 2 })
+      await vi.advanceTimersByTimeAsync(250)
+
+      expect(announcement()).toBe('')
+    })
+
+    BddTest().then('it should reset the dragging state after the animation duration', async () => {
+      draggable().vm.$emit('start')
+      await nextTick()
+
+      draggable().vm.$emit('end', { oldIndex: 0, newIndex: 0 })
+
+      await vi.advanceTimersByTimeAsync(199)
+      expect(draggable().classes()).toContain('is-dragging')
+
+      await vi.advanceTimersByTimeAsync(1)
+      expect(draggable().classes()).not.toContain('is-dragging')
     })
   })
 })
