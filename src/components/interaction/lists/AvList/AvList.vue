@@ -126,6 +126,10 @@ const dividedClass = computed(() => divided ? 'av-list--divided' : '')
     }
   }
 
+  &:deep(.av-list-item) {
+    box-sizing: border-box;
+  }
+
   &--xsmall {
     :deep(.av-list-item) {
       padding: var(--spacing-xs);
