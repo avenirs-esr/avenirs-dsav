@@ -79,11 +79,13 @@ watch(
   }
 )
 
-watchEffect(() => {
-  if (editor.value) {
-    editor.value.setEditable(!(disabled || isLoading))
-  }
-})
+watch(
+  [editor, () => disabled, () => isLoading],
+  ([editorInstance, isDisabled, loading]) => {
+    editorInstance?.setEditable(!(isDisabled || loading), false)
+  },
+  { immediate: true }
+)
 </script>
 
 <template>

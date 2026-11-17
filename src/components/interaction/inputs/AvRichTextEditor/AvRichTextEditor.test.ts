@@ -1,9 +1,9 @@
 import type { Editor } from '@tiptap/core'
 import type { VueWrapper } from '@vue/test-utils'
-import type { AvRichTextEditorProps } from '@/components/interaction/inputs/AvRichTextEditor/AvRichTextEditor.vue'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
+import { richTextEditorTestProps as props } from '@/components/interaction/inputs/AvRichTextEditor/AvRichTextEditor.test-fixtures'
 import AvRichTextEditor from '@/components/interaction/inputs/AvRichTextEditor/AvRichTextEditor.vue'
 import { RichTextToolbarStub } from '@/components/interaction/inputs/AvRichTextEditor/components/RichTextToolbar/RichTextToolbar.stub'
 import { useRichTextEditor } from '@/components/interaction/inputs/AvRichTextEditor/composables/use-rich-text-editor/use-rich-text-editor'
@@ -33,47 +33,6 @@ const mockedUseRichTextEditor = vi.mocked(useRichTextEditor)
 describe('avRichTextEditor', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvRichTextEditor>>
   const editorRef = ref(mocks.editor as unknown as Editor)
-
-  const props: AvRichTextEditorProps = {
-    editorLabel: 'Rich text editor',
-    toolbarLabel: 'Rich text editor toolbar',
-    undoLabel: 'Undo (CTRL + Z)',
-    redoLabel: 'Redo (CTRL + Y)',
-    paragraphLabel: 'Paragraph',
-    headingLabel: 'Heading',
-    boldLabel: 'Bold (CTRL + B)',
-    italicLabel: 'Italic (CTRL + I)',
-    underlineLabel: 'Underline (CTRL + U)',
-    linkLabel: 'Link (CTRL + K)',
-    linkNameLabel: 'Link Name',
-    linkNamePlaceholder: 'Example Link',
-    unsetLinkLabel: 'Remove Link',
-    imageLabel: 'Image',
-    imageNameLabel: 'Nom de l\'image',
-    imageNamePlaceholder: 'Entrez le nom de l\'image',
-    imageUrlLabel: 'URL de l\'image',
-    removeImageLabel: 'Supprimer l\'image',
-    insertTableLabel: 'Insérer un tableau',
-    tableSettingsLabel: 'Paramètres du tableau',
-    deleteTableLabel: 'Supprimer le tableau',
-    addColumnBeforeLabel: 'Ajouter une colonne avant',
-    addColumnAfterLabel: 'Ajouter une colonne après',
-    deleteColumnLabel: 'Supprimer la colonne',
-    addRowBeforeLabel: 'Ajouter une ligne avant',
-    addRowAfterLabel: 'Ajouter une ligne après',
-    deleteRowLabel: 'Supprimer la ligne',
-    alignLeftLabel: 'Aligner à gauche',
-    alignCenterLabel: 'Aligner au centre',
-    alignRightLabel: 'Aligner à droite',
-    alignJustifyLabel: 'Justifier',
-    bulletListLabel: 'Liste à puces',
-    orderedListLabel: 'Liste numérotée',
-    decreaseIndentLabel: 'Diminuer le retrait',
-    increaseIndentLabel: 'Augmenter le retrait',
-    linkUrlLabel: 'URL du lien',
-    popoversCancelLabel: 'Annuler',
-    popoversConfirmLabel: 'Confirmer'
-  }
 
   const EditorContentStub = defineComponent({
     name: 'EditorContent',
@@ -127,7 +86,7 @@ describe('avRichTextEditor', () => {
       })
 
       BddTest().then('it should initialize the editor as editable', () => {
-        expect(mocks.editor.setEditable).toHaveBeenCalledWith(true)
+        expect(mocks.editor.setEditable).toHaveBeenCalledWith(true, false)
       })
 
       BddTest().then('it should use the default allowed header levels', () => {
@@ -189,7 +148,7 @@ describe('avRichTextEditor', () => {
       })
 
       BddTest().then('it should disable the editor', () => {
-        expect(mocks.editor.setEditable).toHaveBeenCalledWith(false)
+        expect(mocks.editor.setEditable).toHaveBeenCalledWith(false, false)
       })
 
       BddTest().then('it should forward the disabled prop to the toolbar', () => {
@@ -206,7 +165,7 @@ describe('avRichTextEditor', () => {
       })
 
       BddTest().then('it should disable the editor', () => {
-        expect(mocks.editor.setEditable).toHaveBeenCalledWith(false)
+        expect(mocks.editor.setEditable).toHaveBeenCalledWith(false, false)
       })
 
       BddTest().then('it should forward the loading prop to the toolbar', () => {
