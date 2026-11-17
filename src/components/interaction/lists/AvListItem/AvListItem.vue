@@ -202,7 +202,7 @@ function handleKeyDown (event: KeyboardEvent) {
     return
   }
 
-  if (event.key === 'Enter' || event.key === ' ') {
+  if (event.key === 'Enter' || (event.key === ' ' && !href)) {
     event.preventDefault()
 
     const mouseEvent = new MouseEvent('click', {
