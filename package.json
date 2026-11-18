@@ -1,7 +1,7 @@
 {
   "name": "@avenirs-esr/avenirs-dsav",
   "type": "module",
-  "version": "0.1.388",
+  "version": "0.1.389",
   "packageManager": "pnpm@10.34.2",
   "repository": {
     "type": "git",
