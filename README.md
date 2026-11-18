@@ -24,7 +24,7 @@ You can find examples of use and demo of the design system components on our [gi
 
 ## Installation
 
-In your project, run `npm install @ævenirs-esr/avenirs-dsav`.
+In your project, run `pnpm add @avenirs-esr/avenirs-dsav`.
 
 In order to make the style from `DSAV` work in your project, make sure to import the main `DSAV` style in your `main.ts` with the following : `import '@avenirs-esr/avenirs-dsav/style.css'`.
 
@@ -83,12 +83,15 @@ Example:
 
 ### Local development
 
-DSAV is maintained as a standalone package. Use Node.js 26 (`nvm use`) and pnpm 10.34.2, as declared in `packageManager`.
+DSAV is maintained as a standalone package. Use Node.js 26, as declared in `.nvmrc`, and pnpm 10.34.2, as declared in `packageManager` in `package.json`.
 
 ```sh
+nvm use
 npm install --global pnpm@10.34.2
 pnpm install --frozen-lockfile
 ```
+
+The npm command above only installs pnpm. Use pnpm to install and manage project dependencies.
 
 Run commands from the repository root:
 
