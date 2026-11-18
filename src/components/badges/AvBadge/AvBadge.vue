@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
+import { useFitTextWidth } from '@/composables/use-fit-text-width/use-fit-text-width'
 import { useTextTruncation } from '@/composables/use-text-truncation/use-text-truncation'
 import { toSentenceCase } from '@/utils'
 import { getIconPath } from '@/utils/icon-path/icon-path'
@@ -69,11 +70,26 @@ const {
   noSentenceCase = false
 } = defineProps<AvBadgeProps>()
 
-const iconPathStyleVars = computed(() => getIconPath(icon))
-
+const badgeRef = ref<HTMLElement>()
 const labelRef = ref<HTMLElement>()
-const labelToRender = computed(() => noSentenceCase ? label : toSentenceCase(label))
 const { isTruncated } = useTextTruncation(labelRef)
+
+const iconPathStyleVars = computed(() => getIconPath(icon))
+const labelToRender = computed(() => noSentenceCase ? label : toSentenceCase(label))
+
+function getBadgeContainer () {
+  const parent = badgeRef.value?.parentElement
+
+  return isTruncated.value && parent?.classList.contains('av-tooltip-trigger')
+    ? parent.parentElement?.parentElement
+    : parent
+}
+
+const { refresh } = useFitTextWidth(labelRef, {
+  enabled: () => !ellipsis,
+  container: getBadgeContainer
+})
+watch(() => [labelToRender.value, small, icon], refresh, { flush: 'post' })
 </script>
 
 <template>
@@ -83,6 +99,7 @@ const { isTruncated } = useTextTruncation(labelRef)
     :force-focusable="isTruncated"
   >
     <span
+      ref="badgeRef"
       v-bind="$attrs"
       role="status"
       class="av-badge av-row av-align-center av-py-none av-m-none av-radius-sm"
@@ -97,7 +114,7 @@ const { isTruncated } = useTextTruncation(labelRef)
       <span
         ref="labelRef"
         :class="{
-          'av-max-lines': ellipsis,
+          'av-ellipsis': ellipsis,
           'caption-regular': small,
           'b2-regular': !small,
         }"
@@ -110,7 +127,6 @@ const { isTruncated } = useTextTruncation(labelRef)
 
 <style lang="scss" scoped>
 .av-badge {
-  --max-lines: 1;
   color: v-bind('color');
   background-color: v-bind('backgroundColor');
   border: 1px solid v-bind('borderColor');

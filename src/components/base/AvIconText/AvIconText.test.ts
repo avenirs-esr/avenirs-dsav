@@ -79,9 +79,8 @@ BddTest().given('an AvIconText', () => {
       })
 
       BddTest().then('it should not render the ellipsis classes', async () => {
-        expect(wrapper.find('[data-testid="av-icon-text"]').classes()).not.toContain('ellipsis-container')
         const text = wrapper.find('[data-testid="av-icon-text-text"]')
-        expect(text.classes()).not.toContain('av-max-lines')
+        expect(text.classes()).not.toContain('av-ellipsis')
       })
     })
 
@@ -91,9 +90,8 @@ BddTest().given('an AvIconText', () => {
       })
 
       BddTest().then('it should render the ellipsis classes', async () => {
-        expect(wrapper.find('[data-testid="av-icon-text"]').classes()).toContain('ellipsis-container')
         const text = wrapper.find('[data-testid="av-icon-text-text"]')
-        expect(text.classes()).toContain('av-max-lines')
+        expect(text.classes()).toContain('av-ellipsis')
       })
     })
 
@@ -103,11 +101,9 @@ BddTest().given('an AvIconText', () => {
       })
 
       BddTest().then('it should render wrapping class and disable ellipsis classes', async () => {
-        expect(wrapper.find('[data-testid="av-icon-text"]').classes()).not.toContain('ellipsis-container')
-
         const text = wrapper.find('[data-testid="av-icon-text-text"]')
         expect(text.classes()).toContain('av-wrap-anywhere')
-        expect(text.classes()).not.toContain('av-max-lines')
+        expect(text.classes()).not.toContain('av-ellipsis')
       })
     })
 

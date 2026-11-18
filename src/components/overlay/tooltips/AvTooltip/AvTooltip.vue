@@ -228,6 +228,16 @@ onUnmounted(() => {
   align-items: center;
 }
 
+.av-tooltip-trigger > * {
+  min-width: 0;
+}
+
+.av-tooltip-wrapper,
+.av-tooltip-trigger {
+  max-width: 100%;
+  min-width: 0;
+}
+
 .av-tooltip-trigger--full-width {
   display: flex;
   width: 100%;

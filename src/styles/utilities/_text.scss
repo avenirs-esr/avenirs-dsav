@@ -15,6 +15,14 @@ $text-alignments: (
 
 // === BASE CLASSES ===
 
+// === Ellipsis ===
+@include ns("ellipsis") {
+  min-width: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
 // === Max lines ===
 @include ns("max-lines") {
   display: -webkit-box !important;
@@ -35,14 +43,6 @@ $text-alignments: (
   overflow-wrap: anywhere !important;
   word-break: break-word !important;
   hyphens: auto !important;
-}
-
-// === Ellipsis ===
-@include ns("ellipsis") {
-  display: inline !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  white-space: nowrap !important;
 }
 
 // === Text alignment ===

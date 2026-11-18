@@ -8,6 +8,11 @@ class ResizeObserverStub {
 
 globalThis.ResizeObserver = ResizeObserverStub
 
+Object.defineProperty(Range.prototype, 'getClientRects', {
+  configurable: true,
+  value: () => []
+})
+
 window.matchMedia = function () {
   return { matches: false }
 }

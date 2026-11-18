@@ -1,6 +1,6 @@
 # Text
 
-_Last updated: 2026-11-10_
+_Last updated: 2026-11-18_
 
 ## ✨ Introduction
 
@@ -10,9 +10,9 @@ This `text` utility generates text-related classes for all defined styles.
 
 | Class pattern | Description |
 |---------------|-------------|
-| `.av-max-lines` | Applies maximum lines with ellipsis |
-| `.av-wrap-anywhere` | Applies wrapping anywhere with hyphens |
 | `.av-ellipsis` | Applies ellipsis for single-line text |
+| `.av-max-lines` | Applies maximum lines with ellipsis. For one line max, use `.av-ellipsis` instead |
+| `.av-wrap-anywhere` | Applies wrapping anywhere with hyphens |
 | `.av-text-{left\|center\|right\|justify}` | Applies text alignment |
 | `.av-text-{left\|center\|right\|justify}--{sm\|md\|lg\|xl}` | Applies text alignment from a breakpoint and up |
 | `.av-text-{bold\|light\|regular}` | Applies text weight |
@@ -20,6 +20,7 @@ This `text` utility generates text-related classes for all defined styles.
 
 📝 Notes:
 - for `.av-max-lines`, the number of lines is determined by the CSS variable `--max-lines` (default: 2), which can be set on the element or inherited from a parent element.
+- do not use `.av-max-lines` for single-line text; use `.av-ellipsis` instead.
 - text alignment classes are generated from the available alignment values and also expose responsive variants.
 
 ## 🎨 Some CSS results
