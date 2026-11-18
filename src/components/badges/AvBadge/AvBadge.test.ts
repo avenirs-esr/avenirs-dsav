@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { AvBadgeProps } from '@/components/badges/AvBadge/AvBadge.vue'
-import { mount } from '@vue/test-utils'
+import { enableAutoUnmount, mount } from '@vue/test-utils'
 import AvBadge from '@/components/badges/AvBadge/AvBadge.vue'
 import { AvTooltipStub } from '@/tests'
 import { BddTest } from '@/tests/utils'
@@ -11,6 +11,8 @@ const mockIsTruncated = ref(false)
 vi.mock('@/composables/use-text-truncation/use-text-truncation', () => ({
   useTextTruncation: () => ({ isTruncated: mockIsTruncated }),
 }))
+
+enableAutoUnmount(afterEach)
 
 BddTest().given('an AvBadge', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvBadge>>
@@ -85,7 +87,7 @@ BddTest().given('an AvBadge', () => {
 
       BddTest().then('it should add an ellipsis class', () => {
         const badge = wrapper.find('.av-badge')
-        expect(badge.find('.av-max-lines').exists()).toBe(true)
+        expect(badge.find('.av-ellipsis').exists()).toBe(true)
       })
     })
     BddTest().and('given noSentenceCase prop', () => {

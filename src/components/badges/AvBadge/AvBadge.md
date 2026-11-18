@@ -9,6 +9,8 @@ The `AvBadge` is ideal for displaying short, important information, such as cate
 - The component is a `p` element with the `av-badge` class.
 - Props allow you to modify the badge appearance according to the props: color, icon presence, size, and handling of overly long text.
 - The `label` is displayed inside a `span`, potentially with the `ellipsis` prop and a defined or maximum size to handle truncated text.
+- With `ellipsis`, the label stays on a single line and a tooltip shows the full text when it is truncated.
+- Without `ellipsis`, a label that wraps fits the width of its longest displayed line.
 
 ## 🏷️ Props
 

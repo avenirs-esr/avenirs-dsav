@@ -1,5 +1,6 @@
 export * from './use-av-breakpoints/use-av-breakpoints'
 export * from './use-collapsable/use-collapsable'
+export * from './use-fit-text-width/use-fit-text-width'
 export * from './use-focus-trap/use-focus-trap'
 export * from './use-global-background-color/use-global-background-color'
 export * from './use-text-truncation/use-text-truncation'
