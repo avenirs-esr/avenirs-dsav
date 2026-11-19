@@ -48,6 +48,7 @@ export default defineConfig({
                 { text: 'AvIcon', link: '/components/base/AvIcon/AvIcon.md' },
                 { text: 'AvIconText', link: '/components/base/AvIconText/AvIconText.md' },
                 { text: 'AvNotice', link: '/components/base/AvNotice/AvNotice.md' },
+                { text: 'AvNumberIndicator', link: '/components/base/AvNumberIndicator/AvNumberIndicator.md' },
               ],
               collapsed: true
             },

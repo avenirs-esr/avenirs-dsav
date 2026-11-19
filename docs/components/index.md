@@ -11,6 +11,7 @@ _Last updated: 2026-11-05_
 - [AvIcon](base/AvIcon/AvIcon.md)
 - [AvIconText](base/AvIconText/AvIconText.md)
 - [AvNotice](base/AvNotice/AvNotice.md)
+- [AvNumberIndicator](base/AvNumberIndicator/AvNumberIndicator.md)
 
 ## Cards
 - [AvCard](cards/AvCard/AvCard.md)
