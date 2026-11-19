@@ -1,12 +1,11 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { Mock } from 'vitest'
-import type { Ref } from 'vue'
 import type { AvAccordionProps } from '@/components/interaction/accordions/AvAccordion/AvAccordion.vue'
 import { mount } from '@vue/test-utils'
-import { beforeEach, expect } from 'vitest'
+import { beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 import AvAccordion from '@/components/interaction/accordions/AvAccordion/AvAccordion.vue'
-import { AvIconStub } from '@/tests'
+import { AvIconTextStub, AvNumberIndicatorStub } from '@/tests'
 import { BddTest } from '@/tests/utils'
 
 vi.mock('vue', async (importOriginal) => {
@@ -39,15 +38,24 @@ BddTest().given('an AvAccordion', () => {
     default: '<div class="slot-content">Slot Content</div>',
   }
 
-  const stubs = { AvIcon: AvIconStub }
+  const stubs = { AvIconText: AvIconTextStub, AvNumberIndicator: AvNumberIndicatorStub }
+
+  const mountAccordion = (newProps: AvAccordionProps = props) => {
+    wrapper = mount(AvAccordion, {
+      props: newProps,
+      slots,
+      global: { stubs },
+    })
+  }
+
+  const getAvIconText = () => wrapper.findComponent(AvIconTextStub)
+  const getAvNumberIndicator = () => wrapper.findComponent(AvNumberIndicatorStub)
 
   BddTest().when('the accordion is mounted with required props', () => {
     beforeEach(() => {
       vi.clearAllMocks()
-      wrapper = mount(AvAccordion, {
-        props,
-        slots,
-      })
+      ;(inject as Mock).mockReturnValue(undefined)
+      mountAccordion()
     })
 
     BddTest().then('it should render the title', () => {
@@ -55,87 +63,209 @@ BddTest().given('an AvAccordion', () => {
     })
 
     BddTest().then('it should render the slot content', () => {
-      expect(wrapper.find('.av-accordion__panel').text()).toBe('Slot Content')
+      expect(wrapper.find('.av-accordion__panel').text()).toContain('Slot Content')
+    })
+
+    BddTest().then('it should render the default heading level', () => {
+      expect(wrapper.find('h3.av-accordion__header').exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the accordion trigger with the expected accessibility attributes', () => {
+      const trigger = wrapper.find('[data-testid="av-accordion-trigger"]')
+
+      expect(trigger.exists()).toBe(true)
+      expect(trigger.attributes('type')).toBe('button')
+      expect(trigger.attributes('aria-controls')).toBe(`${trigger.attributes('id')}-panel`)
+    })
+
+    BddTest().then('it should render the content panel as a region labelled by the trigger', () => {
+      const trigger = wrapper.find('[data-testid="av-accordion-trigger"]')
+      const panel = wrapper.find('.av-accordion__panel')
+
+      expect(panel.attributes('role')).toBe('region')
+      expect(panel.attributes('aria-labelledby')).toBe(trigger.attributes('id'))
+      expect(panel.attributes('id')).toBe(trigger.attributes('aria-controls'))
     })
   })
 
-  BddTest().when('the accordion is mounted with optional icon prop', () => {
-    const newProps: AvAccordionProps = { ...props, icon: 'test-icon' }
+  BddTest().when('the accordion is mounted with an explicit id', () => {
+    const newProps: AvAccordionProps = {
+      ...props,
+      id: 'custom-accordion-id',
+    }
 
     beforeEach(() => {
       vi.clearAllMocks()
-      wrapper = mount(AvAccordion, {
-        props: newProps,
-        slots,
-        global: { stubs }
-      })
+      ;(inject as Mock).mockReturnValue(undefined)
+      mountAccordion(newProps)
     })
 
-    BddTest().then('it should display the icon', () => {
-      const icon = wrapper.findComponent({ name: 'AvIcon' })
-      expect(icon.exists()).toBe(true)
-      expect(icon.exists()).toBe(true)
+    BddTest().then('it should use the provided id for the trigger', () => {
+      expect(wrapper.find('[data-testid="av-accordion-trigger"]').attributes('id')).toBe(newProps.id)
+    })
+
+    BddTest().then('it should derive the panel id from the provided id', () => {
+      expect(wrapper.find('.av-accordion__panel').attributes('id')).toBe(`${newProps.id}-panel`)
+    })
+  })
+
+  BddTest().when('the accordion is mounted with an optional icon prop', () => {
+    const newProps: AvAccordionProps = {
+      ...props,
+      icon: 'test-icon',
+    }
+
+    beforeEach(() => {
+      vi.clearAllMocks()
+      ;(inject as Mock).mockReturnValue(undefined)
+      mountAccordion(newProps)
+    })
+
+    BddTest().then('it should display the icon and title through AvIconText', () => {
+      const iconText = getAvIconText()
+
+      expect(iconText.exists()).toBe(true)
+      expect(iconText.props('icon')).toBe(newProps.icon)
+      expect(iconText.props('text')).toBe(newProps.title)
+    })
+
+    BddTest().then('it should not render the standalone title', () => {
+      expect(wrapper.find('span.n6').exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the accordion is mounted without an icon prop', () => {
+    beforeEach(() => {
+      vi.clearAllMocks()
+      ;(inject as Mock).mockReturnValue(undefined)
+      mountAccordion()
+    })
+
+    BddTest().then('it should render the title as a span', () => {
+      expect(wrapper.find('span.n6').text()).toBe(props.title)
+    })
+
+    BddTest().then('it should not render AvIconText', () => {
+      expect(getAvIconText().exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the accordion is mounted with a numberIndicator', () => {
+    const newProps: AvAccordionProps = {
+      ...props,
+      numberIndicator: 3,
+    }
+
+    beforeEach(() => {
+      vi.clearAllMocks()
+      ;(inject as Mock).mockReturnValue(undefined)
+      mountAccordion(newProps)
+    })
+
+    BddTest().then('it should render the number indicator with the provided value', () => {
+      const numberIndicator = getAvNumberIndicator()
+
+      expect(numberIndicator.exists()).toBe(true)
+      expect(numberIndicator.props('value')).toBe(newProps.numberIndicator)
+    })
+
+    BddTest().then('it should apply the expected typography class to the number indicator', () => {
+      expect(getAvNumberIndicator().classes()).toContain('b2-bold')
+    })
+  })
+
+  BddTest().when('the accordion is mounted without numberIndicator', () => {
+    beforeEach(() => {
+      vi.clearAllMocks()
+      ;(inject as Mock).mockReturnValue(undefined)
+      mountAccordion()
+    })
+
+    BddTest().then('it should not render the number indicator', () => {
+      expect(getAvNumberIndicator().exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the accordion is mounted with a custom heading level', () => {
+    const newProps: AvAccordionProps = {
+      ...props,
+      headingLevel: 'h2',
+    }
+
+    beforeEach(() => {
+      vi.clearAllMocks()
+      ;(inject as Mock).mockReturnValue(undefined)
+      mountAccordion(newProps)
+    })
+
+    BddTest().then('it should render the title with the provided heading level', () => {
+      expect(wrapper.find('h2.av-accordion__header').exists()).toBe(true)
     })
   })
 
   BddTest().when('the accordion is mounted without accordion injection', () => {
     beforeEach(() => {
       vi.clearAllMocks()
-      wrapper = mount(AvAccordion, { props, slots })
+      ;(inject as Mock).mockReturnValue(undefined)
+      mountAccordion()
     })
 
     BddTest().then('it should use the standalone state', () => {
-      const vm = wrapper.vm as unknown as { isActive: Ref<boolean>, isStandaloneActive: Ref<boolean> }
-      expect(vm.isActive).toBe(vm.isStandaloneActive)
+      const trigger = wrapper.find('[data-testid="av-accordion-trigger"]')
+
+      expect(trigger.attributes('aria-expanded')).toBeUndefined()
     })
   })
 
   BddTest().when('the accordion is mounted in standalone mode', () => {
     beforeEach(() => {
       vi.clearAllMocks()
-      wrapper = mount(AvAccordion, { props, slots })
+      ;(inject as Mock).mockReturnValue(undefined)
+      mountAccordion()
     })
 
-    BddTest().then('isStandaloneActive should be undefined initially', () => {
-      const vm = wrapper.vm as unknown as { isStandaloneActive: boolean }
+    BddTest().then('it should initialize the standalone state as undefined', () => {
+      const vm = wrapper.vm as unknown as { isStandaloneActive: boolean | undefined }
+
       expect(vm.isStandaloneActive).toBeUndefined()
     })
 
-    BddTest().and('the button is clicked', () => {
-      BddTest().then('it should toggle isStandaloneActive', async () => {
-        const vm = wrapper.vm as unknown as { isStandaloneActive: boolean }
+    BddTest().and('the trigger is clicked', () => {
+      BddTest().then('it should toggle the expanded state', async () => {
+        const trigger = wrapper.find('[data-testid="av-accordion-trigger"]')
 
-        await wrapper.find('button').trigger('click')
-        expect(vm.isStandaloneActive).toBe(true)
+        await trigger.trigger('click')
+        expect(trigger.attributes('aria-expanded')).toBe('true')
 
-        await wrapper.find('button').trigger('click')
-        expect(vm.isStandaloneActive).toBe(false)
+        await trigger.trigger('click')
+        expect(trigger.attributes('aria-expanded')).toBe('false')
       })
     })
   })
 
-  BddTest().when('isActive is true on mount', () => {
+  BddTest().when('the accordion is mounted with an active accordion injection', () => {
     beforeEach(() => {
-      (inject as Mock).mockReturnValue(() => ({
+      vi.clearAllMocks()
+      ;(inject as Mock).mockReturnValue(() => ({
         isActive: ref(true),
         expand: vi.fn(),
         onKeydown: onKeydownSpy,
         setTriggerRef: vi.fn(),
       }))
 
-      wrapper = mount(AvAccordion, { props, slots })
+      mountAccordion()
     })
 
-    BddTest().then('it should call doExpand(true)', () => {
+    BddTest().then('it should call doExpand with true on mount', () => {
       expect(doExpandSpy).toHaveBeenCalledWith(true)
     })
 
-    BddTest().and('the header button is focused', () => {
+    BddTest().and('the trigger receives focus', () => {
       beforeEach(async () => {
         await wrapper.find('button').trigger('focus')
       })
 
-      BddTest().then('it should not call onKeydown yet', () => {
+      BddTest().then('it should not call onKeydown', () => {
         expect(onKeydownSpy).not.toHaveBeenCalled()
       })
 
@@ -151,32 +281,35 @@ BddTest().given('an AvAccordion', () => {
     })
   })
 
-  BddTest().and('when isActive changes', () => {
+  BddTest().when('the injected isActive state changes', () => {
     const isActive = ref(false)
 
     beforeEach(async () => {
-      (inject as Mock).mockReturnValue(() => ({
+      vi.clearAllMocks()
+      ;(inject as Mock).mockReturnValue(() => ({
         isActive,
         expand: vi.fn(),
         onKeydown: onKeydownSpy,
         setTriggerRef: vi.fn(),
       }))
-      wrapper = mount(AvAccordion, { props, slots })
+
+      mountAccordion()
 
       isActive.value = true
       await nextTick()
     })
 
-    BddTest().then('it should call doExpand with newValue', () => {
+    BddTest().then('it should call doExpand with the new active state', () => {
       expect(doExpandSpy).toHaveBeenCalledWith(true)
     })
   })
 
-  BddTest().when('the button is clicked', () => {
+  BddTest().when('the trigger is clicked with an accordion injection', () => {
     const expandSpy = vi.fn()
 
     beforeEach(() => {
-      (inject as Mock).mockReturnValue(() => ({
+      vi.clearAllMocks()
+      ;(inject as Mock).mockReturnValue(() => ({
         isActive: ref(false),
         expand: expandSpy,
         onKeydown: onKeydownSpy,
@@ -184,21 +317,26 @@ BddTest().given('an AvAccordion', () => {
       }))
     })
 
-    BddTest().then('it should call expand', async () => {
-      wrapper = mount(AvAccordion, { props, slots })
-      await wrapper.find('button').trigger('click')
-      expect(expandSpy).toHaveBeenCalled()
+    BddTest().then('it should call the injected expand function', async () => {
+      mountAccordion()
+
+      await wrapper.find('[data-testid="av-accordion-trigger"]').trigger('click')
+
+      expect(expandSpy).toHaveBeenCalledOnce()
     })
   })
 
-  BddTest().when('transitionend is triggered', () => {
+  BddTest().when('the accordion panel receives a transitionend event', () => {
     beforeEach(() => {
-      wrapper = mount(AvAccordion, { props, slots })
+      vi.clearAllMocks()
+      ;(inject as Mock).mockReturnValue(undefined)
+      mountAccordion()
     })
 
-    BddTest().then('it should call onTransitionEnd with current isActive and false', async () => {
-      await wrapper.find('.av-collapse').trigger('transitionend')
-      expect(onTransitionEndSpy).toHaveBeenCalledWith(expect.anything(), false)
+    BddTest().then('it should call onTransitionEnd with the current active state and false', async () => {
+      await wrapper.find('.av-accordion__panel').trigger('transitionend')
+
+      expect(onTransitionEndSpy).toHaveBeenCalledWith(undefined, false)
     })
   })
 })
