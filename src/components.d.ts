@@ -46,6 +46,7 @@ declare module 'vue' {
     AvModal: typeof import('./components/overlay/modals/AvModal/AvModal.vue')['default']
     AvNavigation: typeof import('./components/navigation/AvNavigation/AvNavigation.vue')['default']
     AvNotice: typeof import('./components/base/AvNotice/AvNotice.vue')['default']
+    AvNumberIndicator: typeof import('./components/base/AvNumberIndicator/AvNumberIndicator.vue')['default']
     AvPageSizePicker: typeof import('./components/interaction/pickers/AvPageSizePicker/AvPageSizePicker.vue')['default']
     AvPagination: typeof import('./components/navigation/AvPagination/AvPagination.vue')['default']
     AvPopover: typeof import('./components/overlay/popovers/AvPopover/AvPopover.vue')['default']
