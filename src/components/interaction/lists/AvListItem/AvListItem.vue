@@ -2,6 +2,7 @@
 import type { Slot } from 'vue'
 import type { AvInteractiveProps } from '@/types/interfaces.types'
 import AvIcon from '@/components/base/AvIcon/AvIcon.vue'
+import AvNumberIndicator from '@/components/base/AvNumberIndicator/AvNumberIndicator.vue'
 import AvTooltip from '@/components/overlay/tooltips/AvTooltip/AvTooltip.vue'
 import { getAvTooltipContent, isAvTooltipEnabled } from '@/components/overlay/tooltips/AvTooltip/utils'
 import { useTextTruncation } from '@/composables'
@@ -244,17 +245,14 @@ function handleKeyDown (event: KeyboardEvent) {
         @click="handleClick"
         @keydown="handleKeyDown"
       >
-        <span
-          v-if="index && Number.isFinite(index)"
-          class="av-list-item__index av-p-xxs av-border-width-md av-border-style-solid av-radius-full"
+        <AvNumberIndicator
+          :value="index"
           :class="{
             'b2-bold': type === 'main',
             'b2-regular': type !== 'main',
           }"
           data-testid="av-list-item-index"
-        >
-          {{ index }}
-        </span>
+        />
 
         <div
           v-if="icon"
@@ -310,11 +308,11 @@ function handleKeyDown (event: KeyboardEvent) {
 
   &__title,
   &__description,
-  &__index {
+  :deep(.av-number-indicator) {
     color: inherit;
   }
 
-  &__index {
+  :deep(.av-number-indicator) {
     min-width: var(--dimension-md);
     text-align: center;
   }
@@ -370,7 +368,7 @@ function handleKeyDown (event: KeyboardEvent) {
   .av-list-item--theme-#{$theme} {
     .av-list-item__title,
     .av-list-item__description,
-    .av-list-item__index {
+    :deep(.av-number-indicator) {
       color: map.get($colors, text);
     }
 
@@ -387,7 +385,7 @@ function handleKeyDown (event: KeyboardEvent) {
 
           .av-list-item__title,
           .av-list-item__description,
-          .av-list-item__index {
+          :deep(.av-number-indicator) {
             color: map.get($colors, hover-text);
           }
 
@@ -407,7 +405,7 @@ function handleKeyDown (event: KeyboardEvent) {
 
         .av-list-item__title,
         .av-list-item__description,
-        .av-list-item__index {
+        :deep(.av-number-indicator) {
           color: map.get($colors, text-selected);
         }
 
@@ -426,7 +424,7 @@ function handleKeyDown (event: KeyboardEvent) {
 
           .av-list-item__title,
           .av-list-item__description,
-          .av-list-item__index {
+          :deep(.av-number-indicator) {
             color: map.get($colors, hover-text);
           }
 
@@ -446,7 +444,7 @@ function handleKeyDown (event: KeyboardEvent) {
 
         .av-list-item__title,
         .av-list-item__description,
-        .av-list-item__index {
+        :deep(.av-number-indicator) {
           color: map.get($colors, sub-text-selected);
           font-weight: bold;
         }
