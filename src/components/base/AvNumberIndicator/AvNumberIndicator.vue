@@ -21,7 +21,10 @@ const isValidValue = computed(() => value !== undefined && Number.isInteger(valu
 </script>
 
 <template>
-  <div class="av-row">
+  <div
+    class="av-row"
+    data-testid="av-number-indicator-container"
+  >
     <span
       v-if="isValidValue"
       v-bind="$attrs"
