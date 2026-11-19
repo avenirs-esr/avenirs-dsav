@@ -6,6 +6,7 @@ import { AvIconStub } from '@/components/base/AvIcon/AvIcon.stub'
 import { AvIconTextStub } from '@/components/base/AvIconText/AvIconText.stub'
 import { AvMessageStub } from '@/components/base/AvMessage/AvMessage.stub'
 import { AvNoticeStub } from '@/components/base/AvNotice/AvNotice.stub'
+import { AvNumberIndicatorStub } from '@/components/base/AvNumberIndicator/AvNumberIndicator.stub'
 import { AvCardStub } from '@/components/cards/AvCard/AvCard.stub'
 import { AvTableStub } from '@/components/dataDisplay/AvTable/AvTable.stub'
 import { AvHeaderStub } from '@/components/header/AvHeader/AvHeader.stub'
@@ -83,6 +84,7 @@ export {
   AvModalStub,
   AvNavigationStub,
   AvNoticeStub,
+  AvNumberIndicatorStub,
   AvPageSizePickerStub,
   AvPaginationStub,
   AvPopoverStub,
