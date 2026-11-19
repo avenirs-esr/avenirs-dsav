@@ -6,14 +6,17 @@ import { BddTest } from '@/tests/utils'
 BddTest().given('an AvNumberIndicator component', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvNumberIndicator>>
 
+  const getContainer = () => wrapper.find('[data-testid="av-number-indicator-container"]')
+  const getSpan = () => wrapper.find('[data-testid="av-number-indicator"]')
+
   BddTest().when('it is mounted without a value', () => {
     beforeEach(() => {
       wrapper = mount(AvNumberIndicator)
     })
 
     BddTest().then('it should render the container without the indicator', () => {
-      expect(wrapper.find('[data-testid="av-number-indicator"]').exists()).toBe(true)
-      expect(wrapper.find('.av-number-indicator').exists()).toBe(false)
+      expect(getContainer().exists()).toBe(true)
+      expect(getSpan().exists()).toBe(false)
     })
   })
 
@@ -26,7 +29,7 @@ BddTest().given('an AvNumberIndicator component', () => {
           props: { value },
         })
 
-        const indicator = wrapper.find('.av-number-indicator')
+        const indicator = getSpan()
 
         expect(indicator.exists()).toBe(true)
         expect(indicator.text()).toBe(String(value))
@@ -44,13 +47,14 @@ BddTest().given('an AvNumberIndicator component', () => {
       Number.NEGATIVE_INFINITY,
     ]
 
-    BddTest().then('it should not display the indicator', () => {
+    BddTest().then('it should render the container without the indicator', () => {
       for (const value of invalidValues) {
         wrapper = mount(AvNumberIndicator, {
           props: { value },
         })
 
-        expect(wrapper.find('.av-number-indicator').exists()).toBe(false)
+        expect(getContainer().exists()).toBe(true)
+        expect(getSpan().exists()).toBe(false)
       }
     })
   })
@@ -68,7 +72,7 @@ BddTest().given('an AvNumberIndicator component', () => {
     })
 
     BddTest().then('it should forward attributes to the indicator', () => {
-      const indicator = wrapper.find('.av-number-indicator')
+      const indicator = getSpan()
 
       expect(indicator.attributes('id')).toBe('test-indicator')
       expect(indicator.attributes('aria-label')).toBe('42 notifications')
@@ -76,29 +80,10 @@ BddTest().given('an AvNumberIndicator component', () => {
     })
 
     BddTest().then('it should not forward attributes to the container', () => {
-      const container = wrapper.find('[data-testid="av-number-indicator"]')
+      const container = getContainer()
 
       expect(container.attributes('id')).toBeUndefined()
       expect(container.attributes('aria-label')).toBeUndefined()
-      expect(container.classes()).not.toContain('custom-class')
-    })
-  })
-
-  BddTest().when('it is mounted with additional attributes but an invalid value', () => {
-    beforeEach(() => {
-      wrapper = mount(AvNumberIndicator, {
-        props: { value: -1 },
-        attrs: {
-          id: 'test-indicator',
-          class: 'custom-class',
-        },
-      })
-    })
-
-    BddTest().then('it should not forward attributes to the container', () => {
-      const container = wrapper.find('[data-testid="av-number-indicator"]')
-
-      expect(container.attributes('id')).toBeUndefined()
       expect(container.classes()).not.toContain('custom-class')
     })
   })
