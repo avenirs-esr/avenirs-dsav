@@ -5,6 +5,10 @@
   color: var(--dark-background-error);
 }
 
+@include ns("text-icon") {
+  color: var(--icon);
+}
+
 @include ns("text-primary1") {
   color: var(--dark-background-primary1);
 }

@@ -25,6 +25,11 @@ export interface AvAccordionProps {
   icon?: string
 
   /**
+   * Number to display in the indicator.
+   */
+  numberIndicator?: number
+
+  /**
    * Heading level for the accordion title.
    * @default 'h3'
    */
@@ -120,14 +125,30 @@ watch(isActive, (newValue, oldValue) => {
         @click="expand"
         @keydown="onKeydown"
       >
-        <div class="title-container av-row av-gap-sm">
-          <AvIcon
+        <div class="title-container av-row av-gap-sm av-align-center">
+          <div
+            v-if="numberIndicator !== undefined"
+            class="av-text-icon"
+          >
+            <AvNumberIndicator
+              :value="numberIndicator"
+              class="b2-bold"
+            />
+          </div>
+
+          <AvIconText
             v-if="icon"
-            :size="2"
-            :name="icon"
-            color="var(--icon)"
+            :icon="icon"
+            icon-color="var(--icon)"
+            :text="title"
+            typography-class="n6"
+            gap="var(--spacing-sm)"
+            inline
           />
-          <span class="n6">
+          <span
+            v-else
+            class="n6"
+          >
             {{ title }}
           </span>
         </div>

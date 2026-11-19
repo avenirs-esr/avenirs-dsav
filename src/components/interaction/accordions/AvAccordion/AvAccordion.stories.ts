@@ -20,6 +20,7 @@ import AvAccordion from '@/components/interaction/accordions/AvAccordion/AvAccor
  * <ul>
  *   <li><span class="b2-regular">a header (<code>title</code> prop, of type <code>string</code>), corresponding to the section title - mandatory.</span></li>
  *   <li><span class="b2-regular">an icon, indicating when the panel is closed and when it is open.</span></li>
+ *   <li><span class="b2-regular">an optional number indicator, displayed before the title when the <code>numberIndicator</code> prop is provided.</span></li>
  *   <li><span class="b2-regular">a separator</span></li>
  *   <li><span class="b2-regular">a content area, hidden by default, that can contain any type of element; the default <code>slot</code> is designed for this.</span></li>
  * </ul>
@@ -36,6 +37,7 @@ const meta: Meta<AvAccordionProps> = {
     },
     overflowVisible: { control: 'boolean' },
     triggerBorderColor: { control: 'color' },
+    numberIndicator: { control: 'number' },
   },
   args: {
     title: 'Accordion 1',
@@ -56,3 +58,9 @@ const Template: StoryFn<AvAccordionProps> = args => ({
 
 export const Default = Template.bind({})
 Default.args = {}
+
+export const NumberIndicator = Template.bind({})
+NumberIndicator.args = {
+  numberIndicator: 1,
+  icon: undefined
+}

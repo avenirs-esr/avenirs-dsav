@@ -4,6 +4,7 @@ const component = 'AcAccordion'
 const title = 'Components/Interaction/Accordions/AvAccordion'
 const stories = [
   'Default',
+  'NumberIndicator',
 ]
 
 testStories(component, title, stories)

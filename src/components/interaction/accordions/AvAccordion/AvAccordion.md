@@ -8,6 +8,7 @@ The `AvAccordion` allows users to show and hide sections of content presented on
 
 An accordion consists of the following elements:
 - a header (prop title, of type string), corresponding to the section title - mandatory.
+- an optional number indicator, displayed before the title when the `numberIndicator` prop is provided.
 - an icon, indicating when the panel is closed and when it is open.
 - a separator
 - a content area, hidden by default, that can contain any type of element; the default slot is designed for this.
@@ -22,6 +23,7 @@ An accordion consists of the following elements:
 | `headingLevel` | `'h2' \| 'h3' \| 'h4' \| 'h5' \| 'h6'` | `'h3'` | | Heading level for the accordion title. |
 | `overflowVisible` | `boolean` | `false` | | Whether the overflow of the accordion content should be visible when expanded. |
 | `triggerBorderColor` | `string` | `'transparent'` | | Border color of the accordion trigger. If set to 'transparent', the trigger will have no border and the arrow will inherit the text color. |
+| `numberIndicator` | `number` | `undefined` | | Number to be displayed (if non-negative integer) in the number indicator before the title. |
 
 ## 🔊 Events
 
