@@ -15,10 +15,21 @@ export const AvTabsStub = defineComponent({
     },
   },
   emits: ['update:modelValue'],
-  setup (props, { slots }) {
+  setup (props, { slots, expose }) {
+    const activeTab = ref(props.modelValue)
+
+    watch(
+      () => props.modelValue,
+      value => activeTab.value = value
+    )
+
     const tabItems = computed(() => slots.default?.() ?? [])
 
-    const activeTab = computed(() => props.modelValue ?? 0)
+    const selectTab = (index: number) => {
+      activeTab.value = index
+    }
+
+    expose({ selectTab })
 
     return () => {
       if (props.lazyRender) {
