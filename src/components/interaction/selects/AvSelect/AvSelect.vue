@@ -374,6 +374,7 @@ const styleVars = computed(() => ({
 
 .av-select-group {
   width: v-bind('width');
+  max-width: 100%;
 }
 
 :deep() {
@@ -381,6 +382,7 @@ const styleVars = computed(() => ({
     text-align: left;
     background-image: none;
     width: v-bind('width');
+    max-width: 100%;
     height: v-bind('height');
 
     &::after {
