@@ -121,7 +121,9 @@ onBeforeUnmount(() => {
   window.removeEventListener('resize', updateIconSize)
 })
 
-const ellipsisClass = computed(() => !inline && !wrapAnywhere ? 'av-ellipsis' : undefined)
+const withEllipsis = computed(() => !inline && !wrapAnywhere)
+const ellipsisClass = computed(() => withEllipsis.value ? 'av-ellipsis' : undefined)
+const ellipsisContainerClass = computed(() => withEllipsis.value ? 'av-ellipsis-container' : undefined)
 const wrapAnywhereClass = computed(() => wrapAnywhere ? 'av-wrap-anywhere' : undefined)
 </script>
 
@@ -134,6 +136,7 @@ const wrapAnywhereClass = computed(() => wrapAnywhere ? 'av-wrap-anywhere' : und
     <div
       v-bind="$attrs"
       class="icon-text--container av-row av-align-start"
+      :class="[ellipsisContainerClass]"
     >
       <AvIcon
         class="icon-text--icon"
