@@ -422,6 +422,7 @@ onUnmounted(clean)
   position: absolute;
   transform-origin: left top;
   width: auto;
+  max-width: 100%;
   border: 2px solid var(--stroke);
   border-top-width: 1px;
   overflow: auto;
