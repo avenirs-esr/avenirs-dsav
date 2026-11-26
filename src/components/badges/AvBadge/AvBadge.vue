@@ -108,6 +108,7 @@ watch(() => [labelToRender.value, small, icon], refresh, { flush: 'post' })
         'av-px-xs': !small,
         'av-badge--custom-icon': icon,
         'av-badge--no-icon': !icon,
+        'av-ellipsis-container': ellipsis,
       }"
       :style="iconPathStyleVars"
     >
