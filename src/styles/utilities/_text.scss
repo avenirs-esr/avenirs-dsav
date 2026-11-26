@@ -16,6 +16,16 @@ $text-alignments: (
 // === BASE CLASSES ===
 
 // === Ellipsis ===
+@include ns("ellipsis-container") {
+  flex: 1 !important;
+  min-width: 0 !important;
+
+  > .av-ellipsis {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
 @include ns("ellipsis") {
   min-width: 0 !important;
   overflow: hidden !important;

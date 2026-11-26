@@ -1,6 +1,6 @@
 # Text
 
-_Last updated: 2026-11-18_
+_Last updated: 2026-11-26_
 
 ## ✨ Introduction
 
@@ -10,6 +10,7 @@ This `text` utility generates text-related classes for all defined styles.
 
 | Class pattern | Description |
 |---------------|-------------|
+| `.av-ellipsis-container` | Container for ellipsis text, ensures proper flex behavior for child `.av-ellipsis` elements |
 | `.av-ellipsis` | Applies ellipsis for single-line text |
 | `.av-max-lines` | Applies maximum lines with ellipsis. For one line max, use `.av-ellipsis` instead |
 | `.av-wrap-anywhere` | Applies wrapping anywhere with hyphens |
@@ -21,6 +22,7 @@ This `text` utility generates text-related classes for all defined styles.
 📝 Notes:
 - for `.av-max-lines`, the number of lines is determined by the CSS variable `--max-lines` (default: 2), which can be set on the element or inherited from a parent element.
 - do not use `.av-max-lines` for single-line text; use `.av-ellipsis` instead.
+- `.av-ellipsis-container` should be used as a parent for `.av-ellipsis` elements to ensure proper flex behavior and text truncation.
 - text alignment classes are generated from the available alignment values and also expose responsive variants.
 
 ## 🎨 Some CSS results
@@ -56,6 +58,16 @@ This `text` utility generates text-related classes for all defined styles.
 ### Text ellipsis classes
 
 ```css
+.av-ellipsis-container {
+  flex: 1 !important;
+  min-width: 0 !important;
+
+  > .av-ellipsis {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
 .av-ellipsis {
   display: inline !important;
   overflow: hidden !important;

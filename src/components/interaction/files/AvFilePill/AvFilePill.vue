@@ -116,7 +116,7 @@ const hasDetails = computed(() => showDetails && details.value.length > 0)
       :name="MDI_ICONS.ATTACH_FILE"
       color="var(--icon)"
     />
-    <div class="av-file-pill__content av-col">
+    <div class="av-file-pill__content av-col av-ellipsis-container">
       <span class="b2-regular av-ellipsis">{{ name }}</span>
       <span
         v-if="hasDetails"
