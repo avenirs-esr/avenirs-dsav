@@ -10,7 +10,8 @@ const stories = [
   'WithLastTabDisabled',
   'WithLoadingTab',
   'CompactWithDisabledTab',
-  'CompactWithLoadingTab'
+  'CompactWithLoadingTab',
+  'WithDynamicTabs'
 ]
 
 testStories(component, title, stories)

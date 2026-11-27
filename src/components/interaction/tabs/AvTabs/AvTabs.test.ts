@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { mount } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
+import { afterEach, beforeEach, expect, vi } from 'vitest'
 import AvTab from '@/components/interaction/tabs/AvTab/AvTab.vue'
 import AvTabs from '@/components/interaction/tabs/AvTabs/AvTabs.vue'
 import { AvIconStub } from '@/tests'
@@ -34,6 +34,30 @@ const ChildTwo = {
   mounted () {
     childTwoMounted()
   }
+}
+
+const DynamicTabsHarness = {
+  components: { AvTabs, AvTab },
+  data () {
+    return {
+      tabs: [
+        { title: 'Tab 1', content: 'Content 1' },
+        { title: 'Tab 2', content: 'Content 2' },
+        { title: 'Tab 3', content: 'Content 3' }
+      ]
+    }
+  },
+  template: `
+    <AvTabs>
+      <AvTab
+        v-for="tab in tabs"
+        :key="tab.title"
+        :title="tab.title"
+      >
+        {{ tab.content }}
+      </AvTab>
+    </AvTabs>
+  `
 }
 
 vi.stubGlobal('ResizeObserver', class {
@@ -74,6 +98,11 @@ BddTest().given('a tab switcher ', () => {
       template: '<div />'
     }
   }
+
+  afterEach(() => {
+    wrapper?.unmount()
+    vi.clearAllMocks()
+  })
 
   BddTest().and('with multiple tabs', () => {
     beforeEach(() => {
@@ -194,7 +223,7 @@ BddTest().given('a tab switcher ', () => {
           await wrapper.findAll('.av-tab-item__tab')[1].trigger('click')
         })
 
-        BddTest().then('it should emit an update to the second tab', async () => {
+        BddTest().then('it should emit an update to the second tab', () => {
           expect(getLastEmittedUpdate(wrapper)).toBe(1)
         })
       })
@@ -204,7 +233,7 @@ BddTest().given('a tab switcher ', () => {
           await wrapper.findAll('.av-tab-item__tab')[0].trigger('keydown', { key: 'ArrowRight' })
         })
 
-        BddTest().then('it should emit an update to the second tab', async () => {
+        BddTest().then('it should emit an update to the second tab', () => {
           expect(getLastEmittedUpdate(wrapper)).toBe(1)
         })
       })
@@ -214,7 +243,7 @@ BddTest().given('a tab switcher ', () => {
           await wrapper.findAll('.av-tab-item__tab')[0].trigger('keydown', { key: 'ArrowLeft' })
         })
 
-        BddTest().then('it should emit an update to the last tab', async () => {
+        BddTest().then('it should emit an update to the last tab', () => {
           expect(getLastEmittedUpdate(wrapper)).toBe(2)
         })
       })
@@ -224,7 +253,7 @@ BddTest().given('a tab switcher ', () => {
           await wrapper.findAll('.av-tab-item__tab')[0].trigger('keydown', { key: 'Home' })
         })
 
-        BddTest().then('it should not emit an update', async () => {
+        BddTest().then('it should not emit an update', () => {
           expect(wrapper.emitted('update:modelValue')).toBeUndefined()
         })
       })
@@ -234,7 +263,7 @@ BddTest().given('a tab switcher ', () => {
           await wrapper.findAll('.av-tab-item__tab')[0].trigger('keydown', { key: 'End' })
         })
 
-        BddTest().then('it should emit an update to the last tab', async () => {
+        BddTest().then('it should emit an update to the last tab', () => {
           expect(getLastEmittedUpdate(wrapper)).toBe(2)
         })
       })
@@ -250,7 +279,7 @@ BddTest().given('a tab switcher ', () => {
           await wrapper.findAll('.av-tab-item__tab')[1].trigger('keydown', { key: 'ArrowRight' })
         })
 
-        BddTest().then('it should emit an update to the third tab', async () => {
+        BddTest().then('it should emit an update to the third tab', () => {
           expect(getLastEmittedUpdate(wrapper)).toBe(2)
         })
       })
@@ -260,7 +289,7 @@ BddTest().given('a tab switcher ', () => {
           await wrapper.findAll('.av-tab-item__tab')[1].trigger('keydown', { key: 'ArrowLeft' })
         })
 
-        BddTest().then('it should emit an update to the first tab', async () => {
+        BddTest().then('it should emit an update to the first tab', () => {
           expect(getLastEmittedUpdate(wrapper)).toBe(0)
         })
       })
@@ -270,7 +299,7 @@ BddTest().given('a tab switcher ', () => {
           await wrapper.findAll('.av-tab-item__tab')[1].trigger('keydown', { key: 'Home' })
         })
 
-        BddTest().then('it should emit an update to the first tab', async () => {
+        BddTest().then('it should emit an update to the first tab', () => {
           expect(getLastEmittedUpdate(wrapper)).toBe(0)
         })
       })
@@ -280,7 +309,7 @@ BddTest().given('a tab switcher ', () => {
           await wrapper.findAll('.av-tab-item__tab')[1].trigger('keydown', { key: 'End' })
         })
 
-        BddTest().then('it should emit an update to the last tab', async () => {
+        BddTest().then('it should emit an update to the last tab', () => {
           expect(getLastEmittedUpdate(wrapper)).toBe(2)
         })
       })
@@ -296,7 +325,7 @@ BddTest().given('a tab switcher ', () => {
           await wrapper.findAll('.av-tab-item__tab')[2].trigger('keydown', { key: 'ArrowRight' })
         })
 
-        BddTest().then('it should emit an update to the first tab', async () => {
+        BddTest().then('it should emit an update to the first tab', () => {
           expect(getLastEmittedUpdate(wrapper)).toBe(0)
         })
       })
@@ -306,7 +335,7 @@ BddTest().given('a tab switcher ', () => {
           await wrapper.findAll('.av-tab-item__tab')[2].trigger('keydown', { key: 'ArrowLeft' })
         })
 
-        BddTest().then('it should emit an update to the second tab', async () => {
+        BddTest().then('it should emit an update to the second tab', () => {
           expect(getLastEmittedUpdate(wrapper)).toBe(1)
         })
       })
@@ -316,7 +345,7 @@ BddTest().given('a tab switcher ', () => {
           await wrapper.findAll('.av-tab-item__tab')[2].trigger('keydown', { key: 'Home' })
         })
 
-        BddTest().then('it should emit an update to the first tab', async () => {
+        BddTest().then('it should emit an update to the first tab', () => {
           expect(getLastEmittedUpdate(wrapper)).toBe(0)
         })
       })
@@ -326,7 +355,7 @@ BddTest().given('a tab switcher ', () => {
           await wrapper.findAll('.av-tab-item__tab')[2].trigger('keydown', { key: 'End' })
         })
 
-        BddTest().then('it should not emit an update', async () => {
+        BddTest().then('it should not emit an update', () => {
           expect(wrapper.emitted('update:modelValue')).toBeUndefined()
         })
       })
@@ -342,6 +371,45 @@ BddTest().given('a tab switcher ', () => {
       BddTest().then('it should not render any tab', () => {
         const tabs = wrapper.findAll('.av-tab-item')
         expect(tabs.length).toBe(0)
+      })
+    })
+  })
+
+  BddTest().and('with tabs generated dynamically', () => {
+    let dynamicWrapper: VueWrapper
+
+    beforeEach(() => {
+      dynamicWrapper = mount(DynamicTabsHarness, {
+        global: {
+          stubs: {
+            AvIcon: AvIconStub
+          }
+        }
+      })
+    })
+
+    BddTest().when('the tab switcher is mounted', () => {
+      BddTest().then('it should render all dynamically generated tabs', () => {
+        expect(dynamicWrapper.findAll('.av-tab-item')).toHaveLength(3)
+        expect(dynamicWrapper.findAll('.av-tab-item__tab')).toHaveLength(3)
+        expect(dynamicWrapper.findAll('.av-tab-content')).toHaveLength(3)
+      })
+
+      BddTest().then('it should render only the first tab content', () => {
+        expect(dynamicWrapper.text()).toContain('Content 1')
+        expect(dynamicWrapper.text()).not.toContain('Content 2')
+        expect(dynamicWrapper.text()).not.toContain('Content 3')
+      })
+
+      BddTest().and('the second tab is selected', () => {
+        beforeEach(async () => {
+          await dynamicWrapper.findAll('.av-tab-item__tab')[1].trigger('click')
+        })
+
+        BddTest().then('it should render the second tab content', () => {
+          expect(dynamicWrapper.text()).toContain('Content 2')
+          expect(dynamicWrapper.text()).not.toContain('Content 3')
+        })
       })
     })
   })
@@ -544,6 +612,10 @@ BddTest().given('a tab switcher ', () => {
           }
         }
       })
+    })
+
+    afterEach(() => {
+      wrapperFocus?.unmount()
     })
 
     BddTest().when('an input inside the active tab has focus', () => {

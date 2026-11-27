@@ -4,6 +4,7 @@ import AvTab from '@/components/interaction/tabs/AvTab/AvTab.vue'
 import AvTabs from '@/components/interaction/tabs/AvTabs/AvTabs.vue'
 import TabContent from '@/components/interaction/tabs/AvTabs/components/TabContent.vue'
 import TabItem from '@/components/interaction/tabs/AvTabs/components/TabItem.vue'
+import { MDI_ICONS, MS_ICONS } from '@/tokens'
 
 /**
  * <h1 class="n1">Tabs - <code>AvTabs</code></h1>
@@ -12,35 +13,58 @@ import TabItem from '@/components/interaction/tabs/AvTabs/components/TabItem.vue
  *
  * <p>
  *   <span class="b2-regular">
- *     The <code>AvTabs</code> automatically manages the addition of <code>AvTab</code>
- *     according to the <code>AvTab</code> present in the <code>default</code> slot.
+ *     The <code>AvTabs</code> component automatically manages the addition of <code>AvTab</code> components
+ *     provided through its <code>default</code> slot.
  *   </span>
  * </p>
  *
  * <p>
  *   <span class="b2-regular">
- *     The tab component allows users to navigate different content sections within the same page.
+ *     It supports both statically declared tabs and dynamically generated tabs using directives such as
+ *     <code>v-for</code>.
  *   </span>
  * </p>
  *
  * <p>
  *   <span class="b2-regular">
- *     The tab system helps to group different contents together in a limited space, and allows dense content to be divided into individually accessible sections to make reading easier for the user.
+ *     The tab system allows users to navigate between different content sections within the same page.
+ *     Individual <code>AvTab</code> entries can be disabled, display a loading state, and provide a
+ *     <code>disabledTooltip</code> message; see the <code>AvTab</code> props.
+ *   </span>
+ * </p>
+ *
+ * <p>
+ *   <span class="b2-regular">
+ *     Tabs help group different content sections within a limited space. This allows dense content to be
+ *     divided into individually accessible sections, making it easier to read.
  *   </span>
  * </p>
  *
  * <h2 class="n2">🏗️ Structure</h2>
  *
- * <p><span class="b2-regular">Each tab consists of the following elements:</span></p>
+ * <p>
+ *   <span class="b2-regular">
+ *     Each tab consists of the following elements:
+ *   </span>
+ * </p>
  *
  * <ul>
- *   <li><span class="b2-regular">an icon to the left of the title - optional.</span></li>
- *   <li><span class="b2-regular">a clickable title - mandatory: displays the associated content zone.</span></li>
+ *   <li>
+ *     <span class="b2-regular">
+ *       An optional icon to the left of the title.
+ *     </span>
+ *   </li>
+ *   <li>
+ *     <span class="b2-regular">
+ *       A mandatory, clickable title that displays the associated content section.
+ *     </span>
+ *   </li>
  * </ul>
  *
  * <p>
  *   <span class="b2-regular">
- *     If the number of tabs exceeds the width of the container, a horizontal scroll allows you to navigate between the different tabs.
+ *     If the number of tabs exceeds the width of the container, horizontal scrolling allows users to
+ *     navigate between them.
  *   </span>
  * </p>
  */
@@ -256,3 +280,45 @@ export const CompactWithLoadingTab = TemplateWithLoading.bind({})
 CompactWithLoadingTab.args = {
   compact: true,
 }
+
+const TemplateWithDynamicTabs: StoryFn<AvTabsProps> = args => ({
+  components: { AvTabs, AvTab, MDI_ICONS, MS_ICONS },
+  setup () {
+    const activeTab = ref(0)
+
+    const tabs = [
+      {
+        title: 'National tools',
+        icon: MS_ICONS.GLOBE_LOCATION_PIN_ROUNDED,
+        content: 'National tools content',
+      },
+      {
+        title: 'Regional tools',
+        icon: MDI_ICONS.LAND_PLOTS_MARKER,
+        content: 'Regional tools content',
+      },
+      {
+        title: 'Local tools',
+        icon: MDI_ICONS.OFFICE_BUILDING_MARKER_OUTLINE,
+        content: 'Local tools content',
+      },
+    ]
+
+    return { args, activeTab, tabs }
+  },
+  template: `
+    <AvTabs v-bind="args" v-model="activeTab">
+      <AvTab
+        v-for="tab in tabs"
+        :key="tab.title"
+        :title="tab.title"
+        :icon="tab.icon"
+      >
+        <span>{{ tab.content }}</span>
+      </AvTab>
+    </AvTabs>
+  `,
+})
+
+export const WithDynamicTabs = TemplateWithDynamicTabs.bind({})
+WithDynamicTabs.args = {}
