@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { VNode } from 'vue'
 import type AvTab from '@/components/interaction/tabs/AvTab/AvTab.vue'
-import { useSlots } from 'vue'
+import { Fragment, isVNode, useSlots } from 'vue'
 import TabContent from '@/components/interaction/tabs/AvTabs/components/TabContent.vue'
 import TabItem from '@/components/interaction/tabs/AvTabs/components/TabItem.vue'
 import TabPanelContent from '@/components/interaction/tabs/AvTabs/components/TabPanelContent'
@@ -46,7 +46,7 @@ defineSlots<{
 
 const slots = useSlots()
 
-const tabItems = computed(() => slots.default?.() || [])
+const tabItems = computed(() => flattenTabItems(slots.default?.() || []))
 
 const activeTab = defineModel<number>('modelValue', { default: 0 })
 
@@ -60,6 +60,16 @@ const { tabsStyle, updateTabsStyle } = useTabsStyle(
   computed(() => Array.from($el.value?.querySelectorAll<HTMLElement>('.av-tab-content') || [])),
   activeTab,
 )
+
+function flattenTabItems (nodes: VNode[]): VNode[] {
+  return nodes.flatMap((node) => {
+    if (isVNode(node) && node.type === Fragment && Array.isArray(node.children)) {
+      return flattenTabItems(node.children.filter(isVNode))
+    }
+
+    return [node]
+  })
+}
 
 function getIdFromIndex (index: number) {
   if (generatedIds[index]) {

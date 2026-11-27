@@ -2,28 +2,31 @@
 
 ## ✨ Introduction
 
-The `AvTabs` automatically manages the addition of `AvTab` according to the `AvTab` present in the `default` slot.
+The `AvTabs` component automatically manages the addition of `AvTab` components provided through its `default` slot.
+
+It supports both statically declared tabs and dynamically generated tabs using directives such as `v-for`.
 
 The tab component allows users to navigate different content sections within the same page.
-Individual `AvTab` entries can be disabled and provide a `disabledTooltip` message; see the `AvTab` props.
 
-The tab system helps to group different contents together in a limited space, and allows dense content to be divided into individually accessible sections to make reading easier for the user.
+Individual `AvTab` entries can be disabled, display a loading state, and provide a `disabledTooltip` message; see the `AvTab` props.
+
+The tab system helps group different contents together in a limited space, allowing dense content to be divided into individually accessible sections and making reading easier for users.
 
 ## 🏗️ Structure
 
 Each tab consists of the following elements:
-- an icon to the left of the title - optional.
-- a clickable title - mandatory: displays the associated content zone.
+- An optional icon to the left of the title.
+- A clickable title (mandatory) that displays the associated content zone.
 
-If the number of tabs exceeds the width of the container, a horizontal scroll allows you to navigate between the different tabs.
+If the number of tabs exceeds the width of the container, horizontal scrolling allows users to navigate between tabs.
 
 ## 🏷️ Props
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
 | `ariaLabel` | `string` | `undefined` | | Aria label of tab list. |
-| `modelValue` | `number` | | ✅ | Index of selected tab at loading (starts at 0). |
-| `compact` | `string` | `undefined` | | Allows compact display: underline without central pipe. |
+| `modelValue` | `number` | `0` | | Index of selected tab at loading (starts at 0). |
+| `compact` | `boolean` | `false` | | Allows compact display: underline without central pipe. |
 | `lazyRender` | `boolean` | `true` | | If false, all tab contents are rendered in the DOM regardless of their active state. |
 
 ## 🔊 Events
@@ -36,13 +39,15 @@ If the number of tabs exceeds the width of the container, a horizontal scroll al
 
 | Name | Description |
 | --- | --- |
-| `default` | Default slot for adding tabs (each tab must be in an `AvTab`). |
+| `default` | Default slot for adding `AvTab` components. Tabs can be declared statically or generated dynamically using `v-for`. |
 
 ## 🚀 Storybook demos
 
 You can find examples of use and demo of the component on its dedicated [Storybook page](https://avenirs-esr.github.io/avenirs-dsav/storybook/?path=/docs/components-interaction-tabs-avtabs--docs).
 
 ## 💡 Examples of use
+
+### Static tabs
 
 ```vue
 <template>
@@ -62,6 +67,32 @@ You can find examples of use and demo of the component on its dedicated [Storybo
   </AvTabs>
 </template>
 ```
+
+### Dynamically generated tabs
+
+```vue
+<script setup lang="ts">
+const tabs = [
+  { title: 'My RPA list', icon: 'mdi:format-list-bulleted' },
+  { title: 'RPA Planning', icon: 'mdi:calendar-month-outline' }
+]
+</script>
+
+<template>
+  <AvTabs v-model="activeTab">
+    <AvTab
+      v-for="tab in tabs"
+      :key="tab.title"
+      :title="tab.title"
+      :icon="tab.icon"
+    >
+      <!-- Tab content -->
+    </AvTab>
+  </AvTabs>
+</template>
+```
+
+### Compact tabs
 
 ```vue
 <template>
@@ -85,6 +116,8 @@ You can find examples of use and demo of the component on its dedicated [Storybo
   </AvTabs>
 </template>
 ```
+
+### Disabled tabs
 
 ```vue
 <template>
